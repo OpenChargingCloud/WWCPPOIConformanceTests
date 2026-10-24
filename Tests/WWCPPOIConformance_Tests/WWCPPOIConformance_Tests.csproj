@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>cloud.charging.open.protocols.WWCP.POI.Conformance.tests</RootNamespace>
+    <AssemblyName>cloud.charging.open.protocols.WWCP.POI.Conformance.tests</AssemblyName>
+  </PropertyGroup>
+
+  <!-- The implementation under test, with Hermod and Styx below it. The golden vectors are read from
+       test-vectors/ of this repository, found by walking up to WWCPPOIConformanceTests.slnx, so that the
+       TypeScript harness and this one read the very same bytes. -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\WWCP_POI\WWCP_POI3\WWCP_POI3.csproj" />
+  </ItemGroup>
+
+</Project>

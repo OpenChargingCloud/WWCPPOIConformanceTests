@@ -1,0 +1,43 @@
+<!--
+  Common build settings for all WWCPPOIConformanceTests projects.
+
+  Note: submodules under "libs/" are shielded from this file by libs/Directory.Build.props.
+-->
+<Project>
+
+  <PropertyGroup>
+
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- Conformance code: no sloppiness tolerated in our own sources. -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+
+    <NeutralLanguage>en</NeutralLanguage>
+    <InvariantGlobalization>true</InvariantGlobalization>
+
+    <Company>GraphDefined GmbH</Company>
+    <Authors>GraphDefined GmbH</Authors>
+    <Copyright>Copyright © 2014-2026 GraphDefined GmbH</Copyright>
+    <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/OpenChargingCloud/WWCPPOIConformanceTests</RepositoryUrl>
+
+  </PropertyGroup>
+
+  <!-- Test projects: same everywhere, so they are declared once. -->
+  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('_Tests'))">
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(MSBuildProjectName.EndsWith('_Tests'))">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageReference Include="NUnit" Version="5.0.0" />
+    <PackageReference Include="NUnit.Analyzers" Version="4.15.0" PrivateAssets="all" />
+    <PackageReference Include="NUnit3TestAdapter" Version="6.3.1" />
+  </ItemGroup>
+
+</Project>

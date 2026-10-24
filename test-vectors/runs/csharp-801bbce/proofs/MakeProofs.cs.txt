@@ -1,0 +1,228 @@
+// Makes charging station proofs (SPECIFICATION.md section 8.4) of the head of QA of epoch 2 as the examples left it,
+// attested by the ML-DSA signing keys of the three holders of OCC, and the proof of a commit of epoch 2, as test vectors
+// for the TypeScript port; then shows what servers do with the ECDSA twin of a price statement of epoch 1.
+// Reads a copy of the history stores of the examples.
+
+using Newtonsoft.Json.Linq;
+
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Security;
+
+using org.GraphDefined.Vanaheimr.Illias;
+
+using cloud.charging.open.protocols.WWCP.POI;
+
+var examples  = args[0];   // the directory of the C# examples, with AlphaOrg/, BetaOrg/, GammaOrg/ and published/
+var state     = args[1];   // a copy of poi/QA, poi/QA-archive and poi/QA-epoch-2
+var output    = args[2];   // where to write the proofs
+var at        = DateTimeOffset.Parse(args[3]);
+
+static AsymmetricKeyParameter ReadKey(String File)
+{
+    var pem   = System.IO.File.ReadAllText(File);
+    var body  = String.Concat(pem.Split('\n').Where(line => !line.StartsWith("-----")).Select(line => line.Trim()));
+    return PrivateKeyFactory.CreateKey(Convert.FromBase64String(body));
+}
+
+static JObject ReadJSON(String Text)
+{
+    using var reader = new Newtonsoft.Json.JsonTextReader(new StringReader(Text)) { DateParseHandling = Newtonsoft.Json.DateParseHandling.None, FloatParseHandling = Newtonsoft.Json.FloatParseHandling.Decimal };
+    return JObject.Load(reader);
+}
+
+Directory.CreateDirectory(output);
+
+
+// Epoch 2: the head as examples A11 to A13 left it.
+{
+
+    using var store = new RoamingNetworkHistoryFileStore(Path.Combine(state, "QA-epoch-2"));
+
+    if (!RoamingNetworkHistory.TryLoad(store, out var history, out var error))
+        throw new Exception(error);
+
+    Console.WriteLine($"epoch {history.Epoch.Number}, head: revision {history.Head.Commit.Revision}, {history.Head.Commit.Id}");
+
+    history.AttestationSigners = [ .. new[] { "AlphaOrg", "BetaOrg", "GammaOrg" }.Select(holder => {
+                                        var key = ReadKey(Path.Combine(examples, holder, "signing-mldsa-privateKey.pem"));
+                                        return new RoamingNetworkCommitSigner(key,
+                                                                              POIPublicKey.From(key).Id,
+                                                                              COSEAlgorithm.MLDsa65,
+                                                                              RoamingNetworkCommitSignatureRoles.RoamingNetworkOperator,
+                                                                              "OCC");
+                                   }) ];
+
+    if (!history.TryAttest(out var attestations, out error, At: at))
+        throw new Exception(error);
+
+    foreach (var attestation in attestations)
+        Console.WriteLine($"attested revision {attestation.Revision}, {attestation.ETag}, by {attestation.KeyId[..8]}…");
+
+    File.WriteAllText(Path.Combine(output, "QA-epoch-2-attestations.json"), new JArray(attestations.Select(attestation => attestation.ToJSON())).ToString());
+
+    if (!RoamingNetworkTrustAnchor.TryParse(File.ReadAllText(Path.Combine(examples, "published", "QA-trustAnchor-mldsa.txt")), out var anchor, out error))
+        throw new Exception(error);
+
+    foreach (var stationId in new[] { "DE*GEF*S1", "DE*GEF*S6" })
+    {
+
+        if (!history.TryGetChargingStationProof(ChargingStation_Id.Parse(stationId), out var proof, out error, At: at))
+            throw new Exception(error);
+
+        Console.WriteLine($"proof of {stationId}: {(proof.Verify(anchor, out _, out error, at) ? "valid" : error)}");
+
+        File.WriteAllText(Path.Combine(output, $"QA-proof-station-{stationId.Replace("*", "_")}.json"), proof.ToJSON().ToString());
+
+    }
+
+    if (!history.TryGetChargingStationProof(EVSE_Id.Parse("DE*GEF*E3*2"), out var evseProof, out error, At: at))
+        throw new Exception(error);
+
+    Console.WriteLine($"proof of DE*GEF*E3*2: {(evseProof.Verify(anchor, out _, out error, at) ? "valid" : error)}");
+
+    File.WriteAllText(Path.Combine(output, "QA-proof-evse-DE_GEF_E3_2.json"), evseProof.ToJSON().ToString());
+
+    // The proof of revision 1 of epoch 2 in checkpoint 0 of epoch 2: SHA-512 identifications and trees.
+    var revision1 = RoamingNetworkCommit_Id.Parse(JArray.Parse(File.ReadAllText(Path.Combine(examples, "published", "QA-epoch-2-commits-since-genesis.json"))).
+                                                         Cast<JObject>().
+                                                         Single(commit => commit["revision"]!.Value<Int32>() == 1)["@id"]!.Value<String>()!);
+
+    if (!history.TryGetCommitProof(revision1, out var commitProof, out error))
+        throw new Exception(error);
+
+    File.WriteAllText(Path.Combine(output, "QA-epoch-2-proof-revision-1.json"), commitProof.ToJSON().ToString());
+    Console.WriteLine($"proof of revision 1 of epoch 2 in checkpoint {commitProof.CheckpointId}");
+
+    // Every commit of epoch 2 since its genesis up to the head, those of examples A12 and A13 included, which the examples
+    // publish only as the head.
+    if (!history.TryGetCommitsSince(history.Root.Id, out var commits, out error))
+        throw new Exception(error);
+
+    File.WriteAllText(Path.Combine(output, "QA-epoch-2-commits-to-head.json"), new JArray(commits.Select(commit => commit.ToJSON())).ToString());
+    Console.WriteLine($"commits of epoch 2 since its genesis: revisions {String.Join(", ", commits.Select(commit => commit.Revision))}");
+
+}
+
+
+// ECDSA malleability: (r, s) and (r, n - s) are both valid ECDSA signatures of the same input. A price statement's digest
+// covers its signature value, so the twin is another statement of the same sequence.
+{
+
+    var statements  = JArray.Parse(File.ReadAllText(Path.Combine(examples, "published", "QA-checkpoint-4-priceStatements.json")));
+    var original    = ReadJSON(statements[0].ToString());
+    var n           = Org.BouncyCastle.Asn1.Nist.NistNamedCurves.GetByName("P-256").N;
+
+    JObject TwinOf(JObject Statement)
+    {
+        var value  = Convert.FromBase64String(Statement["value"]!.ToString());
+        var twin   = (byte[]) value.Clone();
+        Org.BouncyCastle.Utilities.BigIntegers.AsUnsignedByteArray(n.Subtract(new Org.BouncyCastle.Math.BigInteger(1, value, 32, 32)), twin, 32, 32);
+        var json   = (JObject) Statement.DeepClone();
+        json["value"] = Convert.ToBase64String(twin);
+        return json;
+    }
+
+    var twinJSON = TwinOf(original);
+
+    // DE*GEF as checkpoint 4 names its statements: with its keys of epoch 1.
+    if (!RoamingNetwork.TryParse(ReadJSON(File.ReadAllText(Path.Combine(examples, "published", "QA-checkpoint-4-snapshot.json")))["roamingNetwork"] as JObject, out var qa, out var error) ||
+        !qa.TryGetChargingStationOperatorById(ChargingStationOperator_Id.Parse("DE*GEF"), out var gef))
+        throw new Exception(error);
+
+    foreach (var (name, json) in new[] { ("original", original), ("twin (r, n-s)", twinJSON) })
+    {
+        if (!RoamingNetworkPriceStatement.TryParse(json, out var statement, out error))
+            throw new Exception(error);
+        Console.WriteLine($"price statement {name}: signature {(statement.TryVerify(gef.SigningKeys, out var verifyError) ? "valid" : verifyError)}, sequence {statement.Sequence}, digest {statement.Digest}");
+    }
+
+    File.WriteAllText(Path.Combine(output, "QA-priceStatement-malleated-twin.json"), twinJSON.ToString());
+
+    // A server holding the genuine statement of DE*GEF*E1*1 as the current one, and its twin, which anybody can make from it.
+    var genuine = ReadJSON(JArray.Parse(File.ReadAllText(Path.Combine(examples, "published", "QA-priceStatements-DE_GEF_E1_1.json")))[0].ToString());
+    var twin1   = TwinOf(genuine);
+
+    // A server joining QA from checkpoint 4, with the statements it names: the genuine statement 1 is its current one.
+    {
+
+        var named = statements.Select(statement => RoamingNetworkPriceStatement.TryParse(ReadJSON(statement.ToString()), out var parsed, out var parseError) ? parsed : throw new Exception(parseError)).ToArray();
+
+        if (!RoamingNetworkHistory.TryFromCheckpointSnapshot(File.ReadAllText(Path.Combine(examples, "published", "QA-checkpoint-4-snapshot.json")), out var joined, out error, VerifyCheckpointSignature: (checkpoint, signature) => true, PriceStatements: named))
+            throw new Exception(error);
+
+        foreach (var (name, json) in new[] { ("genuine statement again", genuine), ("twin of the statement", twin1) })
+        {
+            if (!RoamingNetworkPriceStatement.TryParse(json, out var statement, out error))
+                throw new Exception(error);
+            var result = joined.TryAddPriceStatement(statement, out var takeError, at);
+            Console.WriteLine($"server of checkpoint 4 takes the {name}, sequence {statement.Sequence}, digest {statement.Digest}: {result}, {takeError}");
+        }
+
+    }
+
+    foreach (var (epoch, directory) in new[] { (1, "QA"), (2, "QA-epoch-2") })
+    {
+
+        using var store    = new RoamingNetworkHistoryFileStore  (Path.Combine(state, directory));
+        using var archive  = new RoamingNetworkHistoryFileArchive(Path.Combine(state, "QA-archive"));
+
+        if (!RoamingNetworkHistory.TryLoad(store, out var history, out error, Archive: epoch == 1 ? archive : null))
+            throw new Exception(error);
+
+        foreach (var (name, json) in new[] { ("genuine statement again", genuine), ("twin of the statement", twin1) })
+        {
+            if (!RoamingNetworkPriceStatement.TryParse(json, out var statement, out error))
+                throw new Exception(error);
+            var result = history.TryAddPriceStatement(statement, out var takeError, at);
+            Console.WriteLine($"epoch {epoch} server ({history.EpochStatus}) takes the {name}, sequence {statement.Sequence}: {result}, {takeError}");
+        }
+
+    }
+
+}
+
+// The BSI takes no part: no keys, so the roaming network operator is to add its certificates in its place
+// (docs/ConformityAssessmentBody.md). OCC's signing keys may sign 'party' only: does the quorum of OCC get a certificate of
+// the BSI committed?
+{
+
+    using var store = new RoamingNetworkHistoryFileStore(Path.Combine(state, "QA-epoch-2"));
+
+    if (!RoamingNetworkHistory.TryLoad(store, out var history, out var error))
+        throw new Exception(error);
+
+    RoamingNetworkCommitSigner SignerOf(String Holder)
+    {
+        var key = ReadKey(Path.Combine(examples, Holder, "signing-mldsa-privateKey.pem"));
+        return new RoamingNetworkCommitSigner(key, POIPublicKey.From(key).Id, COSEAlgorithm.MLDsa65, RoamingNetworkCommitSignatureRoles.RoamingNetworkOperator, "OCC");
+    }
+
+    history.Signers = [ SignerOf("AlphaOrg"), SignerOf("BetaOrg"), SignerOf("GammaOrg") ];
+
+    var certificate = new TransparencySoftwareCertificate(TransparencySoftwareCertificate_Id.Parse("BSI-2026-0001"),
+                                                          ChargingStationManufacturer_Id.Parse("GraphDefined"),
+                                                          ChargingStationModel_Id.Parse("GD-DC300"),
+                                                          "1.0",
+                                                          [ TransparencySoftware_Id.Parse("chargy-1.5.0") ],
+                                                          [],
+                                                          NotBefore:  at,
+                                                          NotAfter:   at.AddYears(5),
+                                                          Legislation:  "CRA");
+
+    var changeSet = history.Head.RoamingNetwork.CreateChangeSet([ RoamingNetworkChange.Add(certificate, ConformityAssessmentBody_Id.Parse("BSI")) ]);
+
+    foreach (var (name, holders, kind) in new[] { ("signing keys", new[] { "AlphaOrg", "BetaOrg" }, "signing-mldsa"), ("identity keys", new[] { "AlphaOrg", "BetaOrg" }, "identity-mldsa") })
+    {
+        var signed = changeSet;
+        foreach (var holder in holders)
+        {
+            var key = ReadKey(Path.Combine(examples, holder, $"{kind}-privateKey.pem"));
+            signed  = signed.Sign(key, POIPublicKey.From(key).Id, holder == "AlphaOrg" && kind == "identity-mldsa" ? COSEAlgorithm.MLDsa87 : kind == "identity-mldsa" ? COSEAlgorithm.MLDsa87 : COSEAlgorithm.MLDsa65);
+        }
+        var result = history.Commit(signed);
+        Console.WriteLine($"A certificate of the BSI, signed by the {name} of AlphaOrg and BetaOrg of OCC: {result.Status}, {result.ErrorResponse}");
+    }
+
+}
+
+Console.WriteLine("done");

@@ -1,0 +1,19 @@
+# .NET
+bin/
+obj/
+TestResults/
+artifacts/
+*.user
+.vs/
+
+# Node
+node_modules/
+dist/
+coverage/
+
+# A run of the C# examples of your own (tools/run-csharp-examples), before it is frozen.
+runs_localOnly/
+
+# OS
+.DS_Store
+Thumbs.db

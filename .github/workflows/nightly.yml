@@ -1,0 +1,256 @@
+name: Nightly
+
+# The counterpart to ci.yml. The gate runs against the PINNED submodules, and every golden vector is fixed - the frozen
+# run of the C# examples, the deterministic Ed25519 signatures of the trust vectors - so a nightly repetition of the
+# gate could only reproduce the previous run.
+#
+# What CAN move without any push to this repository are the implementations and the specification. This workflow
+# therefore advances the submodules to their upstream HEADs and runs both harnesses and the drift guard against them. A
+# red here without a red in CI means WWCP_POI, WWCP_POI.TS, Hermod or Styx master no longer calculates or accepts what
+# the vectors say - or SPECIFICATION.md moved without the vectors following - the one thing this repository exists to
+# notice. Fatal on purpose.
+#
+# And, informational: the C# examples A1 to A13 of WWCP_POI as they are today, run with .NET, and what they publish
+# checked with WWCP_POI.TS - the interop check WWCP_POI.TS ran in its own nightly before it moved here.
+#
+# Scheduled workflows only run on the default branch, and GitHub disables them after 60 days without activity in the
+# repository: if this stops reporting, that is the first thing to check.
+on:
+  schedule:
+    # 03:47 UTC - off the hour, and after the WWCP_POI.TS nightly (02:47), so this run sees the upstream HEADs that one
+    # has just tested itself.
+    - cron: '47 3 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: nightly-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+
+  vectors-upstream:
+    name: Drift guard vs upstream HEADs
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Advance the specification and Styx to upstream HEADs
+        run: |
+          git submodule update --init --remote libs/WWCP_POI libs/Styx
+          {
+            echo '## Upstream HEADs under test'
+            echo
+            echo '```'
+            git submodule status libs/WWCP_POI libs/Styx
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
+
+      - name: Verify anchors, sources and generated vector files
+        run: node tools/generate-test-vectors.mjs --check
+
+  csharp-upstream:
+    name: "C# vs upstream HEADs (${{ matrix.leg }})"
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
+    # The same two legs as ci.yml; see there.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            leg: windows-latest
+          - os: ubuntu-latest
+            container: debian:13
+            leg: debian-13-container
+    steps:
+
+      - name: Install prerequisites (Debian container)
+        if: runner.os == 'Linux'
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            ca-certificates curl git libicu76 libssl3t64 libstdc++6 tzdata
+          git config --global --add safe.directory '*'
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      # The point of the night: leave the pinned SHAs behind. --remote follows "branch = master" of .gitmodules. The
+      # step summary records which upstream HEADs this night tested; without it, two red nights against different
+      # HEADs would be indistinguishable.
+      - name: Advance submodules to upstream HEADs
+        shell: bash
+        run: |
+          git submodule update --remote --recursive
+          {
+            echo '## Upstream HEADs under test'
+            echo
+            echo '```'
+            git submodule status
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build
+        run: dotnet build Tests/WWCPPOIConformance_Tests/WWCPPOIConformance_Tests.csproj --configuration Release -clp:ErrorsOnly
+
+      - name: Test
+        timeout-minutes: 15
+        run: dotnet test Tests/WWCPPOIConformance_Tests/WWCPPOIConformance_Tests.csproj --configuration Release --no-build --logger "console;verbosity=normal" --logger "trx;LogFileName=nightly-${{ matrix.leg }}.trx" --results-directory artifacts
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: nightly-test-results-${{ matrix.leg }}
+          path: artifacts/*.trx
+
+  typescript-upstream:
+    name: "TS vs upstream HEADs (${{ matrix.os }})"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - name: Advance submodules to upstream HEADs
+        shell: bash
+        run: |
+          git submodule update --remote --recursive
+          {
+            echo '## Upstream HEADs under test'
+            echo
+            echo '```'
+            git submodule status
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
+          cache: npm
+          cache-dependency-path: |
+            Tests/WWCPPOIConformance_Tests.TS/package-lock.json
+            libs/WWCP_POI.TS/package-lock.json
+
+      # npm ci against the committed lock files: the only variable this night moves is the submodules, so a red points
+      # at exactly one thing. Fresh dependency resolution of WWCP_POI.TS is its own nightly's job.
+      - name: Install
+        run: npm --prefix Tests/WWCPPOIConformance_Tests.TS ci
+
+      - name: Install the implementation's dependencies
+        run: npm --prefix libs/WWCP_POI.TS ci
+
+      - name: Test
+        run: npm --prefix Tests/WWCPPOIConformance_Tests.TS test
+
+  # The C# implementation as it is today: the examples A1 to A13 of WWCP_POI master, built with the libraries at the
+  # commits the RoamingHubCLI pins together (the examples reference Hermod, Styx and WWCP_Node as sibling checkouts,
+  # WWCP_Node needs Norn and Urdr), run with .NET - new keys every run - and what they published checked with
+  # WWCP_POI.TS (examples/validate-examples.ts of the submodule). The golden vectors are one run of a fixed commit; this
+  # job notices the day the C# implementation publishes what the TypeScript port no longer calculates: new entities,
+  # other ETags, other messages - when the port, and the frozen run here, need work. Informational: a red here says
+  # WWCP_POI moved, not that this repository broke.
+  csharp-examples:
+    name: C# examples of WWCP_POI master, checked with WWCP_POI.TS
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    continue-on-error: true
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          path: WWCPPOIConformanceTests
+
+      - name: Checkout WWCP_POI.TS
+        working-directory: WWCPPOIConformanceTests
+        run: git submodule update --init --remote libs/WWCP_POI.TS
+
+      - name: Checkout the RoamingHubCLI
+        uses: actions/checkout@v7
+        with:
+          repository: OpenChargingCloud/RoamingHubCLI
+          path: RoamingHubCLI
+
+      # Only the libraries the examples build with, side by side as their project files expect them; WWCP_POI then
+      # advanced to its master.
+      - name: Check out WWCP_POI master and the libraries it builds with
+        working-directory: RoamingHubCLI
+        run: |
+          git submodule update --init --depth 1 libs/WWCP_POI libs/Hermod libs/Styx libs/WWCP_Node libs/Norn libs/Urdr
+          git submodule update --remote libs/WWCP_POI
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
+          cache: npm
+          cache-dependency-path: WWCPPOIConformanceTests/libs/WWCP_POI.TS/package-lock.json
+
+      - name: Build the C# examples
+        working-directory: RoamingHubCLI/libs/WWCP_POI/examples/csharp
+        run: dotnet build --configuration Release -clp:ErrorsOnly
+
+      # They write the private keys, what they publish and the history next to themselves, and open two servers on
+      # 127.0.0.1 (example A12).
+      - name: Run the C# examples A1 to A13
+        working-directory: RoamingHubCLI/libs/WWCP_POI/examples/csharp
+        shell: bash
+        run: dotnet run --configuration Release --no-build | tee "$GITHUB_WORKSPACE/csharp-output.log"
+
+      - name: Install WWCP_POI.TS
+        run: npm --prefix WWCPPOIConformanceTests/libs/WWCP_POI.TS ci
+
+      # Right after the run: the attestations of the station proofs it published last 15 minutes.
+      - name: Check what the C# examples published
+        shell: bash
+        run: npm --prefix WWCPPOIConformanceTests/libs/WWCP_POI.TS run examples -- "$GITHUB_WORKSPACE/RoamingHubCLI/libs/WWCP_POI/examples/csharp" | tee "$GITHUB_WORKSPACE/validate-output.log"
+
+      - name: Summary
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          {
+            echo '## The C# examples of WWCP_POI, checked with WWCP_POI.TS'
+            echo
+            echo "- RoamingHubCLI: \`$(git -C RoamingHubCLI log -1 --format='%h %s')\`"
+            echo "- WWCP_POI: \`$(git -C RoamingHubCLI/libs/WWCP_POI log -1 --format='%h %s')\`"
+            echo "- WWCP_POI.TS: \`$(git -C WWCPPOIConformanceTests/libs/WWCP_POI.TS log -1 --format='%h %s')\`"
+            echo
+            echo '```'
+            tail -n 3 validate-output.log 2>/dev/null || echo 'The check did not run.'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the outputs
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: nightly-csharp-examples
+          path: |
+            csharp-output.log
+            validate-output.log

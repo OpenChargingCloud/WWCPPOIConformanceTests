@@ -1,0 +1,10 @@
+<!--
+  Intentionally (almost) empty.
+
+  MSBuild walks upwards until it finds the first Directory.Build.props. This file
+  stops that search at "libs/", so that the build settings of WWCPPOIConformanceTests
+  are NOT imposed on the submodules (WWCP_POI, Hermod, Styx). Those repositories
+  bring their own settings and are built with their own warning levels.
+-->
+<Project>
+</Project>

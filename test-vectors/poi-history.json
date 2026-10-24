@@ -1,0 +1,1479 @@
+{
+  "specification": "WWCP POI 3 (libs/WWCP_POI), as its C# examples A1 to A13 published it in one run: test-vectors/runs/csharp-801bbce",
+  "description": "What a roaming network, its servers, its witnesses and a driver's app published, public data only, frozen as the reference implementation wrote it. Each entry names a document of the run (file and JSON pointer) and what an implementation must calculate of it, or that it must accept it.",
+  "run": "runs/csharp-801bbce",
+  "at": "2026-10-24T17:03:00.000Z",
+  "versions": [
+    {
+      "id": "version:published/QA-archive-1.json#/base/roamingNetwork",
+      "file": "published/QA-archive-1.json",
+      "pointer": "/base/roamingNetwork",
+      "roamingNetworkId": "QA",
+      "commitId": "2fce230bc74c445ede50ad41d93bddc144dd38c8066e4b862b423fce5c28576c",
+      "epoch": 1,
+      "revision": 0,
+      "eTags": [
+        "json:sha256:hex:55148e1802c8c0b0dba00d877cefe251d7235fdc885ade183d425c7759d0fbf9",
+        "cbor:sha256:hex:93719280d373c6b4115259ca7af5e115e3d9bc73c442099a539d32a9cccd7766",
+        "effectiveTree:sha256:hex:32d8ef910776b4bd6be05f4410653932bd1acf84dba2009f8ae70ba3950ac15d"
+      ]
+    },
+    {
+      "id": "version:published/QA-archive-2.json#/base/roamingNetwork",
+      "file": "published/QA-archive-2.json",
+      "pointer": "/base/roamingNetwork",
+      "roamingNetworkId": "QA",
+      "commitId": "f20cab33bac1314bdfc6bb3059383f8d31cc4fbd406242b43a4ac18972bff9f6",
+      "epoch": 1,
+      "revision": 7,
+      "eTags": [
+        "json:sha256:hex:d26997a7a78045ee4fa160a23c04b74221a316463e10a5a98340917d66c2ff48",
+        "cbor:sha256:hex:ccf5096b5f8b43f3a8f6fb8dff0fc222c97724242ce81295adfed61da58898ea",
+        "effectiveTree:sha256:hex:6dcddbe77dec439833974f7e64a2b5eff3a7575f2de225f15257509414f31d55"
+      ]
+    },
+    {
+      "id": "version:published/QA-checkpoint-0-snapshot.json#/roamingNetwork",
+      "file": "published/QA-checkpoint-0-snapshot.json",
+      "pointer": "/roamingNetwork",
+      "roamingNetworkId": "QA",
+      "commitId": "f20cab33bac1314bdfc6bb3059383f8d31cc4fbd406242b43a4ac18972bff9f6",
+      "epoch": 1,
+      "revision": 7,
+      "eTags": [
+        "json:sha256:hex:d26997a7a78045ee4fa160a23c04b74221a316463e10a5a98340917d66c2ff48",
+        "cbor:sha256:hex:ccf5096b5f8b43f3a8f6fb8dff0fc222c97724242ce81295adfed61da58898ea",
+        "effectiveTree:sha256:hex:6dcddbe77dec439833974f7e64a2b5eff3a7575f2de225f15257509414f31d55"
+      ]
+    },
+    {
+      "id": "version:published/QA-checkpoint-1-snapshot.json#/roamingNetwork",
+      "file": "published/QA-checkpoint-1-snapshot.json",
+      "pointer": "/roamingNetwork",
+      "roamingNetworkId": "QA",
+      "commitId": "99e6c603c03a4283e3480efe7aa256b71c97e79bee68b2917d7dc3bbfe51ce01",
+      "epoch": 1,
+      "revision": 9,
+      "eTags": [
+        "json:sha256:hex:35af9edd67c6deb61790aae568f69dc6d52ba2ef6b8e40da91baf5279a4b0861",
+        "cbor:sha256:hex:df5ae342893ace347467e780cbf7f88679c59d98a77f6ec755719ced03205d25",
+        "effectiveTree:sha256:hex:8b2bce2d50c71819136b85ea9de7edc9ccd4b0922f8ea3e707422665a52ebc25"
+      ]
+    },
+    {
+      "id": "version:published/QA-checkpoint-2-snapshot.json#/roamingNetwork",
+      "file": "published/QA-checkpoint-2-snapshot.json",
+      "pointer": "/roamingNetwork",
+      "roamingNetworkId": "QA",
+      "commitId": "c7c127648c39caacf69fc5e8fba65ee291aa98b7452bdd537a0ddfd450a9f198",
+      "epoch": 1,
+      "revision": 10,
+      "eTags": [
+        "json:sha256:hex:c2703d494d0c12ba21511444ddb617486d455ab13aae1e2194e41cd1a3506979",
+        "cbor:sha256:hex:a5b3a6f209ee22dcac8b210b5bdeb28bd342ae3d3dd1b52816ee392d7d01e0d9",
+        "effectiveTree:sha256:hex:c4c3748f198ed89767a29d7149ba106bab547bca040849a3b64e3c391e138935"
+      ]
+    },
+    {
+      "id": "version:published/QA-checkpoint-3-snapshot.json#/roamingNetwork",
+      "file": "published/QA-checkpoint-3-snapshot.json",
+      "pointer": "/roamingNetwork",
+      "roamingNetworkId": "QA",
+      "commitId": "2cab79f1b6c6961626d667dda0d2144148bd04e9a2e90f88df86b13c87b5929b",
+      "epoch": 1,
+      "revision": 12,
+      "eTags": [
+        "json:sha256:hex:2ec0653242d03cadc3cf4b8f46d19f05e3f515eeee8294bd440f8eba7b1a0686",
+        "cbor:sha256:hex:3be08e81f9522efe6141908075a604f69bd9d9da83af8f72eb36a11df4d85fca",
+        "effectiveTree:sha256:hex:d5743426b832d3af0e746f49fe74d6d013f1b0e7888ebed22ce16723aa740eb7"
+      ]
+    },
+    {
+      "id": "version:published/QA-checkpoint-4-snapshot.json#/roamingNetwork",
+      "file": "published/QA-checkpoint-4-snapshot.json",
+      "pointer": "/roamingNetwork",
+      "roamingNetworkId": "QA",
+      "commitId": "5d062cb9de6cbe6b2a1a6e0f088395f429a75f0b21741342d65824a6bb9984aa",
+      "epoch": 1,
+      "revision": 13,
+      "eTags": [
+        "json:sha256:hex:46b8f33d25b6287001cea3b7cd244e2e79715a9abc0eb555dc702ddea2b2a30b",
+        "cbor:sha256:hex:b7d7654bb42d01c5d961e36cfeafd225a65add3650c99c0c9bda76a740c4f29e",
+        "effectiveTree:sha256:hex:f5523684327b1e6081bb31ffb1d64e74a03253992963e47dbd9af083cf1be0d0"
+      ]
+    },
+    {
+      "id": "version:published/QA-checkpoint-5-snapshot.json#/roamingNetwork",
+      "file": "published/QA-checkpoint-5-snapshot.json",
+      "pointer": "/roamingNetwork",
+      "roamingNetworkId": "QA",
+      "commitId": "fb4e43b3cb215af2cfb228bc238a8f01dba9585d7a82449e0fcf223808fa6fe7",
+      "epoch": 1,
+      "revision": 14,
+      "eTags": [
+        "json:sha256:hex:9c96a35160dd0b6de52176766a52c78775374031a04c427116461297e6766a94",
+        "cbor:sha256:hex:07f3d5b7b3966b936b28a75feb3a232fb5955c2498d5cf33b893ae8bcb8ff874",
+        "effectiveTree:sha256:hex:38baeb60a972486744de96237ba3c9c800d1400f26215df49f5f31edfc1e5761"
+      ]
+    },
+    {
+      "id": "version:published/QA-checkpoint-6-snapshot.json#/roamingNetwork",
+      "file": "published/QA-checkpoint-6-snapshot.json",
+      "pointer": "/roamingNetwork",
+      "roamingNetworkId": "QA",
+      "commitId": "48449019fb609c58f9f1e739096eabda1ba6c1d87991918fbf7cf22979b68b20",
+      "epoch": 1,
+      "revision": 16,
+      "eTags": [
+        "json:sha256:hex:9163b88d45d9e0d24427b1a1592039168d8c7be54abb4e32ecd84b93ad8ac3f9",
+        "cbor:sha256:hex:f885e6b975535b340ea3961333438fa932c8a3b5f4b867db798ba1289904336f",
+        "effectiveTree:sha256:hex:3b159819a663133f666007d147b5c66beb9fa61edb11804d91841958aa39f1fc"
+      ]
+    },
+    {
+      "id": "version:published/QA-epoch-2-checkpoint-0-snapshot.json#/roamingNetwork",
+      "file": "published/QA-epoch-2-checkpoint-0-snapshot.json",
+      "pointer": "/roamingNetwork",
+      "roamingNetworkId": "QA",
+      "commitId": "78a5c7211dea1c970b77f888a5f56cc3a1b8ff806115b801e84db063f18451ddd6d46ec4ea74111c89412b239dae0275e585668502edf915f1d98ee3ed94436d",
+      "epoch": 2,
+      "revision": 2,
+      "eTags": [
+        "json:sha256:hex:b6e3eabac61fe1c5e9839848f165b84671d881a9a4214826791513df5163e33e",
+        "cbor:sha256:hex:d911c1c8f05c5b68ef8f3bd7e662125004a9b3e9720132c962e79ab6b54c57e3",
+        "effectiveTree:sha256:hex:202bc4726f8968b4bc157e69119afa7dbe5a0d0ab35554e868f9f8b9c6c1536a"
+      ]
+    },
+    {
+      "id": "version:published/QA-epoch-2-genesis.json#/roamingNetwork",
+      "file": "published/QA-epoch-2-genesis.json",
+      "pointer": "/roamingNetwork",
+      "roamingNetworkId": "QA",
+      "commitId": "f6e9c5676841edb1dcb4289a7431fb6cce626cc2b85c87a94ea381fa9cf40dcfa261db615ce585c27b25ab98c3baeeeb36d8e8692f3d3057174c108601c50db6",
+      "epoch": 2,
+      "revision": 0,
+      "eTags": [
+        "json:sha256:hex:9163b88d45d9e0d24427b1a1592039168d8c7be54abb4e32ecd84b93ad8ac3f9",
+        "cbor:sha256:hex:f885e6b975535b340ea3961333438fa932c8a3b5f4b867db798ba1289904336f",
+        "effectiveTree:sha256:hex:3b159819a663133f666007d147b5c66beb9fa61edb11804d91841958aa39f1fc"
+      ]
+    },
+    {
+      "id": "version:published/QA-genesis.json#/roamingNetwork",
+      "file": "published/QA-genesis.json",
+      "pointer": "/roamingNetwork",
+      "roamingNetworkId": "QA",
+      "commitId": "2fce230bc74c445ede50ad41d93bddc144dd38c8066e4b862b423fce5c28576c",
+      "epoch": 1,
+      "revision": 0,
+      "eTags": [
+        "json:sha256:hex:55148e1802c8c0b0dba00d877cefe251d7235fdc885ade183d425c7759d0fbf9",
+        "cbor:sha256:hex:93719280d373c6b4115259ca7af5e115e3d9bc73c442099a539d32a9cccd7766",
+        "effectiveTree:sha256:hex:32d8ef910776b4bd6be05f4410653932bd1acf84dba2009f8ae70ba3950ac15d"
+      ]
+    },
+    {
+      "id": "version:published/QA-live-snapshot.json#/roamingNetwork",
+      "file": "published/QA-live-snapshot.json",
+      "pointer": "/roamingNetwork",
+      "roamingNetworkId": "QA",
+      "commitId": "e7558ba4d9a987c91c8355d438de6acb78701af0791898b0aa462fc0c7b22bf2a48f6680ffb54900d4dc1a87d4628677ee6e3c08e1ebe92e42eb27f981dec842",
+      "epoch": 2,
+      "revision": 3,
+      "eTags": [
+        "json:sha256:hex:45f8daaca33fed0d21e499dc02baf76f888f81506d288e4343d1182c2d06d971",
+        "cbor:sha256:hex:9339967809047b94ae189957b759d2320768511ba3330f4fddd88f5362069724",
+        "effectiveTree:sha256:hex:ef597b092ab60b0f169333be84dd078da83ffb682b0b2a46a8347f5c1534a063"
+      ]
+    },
+    {
+      "id": "version:published/QA.json#",
+      "file": "published/QA.json",
+      "pointer": "",
+      "roamingNetworkId": "QA",
+      "eTags": [
+        "json:sha256:hex:0782639f047143b4cf345b09fb1405fcd82b16bdbc8f50b717ec9b1824729268",
+        "cbor:sha256:hex:961d9fdfdb9fbd435b5c524c17388ebe42b88260820a433c72ff69bbcb88ee65",
+        "effectiveTree:sha256:hex:01ecb39ad6adf940851e2a03a34da271acaddef663db15faded9b50e1c2db0fd"
+      ]
+    }
+  ],
+  "commits": [
+    {
+      "id": "commit:proofs/QA-epoch-2-commits-to-head.json#/0",
+      "file": "proofs/QA-epoch-2-commits-to-head.json",
+      "pointer": "/0",
+      "commitId": "646d04186d52e2afa7b2a7a11e2f81cc7432439824c42dae8cd4860cf8257e4d0859cfea36e8e7720c091972f666d5fa99fd1e43fdab77c7a7f757302f78b4f6",
+      "roamingNetworkId": "QA",
+      "epoch": 2,
+      "revision": 1,
+      "hashAlgorithm": "sha512",
+      "eTags": [
+        "json:sha256:hex:4b6396ead85c7743699b4fb41c188b24b2fc4dcf7957db471c6776a995e76b35",
+        "cbor:sha256:hex:7ad4bf671a5c8fc4b179275bdec51d36ed05323412f39ee56920f95dcaa043cc",
+        "effectiveTree:sha256:hex:bb57a1723a2c2bb06d22dce2530aba57c3fa5b534801efe6cd3bbe22faf5cbcb"
+      ]
+    },
+    {
+      "id": "commit:proofs/QA-epoch-2-commits-to-head.json#/1",
+      "file": "proofs/QA-epoch-2-commits-to-head.json",
+      "pointer": "/1",
+      "commitId": "78a5c7211dea1c970b77f888a5f56cc3a1b8ff806115b801e84db063f18451ddd6d46ec4ea74111c89412b239dae0275e585668502edf915f1d98ee3ed94436d",
+      "roamingNetworkId": "QA",
+      "epoch": 2,
+      "revision": 2,
+      "hashAlgorithm": "sha512",
+      "eTags": [
+        "json:sha256:hex:b6e3eabac61fe1c5e9839848f165b84671d881a9a4214826791513df5163e33e",
+        "cbor:sha256:hex:d911c1c8f05c5b68ef8f3bd7e662125004a9b3e9720132c962e79ab6b54c57e3",
+        "effectiveTree:sha256:hex:202bc4726f8968b4bc157e69119afa7dbe5a0d0ab35554e868f9f8b9c6c1536a"
+      ]
+    },
+    {
+      "id": "commit:proofs/QA-epoch-2-commits-to-head.json#/2",
+      "file": "proofs/QA-epoch-2-commits-to-head.json",
+      "pointer": "/2",
+      "commitId": "e7558ba4d9a987c91c8355d438de6acb78701af0791898b0aa462fc0c7b22bf2a48f6680ffb54900d4dc1a87d4628677ee6e3c08e1ebe92e42eb27f981dec842",
+      "roamingNetworkId": "QA",
+      "epoch": 2,
+      "revision": 3,
+      "hashAlgorithm": "sha512",
+      "eTags": [
+        "json:sha256:hex:45f8daaca33fed0d21e499dc02baf76f888f81506d288e4343d1182c2d06d971",
+        "cbor:sha256:hex:9339967809047b94ae189957b759d2320768511ba3330f4fddd88f5362069724",
+        "effectiveTree:sha256:hex:ef597b092ab60b0f169333be84dd078da83ffb682b0b2a46a8347f5c1534a063"
+      ]
+    },
+    {
+      "id": "commit:proofs/QA-epoch-2-commits-to-head.json#/3",
+      "file": "proofs/QA-epoch-2-commits-to-head.json",
+      "pointer": "/3",
+      "commitId": "25c23a9bdbe69c3dc89947044ed8a9a1f7dd98e86c260bb7e7cba5f48d2b231cc7dc5bc18b2ac2f7e2108fafa8384b5e918845b3cf6c4e94be1320cf705d77ed",
+      "roamingNetworkId": "QA",
+      "epoch": 2,
+      "revision": 4,
+      "hashAlgorithm": "sha512",
+      "eTags": [
+        "json:sha256:hex:f6d1d5abcfbfc5512778362eae9fccd3aac70bf51baf3bd895a40e4e289d6a74",
+        "cbor:sha256:hex:117d5843bc5a0da72e1235302538424103f1ef33ecb03e4a3110abcb2af205d7",
+        "effectiveTree:sha256:hex:dbfc5b3d90993416ae14ab8af4c52ac084146d554b9d85dd3099dead47dd7bb1"
+      ]
+    },
+    {
+      "id": "commit:proofs/QA-epoch-2-commits-to-head.json#/4",
+      "file": "proofs/QA-epoch-2-commits-to-head.json",
+      "pointer": "/4",
+      "commitId": "ae34c7eeb02287fe2ce2eb5cfb7ecf4d701d87ec1a999323e97d9de52d06ad4ab8e908a3bb0d0156734ca5170510fab04449c360fe044f09784dc99524403e77",
+      "roamingNetworkId": "QA",
+      "epoch": 2,
+      "revision": 5,
+      "hashAlgorithm": "sha512",
+      "eTags": [
+        "json:sha256:hex:529cb139053b53d91dc39864f94bae742ea3dfc331b25c55035afa8a153f66c5",
+        "cbor:sha256:hex:ce7628435afcc5d726cb424f621a9ede28e62a0eb34198a0e393abfad3fdf76a",
+        "effectiveTree:sha256:hex:5a0bc395ce42f822d41ab725f1f917d1729b0f592ce3b7adb438e328b62f4a2f"
+      ]
+    },
+    {
+      "id": "commit:proofs/QA-epoch-2-commits-to-head.json#/5",
+      "file": "proofs/QA-epoch-2-commits-to-head.json",
+      "pointer": "/5",
+      "commitId": "3bf5ae2c6c69f07c793414f523ac8572c229eddd34cb575b6c085d8019567636a00c50873508095343ee458ef25d68280b0c5b946ee0ca505671fe4892c6c33f",
+      "roamingNetworkId": "QA",
+      "epoch": 2,
+      "revision": 6,
+      "hashAlgorithm": "sha512",
+      "eTags": [
+        "json:sha256:hex:f6429e1d8d6e22d2facd05191a9de1def500bd3f79948d9b9dccc90ae4437668",
+        "cbor:sha256:hex:201752e51135ee749c1c54f01e4324851450ce355e685ba1bbfe447297657c49",
+        "effectiveTree:sha256:hex:c2312c8368f756313adb9724af4b09fc710818e714eb6d2d0d390a0efba7270c"
+      ]
+    },
+    {
+      "id": "commit:proofs/QA-epoch-2-commits-to-head.json#/6",
+      "file": "proofs/QA-epoch-2-commits-to-head.json",
+      "pointer": "/6",
+      "commitId": "0132252495b84cd8e81e5ae7fe953cd34d4830451165fb18562b7be71342d366576292bb74ba8461c44212b47b295636d14b6337c8ef88b17daa8481157d62db",
+      "roamingNetworkId": "QA",
+      "epoch": 2,
+      "revision": 7,
+      "hashAlgorithm": "sha512",
+      "eTags": [
+        "json:sha256:hex:0782639f047143b4cf345b09fb1405fcd82b16bdbc8f50b717ec9b1824729268",
+        "cbor:sha256:hex:961d9fdfdb9fbd435b5c524c17388ebe42b88260820a433c72ff69bbcb88ee65",
+        "effectiveTree:sha256:hex:01ecb39ad6adf940851e2a03a34da271acaddef663db15faded9b50e1c2db0fd"
+      ]
+    },
+    {
+      "id": "commit:published/QA-archive-1.json#/base/commit",
+      "file": "published/QA-archive-1.json",
+      "pointer": "/base/commit",
+      "commitId": "2fce230bc74c445ede50ad41d93bddc144dd38c8066e4b862b423fce5c28576c",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 0,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:55148e1802c8c0b0dba00d877cefe251d7235fdc885ade183d425c7759d0fbf9",
+        "cbor:sha256:hex:93719280d373c6b4115259ca7af5e115e3d9bc73c442099a539d32a9cccd7766",
+        "effectiveTree:sha256:hex:32d8ef910776b4bd6be05f4410653932bd1acf84dba2009f8ae70ba3950ac15d"
+      ]
+    },
+    {
+      "id": "commit:published/QA-archive-1.json#/commits/0",
+      "file": "published/QA-archive-1.json",
+      "pointer": "/commits/0",
+      "commitId": "6185cc902c45ce51be5214922fa413d016cdac2eee4053b4596ad08801ce937c",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 1,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:1d7726b866ad2c9551ce156a86d1aff5275065977c97fb62e0f033151b8c0a32",
+        "cbor:sha256:hex:950a3ec0568588681766eb2a0c0d179902bb7c65e11d26ee6654a6ab8ee8e0bb",
+        "effectiveTree:sha256:hex:c4f961070133eb4176b7e3c2ad6435ef8feed9b0ac601e22b3ad3e10ba404160"
+      ]
+    },
+    {
+      "id": "commit:published/QA-archive-1.json#/commits/1",
+      "file": "published/QA-archive-1.json",
+      "pointer": "/commits/1",
+      "commitId": "2af4d1b467f0e1b3a0e0f39f1ed4e381234bd7aa5ff193b7faf7a54b03c492b0",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 2,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:9cebdbe92b3fc094cc7a8f3ac2d1380134a5d65d454bac223795545ff2808da1",
+        "cbor:sha256:hex:68442e470649af67561f41483ad166e3d170aa4be2aab24c4901cbbbbd8fc30d",
+        "effectiveTree:sha256:hex:5b79506dbb5f2e2f43fe9d9aba2766359e5bb594242a8ee5f554edb5d37eb53e"
+      ]
+    },
+    {
+      "id": "commit:published/QA-archive-1.json#/commits/2",
+      "file": "published/QA-archive-1.json",
+      "pointer": "/commits/2",
+      "commitId": "01f98d3470fa71ec5baa4a492c133763dd954bf09fc7b6268f364637dd8c3a34",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 3,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:142eb62629539212da92728c2b087ff89884a7fddc92003b6f26636e8dfb4e91",
+        "cbor:sha256:hex:d3e511a62244e969a1a653ee63db1528b87d0a5b414b75ebb3c21f4568f7c0d7",
+        "effectiveTree:sha256:hex:fd3e1750776cb7b57696b27f86332acbf868c216ae96fec563f2a7dc717615f2"
+      ]
+    },
+    {
+      "id": "commit:published/QA-archive-1.json#/commits/3",
+      "file": "published/QA-archive-1.json",
+      "pointer": "/commits/3",
+      "commitId": "325f1da245bdccc6bc089afbcf1d9c88cba97208746ddb82060a07c9452c1d5c",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 4,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:6194e383f658a0a1e03d7b3b69600a6fa5e546e4ac3eb7d1b8f3ccab76d637df",
+        "cbor:sha256:hex:cf42cfe4c3ec40303d537a71b8bf0ab72dddbda7e94dde8ee16a4762894f3b15",
+        "effectiveTree:sha256:hex:5a45cdc9c96a7b769b32e1f12dbaccf3653e442c90989167532a4dfb28018c03"
+      ]
+    },
+    {
+      "id": "commit:published/QA-archive-1.json#/commits/4",
+      "file": "published/QA-archive-1.json",
+      "pointer": "/commits/4",
+      "commitId": "fa7fb9c0a65591b319705a47be236245deb1cee88e4092f4b3a16de4057bffac",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 5,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:360384c60cb8881217db00ce816fa4cfa37f38fae6672d36f820e0b823e94464",
+        "cbor:sha256:hex:a5181433d93045f924460c4f3305688b133f9366c2843e471aea42359efe3483",
+        "effectiveTree:sha256:hex:c467b6fff4a6c86717fdd2ddaa46742f1d06df828f16694c96663d82435c59ee"
+      ]
+    },
+    {
+      "id": "commit:published/QA-archive-1.json#/commits/5",
+      "file": "published/QA-archive-1.json",
+      "pointer": "/commits/5",
+      "commitId": "17e700d718f6e33f0b7708d22042e24657db22cd8dc6961644f2e0090d2843cf",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 6,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:9409b03202120c8b0775843856d177693c66cada3faedbc0447ee9f563a9214e",
+        "cbor:sha256:hex:703139dee848ecb53468bcbd2875face3de7a80130c82b697ea1722981549266",
+        "effectiveTree:sha256:hex:e74617f25793573ba4958e89952342e261ecbac23ab4fc80daf583d8d8e93b4b"
+      ]
+    },
+    {
+      "id": "commit:published/QA-archive-1.json#/commits/6",
+      "file": "published/QA-archive-1.json",
+      "pointer": "/commits/6",
+      "commitId": "f20cab33bac1314bdfc6bb3059383f8d31cc4fbd406242b43a4ac18972bff9f6",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 7,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:d26997a7a78045ee4fa160a23c04b74221a316463e10a5a98340917d66c2ff48",
+        "cbor:sha256:hex:ccf5096b5f8b43f3a8f6fb8dff0fc222c97724242ce81295adfed61da58898ea",
+        "effectiveTree:sha256:hex:6dcddbe77dec439833974f7e64a2b5eff3a7575f2de225f15257509414f31d55"
+      ]
+    },
+    {
+      "id": "commit:published/QA-archive-2.json#/base/commit",
+      "file": "published/QA-archive-2.json",
+      "pointer": "/base/commit",
+      "commitId": "f20cab33bac1314bdfc6bb3059383f8d31cc4fbd406242b43a4ac18972bff9f6",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 7,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:d26997a7a78045ee4fa160a23c04b74221a316463e10a5a98340917d66c2ff48",
+        "cbor:sha256:hex:ccf5096b5f8b43f3a8f6fb8dff0fc222c97724242ce81295adfed61da58898ea",
+        "effectiveTree:sha256:hex:6dcddbe77dec439833974f7e64a2b5eff3a7575f2de225f15257509414f31d55"
+      ]
+    },
+    {
+      "id": "commit:published/QA-archive-2.json#/commits/0",
+      "file": "published/QA-archive-2.json",
+      "pointer": "/commits/0",
+      "commitId": "a6fff5a7c787035bb379f2194a2ce7e745f25d87f45ea21c9839873f8e8535f6",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 8,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:ca20898774bcc87eb538fbd89f53789eb3d7ddbbb9ce31f27af8b54c6019d14f",
+        "cbor:sha256:hex:89b5cab6f4d0e7db63e482bfc972bb64ae57b67dd61be18fc2144694fb179022",
+        "effectiveTree:sha256:hex:403dbbf56d26863c08bf95181ca6904ca3c18345c6e89a2120140ad39e7505f8"
+      ]
+    },
+    {
+      "id": "commit:published/QA-archive-2.json#/commits/1",
+      "file": "published/QA-archive-2.json",
+      "pointer": "/commits/1",
+      "commitId": "99e6c603c03a4283e3480efe7aa256b71c97e79bee68b2917d7dc3bbfe51ce01",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 9,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:35af9edd67c6deb61790aae568f69dc6d52ba2ef6b8e40da91baf5279a4b0861",
+        "cbor:sha256:hex:df5ae342893ace347467e780cbf7f88679c59d98a77f6ec755719ced03205d25",
+        "effectiveTree:sha256:hex:8b2bce2d50c71819136b85ea9de7edc9ccd4b0922f8ea3e707422665a52ebc25"
+      ]
+    },
+    {
+      "id": "commit:published/QA-checkpoint-0-snapshot.json#/commit",
+      "file": "published/QA-checkpoint-0-snapshot.json",
+      "pointer": "/commit",
+      "commitId": "f20cab33bac1314bdfc6bb3059383f8d31cc4fbd406242b43a4ac18972bff9f6",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 7,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:d26997a7a78045ee4fa160a23c04b74221a316463e10a5a98340917d66c2ff48",
+        "cbor:sha256:hex:ccf5096b5f8b43f3a8f6fb8dff0fc222c97724242ce81295adfed61da58898ea",
+        "effectiveTree:sha256:hex:6dcddbe77dec439833974f7e64a2b5eff3a7575f2de225f15257509414f31d55"
+      ]
+    },
+    {
+      "id": "commit:published/QA-checkpoint-1-snapshot.json#/commit",
+      "file": "published/QA-checkpoint-1-snapshot.json",
+      "pointer": "/commit",
+      "commitId": "99e6c603c03a4283e3480efe7aa256b71c97e79bee68b2917d7dc3bbfe51ce01",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 9,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:35af9edd67c6deb61790aae568f69dc6d52ba2ef6b8e40da91baf5279a4b0861",
+        "cbor:sha256:hex:df5ae342893ace347467e780cbf7f88679c59d98a77f6ec755719ced03205d25",
+        "effectiveTree:sha256:hex:8b2bce2d50c71819136b85ea9de7edc9ccd4b0922f8ea3e707422665a52ebc25"
+      ]
+    },
+    {
+      "id": "commit:published/QA-checkpoint-2-snapshot.json#/commit",
+      "file": "published/QA-checkpoint-2-snapshot.json",
+      "pointer": "/commit",
+      "commitId": "c7c127648c39caacf69fc5e8fba65ee291aa98b7452bdd537a0ddfd450a9f198",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 10,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:c2703d494d0c12ba21511444ddb617486d455ab13aae1e2194e41cd1a3506979",
+        "cbor:sha256:hex:a5b3a6f209ee22dcac8b210b5bdeb28bd342ae3d3dd1b52816ee392d7d01e0d9",
+        "effectiveTree:sha256:hex:c4c3748f198ed89767a29d7149ba106bab547bca040849a3b64e3c391e138935"
+      ]
+    },
+    {
+      "id": "commit:published/QA-checkpoint-3-snapshot.json#/commit",
+      "file": "published/QA-checkpoint-3-snapshot.json",
+      "pointer": "/commit",
+      "commitId": "2cab79f1b6c6961626d667dda0d2144148bd04e9a2e90f88df86b13c87b5929b",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 12,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:2ec0653242d03cadc3cf4b8f46d19f05e3f515eeee8294bd440f8eba7b1a0686",
+        "cbor:sha256:hex:3be08e81f9522efe6141908075a604f69bd9d9da83af8f72eb36a11df4d85fca",
+        "effectiveTree:sha256:hex:d5743426b832d3af0e746f49fe74d6d013f1b0e7888ebed22ce16723aa740eb7"
+      ]
+    },
+    {
+      "id": "commit:published/QA-checkpoint-4-snapshot.json#/commit",
+      "file": "published/QA-checkpoint-4-snapshot.json",
+      "pointer": "/commit",
+      "commitId": "5d062cb9de6cbe6b2a1a6e0f088395f429a75f0b21741342d65824a6bb9984aa",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 13,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:46b8f33d25b6287001cea3b7cd244e2e79715a9abc0eb555dc702ddea2b2a30b",
+        "cbor:sha256:hex:b7d7654bb42d01c5d961e36cfeafd225a65add3650c99c0c9bda76a740c4f29e",
+        "effectiveTree:sha256:hex:f5523684327b1e6081bb31ffb1d64e74a03253992963e47dbd9af083cf1be0d0"
+      ]
+    },
+    {
+      "id": "commit:published/QA-checkpoint-5-snapshot.json#/commit",
+      "file": "published/QA-checkpoint-5-snapshot.json",
+      "pointer": "/commit",
+      "commitId": "fb4e43b3cb215af2cfb228bc238a8f01dba9585d7a82449e0fcf223808fa6fe7",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 14,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:9c96a35160dd0b6de52176766a52c78775374031a04c427116461297e6766a94",
+        "cbor:sha256:hex:07f3d5b7b3966b936b28a75feb3a232fb5955c2498d5cf33b893ae8bcb8ff874",
+        "effectiveTree:sha256:hex:38baeb60a972486744de96237ba3c9c800d1400f26215df49f5f31edfc1e5761"
+      ]
+    },
+    {
+      "id": "commit:published/QA-checkpoint-6-snapshot.json#/commit",
+      "file": "published/QA-checkpoint-6-snapshot.json",
+      "pointer": "/commit",
+      "commitId": "48449019fb609c58f9f1e739096eabda1ba6c1d87991918fbf7cf22979b68b20",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 16,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:9163b88d45d9e0d24427b1a1592039168d8c7be54abb4e32ecd84b93ad8ac3f9",
+        "cbor:sha256:hex:f885e6b975535b340ea3961333438fa932c8a3b5f4b867db798ba1289904336f",
+        "effectiveTree:sha256:hex:3b159819a663133f666007d147b5c66beb9fa61edb11804d91841958aa39f1fc"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commit.json#",
+      "file": "published/QA-commit.json",
+      "pointer": "",
+      "commitId": "0132252495b84cd8e81e5ae7fe953cd34d4830451165fb18562b7be71342d366576292bb74ba8461c44212b47b295636d14b6337c8ef88b17daa8481157d62db",
+      "roamingNetworkId": "QA",
+      "epoch": 2,
+      "revision": 7,
+      "hashAlgorithm": "sha512",
+      "eTags": [
+        "json:sha256:hex:0782639f047143b4cf345b09fb1405fcd82b16bdbc8f50b717ec9b1824729268",
+        "cbor:sha256:hex:961d9fdfdb9fbd435b5c524c17388ebe42b88260820a433c72ff69bbcb88ee65",
+        "effectiveTree:sha256:hex:01ecb39ad6adf940851e2a03a34da271acaddef663db15faded9b50e1c2db0fd"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-checkpoint-0.json#/0",
+      "file": "published/QA-commits-since-checkpoint-0.json",
+      "pointer": "/0",
+      "commitId": "a6fff5a7c787035bb379f2194a2ce7e745f25d87f45ea21c9839873f8e8535f6",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 8,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:ca20898774bcc87eb538fbd89f53789eb3d7ddbbb9ce31f27af8b54c6019d14f",
+        "cbor:sha256:hex:89b5cab6f4d0e7db63e482bfc972bb64ae57b67dd61be18fc2144694fb179022",
+        "effectiveTree:sha256:hex:403dbbf56d26863c08bf95181ca6904ca3c18345c6e89a2120140ad39e7505f8"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-checkpoint-0.json#/1",
+      "file": "published/QA-commits-since-checkpoint-0.json",
+      "pointer": "/1",
+      "commitId": "99e6c603c03a4283e3480efe7aa256b71c97e79bee68b2917d7dc3bbfe51ce01",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 9,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:35af9edd67c6deb61790aae568f69dc6d52ba2ef6b8e40da91baf5279a4b0861",
+        "cbor:sha256:hex:df5ae342893ace347467e780cbf7f88679c59d98a77f6ec755719ced03205d25",
+        "effectiveTree:sha256:hex:8b2bce2d50c71819136b85ea9de7edc9ccd4b0922f8ea3e707422665a52ebc25"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-checkpoint-1.json#/0",
+      "file": "published/QA-commits-since-checkpoint-1.json",
+      "pointer": "/0",
+      "commitId": "c7c127648c39caacf69fc5e8fba65ee291aa98b7452bdd537a0ddfd450a9f198",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 10,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:c2703d494d0c12ba21511444ddb617486d455ab13aae1e2194e41cd1a3506979",
+        "cbor:sha256:hex:a5b3a6f209ee22dcac8b210b5bdeb28bd342ae3d3dd1b52816ee392d7d01e0d9",
+        "effectiveTree:sha256:hex:c4c3748f198ed89767a29d7149ba106bab547bca040849a3b64e3c391e138935"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-checkpoint-2.json#/0",
+      "file": "published/QA-commits-since-checkpoint-2.json",
+      "pointer": "/0",
+      "commitId": "0a6ec87578be2f8a799cef60fde4e61d3ed10e96be6eaf3c4166b98f2c980073",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 11,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:8980ad7470b9662d5acaa0f4e19c148feb6f6672d2f7af6da6b03563577eb984",
+        "cbor:sha256:hex:344fed3c81bb4144bd4e25de437b7276ef7fcc8ff3d60febefd8be1b87b909d3",
+        "effectiveTree:sha256:hex:37e382ac03bbc69a818a045f013e7863f2e2926b9b0af634c59b76f9f02c067b"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-checkpoint-2.json#/1",
+      "file": "published/QA-commits-since-checkpoint-2.json",
+      "pointer": "/1",
+      "commitId": "2cab79f1b6c6961626d667dda0d2144148bd04e9a2e90f88df86b13c87b5929b",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 12,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:2ec0653242d03cadc3cf4b8f46d19f05e3f515eeee8294bd440f8eba7b1a0686",
+        "cbor:sha256:hex:3be08e81f9522efe6141908075a604f69bd9d9da83af8f72eb36a11df4d85fca",
+        "effectiveTree:sha256:hex:d5743426b832d3af0e746f49fe74d6d013f1b0e7888ebed22ce16723aa740eb7"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-checkpoint-2.json#/2",
+      "file": "published/QA-commits-since-checkpoint-2.json",
+      "pointer": "/2",
+      "commitId": "5d062cb9de6cbe6b2a1a6e0f088395f429a75f0b21741342d65824a6bb9984aa",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 13,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:46b8f33d25b6287001cea3b7cd244e2e79715a9abc0eb555dc702ddea2b2a30b",
+        "cbor:sha256:hex:b7d7654bb42d01c5d961e36cfeafd225a65add3650c99c0c9bda76a740c4f29e",
+        "effectiveTree:sha256:hex:f5523684327b1e6081bb31ffb1d64e74a03253992963e47dbd9af083cf1be0d0"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-checkpoint-4.json#/0",
+      "file": "published/QA-commits-since-checkpoint-4.json",
+      "pointer": "/0",
+      "commitId": "fb4e43b3cb215af2cfb228bc238a8f01dba9585d7a82449e0fcf223808fa6fe7",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 14,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:9c96a35160dd0b6de52176766a52c78775374031a04c427116461297e6766a94",
+        "cbor:sha256:hex:07f3d5b7b3966b936b28a75feb3a232fb5955c2498d5cf33b893ae8bcb8ff874",
+        "effectiveTree:sha256:hex:38baeb60a972486744de96237ba3c9c800d1400f26215df49f5f31edfc1e5761"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-checkpoint-5.json#/0",
+      "file": "published/QA-commits-since-checkpoint-5.json",
+      "pointer": "/0",
+      "commitId": "47c353804f8d205166338ac5dcbd268b4c326cb85fe6d0a0250efd226f40dcff",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 15,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:274aca4d0a034ef697cc29292cfb412e9f7368324cc514065dd0686ee1a7a8a7",
+        "cbor:sha256:hex:18042a8e37831a6906a9a234bff3f11d679b0cbe7efb0c8c16c5600d39b55d17",
+        "effectiveTree:sha256:hex:fc785e50cc4fe0e9cfc234fa6f0f33ac28419c8aef2140934c9a1580038d1038"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-checkpoint-5.json#/1",
+      "file": "published/QA-commits-since-checkpoint-5.json",
+      "pointer": "/1",
+      "commitId": "48449019fb609c58f9f1e739096eabda1ba6c1d87991918fbf7cf22979b68b20",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 16,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:9163b88d45d9e0d24427b1a1592039168d8c7be54abb4e32ecd84b93ad8ac3f9",
+        "cbor:sha256:hex:f885e6b975535b340ea3961333438fa932c8a3b5f4b867db798ba1289904336f",
+        "effectiveTree:sha256:hex:3b159819a663133f666007d147b5c66beb9fa61edb11804d91841958aa39f1fc"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-genesis.json#/0",
+      "file": "published/QA-commits-since-genesis.json",
+      "pointer": "/0",
+      "commitId": "6185cc902c45ce51be5214922fa413d016cdac2eee4053b4596ad08801ce937c",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 1,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:1d7726b866ad2c9551ce156a86d1aff5275065977c97fb62e0f033151b8c0a32",
+        "cbor:sha256:hex:950a3ec0568588681766eb2a0c0d179902bb7c65e11d26ee6654a6ab8ee8e0bb",
+        "effectiveTree:sha256:hex:c4f961070133eb4176b7e3c2ad6435ef8feed9b0ac601e22b3ad3e10ba404160"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-genesis.json#/1",
+      "file": "published/QA-commits-since-genesis.json",
+      "pointer": "/1",
+      "commitId": "2af4d1b467f0e1b3a0e0f39f1ed4e381234bd7aa5ff193b7faf7a54b03c492b0",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 2,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:9cebdbe92b3fc094cc7a8f3ac2d1380134a5d65d454bac223795545ff2808da1",
+        "cbor:sha256:hex:68442e470649af67561f41483ad166e3d170aa4be2aab24c4901cbbbbd8fc30d",
+        "effectiveTree:sha256:hex:5b79506dbb5f2e2f43fe9d9aba2766359e5bb594242a8ee5f554edb5d37eb53e"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-genesis.json#/2",
+      "file": "published/QA-commits-since-genesis.json",
+      "pointer": "/2",
+      "commitId": "01f98d3470fa71ec5baa4a492c133763dd954bf09fc7b6268f364637dd8c3a34",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 3,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:142eb62629539212da92728c2b087ff89884a7fddc92003b6f26636e8dfb4e91",
+        "cbor:sha256:hex:d3e511a62244e969a1a653ee63db1528b87d0a5b414b75ebb3c21f4568f7c0d7",
+        "effectiveTree:sha256:hex:fd3e1750776cb7b57696b27f86332acbf868c216ae96fec563f2a7dc717615f2"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-genesis.json#/3",
+      "file": "published/QA-commits-since-genesis.json",
+      "pointer": "/3",
+      "commitId": "325f1da245bdccc6bc089afbcf1d9c88cba97208746ddb82060a07c9452c1d5c",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 4,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:6194e383f658a0a1e03d7b3b69600a6fa5e546e4ac3eb7d1b8f3ccab76d637df",
+        "cbor:sha256:hex:cf42cfe4c3ec40303d537a71b8bf0ab72dddbda7e94dde8ee16a4762894f3b15",
+        "effectiveTree:sha256:hex:5a45cdc9c96a7b769b32e1f12dbaccf3653e442c90989167532a4dfb28018c03"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-genesis.json#/4",
+      "file": "published/QA-commits-since-genesis.json",
+      "pointer": "/4",
+      "commitId": "fa7fb9c0a65591b319705a47be236245deb1cee88e4092f4b3a16de4057bffac",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 5,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:360384c60cb8881217db00ce816fa4cfa37f38fae6672d36f820e0b823e94464",
+        "cbor:sha256:hex:a5181433d93045f924460c4f3305688b133f9366c2843e471aea42359efe3483",
+        "effectiveTree:sha256:hex:c467b6fff4a6c86717fdd2ddaa46742f1d06df828f16694c96663d82435c59ee"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-genesis.json#/5",
+      "file": "published/QA-commits-since-genesis.json",
+      "pointer": "/5",
+      "commitId": "17e700d718f6e33f0b7708d22042e24657db22cd8dc6961644f2e0090d2843cf",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 6,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:9409b03202120c8b0775843856d177693c66cada3faedbc0447ee9f563a9214e",
+        "cbor:sha256:hex:703139dee848ecb53468bcbd2875face3de7a80130c82b697ea1722981549266",
+        "effectiveTree:sha256:hex:e74617f25793573ba4958e89952342e261ecbac23ab4fc80daf583d8d8e93b4b"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-genesis.json#/6",
+      "file": "published/QA-commits-since-genesis.json",
+      "pointer": "/6",
+      "commitId": "f20cab33bac1314bdfc6bb3059383f8d31cc4fbd406242b43a4ac18972bff9f6",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 7,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:d26997a7a78045ee4fa160a23c04b74221a316463e10a5a98340917d66c2ff48",
+        "cbor:sha256:hex:ccf5096b5f8b43f3a8f6fb8dff0fc222c97724242ce81295adfed61da58898ea",
+        "effectiveTree:sha256:hex:6dcddbe77dec439833974f7e64a2b5eff3a7575f2de225f15257509414f31d55"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-genesis.json#/7",
+      "file": "published/QA-commits-since-genesis.json",
+      "pointer": "/7",
+      "commitId": "a6fff5a7c787035bb379f2194a2ce7e745f25d87f45ea21c9839873f8e8535f6",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 8,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:ca20898774bcc87eb538fbd89f53789eb3d7ddbbb9ce31f27af8b54c6019d14f",
+        "cbor:sha256:hex:89b5cab6f4d0e7db63e482bfc972bb64ae57b67dd61be18fc2144694fb179022",
+        "effectiveTree:sha256:hex:403dbbf56d26863c08bf95181ca6904ca3c18345c6e89a2120140ad39e7505f8"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-genesis.json#/8",
+      "file": "published/QA-commits-since-genesis.json",
+      "pointer": "/8",
+      "commitId": "99e6c603c03a4283e3480efe7aa256b71c97e79bee68b2917d7dc3bbfe51ce01",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 9,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:35af9edd67c6deb61790aae568f69dc6d52ba2ef6b8e40da91baf5279a4b0861",
+        "cbor:sha256:hex:df5ae342893ace347467e780cbf7f88679c59d98a77f6ec755719ced03205d25",
+        "effectiveTree:sha256:hex:8b2bce2d50c71819136b85ea9de7edc9ccd4b0922f8ea3e707422665a52ebc25"
+      ]
+    },
+    {
+      "id": "commit:published/QA-commits-since-genesis.json#/9",
+      "file": "published/QA-commits-since-genesis.json",
+      "pointer": "/9",
+      "commitId": "c7c127648c39caacf69fc5e8fba65ee291aa98b7452bdd537a0ddfd450a9f198",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 10,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:c2703d494d0c12ba21511444ddb617486d455ab13aae1e2194e41cd1a3506979",
+        "cbor:sha256:hex:a5b3a6f209ee22dcac8b210b5bdeb28bd342ae3d3dd1b52816ee392d7d01e0d9",
+        "effectiveTree:sha256:hex:c4c3748f198ed89767a29d7149ba106bab547bca040849a3b64e3c391e138935"
+      ]
+    },
+    {
+      "id": "commit:published/QA-epoch-2-checkpoint-0-snapshot.json#/commit",
+      "file": "published/QA-epoch-2-checkpoint-0-snapshot.json",
+      "pointer": "/commit",
+      "commitId": "78a5c7211dea1c970b77f888a5f56cc3a1b8ff806115b801e84db063f18451ddd6d46ec4ea74111c89412b239dae0275e585668502edf915f1d98ee3ed94436d",
+      "roamingNetworkId": "QA",
+      "epoch": 2,
+      "revision": 2,
+      "hashAlgorithm": "sha512",
+      "eTags": [
+        "json:sha256:hex:b6e3eabac61fe1c5e9839848f165b84671d881a9a4214826791513df5163e33e",
+        "cbor:sha256:hex:d911c1c8f05c5b68ef8f3bd7e662125004a9b3e9720132c962e79ab6b54c57e3",
+        "effectiveTree:sha256:hex:202bc4726f8968b4bc157e69119afa7dbe5a0d0ab35554e868f9f8b9c6c1536a"
+      ]
+    },
+    {
+      "id": "commit:published/QA-epoch-2-commits-since-genesis.json#/0",
+      "file": "published/QA-epoch-2-commits-since-genesis.json",
+      "pointer": "/0",
+      "commitId": "646d04186d52e2afa7b2a7a11e2f81cc7432439824c42dae8cd4860cf8257e4d0859cfea36e8e7720c091972f666d5fa99fd1e43fdab77c7a7f757302f78b4f6",
+      "roamingNetworkId": "QA",
+      "epoch": 2,
+      "revision": 1,
+      "hashAlgorithm": "sha512",
+      "eTags": [
+        "json:sha256:hex:4b6396ead85c7743699b4fb41c188b24b2fc4dcf7957db471c6776a995e76b35",
+        "cbor:sha256:hex:7ad4bf671a5c8fc4b179275bdec51d36ed05323412f39ee56920f95dcaa043cc",
+        "effectiveTree:sha256:hex:bb57a1723a2c2bb06d22dce2530aba57c3fa5b534801efe6cd3bbe22faf5cbcb"
+      ]
+    },
+    {
+      "id": "commit:published/QA-epoch-2-commits-since-genesis.json#/1",
+      "file": "published/QA-epoch-2-commits-since-genesis.json",
+      "pointer": "/1",
+      "commitId": "78a5c7211dea1c970b77f888a5f56cc3a1b8ff806115b801e84db063f18451ddd6d46ec4ea74111c89412b239dae0275e585668502edf915f1d98ee3ed94436d",
+      "roamingNetworkId": "QA",
+      "epoch": 2,
+      "revision": 2,
+      "hashAlgorithm": "sha512",
+      "eTags": [
+        "json:sha256:hex:b6e3eabac61fe1c5e9839848f165b84671d881a9a4214826791513df5163e33e",
+        "cbor:sha256:hex:d911c1c8f05c5b68ef8f3bd7e662125004a9b3e9720132c962e79ab6b54c57e3",
+        "effectiveTree:sha256:hex:202bc4726f8968b4bc157e69119afa7dbe5a0d0ab35554e868f9f8b9c6c1536a"
+      ]
+    },
+    {
+      "id": "commit:published/QA-epoch-2-genesis.json#/commit",
+      "file": "published/QA-epoch-2-genesis.json",
+      "pointer": "/commit",
+      "commitId": "f6e9c5676841edb1dcb4289a7431fb6cce626cc2b85c87a94ea381fa9cf40dcfa261db615ce585c27b25ab98c3baeeeb36d8e8692f3d3057174c108601c50db6",
+      "roamingNetworkId": "QA",
+      "epoch": 2,
+      "revision": 0,
+      "hashAlgorithm": "sha512",
+      "eTags": [
+        "json:sha256:hex:9163b88d45d9e0d24427b1a1592039168d8c7be54abb4e32ecd84b93ad8ac3f9",
+        "cbor:sha256:hex:f885e6b975535b340ea3961333438fa932c8a3b5f4b867db798ba1289904336f",
+        "effectiveTree:sha256:hex:3b159819a663133f666007d147b5c66beb9fa61edb11804d91841958aa39f1fc"
+      ]
+    },
+    {
+      "id": "commit:published/QA-genesis.json#/commit",
+      "file": "published/QA-genesis.json",
+      "pointer": "/commit",
+      "commitId": "2fce230bc74c445ede50ad41d93bddc144dd38c8066e4b862b423fce5c28576c",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "revision": 0,
+      "hashAlgorithm": "sha256",
+      "eTags": [
+        "json:sha256:hex:55148e1802c8c0b0dba00d877cefe251d7235fdc885ade183d425c7759d0fbf9",
+        "cbor:sha256:hex:93719280d373c6b4115259ca7af5e115e3d9bc73c442099a539d32a9cccd7766",
+        "effectiveTree:sha256:hex:32d8ef910776b4bd6be05f4410653932bd1acf84dba2009f8ae70ba3950ac15d"
+      ]
+    },
+    {
+      "id": "commit:published/QA-live-snapshot.json#/commit",
+      "file": "published/QA-live-snapshot.json",
+      "pointer": "/commit",
+      "commitId": "e7558ba4d9a987c91c8355d438de6acb78701af0791898b0aa462fc0c7b22bf2a48f6680ffb54900d4dc1a87d4628677ee6e3c08e1ebe92e42eb27f981dec842",
+      "roamingNetworkId": "QA",
+      "epoch": 2,
+      "revision": 3,
+      "hashAlgorithm": "sha512",
+      "eTags": [
+        "json:sha256:hex:45f8daaca33fed0d21e499dc02baf76f888f81506d288e4343d1182c2d06d971",
+        "cbor:sha256:hex:9339967809047b94ae189957b759d2320768511ba3330f4fddd88f5362069724",
+        "effectiveTree:sha256:hex:ef597b092ab60b0f169333be84dd078da83ffb682b0b2a46a8347f5c1534a063"
+      ]
+    }
+  ],
+  "checkpoints": [
+    {
+      "id": "checkpoint:driver/evidence-DE_GEF_E1_1.json#/checkpoints/0",
+      "file": "driver/evidence-DE_GEF_E1_1.json",
+      "pointer": "/checkpoints/0",
+      "checkpointId": "39e6f8782db6c64ac4c23600c302c96d60f2c7c42c51b1a963d9c4d0d33af096",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "sequence": 4,
+      "revision": 13,
+      "commitId": "5d062cb9de6cbe6b2a1a6e0f088395f429a75f0b21741342d65824a6bb9984aa",
+      "final": false
+    },
+    {
+      "id": "checkpoint:driver/evidence-DE_GEF_E1_1.json#/checkpoints/1",
+      "file": "driver/evidence-DE_GEF_E1_1.json",
+      "pointer": "/checkpoints/1",
+      "checkpointId": "d096c381cf39d7013305d1038bbebe338dcd808d5a58e877c58a1e1a2718035e",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "sequence": 5,
+      "revision": 14,
+      "commitId": "fb4e43b3cb215af2cfb228bc238a8f01dba9585d7a82449e0fcf223808fa6fe7",
+      "final": false
+    },
+    {
+      "id": "checkpoint:published/QA-checkpoint-0-snapshot.json#/checkpoint",
+      "file": "published/QA-checkpoint-0-snapshot.json",
+      "pointer": "/checkpoint",
+      "checkpointId": "1ebc8ae3066ac1e6b25ebdc83b95d7260ac546556482763927da436c16547ed3",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "sequence": 0,
+      "revision": 7,
+      "commitId": "f20cab33bac1314bdfc6bb3059383f8d31cc4fbd406242b43a4ac18972bff9f6",
+      "final": false
+    },
+    {
+      "id": "checkpoint:published/QA-checkpoint-1-snapshot.json#/checkpoint",
+      "file": "published/QA-checkpoint-1-snapshot.json",
+      "pointer": "/checkpoint",
+      "checkpointId": "2619b10001b55e2593e674f9e55c9ff577d7e6cdc7ae48510b3735668a54899d",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "sequence": 1,
+      "revision": 9,
+      "commitId": "99e6c603c03a4283e3480efe7aa256b71c97e79bee68b2917d7dc3bbfe51ce01",
+      "final": false
+    },
+    {
+      "id": "checkpoint:published/QA-checkpoint-2-snapshot.json#/checkpoint",
+      "file": "published/QA-checkpoint-2-snapshot.json",
+      "pointer": "/checkpoint",
+      "checkpointId": "4d557fb96e4333f90c34772db040f81cd644f6f3f093753aaef4c001cf7179bd",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "sequence": 2,
+      "revision": 10,
+      "commitId": "c7c127648c39caacf69fc5e8fba65ee291aa98b7452bdd537a0ddfd450a9f198",
+      "final": false
+    },
+    {
+      "id": "checkpoint:published/QA-checkpoint-3-snapshot.json#/checkpoint",
+      "file": "published/QA-checkpoint-3-snapshot.json",
+      "pointer": "/checkpoint",
+      "checkpointId": "db1a1275d65007a271c20ddc36d07b173f2c931dde1ff079ee874e911b87ceea",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "sequence": 3,
+      "revision": 12,
+      "commitId": "2cab79f1b6c6961626d667dda0d2144148bd04e9a2e90f88df86b13c87b5929b",
+      "final": false
+    },
+    {
+      "id": "checkpoint:published/QA-checkpoint-6-snapshot.json#/checkpoint",
+      "file": "published/QA-checkpoint-6-snapshot.json",
+      "pointer": "/checkpoint",
+      "checkpointId": "0b4391780648d82fde3ef5b268f1af938ef890b60f3b7e99af02443633c65d24",
+      "roamingNetworkId": "QA",
+      "epoch": 1,
+      "sequence": 6,
+      "revision": 16,
+      "commitId": "48449019fb609c58f9f1e739096eabda1ba6c1d87991918fbf7cf22979b68b20",
+      "final": true
+    },
+    {
+      "id": "checkpoint:published/QA-epoch-2-checkpoint-0-snapshot.json#/checkpoint",
+      "file": "published/QA-epoch-2-checkpoint-0-snapshot.json",
+      "pointer": "/checkpoint",
+      "checkpointId": "d40a1d831f6beea8c8dc7d74a28f2bb320e679e2679ebe9cf2cd5a3339081f5a769c193956f2051dcf8fc8cad6df1a0572e09ea9f43c2aa396fa9f0f5279c84a",
+      "roamingNetworkId": "QA",
+      "epoch": 2,
+      "sequence": 0,
+      "revision": 2,
+      "commitId": "78a5c7211dea1c970b77f888a5f56cc3a1b8ff806115b801e84db063f18451ddd6d46ec4ea74111c89412b239dae0275e585668502edf915f1d98ee3ed94436d",
+      "final": false
+    }
+  ],
+  "checkpointProofs": [
+    {
+      "id": "checkpointProof:proofs/QA-epoch-2-proof-revision-1.json",
+      "file": "proofs/QA-epoch-2-proof-revision-1.json",
+      "pointer": "",
+      "checkpoint": {
+        "file": "published/QA-epoch-2-checkpoint-0-snapshot.json",
+        "pointer": "/checkpoint"
+      },
+      "checkpointId": "d40a1d831f6beea8c8dc7d74a28f2bb320e679e2679ebe9cf2cd5a3339081f5a769c193956f2051dcf8fc8cad6df1a0572e09ea9f43c2aa396fa9f0f5279c84a",
+      "commitId": "646d04186d52e2afa7b2a7a11e2f81cc7432439824c42dae8cd4860cf8257e4d0859cfea36e8e7720c091972f666d5fa99fd1e43fdab77c7a7f757302f78b4f6",
+      "revision": 1,
+      "index": 1,
+      "size": 3
+    },
+    {
+      "id": "checkpointProof:published/QA-proof-revision-10.json",
+      "file": "published/QA-proof-revision-10.json",
+      "pointer": "",
+      "checkpoint": {
+        "file": "published/QA-checkpoint-2-snapshot.json",
+        "pointer": "/checkpoint"
+      },
+      "checkpointId": "4d557fb96e4333f90c34772db040f81cd644f6f3f093753aaef4c001cf7179bd",
+      "commitId": "c7c127648c39caacf69fc5e8fba65ee291aa98b7452bdd537a0ddfd450a9f198",
+      "revision": 10,
+      "index": 0,
+      "size": 1
+    },
+    {
+      "id": "checkpointProof:published/QA-proof-revision-4-archived.json",
+      "file": "published/QA-proof-revision-4-archived.json",
+      "pointer": "",
+      "checkpoint": {
+        "file": "published/QA-checkpoint-0-snapshot.json",
+        "pointer": "/checkpoint"
+      },
+      "checkpointId": "1ebc8ae3066ac1e6b25ebdc83b95d7260ac546556482763927da436c16547ed3",
+      "commitId": "325f1da245bdccc6bc089afbcf1d9c88cba97208746ddb82060a07c9452c1d5c",
+      "revision": 4,
+      "index": 4,
+      "size": 8
+    },
+    {
+      "id": "checkpointProof:published/QA-proof-revision-4.json",
+      "file": "published/QA-proof-revision-4.json",
+      "pointer": "",
+      "checkpoint": {
+        "file": "published/QA-checkpoint-0-snapshot.json",
+        "pointer": "/checkpoint"
+      },
+      "checkpointId": "1ebc8ae3066ac1e6b25ebdc83b95d7260ac546556482763927da436c16547ed3",
+      "commitId": "325f1da245bdccc6bc089afbcf1d9c88cba97208746ddb82060a07c9452c1d5c",
+      "revision": 4,
+      "index": 4,
+      "size": 8
+    },
+    {
+      "id": "checkpointProof:published/QA-proof-revision-8.json",
+      "file": "published/QA-proof-revision-8.json",
+      "pointer": "",
+      "checkpoint": {
+        "file": "published/QA-checkpoint-1-snapshot.json",
+        "pointer": "/checkpoint"
+      },
+      "checkpointId": "2619b10001b55e2593e674f9e55c9ff577d7e6cdc7ae48510b3735668a54899d",
+      "commitId": "a6fff5a7c787035bb379f2194a2ce7e745f25d87f45ea21c9839873f8e8535f6",
+      "revision": 8,
+      "index": 0,
+      "size": 2
+    },
+    {
+      "id": "checkpointProof:driver/evidence-DE_GEF_E1_1.json#/commitProof",
+      "file": "driver/evidence-DE_GEF_E1_1.json",
+      "pointer": "/commitProof",
+      "checkpoint": {
+        "file": "driver/evidence-DE_GEF_E1_1.json",
+        "pointer": "/checkpoints/0"
+      },
+      "checkpointId": "39e6f8782db6c64ac4c23600c302c96d60f2c7c42c51b1a963d9c4d0d33af096",
+      "commitId": "5d062cb9de6cbe6b2a1a6e0f088395f429a75f0b21741342d65824a6bb9984aa",
+      "revision": 13,
+      "index": 0,
+      "size": 1
+    }
+  ],
+  "priceStatements": [
+    {
+      "id": "priceStatement:driver/evidence-DE_GEF_E1_1.json#/priceStatements/0",
+      "file": "driver/evidence-DE_GEF_E1_1.json",
+      "pointer": "/priceStatements/0",
+      "roamingNetworkId": "QA",
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E1*1",
+      "sequence": 2,
+      "algorithm": "ES256",
+      "keyId": "cb86c74659a03c7a4b3ed3478907352a274c5a34179604f380db3908a725c84a",
+      "digest": "0f643026261919e1e4625f8ca8fc800716c2d9f8af0b8ff99cd08978838c9d33",
+      "previous": "3840c66fba479f01d249699afa36a03937c49586ad8d4bdb052f2d61ff8a2f19"
+    },
+    {
+      "id": "priceStatement:proofs/QA-priceStatement-malleated-twin.json#",
+      "file": "proofs/QA-priceStatement-malleated-twin.json",
+      "pointer": "",
+      "roamingNetworkId": "QA",
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E1*1",
+      "sequence": 0,
+      "algorithm": "ES256",
+      "keyId": "cb86c74659a03c7a4b3ed3478907352a274c5a34179604f380db3908a725c84a",
+      "digest": "ad682ed917dccce9558c5d905201890bd7452f5ae3a6d9c565003c917c636d00"
+    },
+    {
+      "id": "priceStatement:published/QA-checkpoint-4-priceStatements.json#/0",
+      "file": "published/QA-checkpoint-4-priceStatements.json",
+      "pointer": "/0",
+      "roamingNetworkId": "QA",
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E1*1",
+      "sequence": 0,
+      "algorithm": "ES256",
+      "keyId": "cb86c74659a03c7a4b3ed3478907352a274c5a34179604f380db3908a725c84a",
+      "digest": "25a93a8691f67fc8bbea368d4a10e9f562379c7b96b1e315883280aba42ebf3e"
+    },
+    {
+      "id": "priceStatement:published/QA-checkpoint-4-priceStatements.json#/1",
+      "file": "published/QA-checkpoint-4-priceStatements.json",
+      "pointer": "/1",
+      "roamingNetworkId": "QA",
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E1*1",
+      "sequence": 1,
+      "algorithm": "ES256",
+      "keyId": "cb86c74659a03c7a4b3ed3478907352a274c5a34179604f380db3908a725c84a",
+      "digest": "3840c66fba479f01d249699afa36a03937c49586ad8d4bdb052f2d61ff8a2f19",
+      "previous": "25a93a8691f67fc8bbea368d4a10e9f562379c7b96b1e315883280aba42ebf3e"
+    },
+    {
+      "id": "priceStatement:published/QA-checkpoint-4-priceStatements.json#/2",
+      "file": "published/QA-checkpoint-4-priceStatements.json",
+      "pointer": "/2",
+      "roamingNetworkId": "QA",
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E1*2",
+      "sequence": 0,
+      "algorithm": "ES256",
+      "keyId": "cb86c74659a03c7a4b3ed3478907352a274c5a34179604f380db3908a725c84a",
+      "digest": "3885bb7a0dd665ad91c9b99fbb0a06734ad13a76931d599c5fc128930614d123"
+    },
+    {
+      "id": "priceStatement:published/QA-checkpoint-5-priceStatements.json#/0",
+      "file": "published/QA-checkpoint-5-priceStatements.json",
+      "pointer": "/0",
+      "roamingNetworkId": "QA",
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E1*1",
+      "sequence": 2,
+      "algorithm": "ES256",
+      "keyId": "cb86c74659a03c7a4b3ed3478907352a274c5a34179604f380db3908a725c84a",
+      "digest": "0f643026261919e1e4625f8ca8fc800716c2d9f8af0b8ff99cd08978838c9d33",
+      "previous": "3840c66fba479f01d249699afa36a03937c49586ad8d4bdb052f2d61ff8a2f19"
+    },
+    {
+      "id": "priceStatement:published/QA-epoch-2-checkpoint-0-priceStatements.json#/0",
+      "file": "published/QA-epoch-2-checkpoint-0-priceStatements.json",
+      "pointer": "/0",
+      "roamingNetworkId": "QA",
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E1*1",
+      "sequence": 3,
+      "algorithm": "ML-DSA-65",
+      "keyId": "8251d1157d78d85ecc9364d1de4c93609cb78651250a890b8437c63b627ca226",
+      "digest": "2599d0797f42428911be5b479c9f8398c90237bd1f653758a348776c30e4ed4d",
+      "previous": "0f643026261919e1e4625f8ca8fc800716c2d9f8af0b8ff99cd08978838c9d33"
+    },
+    {
+      "id": "priceStatement:published/QA-priceStatements-DE_GEF_E1_1.json#/0",
+      "file": "published/QA-priceStatements-DE_GEF_E1_1.json",
+      "pointer": "/0",
+      "roamingNetworkId": "QA",
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E1*1",
+      "sequence": 1,
+      "algorithm": "ES256",
+      "keyId": "cb86c74659a03c7a4b3ed3478907352a274c5a34179604f380db3908a725c84a",
+      "digest": "3840c66fba479f01d249699afa36a03937c49586ad8d4bdb052f2d61ff8a2f19",
+      "previous": "25a93a8691f67fc8bbea368d4a10e9f562379c7b96b1e315883280aba42ebf3e"
+    }
+  ],
+  "trustAnchors": [
+    {
+      "id": "trustAnchor:published/QA-trustAnchor-mldsa.txt",
+      "file": "published/QA-trustAnchor-mldsa.txt",
+      "roamingNetworkId": "QA",
+      "urls": [
+        "https://open.charging.cloud/RNs/QA"
+      ],
+      "keys": [
+        "2f6e474d693cbc1583a9252aa7b450dd41115007cb9289f0310f41eaa7d6028f",
+        "97c70ab40140e03e0fcba2259a810d1f37c7f4b506f544704a8fcb248d7cd676",
+        "db3b6fa0346aab899c8a26349e2a6090f3db36a1fbabcba1ea4fbde8261ff12e"
+      ],
+      "minConsensus": 2,
+      "json": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/trustAnchor/v2\",\"@id\":\"QA\",\"description\":{\"en\":\"The roaming network of the examples\"},\"keys\":[\"2f6e474d693cbc1583a9252aa7b450dd41115007cb9289f0310f41eaa7d6028f\",\"97c70ab40140e03e0fcba2259a810d1f37c7f4b506f544704a8fcb248d7cd676\",\"db3b6fa0346aab899c8a26349e2a6090f3db36a1fbabcba1ea4fbde8261ff12e\"],\"minConsensus\":2,\"name\":{\"en\":\"Quality Assurance\"},\"urls\":[\"https://open.charging.cloud/RNs/QA\"]}"
+    },
+    {
+      "id": "trustAnchor:published/QA-trustAnchor.txt",
+      "file": "published/QA-trustAnchor.txt",
+      "roamingNetworkId": "QA",
+      "urls": [
+        "https://open.charging.cloud/RNs/QA"
+      ],
+      "keys": [
+        "6802793c736ed4c54a5dbcc6dbe46e28196bb8afb0616fe6ec3c5e8f07907471",
+        "97c70ab40140e03e0fcba2259a810d1f37c7f4b506f544704a8fcb248d7cd676",
+        "c3d7ce494480e67ef560ed183176cb17328de7c9bf85fc3ab001d3eb09482149"
+      ],
+      "minConsensus": 2,
+      "json": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/trustAnchor/v2\",\"@id\":\"QA\",\"description\":{\"en\":\"The roaming network of the examples\"},\"keys\":[\"6802793c736ed4c54a5dbcc6dbe46e28196bb8afb0616fe6ec3c5e8f07907471\",\"97c70ab40140e03e0fcba2259a810d1f37c7f4b506f544704a8fcb248d7cd676\",\"c3d7ce494480e67ef560ed183176cb17328de7c9bf85fc3ab001d3eb09482149\"],\"minConsensus\":2,\"name\":{\"en\":\"Quality Assurance\"},\"urls\":[\"https://open.charging.cloud/RNs/QA\"]}"
+    }
+  ],
+  "stationProofs": [
+    {
+      "id": "stationProof:proofs/QA-proof-evse-DE_GEF_E3_2.json",
+      "file": "proofs/QA-proof-evse-DE_GEF_E3_2.json",
+      "pointer": "",
+      "trustAnchor": "published/QA-trustAnchor-mldsa.txt",
+      "at": "2026-10-24T17:03:00.000Z",
+      "commitId": "0132252495b84cd8e81e5ae7fe953cd34d4830451165fb18562b7be71342d366576292bb74ba8461c44212b47b295636d14b6337c8ef88b17daa8481157d62db",
+      "revision": 7,
+      "hashAlgorithm": "sha256",
+      "root": "effectiveTree:sha256:hex:01ecb39ad6adf940851e2a03a34da271acaddef663db15faded9b50e1c2db0fd",
+      "chargingStations": [
+        {
+          "chargingStationId": "DE*GEF*S3",
+          "evseIds": [
+            "DE*GEF*E3*1",
+            "DE*GEF*E3*2"
+          ]
+        }
+      ],
+      "expected": "accepted"
+    },
+    {
+      "id": "stationProof:proofs/QA-proof-station-DE_GEF_S1.json",
+      "file": "proofs/QA-proof-station-DE_GEF_S1.json",
+      "pointer": "",
+      "trustAnchor": "published/QA-trustAnchor-mldsa.txt",
+      "at": "2026-10-24T17:03:00.000Z",
+      "commitId": "0132252495b84cd8e81e5ae7fe953cd34d4830451165fb18562b7be71342d366576292bb74ba8461c44212b47b295636d14b6337c8ef88b17daa8481157d62db",
+      "revision": 7,
+      "hashAlgorithm": "sha256",
+      "root": "effectiveTree:sha256:hex:01ecb39ad6adf940851e2a03a34da271acaddef663db15faded9b50e1c2db0fd",
+      "chargingStations": [
+        {
+          "chargingStationId": "DE*GEF*S1",
+          "evseIds": [
+            "DE*GEF*E1*1",
+            "DE*GEF*E1*2"
+          ]
+        }
+      ],
+      "expected": "accepted"
+    },
+    {
+      "id": "stationProof:proofs/QA-proof-station-DE_GEF_S6.json",
+      "file": "proofs/QA-proof-station-DE_GEF_S6.json",
+      "pointer": "",
+      "trustAnchor": "published/QA-trustAnchor-mldsa.txt",
+      "at": "2026-10-24T17:03:00.000Z",
+      "commitId": "0132252495b84cd8e81e5ae7fe953cd34d4830451165fb18562b7be71342d366576292bb74ba8461c44212b47b295636d14b6337c8ef88b17daa8481157d62db",
+      "revision": 7,
+      "hashAlgorithm": "sha256",
+      "root": "effectiveTree:sha256:hex:01ecb39ad6adf940851e2a03a34da271acaddef663db15faded9b50e1c2db0fd",
+      "chargingStations": [
+        {
+          "chargingStationId": "DE*GEF*S6",
+          "evseIds": [
+            "DE*GEF*E6*1",
+            "DE*GEF*E6*2"
+          ]
+        }
+      ],
+      "expected": "accepted"
+    },
+    {
+      "id": "stationProof:published/QA-DE-GEF-E1-1-proof.json",
+      "file": "published/QA-DE-GEF-E1-1-proof.json",
+      "pointer": "",
+      "trustAnchor": "published/QA-trustAnchor-mldsa.txt",
+      "at": "2026-10-24T17:03:00.000Z",
+      "commitId": "0132252495b84cd8e81e5ae7fe953cd34d4830451165fb18562b7be71342d366576292bb74ba8461c44212b47b295636d14b6337c8ef88b17daa8481157d62db",
+      "revision": 7,
+      "hashAlgorithm": "sha256",
+      "root": "effectiveTree:sha256:hex:01ecb39ad6adf940851e2a03a34da271acaddef663db15faded9b50e1c2db0fd",
+      "chargingStations": [
+        {
+          "chargingStationId": "DE*GEF*S1",
+          "evseIds": [
+            "DE*GEF*E1*1",
+            "DE*GEF*E1*2"
+          ]
+        }
+      ],
+      "expected": "accepted"
+    },
+    {
+      "id": "stationProof:driver/evidence-DE_GEF_E1_1.json#/chargingStationProof",
+      "file": "driver/evidence-DE_GEF_E1_1.json",
+      "pointer": "/chargingStationProof",
+      "trustAnchor": "published/QA-trustAnchor.txt",
+      "at": "2026-10-24T16:57:08.707Z",
+      "commitId": "5d062cb9de6cbe6b2a1a6e0f088395f429a75f0b21741342d65824a6bb9984aa",
+      "revision": 13,
+      "hashAlgorithm": "sha256",
+      "root": "effectiveTree:sha256:hex:f5523684327b1e6081bb31ffb1d64e74a03253992963e47dbd9af083cf1be0d0",
+      "chargingStations": [
+        {
+          "chargingStationId": null,
+          "evseIds": [
+            "DE*GEF*E1*1"
+          ]
+        }
+      ],
+      "expected": "accepted"
+    }
+  ],
+  "replays": [
+    {
+      "id": "replay-QA-both-epochs",
+      "description": "The history of QA from its genesis: every commit of epoch 1 with its change set applied and its owners checked, the checkpoints 0 to 6 (6 the final one), the genesis of epoch 2, and every commit of epoch 2 with its checkpoint 0, up to the head.",
+      "commitAndCheckpointSignatures": "unchecked",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "file": "published/QA-genesis.json"
+        },
+        {
+          "op": "append",
+          "file": "published/QA-commits-since-genesis.json"
+        },
+        {
+          "op": "append",
+          "file": "published/QA-commits-since-checkpoint-2.json"
+        },
+        {
+          "op": "append",
+          "file": "published/QA-commits-since-checkpoint-4.json"
+        },
+        {
+          "op": "append",
+          "file": "published/QA-commits-since-checkpoint-5.json"
+        },
+        {
+          "op": "takeCheckpoint",
+          "file": "published/QA-checkpoint-0.json"
+        },
+        {
+          "op": "takeCheckpoint",
+          "file": "published/QA-checkpoint-1.json"
+        },
+        {
+          "op": "takeCheckpoint",
+          "file": "published/QA-checkpoint-2.json"
+        },
+        {
+          "op": "takeCheckpoint",
+          "file": "published/QA-checkpoint-3.json"
+        },
+        {
+          "op": "takeCheckpoint",
+          "file": "published/QA-checkpoint-4.json"
+        },
+        {
+          "op": "takeCheckpoint",
+          "file": "published/QA-checkpoint-5.json"
+        },
+        {
+          "op": "takeCheckpoint",
+          "file": "published/QA-checkpoint-6.json"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 16,
+          "commitId": "48449019fb609c58f9f1e739096eabda1ba6c1d87991918fbf7cf22979b68b20"
+        },
+        {
+          "op": "startNextEpoch",
+          "genesisCommitId": "f6e9c5676841edb1dcb4289a7431fb6cce626cc2b85c87a94ea381fa9cf40dcfa261db615ce585c27b25ab98c3baeeeb36d8e8692f3d3057174c108601c50db6"
+        },
+        {
+          "op": "append",
+          "file": "proofs/QA-epoch-2-commits-to-head.json"
+        },
+        {
+          "op": "takeCheckpoint",
+          "file": "published/QA-epoch-2-checkpoint-0.json"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 2,
+          "revision": 7,
+          "commitId": "0132252495b84cd8e81e5ae7fe953cd34d4830451165fb18562b7be71342d366576292bb74ba8461c44212b47b295636d14b6337c8ef88b17daa8481157d62db",
+          "eTags": [
+            "json:sha256:hex:0782639f047143b4cf345b09fb1405fcd82b16bdbc8f50b717ec9b1824729268",
+            "cbor:sha256:hex:961d9fdfdb9fbd435b5c524c17388ebe42b88260820a433c72ff69bbcb88ee65",
+            "effectiveTree:sha256:hex:01ecb39ad6adf940851e2a03a34da271acaddef663db15faded9b50e1c2db0fd"
+          ]
+        }
+      ]
+    }
+  ]
+}

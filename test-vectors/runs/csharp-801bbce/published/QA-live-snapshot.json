@@ -1,0 +1,2161 @@
+{
+  "commit": {
+    "@id": "e7558ba4d9a987c91c8355d438de6acb78701af0791898b0aa462fc0c7b22bf2a48f6680ffb54900d4dc1a87d4628677ee6e3c08e1ebe92e42eb27f981dec842",
+    "changeSet": {
+      "@id": "r5YKh2672Chp7G8fM434Kp6dM8SW4EYU",
+      "afterETags": [
+        [
+          "json",
+          "sha256",
+          "hex",
+          "45f8daaca33fed0d21e499dc02baf76f888f81506d288e4343d1182c2d06d971"
+        ],
+        [
+          "cbor",
+          "sha256",
+          "hex",
+          "9339967809047b94ae189957b759d2320768511ba3330f4fddd88f5362069724"
+        ]
+      ],
+      "beforeETags": [
+        [
+          "json",
+          "sha256",
+          "hex",
+          "b6e3eabac61fe1c5e9839848f165b84671d881a9a4214826791513df5163e33e"
+        ],
+        [
+          "cbor",
+          "sha256",
+          "hex",
+          "d911c1c8f05c5b68ef8f3bd7e662125004a9b3e9720132c962e79ab6b54c57e3"
+        ]
+      ],
+      "changes": [
+        {
+          "entityId": "DE*GEF*T_DC",
+          "entityType": "ChargingTariff",
+          "kind": "UpdateProperty",
+          "newValue": [
+            {
+              "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/chargingTariffElement/v1",
+              "priceComponents": [
+                {
+                  "price": 0.65,
+                  "stepSize": 1,
+                  "type": "ENERGY"
+                }
+              ]
+            }
+          ],
+          "oldValue": [
+            {
+              "priceComponents": [
+                {
+                  "price": 0.69,
+                  "stepSize": 1,
+                  "type": "ENERGY"
+                }
+              ]
+            }
+          ],
+          "propertyName": "elements"
+        }
+      ],
+      "createdAt": "2026-10-24T16:57:10.944Z",
+      "description": {
+        "en": "The DC charging tariff: 0.65 €/kWh"
+      },
+      "roamingNetworkId": "QA",
+      "signatures": [
+        {
+          "algorithm": "ML-DSA-65",
+          "keyId": "8251d1157d78d85ecc9364d1de4c93609cb78651250a890b8437c63b627ca226",
+          "value": "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"
+        }
+      ]
+    },
+    "eTags": [
+      [
+        "json",
+        "sha256",
+        "hex",
+        "45f8daaca33fed0d21e499dc02baf76f888f81506d288e4343d1182c2d06d971"
+      ],
+      [
+        "cbor",
+        "sha256",
+        "hex",
+        "9339967809047b94ae189957b759d2320768511ba3330f4fddd88f5362069724"
+      ],
+      [
+        "effectiveTree",
+        "sha256",
+        "hex",
+        "ef597b092ab60b0f169333be84dd078da83ffb682b0b2a46a8347f5c1534a063"
+      ]
+    ],
+    "epoch": 2,
+    "parentIds": [
+      "78a5c7211dea1c970b77f888a5f56cc3a1b8ff806115b801e84db063f18451ddd6d46ec4ea74111c89412b239dae0275e585668502edf915f1d98ee3ed94436d"
+    ],
+    "revision": 3,
+    "roamingNetworkId": "QA",
+    "signatures": [
+      {
+        "algorithm": "ML-DSA-65",
+        "keyId": "203cbcfc7c61ee0f4b40c786f48a982e390889b35ec6228170106593f438b378",
+        "role": "roamingNetworkOperator",
+        "signedAt": "2026-10-24T16:57:10.955Z",
+        "signer": "OCC",
+        "value": "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"
+      },
+      {
+        "algorithm": "ML-DSA-65",
+        "keyId": "96b47f987a77aed34c546535e1e8a248b37e9d10be93e6ef17e0b8d1fb3792f3",
+        "role": "roamingNetworkOperator",
+        "signedAt": "2026-10-24T16:57:10.957Z",
+        "signer": "OCC",
+        "value": "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"
+      },
+      {
+        "algorithm": "ML-DSA-65",
+        "keyId": "765fae9f532e33b89bf1ccd9b713a47711daaada4f0e6c63811ed5ef2038deca",
+        "role": "roamingNetworkOperator",
+        "signedAt": "2026-10-24T16:57:10.960Z",
+        "signer": "OCC",
+        "value": "xHFa1pFXFLOxgbUP0cYuBAQPMWnj1HbDLdz1PdRZJOAkp6sOwCEqeKhcdrixlWwQeTkiFK39ArWz0tfcuFvRz7/ZymrScaTgHEEfyOonkpiP7j2XaddUsslxKTxiWrizWcoNEgySQbmG+H7YC773eR7+f9rfXuVemFyY8PX0kifSWz2RCl7wRVFZGk4VatrNwc20BY2Rd6pzmq3DSnw53g2xRhr+vuS+1R5roOpK2yZZqW73XDn1AQHe8XA2qAgPKRH6lzrDh6JCCbmJHd9ZRujCk2JT6Y61UQqLk15gGJJ/qAVEQK+yxduCVCWO2GWe6n0lo0bO+oR3+Hw73Zs1rDNOdt+Lh0EH92NFTYiIg+wPySzGZVa64EFmCwYkjcwdYchucIR+/quVlflFTetUx4gGhaeJF/Bgu4RFwG7/zuNTZx+bYpzQnx2gCGsxoBBvYRgR6QXedH9qUESHZeYIVItNh1ZRnRRJmxWFypMOPqFseV340rg4lyW2xStAcmEjD/gWbd8Y+NB9LsOac47TgVt6uHZnu+HxzrDTQiwJB21b3OYOXse8fmvp2RZY6e5GHTzt8EQN2COIwrop9gpj3mvEuORCCH1VHyw1kjQrVVAZasTY2UuxLRIIeEb5Mwv5+GZWVphBba1epgtQ7Z0z6R59V1z+XISCYCGn62DN1YrfLTYG4mXz5xmo0YmPVPhRxVC3VmAcdy48vIRt29E9HqtA82Y+75HUXZzL+DDbXkkgsFkeMO4tT8PHmxjt6spqcHeLxBnpQvOT0t4eMLH6jAZfXmryxGbmbuZzZ0pWhuAgwAJLdvdX9QoC25WGjAqED+ZR/H1ZWYqc0MYNMR75a0y2EzpSY6ufNwbCt6Bf7C8b0jFisjRIedYfa194xANFNEqjaUIS0gCvkW6JtEVYOkjApdqDKNUeRblBY1pN/l4cNleXl01DTiH2UQ2xJOiIWKPndiFIhspvimMwchnCLnEA9e7pXnWjPerR8jzmZv4H1mcB/fSoFmY+IKvCEopbabEyMHSFo/t2dI8Emepub63UDGAtltqzMcmlghi1mQV41V/ehDVBBeAaE67Y6EpxB6p2ssl8W3cBs/deROQxA4KdKI9GBfvvhOHB3WZOFKoOUwdENQIHMTur6VDEIepj3/SX9WVGNRz+SWJ6TMGGroBzD7X+l5vaZ5END/XQsGaRH0tSS0XX7q6xDi6sfVH7h8SZagc+MtLtWaYBbZrFrxVqH+URemc8RkapuUI6I+bPpSmi5L+YcMAWfUff9tCANbiO6/BrQ+kpB/heIijLO+qvXhytfUh55rgE5o7toZr9Qsdtf0aXayHL2ubdbd0enqD0CXtJR0ifUEbE45KU85W0GBI2xA5p2dmwz/NadAp/v9/WfQxWaUJkVEwZgVI27xenBQKxFhPCuD5eKPVJz61+4PHxSDYkdsglOnPMn0fH8JBw6lrDdtmz2Oj1vDG8bZ852zfxywBSiOoVl0YkY7Yiu+/85MyfthMR40gIlsey0YJGz3OJ6cNhRxW64VC3DOap3tMGC2AHxs56sTmdznERbDY/IngF0xXmrdWXuoLAM3bNJZ46T3L632WnEfTZ2gS548D3L9h38X9YiHx+7Rf1yb/W6vjZq6WdLIoi8jPmxZnW9P4UbXQQciThBTTuxzSE8GEkafFYVV0apRCY7vUQzBMWpNdQkOb8RHJUDeYN/vvKgWFLgPm5TCfJV3SNoY0eypyqbA8b/6/Nf+fCCIHUIjcvMYTRh3Iay4avhGh1gtTS3uCfLPaa/gPwnd3gp09oakMspNFxyEoImT36Fqw84Cy/mygNp6jbAzuPPmC+ACwICJmcxjD2ChW2KTdt7jbcYR1GqXvqW0qHzGHKAKYSL7e0GPCBi4NtWrZsUst8w8WPSnogdtwdtHVUhVKNyBGVZxaRQyRV8C5NEXGlipp4SZX1soC70KKK+bZxQA9pjPdLv0dFcVoluXVVjdl/oGyadly6+O+KrxYaKRTqbqhN5HiIBrA1cM2sQOeHD7T8u0UnLAE29jwWi5Q22QxpsCj/gXb9q5zaYW368xXPi4fSspE/JzmLPKXkRpsw5zzJfAZsblJhXtzeuTPvu8iu3DD7f8KGN7dEfjST+Bdtu0vrwssRlf/yXBKmbvArNt9CkvbXSVoDXjK8/rpcX7Dw2iFcg5DC04mn8LCf7MlyqttKJjmfmChJ4GXGWhLv5qCN8K4QvCXxKSxwou6Za0qwrRfsj3flDAv5aGVKxJh3jsbOo1YMUsSGoSsB5O2i25FTjNWjeoBc7pQEq0h1a7a9+QNR0lbr+TGJSLRers2FZmgZbKMsbaOszNXFFLdCMqeq+gzZK2vlnTTNp+G3q9GsEGvrcZInmWY+5qG1p2d23bJWNtG8/DIPa6gFeRg338IP6/K+6kCF+azY+Rtvq9QyAsV5OR+gOPXHOF48bji1dtSCKqy12+Lc1VcKJVjHUZUabp+uKD836Cvbdpw2BVvRYyO99d3bTfA1TGz7fKc/pOK2lCxdXxOzivQgQFTJnMob3GQkWMuN2Qj3cqcL/Mij/26jnXUTf/iWhT9x7jzitvuy8L/hvD99i65WYsdkYn4OMdjGwQk8Z4hf8qvSIbege3zH7HAofwBet4UhLAL962KdjB7WBEfr3+ibwPnf4VErL9YKGvSd1tVMTjActNam/HFaVZKuEaz9igZhPBJs1t3Mt2NyBfXpLIT8bFV4x6qsQQO43LJRRebCB56wZDlpV/+CegVizPCaZvParord/b6UJ4AcUtWeVtazVyQca1TFpM+7JvUiviHDD5KGfpe0EkRZ8kSbF4SayAOfTEWJp4lhgg8SdZ0vH2mDkI4QXYGLDYBsTJWbazzw6/rzXorZQmYUw4/t8lMtBm0FuXECTNMAAz1nwXmGhFikmrczMvSuj6VyYK0LEtfJWtVxstJM2Q09gIBYJejAVQJ5EoK75YUWDBwWunCLZiQ3IbLT5yKJA9kyTJxiFiaZlneLXhrPHwMm+CUIdoV1ZdlIqfda4myqZipzsF4oamHxCu90jjBreAwSmXX5HfO6mS+Sm4xugB81zU9ed/mPnCXZR5cmjXMaaoN09AjAUlrwzbYCwKOGE4hmz0IdmMO7lZzNRdspLnSs8kbCA9HE2j3aueYO5gagN3jto3b3jA6j2YNR91kVeM89dDeiPcqKEFhwizwDPgpvcLcG5ossopVBPvn3rYrS7bUFw0M/pB91fj0mgeHzFoD3NCAvMUC7NKYypIdQGsZNAiZtljBIdbO8Ngd5jQkF3HMN1YInCZIZtUKo3sbpQ825UvFKJsWup9kkeB481YAWgtUc6f5TL/FkR8ZXhz6ibrp/8KMd6AScH10VxM4bhkaBGC0nO+HW1oaicjKs8mp59wSwXJpbOwW9dZFk7p4/KOb2r25immfRoykg2vkttPMrcMSDrprJy+YN0WOJh7OgxKSzg7510hjPOgvPWnA5U0d5kDU4hVOa9PHHo1kxFGwoKA+i8f67YY1oZmwVCj/D8cInQxKaBZgkO/YrUov4mFwVYs6gQv4CuosojSgeq9CW9crF6qLPEf3o1owrGXHYYlJf4jQfV3UfI3iD7DJ3uunhUAidCu+PC0NVMCIO1FTIFWr8vPoY+YyuzKtIVApuxFVQhvRBZTdU8ZVllTTTe3Gwu9ocra4uVrCJ3e8CbhKG6crc9uCvPkx+oO3GhYqge9c1RWZULf1tH6PCkxeptT0imuy5dUGVP3b843w35LmazP/xlW1/1ubvnY7skziWBX4yd2/BCZJhEwsb/KF90tLOIj9fe4Ypbb+UBAKiwnbp2K+OasROrnjfjm/wq1BuHt16Zo2IkhSUfYCktnBGSq6y7P8XdC0GS5w9YDgrTZXq5Ez79l7D91BQ/AS4lgUJhBsqP7usUXj34oLtMUwrFnxaygBb+CCC64NjPnW9WMjsl+P6aig3JqVqE51yb9ILqUyzpg/qJTOwyGlVPAah/CxRUe3LALgDanwEgoaBbg598WJbaGYyNLbffiSqNGtM1UnJjoNQGBRvTILQGAQ635fZg3asAMrqMAUgc0jtCqdNod1u2rzVo3DQtozTFd0R3t/QzknYwlqRObJu1QdeGz3D6+GniqvZwqRJqmpFPM6xwZhyoQ8SlupowWe9+4MsSRjhpuvTr+HT4ULAiPypOOgHPi9J7C0BelQwaJ9fM5Le2L5Ho07DBj0aovvA9aEaBFhv1RnKIe2fHqbmUhmnBdZ797nvZ/IStv68yfLbjRSTEnydH2sY8CXTMO51+ToC75XBliY6XJ3QUxz9UphsgcIL/wjL1wqErXpNHMANEyInLGubxsrpEBomLoW1c3+uR0qnsdDW+CQ6kpS+wQU0VIGJmpza8gAAAAAAAAAAAAAAAAAAChATGiAp"
+      }
+    ]
+  },
+  "epoch": {
+    "epoch": 2,
+    "previous": {
+      "checkpointId": "0b4391780648d82fde3ef5b268f1af938ef890b60f3b7e99af02443633c65d24",
+      "eTags": [
+        [
+          "json",
+          "sha256",
+          "hex",
+          "9163b88d45d9e0d24427b1a1592039168d8c7be54abb4e32ecd84b93ad8ac3f9"
+        ],
+        [
+          "cbor",
+          "sha256",
+          "hex",
+          "f885e6b975535b340ea3961333438fa932c8a3b5f4b867db798ba1289904336f"
+        ],
+        [
+          "effectiveTree",
+          "sha256",
+          "hex",
+          "3b159819a663133f666007d147b5c66beb9fa61edb11804d91841958aa39f1fc"
+        ]
+      ],
+      "epoch": 1
+    },
+    "profiles": {
+      "canonicalization": "styx-canonical-json-v1",
+      "checkpoint": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/checkpoint/v1",
+      "commit": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3",
+      "identificationHash": "sha512",
+      "priceStatement": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/priceStatement/v1",
+      "signatureAlgorithms": [
+        "ML-DSA-65",
+        "ML-DSA-87"
+      ]
+    }
+  },
+  "roamingNetwork": {
+    "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/v1",
+    "@id": "QA",
+    "chargingStationManufacturers": [
+      {
+        "@id": "GraphDefined",
+        "chargingStationModels": [
+          {
+            "@id": "GD-AC44",
+            "connectorTypes": [
+              "IEC_62196_T2"
+            ],
+            "currentTypes": [
+              "AC_ThreePhases"
+            ],
+            "datasheetURL": "https://stations.graphdefined.example/gd-ac44/datasheet.pdf",
+            "maxPower": 44000,
+            "name": {
+              "en": "GraphDefined AC 44"
+            },
+            "numberOfEVSEs": 2,
+            "versions": [
+              "1.0"
+            ]
+          },
+          {
+            "@id": "GD-DC300",
+            "connectorTypes": [
+              "IEC_62196_T2_COMBO"
+            ],
+            "currentTypes": [
+              "DC"
+            ],
+            "datasheetURL": "https://stations.graphdefined.example/gd-dc300/datasheet.pdf",
+            "maxPower": 300000,
+            "name": {
+              "en": "GraphDefined DC 300"
+            },
+            "numberOfEVSEs": 2,
+            "versions": [
+              "1.0",
+              "1.1"
+            ]
+          }
+        ],
+        "created": "2026-10-24T16:56:59.063Z",
+        "homepage": "https://stations.graphdefined.example",
+        "identityKeys": [
+          {
+            "@id": "9b6177269c0f2739d8daaa6d87c2163d9649549414ae28105c93b7df7cb97a9c",
+            "key": "pAECIAMhWEIBWVj0E393wxuZbpeEvwSXPYnwHlPnVA42kk/5Z3Byv2dpdgNa2ZakiAXCpLe7CpO7KpljYpzDiYaf5FJaI/IOAR8iWEIAsDv5PKI1m16MuscRReQZf08W2O0fyNu1lPZWfdkYIHl5uAV8rbDZPuXNv62mEL/QTz8sttiv+/vTmWllisC1oz4="
+          }
+        ],
+        "lastChange": "2026-10-24T16:56:59.791Z",
+        "name": {
+          "en": "GraphDefined Charging Stations"
+        },
+        "signingKeys": [
+          {
+            "@id": "79117f1c3aabbcecde7efff70d1c15ead165595436a91a0e40d259d58990529d",
+            "key": "pAECIAEhWCD9nEvmj96JM9R3gRRa/G4OD5URIbJSWXaa4WHv2iE6jyJYIHSi7c9hw/0ECt+pke5zya1KiZVR0Ziww0mnIt2j0YUh",
+            "notAfter": "2027-10-24T16:56:58.750Z",
+            "usages": [
+              "models"
+            ]
+          },
+          {
+            "@id": "9c3969b1c98f695a41f9e00dfa922d8925c4518cbdf5d69969fb2da979828e4f",
+            "key": "pAECIAEhWCC+P03Sz1AroeslMn38bFoZmVs6UYmUaXK87EfOnmsC8CJYIDhogcSHg+NDhr53DYXE8Cf5U7rC7a2ATvdAkzCnOYmV",
+            "notAfter": "2027-10-24T16:56:58.750Z",
+            "usages": [
+              "party"
+            ]
+          }
+        ]
+      }
+    ],
+    "chargingStationOperators": [
+      {
+        "@id": "DE*GEF",
+        "EVSEGroups": [
+          {
+            "@id": "DE*GEF*EG_AC",
+            "EVSEIds": [
+              "DE*GEF*E2*1",
+              "DE*GEF*E2*2",
+              "DE*GEF*E4*1",
+              "DE*GEF*E4*2"
+            ],
+            "created": "2026-10-24T16:57:00.836Z",
+            "lastChange": "2026-10-24T16:57:00.836Z",
+            "name": {
+              "en": "AC EVSEs"
+            }
+          },
+          {
+            "@id": "DE*GEF*EG_DC",
+            "EVSEIds": [
+              "DE*GEF*E1*1",
+              "DE*GEF*E1*2",
+              "DE*GEF*E3*1",
+              "DE*GEF*E3*2"
+            ],
+            "created": "2026-10-24T16:57:00.811Z",
+            "lastChange": "2026-10-24T16:57:00.836Z",
+            "name": {
+              "en": "DC EVSEs"
+            }
+          }
+        ],
+        "EVSETemplates": [
+          {
+            "@id": "DE*GEF*ET_AC",
+            "chargingConnectors": [
+              {
+                "@id": "1",
+                "format": "SOCKET",
+                "type": "IEC_62196_T2"
+              }
+            ],
+            "chargingTariffId": "DE*GEF*T_AC",
+            "created": "2026-10-24T16:57:00.143Z",
+            "lastChange": "2026-10-24T16:57:07.730Z",
+            "name": {
+              "en": "AC EVSE"
+            }
+          },
+          {
+            "@id": "DE*GEF*ET_DC",
+            "chargingConnectors": [
+              {
+                "@id": "1",
+                "format": "CABLE",
+                "type": "IEC_62196_T2_COMBO"
+              }
+            ],
+            "chargingTariffId": "DE*GEF*T_DC",
+            "created": "2026-10-24T16:57:00.134Z",
+            "lastChange": "2026-10-24T16:57:07.730Z",
+            "name": {
+              "en": "DC EVSE"
+            }
+          }
+        ],
+        "chargingPools": [
+          {
+            "@id": "DE*GEF*P1",
+            "chargingStations": [
+              {
+                "@id": "DE*GEF*S1",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E1*1",
+                    "created": "2026-10-24T16:57:00.613Z",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M1*1",
+                      "created": "2026-10-24T16:57:00.613Z",
+                      "lastChange": "2026-10-24T16:57:00.613Z",
+                      "publicKeys": [
+                        {
+                          "@id": "17614ce110909c9fa4a2534b91ee35cde81462948123d10591d23af25277e642",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEXlq+nIx5qnxMGafSxkO+vG768bSDYcgrOXYLp5bhR8Sl3KIRYzVP3vXWE1XfFFbrBjwbRXYlVWWG+iuRIMKGEg=="
+                        }
+                      ],
+                      "serialNumber": "DCM-2026-001-1",
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:00.613Z",
+                    "maxPower": 150000,
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ]
+                  },
+                  {
+                    "@id": "DE*GEF*E1*2",
+                    "created": "2026-10-24T16:57:00.615Z",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M1*2",
+                      "created": "2026-10-24T16:57:00.615Z",
+                      "lastChange": "2026-10-24T16:57:00.615Z",
+                      "publicKeys": [
+                        {
+                          "@id": "7b3874e0e1f3ee8ad1fa3667661e8bce31de7bd1b7bbed07262dc6fa7da3e6b2",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEqoaL80VqBZ501ee96EDLiFAin6G4LPD3CilLmUwNP8YPxvPLOGwMVVlv0K3VQNIIH9xllzzar0esWBTWybSgeg=="
+                        }
+                      ],
+                      "serialNumber": "DCM-2026-001-2",
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:00.615Z",
+                    "maxPower": 150000,
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ]
+                  }
+                ],
+                "created": "2026-10-24T16:57:00.615Z",
+                "lastChange": "2026-10-24T16:57:00.615Z",
+                "templateIds": [
+                  "DE*GEF*ST_DC"
+                ]
+              },
+              {
+                "@id": "DE*GEF*S2",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E2*1",
+                    "created": "2026-10-24T16:57:00.617Z",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M2*1",
+                      "created": "2026-10-24T16:57:00.617Z",
+                      "lastChange": "2026-10-24T16:57:00.617Z",
+                      "publicKeys": [
+                        {
+                          "@id": "319e688266c0820642db09b500215eb2b5750015a474c4c7de2e2398be2cbb2e",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEDUjsi6FEr2qm6bHwBcmas7AfTOD+buN8TTUypE9bYhdV0JWgLb86TFUpAK0GppztWitpwdCYvjEFP9RVBlvS1w=="
+                        }
+                      ],
+                      "serialNumber": "ACM-2026-002-1",
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:00.617Z",
+                    "maxPower": 22000,
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ]
+                  },
+                  {
+                    "@id": "DE*GEF*E2*2",
+                    "created": "2026-10-24T16:57:00.618Z",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M2*2",
+                      "created": "2026-10-24T16:57:00.618Z",
+                      "lastChange": "2026-10-24T16:57:00.618Z",
+                      "publicKeys": [
+                        {
+                          "@id": "98b16cd8a5a9fabcc35c833435ed5c9ca70952b07fa5f60b00367f4f8a3b106f",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEmRjaSRovB1YhLI9GNMBWV/x3EcUG1deBZPwNTpoQIdRNSVqWDyzygKg+CrKlm1+DOoASq1P13tzfbjUU/gQoWg=="
+                        }
+                      ],
+                      "serialNumber": "ACM-2026-002-2",
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:00.618Z",
+                    "maxPower": 22000,
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ]
+                  }
+                ],
+                "created": "2026-10-24T16:57:00.618Z",
+                "lastChange": "2026-10-24T16:57:00.618Z",
+                "templateIds": [
+                  "DE*GEF*ST_AC"
+                ]
+              }
+            ],
+            "created": "2026-10-24T16:57:00.618Z",
+            "geoLocation": {
+              "lat": 50.9271,
+              "lng": 11.5892
+            },
+            "lastChange": "2026-10-24T16:57:00.619Z",
+            "name": {
+              "en": "Jena Paradies"
+            }
+          },
+          {
+            "@id": "DE*GEF*P2",
+            "chargingStations": [
+              {
+                "@id": "DE*GEF*S3",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E3*1",
+                    "created": "2026-10-24T16:57:00.676Z",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M3*1",
+                      "created": "2026-10-24T16:57:00.676Z",
+                      "lastChange": "2026-10-24T16:57:00.676Z",
+                      "publicKeys": [
+                        {
+                          "@id": "eac0e29a9071fe4eb24c922c1c6326fa709246603979d2a817286ebfdc1a501f",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAET3NapDggqG+Hc4moOG9IIeboQYcX88bsCC3KNJ65NRDLwasrSk9Gx27AR/5aQr4kGIHhSvu0dXgopuRc2i9Sug=="
+                        }
+                      ],
+                      "serialNumber": "DCM-2026-003-1",
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:00.676Z",
+                    "maxPower": 150000,
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ]
+                  },
+                  {
+                    "@id": "DE*GEF*E3*2",
+                    "created": "2026-10-24T16:57:00.677Z",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M3*2",
+                      "created": "2026-10-24T16:57:00.677Z",
+                      "lastChange": "2026-10-24T16:57:00.677Z",
+                      "publicKeys": [
+                        {
+                          "@id": "8b88b347a87d95fca277e9e6bff8bef9cfa4bd8dd7a6761c83babc267f73c84b",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEZ/jyUWVO2Q7QoHdLHZyAhGuDvP0CVGfAFQDD2yNN5OjmV3nm8NLaQVg/hQPFtvjK0kMv0sNjUFSbRBwXZDdnrw=="
+                        }
+                      ],
+                      "serialNumber": "DCM-2026-003-2",
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:00.677Z",
+                    "maxPower": 150000,
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ]
+                  }
+                ],
+                "created": "2026-10-24T16:57:00.677Z",
+                "lastChange": "2026-10-24T16:57:00.677Z",
+                "templateIds": [
+                  "DE*GEF*ST_DC"
+                ]
+              },
+              {
+                "@id": "DE*GEF*S4",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E4*1",
+                    "created": "2026-10-24T16:57:00.678Z",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M4*1",
+                      "created": "2026-10-24T16:57:00.678Z",
+                      "lastChange": "2026-10-24T16:57:00.678Z",
+                      "publicKeys": [
+                        {
+                          "@id": "68bf4dd80d553052794c5cdd75ab1cda7d1ff9cdac366b7ed32a4a4c289bd077",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwn1UB8mNiuYt7S6D7nKLBuNGMDPVX8jHcrz/z+7LcoC7kaU/rlkGybJxUnHo1zrIZLEhD3RJ4fDGGDkiBIzgFw=="
+                        }
+                      ],
+                      "serialNumber": "ACM-2026-004-1",
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:00.678Z",
+                    "maxPower": 22000,
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ]
+                  },
+                  {
+                    "@id": "DE*GEF*E4*2",
+                    "created": "2026-10-24T16:57:00.680Z",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M4*2",
+                      "created": "2026-10-24T16:57:00.680Z",
+                      "lastChange": "2026-10-24T16:57:00.680Z",
+                      "publicKeys": [
+                        {
+                          "@id": "744589651eeb40e5d6ac515562042944c986ff79f9c2cbedd60fc6db2cb6cefb",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEyRNCBixPBU6PK/gxzM7kwVfO3j7qIM/UA3rJgC9RHa7XFS/oaN6IW8ou6272p0rmjidOZUclYtQ0EoQbt+q3Hg=="
+                        }
+                      ],
+                      "serialNumber": "ACM-2026-004-2",
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:00.680Z",
+                    "maxPower": 22000,
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ]
+                  }
+                ],
+                "created": "2026-10-24T16:57:00.680Z",
+                "lastChange": "2026-10-24T16:57:00.680Z",
+                "templateIds": [
+                  "DE*GEF*ST_AC"
+                ]
+              }
+            ],
+            "created": "2026-10-24T16:57:00.680Z",
+            "geoLocation": {
+              "lat": 50.9447,
+              "lng": 11.5867
+            },
+            "lastChange": "2026-10-24T16:57:00.680Z",
+            "name": {
+              "en": "Jena Nord"
+            }
+          },
+          {
+            "@id": "DE*GEF*P3",
+            "chargingStations": [
+              {
+                "@id": "DE*GEF*S5",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E5*1",
+                    "created": "2026-10-24T16:57:01.159Z",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M5*1",
+                      "created": "2026-10-24T16:57:01.159Z",
+                      "lastChange": "2026-10-24T16:57:01.159Z",
+                      "publicKeys": [
+                        {
+                          "@id": "8e6cf240c7b45c63b401e267eca6d89a8bfeba8ba3284d7d36bd20cd133258f4",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEXRqBanw96xkAnva6l85l4dG2pmGjhSgprh4aGsjduUEA87R/RppNKyZugVbjYnaLdLBRhxu9VImHMyIb6vS8+A=="
+                        }
+                      ],
+                      "serialNumber": "DCM-2026-005-1",
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:01.159Z",
+                    "maxPower": 150000,
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ]
+                  },
+                  {
+                    "@id": "DE*GEF*E5*2",
+                    "created": "2026-10-24T16:57:01.160Z",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M5*2",
+                      "created": "2026-10-24T16:57:01.160Z",
+                      "lastChange": "2026-10-24T16:57:01.160Z",
+                      "publicKeys": [
+                        {
+                          "@id": "6d54ecc96f692c5af1939c39230dc2779ab5d6f5d758ace10cd5be4814b8fad5",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAErxceqprr+s+WUs+7vdmz0KpeUSYbCShobYjIGUppRBb10qfkFpnxYXUD2p1ZDpULc+KnWKktqSBsTgmnR0Z+DA=="
+                        }
+                      ],
+                      "serialNumber": "DCM-2026-005-2",
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:01.160Z",
+                    "maxPower": 150000,
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ]
+                  }
+                ],
+                "created": "2026-10-24T16:57:01.160Z",
+                "lastChange": "2026-10-24T16:57:01.160Z",
+                "templateIds": [
+                  "DE*GEF*ST_DC"
+                ]
+              },
+              {
+                "@id": "DE*GEF*S6",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E6*1",
+                    "created": "2026-10-24T16:57:01.162Z",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M6*1",
+                      "created": "2026-10-24T16:57:01.162Z",
+                      "lastChange": "2026-10-24T16:57:01.162Z",
+                      "publicKeys": [
+                        {
+                          "@id": "7256ce863171498513b63aa86b88a5f245429abe33aa45a50aa72178d5d095f9",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE0bHSt1WVf8GfK5s+2DnFfWziRhjauj7BkDTKYP5vgbjGtYuSuRtOf+BxqQBi2y3QZbJf8ms5hIp4FE281WEI9Q=="
+                        }
+                      ],
+                      "serialNumber": "ACM-2026-006-1",
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:01.880Z",
+                    "maxPower": 11000,
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ]
+                  },
+                  {
+                    "@id": "DE*GEF*E6*2",
+                    "created": "2026-10-24T16:57:01.163Z",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M6*2",
+                      "created": "2026-10-24T16:57:01.163Z",
+                      "lastChange": "2026-10-24T16:57:01.163Z",
+                      "publicKeys": [
+                        {
+                          "@id": "805262d742250209ed2e18b2a8e75f7ba5a17a647b40f2148b2ec639798ed7b4",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEMylUvmtUM9rr2hSVmW8MH3fiWXlU6p5+SZChtNUZnjrPvGU69nbDe0OGqrPguysezBSgTOd2OvjR305nqcBUPQ=="
+                        }
+                      ],
+                      "serialNumber": "ACM-2026-006-2",
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:01.880Z",
+                    "maxPower": 11000,
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ]
+                  }
+                ],
+                "created": "2026-10-24T16:57:01.163Z",
+                "lastChange": "2026-10-24T16:57:01.880Z",
+                "maxPower": 22000,
+                "templateIds": [
+                  "DE*GEF*ST_AC"
+                ]
+              }
+            ],
+            "created": "2026-10-24T16:57:01.163Z",
+            "geoLocation": {
+              "lat": 50.8858,
+              "lng": 11.6157
+            },
+            "lastChange": "2026-10-24T16:57:01.880Z",
+            "name": {
+              "en": "Jena Lobeda"
+            }
+          },
+          {
+            "@id": "DE*GEF*P4",
+            "chargingStations": [
+              {
+                "@id": "DE*GEF*S7",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E7*1",
+                    "created": "2026-10-24T16:57:01.213Z",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M7*1",
+                      "created": "2026-10-24T16:57:01.213Z",
+                      "lastChange": "2026-10-24T16:57:01.213Z",
+                      "publicKeys": [
+                        {
+                          "@id": "2fc85a40e0bc552a1ca23e3a59a2302e442e9f23e6f1d271b3b6f8e07b6b7c7c",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEjnL+AT7FvVnG19ew9GHtO1R9xUjGg0kEMVpecRq8L3OMqoA+1PGV7zNT4pYcqKc68/Ss2aNMHoeqz/pKnw/1Tg=="
+                        }
+                      ],
+                      "serialNumber": "DCM-2026-007-1",
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:01.213Z",
+                    "maxPower": 150000,
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ]
+                  },
+                  {
+                    "@id": "DE*GEF*E7*2",
+                    "created": "2026-10-24T16:57:01.215Z",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M7*2",
+                      "created": "2026-10-24T16:57:01.214Z",
+                      "lastChange": "2026-10-24T16:57:01.214Z",
+                      "publicKeys": [
+                        {
+                          "@id": "6ec5a91ea506d6d4cdd00e7f4fdea392f8e605d6ecb7e42404ecc048ed1f42fb",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAELalc0gvmT1kUHSzxMWx0RUP4qRVrSPLSNjye6vHdU/0sljpyaPD3I+iKrxVV609rraT3yxsNhI2wfqpC6qbvug=="
+                        }
+                      ],
+                      "serialNumber": "DCM-2026-007-2",
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:01.215Z",
+                    "maxPower": 150000,
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ]
+                  }
+                ],
+                "created": "2026-10-24T16:57:01.215Z",
+                "lastChange": "2026-10-24T16:57:01.215Z",
+                "templateIds": [
+                  "DE*GEF*ST_DC"
+                ]
+              },
+              {
+                "@id": "DE*GEF*S8",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E8*1",
+                    "created": "2026-10-24T16:57:01.216Z",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M8*1",
+                      "created": "2026-10-24T16:57:01.216Z",
+                      "lastChange": "2026-10-24T16:57:01.216Z",
+                      "publicKeys": [
+                        {
+                          "@id": "0121f7998661a87db54bec78073ad63aec5b231a59feb7c2563fc52525c1e323",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAELuWgw3ZFw/gQ7BPOlYa/eBkbyfNdOAaJB90+tC8UfA1YqVRrVubnvQr+IlpZcACZJB96kw50LcAIEUzXshtF4g=="
+                        }
+                      ],
+                      "serialNumber": "ACM-2026-008-1",
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:01.880Z",
+                    "maxPower": 11000,
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ]
+                  },
+                  {
+                    "@id": "DE*GEF*E8*2",
+                    "created": "2026-10-24T16:57:01.217Z",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "energyMeter": {
+                      "@id": "DE*GEF*M8*2",
+                      "created": "2026-10-24T16:57:01.217Z",
+                      "lastChange": "2026-10-24T16:57:01.217Z",
+                      "publicKeys": [
+                        {
+                          "@id": "7802adb34c847d67799f873d59d16d3c84dbdd95eff5c2542d7f420499428cde",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEcwVK064PShdEOaM8JOUX+rJfSuTX0DnRPIcnGxHfRhb5xYa9B+DCpB+qtKYS42Z6GKCS1yWIhDLu/p6zo91XSA=="
+                        }
+                      ],
+                      "serialNumber": "ACM-2026-008-2",
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ]
+                    },
+                    "lastChange": "2026-10-24T16:57:01.880Z",
+                    "maxPower": 11000,
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ]
+                  }
+                ],
+                "created": "2026-10-24T16:57:01.217Z",
+                "lastChange": "2026-10-24T16:57:01.880Z",
+                "maxPower": 22000,
+                "templateIds": [
+                  "DE*GEF*ST_AC"
+                ]
+              }
+            ],
+            "created": "2026-10-24T16:57:01.217Z",
+            "geoLocation": {
+              "lat": 50.9105,
+              "lng": 11.5555
+            },
+            "lastChange": "2026-10-24T16:57:01.880Z",
+            "name": {
+              "en": "Jena Winzerla"
+            }
+          }
+        ],
+        "chargingStationGroups": [
+          {
+            "@id": "DE*GEF*SG_AC",
+            "chargingStationIds": [
+              "DE*GEF*S2",
+              "DE*GEF*S4"
+            ],
+            "created": "2026-10-24T16:57:00.755Z",
+            "lastChange": "2026-10-24T16:57:00.755Z",
+            "name": {
+              "en": "AC charging stations"
+            }
+          },
+          {
+            "@id": "DE*GEF*SG_DC",
+            "chargingStationIds": [
+              "DE*GEF*S1",
+              "DE*GEF*S3"
+            ],
+            "created": "2026-10-24T16:57:00.733Z",
+            "lastChange": "2026-10-24T16:57:00.755Z",
+            "name": {
+              "en": "DC charging stations"
+            }
+          }
+        ],
+        "chargingStationTemplates": [
+          {
+            "@id": "DE*GEF*ST_AC",
+            "created": "2026-10-24T16:57:00.129Z",
+            "lastChange": "2026-10-24T16:57:00.147Z",
+            "manufacturerId": "GraphDefined",
+            "maxPower": 44000,
+            "modelId": "GD-AC44",
+            "name": {
+              "en": "AC charging station"
+            }
+          },
+          {
+            "@id": "DE*GEF*ST_DC",
+            "created": "2026-10-24T16:57:00.121Z",
+            "lastChange": "2026-10-24T16:57:00.147Z",
+            "manufacturerId": "GraphDefined",
+            "maxPower": 300000,
+            "modelId": "GD-DC300",
+            "name": {
+              "en": "DC charging station"
+            }
+          }
+        ],
+        "chargingTariffs": [
+          {
+            "@id": "DE*GEF*T_AC",
+            "created": "2026-10-24T16:57:07.656Z",
+            "currency": "EUR",
+            "elements": [
+              {
+                "priceComponents": [
+                  {
+                    "price": 0.52,
+                    "stepSize": 1,
+                    "type": "ENERGY"
+                  }
+                ]
+              }
+            ],
+            "lastChange": "2026-10-24T16:57:07.859Z",
+            "name": {
+              "en": "AC charging"
+            }
+          },
+          {
+            "@id": "DE*GEF*T_DC",
+            "created": "2026-10-24T16:57:07.684Z",
+            "currency": "EUR",
+            "elements": [
+              {
+                "priceComponents": [
+                  {
+                    "price": 0.65,
+                    "stepSize": 1,
+                    "type": "ENERGY"
+                  }
+                ]
+              }
+            ],
+            "lastChange": "2026-10-24T16:57:10.944Z",
+            "name": {
+              "en": "DC charging"
+            }
+          }
+        ],
+        "created": "2026-10-24T16:56:58.864Z",
+        "description": {
+          "en": "GraphDefined the first Charging Station Operator on the Open Charging Cloud"
+        },
+        "energyMeterTemplates": [
+          {
+            "@id": "DE*GEF*EMT_AC",
+            "created": "2026-10-24T16:57:00.147Z",
+            "lastChange": "2026-10-24T16:57:00.147Z",
+            "manufacturerId": "SAALE",
+            "modelId": "SM-3",
+            "name": {
+              "en": "AC energy meter"
+            },
+            "role": "evse",
+            "signatureMethods": [
+              "OCMF"
+            ]
+          },
+          {
+            "@id": "DE*GEF*EMT_DC",
+            "created": "2026-10-24T16:57:00.143Z",
+            "lastChange": "2026-10-24T16:57:00.147Z",
+            "manufacturerId": "KERNBERG",
+            "modelId": "KDM-500",
+            "name": {
+              "en": "DC energy meter"
+            },
+            "role": "evse",
+            "signatureMethods": [
+              "OCMF"
+            ]
+          }
+        ],
+        "identityKeys": [
+          {
+            "@id": "b7b4050b591b3309db3fd887e3b46fbc1afdc9967d3f984fc5280a14fcab47a2",
+            "key": "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"
+          },
+          {
+            "@id": "c8de9190bdd238a5326fcc058e224d81a734d1a4d3f7e131f0a23196512b4b2a",
+            "key": "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"
+          }
+        ],
+        "lastChange": "2026-10-24T16:57:10.944Z",
+        "name": {
+          "en": "GraphDefined Charging Solutions"
+        },
+        "signingKeys": [
+          {
+            "@id": "47a4e79012c2b155bfd1457a5dd1d1e75b010994a727e6af564187a6b21483b6",
+            "key": "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",
+            "notAfter": "2027-10-24T16:57:09.055Z",
+            "usages": [
+              "party"
+            ]
+          },
+          {
+            "@id": "8251d1157d78d85ecc9364d1de4c93609cb78651250a890b8437c63b627ca226",
+            "key": "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",
+            "notAfter": "2027-10-24T16:57:09.055Z",
+            "usages": [
+              "priceStatements",
+              "tariffs"
+            ]
+          },
+          {
+            "@id": "92a7f31a915f62cd1f6b26e7bb07d2a9a1a903c858797c3c36d8d5a8658ae32f",
+            "key": "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",
+            "notAfter": "2027-10-24T16:57:09.055Z",
+            "usages": [
+              "infrastructure"
+            ]
+          }
+        ]
+      }
+    ],
+    "created": "2026-10-24T16:56:58.203Z",
+    "description": {
+      "en": "The roaming network of the examples"
+    },
+    "eTags": [
+      [
+        "json",
+        "sha256",
+        "base64",
+        "RfjarKM/7Q0h5JncArr3b4iPgVBtKI5DQ9EYLC0G2XE="
+      ],
+      [
+        "cbor",
+        "sha256",
+        "base64",
+        "kzmWeAkEe5SuGJlXt1nSMgdoURujMw9P3diPU2IGlyQ="
+      ],
+      [
+        "effectiveTree",
+        "sha256",
+        "base64",
+        "71l7CSq2Cw8WkzO+hN0Hjag/+2grCypGqDR/XBU0oGM="
+      ]
+    ],
+    "energyMeterManufacturers": [
+      {
+        "@id": "KERNBERG",
+        "created": "2026-10-24T16:56:59.170Z",
+        "description": {
+          "en": "Calibrated DC energy meters"
+        },
+        "energyMeterModels": [
+          {
+            "@id": "KDM-500",
+            "accuracyClass": "B",
+            "currentTypes": [
+              "DC"
+            ],
+            "maxCurrent": 500,
+            "measurands": [
+              "1-0:1.8.0",
+              "1-0:2.8.0"
+            ],
+            "name": {
+              "en": "Kernberg DC meter 500 A"
+            },
+            "signatureMethods": [
+              "OCMF"
+            ],
+            "versions": [
+              "2.1"
+            ]
+          }
+        ],
+        "homepage": "https://kernberg-metering.example",
+        "identityKeys": [
+          {
+            "@id": "1c2292bec1077387e6ba521680f44e09cafbb326cf052952770a0fc9202f4533",
+            "key": "pAECIAMhWEIAfEwu+VoMtcbzuhU3F7W+MbIRggpa0V0X10OhJUr5UUB7K6LugE/Xh9ylHEgHcnqC/ar6D/IQ1igcLBh0HOGsEHUiWEIBYlmwbbNY8AhiGCl+YFjpge5yZvF3WlI6SfOdfGO+OhA1yb+ZB+UuvhjkCr+DUj6wIru5W/u9ZZ7YpzJX9nMjLTY="
+          }
+        ],
+        "lastChange": "2026-10-24T16:56:59.791Z",
+        "name": {
+          "en": "Kernberg DC Metering"
+        },
+        "signingKeys": [
+          {
+            "@id": "cab5eac3ba0450d28b7aaf56e24e32565da804976e954a504d844f334257b82c",
+            "key": "pAECIAEhWCATHwFQMy9j2GIcro/dkW/poQZEXDR67L4edG3b8ZL/iyJYII9SlmaaXwvyDTfXCQmAO+5CsOn32a0OJL199GxtXAHq",
+            "notAfter": "2027-10-24T16:56:58.750Z",
+            "usages": [
+              "models"
+            ]
+          },
+          {
+            "@id": "e27c21a47b0bf799fe6ba15fab4f003ed444602a6ad4c248c1e3023a4ffad2c7",
+            "key": "pAECIAEhWCDZnITUcPJoagtKGdykRGZWreniz8iSR5WVhFsLqvMkdiJYIPsEnS207Vq+7VaCVeUNGltWk8t+EW6dp5TmLzjhzq1x",
+            "notAfter": "2027-10-24T16:56:58.750Z",
+            "usages": [
+              "party"
+            ]
+          }
+        ]
+      },
+      {
+        "@id": "SAALE",
+        "created": "2026-10-24T16:56:59.118Z",
+        "description": {
+          "en": "Calibrated AC energy meters"
+        },
+        "energyMeterModels": [
+          {
+            "@id": "SM-3",
+            "accuracyClass": "B",
+            "currentTypes": [
+              "AC_ThreePhases"
+            ],
+            "maxCurrent": 63,
+            "measurands": [
+              "1-0:1.8.0"
+            ],
+            "name": {
+              "en": "Saale three-phase meter"
+            },
+            "signatureMethods": [
+              "OCMF"
+            ],
+            "versions": [
+              "1.4"
+            ]
+          }
+        ],
+        "homepage": "https://saale-metering.example",
+        "identityKeys": [
+          {
+            "@id": "c95e5797bbfe631f33bf73b41bef6600427785b135c76c062fa3523e8b7d1302",
+            "key": "pAECIAMhWEIALpRv8Cnmp+lsvEw/tLf+tLrpQiLA+WabLpx0CdAXENh09USFczwUkFH/CPQQVSrTwZjmy0rRpeE7yWDCqH+VatkiWEIAT2MAWou3T8eCgKdrCbDeIJq4IR0TtiImGtF4Wvxt2j2ckizrhNajJgRZP1gH30xzddm4MqA5ITIZo7ZOykTmfIg="
+          }
+        ],
+        "lastChange": "2026-10-24T16:56:59.791Z",
+        "name": {
+          "en": "Saale Metering"
+        },
+        "signingKeys": [
+          {
+            "@id": "d3dd020aa801ff475d86c11554be5e66c7a4bcb44ea938794478527bcd64ef7b",
+            "key": "pAECIAEhWCCfp2P4j5Gcfnw7jCz17fqMfWZG337ADGQGXYbL0ozXLSJYIDOQIvbIwia1yjLzYHvrhnMD0MjlY5Cgglirfli92LLH",
+            "notAfter": "2027-10-24T16:56:58.750Z",
+            "usages": [
+              "models"
+            ]
+          },
+          {
+            "@id": "f1643feae3edc77607d106ef1775c7a24b1770eafb45a1502f5f650fbefa8a7c",
+            "key": "pAECIAEhWCDNMKeeyN9F0P8DUP3M51E0wAJ1D7chaz+17JgmoRBHeiJYIGsRJZ5zCS7pKf41f2c0KkiSjr+4REBGt7Zy5Xhzw8ZZ",
+            "notAfter": "2027-10-24T16:56:58.750Z",
+            "usages": [
+              "party"
+            ]
+          }
+        ]
+      }
+    ],
+    "lastChange": "2026-10-24T16:57:10.944Z",
+    "name": {
+      "en": "Quality Assurance"
+    },
+    "operator": {
+      "@id": "OCC",
+      "created": "2026-10-24T16:56:58.161Z",
+      "identityKeys": [
+        {
+          "@id": "2f6e474d693cbc1583a9252aa7b450dd41115007cb9289f0310f41eaa7d6028f",
+          "holder": "AlphaOrg",
+          "key": "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"
+        },
+        {
+          "@id": "97c70ab40140e03e0fcba2259a810d1f37c7f4b506f544704a8fcb248d7cd676",
+          "holder": "GammaOrg",
+          "key": "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"
+        },
+        {
+          "@id": "db3b6fa0346aab899c8a26349e2a6090f3db36a1fbabcba1ea4fbde8261ff12e",
+          "holder": "BetaOrg",
+          "key": "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"
+        }
+      ],
+      "keyStatement": {
+        "identityKeys": [
+          {
+            "@id": "2f6e474d693cbc1583a9252aa7b450dd41115007cb9289f0310f41eaa7d6028f",
+            "holder": "AlphaOrg",
+            "key": "owEHAzgxIFkKIF1ovp/KXM981UGV5JQoJKQdxSE43GsR+1JRiH86QM7AXr/37wMOLjF0O4bmDfY0eyV3xBEdOvT7y+wW0si+uOWlxgt4USMsrMHmvlzXpQPsiqQJN2cg8Zuh3lPVx2QObwksXIKr5IlkpLK8d+P0aUf1mTA362XwOW/KPqE/DOAip3BWuHFW2e8FtDQ5lfEtVV1Sggy7LPkqRBPXUI4nsJaXSPezfMic72eznEsFpaVgnPSlSkX31Tcpp+w4To37OZtU/gK+QBfQf066Q3o5hj9ti97xhoS3+aWiNd0HdMz3AvTx+w+neDWjxwCHp+RvITZdRe+dSn9Vv0D59rvPClMhvFrKdQrb5sTtNiULxyj8DVADNctDKYkf711GApEORvH96oClss+UwpW6yq2WhgFnfTsjAh+8+i7a8SBHMUcxZuEwgsSgREjnA40zxEbRsDUsdyfvkH+fN2qFKw3lDyjgFlFARb+6Qshq76AaiKOvwn1GVXcu1t6epOFVl9G5GxdUcEP7ZAE0VGIvckIrBTej5lJ3RbjltQfJ7ZT2wXX2C48lnZmmO5x5XYCPUlXy5zzvSQ4S0W5aWRFT/GVmO0pVQRT9+27iKKPNEpPrXFIK8dfFK/K5+OvuUe+kDt3gz75ICohmh/dzLmD4Qlkn+M3KSIx7KuB9bUHPuOgaoIiYuBBXB9WBiDI38oxensNZSl+Od8je6eND5KGRS+/5A5ZFJrPMutPZqrFlv4YdR65jORNccVP3N2233snFG4al73XHgobtkXyoydF6PHosP42RzpbhdjNP//HwRzBTVfbqWFCoKXO5VFvvYrbsjHLvhW/eDcIX4ndiU+QZhRLFXpFNtIoIKQ7VBzXJh54pAAlb76iahRUUheNTdXVwpDLRqxA+KoRxKttMSOYhLA66L3NGLXxPZIb3XxPM8pQVmayio3tqtgEzeIPOiL2xmT7rIDYmP2oETSYCHSqkpPnXvNoyWr9ZzWLCXkFBApxwChqb1R98sWK3TONCx5I0k4a9jbtlfZYBg5al/cQIu4rq1O6nrXwl9gisQdol4xRUt/xrDltcHfI2jbHBd2SC3kDWOW5qyEW8m9pzHV+aljGb9zmidGvEuuBD+1CxoEezaDPvV8CvX5AIwEa79Jwb+iAQBTxkyEvWvqiGGaQprQh2lVnQj+dRXZ9V8ydN0OrELqrekPe1SCJjEzB3E4BbVIN101ObK/7Nc41HdXf1PDGe5j/gLgJH+Sw6GVVFuxmSAb/6WNIKxIZMYoRXpiWYyefD9/qJFtglM19dff0q+Fj0ru8GCTfNfy5VbkanlkF+ed/KEESDHRE6aqTwyyYhoKOGz3lslQR3c4BQ2HLBsVi82qmMB8lioAS+dFz6IV5IacfPcBHD2R+eW7CMwLfvLGDRoQzh5gXsTB/DhW18SYxovIUHsie3YedgP/2Vfs7jnwakoUXyABziRj4WnOiH8i8sD3EUSqAYKQmEXkOe0vIA+3/BsVpJMn9M3Zyy9SU2fwxD1d1bx1Wq219Bs2yH4kIRXQkAPbfqHfQ9IyV96VV6Zw67nc0pCVLZrtxkVCDsDB9cSFPY88THGQdlfyxnaM/kNQFjB3rFk4YsO4hVsTAN/oiEVPlTlfRwdtW/GIS9PjyJuSkOvwEyFDraR/uRj4tA1gHNUs4DR/VbrSEN0pxkSp3Vk43gZncKUUX4Nm1xDz5g2uld0qWBBSZfB2vJ3USbRqX8Dzsh++6s6R9Nv2xz6KittkxfcdiQtIKu6a3y5wofWdyA1yr3COd/8AWC+V4rJpDw1FQkGFRMgCpjxjYlwn+/MuvYc2pR6Xa9dtUrQipmfkTwL4Uhhi2NzKDVMHZ0XszkJCyLTixM0LyhRzASmtjNuxNK/mhYsKN+xSbMe/0+efRyujNMOswRDQmt9tzW954MaYCTZU5Xl1O3FMNBSMi+McJof1Ztr76UwZI0vyG+0DsCyTpG653GySAALYVu/dlDWLH4vnV5l8rWBDNjl/F48+ik5sQ3cRW5vIRyJ0Vmp2iyX5KGyPB/B3M2ww3FSzHG6CabWIFR7Tqjq//wEenhwL6gaVcm62qn1Ac1V82dGwvXtuFGBOY5pLXDVOiokgE1P668LblWxcjpSpt6vaPj4EH7S6pu+A7Kr+IjQc/+WHSvtoRkyz55sxuZVLA023jYmiOSa4A6ShINx7fqNGa9xcY8kXAyVWDYogtOTT0sZ5kbt9gLXll3cUfUon4Tsg+prmBhzhQMli/gGNkf+QrYlT68ihGaExOLmHlHunMOtTkOF6LFc0KR/j0HEs9zDwVuvRxs8rOAk7jQMxUkQlG+5q8TPkde0zeDW72K/SQxuCJ8DKluKLmBYsNjGeVoVTUWmPGUC/JVgMwkDrxIURxj1UyaJZrD9uUhq9qq99oyV+6uBLfnIePzfEEJb0B9HLW1QNsmi9ZcPlYvP3ZKacoG0p2yshVwYUXYvRirAV0aFoCoUuLP60qiYooGPmWUiWRAbWx9C7P7Xq10g3H284mzpLHbX1P3pSCyMvQwSowoWVwTIMohZJJd/Vv+scER/L0CQsyM3Zd8t9LgYrusA422SsrxfWeiTdvkHlpaoliaLGolRHyTOOMMBIy2iJKl6ef1K4oqcHfDmdKiabTt6g8Rbuee8wovDYMJNoGgIWRSgQD5JDBtTsFRjwMuZks1wCyRZa1XbtxCfhJNTGc6KEiy7Lw2axD+2sTSvCXdCujpoX/3X6NRfhzJuHv/D68GfBYPHxgN4duNktUNaY3BMSIJ77l00QpGLdl9tnnDE78htWibXWELLanHjsM12uMkzuJNk7Tcfzs4pO9G0noM4DUEsH1WGoykxHQVvPxvjyMHnz78RRAgzApeJwx5s2FWN1k2ROaHlOPS3LIfi3RrqfdnPlYWdOx1dG4l9eD7giqqPznRvf0UX69lM4U1YIPmtMvJeRafvLKTQo8BTyv0665lp0+kLIx16uJkwepe/RuzkfSL4ZDX4dmQXoBBbNEZjSK7Rm66EUzP96uUE9/BMpkOst09GomVtvWpqPopkwlYgbH2+AN6t4YMn+1JviXDzQUsUJmgXFC6wQvh/SfyO5kffXKz7YCIUTD315jlxKMw/5dFPCWle3Nyt1X5AvwHjOWvK9ZzsHtmxYwT2flN5DdnDs8N7AIpCx0NsfOK5B6zHbfi7vJUaau7oMsZYqauX/QbwSvalcB2JzHtDHFZudR1lHZ6VABdbxoglrmlFQjNKsYflqk1WZ+vMv5yc03oy6R6fXTNvu4z68SHgVhPNgeXaa6ckwlMEnLkk6yNSOaj2gl3q0LRZ5n7QV7O3GPt9dIPRgYEIcRdOmK82iwR+8N7QtVeF1cZUq8wwIh2xRWxZ8DjAIltECUPeAsQ/ytJz6xmjfuV8Ix4/qDx/3Boa7VQ+kKWrtLQTH9L6cYeM9GY3rX4WJnqx1aF77TCBJKbeA=="
+          },
+          {
+            "@id": "97c70ab40140e03e0fcba2259a810d1f37c7f4b506f544704a8fcb248d7cd676",
+            "holder": "GammaOrg",
+            "key": "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"
+          },
+          {
+            "@id": "db3b6fa0346aab899c8a26349e2a6090f3db36a1fbabcba1ea4fbde8261ff12e",
+            "holder": "BetaOrg",
+            "key": "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"
+          }
+        ],
+        "minConsensus": 2,
+        "roamingNetworkId": "QA",
+        "roamingNetworkOperatorId": "OCC",
+        "signatures": [
+          {
+            "algorithm": "ML-DSA-87",
+            "keyId": "2f6e474d693cbc1583a9252aa7b450dd41115007cb9289f0310f41eaa7d6028f",
+            "value": "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"
+          },
+          {
+            "algorithm": "ML-DSA-87",
+            "keyId": "db3b6fa0346aab899c8a26349e2a6090f3db36a1fbabcba1ea4fbde8261ff12e",
+            "value": "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"
+          }
+        ],
+        "signedAt": "2026-10-24T16:57:09.055Z",
+        "validUntil": "2027-10-24T16:57:09.055Z"
+      },
+      "lastChange": "2026-10-24T16:57:09.626Z",
+      "minConsensus": 2,
+      "name": {
+        "en": "Open Charging Cloud"
+      },
+      "signingKeyCertificates": [
+        {
+          "algorithm": "ML-DSA-87",
+          "keyId": "2f6e474d693cbc1583a9252aa7b450dd41115007cb9289f0310f41eaa7d6028f",
+          "roamingNetworkOperatorId": "OCC",
+          "signedAt": "2026-10-24T16:57:09.055Z",
+          "signingKey": {
+            "@id": "203cbcfc7c61ee0f4b40c786f48a982e390889b35ec6228170106593f438b378",
+            "holder": "AlphaOrg",
+            "key": "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",
+            "notAfter": "2027-10-24T16:57:09.055Z",
+            "usages": [
+              "party"
+            ]
+          },
+          "value": "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"
+        },
+        {
+          "algorithm": "ML-DSA-65",
+          "keyId": "97c70ab40140e03e0fcba2259a810d1f37c7f4b506f544704a8fcb248d7cd676",
+          "roamingNetworkOperatorId": "OCC",
+          "signedAt": "2026-10-24T16:57:09.055Z",
+          "signingKey": {
+            "@id": "765fae9f532e33b89bf1ccd9b713a47711daaada4f0e6c63811ed5ef2038deca",
+            "holder": "GammaOrg",
+            "key": "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",
+            "notAfter": "2027-10-24T16:57:09.055Z",
+            "usages": [
+              "party"
+            ]
+          },
+          "value": "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"
+        },
+        {
+          "algorithm": "ML-DSA-87",
+          "keyId": "db3b6fa0346aab899c8a26349e2a6090f3db36a1fbabcba1ea4fbde8261ff12e",
+          "roamingNetworkOperatorId": "OCC",
+          "signedAt": "2026-10-24T16:57:09.055Z",
+          "signingKey": {
+            "@id": "96b47f987a77aed34c546535e1e8a248b37e9d10be93e6ef17e0b8d1fb3792f3",
+            "holder": "BetaOrg",
+            "key": "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",
+            "notAfter": "2027-10-24T16:57:09.055Z",
+            "usages": [
+              "party"
+            ]
+          },
+          "value": "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"
+        }
+      ]
+    }
+  },
+  "runtimeStatus": [
+    {
+      "entityId": "DE*GEF*P1",
+      "entityType": "ChargingPool",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.618Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*P1",
+      "entityType": "ChargingPool",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.618Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*P2",
+      "entityType": "ChargingPool",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.680Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*P2",
+      "entityType": "ChargingPool",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.680Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*P3",
+      "entityType": "ChargingPool",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.163Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*P3",
+      "entityType": "ChargingPool",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.163Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*P4",
+      "entityType": "ChargingPool",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.217Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*P4",
+      "entityType": "ChargingPool",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.217Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*S1",
+      "entityType": "ChargingStation",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.615Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*S1",
+      "entityType": "ChargingStation",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.615Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*S2",
+      "entityType": "ChargingStation",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.618Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*S2",
+      "entityType": "ChargingStation",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.618Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*S3",
+      "entityType": "ChargingStation",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.677Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*S3",
+      "entityType": "ChargingStation",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.677Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*S4",
+      "entityType": "ChargingStation",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.680Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*S4",
+      "entityType": "ChargingStation",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.680Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*S5",
+      "entityType": "ChargingStation",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.160Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*S5",
+      "entityType": "ChargingStation",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.160Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*S6",
+      "entityType": "ChargingStation",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.163Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*S6",
+      "entityType": "ChargingStation",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.163Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*S7",
+      "entityType": "ChargingStation",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.215Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*S7",
+      "entityType": "ChargingStation",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.215Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*S8",
+      "entityType": "ChargingStation",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.217Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*S8",
+      "entityType": "ChargingStation",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.217Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*SG_AC",
+      "entityType": "ChargingStationGroup",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.755Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*SG_AC",
+      "entityType": "ChargingStationGroup",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.755Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*SG_DC",
+      "entityType": "ChargingStationGroup",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.733Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*SG_DC",
+      "entityType": "ChargingStationGroup",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.733Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "GraphDefined",
+      "entityType": "ChargingStationManufacturer",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:56:59.063Z",
+      "value": "available"
+    },
+    {
+      "entityId": "GraphDefined",
+      "entityType": "ChargingStationManufacturer",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:56:59.063Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF",
+      "entityType": "ChargingStationOperator",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:56:58.864Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF",
+      "entityType": "ChargingStationOperator",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:56:58.864Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*T_AC",
+      "entityType": "ChargingTariff",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:07.656Z",
+      "value": "active"
+    },
+    {
+      "entityId": "DE*GEF*T_AC",
+      "entityType": "ChargingTariff",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:07.656Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*T_DC",
+      "entityType": "ChargingTariff",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:07.684Z",
+      "value": "active"
+    },
+    {
+      "entityId": "DE*GEF*T_DC",
+      "entityType": "ChargingTariff",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:07.684Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E1*1",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:10.978Z",
+      "value": "charging"
+    },
+    {
+      "entityId": "DE*GEF*E1*1",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.613Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E1*1",
+      "entityType": "EVSE",
+      "kind": "energyStatus",
+      "timestamp": "2026-10-24T16:57:10.909Z",
+      "value": {
+        "available": 52000,
+        "currentVoltage": 780,
+        "remainingChargingTime": 1500,
+        "used": 98000
+      }
+    },
+    {
+      "entityId": "DE*GEF*E1*1",
+      "entityType": "EVSE",
+      "kind": "priceStatus",
+      "timestamp": "2026-10-24T16:57:10.928Z",
+      "value": {
+        "prices": [
+          {
+            "chargingTariffId": "DE*GEF*T_DC",
+            "elements": [
+              {
+                "priceComponents": [
+                  {
+                    "price": 0.49,
+                    "stepSize": 1,
+                    "type": "ENERGY"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "entityId": "DE*GEF*E1*2",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.615Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E1*2",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.615Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E1*2",
+      "entityType": "EVSE",
+      "kind": "priceStatus",
+      "timestamp": "2026-10-24T16:57:07.794Z",
+      "value": {
+        "prices": [
+          {
+            "chargingTariffId": "DE*GEF*T_DC",
+            "elements": [
+              {
+                "priceComponents": [
+                  {
+                    "price": 0.59,
+                    "stepSize": 1,
+                    "type": "ENERGY"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "entityId": "DE*GEF*E2*1",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.617Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E2*1",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.617Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E2*2",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.618Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E2*2",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.618Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E3*1",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.676Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E3*1",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.676Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E3*2",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.677Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E3*2",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.677Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E4*1",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.678Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E4*1",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.678Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E4*2",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.680Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E4*2",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.680Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E5*1",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.159Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E5*1",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.159Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E5*2",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.160Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E5*2",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.160Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E6*1",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.162Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E6*1",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.162Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E6*2",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.163Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E6*2",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.163Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E7*1",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.213Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E7*1",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.213Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E7*2",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.215Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E7*2",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.215Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E8*1",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.216Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E8*1",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.216Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*E8*2",
+      "entityType": "EVSE",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.217Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*E8*2",
+      "entityType": "EVSE",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.217Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*EG_AC",
+      "entityType": "EVSEGroup",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.836Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*EG_AC",
+      "entityType": "EVSEGroup",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.836Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*EG_DC",
+      "entityType": "EVSEGroup",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.811Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*EG_DC",
+      "entityType": "EVSEGroup",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.811Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M1*1",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.613Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M1*1",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.613Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M1*2",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.615Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M1*2",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.615Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M2*1",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.617Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M2*1",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.617Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M2*2",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.618Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M2*2",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.618Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M3*1",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.676Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M3*1",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.676Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M3*2",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.677Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M3*2",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.677Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M4*1",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.678Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M4*1",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.678Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M4*2",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:00.680Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M4*2",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:00.680Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M5*1",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.159Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M5*1",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.159Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M5*2",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.160Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M5*2",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.160Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M6*1",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.162Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M6*1",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.162Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M6*2",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.163Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M6*2",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.163Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M7*1",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.213Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M7*1",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.213Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M7*2",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.214Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M7*2",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.214Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M8*1",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.216Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M8*1",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.216Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "DE*GEF*M8*2",
+      "entityType": "EnergyMeter",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:57:01.217Z",
+      "value": "available"
+    },
+    {
+      "entityId": "DE*GEF*M8*2",
+      "entityType": "EnergyMeter",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:57:01.217Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "KERNBERG",
+      "entityType": "EnergyMeterManufacturer",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:56:59.170Z",
+      "value": "available"
+    },
+    {
+      "entityId": "KERNBERG",
+      "entityType": "EnergyMeterManufacturer",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:56:59.170Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "SAALE",
+      "entityType": "EnergyMeterManufacturer",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:56:59.118Z",
+      "value": "available"
+    },
+    {
+      "entityId": "SAALE",
+      "entityType": "EnergyMeterManufacturer",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:56:59.118Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "QA",
+      "entityType": "RoamingNetwork",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:56:58.203Z",
+      "value": "available"
+    },
+    {
+      "entityId": "QA",
+      "entityType": "RoamingNetwork",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:56:58.203Z",
+      "value": "operational"
+    },
+    {
+      "entityId": "OCC",
+      "entityType": "RoamingNetworkOperator",
+      "kind": "status",
+      "timestamp": "2026-10-24T16:56:58.161Z",
+      "value": "available"
+    },
+    {
+      "entityId": "OCC",
+      "entityType": "RoamingNetworkOperator",
+      "kind": "adminStatus",
+      "timestamp": "2026-10-24T16:56:58.161Z",
+      "value": "operational"
+    }
+  ],
+  "timestamp": "2026-10-24T16:57:11.488Z"
+}

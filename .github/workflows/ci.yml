@@ -1,0 +1,142 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  # Manual runs from the Actions tab ("Run workflow"), same as nightly.yml.
+  workflow_dispatch:
+
+concurrency:
+  # Pull requests: one run per branch, newest wins. Pushes: one run per commit, and nothing cancels anything - a
+  # commit with no verdict is a hole nobody comes back to fill. Keying the group on the SHA, rather than only turning
+  # cancel-in-progress off, makes that hold for more than two pushes (a group keeps at most one run pending).
+  group: ci-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+
+  vectors:
+    name: Vector drift guard
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # Only the sources of the vectors: SPECIFICATION.md (WWCP_POI) and the README and tests of the canonical JSON
+      # (Styx). The frozen run is part of this repository. The vendored copy inside WWCP_POI.TS is guarded by
+      # VendoredCopiesTests in the C# harness instead.
+      - name: Checkout the specification and Styx
+        run: git submodule update --init libs/WWCP_POI libs/Styx
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
+
+      # Re-derives the anchors of section 6 and of the frozen run with node:crypto alone, checks that every source
+      # still says what the vectors take from it, and fails when the committed JSON differs from what the generator
+      # emits.
+      - name: Verify anchors, sources and generated vector files
+        run: node tools/generate-test-vectors.mjs --check
+
+  csharp:
+    name: "C# harness: WWCP_POI3 (${{ matrix.leg }})"
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
+    # Hermod's two legs: Debian 13, where the C# implementation runs in production (GitHub has no Debian runner, so a
+    # bare debian:13 container on an Ubuntu runner - not the .NET SDK image, which is still Debian 12), and Windows,
+    # where it is developed, its crypto through CryptoAPI instead of OpenSSL. fail-fast is off: "red on exactly one
+    # platform" is the most valuable signal this matrix produces.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            leg: windows-latest
+          - os: ubuntu-latest
+            container: debian:13
+            leg: debian-13-container
+    steps:
+
+      # FIRST, before the checkout: the bare debian:13 image has no git, and actions/checkout then silently downloads a
+      # tarball through the REST API, on which the submodule checkout fails. The rest are what setup-dotnet needs.
+      - name: Install prerequisites (Debian container)
+        if: runner.os == 'Linux'
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            ca-certificates curl git libicu76 libssl3t64 libstdc++6 tzdata
+          # Everything in this container runs as root while the workspace comes from the host, which git reads as
+          # dubious ownership; checkout sets this for the repository, not for the submodule working trees.
+          git config --global --add safe.directory '*'
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      # Errors only: the warnings of the submodules, some hundred, would each become an annotation of this run, about
+      # code that is not this repository's. This repository's own code treats warnings as errors.
+      - name: Build
+        run: dotnet build Tests/WWCPPOIConformance_Tests/WWCPPOIConformance_Tests.csproj --configuration Release -clp:ErrorsOnly
+
+      - name: Test
+        timeout-minutes: 15
+        run: dotnet test Tests/WWCPPOIConformance_Tests/WWCPPOIConformance_Tests.csproj --configuration Release --no-build --logger "console;verbosity=normal" --logger "trx;LogFileName=${{ matrix.leg }}.trx" --results-directory artifacts
+
+      # TRX keeps per-test outcome, error message and the Assert.Ignore reason - and the skips of this suite are
+      # load-bearing. !cancelled() rather than success(): a red run is when these files matter most.
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results-${{ matrix.leg }}
+          path: artifacts/*.trx
+
+  typescript:
+    name: "TS harness: WWCP_POI.TS (${{ matrix.os }})"
+    runs-on: ${{ matrix.os }}
+    # Ubuntu and Windows, as WWCP_POI.TS's own CI; its Node release-line matrix lives there - the question here is
+    # "does the implementation match the vectors", asked once per OS on the current Node.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
+          cache: npm
+          cache-dependency-path: |
+            Tests/WWCPPOIConformance_Tests.TS/package-lock.json
+            libs/WWCP_POI.TS/package-lock.json
+
+      - name: Install
+        run: npm --prefix Tests/WWCPPOIConformance_Tests.TS ci
+
+      # The harness imports the implementation FROM SOURCE (libs/WWCP_POI.TS/src/index.ts), so Node resolves that
+      # file's imports (@vanaheimr/cose, @vanaheimr/metrological-cbor, @noble/hashes) from libs/WWCP_POI.TS/node_modules,
+      # which the harness's own install never fills: without this step, ERR_MODULE_NOT_FOUND before a single vector.
+      - name: Install the implementation's dependencies
+        run: npm --prefix libs/WWCP_POI.TS ci
+
+      - name: Typecheck
+        run: npm --prefix Tests/WWCPPOIConformance_Tests.TS run typecheck
+
+      - name: Test
+        run: npm --prefix Tests/WWCPPOIConformance_Tests.TS test

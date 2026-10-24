@@ -1,0 +1,15 @@
+# What is written here: LF in the repository.
+*.cs      text eol=lf
+*.ts      text eol=lf
+*.mjs     text eol=lf
+*.json    text eol=lf
+*.md      text eol=lf
+*.yml     text eol=lf
+*.props   text eol=lf
+*.csproj  text eol=lf
+*.slnx    text eol=lf
+
+# The golden vectors and the frozen run of the C# examples are hashed and signed byte for byte: keep their exact bytes
+# across checkouts, on every platform. LAST, so that it overrides the rules above (the frozen run has CRLF, as the C#
+# examples wrote it on Windows).
+test-vectors/** -text

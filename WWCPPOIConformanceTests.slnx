@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/WWCPPOIConformance_Tests/WWCPPOIConformance_Tests.csproj" />
+  </Folder>
+  <Folder Name="/WWCP_POI/">
+    <Project Path="libs/WWCP_POI/WWCP_POI2/WWCP_POI2.csproj" />
+    <Project Path="libs/WWCP_POI/WWCP_POI3/WWCP_POI3.csproj" />
+  </Folder>
+  <Folder Name="/Vanaheimr/">
+    <Project Path="libs/Hermod/Hermod/Hermod.csproj" />
+    <Project Path="libs/Styx/Styx/Styx.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,295 @@
+{
+  "specification": "WWCP POI 3 SPECIFICATION.md, section 6 (libs/WWCP_POI/SPECIFICATION.md)",
+  "description": "The examples of the specification, every value as written there: the content of a version, its ETags and its effective tree, identifications, keys, signatures, a price statement and a trust anchor.",
+  "contents": [
+    {
+      "id": "spec-6-content",
+      "description": "The content of the example version, its canonical JSON, and its ETags (2, 3, 8.2).",
+      "content": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/v1\",\"@id\":\"rn1\",\"chargingStationOperators\":[{\"@id\":\"DE*GEF\",\"chargingPools\":[{\"@id\":\"DE*GEF*P1\",\"chargingStations\":[{\"@id\":\"DE*GEF*S1\",\"EVSEs\":[{\"@id\":\"DE*GEF*E1*1\",\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"maxPower\":22000,\"maxVoltage\":230.5}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\"}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\"}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"name\":{\"en\":\"Charging Station Operator 'DE*GEF'\"}}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"name\":{\"en\":\"Example\"}}",
+      "eTags": [
+        "json:sha256:hex:5592afaf5dfcceebc17c8a29f4493e061406f648b76a6fee8b6fe15d553c7108",
+        "cbor:sha256:hex:567697f19947efa4679a0e401e1e7c5f528ffb7ca0d3d7928d3b2ed02abef52d",
+        "effectiveTree:sha256:hex:84acb445aa41df13e83b7af61f25a8387dc65c0c7e83b29b907e9ed06045b44a"
+      ]
+    }
+  ],
+  "skeletons": [
+    {
+      "id": "spec-6-skeleton-1",
+      "description": "The skeleton of the EVSE and its digest SHA-256(0x00 || skeleton) (8.2).",
+      "skeleton": "{\"@id\":\"DE*GEF*E1*1\",\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"maxPower\":22000,\"maxVoltage\":230.5}",
+      "hashAlgorithm": "sha256",
+      "digest": "f37f52daaf5db8a3db648ac8ea7f3ef9955a1afff133803d1a9ff84b99fdc443"
+    },
+    {
+      "id": "spec-6-skeleton-2",
+      "description": "The skeleton of the charging station and its digest SHA-256(0x00 || skeleton) (8.2).",
+      "skeleton": "{\"@id\":\"DE*GEF*S1\",\"EVSEs\":{\"@merkleRoot\":\"f37f52daaf5db8a3db648ac8ea7f3ef9955a1afff133803d1a9ff84b99fdc443\",\"@size\":1},\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\"}",
+      "hashAlgorithm": "sha256",
+      "digest": "d111c66efd73a1ff910cf674270046cfe3b6a2e0cab85034993df80025623f40"
+    },
+    {
+      "id": "spec-6-skeleton-3",
+      "description": "The skeleton of the charging pool and its digest SHA-256(0x00 || skeleton) (8.2).",
+      "skeleton": "{\"@id\":\"DE*GEF*P1\",\"chargingStations\":{\"@merkleRoot\":\"d111c66efd73a1ff910cf674270046cfe3b6a2e0cab85034993df80025623f40\",\"@size\":1},\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\"}",
+      "hashAlgorithm": "sha256",
+      "digest": "8d4f6ed9ca2ffabf1862488a9cff9c8a224a86a247a9bb48b33751d0df5042fe"
+    },
+    {
+      "id": "spec-6-skeleton-4",
+      "description": "The skeleton of the charging station operator and its digest SHA-256(0x00 || skeleton) (8.2).",
+      "skeleton": "{\"@id\":\"DE*GEF\",\"chargingPools\":{\"@merkleRoot\":\"8d4f6ed9ca2ffabf1862488a9cff9c8a224a86a247a9bb48b33751d0df5042fe\",\"@size\":1},\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"name\":{\"en\":\"Charging Station Operator 'DE*GEF'\"}}",
+      "hashAlgorithm": "sha256",
+      "digest": "d76ebfb110df2bf7c0db6194f69dc563ab2349189580ccfa0a1292e71d90d3fd"
+    },
+    {
+      "id": "spec-6-skeleton-5",
+      "description": "The skeleton of the roaming network, the root and its digest SHA-256(0x00 || skeleton) (8.2).",
+      "skeleton": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/v1\",\"@id\":\"rn1\",\"chargingStationOperators\":{\"@merkleRoot\":\"d76ebfb110df2bf7c0db6194f69dc563ab2349189580ccfa0a1292e71d90d3fd\",\"@size\":1},\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"name\":{\"en\":\"Example\"}}",
+      "hashAlgorithm": "sha256",
+      "digest": "84acb445aa41df13e83b7af61f25a8387dc65c0c7e83b29b907e9ed06045b44a"
+    }
+  ],
+  "commits": [
+    {
+      "id": "spec-6-commit-genesis",
+      "description": "The genesis commit: the SHA-256 of its content (5.1).",
+      "commit": {
+        "@id": "498e076a90b8d71254c017a80d164442abaa99b4d11d4deb9b8c86576917c29a",
+        "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3",
+        "eTags": [
+          [
+            "json",
+            "sha256",
+            "hex",
+            "5592afaf5dfcceebc17c8a29f4493e061406f648b76a6fee8b6fe15d553c7108"
+          ],
+          [
+            "cbor",
+            "sha256",
+            "hex",
+            "567697f19947efa4679a0e401e1e7c5f528ffb7ca0d3d7928d3b2ed02abef52d"
+          ],
+          [
+            "effectiveTree",
+            "sha256",
+            "hex",
+            "84acb445aa41df13e83b7af61f25a8387dc65c0c7e83b29b907e9ed06045b44a"
+          ]
+        ],
+        "revision": 0,
+        "roamingNetworkId": "rn1"
+      },
+      "content": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3\",\"eTags\":[[\"json\",\"sha256\",\"hex\",\"5592afaf5dfcceebc17c8a29f4493e061406f648b76a6fee8b6fe15d553c7108\"],[\"cbor\",\"sha256\",\"hex\",\"567697f19947efa4679a0e401e1e7c5f528ffb7ca0d3d7928d3b2ed02abef52d\"],[\"effectiveTree\",\"sha256\",\"hex\",\"84acb445aa41df13e83b7af61f25a8387dc65c0c7e83b29b907e9ed06045b44a\"]],\"revision\":0,\"roamingNetworkId\":\"rn1\"}",
+      "hashAlgorithm": "sha256",
+      "commitId": "498e076a90b8d71254c017a80d164442abaa99b4d11d4deb9b8c86576917c29a"
+    },
+    {
+      "id": "spec-6-commit-epoch-2",
+      "description": "The genesis of a second epoch: SHA-512 identifications, Ed25519 and ML-DSA-65 (11.3).",
+      "commit": {
+        "@id": "ae070918e0d75696682a5d28ecf31216ef8b87a4872740facc3f5945b1c0d9616b1ddaa131d472016d08b2418e4c206700a2d2f9056f977731f4272fe26b8b34",
+        "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3",
+        "eTags": [
+          [
+            "json",
+            "sha256",
+            "hex",
+            "5592afaf5dfcceebc17c8a29f4493e061406f648b76a6fee8b6fe15d553c7108"
+          ],
+          [
+            "cbor",
+            "sha256",
+            "hex",
+            "567697f19947efa4679a0e401e1e7c5f528ffb7ca0d3d7928d3b2ed02abef52d"
+          ],
+          [
+            "effectiveTree",
+            "sha256",
+            "hex",
+            "84acb445aa41df13e83b7af61f25a8387dc65c0c7e83b29b907e9ed06045b44a"
+          ]
+        ],
+        "epoch": 2,
+        "profiles": {
+          "canonicalization": "styx-canonical-json-v1",
+          "checkpoint": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/checkpoint/v1",
+          "commit": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3",
+          "identificationHash": "sha512",
+          "priceStatement": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/priceStatement/v1",
+          "signatureAlgorithms": [
+            "Ed25519",
+            "ML-DSA-65"
+          ]
+        },
+        "revision": 0,
+        "roamingNetworkId": "rn1"
+      },
+      "content": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3\",\"eTags\":[[\"json\",\"sha256\",\"hex\",\"5592afaf5dfcceebc17c8a29f4493e061406f648b76a6fee8b6fe15d553c7108\"],[\"cbor\",\"sha256\",\"hex\",\"567697f19947efa4679a0e401e1e7c5f528ffb7ca0d3d7928d3b2ed02abef52d\"],[\"effectiveTree\",\"sha256\",\"hex\",\"84acb445aa41df13e83b7af61f25a8387dc65c0c7e83b29b907e9ed06045b44a\"]],\"epoch\":2,\"profiles\":{\"canonicalization\":\"styx-canonical-json-v1\",\"checkpoint\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/checkpoint/v1\",\"commit\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3\",\"identificationHash\":\"sha512\",\"priceStatement\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/priceStatement/v1\",\"signatureAlgorithms\":[\"Ed25519\",\"ML-DSA-65\"]},\"revision\":0,\"roamingNetworkId\":\"rn1\"}",
+      "hashAlgorithm": "sha512",
+      "commitId": "ae070918e0d75696682a5d28ecf31216ef8b87a4872740facc3f5945b1c0d9616b1ddaa131d472016d08b2418e4c206700a2d2f9056f977731f4272fe26b8b34"
+    }
+  ],
+  "keys": [
+    {
+      "id": "spec-6-key-1",
+      "description": "The COSE key of the identity key of DE*RNO, of Alpha and its RFC 9679 thumbprint, its @id (4.1).",
+      "coseKey": "owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==",
+      "keyId": "1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802",
+      "algorithm": "Ed25519",
+      "rawPublicKey": "i7BOHBuD3d8xH1vN33xQ7ePAgC9H7HluKhMc9BKY2fM="
+    },
+    {
+      "id": "spec-6-key-2",
+      "description": "The COSE key of the identity key of Beta and its RFC 9679 thumbprint, its @id (4.1).",
+      "coseKey": "owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==",
+      "keyId": "a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f",
+      "algorithm": "Ed25519",
+      "rawPublicKey": "HOVqSMgv+ZFioUvFRGEmdOXWH7kxfmXUBVeA/by03DU="
+    },
+    {
+      "id": "spec-6-key-3",
+      "description": "The COSE key of the signing key of Alpha and its RFC 9679 thumbprint, its @id (4.1).",
+      "coseKey": "owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==",
+      "keyId": "ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554",
+      "algorithm": "Ed25519",
+      "rawPublicKey": "Kay64UG8yvCyLhqU000LxzYeUm0L/hLIl5S8kyKWbdc="
+    }
+  ],
+  "signatures": [
+    {
+      "id": "spec-6-signature-1",
+      "description": "The signature input of the leader signature of the genesis commit (5.4), its value and the key, Ed25519.",
+      "algorithm": "Ed25519",
+      "coseKey": "owEBIAYhWCB3duhwuTNU8qCyTCPyo2zE6A4iMhjBuXkm/dAYOWormw==",
+      "keyId": "06c3b3e29d534cfcb6ab4a2abf31c1b39bb697b231bd5eda9dfd55c1bdb044a0",
+      "rawPublicKey": "d3bocLkzVPKgskwj8qNsxOgOIjIYwbl5Jv3QGDlqK5s=",
+      "privateSeed": "101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "input": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/commitSignature/v1\",\"algorithm\":\"Ed25519\",\"commit\":{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3\",\"@id\":\"498e076a90b8d71254c017a80d164442abaa99b4d11d4deb9b8c86576917c29a\",\"eTags\":[[\"json\",\"sha256\",\"hex\",\"5592afaf5dfcceebc17c8a29f4493e061406f648b76a6fee8b6fe15d553c7108\"],[\"cbor\",\"sha256\",\"hex\",\"567697f19947efa4679a0e401e1e7c5f528ffb7ca0d3d7928d3b2ed02abef52d\"],[\"effectiveTree\",\"sha256\",\"hex\",\"84acb445aa41df13e83b7af61f25a8387dc65c0c7e83b29b907e9ed06045b44a\"]],\"revision\":0,\"roamingNetworkId\":\"rn1\"},\"keyId\":\"leader\",\"role\":\"leader\",\"signedAt\":\"2026-10-12T12:00:00.000Z\",\"signer\":\"leader.example.org\"}",
+      "value": "x/h7//+MgkH18ljzmyXAIoirilwduHRjK9j/9/vKZIOPyO2Ir1eSbvfFkj1kSy9TwTIeMdqLAU22aOj7g1cGAA=="
+    },
+    {
+      "id": "spec-6-signature-2",
+      "description": "The signature input of the attestation of the genesis commit (8.5), its value and the key, Ed25519.",
+      "algorithm": "Ed25519",
+      "coseKey": "owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==",
+      "keyId": "ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554",
+      "rawPublicKey": "Kay64UG8yvCyLhqU000LxzYeUm0L/hLIl5S8kyKWbdc=",
+      "privateSeed": "202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "input": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/attestation/v1\",\"algorithm\":\"Ed25519\",\"commitId\":\"498e076a90b8d71254c017a80d164442abaa99b4d11d4deb9b8c86576917c29a\",\"eTag\":[\"effectiveTree\",\"sha256\",\"hex\",\"84acb445aa41df13e83b7af61f25a8387dc65c0c7e83b29b907e9ed06045b44a\"],\"keyId\":\"rno\",\"revision\":0,\"roamingNetworkId\":\"rn1\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-17T18:00:00.000Z\",\"signer\":\"DE*RNO\",\"validUntil\":\"2026-10-17T18:15:00.000Z\"}",
+      "value": "enreFD6NAwKbGJBHryNsNNtgFn2wbVlI+w1PqplrkNzmnFSMPrvRp+AC1XVmUdeZ6jYh9BD1VoP/Iihq2YJ1CA=="
+    },
+    {
+      "id": "spec-6-signature-3",
+      "description": "The signature input of the key statement of DE*RNO (8.6), its value and the key, Ed25519.",
+      "algorithm": "Ed25519",
+      "coseKey": "owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==",
+      "keyId": "1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802",
+      "rawPublicKey": "i7BOHBuD3d8xH1vN33xQ7ePAgC9H7HluKhMc9BKY2fM=",
+      "privateSeed": "303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+      "input": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/keyStatement/v3\",\"algorithm\":\"Ed25519\",\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"minConsensus\":1,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-17T00:00:00.000Z\",\"validUntil\":\"2026-11-16T00:00:00.000Z\"}",
+      "value": "ismqBONH+YxKTywJdYYovEUT6JkZQ4t0xl3nGB8cJTfn3d7hTX/PoUjO+518kESsmgHuRZ4aenyMRutWKfinCw=="
+    },
+    {
+      "id": "spec-6-signature-4",
+      "description": "The signature input of the key statement of a quorum, by Alpha (4.1, 8.6), its value and the key, Ed25519.",
+      "algorithm": "Ed25519",
+      "coseKey": "owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==",
+      "keyId": "1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802",
+      "rawPublicKey": "i7BOHBuD3d8xH1vN33xQ7ePAgC9H7HluKhMc9BKY2fM=",
+      "privateSeed": "303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+      "input": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/keyStatement/v3\",\"algorithm\":\"Ed25519\",\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-17T00:00:00.000Z\",\"validUntil\":\"2026-11-16T00:00:00.000Z\"}",
+      "value": "FZyTQgtDgx3qvcVnBwQU0c4iyNT4CLIWXg1Lr/oF/YLMyRNwZXuWIhwusnDim5eW7++hApGcyrbeGruURLGQAg=="
+    },
+    {
+      "id": "spec-6-signature-5",
+      "description": "The signature input of the certificate of a signing key of Alpha (8.6), its value and the key, Ed25519.",
+      "algorithm": "Ed25519",
+      "coseKey": "owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==",
+      "keyId": "1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802",
+      "rawPublicKey": "i7BOHBuD3d8xH1vN33xQ7ePAgC9H7HluKhMc9BKY2fM=",
+      "privateSeed": "303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+      "input": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/signingKeyCertificate/v2\",\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-17T00:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]}}",
+      "value": "QndT4IDJA/YPtnq47eZKRvELDUDEiXkEe9qHTzgIkjwNYPhkKuaTksr8iOb4aqahqS/+QSzcjJVx0M6bz5jICg=="
+    },
+    {
+      "id": "spec-6-signature-6",
+      "description": "The signature input of the price statement of DE*GEF*E1*1 (12.1), its value and the key, Ed25519.",
+      "algorithm": "Ed25519",
+      "coseKey": "owEBIAYhWCAlQ7kv8QlVEUdq3INp223ckzZloRl43aFATuEGbKlVnQ==",
+      "keyId": "8cb46c0f98440da34ad4af304431f76c7cb7462fa8fdfd5d6261dc685809220d",
+      "rawPublicKey": "JUO5L/EJVRFHatyDadtt3JM2ZaEZeN2hQE7hBmypVZ0=",
+      "privateSeed": "404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f",
+      "input": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/priceStatement/v1\",\"algorithm\":\"Ed25519\",\"entityId\":\"DE*GEF*E1*1\",\"entityType\":\"EVSE\",\"keyId\":\"8cb46c0f98440da34ad4af304431f76c7cb7462fa8fdfd5d6261dc685809220d\",\"priceStatus\":{\"prices\":[{\"chargingTariffId\":\"DE*GEF*T1\",\"elements\":[{\"priceComponents\":[{\"price\":0.39,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}]},\"roamingNetworkId\":\"rn1\",\"role\":\"chargingStationOperator\",\"sequence\":0,\"signedAt\":\"2026-10-19T11:59:58.000Z\",\"signer\":\"DE*GEF\",\"validFrom\":\"2026-10-19T12:00:00.000Z\",\"validUntil\":\"2026-10-19T12:15:00.000Z\"}",
+      "value": "On32sQ3JD5yUHL3CDnc0XA9+wpfEVw9wvXF3exh+rpcWOmBoD/tuvFBmNcolWWV5lOxF54JC5aJ0PmX9gPERAw=="
+    },
+    {
+      "id": "spec-6-signature-7",
+      "description": "The signature input of the key statement of a quorum, by Beta (4.1, 8.6), its value and the key, Ed25519.",
+      "algorithm": "Ed25519",
+      "coseKey": "owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==",
+      "keyId": "a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f",
+      "rawPublicKey": "HOVqSMgv+ZFioUvFRGEmdOXWH7kxfmXUBVeA/by03DU=",
+      "privateSeed": "707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f",
+      "input": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/keyStatement/v3\",\"algorithm\":\"Ed25519\",\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-17T00:00:00.000Z\",\"validUntil\":\"2026-11-16T00:00:00.000Z\"}",
+      "value": "IAYgeNI2NS/atdxYZW8ty/1IjBUTTqmkjE0tgW3fjs+3xDbaIhZrsHLWVV9y7MyMrD2K8zKpJ2w1P0DNzjo1Dw=="
+    }
+  ],
+  "invalidSignatures": [
+    {
+      "id": "spec-6-signature-invalid-1",
+      "description": "The leader signature over its input with one more space.",
+      "algorithm": "Ed25519",
+      "coseKey": "owEBIAYhWCB3duhwuTNU8qCyTCPyo2zE6A4iMhjBuXkm/dAYOWormw==",
+      "keyId": "06c3b3e29d534cfcb6ab4a2abf31c1b39bb697b231bd5eda9dfd55c1bdb044a0",
+      "rawPublicKey": "d3bocLkzVPKgskwj8qNsxOgOIjIYwbl5Jv3QGDlqK5s=",
+      "input": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/commitSignature/v1\",\"algorithm\":\"Ed25519\",\"commit\":{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3\",\"@id\":\"498e076a90b8d71254c017a80d164442abaa99b4d11d4deb9b8c86576917c29a\",\"eTags\":[[\"json\",\"sha256\",\"hex\",\"5592afaf5dfcceebc17c8a29f4493e061406f648b76a6fee8b6fe15d553c7108\"],[\"cbor\",\"sha256\",\"hex\",\"567697f19947efa4679a0e401e1e7c5f528ffb7ca0d3d7928d3b2ed02abef52d\"],[\"effectiveTree\",\"sha256\",\"hex\",\"84acb445aa41df13e83b7af61f25a8387dc65c0c7e83b29b907e9ed06045b44a\"]],\"revision\":0,\"roamingNetworkId\":\"rn1\"},\"keyId\":\"leader\",\"role\":\"leader\",\"signedAt\":\"2026-10-12T12:00:00.000Z\",\"signer\":\"leader.example.org\"} ",
+      "value": "x/h7//+MgkH18ljzmyXAIoirilwduHRjK9j/9/vKZIOPyO2Ir1eSbvfFkj1kSy9TwTIeMdqLAU22aOj7g1cGAA=="
+    },
+    {
+      "id": "spec-6-signature-invalid-2",
+      "description": "The value of the attestation for the input of the leader signature.",
+      "algorithm": "Ed25519",
+      "coseKey": "owEBIAYhWCB3duhwuTNU8qCyTCPyo2zE6A4iMhjBuXkm/dAYOWormw==",
+      "keyId": "06c3b3e29d534cfcb6ab4a2abf31c1b39bb697b231bd5eda9dfd55c1bdb044a0",
+      "rawPublicKey": "d3bocLkzVPKgskwj8qNsxOgOIjIYwbl5Jv3QGDlqK5s=",
+      "input": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/commitSignature/v1\",\"algorithm\":\"Ed25519\",\"commit\":{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3\",\"@id\":\"498e076a90b8d71254c017a80d164442abaa99b4d11d4deb9b8c86576917c29a\",\"eTags\":[[\"json\",\"sha256\",\"hex\",\"5592afaf5dfcceebc17c8a29f4493e061406f648b76a6fee8b6fe15d553c7108\"],[\"cbor\",\"sha256\",\"hex\",\"567697f19947efa4679a0e401e1e7c5f528ffb7ca0d3d7928d3b2ed02abef52d\"],[\"effectiveTree\",\"sha256\",\"hex\",\"84acb445aa41df13e83b7af61f25a8387dc65c0c7e83b29b907e9ed06045b44a\"]],\"revision\":0,\"roamingNetworkId\":\"rn1\"},\"keyId\":\"leader\",\"role\":\"leader\",\"signedAt\":\"2026-10-12T12:00:00.000Z\",\"signer\":\"leader.example.org\"}",
+      "value": "enreFD6NAwKbGJBHryNsNNtgFn2wbVlI+w1PqplrkNzmnFSMPrvRp+AC1XVmUdeZ6jYh9BD1VoP/Iihq2YJ1CA=="
+    },
+    {
+      "id": "spec-6-signature-invalid-3",
+      "description": "The attestation verified with the key of the leader.",
+      "algorithm": "Ed25519",
+      "coseKey": "owEBIAYhWCB3duhwuTNU8qCyTCPyo2zE6A4iMhjBuXkm/dAYOWormw==",
+      "keyId": "06c3b3e29d534cfcb6ab4a2abf31c1b39bb697b231bd5eda9dfd55c1bdb044a0",
+      "rawPublicKey": "d3bocLkzVPKgskwj8qNsxOgOIjIYwbl5Jv3QGDlqK5s=",
+      "input": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/attestation/v1\",\"algorithm\":\"Ed25519\",\"commitId\":\"498e076a90b8d71254c017a80d164442abaa99b4d11d4deb9b8c86576917c29a\",\"eTag\":[\"effectiveTree\",\"sha256\",\"hex\",\"84acb445aa41df13e83b7af61f25a8387dc65c0c7e83b29b907e9ed06045b44a\"],\"keyId\":\"rno\",\"revision\":0,\"roamingNetworkId\":\"rn1\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-17T18:00:00.000Z\",\"signer\":\"DE*RNO\",\"validUntil\":\"2026-10-17T18:15:00.000Z\"}",
+      "value": "enreFD6NAwKbGJBHryNsNNtgFn2wbVlI+w1PqplrkNzmnFSMPrvRp+AC1XVmUdeZ6jYh9BD1VoP/Iihq2YJ1CA=="
+    }
+  ],
+  "priceStatements": [
+    {
+      "id": "spec-6-price-statement",
+      "description": "The price statement of DE*GEF*E1*1 with its value, and its digest (12.1).",
+      "statement": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/priceStatement/v1\",\"algorithm\":\"Ed25519\",\"entityId\":\"DE*GEF*E1*1\",\"entityType\":\"EVSE\",\"keyId\":\"8cb46c0f98440da34ad4af304431f76c7cb7462fa8fdfd5d6261dc685809220d\",\"priceStatus\":{\"prices\":[{\"chargingTariffId\":\"DE*GEF*T1\",\"elements\":[{\"priceComponents\":[{\"price\":0.39,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}]},\"roamingNetworkId\":\"rn1\",\"role\":\"chargingStationOperator\",\"sequence\":0,\"signedAt\":\"2026-10-19T11:59:58.000Z\",\"signer\":\"DE*GEF\",\"validFrom\":\"2026-10-19T12:00:00.000Z\",\"validUntil\":\"2026-10-19T12:15:00.000Z\",\"value\":\"On32sQ3JD5yUHL3CDnc0XA9+wpfEVw9wvXF3exh+rpcWOmBoD/tuvFBmNcolWWV5lOxF54JC5aJ0PmX9gPERAw==\"}",
+      "digest": "4e0901a796be06c7332548becf01cc4066c4b4ced59975012304d4a50458e943"
+    }
+  ],
+  "trustAnchors": [
+    {
+      "id": "spec-6-trust-anchor",
+      "description": "The trust anchor of the example at two servers, its JSON form and its QR code (8.6).",
+      "json": "{\"@id\":\"rn1\",\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/trustAnchor/v2\",\"urls\":[\"https://hub.example/poi/RNs/rn1\",\"https://mirror.example/poi/RNs/rn1\"],\"keys\":[\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\"],\"name\":{\"en\":\"Example\"}}",
+      "qrCode": "WWCP/TA-2:*+KJ684VC:KE:A6/PD-FF$FGW24.+U3M0-$O1JV%LLP-T2OR-7U%J0WP7ZXAW7RI33:PKFFMRD0..DF$D4IK1$CM2D$9FQ$DTVDMVC.KE5REG8FA9DIWENPEJ/5B9DOICB$CBECP9ESZCS9EHDDAIACPE:KEJB6XF4MWEW9E0G7 :5*ED0LEPJEB$CBECP9ESZCS9EHDDAIACPE:KE3B6D68-3E7WEBAFB9FA9DIWENPEJ/5/3E1$C+%5 8D$KEZED:1DRPC34E.TCUPCG/DB$CLWE10684F98E0LEBECZEDV2D7$CK4F-KE/:56LE QEAC8NPC04E00651",
+      "roamingNetworkId": "rn1",
+      "urls": [
+        "https://hub.example/poi/RNs/rn1",
+        "https://mirror.example/poi/RNs/rn1"
+      ],
+      "keys": [
+        "1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802"
+      ],
+      "minConsensus": 1
+    }
+  ]
+}

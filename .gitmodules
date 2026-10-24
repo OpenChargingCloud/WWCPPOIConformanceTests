@@ -1,0 +1,16 @@
+[submodule "libs/WWCP_POI"]
+	path = libs/WWCP_POI
+	url = https://github.com/OpenChargingCloud/WWCP_POI.git
+	branch = master
+[submodule "libs/WWCP_POI.TS"]
+	path = libs/WWCP_POI.TS
+	url = https://github.com/OpenChargingCloud/WWCP_POI.TS.git
+	branch = master
+[submodule "libs/Hermod"]
+	path = libs/Hermod
+	url = https://github.com/Vanaheimr/Hermod.git
+	branch = master
+[submodule "libs/Styx"]
+	path = libs/Styx
+	url = https://github.com/Vanaheimr/Styx.git
+	branch = master

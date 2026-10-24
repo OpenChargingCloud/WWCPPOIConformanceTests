@@ -1,0 +1,21 @@
+{
+  "name": "@open-charging-cloud/wwcp-poi-conformance-tests",
+  "version": "1.0.0",
+  "description": "Runs WWCP_POI.TS against the golden WWCP POI 3 conformance test vectors.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "author": "GraphDefined GmbH <achim.friedland@graphdefined.com>",
+  "license": "AGPL-3.0-only",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.5"
+  }
+}

@@ -1,0 +1,717 @@
+{
+  "specification": "Styx canonical JSON and deterministic CBOR (libs/Styx/Styx/Illias/JSON/README.md); WWCP POI 3 SPECIFICATION.md section 1",
+  "description": "JSON text read as POI reads what it hashes (decimals as decimals, strings as strings), written as canonical JSON and as deterministic CBOR; and JSON text a reader must refuse.",
+  "vectors": [
+    {
+      "id": "styx-4-01",
+      "description": "Properties sorted, whitespace removed, decimals keep their scale; in CBOR, keys sorted by their encodings and decimals as decimal fractions.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 4",
+      "input": "{ \"b\" : 1, \"a\" : [ 1.0, 1, 1.50, 100, -2, 0.10 ], \"aa\" : \"x\", \"c\" : null, \"d\" : true }",
+      "expected": {
+        "canonical": "{\"a\":[1.0,1,1.50,100,-2,0.10],\"aa\":\"x\",\"b\":1,\"c\":null,\"d\":true}",
+        "cborHex": "a5616186c482200a01c482211896186421c482210a6162016163f66164f56261616178"
+      }
+    },
+    {
+      "id": "styx-4-02",
+      "description": "Ordinal order of the names in JSON, bytewise order of their encodings in CBOR.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 4",
+      "input": "{\"aa\":1,\"b\":2,\"a\":3,\"é\":4}",
+      "expected": {
+        "canonical": "{\"a\":3,\"aa\":1,\"b\":2,\"é\":4}",
+        "cborHex": "a46161036162026261610162c3a904"
+      }
+    },
+    {
+      "id": "styx-4-03",
+      "description": "Empty containers and strings.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 4",
+      "input": "{\"o\":{},\"a\":[],\"s\":\"\"}",
+      "expected": {
+        "canonical": "{\"a\":[],\"o\":{},\"s\":\"\"}",
+        "cborHex": "a3616180616fa0617360"
+      }
+    },
+    {
+      "id": "styx-4-04",
+      "description": "Decimal fractions, and the largest mantissa of a decimal as a bignum.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 4",
+      "input": "[22000.0, -1.5, 0.000, 79228162514264337593543950335]",
+      "expected": {
+        "canonical": "[22000.0,-1.5,0.000,79228162514264337593543950335]",
+        "cborHex": "84c482201a00035b60c482202ec4822200c24cffffffffffffffffffffffff"
+      }
+    },
+    {
+      "id": "styx-4-05",
+      "description": "Integers beyond 64 bit signed, as major types 0 and 1.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 4",
+      "input": "[18446744073709551615, -9223372036854775809]",
+      "expected": {
+        "canonical": "[18446744073709551615,-9223372036854775809]",
+        "cborHex": "821bffffffffffffffff3b8000000000000000"
+      }
+    },
+    {
+      "id": "styx-4-06",
+      "description": "Exponents written out, a negative zero loses its sign.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 4",
+      "input": "[1.0, 1, 1.50, 0.000, -0.0, 100, 1e-7, 1.5e2, 1E-2]",
+      "expected": {
+        "canonical": "[1.0,1,1.50,0.000,0.0,100,0.0000001,150,0.01]"
+      }
+    },
+    {
+      "id": "styx-4-07",
+      "description": "Strings stay strings: no reading, no point in time.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 4",
+      "input": "[\"1.10 kWh\", \"2026-10-12T12:00:00Z\"]",
+      "expected": {
+        "canonical": "[\"1.10 kWh\",\"2026-10-12T12:00:00Z\"]",
+        "cborHex": "8268312e3130206b576874323032362d31302d31325431323a30303a30305a"
+      }
+    },
+    {
+      "id": "styx-4-08",
+      "description": "UTF-16 code unit order: U+1F600 (D83D DE00) before U+FF61, and written as its escaped surrogate pair.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 4",
+      "input": "{\"b\":1,\"a\":2,\"B\":3,\"é\":4,\"aa\":5,\"😀\":6,\"｡\":7}",
+      "expected": {
+        "canonical": "{\"B\":3,\"a\":2,\"aa\":5,\"b\":1,\"é\":4,\"\\uD83D\\uDE00\":6,\"｡\":7}"
+      }
+    },
+    {
+      "id": "styx-escape-0022",
+      "description": "U+0022 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u0022\"",
+      "expected": {
+        "canonical": "\"\\\"\""
+      }
+    },
+    {
+      "id": "styx-escape-005C",
+      "description": "U+005C is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u005C\"",
+      "expected": {
+        "canonical": "\"\\\\\""
+      }
+    },
+    {
+      "id": "styx-escape-0008",
+      "description": "U+0008 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u0008\"",
+      "expected": {
+        "canonical": "\"\\b\""
+      }
+    },
+    {
+      "id": "styx-escape-000C",
+      "description": "U+000C is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u000C\"",
+      "expected": {
+        "canonical": "\"\\f\""
+      }
+    },
+    {
+      "id": "styx-escape-000A",
+      "description": "U+000A is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u000A\"",
+      "expected": {
+        "canonical": "\"\\n\""
+      }
+    },
+    {
+      "id": "styx-escape-000D",
+      "description": "U+000D is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u000D\"",
+      "expected": {
+        "canonical": "\"\\r\""
+      }
+    },
+    {
+      "id": "styx-escape-0009",
+      "description": "U+0009 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u0009\"",
+      "expected": {
+        "canonical": "\"\\t\""
+      }
+    },
+    {
+      "id": "styx-escape-0001",
+      "description": "U+0001 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u0001\"",
+      "expected": {
+        "canonical": "\"\\u0001\""
+      }
+    },
+    {
+      "id": "styx-escape-001F",
+      "description": "U+001F is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u001F\"",
+      "expected": {
+        "canonical": "\"\\u001F\""
+      }
+    },
+    {
+      "id": "styx-escape-007F",
+      "description": "U+007F is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u007F\"",
+      "expected": {
+        "canonical": "\"\\u007F\""
+      }
+    },
+    {
+      "id": "styx-escape-0085",
+      "description": "U+0085 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u0085\"",
+      "expected": {
+        "canonical": "\"\\u0085\""
+      }
+    },
+    {
+      "id": "styx-escape-00A0",
+      "description": "U+00A0 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u00A0\"",
+      "expected": {
+        "canonical": "\"\\u00A0\""
+      }
+    },
+    {
+      "id": "styx-escape-0378",
+      "description": "U+0378 is escaped (unassigned in the Unicode version of the runtime: see section 5 of the Styx README).",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u0378\"",
+      "expected": {
+        "canonical": "\"\\u0378\""
+      }
+    },
+    {
+      "id": "styx-escape-2028",
+      "description": "U+2028 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u2028\"",
+      "expected": {
+        "canonical": "\"\\u2028\""
+      }
+    },
+    {
+      "id": "styx-escape-2029",
+      "description": "U+2029 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u2029\"",
+      "expected": {
+        "canonical": "\"\\u2029\""
+      }
+    },
+    {
+      "id": "styx-escape-1680",
+      "description": "U+1680 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u1680\"",
+      "expected": {
+        "canonical": "\"\\u1680\""
+      }
+    },
+    {
+      "id": "styx-escape-2000",
+      "description": "U+2000 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u2000\"",
+      "expected": {
+        "canonical": "\"\\u2000\""
+      }
+    },
+    {
+      "id": "styx-escape-200A",
+      "description": "U+200A is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u200A\"",
+      "expected": {
+        "canonical": "\"\\u200A\""
+      }
+    },
+    {
+      "id": "styx-escape-202F",
+      "description": "U+202F is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u202F\"",
+      "expected": {
+        "canonical": "\"\\u202F\""
+      }
+    },
+    {
+      "id": "styx-escape-205F",
+      "description": "U+205F is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u205F\"",
+      "expected": {
+        "canonical": "\"\\u205F\""
+      }
+    },
+    {
+      "id": "styx-escape-3000",
+      "description": "U+3000 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u3000\"",
+      "expected": {
+        "canonical": "\"\\u3000\""
+      }
+    },
+    {
+      "id": "styx-escape-E000",
+      "description": "U+E000 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\uE000\"",
+      "expected": {
+        "canonical": "\"\\uE000\""
+      }
+    },
+    {
+      "id": "styx-escape-FDD0",
+      "description": "U+FDD0 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\uFDD0\"",
+      "expected": {
+        "canonical": "\"\\uFDD0\""
+      }
+    },
+    {
+      "id": "styx-escape-FEFF",
+      "description": "U+FEFF is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\uFEFF\"",
+      "expected": {
+        "canonical": "\"\\uFEFF\""
+      }
+    },
+    {
+      "id": "styx-escape-FFFE",
+      "description": "U+FFFE is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\uFFFE\"",
+      "expected": {
+        "canonical": "\"\\uFFFE\""
+      }
+    },
+    {
+      "id": "styx-escape-10000",
+      "description": "U+10000 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\uD800\\uDC00\"",
+      "expected": {
+        "canonical": "\"\\uD800\\uDC00\""
+      }
+    },
+    {
+      "id": "styx-escape-1F600",
+      "description": "U+1F600 is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\uD83D\\uDE00\"",
+      "expected": {
+        "canonical": "\"\\uD83D\\uDE00\""
+      }
+    },
+    {
+      "id": "styx-escape-10FFFF",
+      "description": "U+10FFFF is escaped.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\uDBFF\\uDFFF\"",
+      "expected": {
+        "canonical": "\"\\uDBFF\\uDFFF\""
+      }
+    },
+    {
+      "id": "styx-verbatim-0020",
+      "description": "U+0020 is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u0020\"",
+      "expected": {
+        "canonical": "\" \""
+      }
+    },
+    {
+      "id": "styx-verbatim-0027",
+      "description": "U+0027 is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u0027\"",
+      "expected": {
+        "canonical": "\"'\""
+      }
+    },
+    {
+      "id": "styx-verbatim-002B",
+      "description": "U+002B is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u002B\"",
+      "expected": {
+        "canonical": "\"+\""
+      }
+    },
+    {
+      "id": "styx-verbatim-002F",
+      "description": "U+002F is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u002F\"",
+      "expected": {
+        "canonical": "\"/\""
+      }
+    },
+    {
+      "id": "styx-verbatim-003C",
+      "description": "U+003C is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u003C\"",
+      "expected": {
+        "canonical": "\"<\""
+      }
+    },
+    {
+      "id": "styx-verbatim-003E",
+      "description": "U+003E is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u003E\"",
+      "expected": {
+        "canonical": "\">\""
+      }
+    },
+    {
+      "id": "styx-verbatim-0026",
+      "description": "U+0026 is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u0026\"",
+      "expected": {
+        "canonical": "\"&\""
+      }
+    },
+    {
+      "id": "styx-verbatim-0060",
+      "description": "U+0060 is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u0060\"",
+      "expected": {
+        "canonical": "\"`\""
+      }
+    },
+    {
+      "id": "styx-verbatim-007E",
+      "description": "U+007E is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u007E\"",
+      "expected": {
+        "canonical": "\"~\""
+      }
+    },
+    {
+      "id": "styx-verbatim-00AD",
+      "description": "U+00AD is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u00AD\"",
+      "expected": {
+        "canonical": "\"­\""
+      }
+    },
+    {
+      "id": "styx-verbatim-00E9",
+      "description": "U+00E9 is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u00E9\"",
+      "expected": {
+        "canonical": "\"é\""
+      }
+    },
+    {
+      "id": "styx-verbatim-0300",
+      "description": "U+0300 is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u0300\"",
+      "expected": {
+        "canonical": "\"̀\""
+      }
+    },
+    {
+      "id": "styx-verbatim-0600",
+      "description": "U+0600 is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u0600\"",
+      "expected": {
+        "canonical": "\"؀\""
+      }
+    },
+    {
+      "id": "styx-verbatim-200B",
+      "description": "U+200B is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u200B\"",
+      "expected": {
+        "canonical": "\"​\""
+      }
+    },
+    {
+      "id": "styx-verbatim-200D",
+      "description": "U+200D is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u200D\"",
+      "expected": {
+        "canonical": "\"‍\""
+      }
+    },
+    {
+      "id": "styx-verbatim-2066",
+      "description": "U+2066 is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u2066\"",
+      "expected": {
+        "canonical": "\"⁦\""
+      }
+    },
+    {
+      "id": "styx-verbatim-20AC",
+      "description": "U+20AC is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\u20AC\"",
+      "expected": {
+        "canonical": "\"€\""
+      }
+    },
+    {
+      "id": "styx-verbatim-FFF9",
+      "description": "U+FFF9 is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\uFFF9\"",
+      "expected": {
+        "canonical": "\"￹\""
+      }
+    },
+    {
+      "id": "styx-verbatim-FF61",
+      "description": "U+FF61 is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\uFF61\"",
+      "expected": {
+        "canonical": "\"｡\""
+      }
+    },
+    {
+      "id": "styx-verbatim-FFFD",
+      "description": "U+FFFD is written as it is, in UTF-8.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3; libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs",
+      "input": "\"\\uFFFD\"",
+      "expected": {
+        "canonical": "\"�\""
+      }
+    },
+    {
+      "id": "styx-lone-surrogate",
+      "description": "An unpaired surrogate is written as U+FFFD.",
+      "source": "libs/Styx/Styx/Illias/JSON/README.md, section 2.3",
+      "input": "\"\\uD800x\"",
+      "expected": {
+        "canonical": "\"�x\""
+      }
+    }
+  ],
+  "invalidInputs": [
+    {
+      "id": "refuse-decimal-scale",
+      "description": "More than 28 decimal places: a decimal can not hold it as written.",
+      "source": "libs/WWCP_POI/SPECIFICATION.md, section 1; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "1e-30",
+      "expectedError": "decimalOutOfRange"
+    },
+    {
+      "id": "refuse-decimal-scale-2",
+      "description": "More than 28 decimal places.",
+      "source": "libs/WWCP_POI/SPECIFICATION.md, section 1; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "1.0000000000000000000000000000000001",
+      "expectedError": "decimalOutOfRange"
+    },
+    {
+      "id": "refuse-decimal-mantissa",
+      "description": "A mantissa above 96 bits.",
+      "source": "libs/WWCP_POI/SPECIFICATION.md, section 1; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "7922816251426433759354395033.6",
+      "expectedError": "decimalOutOfRange"
+    },
+    {
+      "id": "refuse-duplicate-property",
+      "description": "An object names a property twice.",
+      "source": "libs/WWCP_POI/SPECIFICATION.md, section 1; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "{\"a\":1,\"a\":2}",
+      "expectedError": "duplicateProperty"
+    },
+    {
+      "id": "refuse-duplicate-nested",
+      "description": "A nested object names a property twice, the same value both times.",
+      "source": "libs/WWCP_POI/SPECIFICATION.md, section 1; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "{\"x\":{\"b\":true,\"b\":true}}",
+      "expectedError": "duplicateProperty"
+    },
+    {
+      "id": "refuse-trailing-comma-array",
+      "description": "RFC 8259: no trailing comma in an array.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "[1,]",
+      "expectedError": "syntax",
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+    },
+    {
+      "id": "refuse-trailing-comma-object",
+      "description": "RFC 8259: no trailing comma in an object.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "{\"a\":1,}",
+      "expectedError": "syntax",
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+    },
+    {
+      "id": "refuse-comment",
+      "description": "RFC 8259: JSON has no comments.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "{\"a\":1/* a comment */}",
+      "expectedError": "syntax",
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+    },
+    {
+      "id": "refuse-single-quotes",
+      "description": "RFC 8259: strings are written in double quotes.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "{'a':1}",
+      "expectedError": "syntax",
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+    },
+    {
+      "id": "refuse-unquoted-name",
+      "description": "RFC 8259: names are strings.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "{a:1}",
+      "expectedError": "syntax",
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+    },
+    {
+      "id": "refuse-nan",
+      "description": "RFC 8259: NaN is no number.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "[NaN]",
+      "expectedError": "syntax"
+    },
+    {
+      "id": "refuse-infinity",
+      "description": "RFC 8259: Infinity is no number.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "[Infinity]",
+      "expectedError": "syntax"
+    },
+    {
+      "id": "refuse-leading-zero",
+      "description": "RFC 8259: no leading zeros.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "[01]",
+      "expectedError": "syntax",
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+    },
+    {
+      "id": "refuse-leading-plus",
+      "description": "RFC 8259: no leading plus.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "[+1]",
+      "expectedError": "syntax"
+    },
+    {
+      "id": "refuse-bare-fraction",
+      "description": "RFC 8259: a fraction needs an integer part.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "[.5]",
+      "expectedError": "syntax"
+    },
+    {
+      "id": "refuse-trailing-dot",
+      "description": "RFC 8259: a fraction needs digits.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "[1.]",
+      "expectedError": "syntax"
+    },
+    {
+      "id": "refuse-hex-number",
+      "description": "RFC 8259: no hexadecimal numbers.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "[0x10]",
+      "expectedError": "syntax",
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+    },
+    {
+      "id": "refuse-invalid-escape",
+      "description": "RFC 8259: \\x is no escape.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "[\"\\x41\"]",
+      "expectedError": "syntax"
+    },
+    {
+      "id": "refuse-raw-control-character",
+      "description": "RFC 8259: a control character in a string must be escaped.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "[\"a\tb\"]",
+      "expectedError": "syntax",
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+    },
+    {
+      "id": "refuse-second-value",
+      "description": "Two JSON texts are not one: what follows the first value must not be dropped silently.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "{\"a\":1} {\"b\":2}",
+      "expectedError": "syntax",
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+    },
+    {
+      "id": "refuse-unclosed",
+      "description": "Not closed.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "{\"a\":[1,2}",
+      "expectedError": "syntax"
+    },
+    {
+      "id": "refuse-empty",
+      "description": "No JSON text at all.",
+      "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
+      "input": "",
+      "expectedError": "syntax"
+    }
+  ]
+}

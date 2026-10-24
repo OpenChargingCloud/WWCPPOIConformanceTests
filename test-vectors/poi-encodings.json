@@ -1,0 +1,89 @@
+{
+  "specification": "RFC 4648 Base64 (canonical: padding, zero padding bits) as POI reads keys and signature values; RFC 9285 Base45 as the QR code of a trust anchor holds its CBOR",
+  "description": "Text decoded to bytes, and text a reader must refuse.",
+  "base64": [
+    {
+      "id": "base64-1",
+      "description": "Three bytes, no padding.",
+      "text": "AAEC",
+      "hex": "000102"
+    },
+    {
+      "id": "base64-2",
+      "description": "One byte, two padding characters.",
+      "text": "AA==",
+      "hex": "00"
+    },
+    {
+      "id": "base64-3",
+      "description": "Two bytes, one padding character.",
+      "text": "AQI=",
+      "hex": "0102"
+    }
+  ],
+  "base64Invalid": [
+    {
+      "id": "base64-invalid-1",
+      "description": "Padding bits that are not zero: not the canonical encoding of any bytes (RFC 4648, 3.5).",
+      "text": "AB=="
+    },
+    {
+      "id": "base64-invalid-2",
+      "description": "Without its padding.",
+      "text": "AA"
+    },
+    {
+      "id": "base64-invalid-3",
+      "description": "The URL alphabet (RFC 4648, 5) is another encoding.",
+      "text": "A-B_"
+    },
+    {
+      "id": "base64-invalid-4",
+      "description": "Whitespace within.",
+      "text": "AA E"
+    }
+  ],
+  "base45": [
+    {
+      "id": "base45-rfc9285-1",
+      "description": "RFC 9285, 4.3: \"AB\".",
+      "text": "BB8",
+      "hex": "4142"
+    },
+    {
+      "id": "base45-rfc9285-2",
+      "description": "RFC 9285, 4.3: \"Hello!!\".",
+      "text": "%69 VD92EX0",
+      "hex": "48656c6c6f2121"
+    },
+    {
+      "id": "base45-rfc9285-3",
+      "description": "RFC 9285, 4.3: \"base-45\".",
+      "text": "UJCLQE7W581",
+      "hex": "626173652d3435"
+    },
+    {
+      "id": "base45-rfc9285-4",
+      "description": "RFC 9285, 4.4: \"ietf!\".",
+      "text": "QED8WEX0",
+      "hex": "6965746621"
+    }
+  ],
+  "base45Invalid": [
+    {
+      "id": "base45-invalid-1",
+      "description": "RFC 9285, 6: \"GGW\" decodes to 65535 + 1, more than two bytes hold.",
+      "text": "GGW"
+    },
+    {
+      "id": "base45-invalid-2",
+      "description": "A lowercase letter is no Base45 character.",
+      "text": "bb8"
+    },
+    {
+      "id": "base45-invalid-3",
+      "description": "One character alone encodes nothing.",
+      "text": "BB8A"
+    }
+  ]
+}
