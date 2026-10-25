@@ -32,7 +32,7 @@ WWCP_POI.TS](https://github.com/OpenChargingCloud/WWCP_POI.TS/blob/master/docs/c
 | [D6](#d6-foreign-operator) | A proof's certificates and key statement may name another roaming network operator | WWCP_POI3 | `trust-certificate-operator`, `trust-statement-operator` | low-medium | 19 |
 
 In each case WWCP_POI.TS refuses what the vector says is to be refused, and WWCP_POI3 takes it. Of the open ones, D1,
-D2 and D6, these are 12 of the 271 vectors; on the other 259 the two implementations agree (see
+D2 and D6, these are 12 of the 277 vectors; on the other 265 the two implementations agree (see
 [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
@@ -190,8 +190,11 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 5 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 33 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
-  and trust anchors;
+- the refusal of 44 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+  and trust anchors; among them versions naming twice an identification unique within the roaming network - an EVSE
+  group of a provider and an operator of the same prefix, an energy meter, a grid connection point, an energy meter
+  template, a transparency software release and a certificate, compared without case - refused for it in the same words
+  (WWCP_POI.TS since `e32c2cd`);
 - of the 22 trust vectors, 20: a valid proof, expired attestations, attestations of the future (D3), one holder only
   (also twice), a key that may not sign for the party, a signing key expired before it attested and one that ended
   after it attested, a key certified by another holder's identity key, an uncertified key, other identity keys pinned,

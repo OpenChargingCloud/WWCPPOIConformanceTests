@@ -1088,6 +1088,57 @@ function refusalVectors() {
     refuse({ id: 'version-etag',              kind: 'version', basis: `${SPEC}, 3.1`, description: 'One ETag it lists is another.',                                                                 document: patched('published/QA-genesis.json', '/roamingNetwork', [ { op: 'replace', path: '/eTags/1', value: [ 'cbor', 'sha256', 'hex', '0'.repeat(64) ] } ]) });
     refuse({ id: 'version-context',           kind: 'version', basis: `${SPEC}, 3.1`, description: 'Another JSON-LD context.',                                                                       document: patched('published/QA-genesis.json', '/roamingNetwork', [ { op: 'replace', path: '/@context', value: 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/v2' } ]) });
 
+    // ---- Versions: identifications unique within the roaming network, not only within their party, compared without
+    //      case (RoamingNetwork.cs, DuplicateGridConnectionPoint to DuplicateEnergyMeterTemplate). The head of the run with
+    //      one of them named twice by a party added without keys, without its eTags, so that only the identification is
+    //      refused; the refusal names it (`reason`), as both implementations word it.
+    const qa        = jsonRun('published/QA.json');
+    const created   = qa.created;
+    const gef       = qa.chargingStationOperators.find(operator => operator['@id'] === 'DE*GEF') ?? fail('QA.json: no charging station operator DE*GEF');
+    const release   = qa.transparencySoftwareManufacturers?.[0]?.transparencySoftware?.[0]  ?? fail('QA.json: no transparency software release');
+    const ptb       = qa.conformityAssessmentBodies?.find(body => body['@id'] === 'PTB')    ?? fail('QA.json: no conformity assessment body PTB');
+    const has       = (entities, id) => (entities ?? []).some(entity => entity['@id'] === id) || fail(`QA.json: no ${id}`);
+    const twice     = (id, basis, description, reason, patch) =>
+                          refuse({ id, kind: 'version', basis, description, reason, document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, ...patch ]) });
+
+    has(gef.EVSEGroups,           'DE*GEF*EG_AC');
+    has(gef.energyMeterTemplates, 'DE*GEF*EMT_AC');
+    has(gef.chargingPools.flatMap(pool => pool.chargingStations).flatMap(station => station.EVSEs).map(evse => evse.energyMeter).filter(Boolean), 'DE*GEF*M1*1');
+    has([ release ],                         'chargy-1.5.0');
+    has(ptb.transparencySoftwareCertificates, 'PTB-2026-0042');
+
+    twice('version-twice-group',                 `${SPEC}, 9.3`,
+          'The e-mobility provider DE-GEF, of the prefix of the charging station operator DE*GEF, has an EVSE group of the identification of one of the operator, its suffix in lowercase.',
+          "The EVSE group 'DE*GEF*EG_ac' must not be given twice in the roaming network",
+          [ { op: 'add', path: '/eMobilityProviders', value: [ { '@id': 'DE-GEF', EVSEGroups: [ { '@id': 'DE*GEF*EG_ac', created, lastChange: created } ], created, lastChange: created } ] } ]);
+
+    twice('version-twice-energy-meter',          'libs/WWCP_POI/docs/EnergyMeter.md',
+          'A grid connection point of the grid operator DE*NET has an energy meter of the identification of the one of an EVSE of DE*GEF, in lowercase.',
+          "The energy meter 'de*gef*m1*1' must not be given twice in the roaming network",
+          [ { op: 'add', path: '/gridOperators', value: [ { '@id': 'DE*NET', gridConnectionPoints: [ { '@id': 'connection-1', energyMeter: { '@id': 'de*gef*m1*1', created, lastChange: created } } ], created, lastChange: created } ] } ]);
+
+    twice('version-twice-grid-connection-point', `${SPEC}, 4.1`,
+          'Two grid operators have a grid connection point of the same identification, in another case.',
+          "The grid connection point 'CONNECTION-1' of the grid operator 'DE*NET' must be unique within the roaming network, but the grid operator 'DE*NE2' has it too",
+          [ { op: 'add', path: '/gridOperators', value: [ { '@id': 'DE*NE2', gridConnectionPoints: [ { '@id': 'connection-1' } ], created, lastChange: created },
+                                                          { '@id': 'DE*NET', gridConnectionPoints: [ { '@id': 'CONNECTION-1' } ], created, lastChange: created } ] } ]);
+
+    twice('version-twice-energy-meter-template', `${SPEC}, 9.1`,
+          'The grid operator DE*NET has an energy meter template of the identification of one of DE*GEF, in lowercase.',
+          "The energy meter template 'de*gef*emt_ac' must not be given twice in the roaming network",
+          [ { op: 'add', path: '/gridOperators', value: [ { '@id': 'DE*NET', energyMeterTemplates: [ { '@id': 'de*gef*emt_ac', created, lastChange: created } ], created, lastChange: created } ] } ]);
+
+    twice('version-twice-release',               'libs/WWCP_POI/docs/TransparencySoftwareManufacturer.md',
+          'Another transparency software manufacturer has a release of the identification of the one of GraphDefined, in uppercase.',
+          "The transparency software release 'CHARGY-1.5.0' of the manufacturer 'OpenChargingCloud' is one of the manufacturer 'GraphDefined' already",
+          [ { op: 'add', path: '/transparencySoftwareManufacturers/-', value: { '@id': 'OpenChargingCloud', name: { en: 'Open Charging Cloud' }, transparencySoftware: [ { ...release, '@id': 'CHARGY-1.5.0' } ], created, lastChange: created } } ]);
+
+    twice('version-twice-certificate',           'libs/WWCP_POI/docs/ConformityAssessmentBody.md',
+          'Another conformity assessment body has a certificate of the identification of the one of PTB, in lowercase.',
+          "The transparency software certificate 'ptb-2026-0042' of the conformity assessment body 'VDE' is one of the conformity assessment body 'PTB' already",
+          [ { op: 'add', path: '/conformityAssessmentBodies/-', value: { '@id': 'VDE', name: { de: 'VDE Prüf- und Zertifizierungsinstitut' }, notifiedFor: [ 'MID' ],
+                                                                        transparencySoftwareCertificates: [ { ...ptb.transparencySoftwareCertificates[0], '@id': 'ptb-2026-0042' } ], created, lastChange: created } } ]);
+
     // ---- Checkpoint proofs (10.4).
     const proof4 = jsonRun('published/QA-proof-revision-4.json');
     refuse({ id: 'checkpointProof-index',     kind: 'checkpointProof', basis: `${SPEC}, 10.4`, description: 'Another position of the commit in the checkpoint.',                                  document: patched('published/QA-proof-revision-4.json', '', [ { op: 'replace', path: '/@index', value: proof4['@index'] === 0 ? 1 : 0 } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });

@@ -437,6 +437,265 @@
     },
     {
       "expected": "refused",
+      "id": "version-twice-group",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 9.3",
+      "description": "The e-mobility provider DE-GEF, of the prefix of the charging station operator DE*GEF, has an EVSE group of the identification of one of the operator, its suffix in lowercase.",
+      "reason": "The EVSE group 'DE*GEF*EG_ac' must not be given twice in the roaming network",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/eMobilityProviders",
+            "value": [
+              {
+                "@id": "DE-GEF",
+                "EVSEGroups": [
+                  {
+                    "@id": "DE*GEF*EG_ac",
+                    "created": "2026-10-25T16:25:17.161Z",
+                    "lastChange": "2026-10-25T16:25:17.161Z"
+                  }
+                ],
+                "created": "2026-10-25T16:25:17.161Z",
+                "lastChange": "2026-10-25T16:25:17.161Z"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-twice-energy-meter",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/EnergyMeter.md",
+      "description": "A grid connection point of the grid operator DE*NET has an energy meter of the identification of the one of an EVSE of DE*GEF, in lowercase.",
+      "reason": "The energy meter 'de*gef*m1*1' must not be given twice in the roaming network",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/gridOperators",
+            "value": [
+              {
+                "@id": "DE*NET",
+                "gridConnectionPoints": [
+                  {
+                    "@id": "connection-1",
+                    "energyMeter": {
+                      "@id": "de*gef*m1*1",
+                      "created": "2026-10-25T16:25:17.161Z",
+                      "lastChange": "2026-10-25T16:25:17.161Z"
+                    }
+                  }
+                ],
+                "created": "2026-10-25T16:25:17.161Z",
+                "lastChange": "2026-10-25T16:25:17.161Z"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-twice-grid-connection-point",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1",
+      "description": "Two grid operators have a grid connection point of the same identification, in another case.",
+      "reason": "The grid connection point 'CONNECTION-1' of the grid operator 'DE*NET' must be unique within the roaming network, but the grid operator 'DE*NE2' has it too",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/gridOperators",
+            "value": [
+              {
+                "@id": "DE*NE2",
+                "gridConnectionPoints": [
+                  {
+                    "@id": "connection-1"
+                  }
+                ],
+                "created": "2026-10-25T16:25:17.161Z",
+                "lastChange": "2026-10-25T16:25:17.161Z"
+              },
+              {
+                "@id": "DE*NET",
+                "gridConnectionPoints": [
+                  {
+                    "@id": "CONNECTION-1"
+                  }
+                ],
+                "created": "2026-10-25T16:25:17.161Z",
+                "lastChange": "2026-10-25T16:25:17.161Z"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-twice-energy-meter-template",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 9.1",
+      "description": "The grid operator DE*NET has an energy meter template of the identification of one of DE*GEF, in lowercase.",
+      "reason": "The energy meter template 'de*gef*emt_ac' must not be given twice in the roaming network",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/gridOperators",
+            "value": [
+              {
+                "@id": "DE*NET",
+                "energyMeterTemplates": [
+                  {
+                    "@id": "de*gef*emt_ac",
+                    "created": "2026-10-25T16:25:17.161Z",
+                    "lastChange": "2026-10-25T16:25:17.161Z"
+                  }
+                ],
+                "created": "2026-10-25T16:25:17.161Z",
+                "lastChange": "2026-10-25T16:25:17.161Z"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-twice-release",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/TransparencySoftwareManufacturer.md",
+      "description": "Another transparency software manufacturer has a release of the identification of the one of GraphDefined, in uppercase.",
+      "reason": "The transparency software release 'CHARGY-1.5.0' of the manufacturer 'OpenChargingCloud' is one of the manufacturer 'GraphDefined' already",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/transparencySoftwareManufacturers/-",
+            "value": {
+              "@id": "OpenChargingCloud",
+              "name": {
+                "en": "Open Charging Cloud"
+              },
+              "transparencySoftware": [
+                {
+                  "@id": "CHARGY-1.5.0",
+                  "name": {
+                    "en": "Chargy Transparency Software"
+                  },
+                  "version": "1.5.0",
+                  "openSourceLicenses": [
+                    {
+                      "@id": "AGPL-3.0",
+                      "description": {
+                        "en": "GNU Affero General Public License version 3"
+                      },
+                      "URLs": [
+                        "https://www.gnu.org/licenses/agpl-3.0.html",
+                        "https://opensource.org/license/agpl-v3/"
+                      ]
+                    }
+                  ],
+                  "sourceCodeRepository": "https://github.com/OpenChargingCloud/ChargyDesktopApp",
+                  "supportUntil": "2031-10-25T16:25:31.482Z",
+                  "declarationOfConformity": "https://www.graphdefined.example/chargy/1.5.0/declarationOfConformity.pdf",
+                  "softwareBillOfMaterials": "https://www.graphdefined.example/chargy/1.5.0/sbom.cdx.json"
+                }
+              ],
+              "created": "2026-10-25T16:25:17.161Z",
+              "lastChange": "2026-10-25T16:25:17.161Z"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-twice-certificate",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "Another conformity assessment body has a certificate of the identification of the one of PTB, in lowercase.",
+      "reason": "The transparency software certificate 'ptb-2026-0042' of the conformity assessment body 'VDE' is one of the conformity assessment body 'PTB' already",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/conformityAssessmentBodies/-",
+            "value": {
+              "@id": "VDE",
+              "name": {
+                "de": "VDE Prüf- und Zertifizierungsinstitut"
+              },
+              "notifiedFor": [
+                "MID"
+              ],
+              "transparencySoftwareCertificates": [
+                {
+                  "@id": "ptb-2026-0042",
+                  "chargingStationManufacturerId": "GraphDefined",
+                  "chargingStationModel": "GD-DC300",
+                  "chargingStationModelVersion": "1.0",
+                  "verifiedTransparencySoftwareIds": [
+                    "chargy-1.5.0"
+                  ],
+                  "compatibleTransparencySoftwareIds": [],
+                  "documentURL": "https://www.ptb.example/certificates/PTB-2026-0042.pdf",
+                  "notBefore": "2026-10-25T16:25:31.482Z",
+                  "notAfter": "2036-10-25T16:25:31.482Z",
+                  "legislation": "MID"
+                }
+              ],
+              "created": "2026-10-25T16:25:17.161Z",
+              "lastChange": "2026-10-25T16:25:17.161Z"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
       "id": "checkpointProof-index",
       "kind": "checkpointProof",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 10.4",

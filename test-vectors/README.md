@@ -49,8 +49,8 @@ it, `""` for the whole file.
 Everything that is hashed is read as SPECIFICATION.md section 1 requires: numbers with a fraction as decimals,
 keeping their scale; strings as strings, never as points in time; an object naming a property twice refused. The
 documents of `poi-trust.json` and the inputs of `poi-canonical-json.json` and `poi-specification.json` are JSON
-**text** for that reason. The `value` of a patch is small JSON - integers, strings, a decimal like `0.01` - that every
-reader takes exactly.
+**text** for that reason. The `value` of a patch is small JSON - integers, strings, a decimal like `0.01`, and objects
+and arrays of them - that every reader takes exactly.
 
 ## Refusals and their kinds
 
@@ -60,14 +60,16 @@ A vector of `poi-refusals.json` names a `kind`, what is checked:
 |---|---|---|
 | `commit` | the commit is read: its `@id` the digest of its content, ETags in hex | |
 | `checkpoint` | the checkpoint is read: its `@id` the digest of its content | |
-| `version` | the roaming network is read: the `eTags` it lists are those of its content | |
+| `version` | the roaming network is read: the `eTags` it lists are those of its content, and it names no identification twice that is unique within the roaming network | |
 | `checkpointProof` | the commit proof verifies against the checkpoint | `checkpoint` |
 | `stationProof` | the station proof verifies against the trust anchor at `at` | `trustAnchor` (a file of the run), `at` |
 | `priceStatement` | the price statement verifies with the signing keys of its charging station operator | `keysFrom` (the version) |
 | `trustAnchor` | the text of a QR code is read | `text` |
 
 `document` gives the document: `file`, `pointer`, and `patch`, a JSON patch (RFC 6902; `add`, `replace`, `remove`).
-A harness checks the unpatched document first, the control, so that a refusal is the patch's doing.
+A harness checks the unpatched document first, the control, so that a refusal is the patch's doing. `reason`, where a
+vector gives it, is a text the refusal names, as both implementations word it: a harness checks that it does, so that
+the vector is refused for what it is about.
 
 ## Adding vectors
 

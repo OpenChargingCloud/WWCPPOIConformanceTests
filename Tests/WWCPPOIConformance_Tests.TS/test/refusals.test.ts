@@ -91,7 +91,11 @@ describe(`poi-refusals.json: what an implementation must refuse`, () => {
                 return;
             }
 
-            expect(() => { check(vector, document); }).toThrow();
+            // Refused for what the vector is about, where it names it.
+            if (vector.reason === undefined)
+                expect(() => { check(vector, document); }).toThrow();
+            else
+                expect(() => { check(vector, document); }).toThrow(vector.reason);
 
         });
 

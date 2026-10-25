@@ -115,6 +115,10 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 
             Assert.That(Taken(Vector, document, out error), Is.False, $"{Vector["description"]} - taken, but must be refused ({Vector["basis"]})");
 
+            // Refused for what the vector is about, where it names it.
+            if (Vector["reason"]?.Value<String>() is String reason)
+                Assert.That(error, Does.Contain(reason), $"{Vector["id"]}: refused, but not for what it is about");
+
             TestContext.Out.WriteLine($"Refused: {error}");
 
         }

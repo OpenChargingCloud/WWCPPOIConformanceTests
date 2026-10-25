@@ -44,7 +44,7 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 293 passed (its 6 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped), TS 275
+Expected: C# 299 passed (its 6 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped), TS 281
 passed / 7 skipped (signing: WWCP_POI.TS verifies only). Skips are load-bearing, not noise.
 
 ## Ground rules
@@ -56,7 +56,8 @@ passed / 7 skipped (signing: WWCP_POI.TS verifies only). Skips are load-bearing,
   carries the `knownDeviations` of the one that does not.
 - A refusal vector must change what it claims to change: the harnesses check the unpatched document first (control),
   and the generator refuses a patch that changes nothing. A refusal for the wrong reason (e.g. a time before the key
-  statement instead of before the attestation) proves nothing - look at the error message both give.
+  statement instead of before the attestation) proves nothing - look at the error message both give, and where both
+  word it alike, name it in the vector's `reason`, which both harnesses check.
 - `libs/Directory.Build.props` shields the submodules from this repository's build settings - keep it.
 - CI gates the pinned submodules; `nightly.yml` advances all four to upstream HEADs (`branch = master` in
   `.gitmodules`) and runs the C# examples of WWCP_POI master against WWCP_POI.TS (informational).
