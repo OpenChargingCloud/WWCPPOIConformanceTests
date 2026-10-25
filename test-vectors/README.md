@@ -15,17 +15,17 @@ with `node:crypto` alone mismatches. `--check` is the drift guard of CI. The fil
 | `poi-encodings.json` | RFC 4648, RFC 9285 | `base64`/`base64Invalid`: canonical Base64 as POI reads keys and signature values; `base45`/`base45Invalid`: Base45, as the QR code of a trust anchor holds its CBOR. |
 | `poi-specification.json` | SPECIFICATION.md section 6, every value verbatim | `contents` (content, ETags), `skeletons` (skeleton, digest), `commits` (commit, content, identification), `keys` (COSE key, thumbprint), `signatures` (input, value, key, private seed) and `invalidSignatures`, `priceStatements` (statement, digest), `trustAnchors` (JSON, QR code). |
 | `poi-trust.json` | SPECIFICATION.md sections 8.4 to 8.6 | `stationProofs`: proofs of the example network of section 6, its operator holding the quorum of section 6, signed with its Ed25519 keys: trust anchor and proof (JSON text), the time `at`, the `root` the proof leads to, and `expected` `accepted` or `refused`. |
-| `poi-history.json` | `runs/csharp-801bbce`, the frozen run | Documents of the run and what an implementation must calculate of them: `versions` (ETags), `commits`, `checkpoints` (identifications and fields), `checkpointProofs`, `priceStatements` (digests, chains), `trustAnchors`, `stationProofs` (root, verified against the trust anchor at `at`), `replays` (the history commit by commit). |
+| `poi-history.json` | `runs/csharp-dbf39b0`, the frozen run | Documents of the run and what an implementation must calculate of them: `versions` (ETags), `commits`, `checkpoints` (identifications and fields), `checkpointProofs`, `priceStatements` (digests, chains), `trustAnchors`, `stationProofs` (root, verified against the trust anchor at `at`), `replays` (the history commit by commit). |
 | `poi-refusals.json` | the frozen run; SPECIFICATION.md | `vectors`: a document of the run with a JSON patch applied, checked at another time, against another trust anchor or checkpoint, or a text: each must be refused. |
 
 ## The frozen run
 
-`runs/csharp-801bbce/` is what one run of the C# examples A1 to A13 of WWCP_POI at commit `801bbce` published (public
+`runs/csharp-dbf39b0/` is what one run of the C# examples A1 to A13 of WWCP_POI at commit `dbf39b0` published (public
 data only; its console output is `csharp-output.log`), and in `proofs/`, what `proofs/MakeProofs.cs.txt` made of the
-same history with the C# implementation. It came from WWCP_POI.TS (`tests/vectors/csharp-801bbce`), which keeps a
-vendored copy of it and of the `poi-*.json` for its own suite (`tests/conformance.test.ts`); `VendoredCopiesTests` of
-the C# harness fails when a copy drifts. Every run of the examples makes new keys, so every digest of another run
-differs: this run is frozen, not regenerated.
+same history with the C# implementation, at `at`. It replaces `csharp-801bbce`, which came from WWCP_POI.TS, since
+`dbf39b0` changed the digests of price statements. WWCP_POI.TS keeps a vendored copy of it and of the `poi-*.json` for
+its own suite (`tests/conformance.test.ts`); `VendoredCopiesTests` of the C# harness fails when a copy drifts. Every
+run of the examples makes new keys, so every digest of another run differs: this run is frozen, not regenerated.
 
 `poi-history.json` names `at`, a point in time at which its key statements, keys and the attestations of its station
 proofs are valid. A document is named by `file` (relative to the run) and `pointer`, a JSON pointer (RFC 6901) into

@@ -1,8 +1,8 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `801bbce`, Hermod `fbb442f`, Styx `91901a9`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `be19cec`) take or calculate different things.
+(WWCP_POI3, `libs/WWCP_POI` at `dbf39b0`, Hermod `fbb442f`, Styx `91901a9`) and the TypeScript port (WWCP_POI.TS,
+`libs/WWCP_POI.TS` at `4980f20`) take or calculate different things.
 
 Each deviation is
 
@@ -222,11 +222,15 @@ specification has to decide first.
 
 ## Not covered by vectors yet
 
-Of *csharp-review*: the quorum counted by holders the counted keys name (1), ECDSA twins of price statements in a
-server's history (2), keys removed in a later version signing change sets for an older one (3), change sets committed by
-their `@id` alone (4), witnesses signing checkpoints of a history started from a snapshot (5), `lastChange` of what
-embeds a changed entity (8, where the TypeScript port does as the C# code, against the specification), the order of
-arrays in change sets (10), `epoch` in checkpoints of epoch 1 (11, both write and read it), changes without `oldValue`
-(12), the RNO signing in place of parties without keys (13), and the algorithms of the first checkpoint of a later
-epoch (14). Most need a history signed anew - a vector maker with fixed keys on the C# side (Styx signs ECDSA after RFC
-6979 and ML-DSA deterministically as well) - or server behavior, which no verifier vector reaches.
+Of *csharp-review*: the quorum counted by holders the counted keys name (1), keys removed in a later version signing
+change sets for an older one (3), change sets committed by their `@id` alone (4), witnesses signing checkpoints of a
+history started from a snapshot (5), `lastChange` of what embeds a changed entity (8, where the TypeScript port does as
+the C# code, against the specification), the order of arrays in change sets (10), `epoch` in checkpoints of epoch 1
+(11, both write and read it), changes without `oldValue` (12), the RNO signing in place of parties without keys (13),
+and the algorithms of the first checkpoint of a later epoch (14). Most need a history signed anew - a vector maker with
+fixed keys on the C# side (Styx signs ECDSA after RFC 6979 and ML-DSA deterministically as well) - or server behavior,
+which no verifier vector reaches.
+
+ECDSA twins of price statements (2) are fixed in WWCP_POI `dbf39b0`: the digest of a statement leaves its signature
+value out. The frozen run holds the twin of a statement (`proofs/QA-priceStatement-malleated-twin.json`), and both
+implementations calculate for it the digest of the genuine statement (`poi-history.json`, `priceStatements`).

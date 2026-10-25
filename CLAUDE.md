@@ -11,9 +11,10 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   rerun it, never the JSON. It takes every value verbatim from its source (drift guard), re-derives the anchors with
   `node:crypto` and refuses to write on a mismatch; `--check` is the CI guard. The format is in
   `test-vectors/README.md`.
-- **The frozen run** `test-vectors/runs/csharp-801bbce/` is what the C# examples A1 to A13 of WWCP_POI `801bbce`
-  published, moved here from WWCP_POI.TS. Every run of the examples makes new keys: it is frozen, never regenerated.
-- **WWCP_POI.TS vendors everything** in `tests/vectors` (the run as `csharp-801bbce`, next to the `poi-*.json`) and runs
+- **The frozen run** `test-vectors/runs/csharp-dbf39b0/` is what the C# examples A1 to A13 and MakeProofs of WWCP_POI
+  `dbf39b0` published. Every run of the examples makes new keys: it is frozen, not regenerated - replaced only when the
+  specification changes what a run publishes (`dbf39b0`: the digests of price statements, `csharp-801bbce` before).
+- **WWCP_POI.TS vendors everything** in `tests/vectors` (the run as `csharp-dbf39b0`, next to the `poi-*.json`) and runs
   the golden vectors in its own suite, `tests/conformance.test.ts` with its loader `tests/conformance.ts`.
   `VendoredCopiesTests` fails on drift; `--mirror libs/WWCP_POI.TS/tests/vectors` refreshes the copy. A change of the
   vector FORMAT therefore touches three harnesses: the C# one and the TS one here, and `tests/conformance.ts` there.

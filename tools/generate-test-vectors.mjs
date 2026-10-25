@@ -45,11 +45,11 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT         = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT          = join(ROOT, 'test-vectors');
-const RUN          = 'csharp-801bbce';
+const RUN          = 'csharp-dbf39b0';
 const RUN_DIR      = join(OUT, 'runs', RUN);
 
 /** A point in time while the key statements, the keys and the attestations of the frozen run are valid. */
-const AT           = '2026-10-24T17:03:00.000Z';
+const AT           = '2026-10-25T10:20:00.000Z';
 
 const STYX_README  = 'libs/Styx/Styx/Illias/JSON/README.md';
 const STYX_TESTS   = 'libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs';
@@ -532,10 +532,11 @@ function specificationVectors() {
         { id: 'spec-6-signature-invalid-3', description: 'The attestation verified with the key of the leader.',               algorithm: 'Ed25519', ...publicKeyOf(keys.leader.publicKey), input: signatures[1].input,       value: signatures[1].value },
     ];
 
-    // Price statement digest (12.1): the SHA-256 of the canonical JSON with "value" added; "value" sorts last.
+    // Price statement digest (12.1): the SHA-256 of its signature input, "value" left out; the statement with "value"
+    // added, which sorts last.
     const priceStatement = signatures[5].input.slice(0, -1) + `,"value":"${signatures[5].value}"}`;
-    const priceDigest    = S('4e0901a796be06c7332548becf01cc4066c4b4ced59975012304d4a50458e943', 'the digest of the price statement');
-    anchor('the digest of the price statement', sha256(utf8(priceStatement)), priceDigest);
+    const priceDigest    = S('4cecb5d6ef7506ad518455d13d958c6b892d9fe8e70d1d7901f6fc5aa1d0f880', 'the digest of the price statement');
+    anchor('the digest of the price statement', sha256(utf8(signatures[5].input)), priceDigest);
 
     // The trust anchor (8.6): its JSON form and its QR code.
     const trustAnchorJSON = S('{"@id":"rn1","@context":"https://open.charging.cloud/contexts/wwcp/roamingNetwork/trustAnchor/v2","urls":["https://hub.example/poi/RNs/rn1","https://mirror.example/poi/RNs/rn1"],"keys":["1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802"],"name":{"en":"Example"}}', 'the trust anchor');
@@ -892,7 +893,9 @@ function historyVectors() {
                    : raw.priceStatements !== undefined ? raw.priceStatements.map((statement, index) => [ `/priceStatements/${index}`, statement ])
                    : [ [ '', raw ] ];
         for (const [ pointer, statement ] of list) {
-            const withContext = { '@context': 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/priceStatement/v1', ...statement };
+            // The signature input (12.1): the statement with its @context, "value" left out.
+            const { value: _value, ...signed } = statement;
+            const withContext = { '@context': 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/priceStatement/v1', ...signed };
             const digest      = sha256(utf8(canonical(withContext)));
             byDigest.set(digest, true);
             priceStatements.push({ id: `priceStatement:${file}#${pointer}`, file, pointer, roamingNetworkId: statement.roamingNetworkId, entityType: statement.entityType, entityId: statement.entityId,

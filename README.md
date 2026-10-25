@@ -19,7 +19,7 @@ where they agree is shown, and where they differ is written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `801bbce`, WWCP_POI.TS `be19cec`, Hermod `fbb442f`,
+Both harnesses are green against the pinned submodules (WWCP_POI `dbf39b0`, WWCP_POI.TS `4980f20`, Hermod `fbb442f`,
 Styx `91901a9`):
 
 | | Vectors | Passed | Skipped |
@@ -51,7 +51,7 @@ D1 and D2 are new.
 | Directory | Content |
 |---|---|
 | [`test-vectors/`](test-vectors/README.md) | **The golden vectors**, generated: canonical JSON and CBOR, encodings, the examples of SPECIFICATION.md section 6, signed trust scenarios, the documents of the frozen run with what to calculate of them, and refusals. Their format is in the [README](test-vectors/README.md) there. |
-| `test-vectors/runs/csharp-801bbce/` | **The frozen run**: what the C# examples A1 to A13 of WWCP_POI `801bbce` published, public data only, moved here from WWCP_POI.TS (which keeps a vendored copy, next to its copy of the golden vectors). |
+| `test-vectors/runs/csharp-dbf39b0/` | **The frozen run**: what the C# examples A1 to A13 of WWCP_POI `dbf39b0` published and MakeProofs made of the same history, public data only (WWCP_POI.TS keeps a vendored copy, next to its copy of the golden vectors). |
 | [`tools/generate-test-vectors.mjs`](tools/generate-test-vectors.mjs) | The generator: Node, no dependencies. Takes every value verbatim from its source, re-derives the anchors with `node:crypto` alone (identifications, ETags of canonical JSON, tree digests, thumbprints, Ed25519 signatures, the digests chaining price statements), signs the trust scenarios deterministically, and refuses to write on any mismatch. |
 | `Tests/WWCPPOIConformance_Tests/` | The **C# harness** (NUnit): WWCP_POI3 against every vector file, plus `VendoredCopiesTests`. |
 | `Tests/WWCPPOIConformance_Tests.TS/` | The **TypeScript harness** (vitest): WWCP_POI.TS, imported from source, against every vector file. |
@@ -67,7 +67,8 @@ D1 and D2 are new.
 | [`libs/Hermod`](https://github.com/Vanaheimr/Hermod) | Below WWCP_POI3 |
 | [`libs/Styx`](https://github.com/Vanaheimr/Styx) | Below Hermod: canonical JSON, deterministic CBOR, COSE - and its README, a source of vectors |
 
-Hermod and Styx are pinned at the commits the RoamingHubCLI pins together with WWCP_POI `801bbce`.
+Hermod and Styx are pinned at the commits the RoamingHubCLI pins together with WWCP_POI, the same from `801bbce` to
+`dbf39b0`.
 
 ```bash
 git clone --recurse-submodules https://github.com/OpenChargingCloud/WWCPPOIConformanceTests.git

@@ -272,7 +272,7 @@
       "id": "spec-6-price-statement",
       "description": "The price statement of DE*GEF*E1*1 with its value, and its digest (12.1).",
       "statement": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/priceStatement/v1\",\"algorithm\":\"Ed25519\",\"entityId\":\"DE*GEF*E1*1\",\"entityType\":\"EVSE\",\"keyId\":\"8cb46c0f98440da34ad4af304431f76c7cb7462fa8fdfd5d6261dc685809220d\",\"priceStatus\":{\"prices\":[{\"chargingTariffId\":\"DE*GEF*T1\",\"elements\":[{\"priceComponents\":[{\"price\":0.39,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}]},\"roamingNetworkId\":\"rn1\",\"role\":\"chargingStationOperator\",\"sequence\":0,\"signedAt\":\"2026-10-19T11:59:58.000Z\",\"signer\":\"DE*GEF\",\"validFrom\":\"2026-10-19T12:00:00.000Z\",\"validUntil\":\"2026-10-19T12:15:00.000Z\",\"value\":\"On32sQ3JD5yUHL3CDnc0XA9+wpfEVw9wvXF3exh+rpcWOmBoD/tuvFBmNcolWWV5lOxF54JC5aJ0PmX9gPERAw==\"}",
-      "digest": "4e0901a796be06c7332548becf01cc4066c4b4ced59975012304d4a50458e943"
+      "digest": "4cecb5d6ef7506ad518455d13d958c6b892d9fe8e70d1d7901f6fc5aa1d0f880"
     }
   ],
   "trustAnchors": [
