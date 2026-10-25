@@ -17,7 +17,7 @@
 
 import { describe, expect, it } from 'vitest';
 
-import { ChargingStationProof, etagToText, parseJSON, TrustAnchor, verifyChargingStation } from '../../../libs/WWCP_POI.TS/src/index.ts';
+import { ChargingStationProof, etagToText, parseJSON, parseJSONObject, TrustAnchor, verifyChargingStation } from '../../../libs/WWCP_POI.TS/src/index.ts';
 
 import { deviates, skipReason, trust } from './vectors.ts';
 
@@ -27,11 +27,13 @@ describe('poi-trust.json: station proofs of the example network, against a trust
     for (const vector of trust.stationProofs) {
         it.skipIf(skipReason(vector) !== undefined)(`${vector.id} (${vector.expected}): ${vector.description}`, () => {
 
-            const proof   = ChargingStationProof.parse(parseJSON(vector.proof));
+            const proof   = parseJSONObject(vector.proof);
             const anchor  = TrustAnchor.fromJSON(parseJSON(vector.trustAnchor));
             const verify  = (): unknown => verifyChargingStation(anchor, proof, { at: vector.at, evseId: vector.evseId });
 
-            expect(etagToText(proof.calculate().eTag)).toBe(vector.root);
+            // The root the proof leads to, whatever its attestations: also a proof refused for one of them, e.g. one without
+            // a validUntil, leads to it.
+            expect(etagToText(ChargingStationProof.parse({ ...proof, attestations: [] }).calculate().eTag)).toBe(vector.root);
 
             // A known deviation is pinned: the day it is gone, this turns red and the marker is removed in the generator.
             if ((vector.expected === 'accepted') !== deviates(vector))

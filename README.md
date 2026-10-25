@@ -19,25 +19,25 @@ where they agree is shown, and where they differ is written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `3e32f48`, WWCP_POI.TS `20c16aa`, Hermod `fbb442f`,
+Both harnesses are green against the pinned submodules (WWCP_POI `be07037`, WWCP_POI.TS `6ae4fc6`, Hermod `fbb442f`,
 Styx `91901a9`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 268 | 286 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 268 | 268 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
+| C# harness (NUnit), WWCP_POI3 | 271 | 293 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 271 | 275 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
-The two implementations agree on 254 of the 268 vectors. On 14, **WWCP_POI3 takes what WWCP_POI.TS refuses**, four
-open deviations, each marked on its vectors and pinned (D4 and D5 are fixed in WWCP_POI `6e469a0`) - see
+The two implementations agree on 259 of the 271 vectors. On 12, **WWCP_POI3 takes what WWCP_POI.TS refuses**, three
+open deviations, each marked on its vectors and pinned (D3 is fixed in WWCP_POI `be07037`, D4 and D5 in `6e469a0`) - see
 **[docs/implementation-deviations.md](docs/implementation-deviations.md)**:
 
 | | Deviation of WWCP_POI3 |
 |---|---|
 | D1 | The JSON reader for hashing takes what is no JSON (trailing commas, comments, `0x10`, a second value after the first …) |
 | D2 | A station proof may name another revision than its attestations |
-| D3 | An attestation counts before it was signed |
+| D3 | ✅ An attestation counts before it was signed: fixed in WWCP_POI `be07037` |
 | D4 | ✅ An attestation of a subject counts for the whole proof: fixed in WWCP_POI `6e469a0` |
 | D5 | ✅ The role of an attestation is not checked: fixed in WWCP_POI `6e469a0` |
 | D6 | A proof's certificates and key statement may name another roaming network operator |

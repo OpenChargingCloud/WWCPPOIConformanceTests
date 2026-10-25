@@ -536,7 +536,7 @@
       "expected": "refused",
       "id": "stationProof-before-signed",
       "kind": "stationProof",
-      "basis": "libs/WWCP_POI/SPECIFICATION.md, 8.5; csharp-review 7 (proposed)",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 8.5, Validity; csharp-review 7",
       "description": "A second before every attestation was signed, the key statement and the certificates valid: an attestation of the future is no attestation now (csharp-review 7).",
       "document": {
         "file": "published/QA-DE-GEF-E1-1-proof.json",
@@ -545,11 +545,7 @@
       },
       "trustAnchor": "published/QA-trustAnchor-mldsa.txt",
       "at": "2026-10-25T16:25:30.728Z",
-      "evseId": "DE*GEF*E1*1",
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d3-future-attestation"
+      "evseId": "DE*GEF*E1*1"
     },
     {
       "expected": "refused",

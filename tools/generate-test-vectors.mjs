@@ -67,7 +67,6 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
 const DEVIATIONS = {
     'D1-lenient-json':   [ CSHARP ],
     'D2-proof-revision': [ CSHARP ],
-    'D3-future-attestation':   [ CSHARP ],
     'D6-foreign-operator':     [ CSHARP ],
 };
 
@@ -733,8 +732,8 @@ function trustVectors() {
 
     vector('valid',                'accepted', 'Attested by the signing keys of both holders, each certified by the identity key of its holder, which the trust anchor pins; within the validity of the attestations.', B('8.4 to 8.6'));
     vector('expired',              'refused',  'A minute after the attestations ended (validUntil).', B('8.5'), { at: '2026-10-17T18:16:00.000Z' });
-    vector('future',               'refused',  'A second before the attestations were signed, the key statement and the certificates valid: an attestation of the future is no attestation now.', `${B('8.5')}; csharp-review 7 (proposed)`,
-           { at: '2026-10-17T17:59:59.000Z', ...deviation('D3-future-attestation') });
+    vector('future',               'refused',  'A second before the attestations were signed, the key statement and the certificates valid: an attestation of the future is no attestation now.', `${B('8.5, Validity')}; csharp-review 7`,
+           { at: '2026-10-17T17:59:59.000Z' });
     vector('one-holder',           'refused',  'Attested by Alpha only, where the quorum takes two holders.', B('8.5, Trust'),
            { proof: proofOf({ attest: (root) => [ attestation(alphaSigning, root) ] }) });
     vector('one-holder-twice',     'refused',  'Attested twice by the signing key of Alpha: one holder.', B('8.5, Trust'),
@@ -743,8 +742,12 @@ function trustVectors() {
            { proof: proofOf({ attest: (root) => [ attestation(alphaSigning, root), attestation(betaSigning, root, { subject: { entityType: 'ChargingStationOperator', entityId: 'DE*GEF', digest: gefDigest } }) ] }) });
     vector('role',                 'refused',  'Beta attests the root in the role of a witness: the roaming network operator attests its versions.', `${B('8.5')}; csharp-review 6`,
            { proof: proofOf({ attest: (root) => [ attestation(alphaSigning, root), attestation(betaSigning, root, { role: 'witness' }) ] }) });
-    vector('no-valid-until',       'accepted', 'Attestations without validUntil, two weeks later, the key statement and the certificates still valid: valid forever, as the specification lets validUntil out; csharp-review 7 proposes to require it.', `${B('8.5')}; csharp-review 7`,
+    vector('no-valid-until',       'refused',  'Attestations without validUntil, two weeks later, the key statement and the certificates still valid: an attestation gives its validUntil, so that none is valid forever.', `${B('8.5, Validity')}; csharp-review 7`,
            { proof: proofOf({ attest: (root) => [ attestation(alphaSigning, root, { until: null }), attestation(betaSigning, root, { until: null }) ] }), at: '2026-11-01T00:00:00.000Z' });
+    vector('a-day',                'accepted', 'Attestations valid for 24 hours, the longest an attestation is valid, an hour before they end.', `${B('8.5, Validity')}; csharp-review 7`,
+           { proof: proofOf({ attest: (root) => [ attestation(alphaSigning, root, { until: '2026-10-18T18:00:00.000Z' }), attestation(betaSigning, root, { until: '2026-10-18T18:00:00.000Z' }) ] }), at: '2026-10-18T17:00:00.000Z' });
+    vector('too-long',             'refused',  'Attestations valid for 24 hours and a millisecond, checked within them: an attestation is valid for 24 hours at most.', `${B('8.5, Validity')}; csharp-review 7`,
+           { proof: proofOf({ attest: (root) => [ attestation(alphaSigning, root, { until: '2026-10-18T18:00:00.001Z' }), attestation(betaSigning, root, { until: '2026-10-18T18:00:00.001Z' }) ] }) });
     vector('certificate-operator', 'refused',  'The certificate of the signing key of Beta names another roaming network operator.', `${B('8.6')}; csharp-review 19`,
            { proof: proofOf({ network: networkOf(rnoOf({ certificates: [ certificates[0], certificate(betaSigning, betaIdentity, { operatorId: 'DE*XYZ' }) ] })) }), ...deviation('D6-foreign-operator') });
     vector('statement-operator',   'refused',  'The key statement names another roaming network operator.', `${B('8.6')}; csharp-review 19`,
@@ -753,6 +756,8 @@ function trustVectors() {
            { proof: withKey(signingKey(seeds.betaSigning, 'Beta', { usages: [ 'tariffs' ] })) });
     vector('key-expired',          'refused',  'The signing key of Beta expired before it attested (notAfter).', B('8.6'),
            { proof: withKey(signingKey(seeds.betaSigning, 'Beta', { notAfter: '2026-10-17T12:00:00.000Z' })) });
+    vector('key-ended',            'refused',  'The signing key of Beta ended (notAfter) after it attested and before the time checked, its attestation still valid: the key of an attestation is valid when it attested and when it is checked, its signedAt being the choice of its signer.', `${B('8.5, Validity; 8.6')}; csharp-review 7`,
+           { proof: withKey(signingKey(seeds.betaSigning, 'Beta', { notAfter: '2026-10-17T18:02:00.000Z' })) });
     vector('certified-by-other',   'refused',  'The signing key of Beta certified by the identity key of Alpha: each holder certifies its own signing keys only.', B('8.6'),
            { proof: withKey(betaSigning, alphaIdentity) });
     vector('uncertified',          'refused',  'Beta attests with a key no certificate names.', B('8.5, Trust'),
@@ -1102,7 +1107,7 @@ function refusalVectors() {
     const proofVector  = (id, description, patch, more = {}) => refuse({ id, kind: 'stationProof', basis: `${SPEC}, 8.4, 8.5`, description, document: patched(stationProof, '', patch), trustAnchor: 'published/QA-trustAnchor-mldsa.txt', at: AT, evseId: 'DE*GEF*E1*1', ...more });
 
     proofVector('stationProof-expired',        'After every attestation ended (validUntil).',                                                        [], { at: iso(validUntil + 1000) });
-    proofVector('stationProof-before-signed',  'A second before every attestation was signed, the key statement and the certificates valid: an attestation of the future is no attestation now (csharp-review 7).', [], { at: iso(signedAt - 1000), basis: `${SPEC}, 8.5; csharp-review 7 (proposed)`, ...deviation('D3-future-attestation') });
+    proofVector('stationProof-before-signed',  'A second before every attestation was signed, the key statement and the certificates valid: an attestation of the future is no attestation now (csharp-review 7).', [], { at: iso(signedAt - 1000), basis: `${SPEC}, 8.5, Validity; csharp-review 7` });
     proofVector('stationProof-other-anchor',   'Against the trust anchor of epoch 1, whose identity keys did not sign the key statement of epoch 2.', [], { trustAnchor: 'published/QA-trustAnchor.txt' });
     proofVector('stationProof-entity',         'An EVSE the proof gives completely changed: the proof leads to another root.',                       [ { op: 'replace', path: pathOfEVSE(sp, 'DE*GEF*E1*1') + '/maxPower', value: 999999 } ]);
     proofVector('stationProof-signature',      'The value of every attestation changed.',                                                            sp.attestations.map((attestation, index) => ({ op: 'replace', path: `/attestations/${index}/value`, value: attestation.value.slice(0, 8) + (attestation.value[8] === 'A' ? 'B' : 'A') + attestation.value.slice(9) })));

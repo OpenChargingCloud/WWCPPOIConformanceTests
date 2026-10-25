@@ -26,13 +26,13 @@ WWCP_POI.TS](https://github.com/OpenChargingCloud/WWCP_POI.TS/blob/master/docs/c
 |---|---|---|---|---|---|
 | [D1](#d1-lenient-json) | The JSON reader for hashing takes what is no JSON: trailing commas, comments, single quotes, unquoted names, `01`, `0x10`, raw control characters, a second value after the first | WWCP_POI3 | 9 of `poi-canonical-json.json` | medium (interop) | new |
 | [D2](#d2-proof-revision) | A station proof may name another revision than its attestations | WWCP_POI3 | `stationProof-revision` | low | new |
-| [D3](#d3-future-attestation) | An attestation counts before it was signed | WWCP_POI3 | `stationProof-before-signed`, `trust-future` | medium | 7 |
+| [D3](#d3-future-attestation) | ✅ An attestation counts before it was signed: **fixed** in WWCP_POI `be07037` | WWCP_POI3 | `stationProof-before-signed`, `trust-future` | medium | 7 |
 | [D4](#d4-subject-attestation) | ✅ An attestation of a subject counts for the whole proof: **fixed** in WWCP_POI `6e469a0` | WWCP_POI3 | `trust-subject` | medium | 6 |
 | [D5](#d5-attestation-role) | ✅ The role of an attestation is not checked: **fixed** in WWCP_POI `6e469a0` | WWCP_POI3 | `trust-role` | low-medium | 6 |
 | [D6](#d6-foreign-operator) | A proof's certificates and key statement may name another roaming network operator | WWCP_POI3 | `trust-certificate-operator`, `trust-statement-operator` | low-medium | 19 |
 
-In each case WWCP_POI.TS refuses what the vector says is to be refused, and WWCP_POI3 takes it. Of the open ones, D1 to
-D3 and D6, these are 14 of the 268 vectors; on the other 254 the two implementations agree (see
+In each case WWCP_POI.TS refuses what the vector says is to be refused, and WWCP_POI3 takes it. Of the open ones, D1,
+D2 and D6, these are 12 of the 271 vectors; on the other 259 the two implementations agree (see
 [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
@@ -95,7 +95,7 @@ is shown to whoever checks it (`RoamingNetworkProof.Revision`), and is not what 
 
 
 <a id="d3-future-attestation"></a>
-## D3. An attestation counts before it was signed
+## D3. ✅ An attestation counts before it was signed
 
 **Vectors:** `stationProof-before-signed` (`poi-refusals.json`), the station proof of the frozen run checked one second
 before its attestations were signed, its key statement and certificates already valid; `trust-future`
@@ -110,6 +110,12 @@ forward-dated attestation is taken as now.
 
 **Fix:** `IsValidAt` requires `SignedAt <= Timestamp` (SPECIFICATION.md 8.5 should say so; the vector names its basis
 "proposed").
+
+**Fixed** in WWCP_POI `be07037` (SPECIFICATION.md 8.5, Validity, and 8.6): an attestation is valid from its `signedAt`
+to its `validUntil`, which it gives, at most 24 hours later, and its signing key counts when it is valid when it attested
+and at the time the proof is checked. Both implementations refuse `stationProof-before-signed` and `trust-future`; the
+new vectors `trust-a-day` (taken), `trust-too-long` and `trust-key-ended` (refused) hold both to the rest of
+*csharp-review 7*, and `trust-no-valid-until` is refused by both ([O4](#o4-no-valid-until)).
 
 
 <a id="d4-subject-attestation"></a>
@@ -186,11 +192,12 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
 - the refusal of 33 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors;
-- of the 19 trust vectors, 16: a valid proof, expired attestations, one holder only (also twice), a key that may not
-  sign for the party, an expired signing key, a key certified by another holder's identity key, an uncertified key,
-  other identity keys pinned, the quorum of the key statement above the one of the trust anchor, an attestation of
-  another network, a changed entity, a wrong signature, a subject attestation and one in the role of a witness counted
-  for the quorum (D4, D5) - and attestations without `validUntil`, which both take ([O4](#o4-no-valid-until)).
+- of the 22 trust vectors, 20: a valid proof, expired attestations, attestations of the future (D3), one holder only
+  (also twice), a key that may not sign for the party, a signing key expired before it attested and one that ended
+  after it attested, a key certified by another holder's identity key, an uncertified key, other identity keys pinned,
+  the quorum of the key statement above the one of the trust anchor, an attestation of another network, a changed
+  entity, a wrong signature, a subject attestation and one in the role of a witness counted for the quorum (D4, D5),
+  attestations without `validUntil` ([O4](#o4-no-valid-until)), valid for a day, and valid longer.
 
 
 ## Observations
@@ -223,12 +230,15 @@ what either calculates - the replay vector checks content and says so (`commitAn
 but in what an API takes by default: WWCP_POI.TS could refuse signed commits without a verifier, as WWCP_POI3 does.
 
 <a id="o4-no-valid-until"></a>
-### O4. Attestations without `validUntil` are valid forever, in both
+### O4. ✅ Attestations without `validUntil` are valid forever, in both
 
 `trust-no-valid-until` (`poi-trust.json`, expected `accepted`): both implementations take attestations without
 `validUntil` two weeks after they were signed. SPECIFICATION.md 8.5 lets `validUntil` out; *csharp-review 7* proposes
 to require it. The vector pins the agreement: should one implementation start refusing them, it turns red, and the
 specification has to decide first.
+
+**Decided** in WWCP_POI `be07037`: SPECIFICATION.md 8.5 requires `validUntil`, at most 24 hours after `signedAt`. The
+vector expects `refused` now, and both implementations refuse it when they read the attestations.
 
 
 ## Not covered by vectors yet
