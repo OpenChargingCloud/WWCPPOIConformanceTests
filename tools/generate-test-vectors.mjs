@@ -1077,6 +1077,19 @@ function refusalVectors() {
     refuse({ id: 'changeSet-without-changes', kind: 'commit', basis: `${SPEC}, 4, 5.2`, description: 'The change set of a commit with one parent without changes, identified anew by its content: it would change nothing.', document: patched('published/QA-commit.json', '', changeSetPatch({ changes: [] })) });
     refuse({ id: 'changeSet-merge-id',        kind: 'commit', basis: `${SPEC}, 4, 5.2, 5.3`, description: 'The change set of a commit with one parent named as the change set of a merge, which only a merge commit has.', document: patched('published/QA-commit.json', '', changeSetPatch({}, 'merge-' + '0'.repeat(32))) });
 
+    // Rebased with a change naming no old value: only old values tell that a change set committed meanwhile changed what it
+    // changes, which the rebase would have overwritten (csharp-review 12). It names the change set it was rebased from
+    // rightly, with the ETags of another change set of the run, so that only the missing old value is refused.
+    if (!commitN.changeSet.changes.some(change => 'oldValue' in change && change.kind !== 'Add' && change.kind !== 'AddElement'))
+        fail('published/QA-commit.json: no change of its change set names an old value');
+
+    const withoutOldValues = commitN.changeSet.changes.map(change => without(change, 'oldValue'));
+    const rebasedOriginal  = { ...commitN.changeSet, changes: withoutOldValues, beforeETags: otherN.beforeETags, afterETags: otherN.afterETags };
+
+    refuse({ id: 'changeSet-rebased-without-old-value', kind: 'commit', basis: `${SPEC}, 4; csharp-review 12`, reason: 'which was rebased, has no old value',
+             description: 'The change set of a commit without the old value of its change, naming the change set it was rebased from rightly, identified anew: a rebase without old values may have overwritten a concurrent change.',
+             document: patched('published/QA-commit.json', '', changeSetPatch({ changes: withoutOldValues, metadata: { rebasedFrom: [ { '@id': contentId(rebasedOriginal), beforeETags: otherN.beforeETags, afterETags: otherN.afterETags } ] } })) });
+
     // ---- Checkpoints (10.1): their @id is the digest of their content.
     refuse({ id: 'checkpoint-sequence',       kind: 'checkpoint', basis: `${SPEC}, 10.1`, description: 'Another sequence.',                                                                            document: patched('published/QA-checkpoint-1.json', '', [ { op: 'replace', path: '/sequence', value: 2 } ]) });
     refuse({ id: 'checkpoint-previous',       kind: 'checkpoint', basis: `${SPEC}, 10.1`, description: 'Another previous checkpoint.',                                                                 document: patched('published/QA-checkpoint-1.json', '', [ { op: 'replace', path: '/previousId', value: '0'.repeat(64) } ]) });

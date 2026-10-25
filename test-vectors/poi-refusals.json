@@ -307,6 +307,88 @@
     },
     {
       "expected": "refused",
+      "id": "changeSet-rebased-without-old-value",
+      "kind": "commit",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; csharp-review 12",
+      "reason": "which was rebased, has no old value",
+      "description": "The change set of a commit without the old value of its change, naming the change set it was rebased from rightly, identified anew: a rebase without old values may have overwritten a concurrent change.",
+      "document": {
+        "file": "published/QA-commit.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/changeSet/changes",
+            "value": [
+              {
+                "kind": "UpdateProperty",
+                "entityType": "EnergyMeterTemplate",
+                "entityId": "DE*GEF*EMT_DC",
+                "propertyName": "transparencySoftwareStatus",
+                "newValue": [
+                  {
+                    "transparencySoftwareId": "chargy-1.5.0",
+                    "legalStatus": "germanCalibrationLaw",
+                    "certificateId": "PTB-2026-0042"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "add",
+            "path": "/changeSet/metadata",
+            "value": {
+              "rebasedFrom": [
+                {
+                  "@id": "3be1c4b29f96361561e24dda8727433c939f6f6c287b87dfe92a90606ea2e3ca",
+                  "beforeETags": [
+                    [
+                      "json",
+                      "sha256",
+                      "hex",
+                      "d3960bc3646a67792ffa4d59366d3de47dfbfd44fd0c4f98ae630602d30e41b0"
+                    ],
+                    [
+                      "cbor",
+                      "sha256",
+                      "hex",
+                      "488b3de0e75b98c5f561a8746f1c172a04ff08cfb94ff3bdd55d3f6cc023d8e8"
+                    ]
+                  ],
+                  "afterETags": [
+                    [
+                      "json",
+                      "sha256",
+                      "hex",
+                      "b6276f513958a895fc0f4b3f14ddce2026cbe2132e646cb30fcb45743be8f273"
+                    ],
+                    [
+                      "cbor",
+                      "sha256",
+                      "hex",
+                      "9c131696fc419d9c1a6a2e5eb86e786eba1d4aeb931fc093a351d95bd6e277a0"
+                    ]
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/changeSet/@id",
+            "value": "4638475a09f59665ac9df38e15af79ba345bd7abba76be6729444a605e9dc5f1"
+          },
+          {
+            "op": "replace",
+            "path": "/@id",
+            "value": "f14816ec13bb0050f29ca983d9933940385b4d684bb972e95323f3cf7368ca4d615bf807d654117d66654893b07820fadf4cc19b2bdc621ed21e466598b97901"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
       "id": "checkpoint-sequence",
       "kind": "checkpoint",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 10.1",
