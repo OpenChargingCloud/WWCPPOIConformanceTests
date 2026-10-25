@@ -19,7 +19,7 @@ where they agree is shown, and where they differ is written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `850440a`, WWCP_POI.TS `e32c2cd`, Hermod `fbb442f`,
+Both harnesses are green against the pinned submodules (WWCP_POI `36bb176`, WWCP_POI.TS `7f454a2`, Hermod `fbb442f`,
 Styx `91901a9`):
 
 | | Vectors | Passed | Skipped |
