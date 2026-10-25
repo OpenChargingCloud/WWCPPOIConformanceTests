@@ -11,6 +11,9 @@ Each deviation is
   harness turns red with the message to remove the marker in the generator. A deviation can not be fixed unnoticed,
   nor come back unnoticed.
 
+A fixed deviation keeps its section, marked ✅ with the commit that fixed it; its vectors then hold both implementations
+to what they say.
+
 Every deviation below is **demonstrated**: a vector shows it, run by both harnesses. Where it confirms a finding of the
 review WWCP_POI.TS made of the C# implementation while porting it ([`docs/csharp-review.md` of
 WWCP_POI.TS](https://github.com/OpenChargingCloud/WWCP_POI.TS/blob/master/docs/csharp-review.md), cited as
@@ -24,12 +27,13 @@ WWCP_POI.TS](https://github.com/OpenChargingCloud/WWCP_POI.TS/blob/master/docs/c
 | [D1](#d1-lenient-json) | The JSON reader for hashing takes what is no JSON: trailing commas, comments, single quotes, unquoted names, `01`, `0x10`, raw control characters, a second value after the first | WWCP_POI3 | 9 of `poi-canonical-json.json` | medium (interop) | new |
 | [D2](#d2-proof-revision) | A station proof may name another revision than its attestations | WWCP_POI3 | `stationProof-revision` | low | new |
 | [D3](#d3-future-attestation) | An attestation counts before it was signed | WWCP_POI3 | `stationProof-before-signed`, `trust-future` | medium | 7 |
-| [D4](#d4-subject-attestation) | An attestation of a subject counts for the whole proof | WWCP_POI3 | `trust-subject` | medium | 6 |
-| [D5](#d5-attestation-role) | The role of an attestation is not checked | WWCP_POI3 | `trust-role` | low-medium | 6 |
+| [D4](#d4-subject-attestation) | ✅ An attestation of a subject counts for the whole proof: **fixed** in WWCP_POI `6e469a0` | WWCP_POI3 | `trust-subject` | medium | 6 |
+| [D5](#d5-attestation-role) | ✅ The role of an attestation is not checked: **fixed** in WWCP_POI `6e469a0` | WWCP_POI3 | `trust-role` | low-medium | 6 |
 | [D6](#d6-foreign-operator) | A proof's certificates and key statement may name another roaming network operator | WWCP_POI3 | `trust-certificate-operator`, `trust-statement-operator` | low-medium | 19 |
 
-In each case WWCP_POI.TS refuses what the vector says is to be refused, and WWCP_POI3 takes it. These are 16 of the
-268 vectors; on the other 252 the two implementations agree (see [What both do alike](#what-both-do-alike)).
+In each case WWCP_POI.TS refuses what the vector says is to be refused, and WWCP_POI3 takes it. Of the open ones, D1 to
+D3 and D6, these are 14 of the 268 vectors; on the other 254 the two implementations agree (see
+[What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
 [O1](#o1-internal-reader) to [O4](#o4-no-valid-until).
@@ -109,7 +113,7 @@ forward-dated attestation is taken as now.
 
 
 <a id="d4-subject-attestation"></a>
-## D4. An attestation of a subject counts for the whole proof
+## D4. ✅ An attestation of a subject counts for the whole proof
 
 **Vector:** `trust-subject` (`poi-trust.json`): the quorum of `DE*RNO` is two holders; Alpha attests the root, Beta only
 the digest of `DE*GEF` (`"subject": {"entityType": "ChargingStationOperator", "entityId": "DE*GEF", "digest": …}`).
@@ -124,9 +128,13 @@ whole proof.
 
 **Fix:** count a subject attestation for its subject only, never for the proof.
 
+**Fixed** in WWCP_POI `6e469a0` (SPECIFICATION.md 8.4 and 8.5): only attestations of the root count for the proof;
+`VerifySubject` verifies the operator a subject attestation names, as the proof gives it, and nothing above it. Both
+implementations refuse `trust-subject`.
+
 
 <a id="d5-attestation-role"></a>
-## D5. The role of an attestation is not checked
+## D5. ✅ The role of an attestation is not checked
 
 **Vector:** `trust-role` (`poi-trust.json`): Beta attests the root with its certified signing key of `DE*RNO`, in the
 role `witness`.
@@ -139,6 +147,9 @@ made as something else - a witness, a charging station operator attesting its ow
 network operator.
 
 **Fix:** count attestations in the role `roamingNetworkOperator` only.
+
+**Fixed** in WWCP_POI `6e469a0` (SPECIFICATION.md 8.5): attestations of the root count for the proof in the role
+`roamingNetworkOperator` only. Both implementations refuse `trust-role`.
 
 
 <a id="d6-foreign-operator"></a>
@@ -175,11 +186,11 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
 - the refusal of 33 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors;
-- of the 19 trust vectors, 14: a valid proof, expired attestations, one holder only (also twice), a key that may not
+- of the 19 trust vectors, 16: a valid proof, expired attestations, one holder only (also twice), a key that may not
   sign for the party, an expired signing key, a key certified by another holder's identity key, an uncertified key,
   other identity keys pinned, the quorum of the key statement above the one of the trust anchor, an attestation of
-  another network, a changed entity, a wrong signature - and attestations without `validUntil`, which both take
-  ([O4](#o4-no-valid-until)).
+  another network, a changed entity, a wrong signature, a subject attestation and one in the role of a witness counted
+  for the quorum (D4, D5) - and attestations without `validUntil`, which both take ([O4](#o4-no-valid-until)).
 
 
 ## Observations

@@ -68,8 +68,6 @@ const DEVIATIONS = {
     'D1-lenient-json':   [ CSHARP ],
     'D2-proof-revision': [ CSHARP ],
     'D3-future-attestation':   [ CSHARP ],
-    'D4-subject-attestation':  [ CSHARP ],
-    'D5-attestation-role':     [ CSHARP ],
     'D6-foreign-operator':     [ CSHARP ],
 };
 
@@ -742,9 +740,9 @@ function trustVectors() {
     vector('one-holder-twice',     'refused',  'Attested twice by the signing key of Alpha: one holder.', B('8.5, Trust'),
            { proof: proofOf({ attest: (root) => [ attestation(alphaSigning, root), attestation(alphaSigning, root, { at: '2026-10-17T18:01:00.000Z', until: '2026-10-17T18:16:00.000Z' }) ] }) });
     vector('subject',              'refused',  'Alpha attests the root, Beta only the digest of DE*GEF (a subject): a subject attests one entity, not the root, and does not count for the proof.', `${B('8.5, Subject')}; csharp-review 6`,
-           { proof: proofOf({ attest: (root) => [ attestation(alphaSigning, root), attestation(betaSigning, root, { subject: { entityType: 'ChargingStationOperator', entityId: 'DE*GEF', digest: gefDigest } }) ] }), ...deviation('D4-subject-attestation') });
+           { proof: proofOf({ attest: (root) => [ attestation(alphaSigning, root), attestation(betaSigning, root, { subject: { entityType: 'ChargingStationOperator', entityId: 'DE*GEF', digest: gefDigest } }) ] }) });
     vector('role',                 'refused',  'Beta attests the root in the role of a witness: the roaming network operator attests its versions.', `${B('8.5')}; csharp-review 6`,
-           { proof: proofOf({ attest: (root) => [ attestation(alphaSigning, root), attestation(betaSigning, root, { role: 'witness' }) ] }), ...deviation('D5-attestation-role') });
+           { proof: proofOf({ attest: (root) => [ attestation(alphaSigning, root), attestation(betaSigning, root, { role: 'witness' }) ] }) });
     vector('no-valid-until',       'accepted', 'Attestations without validUntil, two weeks later, the key statement and the certificates still valid: valid forever, as the specification lets validUntil out; csharp-review 7 proposes to require it.', `${B('8.5')}; csharp-review 7`,
            { proof: proofOf({ attest: (root) => [ attestation(alphaSigning, root, { until: null }), attestation(betaSigning, root, { until: null }) ] }), at: '2026-11-01T00:00:00.000Z' });
     vector('certificate-operator', 'refused',  'The certificate of the signing key of Beta names another roaming network operator.', `${B('8.6')}; csharp-review 19`,

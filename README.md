@@ -29,8 +29,8 @@ Styx `91901a9`):
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
-The two implementations agree on 252 of the 268 vectors. On 16, **WWCP_POI3 takes what WWCP_POI.TS refuses**, six
-deviations, each marked on its vectors and pinned - see
+The two implementations agree on 254 of the 268 vectors. On 14, **WWCP_POI3 takes what WWCP_POI.TS refuses**, four
+open deviations, each marked on its vectors and pinned (D4 and D5 are fixed in WWCP_POI `6e469a0`) - see
 **[docs/implementation-deviations.md](docs/implementation-deviations.md)**:
 
 | | Deviation of WWCP_POI3 |
@@ -38,8 +38,8 @@ deviations, each marked on its vectors and pinned - see
 | D1 | The JSON reader for hashing takes what is no JSON (trailing commas, comments, `0x10`, a second value after the first …) |
 | D2 | A station proof may name another revision than its attestations |
 | D3 | An attestation counts before it was signed |
-| D4 | An attestation of a subject counts for the whole proof |
-| D5 | The role of an attestation is not checked |
+| D4 | ✅ An attestation of a subject counts for the whole proof: fixed in WWCP_POI `6e469a0` |
+| D5 | ✅ The role of an attestation is not checked: fixed in WWCP_POI `6e469a0` |
 | D6 | A proof's certificates and key statement may name another roaming network operator |
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
