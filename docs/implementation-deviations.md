@@ -1,8 +1,8 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `dbf39b0`, Hermod `fbb442f`, Styx `91901a9`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `4980f20`) take or calculate different things.
+(WWCP_POI3, `libs/WWCP_POI` at `3e32f48`, Hermod `fbb442f`, Styx `91901a9`) and the TypeScript port (WWCP_POI.TS,
+`libs/WWCP_POI.TS` at `20c16aa`) take or calculate different things.
 
 Each deviation is
 
@@ -29,7 +29,7 @@ WWCP_POI.TS](https://github.com/OpenChargingCloud/WWCP_POI.TS/blob/master/docs/c
 | [D6](#d6-foreign-operator) | A proof's certificates and key statement may name another roaming network operator | WWCP_POI3 | `trust-certificate-operator`, `trust-statement-operator` | low-medium | 19 |
 
 In each case WWCP_POI.TS refuses what the vector says is to be refused, and WWCP_POI3 takes it. These are 16 of the
-265 vectors; on the other 249 the two implementations agree (see [What both do alike](#what-both-do-alike)).
+268 vectors; on the other 252 the two implementations agree (see [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
 [O1](#o1-internal-reader) to [O4](#o4-no-valid-until).
@@ -222,15 +222,22 @@ specification has to decide first.
 
 ## Not covered by vectors yet
 
-Of *csharp-review*: the quorum counted by holders the counted keys name (1), keys removed in a later version signing
-change sets for an older one (3), change sets committed by their `@id` alone (4), witnesses signing checkpoints of a
-history started from a snapshot (5), `lastChange` of what embeds a changed entity (8, where the TypeScript port does as
-the C# code, against the specification), the order of arrays in change sets (10), `epoch` in checkpoints of epoch 1
-(11, both write and read it), changes without `oldValue` (12), the RNO signing in place of parties without keys (13),
-and the algorithms of the first checkpoint of a later epoch (14). Most need a history signed anew - a vector maker with
+Of *csharp-review*: keys removed in a later version signing change sets for an older one (3), change sets committed by
+their `@id` alone (4), witnesses signing checkpoints of a history started from a snapshot (5), `lastChange` of what
+embeds a changed entity (8, where the TypeScript port does as the C# code, against the specification), the order of
+arrays in change sets (10), `epoch` in checkpoints of epoch 1 (11, both write and read it), changes without `oldValue`
+(12), the RNO signing in place of parties without keys (13), and the algorithms of the first checkpoint of a later
+epoch (14). Most need a history signed anew - a vector maker with
 fixed keys on the C# side (Styx signs ECDSA after RFC 6979 and ML-DSA deterministically as well) - or server behavior,
 which no verifier vector reaches.
 
 ECDSA twins of price statements (2) are fixed in WWCP_POI `dbf39b0`: the digest of a statement leaves its signature
 value out. The frozen run holds the twin of a statement (`proofs/QA-priceStatement-malleated-twin.json`), and both
 implementations calculate for it the digest of the genuine statement (`poi-history.json`, `priceStatements`).
+
+The quorum counted by holders the counted keys name (1) is fixed in WWCP_POI `3e32f48`: a trust anchor names the keys
+per holder, the holders are counted as the verifier knows them, and a key keeps its holder. The trust vectors hold it
+for both implementations, signed by the generator with a second identity key of Alpha: `trust-holder-keys` (both keys
+of Alpha one holder, taken), `trust-holder-renamed` (a key statement naming one of them as Beta's, refused) and
+`trust-holder-unnamed-key` (a key the statement does not name certifying a signing key of "Beta", counted for Alpha,
+refused).

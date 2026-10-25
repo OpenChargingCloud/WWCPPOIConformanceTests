@@ -19,17 +19,17 @@ where they agree is shown, and where they differ is written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `dbf39b0`, WWCP_POI.TS `4980f20`, Hermod `fbb442f`,
+Both harnesses are green against the pinned submodules (WWCP_POI `3e32f48`, WWCP_POI.TS `20c16aa`, Hermod `fbb442f`,
 Styx `91901a9`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 265 | 283 tests | none; against a WWCP_POI.TS that vendors no golden vector files, the 6 tests of its copies |
-| TypeScript harness (vitest), WWCP_POI.TS | 265 | 265 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
+| C# harness (NUnit), WWCP_POI3 | 268 | 286 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 268 | 268 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
-The two implementations agree on 249 of the 265 vectors. On 16, **WWCP_POI3 takes what WWCP_POI.TS refuses**, six
+The two implementations agree on 252 of the 268 vectors. On 16, **WWCP_POI3 takes what WWCP_POI.TS refuses**, six
 deviations, each marked on its vectors and pinned - see
 **[docs/implementation-deviations.md](docs/implementation-deviations.md)**:
 

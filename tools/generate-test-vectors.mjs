@@ -566,7 +566,9 @@ function trustAnchorOfQRCode(text) {
     if (!text.startsWith('WWCP/TA-2:'))
         fail(`no trust anchor: ${text.slice(0, 20)}`);
     const map  = decodeCbor(fromBase45(text.slice('WWCP/TA-2:'.length)));
-    const json = { '@id': map['@id'], '@context': map['@context'], urls: map.urls, keys: map.keys.map(key => Buffer.from(key).toString('hex')) };
+    // One entry of keys per holder: the thumbprint of its key, or the array of the thumbprints of its keys.
+    const hex  = (key) => Buffer.from(key).toString('hex');
+    const json = { '@id': map['@id'], '@context': map['@context'], urls: map.urls, keys: map.keys.flatMap(key => Array.isArray(key) ? key.map(hex) : [ hex(key) ]) };
     if (map.name         !== undefined) json.name         = map.name;
     if (map.description  !== undefined) json.description  = map.description;
     if (map.minConsensus !== undefined) json.minConsensus = map.minConsensus;
@@ -581,7 +583,7 @@ function trustAnchorOfQRCode(text) {
 // The roaming network rn1 of section 6, its operator DE*RNO now with the quorum of section 6 - the identity keys of
 // Alpha and Beta, minConsensus 2, the key statement both signed - and a signing key of each holder, certified by the
 // identity key of its holder: the one of Alpha is the attestation key of section 6, the one of Beta of a seed of its
-// own. A station proof of DE*GEF*S1 as section 6 gives it, with attestations of its root, and variants of it, each
+// own. Where Alpha holds a second identity key, of a seed of its own, it names two holders of the trust anchor. A station proof of DE*GEF*S1 as section 6 gives it, with attestations of its root, and variants of it, each
 // signed anew: what the trust rules of 8.4 to 8.6 take and refuse. Ed25519 signatures are deterministic, and so is
 // every byte below.
 
@@ -597,6 +599,8 @@ function trustVectors() {
         alphaSigning:   S('202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f', 'the seed of the signing key of Alpha'),
         betaSigning:    '505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f',
         outsider:       'a0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf',
+        alphaIdentity2: 'd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeef',
+        forgedBeta:     'b0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecf',
     };
 
     const key = (seed, more = {}) => {
@@ -609,6 +613,13 @@ function trustVectors() {
     const alphaIdentity = key(seeds.alphaIdentity, { holder: 'Alpha' });
     const betaIdentity  = key(seeds.betaIdentity,  { holder: 'Beta' });
     const outsider      = key(seeds.outsider,      { holder: 'Beta' });
+    const alphaIdentity2 = key(seeds.alphaIdentity2, { holder: 'Alpha' });
+
+    /** The same key, its holder named otherwise. */
+    const namedAs = (identity, holder) => ({ ...identity, json: { ...identity.json, holder } });
+
+    /** Keys as a key statement and the roaming network operator write them: in the order of their @ids. */
+    const inOrder = (keys) => [ ...keys ].sort((left, right) => left.id < right.id ? -1 : left.id > right.id ? 1 : 0).map(identity => identity.json);
 
     anchor('the identity key of Alpha', alphaIdentity.id, S('1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802', 'its @id'));
     anchor('the identity key of Beta',  betaIdentity.id,  S('a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f', 'its @id'));
@@ -621,8 +632,8 @@ function trustVectors() {
         return { algorithm: 'Ed25519', keyId: signer.id, value: signer.sign(input) };
     };
 
-    const keyStatement = ({ operatorId = 'DE*RNO', signers = [ alphaIdentity, betaIdentity ] } = {}) => {
-        const fields = { roamingNetworkId: 'rn1', roamingNetworkOperatorId: operatorId, identityKeys: [ alphaIdentity.json, betaIdentity.json ], minConsensus: 2,
+    const keyStatement = ({ operatorId = 'DE*RNO', signers = [ alphaIdentity, betaIdentity ], identityKeys = [ alphaIdentity, betaIdentity ] } = {}) => {
+        const fields = { roamingNetworkId: 'rn1', roamingNetworkOperatorId: operatorId, identityKeys: inOrder(identityKeys), minConsensus: 2,
                          signedAt: '2026-10-17T00:00:00.000Z', validUntil: '2026-11-16T00:00:00.000Z' };
         return { ...fields, signatures: signers.map(signer => signedBy(signer, CONTEXT + 'keyStatement/v3', fields)) };
     };
@@ -652,9 +663,9 @@ function trustVectors() {
                                        chargingPools: leafOf({ '@id': 'DE*GEF*P1', created: '2026-01-01T00:00:00.000Z', lastChange: '2026-01-01T00:00:00.000Z', chargingStations: leafOf(stationOf(e)) }) });
     const gefDigest   = S('d76ebfb110df2bf7c0db6194f69dc563ab2349189580ccfa0a1292e71d90d3fd', 'the digest of DE*GEF');
 
-    const rnoOf = ({ statement = keyStatement(), certificates: certified }) => ({
+    const rnoOf = ({ statement = keyStatement(), certificates: certified, identityKeys = [ alphaIdentity, betaIdentity ] }) => ({
         '@id': 'DE*RNO', name: { en: 'Roaming Network Operator' }, minConsensus: 2,
-        keyStatement: statement, signingKeyCertificates: certified, identityKeys: [ alphaIdentity.json, betaIdentity.json ],
+        keyStatement: statement, signingKeyCertificates: certified, identityKeys: inOrder(identityKeys),
         created: '2026-01-01T00:00:00.000Z', lastChange: '2026-01-01T00:00:00.000Z',
     });
 
@@ -759,6 +770,28 @@ function trustVectors() {
                              return { text: proofText(changed, [ attestation(alphaSigning, signed), attestation(betaSigning, signed) ]), root: rootOf(changed) }; })() });
     vector('signature',            'refused',  'The signature of Beta replaced by the one of Alpha.', B('8.5'),
            { proof: proofOf({ attest: (root) => { const alpha = attestation(alphaSigning, root); return [ alpha, { ...attestation(betaSigning, root), value: alpha.value } ]; } }) });
+
+    // The holders of a quorum are counted as the trust anchor names them, never as a key statement or a key names itself
+    // (csharp-review 1): the trust anchor names the two identity keys of Alpha as one holder.
+    const alphaTwice  = trustAnchor({ keys: [ [ alphaIdentity.id, alphaIdentity2.id ].sort(), betaIdentity.id ] });
+    const forgedBeta  = signingKey(seeds.forgedBeta, 'Beta');
+
+    vector('holder-keys',          'accepted', 'The trust anchor names the two identity keys of Alpha as one holder, the key statement names both as keys of Alpha and is signed by the second one and by Beta; attested by Alpha and Beta.', B('8.6, Trust anchor'),
+           { anchor: alphaTwice,
+             proof:  proofOf({ network: networkOf(rnoOf({ statement:     keyStatement({ identityKeys: [ alphaIdentity, alphaIdentity2, betaIdentity ], signers: [ alphaIdentity2, betaIdentity ] }),
+                                                          certificates,
+                                                          identityKeys:  [ alphaIdentity, alphaIdentity2, betaIdentity ] })) }) });
+    vector('holder-renamed',       'refused',  'Alpha names its second identity key as one of Beta in a key statement it signs with both, certifies a signing key of "Beta" with that key and attests with both signing keys: the trust anchor names both identity keys as one holder, the statement names their holders otherwise and is refused.', `${B('8.6, Verification')}; csharp-review 1`,
+           { anchor: alphaTwice,
+             proof:  (() => { const identityKeys = [ alphaIdentity, namedAs(alphaIdentity2, 'Beta'), betaIdentity ];
+                              return proofOf({ network: networkOf(rnoOf({ statement: keyStatement({ identityKeys, signers: [ alphaIdentity, alphaIdentity2 ] }), certificates: [ certificates[0], certificate(forgedBeta, alphaIdentity2) ], identityKeys })),
+                                               attest:  (root) => [ attestation(alphaSigning, root), attestation(forgedBeta, root) ] }); })() });
+    vector('holder-unnamed-key',   'refused',  'The key statement, signed by Alpha and Beta, names the second identity key of Alpha only; the operator names the first one as one of "Beta", which certifies a signing key of "Beta": the trust anchor names that key as one of Alpha, so its attestation counts for Alpha, and Alpha alone attests.', `${B('8.6, Verification')}; csharp-review 1`,
+           { anchor: alphaTwice,
+             proof:  proofOf({ network: networkOf(rnoOf({ statement:     keyStatement({ identityKeys: [ alphaIdentity2, betaIdentity ], signers: [ alphaIdentity2, betaIdentity ] }),
+                                                          certificates:  [ certificate(alphaSigning, alphaIdentity2), certificate(forgedBeta, namedAs(alphaIdentity, 'Beta')) ],
+                                                          identityKeys:  [ namedAs(alphaIdentity, 'Beta'), alphaIdentity2, betaIdentity ] })),
+                               attest:  (root) => [ attestation(alphaSigning, root), attestation(forgedBeta, root) ] }) });
 
     return vectorFile(
         'WWCP POI 3 SPECIFICATION.md, sections 8.4 to 8.6 (libs/WWCP_POI/SPECIFICATION.md)',
