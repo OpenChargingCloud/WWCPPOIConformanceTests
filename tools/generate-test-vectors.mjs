@@ -45,11 +45,11 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT         = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT          = join(ROOT, 'test-vectors');
-const RUN          = 'csharp-dbf39b0';
+const RUN          = 'csharp-bc3b1bd';
 const RUN_DIR      = join(OUT, 'runs', RUN);
 
 /** A point in time while the key statements, the keys and the attestations of the frozen run are valid. */
-const AT           = '2026-10-25T10:20:00.000Z';
+const AT           = '2026-10-25T14:40:00.000Z';
 
 const STYX_README  = 'libs/Styx/Styx/Illias/JSON/README.md';
 const STYX_TESTS   = 'libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs';
@@ -1045,6 +1045,34 @@ function refusalVectors() {
     refuse({ id: 'commit-context',            kind: 'commit', basis: `${SPEC}, 1.1`, description: 'Another JSON-LD context.',                                                                               document: patched('published/QA-genesis.json', '/commit', [ { op: 'add', path: '/@context', value: 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v2' } ]) });
     refuse({ id: 'commit-etag-algorithm',     kind: 'commit', basis: `${SPEC}, 3.1`, description: 'An ETag of an algorithm POI does not know.',                                                            document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/eTags/0/1', value: 'sha1' } ]) });
     refuse({ id: 'commit-network',            kind: 'commit', basis: `${SPEC}, 5.1`, description: 'Another roaming network.',                                                                               document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/roamingNetworkId', value: 'QB' } ]) });
+
+    // ---- Change sets (4, 5.2): identified by their content, naming only what they were rebased from, with changes
+    //      (csharp-review 4). The commit of each is identified anew, so that only its change set is refused.
+    const without     = (object, ...properties) => Object.fromEntries(Object.entries(object).filter(([ property ]) => !properties.includes(property)));
+    const contentId   = (changeSet) => sha256(utf8(canonical({ ...without(changeSet, '@id', 'signatures'), '@context': 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/changeSet/v3' })));
+    const commitIdOf  = (commit)    => (commit['@id'].length === 128 ? sha512 : sha256)(utf8(canonical({ ...without(commit, '@id', 'signatures', 'changeSet'),
+                                                                                                         '@context':  'https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3',
+                                                                                                         changeSet:   without(commit.changeSet, 'signatures', '@context') })));
+
+    const commitN     = parseRaw(readRun('published/QA-commit.json'));
+    const otherN      = parseRaw(readRun('published/QA-commits-since-genesis.json'))[0].changeSet;
+
+    if (contentId(commitN.changeSet) !== commitN.changeSet['@id'] || contentId(otherN) !== otherN['@id'] || commitIdOf(commitN) !== commitN['@id'])
+        fail('the change sets and the commit of the run are not identified as this script identifies them');
+
+    // The change set changed as given, identified anew by its content unless it names its @id, and its commit identified anew.
+    const changeSetPatch = (changes, changeSetId) => {
+        const changeSet = { ...commitN.changeSet, ...changes };
+        const id        = changeSetId ?? contentId(changeSet);
+        return [ ...Object.entries(changes).map(([ property, value ]) => ({ op: property in commitN.changeSet ? 'replace' : 'add', path: `/changeSet/${property}`, value })),
+                 { op: 'replace', path: '/changeSet/@id', value: id },
+                 { op: 'replace', path: '/@id',           value: commitIdOf({ ...commitN, changeSet: { ...changeSet, '@id': id } }) } ];
+    };
+
+    refuse({ id: 'changeSet-id',              kind: 'commit', basis: `${SPEC}, 4, 5.2`, description: 'The change set of a commit has the @id of another change set of the run, its commit identified anew: a change set is identified by its content, nobody names another one with its @id (csharp-review 4).', document: patched('published/QA-commit.json', '', changeSetPatch({}, otherN['@id'])) });
+    refuse({ id: 'changeSet-rebasedFrom',     kind: 'commit', basis: `${SPEC}, 4, 5.2`, description: 'The change set of a commit names another change set of the run, with its ETags, as the one it was rebased from, identified anew by its content: it was not rebased from it (csharp-review 4).', document: patched('published/QA-commit.json', '', changeSetPatch({ metadata: { rebasedFrom: [ { '@id': otherN['@id'], beforeETags: otherN.beforeETags, afterETags: otherN.afterETags } ] } })) });
+    refuse({ id: 'changeSet-without-changes', kind: 'commit', basis: `${SPEC}, 4, 5.2`, description: 'The change set of a commit with one parent without changes, identified anew by its content: it would change nothing.', document: patched('published/QA-commit.json', '', changeSetPatch({ changes: [] })) });
+    refuse({ id: 'changeSet-merge-id',        kind: 'commit', basis: `${SPEC}, 4, 5.2, 5.3`, description: 'The change set of a commit with one parent named as the change set of a merge, which only a merge commit has.', document: patched('published/QA-commit.json', '', changeSetPatch({}, 'merge-' + '0'.repeat(32))) });
 
     // ---- Checkpoints (10.1): their @id is the digest of their content.
     refuse({ id: 'checkpoint-sequence',       kind: 'checkpoint', basis: `${SPEC}, 10.1`, description: 'Another sequence.',                                                                            document: patched('published/QA-checkpoint-1.json', '', [ { op: 'replace', path: '/sequence', value: 2 } ]) });

@@ -1,0 +1,150 @@
+[
+  {
+    "@id": "a705962b5fa18616c4894e15cce34676e708d3a7c07d4153c819f452a5766a67",
+    "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3",
+    "roamingNetworkId": "QA",
+    "revision": 10,
+    "eTags": [
+      [
+        "json",
+        "sha256",
+        "hex",
+        "bbb95a4c190c64cf7c568b5cc003735dfe2ca0a4bc1ce7f1a66aba31ffdc5fd4"
+      ],
+      [
+        "cbor",
+        "sha256",
+        "hex",
+        "8ede249f7becdada2a15ad3547ad249d39521f0feb1903a7e05dd641cf2e2a58"
+      ],
+      [
+        "effectiveTree",
+        "sha256",
+        "hex",
+        "4ca3771770daf9e9601cc36b551bd5185f6e011ea044e313569a9a0fc4c193c9"
+      ]
+    ],
+    "parentIds": [
+      "5fe76d8d89c239a3c17cba4a49ee6f3ffa3cd82cf264393257480f7d5658b400"
+    ],
+    "changeSet": {
+      "@id": "cfc7406bf76dffa7d300dc84e28b8f5f9ecf9c31dd616fbbf1d6e38165db777f",
+      "roamingNetworkId": "QA",
+      "createdAt": "2026-10-25T14:39:15.922Z",
+      "description": {
+        "en": "The AC stations of Jena Lobeda and Jena Winzerla: 22 kW, two EVSEs of 11 kW"
+      },
+      "signatures": [
+        {
+          "algorithm": "ES256",
+          "keyId": "bfbc69879dd37a556e09a48f09d9c2b2e3d8fefbade939eb3382700438e8f5a0",
+          "value": "mCU+F27Shs7NwSnOF3q3gG3sRkFTfmx6YN7PO6L4d0eVHHEbH7Ko4Qz3wxC49UyshExvULKrXndzERnYj4oHDw=="
+        }
+      ],
+      "changes": [
+        {
+          "kind": "UpdateProperty",
+          "entityType": "ChargingStation",
+          "entityId": "DE*GEF*S6",
+          "propertyName": "maxPower",
+          "oldValue": null,
+          "newValue": 22000
+        },
+        {
+          "kind": "UpdateProperty",
+          "entityType": "ChargingStation",
+          "entityId": "DE*GEF*S8",
+          "propertyName": "maxPower",
+          "oldValue": null,
+          "newValue": 22000
+        },
+        {
+          "kind": "UpdateProperty",
+          "entityType": "EVSE",
+          "entityId": "DE*GEF*E6*1",
+          "propertyName": "maxPower",
+          "oldValue": 22000,
+          "newValue": 11000
+        },
+        {
+          "kind": "UpdateProperty",
+          "entityType": "EVSE",
+          "entityId": "DE*GEF*E6*2",
+          "propertyName": "maxPower",
+          "oldValue": 22000,
+          "newValue": 11000
+        },
+        {
+          "kind": "UpdateProperty",
+          "entityType": "EVSE",
+          "entityId": "DE*GEF*E8*1",
+          "propertyName": "maxPower",
+          "oldValue": 22000,
+          "newValue": 11000
+        },
+        {
+          "kind": "UpdateProperty",
+          "entityType": "EVSE",
+          "entityId": "DE*GEF*E8*2",
+          "propertyName": "maxPower",
+          "oldValue": 22000,
+          "newValue": 11000
+        }
+      ],
+      "beforeETags": [
+        [
+          "json",
+          "sha256",
+          "hex",
+          "969f7dc2b606a4be80023db7acc4b1066ad561b19161bfd142c40aa0e74e9464"
+        ],
+        [
+          "cbor",
+          "sha256",
+          "hex",
+          "04b983f338759e85056d4b06fc83e1393882711f36053e8b6023902b751c3183"
+        ]
+      ],
+      "afterETags": [
+        [
+          "json",
+          "sha256",
+          "hex",
+          "bbb95a4c190c64cf7c568b5cc003735dfe2ca0a4bc1ce7f1a66aba31ffdc5fd4"
+        ],
+        [
+          "cbor",
+          "sha256",
+          "hex",
+          "8ede249f7becdada2a15ad3547ad249d39521f0feb1903a7e05dd641cf2e2a58"
+        ]
+      ]
+    },
+    "signatures": [
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-10-25T14:39:16.018Z",
+        "algorithm": "ES256",
+        "keyId": "53a09e8c0c8f80514825a6546a513eadc4b34a778fb96785dd9cdf8340b62942",
+        "value": "KDMyuiw9DYvYKbigjTkGjBSLg0IxakM6ruJIqoGxAcD3Ay/KhMEVZnPU+G9HrgKiVKUDlb0c/tm1cR6rDntj1Q=="
+      },
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-10-25T14:39:16.021Z",
+        "algorithm": "ES256",
+        "keyId": "3f096e0bb349aaabf3cd9cd94a955f6365db9cc8608324bb13b799b064809955",
+        "value": "4Gw/jiyjxy5OYCGoJI8pYupr4cpf4BtYYRMYufa9xjWVYnP1xYJRS/4knUP/+vF7Z1YsUd3jF0eLpxI0tPZr8Q=="
+      },
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-10-25T14:39:16.025Z",
+        "algorithm": "ES256",
+        "keyId": "c890fcef90e9ff4293a29044da921d8e270241aabcc747648a0de31fd1619651",
+        "value": "bR5HD+U772NirNVuU+R3XeZJLYD9w3SCYb2p0WfKawjfbU2FlbX84QUmYTtxIsSwKnZ+MWvJcwIvy9MgQfhNYQ=="
+      }
+    ]
+  }
+]
