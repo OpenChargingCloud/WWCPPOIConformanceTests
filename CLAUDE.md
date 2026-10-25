@@ -11,11 +11,12 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   rerun it, never the JSON. It takes every value verbatim from its source (drift guard), re-derives the anchors with
   `node:crypto` and refuses to write on a mismatch; `--check` is the CI guard. The format is in
   `test-vectors/README.md`.
-- **The frozen run** `test-vectors/runs/csharp-bc3b1bd/` is what the C# examples A1 to A13 and MakeProofs of WWCP_POI
-  `bc3b1bd` published. Every run of the examples makes new keys: it is frozen, not regenerated - replaced only when the
-  specification changes what a run publishes (`bc3b1bd`: change sets identified by their content, `csharp-dbf39b0`
-  before with the digests of price statements, `csharp-801bbce` before that).
-- **WWCP_POI.TS vendors everything** in `tests/vectors` (the run as `csharp-bc3b1bd`, next to the `poi-*.json`) and runs
+- **The frozen run** `test-vectors/runs/csharp-80e4ccc/` is what the C# examples A1 to A13 and MakeProofs of WWCP_POI
+  `80e4ccc` published. Every run of the examples makes new keys: it is frozen, not regenerated - replaced only when the
+  specification changes what a run publishes (`80e4ccc`: new values given as the content holds them, `csharp-bc3b1bd`
+  before with change sets identified by their content, `csharp-dbf39b0` before with the digests of price statements,
+  `csharp-801bbce` before that).
+- **WWCP_POI.TS vendors everything** in `tests/vectors` (the run as `csharp-80e4ccc`, next to the `poi-*.json`) and runs
   the golden vectors in its own suite, `tests/conformance.test.ts` with its loader `tests/conformance.ts`.
   `VendoredCopiesTests` fails on drift; `--mirror libs/WWCP_POI.TS/tests/vectors` refreshes the copy. A change of the
   vector FORMAT therefore touches three harnesses: the C# one and the TS one here, and `tests/conformance.ts` there.
@@ -43,7 +44,7 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 286 passed (its 6 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped), TS 268
+Expected: C# 290 passed (its 6 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped), TS 272
 passed / 7 skipped (signing: WWCP_POI.TS verifies only). Skips are load-bearing, not noise.
 
 ## Ground rules
