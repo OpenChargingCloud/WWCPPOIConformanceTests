@@ -22,13 +22,17 @@
  *   - libs/Styx/Styx/Illias/JSON/README.md, section 4, and the escaping table of
  *     libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs: canonical JSON and deterministic CBOR;
  *   - libs/WWCP_POI/SPECIFICATION.md, sections 1 and 6: the examples of the specification, and section 2: custom data;
- *   - test-vectors/runs/<run>/: what one run of the C# examples A1 to A13 of WWCP_POI published, frozen.
+ *   - test-vectors/runs/<run>/: what one run of the C# examples A1 to A13 of WWCP_POI published, frozen;
+ *   - and what it makes and signs itself, deterministically: the station proofs of section 4 (poi-trust.json) and the
+ *     histories of section 7 (poi-histories.json), with the keys of section 6 of the specification and of seeds of its own.
  *
  * Every value is taken VERBATIM from its source, and this script refuses to write when a source no longer says it
  * (drift guard). Before writing anything it re-derives the anchors with nothing but node:crypto - the SHA-256 and
  * SHA-512 identifications, ETags of canonical JSON, tree digests, key thumbprints and Ed25519 signatures of section 6,
- * the digests that chain the price statements of the run - and refuses to write when even one mismatches: an
- * independent third look, next to the two harnesses, at what the vectors claim.
+ * the digests that chain the price statements of the run; for what it signs itself the ETags of canonical JSON and
+ * deterministic CBOR of every version of the run, the identifications of its commits, change sets and checkpoints, the
+ * inputs of its signatures, and ES256 after RFC 6979 - and refuses to write when even one mismatches: an independent
+ * third look, next to the two harnesses, at what the vectors claim.
  *
  *   node tools/generate-test-vectors.mjs                  writes test-vectors/poi-*.json
  *   node tools/generate-test-vectors.mjs --check          fails when the committed files differ (the CI drift guard)
@@ -37,7 +41,7 @@
  * Never edit the JSON files by hand: edit this script and run it again.
  */
 
-import { createHash, createPrivateKey, createPublicKey, sign, verify } from 'node:crypto';
+import { createHash, createHmac, createPrivateKey, createPublicKey, sign, verify } from 'node:crypto';
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -65,6 +69,7 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
+    'D8-expired-signature':  [ TYPESCRIPT ],
 };
 
 const deviation = (name) => {
@@ -103,6 +108,9 @@ function quoted(file, text, what) {
     return text;
 }
 
+/** An object without the given properties. */
+const without = (object, ...properties) => Object.fromEntries(Object.entries(object).filter(([ property ]) => !properties.includes(property)));
+
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const sha512 = (bytes) => createHash('sha512').update(bytes).digest('hex');
 const utf8   = (text)  => Buffer.from(text, 'utf8');
@@ -130,8 +138,118 @@ function ed25519Verify(publicKeyBase64, text, valueBase64) {
     return verify(null, utf8(text), key, Buffer.from(valueBase64, 'base64'));
 }
 
+/** An Ed448 private key of a 57 byte seed (PKCS #8 of RFC 8410), its COSE key (OKP, crv 7) and deterministic signatures. */
+function ed448(seedHex) {
+    const key     = createPrivateKey({ key: Buffer.concat([ Buffer.from('3047020100300506032b6571043b0439', 'hex'), Buffer.from(seedHex, 'hex') ]), format: 'der', type: 'pkcs8' });
+    const raw     = createPublicKey(key).export({ format: 'der', type: 'spki' }).subarray(12);
+    return {
+        coseKey:    Buffer.concat([ Buffer.from('a301012007215839', 'hex'), raw ]).toString('base64'),
+        sign:       (text) => sign(null, utf8(text), key).toString('base64'),
+    };
+}
 
-// ---- Base45 (RFC 9285) and the CBOR this script needs to read: trust anchors ------------------------------------------
+
+// ---- ECDSA on P-256 with the nonces of RFC 6979, as Styx signs ES256: deterministic as Ed25519 is -------------------
+
+const P256 = {
+    p:  0xffffffff00000001000000000000000000000000ffffffffffffffffffffffffn,
+    n:  0xffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551n,
+    G:  [ 0x6b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c296n, 0x4fe342e2fe1a7f9b8ee7eb4a7c0f9e162bce33576b315ececbb6406837bf51f5n ],
+};
+
+const modulo    = (a, m) => ((a % m) + m) % m;
+const bytesOf   = (value, length) => Buffer.from(value.toString(16).padStart(length * 2, '0'), 'hex');
+const bigintOf  = (bytes) => BigInt('0x' + (Buffer.from(bytes).toString('hex') || '0'));
+
+function inverse(a, m) {
+    let [ result, base, exponent ] = [ 1n, modulo(a, m), m - 2n ];
+    for (; exponent > 0n; exponent >>= 1n, base = base * base % m)
+        if (exponent & 1n) result = result * base % m;
+    return result;
+}
+
+/** The sum of two points of P-256 (null: the point at infinity), its a being -3. */
+function p256Add(P, Q) {
+    if (P === null) return Q;
+    if (Q === null) return P;
+    const { p } = P256;
+    if (P[0] === Q[0] && modulo(P[1] + Q[1], p) === 0n)
+        return null;
+    const lambda = P[0] === Q[0] ? modulo(3n * P[0] * P[0] - 3n, p) * inverse(2n * P[1], p) % p
+                                 : modulo(Q[1] - P[1], p) * inverse(Q[0] - P[0], p) % p;
+    const x      = modulo(lambda * lambda - P[0] - Q[0], p);
+    return [ x, modulo(lambda * (P[0] - x) - P[1], p) ];
+}
+
+const p256Times = (k, P = P256.G) => [ ...k.toString(2) ].reduce((sum, bit) => bit === '1' ? p256Add(p256Add(sum, sum), P) : p256Add(sum, sum), null);
+
+/** The nonce of RFC 6979, section 3.2, for P-256 and SHA-256, of a private key and the hash of a message. */
+function rfc6979(d, hash) {
+    const { n }  = P256;
+    const hmac   = (key, ...data) => createHmac('sha256', key).update(Buffer.concat(data)).digest();
+    const x      = bytesOf(d, 32);
+    const h1     = bytesOf(modulo(bigintOf(hash), n), 32);
+    let   V      = Buffer.alloc(32, 1);
+    let   K      = hmac(Buffer.alloc(32, 0), V, Buffer.of(0), x, h1);
+    V = hmac(K, V);
+    K = hmac(K, V, Buffer.of(1), x, h1);
+    V = hmac(K, V);
+    for (;;) {
+        V = hmac(K, V);
+        const k = bigintOf(V);
+        if (k >= 1n && k < n)
+            return k;
+        K = hmac(K, V, Buffer.of(0));
+        V = hmac(K, V);
+    }
+}
+
+/** An ES256 key of a private scalar: its COSE key (EC2, crv 1) and signatures r || s with the nonces of RFC 6979. */
+function es256Of(d) {
+    const { n }   = P256;
+    const [ x, y ] = p256Times(d);
+    return {
+        coseKey:    Buffer.concat([ Buffer.from('a401022001215820', 'hex'), bytesOf(x, 32), Buffer.from('225820', 'hex'), bytesOf(y, 32) ]).toString('base64'),
+        sign:       (text) => {
+            const hash = createHash('sha256').update(utf8(text)).digest();
+            const k    = rfc6979(d, hash);
+            const r    = modulo(p256Times(k)[0], n);
+            const s    = modulo(inverse(k, n) * (bigintOf(hash) + r * d), n);
+            if (r === 0n || s === 0n)
+                fail('ES256: a nonce of RFC 6979 that signs nothing');
+            return Buffer.concat([ bytesOf(r, 32), bytesOf(s, 32) ]).toString('base64');
+        },
+    };
+}
+
+/** An ES256 key of a 32 byte seed, its scalar in [1, n - 1]. */
+const es256 = (seedHex) => es256Of(modulo(bigintOf(Buffer.from(seedHex, 'hex')), P256.n - 1n) + 1n);
+
+
+// ---- Verifying with a COSE key (RFC 9052): EC2 of P-256, P-384 and P-521, OKP of Ed25519 and Ed448 ------------------
+
+/** The public key of a COSE key in Base64 for node:crypto, or undefined for a kind node:crypto does not verify here. */
+function nodeKeyOf(coseKey) {
+    const map   = decodeCbor(Buffer.from(coseKey, 'base64'));
+    const url   = (bytes) => Buffer.from(bytes).toString('base64url');
+    const jwk   = map[1] === 2 ? { kty: 'EC',  crv: { 1: 'P-256', 2: 'P-384', 3: 'P-521' }[map[-1]], x: url(map[-2]), y: url(map[-3]) }
+                : map[1] === 1 ? { kty: 'OKP', crv: { 6: 'Ed25519', 7: 'Ed448' }[map[-1]],           x: url(map[-2]) }
+                :                undefined;
+    return jwk === undefined || jwk.crv === undefined ? undefined : createPublicKey({ key: jwk, format: 'jwk' });
+}
+
+/** Whether a signature value verifies with a COSE key, or undefined where node:crypto does not verify its algorithm (ML-DSA). */
+function verifiesWith(algorithm, coseKey, text, valueBase64) {
+    const key   = nodeKeyOf(coseKey);
+    const hash  = { ES256: 'sha256', ES384: 'sha384', ES512: 'sha512' }[algorithm];
+    if (key === undefined || (hash === undefined && ![ 'Ed25519', 'Ed448', 'EdDSA' ].includes(algorithm)))
+        return undefined;
+    return hash === undefined ? verify(null, utf8(text), key, Buffer.from(valueBase64, 'base64'))
+                              : verify(hash, utf8(text), { key, dsaEncoding: 'ieee-p1363' }, Buffer.from(valueBase64, 'base64'));
+}
+
+
+// ---- Base45 (RFC 9285) and the CBOR this script needs to read: trust anchors, COSE keys -----------------------------
 
 const BASE45 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:';
 
@@ -154,7 +272,7 @@ function decodeCbor(bytes) {
         if      (info === 24) length = bytes[offset++];
         else if (info === 25) { length = bytes.readUInt16BE(offset); offset += 2; }
         else if (info === 26) { length = bytes.readUInt32BE(offset); offset += 4; }
-        else if (info  >  26) fail('CBOR of a trust anchor: no 64 bit lengths or indefinite lengths expected');
+        else if (info  >  26) fail('CBOR of a trust anchor or a COSE key: no 64 bit lengths or indefinite lengths expected');
         switch (major) {
             case 0: return length;
             case 1: return -1 - length;
@@ -162,12 +280,12 @@ function decodeCbor(bytes) {
             case 3: { const value = bytes.subarray(offset, offset + length).toString('utf8'); offset += length; return value; }
             case 4: return Array.from({ length }, read);
             case 5: { const map = {}; for (let i = 0; i < length; i++) { const key = read(); map[key] = read(); } return map; }
-            default: fail(`CBOR of a trust anchor: major type ${major} not expected`);
+            default: fail(`CBOR of a trust anchor or a COSE key: major type ${major} not expected`);
         }
     };
     const value = read();
     if (offset !== bytes.length)
-        fail('CBOR of a trust anchor: bytes after the data item');
+        fail('CBOR of a trust anchor or a COSE key: bytes after the data item');
     return value;
 }
 
@@ -181,6 +299,9 @@ function decodeCbor(bytes) {
 const RAW = Symbol('raw number');
 
 const parseRaw = (text) => JSON.parse(text, (_key, value, context) => typeof value === 'number' ? { [RAW]: context.source } : value);
+
+/** A number as JavaScript holds it, of one read with parseRaw() or given as one. */
+const numberOf = (value) => value?.[RAW] !== undefined ? Number(value[RAW]) : value;
 
 function canonicalString(text) {
     let result = '"';
@@ -218,68 +339,123 @@ function canonical(value) {
 }
 
 
-// ---- Deterministic CBOR, as far as the anchors need it (Styx section 3) ---------------------------------------------
+// ---- Deterministic CBOR (RFC 8949, 4.2.1) of what canonical() takes, as Styx writes the CBOR of a JSON document ---------
 //
-// Of what parseRaw() reads: integers as major types 0 and 1, beyond 64 bits as bignums (tags 2 and 3), a number with
-// decimal places as a decimal fraction (tag 4, [-decimal places, mantissa]), strings as text strings, the keys of a map in
-// the bytewise order of their encodings. Anchored on the vectors of the Styx README before anything is calculated with it.
+// A number with decimal places is a decimal fraction (tag 4), every other one an integer, beyond 64 bits a bignum (tags 2
+// and 3); the keys of a map are in the bytewise order of their encodings, not in the order of canonical JSON.
 
 function cborHead(major, value) {
-    if (value < 24n)           return Buffer.of(major << 5 | Number(value));
-    if (value < 0x100n)        return Buffer.of(major << 5 | 24, Number(value));
-    if (value < 0x10000n)      { const head = Buffer.alloc(3); head[0] = major << 5 | 25; head.writeUInt16BE(Number(value), 1); return head; }
-    if (value < 0x100000000n)  { const head = Buffer.alloc(5); head[0] = major << 5 | 26; head.writeUInt32BE(Number(value), 1); return head; }
-    const head = Buffer.alloc(9); head[0] = major << 5 | 27; head.writeBigUInt64BE(value, 1); return head;
+    const n = BigInt(value);
+    if (n < 24n)
+        return Buffer.of(major << 5 | Number(n));
+    const length = n < 0x100n ? 1 : n < 0x10000n ? 2 : n < 0x100000000n ? 4 : 8;
+    return Buffer.concat([ Buffer.of(major << 5 | { 1: 24, 2: 25, 4: 26, 8: 27 }[length]), bytesOf(n, length) ]);
 }
 
-function cborInteger(value) {
-    const bignum = (tag, magnitude) => { const hex = magnitude.toString(16); const bytes = Buffer.from(hex.length % 2 === 0 ? hex : '0' + hex, 'hex');
-                                         return Buffer.concat([ cborHead(6, tag), cborHead(2, BigInt(bytes.length)), bytes ]); };
-    if (value >= 0n)
-        return value < 1n << 64n ? cborHead(0, value) : bignum(2n, value);
-    return -1n - value < 1n << 64n ? cborHead(1, -1n - value) : bignum(3n, -1n - value);
+function cborInteger(n) {
+    const magnitude = n < 0n ? -1n - n : n;
+    if (magnitude < 1n << 64n)
+        return cborHead(n < 0n ? 1 : 0, magnitude);
+    const bytes = bytesOf(magnitude, Math.ceil(magnitude.toString(16).length / 2));
+    return Buffer.concat([ cborHead(6, n < 0n ? 3 : 2), cborHead(2, bytes.length), bytes ]);
 }
 
-function cbor(value) {
+function cborNumber(text) {
+    const [ , sign, integer, fraction ] = /^(-?)(\d+)(?:\.(\d+))?$/.exec(text) ?? fail(`deterministic CBOR of the number ${text}: not written canonically`);
+    const mantissa = BigInt(sign + integer + (fraction ?? ''));
+    return fraction === undefined
+               ? cborInteger(mantissa)
+               : Buffer.concat([ cborHead(6, 4), cborHead(4, 2), cborInteger(BigInt(-fraction.length)), cborInteger(mantissa) ]);
+}
+
+function cborOf(value) {
     if (value === null)                return Buffer.of(0xf6);
     if (value === true)                return Buffer.of(0xf5);
     if (value === false)               return Buffer.of(0xf4);
-    if (typeof value === 'string')     { const bytes = utf8(value); return Buffer.concat([ cborHead(3, BigInt(bytes.length)), bytes ]); }
-    if (typeof value === 'number') {
-        if (!Number.isSafeInteger(value))
-            fail(`deterministic CBOR of the number ${value}: give it as written, parseRaw()`);
-        return cborInteger(BigInt(value));
-    }
-    if (Array.isArray(value))          return Buffer.concat([ cborHead(4, BigInt(value.length)), ...value.map(cbor) ]);
-    if (value[RAW] !== undefined) {
-        if (/[eE+]/.test(value[RAW]))
-            fail(`deterministic CBOR of the number ${value[RAW]}: not written canonically`);
-        const [ integer, decimalPlaces ] = value[RAW].split('.');
-        if (decimalPlaces === undefined)
-            return cborInteger(BigInt(integer));
-        return Buffer.concat([ cborHead(6, 4n), cborHead(4, 2n), cborInteger(BigInt(-decimalPlaces.length)), cborInteger(BigInt(integer + decimalPlaces)) ]);
-    }
-    const entries = Object.keys(value).map(key => [ cbor(key), cbor(value[key]) ]).sort(([ left ], [ right ]) => Buffer.compare(left, right));
-    return Buffer.concat([ cborHead(5, BigInt(entries.length)), ...entries.flat() ]);
+    if (typeof value === 'string')     return Buffer.concat([ cborHead(3, utf8(value).length), utf8(value) ]);
+    if (typeof value === 'number')     return Number.isSafeInteger(value) ? cborInteger(BigInt(value)) : fail(`deterministic CBOR of the number ${value}: give it as written, parseRaw()`);
+    if (Array.isArray(value))          return Buffer.concat([ cborHead(4, value.length), ...value.map(cborOf) ]);
+    if (value[RAW] !== undefined)      return cborNumber(value[RAW]);
+    const entries = Object.keys(value).map(key => [ cborOf(key), cborOf(value[key]) ]).sort(([ left ], [ right ]) => Buffer.compare(left, right));
+    return Buffer.concat([ cborHead(5, entries.length), ...entries.flat() ]);
 }
 
 
-// ---- The effectiveTree of a version of the shape of section 6 (8.2) --------------------------------------------------
+// ---- The effective tree of a version (8.2): skeletons and the tree hashes of RFC 9162 ---------------------------------
 //
-// Bottom-up, each child array of one child pruned to the digest of that child, SHA-256(0x00 || skeleton), which is the
-// root of the array. Anchored on the root of section 6 before anything is calculated with it.
+// For a version without templates and charging tariffs, whose effective content is its content (8.1): what the vectors
+// of section 7 hold. The child arrays are read from the table of section 8.2 itself.
 
-const CHILD_ARRAYS = [ 'chargingStationOperators', 'chargingPools', 'chargingStations', 'EVSEs' ];
+/** What the children of a child array are, where they have child arrays of their own: the parents of the table of 8.2. */
+const CHILD_PARENTS = {
+    chargingStationOperators:           'charging station operator',
+    chargingPools:                      'charging pool',
+    chargingStations:                   'charging station',
+    eMobilityProviders:                 'e-mobility provider',
+    gridOperators:                      'grid operator',
+    parkingOperators:                   'parking operator',
+    chargingStationManufacturers:       'charging station manufacturer',
+    energyMeterManufacturers:           'energy meter manufacturer',
+    transparencySoftwareManufacturers:  'transparency software manufacturer',
+    conformityAssessmentBodies:         'conformity assessment body',
+};
 
-function treeDigest(entity) {
-    const skeleton = { ...entity };
-    for (const name of CHILD_ARRAYS.filter(name => entity[name] !== undefined)) {
-        if (entity[name].length !== 1)
-            fail(`the effectiveTree of ${name}: only child arrays of one child are known to this script`);
-        skeleton[name] = { '@merkleRoot': treeDigest(entity[name][0]), '@size': 1 };
+let childArraysOfSpec;
+
+/** The child arrays of every parent, as the table of section 8.2 names them. */
+function childArrays() {
+    if (childArraysOfSpec !== undefined)
+        return childArraysOfSpec;
+    const text   = source(SPEC);
+    const start  = text.indexOf('| Parent | Child arrays |');
+    if (start < 0)
+        fail(`${SPEC} no longer has the table of the child arrays of section 8.2`);
+    childArraysOfSpec = {};
+    for (const row of text.slice(start).split('\n').slice(2)) {
+        if (!row.startsWith('| '))
+            break;
+        const [ , parent, arrays ] = row.split('|').map(cell => cell.trim());
+        childArraysOfSpec[parent] = [ ...arrays.matchAll(/`([A-Za-z]+)`/g) ].map(match => match[1]);
     }
-    return sha256(Buffer.concat([ Buffer.of(0), utf8(canonical(skeleton)) ]));
+    for (const [ array, parent ] of Object.entries(CHILD_PARENTS))
+        if (childArraysOfSpec[parent] === undefined || !Object.values(childArraysOfSpec).some(arrays => arrays.includes(array)))
+            fail(`${SPEC}, section 8.2, no longer names the child array ${array} of ${parent}s`);
+    return childArraysOfSpec;
 }
+
+const hashOf = (algorithm) => (bytes) => createHash(algorithm).update(bytes).digest();
+
+/** The Merkle tree hash of RFC 9162, 2.1.1, of a list of byte strings. */
+function mth(hash, leaves) {
+    if (leaves.length === 0)
+        return hash(Buffer.alloc(0));
+    if (leaves.length === 1)
+        return hash(Buffer.concat([ Buffer.of(0), leaves[0] ]));
+    let k = 1;
+    while (k * 2 < leaves.length)
+        k *= 2;
+    return hash(Buffer.concat([ Buffer.of(1), mth(hash, leaves.slice(0, k)), mth(hash, leaves.slice(k)) ]));
+}
+
+/** The skeleton of an entity (8.2): every child array replaced by the root and the size of the tree of its children. */
+function skeletonOf(entity, parent, hash) {
+    const skeleton = { ...entity };
+    for (const array of childArrays()[parent] ?? [])
+        if (entity[array] !== undefined)
+            skeleton[array] = { '@merkleRoot': mth(hash, entity[array].map(child => utf8(canonical(skeletonOf(child, CHILD_PARENTS[array], hash))))).toString('hex'),
+                                '@size':       entity[array].length };
+    return skeleton;
+}
+
+/** The root of the tree of a version, its effectiveTree ETag: the digest of the skeleton of the roaming network. */
+const effectiveTreeOf = (content, algorithm) => mth(hashOf(algorithm), [ utf8(canonical(skeletonOf(content, 'roaming network', hashOf(algorithm)))) ]).toString('hex');
+
+/** The ETags of the content of a version (3, 8.3), as a commit names them: json, cbor, its effectiveTree ETags, in hex. */
+const eTagsOf = (content) => [
+    [ 'json', 'sha256', 'hex', sha256(utf8(canonical(content))) ],
+    [ 'cbor', 'sha256', 'hex', createHash('sha256').update(cborOf(content)).digest('hex') ],
+    ...(content.treeHashAlgorithms ?? [ 'sha256' ]).map(algorithm => [ 'effectiveTree', algorithm, 'hex', effectiveTreeOf(content, algorithm) ]),
+];
 
 
 // ---- The ETags of a document as text: json:sha256:hex:<digest> -----------------------------------------------------
@@ -341,9 +517,9 @@ function canonicalVectors() {
         },
     }));
 
-    // The anchors of cbor(): the deterministic CBOR the README gives.
-    for (const vector of vectors.filter(vector => vector.expected.cborHex !== undefined))
-        anchor(`the deterministic CBOR of ${vector.input}`, cbor(parseRaw(vector.input)).toString('hex'), vector.expected.cborHex);
+    // The deterministic CBOR this script writes for the cbor ETags of section 7, against the vectors of Styx giving it.
+    for (const [ input, , cbor ] of table.filter(([ , , cbor ]) => cbor !== undefined))
+        anchor(`the deterministic CBOR of ${input}`, cborOf(parseRaw(input)).toString('hex'), cbor.replaceAll(' ', ''));
 
     // The escaping table of Styx (section 2.3), one code point per vector, given in the input as a JSON escape so that
     // this file stays readable; the expected canonical JSON is the string as Styx writes it.
@@ -508,13 +684,15 @@ function specificationVectors() {
 
     anchor('the root of the tree is the effectiveTree ETag', 'effectiveTree:sha256:hex:' + skeletons[4].digest, eTags[2]);
 
+    // What section 7 calculates of a version, for the version of section 6.
+    anchor('the cbor ETag of the content',  'cbor:sha256:hex:' + sha256(cborOf(parseRaw(content))),                 eTags[1]);
+    anchor('the effective tree of the content', 'effectiveTree:sha256:hex:' + effectiveTreeOf(parseRaw(content), 'sha256'), eTags[2]);
+
     // The ETags of a content calculated here (3.1): of its canonical JSON, of its deterministic CBOR, its effectiveTree;
     // the three anchored on the content of the example.
-    const eTagsOf = (version) => [ 'json:sha256:hex:'          + sha256(utf8(canonical(version))),
-                                   'cbor:sha256:hex:'          + sha256(cbor(version)),
-                                   'effectiveTree:sha256:hex:' + treeDigest(version) ];
+    const eTagTextsOf = (version) => eTagsOf(version).map((eTag, index) => etagText(eTag, `the ETag ${index} of a content`));
 
-    anchor('the ETags of the content of the example', eTagsOf(parseRaw(content)).join(', '), eTags.join(', '));
+    anchor('the ETags of the content of the example', eTagTextsOf(parseRaw(content)).join(', '), eTags.join(', '));
 
     // Custom data (section 2) is held as given: numbers with their decimal places and of any size, texts as texts, also
     // those that look like timestamps, in every time zone, nested as given; so is the custom data of an address
@@ -527,7 +705,7 @@ function specificationVectors() {
         const version = parseRaw(content);
         const [ operator ] = version.chargingStationOperators, [ pool ] = operator.chargingPools, [ station ] = pool.chargingStations, [ evse ] = station.EVSEs;
         change({ network: version, operator, pool, station, evse });
-        return { id: `spec-2-custom-data-${name}`, description, basis: `${basis}; csharp-review ${review}`, content: canonical(version), eTags: eTagsOf(version) };
+        return { id: `spec-2-custom-data-${name}`, description, basis: `${basis}; csharp-review ${review}`, content: canonical(version), eTags: eTagTextsOf(version) };
     };
 
     const customDataContents = [
@@ -1148,7 +1326,6 @@ function refusalVectors() {
 
     // ---- Change sets (4, 5.2): identified by their content, naming only what they were rebased from, with changes
     //      (csharp-review 4). The commit of each is identified anew, so that only its change set is refused.
-    const without     = (object, ...properties) => Object.fromEntries(Object.entries(object).filter(([ property ]) => !properties.includes(property)));
     const contentId   = (changeSet) => sha256(utf8(canonical({ ...without(changeSet, '@id', 'signatures'), '@context': 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/changeSet/v3' })));
     const commitIdOf  = (commit)    => (commit['@id'].length === 128 ? sha512 : sha256)(utf8(canonical({ ...without(commit, '@id', 'signatures', 'changeSet'),
                                                                                                          '@context':  'https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3',
@@ -1388,16 +1565,988 @@ function pathOfEVSE(proof, evseId) {
 
 
 // =====================================================================================================================
+//  7. Small histories the generator signs: what a history takes, and what it refuses
+// =====================================================================================================================
+//
+// The keys of the frozen run are random and private: nothing it holds can be changed and signed anew. These histories the
+// generator makes itself, of the roaming network rn1 of section 6, its operator DE*RNO holding the quorum of section 6
+// (the identity keys of Alpha and Beta, and their signing keys), and parties of keys of their own. Ed25519 and Ed448 sign
+// deterministically, ES256 with the nonces of RFC 6979: every byte below is the same each time. What it calculates of
+// them - deterministic CBOR, the effective tree, identifications, signature inputs - it first calculates of the frozen run
+// and of SPECIFICATION.md, against what is written there (the anchors); a history both implementations take is calculated
+// by both as by the generator, and one they refuse, its control taken, is refused for what it changes.
+
+const CONTEXTS = {
+    changeSet:            CONTEXT + 'changeSet/v3',
+    commit:               CONTEXT + 'commit/v3',
+    commitSignature:      CONTEXT + 'commitSignature/v1',
+    checkpoint:           CONTEXT + 'checkpoint/v1',
+    checkpointSignature:  CONTEXT + 'checkpointSignature/v1',
+    keyStatement:         CONTEXT + 'keyStatement/v3',
+    certificate:          CONTEXT + 'signingKeyCertificate/v2',
+    priceStatement:       CONTEXT + 'priceStatement/v1',
+};
+
+
+// ---- Identifications and signature inputs (4, 5.1, 5.4, 8.6, 10.1, 10.2) -----------------------------------------------
+
+const IDENTIFICATION_LENGTHS = { sha256: 64, sha384: 96, sha512: 128 };
+
+const identificationHashOf = (id) => Object.keys(IDENTIFICATION_LENGTHS).find(hash => IDENTIFICATION_LENGTHS[hash] === id.length) ?? fail(`no identification: ${id}`);
+
+const digestHex = (hash, text) => createHash(hash).update(utf8(text)).digest('hex');
+
+/** The @id of a change set (4): the SHA-256 of its canonical JSON with its @context, without @id and signatures. */
+const changeSetIdOf = (changeSet) => sha256(utf8(canonical({ ...without(changeSet, '@id', '@context', 'signatures'), '@context': CONTEXTS.changeSet })));
+
+/** The @id of a commit (5.1): the digest, with the identification hash of its epoch, of its content. */
+const commitIdOf = (commit, hash) => digestHex(hash, canonical({ ...without(commit, '@id', '@context', 'signatures', 'changeSet'), '@context': CONTEXTS.commit,
+                                                                 ...(commit.changeSet === undefined ? {} : { changeSet: without(commit.changeSet, '@context', 'signatures') }) }));
+
+/** The @id of a checkpoint (10.1): the digest of the checkpoint with its @context, without @id and signatures. */
+const checkpointIdOf = (checkpoint, hash) => digestHex(hash, canonical({ ...without(checkpoint, '@id', '@context', 'signatures'), '@context': CONTEXTS.checkpoint }));
+
+/** A leaf of the commits of a checkpoint (10.1). */
+const commitLeafOf = (commit) => utf8(canonical({ commitId: commit['@id'], eTags: commit.eTags, revision: commit.revision }));
+
+/** The signature input of a change set (4): the change set without its signatures and @context, with its @id. */
+const changeSetSignatureInput = (changeSet, { algorithm, keyId }) => canonical({ '@context': CONTEXTS.changeSet, algorithm, keyId, changeSet: without(changeSet, '@context', 'signatures') });
+
+/** The signature input of a commit or a checkpoint in a role (5.4, 10.2): the signature without its value, and what it signs. */
+const roleSignatureInput = (context, signature, name, signed) => canonical({ '@context': context, ...without(signature, 'value'), [name]: signed });
+
+/** A commit as its signatures sign it: with its @context, its @id and the signatures of its change set (5.4). */
+const commitAsSigned = (commit) => ({ ...without(commit, 'signatures'), '@context': CONTEXTS.commit, ...(commit.changeSet === undefined ? {} : { changeSet: without(commit.changeSet, '@context') }) });
+
+/** A checkpoint as its signatures sign it: with its @context and @id (10.2). */
+const checkpointAsSigned = (checkpoint) => ({ ...without(checkpoint, 'signatures'), '@context': CONTEXTS.checkpoint });
+
+/** The signature input of a key statement (8.6) and of the certificate of a signing key (8.6). */
+const keyStatementSignatureInput = (statement, { algorithm, keyId }) => canonical({ '@context': CONTEXTS.keyStatement, algorithm, keyId, ...without(statement, 'signatures') });
+const certificateSignatureInput  = (certificate)                     => canonical({ '@context': CONTEXTS.certificate, ...without(certificate, 'value') });
+
+
+// ---- The anchors: what section 7 calculates, calculated first of the frozen run --------------------------------------
+
+/** Every JSON document of the frozen run, read with its numbers as written. */
+const runDocuments = () => walk(RUN_DIR).map(runFile).filter(file => file.endsWith('.json')).map(file => ({ file, json: rawRun(file) }));
+
+function anchorTheRun(history) {
+
+    const documentOf = (vector) => at(rawRun(vector.file), vector.pointer);
+
+    // Deterministic CBOR and the ETags of the content: of every version of the run, as its commit names them; the effective
+    // tree of the genesis, whose effective content is its content.
+    for (const vector of history.versions) {
+        const content = without(documentOf(vector), 'eTags');
+        anchor(`the json ETag of ${vector.id}`, etagText(eTagsOf(content)[0], vector.id), vector.eTags[0]);
+        anchor(`the cbor ETag of ${vector.id}`, etagText(eTagsOf(content)[1], vector.id), vector.eTags[1]);
+        if (vector.file === 'published/QA-genesis.json')
+            anchor(`the effective tree of ${vector.id}`, etagText(eTagsOf(content)[2], vector.id), vector.eTags[2]);
+    }
+
+    // Identifications: of every commit and its change set, of every checkpoint and the tree of its commits.
+    const commits = new Map();
+
+    for (const vector of history.commits) {
+        const commit = documentOf(vector);
+        anchor(`the identification of ${vector.id}`, commitIdOf(commit, identificationHashOf(commit['@id'])), vector.commitId);
+        if (commit.changeSet !== undefined && !commit.changeSet['@id'].startsWith('merge-'))
+            anchor(`the identification of the change set of ${vector.id}`, changeSetIdOf(commit.changeSet), commit.changeSet['@id']);
+        commits.set(commit['@id'], commit);
+    }
+
+    const checkpoints = history.checkpoints.map(vector => ({ vector, checkpoint: documentOf(vector) }));
+
+    for (const { vector, checkpoint } of checkpoints) {
+
+        const hash  = identificationHashOf(checkpoint['@id']);
+        anchor(`the identification of ${vector.id}`, checkpointIdOf(checkpoint, hash), vector.checkpointId);
+
+        // Its commits: back from its commit to the commit of the checkpoint before it, or to the genesis of its epoch.
+        const before   = checkpoints.find(other => other.checkpoint['@id'] === checkpoint.previousId)?.checkpoint;
+        const own      = [];
+        for (let commit = commits.get(checkpoint.commitId); commit !== undefined && commit['@id'] !== before?.commitId; commit = commits.get(commit.parentIds?.[0]))
+            own.push(commit);
+        if (checkpoint.final === true && before?.commitId === checkpoint.commitId)
+            own.push(commits.get(checkpoint.commitId));
+        own.sort((left, right) => numberOf(left.revision) - numberOf(right.revision) || (left['@id'] < right['@id'] ? -1 : 1));
+        anchor(`the tree of the commits of ${vector.id}`, mth(hashOf(hash), own.map(commitLeafOf)).toString('hex') + '/' + own.length,
+               `${checkpoint.commits['@merkleRoot']}/${numberOf(checkpoint.commits['@size'])}`);
+
+    }
+
+    // Signature inputs: every signature of the run node:crypto verifies (ECDSA, Ed25519, Ed448; not ML-DSA) verifies with
+    // its key over the input as section 7 writes it.
+    const keys = new Map();
+    const visit = (value) => {
+        if (Array.isArray(value))
+            value.forEach(visit);
+        else if (value !== null && typeof value === 'object' && value[RAW] === undefined) {
+            if (typeof value['@id'] === 'string' && typeof value.key === 'string')
+                keys.set(value['@id'], value.key);
+            Object.values(value).forEach(visit);
+        }
+    };
+    const documents = runDocuments();
+    documents.forEach(({ json }) => visit(json));
+
+    let verified = 0;
+    const check = (what, { algorithm, keyId, value }, input) => {
+        const result = verifiesWith(algorithm, keys.get(keyId) ?? fail(`anchor: no key ${keyId} of ${what} in the run`), input, value);
+        if (result === false)
+            fail(`anchor: the signature of ${what} (${algorithm}) does not verify over its input as section 7 writes it`);
+        if (result === true)
+            verified++;
+    };
+
+    for (const commit of commits.values()) {
+        for (const signature of commit.signatures ?? [])
+            check(`the commit ${commit['@id']}`, signature, roleSignatureInput(CONTEXTS.commitSignature, signature, 'commit', commitAsSigned(commit)));
+        for (const signature of commit.changeSet?.signatures ?? [])
+            check(`the change set of the commit ${commit['@id']}`, signature, changeSetSignatureInput(commit.changeSet, signature));
+    }
+
+    for (const { checkpoint } of checkpoints)
+        for (const signature of checkpoint.signatures ?? [])
+            check(`the checkpoint ${checkpoint['@id']}`, signature, roleSignatureInput(CONTEXTS.checkpointSignature, signature, 'checkpoint', checkpointAsSigned(checkpoint)));
+
+    for (const vector of history.versions) {
+        const operator = documentOf(vector).operator;
+        for (const signature of operator?.keyStatement?.signatures ?? [])
+            check(`the key statement of ${vector.id}`, signature, keyStatementSignatureInput(operator.keyStatement, signature));
+        for (const certificate of operator?.signingKeyCertificates ?? [])
+            check(`a certificate of ${vector.id}`, certificate, certificateSignatureInput(certificate));
+    }
+
+    if (verified < 100)
+        fail(`anchor: only ${verified} signatures of the run verified, the inputs of section 7 are not checked`);
+
+    // ES256 with the nonces of RFC 6979: its example of P-256 and SHA-256 (A.2.5), and verified by node:crypto.
+    const rfc = es256Of(0xc9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721n);
+    anchor('the public key of RFC 6979, A.2.5', Buffer.from(rfc.coseKey, 'base64').subarray(8).toString('hex').replace('225820', ''),
+           '60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6' + '7903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299');
+    anchor('the ES256 signature of "sample" of RFC 6979, A.2.5', Buffer.from(rfc.sign('sample'), 'base64').toString('hex'),
+           'efd48b2aacb6a8fd1140dd9cd45e81d69d2c877b56aaf991c34d0ea84eaf3716' + 'f7cb1c942d657c41d436c7a1b6e29f65f3e900dbb9aff4064dc4ab2f843acda8');
+    anchor('the ES256 signature of "test" of RFC 6979, A.2.5', Buffer.from(rfc.sign('test'), 'base64').toString('hex'),
+           'f1abb023518351cd71d881567b1ea663ed3efcf6c5132b354f28d3b0b7d38367' + '019f4113742a2b14bd25926b49c649155f267e60d3814b4c0cc84250e46f0083');
+    if (verifiesWith('ES256', rfc.coseKey, 'sample', rfc.sign('sample')) !== true)
+        fail('anchor: node:crypto does not verify the ES256 signature of RFC 6979, A.2.5');
+
+}
+
+
+// ---- Applying a change set to the content, as far as the histories below need it (4) -------------------------------
+//
+// What a change set leads to, so that its afterETags and the ETags of its commit can be calculated: the changes as given,
+// lastChange set as section 4 says, of the entity changed and of every entity embedding it, and of the roaming network.
+// Nothing is checked here: a change set the implementations refuse is made as whoever made it would make it.
+
+const PARTY_ARRAYS = {
+    ChargingStationOperator:           'chargingStationOperators',
+    EMobilityProvider:                 'eMobilityProviders',
+    GridOperator:                      'gridOperators',
+    ParkingOperator:                   'parkingOperators',
+    ChargingStationManufacturer:       'chargingStationManufacturers',
+    EnergyMeterManufacturer:           'energyMeterManufacturers',
+    TransparencySoftwareManufacturer:  'transparencySoftwareManufacturers',
+    ConformityAssessmentBody:          'conformityAssessmentBodies',
+};
+
+/** Entities of a party without timestamps, by the type of their party and the array of it holding them (4, Timestamps). */
+const PARTY_CHILDREN = {
+    ChargingStationModel:   [ 'ChargingStationManufacturer', 'chargingStationModels' ],
+    EnergyMeterModel:       [ 'EnergyMeterManufacturer',     'energyMeterModels' ],
+    ConformityCertificate:  [ 'ConformityAssessmentBody',    'certificates' ],
+    TransparencySoftware:   [ 'TransparencySoftwareManufacturer', 'transparencySoftware' ],
+    GridConnectionPoint:    [ 'GridOperator',                'gridConnectionPoints' ],
+};
+
+/** A copy of JSON as this script holds it, its numbers as written. */
+const copyOf = (value) => Array.isArray(value)                              ? value.map(copyOf)
+                        : value !== null && typeof value === 'object'       ? (value[RAW] !== undefined ? { [RAW]: value[RAW] } : Object.fromEntries(Object.entries(value).map(([ key, item ]) => [ key, copyOf(item) ])))
+                        :                                                     value;
+
+const byId = (array, id) => (array ?? []).find(entity => entity['@id'] === id);
+
+/** Where a change finds its entity: the object holding the array of it, the array, the entity, what embeds it. */
+function placeOf(content, change) {
+
+    const { kind, entityType: type, entityId: id, parentEntityType: parentType, parentEntityId: parentId } = change;
+
+    if (type === 'RoamingNetwork')
+        return { entity: content, embedding: [], timestamps: true };
+
+    if (type === 'RoamingNetworkOperator')
+        return { entity: content.operator, embedding: [], timestamps: true };
+
+    if (PARTY_ARRAYS[type] !== undefined)
+        return { holder: content, property: PARTY_ARRAYS[type], entity: byId(content[PARTY_ARRAYS[type]], id), embedding: [], timestamps: true };
+
+    if (PARTY_CHILDREN[type] !== undefined) {
+        const [ partyType, property ] = PARTY_CHILDREN[type];
+        const party = parentId !== undefined ? byId(content[PARTY_ARRAYS[partyType]], parentId)
+                                             : (content[PARTY_ARRAYS[partyType]] ?? []).find(candidate => byId(candidate[property], id) !== undefined);
+        return { holder: party, property, entity: byId(party?.[property], id), embedding: [ party ], timestamps: false };
+    }
+
+    // A group of an e-mobility provider while one has it, else of the charging station operator its identification names,
+    // as the type compares it: DE-XYZ*G names the group DE*XYZ*G (9.3).
+    const provider = type === 'EVSEGroup' ? (content.eMobilityProviders ?? []).find(candidate => kind === 'Add' ? parentType === 'EMobilityProvider' && candidate['@id'] === parentId
+                                                                                                                 : byId(candidate.EVSEGroups, id) !== undefined)
+                                          : undefined;
+    if (provider !== undefined)
+        return { holder: provider, property: 'EVSEGroups', entity: byId(provider.EVSEGroups, id), embedding: [ provider ], timestamps: true };
+
+    const named    = id.replace(/^([A-Z]{2})-/, '$1*');
+    const operator = (content.chargingStationOperators ?? []).filter(candidate => named.startsWith(candidate['@id'] + '*')).sort((left, right) => right['@id'].length - left['@id'].length)[0]
+                         ?? fail(`section 7: no charging station operator of the ${type} ${id}`);
+
+    if (type === 'EVSEGroup' || type === 'ChargingPool') {
+        const property = type === 'EVSEGroup' ? 'EVSEGroups' : 'chargingPools';
+        return { holder: operator, property, entity: byId(operator[property], named), embedding: [ operator ], timestamps: true };
+    }
+
+    const pools    = operator.chargingPools ?? [];
+    const stations = pools.flatMap(pool => (pool.chargingStations ?? []).map(station => ({ pool, station })));
+
+    if (type === 'ChargingStation') {
+        const pool = kind === 'Add' ? byId(pools, parentId) : stations.find(({ station }) => station['@id'] === id)?.pool;
+        return { holder: pool, property: 'chargingStations', entity: byId(pool?.chargingStations, id), embedding: [ pool, operator ], timestamps: true };
+    }
+
+    if (type === 'EVSE') {
+        const { pool, station } = (kind === 'Add' ? stations.find(({ station }) => station['@id'] === parentId) : stations.find(({ station }) => byId(station.EVSEs, id) !== undefined))
+                                      ?? fail(`section 7: no charging station of the EVSE ${id}`);
+        return { holder: station, property: 'EVSEs', entity: byId(station.EVSEs, id), embedding: [ station, pool, operator ], timestamps: true };
+    }
+
+    fail(`section 7: changes of a ${type} are not made here`);
+
+}
+
+/** The content a change set leads to. */
+function applied(before, changes, createdAt) {
+
+    const content = copyOf(before);
+
+    for (const change of changes) {
+
+        const place = placeOf(content, change);
+
+        switch (change.kind) {
+
+            case 'Add': {
+                const entity = copyOf(change.newValue);
+                if (place.timestamps) {
+                    entity.created    ??= createdAt;
+                    entity.lastChange   = createdAt;
+                }
+                place.holder[place.property] = [ ...(place.holder[place.property] ?? []), entity ].sort((left, right) => left['@id'] < right['@id'] ? -1 : 1);
+                break;
+            }
+
+            case 'Remove':
+                place.holder[place.property] = place.holder[place.property].filter(entity => entity !== place.entity);
+                if (place.holder[place.property].length === 0)
+                    delete place.holder[place.property];
+                break;
+
+            case 'UpdateProperty':
+            case 'RemoveProperty':
+                if (change.kind === 'UpdateProperty')
+                    place.entity[change.propertyName] = copyOf(change.newValue);
+                else
+                    delete place.entity[change.propertyName];
+                if (place.timestamps)
+                    place.entity.lastChange = createdAt;
+                break;
+
+            default:
+                fail(`section 7: ${change.kind} is not made here`);
+
+        }
+
+        for (const embedding of place.embedding)
+            embedding.lastChange = createdAt;
+
+    }
+
+    content.lastChange = createdAt;
+
+    return content;
+
+}
+
+/** The effective content of a version is its content only without templates and charging tariffs (8.1). */
+function checkEffective(content) {
+    const text = canonical(content);
+    for (const name of [ '"templateIds"', '"chargingTariffs"', '"chargingTariffIds"', 'Templates"' ])
+        if (text.includes(name))
+            fail(`section 7: the effective content of a version with ${name} is not calculated here`);
+    return content;
+}
+
+
+// ---- A history the generator makes, and the steps taking it -------------------------------------------------------
+
+/**
+ * A history of a roaming network from the genesis of its first epoch: its documents by name (JSON text), the steps that
+ * take them, its head. `prepare` makes a commit of the head, `take` takes one, `checkpoint` makes the next checkpoint of
+ * the head, `nextEpoch` starts the epoch its final checkpoint names.
+ */
+function generatedHistory(id, description, genesis, leader) {
+
+    const documents  = {};
+    const steps      = [];
+    const text       = (value) => canonical(value);
+
+    const signedInRole = (context, name, signed, signers, signedAt) =>
+        signers.map(({ key, role = 'roamingNetworkOperator', signer = leader.signer }) => {
+            const signature = { role, signer, signedAt, algorithm: key.algorithm, keyId: key.id };
+            return { ...signature, value: key.sign(roleSignatureInput(context, signature, name, signed)) };
+        });
+
+    const signCommit = (commit, signers, signedAt) =>
+        ({ ...commit, signatures: signedInRole(CONTEXTS.commitSignature, 'commit', commitAsSigned(commit), signers, signedAt) });
+
+    let epoch      = { number: 1, hash: 'sha256' };
+    let head;
+
+    const genesisCommit = (content, more = {}) => {
+        const commit = { roamingNetworkId: content['@id'], revision: 0, eTags: eTagsOf(checkEffective(content)), ...more };
+        return { '@id': commitIdOf(commit, epoch.hash), ...commit };
+    };
+
+    {
+        const commit = signCommit(genesisCommit(genesis), [ { key: leader.key } ], genesis.created);
+        documents.genesis = text({ commit, roamingNetwork: genesis });
+        steps.push({ op: 'fromSnapshot', document: 'genesis' });
+        head = { content: genesis, commit, versions: [ { commit, content: genesis } ], checkpoints: [] };
+    }
+
+    const history = {
+
+        id, description, documents,
+
+        get head()   { return head; },
+        get epoch()  { return epoch; },
+
+        /** The steps so far, and the given ones after them. */
+        steps: (...more) => [ ...steps.map(step => ({ ...step })), ...more ],
+
+        /** The step that checks the head as the generator calculated it. */
+        expectHead: () => ({ op: 'expectHead', epoch: epoch.number, revision: head.commit.revision, commitId: head.commit['@id'], eTags: head.commit.eTags.map(eTag => etagText(eTag, id)) }),
+
+        /** The content of the version of a revision of the epoch. */
+        contentAt: (revision) => (head.versions.find(version => version.commit.revision === revision) ?? fail(`${id}: no version of the revision ${revision}`)).content,
+
+        /**
+         * A commit of a change set made for the head, or for the content `before`: its changes, signed by the given keys,
+         * leading to what they lead to, or to `content` where given.
+         */
+        prepare: ({ createdAt, description: what, changes, signers, metadata, content, before = head.content }) => {
+            const after      = checkEffective(content ?? applied(before, changes, createdAt));
+            const changeSet  = { roamingNetworkId: genesis['@id'], createdAt, description: { en: what }, ...(metadata === undefined ? {} : { metadata }), changes,
+                                 beforeETags: eTagsOf(before).slice(0, 2), afterETags: eTagsOf(after).slice(0, 2) };
+            const changeSetId = changeSetIdOf(changeSet);
+            const signed     = { '@id': changeSetId, ...changeSet };
+            const commit     = { roamingNetworkId: genesis['@id'], revision: head.commit.revision + 1, eTags: eTagsOf(after), ...(epoch.number > 1 ? { epoch: epoch.number } : {}),
+                                 parentIds: [ head.commit['@id'] ],
+                                 changeSet: { ...signed, signatures: signers.map(key => ({ algorithm: key.algorithm, keyId: key.id, value: key.sign(changeSetSignatureInput(signed, { algorithm: key.algorithm, keyId: key.id })) })) } };
+            return { commit: signCommit({ '@id': commitIdOf(commit, epoch.hash), ...commit }, [ { key: leader.key } ], createdAt), content: after };
+        },
+
+        /** Keeps a document of the history under its name, e.g. a commit to be refused or the control of one. */
+        keep: (name, prepared) => {
+            const value = text(prepared.commit ?? prepared);
+            if (documents[name] !== undefined && documents[name] !== value)
+                fail(`${id}: another document ${name} is there already`);
+            documents[name] = value;
+            return name;
+        },
+
+        /** Takes a commit: its step follows, and it is the head. */
+        take: (name, prepared) => {
+            history.keep(name, prepared);
+            steps.push({ op: 'append', document: name });
+            head = { content: prepared.content, commit: prepared.commit, versions: [ ...head.versions, prepared ], checkpoints: head.checkpoints };
+            return prepared;
+        },
+
+        /**
+         * The next checkpoint of the head (10.1): its commits those since the commit of the one before, every one of the
+         * epoch for the first; the first of a later epoch names the final one of the epoch before (11.3).
+         */
+        checkpoint: ({ createdAt, signers, final, next, commitId = head.commit['@id'] }) => {
+            const latest   = head.checkpoints.at(-1);
+            const all      = head.versions.map(version => version.commit);
+            const until    = all.findIndex(commit => commit['@id'] === commitId);
+            const from     = latest === undefined ? 0 : all.findIndex(commit => commit['@id'] === latest.commitId) + 1;
+            const commits  = latest !== undefined && from > until ? [ all[until] ] : all.slice(from, until + 1);
+            const commit   = all[until];
+            const content  = { roamingNetworkId: genesis['@id'], epoch: epoch.number, sequence: latest === undefined ? 0 : latest.sequence + 1,
+                               ...(latest === undefined ? {} : { previousId: latest['@id'] }), commitId, revision: commit.revision, eTags: commit.eTags,
+                               commits: { '@merkleRoot': mth(hashOf(epoch.hash), commits.map(commitLeafOf)).toString('hex'), '@size': commits.length },
+                               createdAt, ...(final ? { final: true, next } : {}),
+                               ...(latest === undefined && epoch.previous !== undefined ? { previous: epoch.previous } : {}) };
+            const identified = { '@id': checkpointIdOf(content, epoch.hash), ...content };
+            return { ...identified, signatures: signedInRole(CONTEXTS.checkpointSignature, 'checkpoint', checkpointAsSigned(identified), signers, createdAt) };
+        },
+
+        /** Takes a checkpoint. */
+        takeCheckpoint: (name, checkpoint) => {
+            history.keep(name, checkpoint);
+            steps.push({ op: 'takeCheckpoint', document: name });
+            head = { ...head, checkpoints: [ ...head.checkpoints, checkpoint ] };
+            return checkpoint;
+        },
+
+        /** Starts the epoch the final checkpoint names (11.3): its genesis has the version of that checkpoint, revision 0. */
+        nextEpoch: () => {
+            const final = head.checkpoints.at(-1);
+            if (final?.final !== true)
+                fail(`${id}: no final checkpoint to start the next epoch from`);
+            epoch = { number: final.next.epoch, hash: final.next.profiles.identificationHash, profiles: final.next.profiles,
+                      previous: { epoch: final.epoch, checkpointId: final['@id'], eTags: final.eTags } };
+            const commit = genesisCommit(head.content, { epoch: epoch.number, profiles: epoch.profiles });
+            anchor(`${id}: the ETags of the genesis of the epoch ${epoch.number}`, JSON.stringify(commit.eTags), JSON.stringify(final.eTags));
+            steps.push({ op: 'startNextEpoch', genesisCommitId: commit['@id'] });
+            head = { content: head.content, commit, versions: [ { commit, content: head.content } ], checkpoints: [] };
+            return commit;
+        },
+
+    };
+
+    return history;
+
+}
+
+
+// ---- The histories and what they take and refuse --------------------------------------------------------------------
+
+function signedHistories() {
+
+    const S = (text, what) => quoted(SPEC, text, what);
+
+    /** A seed of a key of its own, of its name: deterministic, and no key of anyone. */
+    const seedOf = (name, bytes = 32) => createHash('shake256', { outputLength: bytes }).update(`WWCPPOIConformanceTests: ${name}`).digest('hex');
+
+    /** A key of POI (4.1): its COSE key, its @id (the RFC 9679 thumbprint), its JSON with what it names, and its signatures. */
+    const keyOf = (algorithm, seed, more = {}) => {
+        const pair = algorithm === 'Ed25519' ? (() => { const ed = ed25519(seed); return { coseKey: coseKeyOf(ed.publicKey), sign: ed.sign }; })()
+                   : algorithm === 'Ed448'   ? ed448(seed)
+                   : algorithm === 'ES256'   ? es256(seed)
+                   :                           fail(`section 7: no keys of ${algorithm}`);
+        const id   = sha256(Buffer.from(pair.coseKey, 'base64'));
+        if (verifiesWith(algorithm, pair.coseKey, id, pair.sign(id)) !== true)
+            fail(`anchor: node:crypto does not verify a signature of the ${algorithm} key ${id}`);
+        return { algorithm, id, sign: pair.sign, json: { '@id': id, key: pair.coseKey, ...more } };
+    };
+
+    const inOrder     = (keys) => [ ...keys ].sort((left, right) => left.id < right.id ? -1 : 1).map(key => key.json);
+    const NOT_AFTER   = '2027-10-17T00:00:00.000Z';
+
+    // ---- The roaming network operator DE*RNO: the identity keys of Alpha and Beta of section 6, their signing keys for
+    //      the party (that of Alpha the attestation key of section 6), and for certificates and tariffs alone.
+    const alphaIdentity      = keyOf('Ed25519', S('303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f', 'the seed of the identity key of Alpha'), { holder: 'Alpha' });
+    const betaIdentity       = keyOf('Ed25519', S('707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f', 'the seed of the identity key of Beta'),  { holder: 'Beta' });
+    const rnoSigning         = (name, holder, usages, seed = seedOf(name)) => keyOf('Ed25519', seed, { notAfter: NOT_AFTER, holder, usages });
+    const alphaParty         = rnoSigning('Alpha, party',        'Alpha', [ 'party' ], S('202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f', 'the seed of the signing key of Alpha'));
+    const betaParty          = rnoSigning('Beta, party',         'Beta',  [ 'party' ]);
+
+    anchor('the identity key of Alpha', alphaIdentity.id, S('1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802', 'its @id'));
+    anchor('the signing key of Alpha',  alphaParty.id,    S('ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554', 'its @id'));
+
+    const T0 = '2026-10-18T08:00:00.000Z';
+
+    const certificateOf = (signing, certifier) => {
+        const fields = { roamingNetworkOperatorId: 'DE*RNO', signingKey: signing.json, signedAt: T0, algorithm: certifier.algorithm, keyId: certifier.id };
+        return { ...fields, value: certifier.sign(certificateSignatureInput(fields)) };
+    };
+
+    const rnoOf = (signingKeys) => {
+        const statement = { roamingNetworkId: 'rn1', roamingNetworkOperatorId: 'DE*RNO', identityKeys: inOrder([ alphaIdentity, betaIdentity ]), minConsensus: 2,
+                            signedAt: T0, validUntil: '2026-11-17T08:00:00.000Z' };
+        return {
+            '@id':                   'DE*RNO',
+            name:                    { en: 'Roaming Network Operator' },
+            minConsensus:            2,
+            keyStatement:            { ...statement, signatures: [ alphaIdentity, betaIdentity ].map(key => ({ algorithm: key.algorithm, keyId: key.id, value: key.sign(keyStatementSignatureInput(statement, { algorithm: key.algorithm, keyId: key.id })) })) },
+            signingKeyCertificates:  signingKeys.map(([ signing, certifier ]) => certificateOf(signing, certifier))
+                                                .sort((left, right) => left.signingKey['@id'] < right.signingKey['@id'] ? -1 : left.signingKey['@id'] > right.signingKey['@id'] ? 1 : left.keyId < right.keyId ? -1 : 1),
+            identityKeys:            inOrder([ alphaIdentity, betaIdentity ]),
+            created:                 T0,
+            lastChange:              T0,
+        };
+    };
+
+    const networkOf = (operator) => ({ '@context': CONTEXT + 'v1', '@id': 'rn1', name: { en: 'Example' }, operator, created: T0, lastChange: T0 });
+
+    const leader = { key: alphaParty, signer: 'DE*RNO' };
+
+    const histories = [];
+    const replays   = [];
+
+    /** A replay of a history: its steps, the last one taken or refused; a refused one with its control, taken in its place. */
+    const replay = (id, history, expected, description, basis, { steps, control, reason, ...more }) => {
+        if (expected === 'refused' && control === undefined)
+            fail(`${id}: a refusal without its control`);
+        replays.push({ id, description, basis, history: history.id, commitAndCheckpointSignatures: 'unchecked', expected, steps,
+                       ...(control === undefined ? {} : { control }), ...(reason === undefined ? {} : { reason }), ...more });
+    };
+
+    /** The replays of a history at its head: one taking it, one taking a document after it, one refusing a document after it. */
+    const replaysOf = (history) => ({
+        accepted:  (id, description, basis, more = {}) =>
+                       replay(id, history, 'accepted', description, basis, { steps: history.steps(history.expectHead()), ...more }),
+        then:      (id, description, basis, document, prepared, more = {}) =>
+                       replay(id, history, 'accepted', description, basis, { steps: history.steps({ op: 'append', document: history.keep(document, prepared) }, expectHeadOf(history, prepared)), ...more }),
+        refused:   (id, description, basis, document, prepared, control, { op = 'append', ...more } = {}) =>
+                       replay(id, history, 'refused', description, basis, { steps: history.steps({ op, document: history.keep(document, prepared) }), control, ...more }),
+    });
+
+    const expectHeadOf = (history, prepared) => ({ op: 'expectHead', epoch: history.epoch.number, revision: prepared.commit.revision, commitId: prepared.commit['@id'],
+                                                   eTags: prepared.commit.eTags.map(eTag => etagText(eTag, history.id)) });
+
+    const B = (section) => `${SPEC}, ${section}`;
+
+    // ---- Changes (4), each with the old value it finds where one is given.
+
+    const parentOf  = (parent) => parent === undefined ? {} : { parentEntityType: parent[0], parentEntityId: parent[1] };
+    const add       = (entityType, newValue, parent)                                  => ({ kind: 'Add',            entityType, entityId: newValue['@id'], ...parentOf(parent), newValue });
+    const update    = (entityType, entityId, propertyName, oldValue, newValue, parent) => ({ kind: 'UpdateProperty', entityType, entityId, ...parentOf(parent), propertyName, ...(oldValue === undefined ? {} : { oldValue }), newValue });
+    const unset     = (entityType, entityId, propertyName, oldValue, parent)           => ({ kind: 'RemoveProperty', entityType, entityId, ...parentOf(parent), propertyName, oldValue });
+    const remove    = (entityType, entityId, oldValue, parent)                         => ({ kind: 'Remove',         entityType, entityId, ...parentOf(parent), oldValue });
+
+    /** What a change finds in the head of a history: the entity, or its property (JSON null where it is absent). */
+    const found = (history, entityType, entityId, propertyName, parent) => {
+        const place = placeOf(history.head.content, { kind: 'UpdateProperty', entityType, entityId, ...parentOf(parent) });
+        const value = place.entity ?? fail(`${history.id}: no ${entityType} ${entityId} in the head`);
+        return copyOf(propertyName === undefined ? value : value[propertyName] ?? null);
+    };
+
+    /** An object without its properties given as undefined: what a variant leaves out. */
+    const defined = (object) => Object.fromEntries(Object.entries(object).filter(([ , value ]) => value !== undefined));
+
+    const minute = (n) => new Date(Date.parse(T0) + n * 60_000).toISOString();
+
+    const party = (id, name, identity, signing, more = {}) => ({ '@id': id, name, ...more, signingKeys: inOrder(signing), identityKeys: inOrder(identity) });
+
+
+    // =================================================================================================================
+    //  history-parties: the parties of rn1, what they add and who signs it (4, 4.1)
+    // =================================================================================================================
+
+    const alphaCertificates  = rnoSigning('Alpha, certificates', 'Alpha', [ 'certificates' ]);
+    const betaCertificates   = rnoSigning('Beta, certificates',  'Beta',  [ 'certificates' ]);
+    const alphaTariffs       = rnoSigning('Alpha, tariffs',      'Alpha', [ 'tariffs' ]);
+    const betaTariffs        = rnoSigning('Beta, tariffs',       'Beta',  [ 'tariffs' ]);
+
+    const parties = generatedHistory('history-parties',
+                                     'The roaming network rn1 of DE*RNO, the quorum of Alpha and Beta with signing keys for the party, for certificates and for tariffs alone; the parties it adds, among them a conformity assessment body and a grid operator without keys, and what they add.',
+                                     networkOf(rnoOf([ [ alphaParty, alphaIdentity ], [ betaParty, betaIdentity ], [ alphaCertificates, alphaIdentity ], [ betaCertificates, betaIdentity ],
+                                                       [ alphaTariffs, alphaIdentity ], [ betaTariffs, betaIdentity ] ])),
+                                     leader);
+    histories.push(parties);
+
+    const P = replaysOf(parties);
+
+    // The parties, each with its keys: a charging station operator and an e-mobility provider of the same prefix, two
+    // charging station manufacturers, an energy meter and a transparency software manufacturer, a conformity assessment
+    // body; and a conformity assessment body and a grid operator without keys.
+    const gefIdentity        = keyOf('Ed25519', seedOf('DE*GEF, identity'));
+    const gefInfrastructure  = keyOf('Ed25519', seedOf('DE*GEF, infrastructure'),    { notAfter: NOT_AFTER, usages: [ 'infrastructure' ] });
+    const gefExpiring        = keyOf('Ed25519', seedOf('DE*GEF, expiring'),          { notAfter: minute(7.5), usages: [ 'infrastructure' ] });
+    const gefParty           = keyOf('Ed25519', seedOf('DE*GEF, party'),             { notAfter: NOT_AFTER, usages: [ 'party' ] });
+    const gefRenewed         = keyOf('Ed25519', seedOf('DE*GEF, infrastructure 2'),  { notAfter: NOT_AFTER, usages: [ 'infrastructure' ] });
+    const empIdentity        = keyOf('Ed25519', seedOf('DE-GEF, identity'));
+    const empSigning         = keyOf('Ed25519', seedOf('DE-GEF, signing'),           { notAfter: NOT_AFTER });
+    const gdIdentity         = keyOf('Ed448',   seedOf('GraphDefined, identity', 57));
+    const gdModels           = keyOf('Ed448',   seedOf('GraphDefined, models', 57),  { notAfter: NOT_AFTER, usages: [ 'models' ] });
+    const wzIdentity         = keyOf('Ed25519', seedOf('Winzerla, identity'));
+    const wzModels           = keyOf('Ed25519', seedOf('Winzerla, models'),          { notAfter: NOT_AFTER, usages: [ 'models' ] });
+    const kdmIdentity        = keyOf('Ed25519', seedOf('KERNBERG, identity'));
+    const kdmModels          = keyOf('Ed25519', seedOf('KERNBERG, models'),          { notAfter: NOT_AFTER, usages: [ 'models' ] });
+    const ptbIdentity        = keyOf('ES256',   seedOf('PTB, identity'));
+    const ptbCertificates    = keyOf('ES256',   seedOf('PTB, certificates'),         { notAfter: NOT_AFTER, usages: [ 'certificates' ] });
+    const bsiIdentity        = keyOf('Ed25519', seedOf('BSI, identity'));
+    const bsiCertificates    = keyOf('Ed25519', seedOf('BSI, certificates'),         { notAfter: NOT_AFTER, usages: [ 'certificates' ] });
+    const occIdentity        = keyOf('Ed25519', seedOf('OpenChargingCloud, identity'));
+    const occSoftware        = keyOf('Ed25519', seedOf('OpenChargingCloud, software'), { notAfter: NOT_AFTER, usages: [ 'software' ] });
+
+    parties.take('commit-1', parties.prepare({
+        createdAt:    minute(1),
+        description:  'DE*GEF and DE-GEF, GraphDefined, Winzerla and KERNBERG, OpenChargingCloud, the PTB, and the BSI and DE*NET without keys',
+        changes:      [ add('ChargingStationOperator',     party('DE*GEF',       { en: 'GraphDefined Charging Solutions' }, [ gefIdentity ], [ gefInfrastructure, gefExpiring, gefParty ])),
+                        add('EMobilityProvider',           party('DE-GEF',       { en: 'GraphDefined Mobility' },           [ empIdentity ], [ empSigning ])),
+                        add('ChargingStationManufacturer', party('GraphDefined', { en: 'GraphDefined Charging Stations' },  [ gdIdentity ],  [ gdModels ])),
+                        add('ChargingStationManufacturer', party('Winzerla',     { en: 'Winzerla Ladetechnik' },            [ wzIdentity ],  [ wzModels ])),
+                        add('EnergyMeterManufacturer',     party('KERNBERG',     { en: 'Kernberg DC Metering' },            [ kdmIdentity ], [ kdmModels ])),
+                        add('ConformityAssessmentBody',    party('PTB',          { de: 'Physikalisch-Technische Bundesanstalt' }, [ ptbIdentity ], [ ptbCertificates ], { notifiedFor: [ 'MID' ] })),
+                        add('TransparencySoftwareManufacturer', party('OpenChargingCloud', { en: 'Open Charging Cloud' },    [ occIdentity ], [ occSoftware ])),
+                        add('ConformityAssessmentBody',    { '@id': 'BSI', name: { de: 'Bundesamt für Sicherheit in der Informationstechnik' }, notifiedFor: [ 'CRA' ] }),
+                        add('GridOperator',                { '@id': 'DE*NET', name: { de: 'Netze Jena' } }) ],
+        signers:      [ alphaParty, betaParty, gefIdentity, empIdentity, gdIdentity, wzIdentity, kdmIdentity, ptbIdentity, occIdentity ],
+    }));
+
+    P.accepted('parties-added', 'The roaming network operator adds ten parties, a conformity assessment body and a grid operator without keys among them, signed by two holders of its quorum and, proving their possession, by each new identity key.', B('4.1'));
+
+    // ---- The models of the manufacturers, each in the hardware revisions and firmware versions it has (csharp-review 16).
+    parties.take('commit-2', parties.prepare({
+        createdAt:    minute(2),
+        description:  'The models of GraphDefined, Winzerla and KERNBERG, and Chargy 1.5.0 of OpenChargingCloud',
+        changes:      [ add('ChargingStationModel', { '@id': 'GD-DC300', name: { en: 'GraphDefined DC 300' }, hardwareRevisions: [ '1.0', '1.1' ], firmwareVersions: [ '2.4.0', '2.5.0' ], maxPower: 300000 }, [ 'ChargingStationManufacturer', 'GraphDefined' ]),
+                        add('ChargingStationModel', { '@id': 'W-AC11',   name: { en: 'Winzerla AC 11' },      hardwareRevisions: [ 'A' ],          firmwareVersions: [ '1.0' ],            maxPower: 11000 },  [ 'ChargingStationManufacturer', 'Winzerla' ]),
+                        add('ChargingStationModel', { '@id': 'W-AC22',   name: { en: 'Winzerla AC 22' },      hardwareRevisions: [ 'A' ],          firmwareVersions: [ '1.0' ],            maxPower: 22000 },  [ 'ChargingStationManufacturer', 'Winzerla' ]),
+                        add('EnergyMeterModel',     { '@id': 'KDM-500',  name: { en: 'Kernberg DC meter 500 A' }, hardwareRevisions: [ '2.1' ],   firmwareVersions: [ '3.2', '3.3' ],     maxCurrent: 500 },  [ 'EnergyMeterManufacturer', 'KERNBERG' ]),
+                        add('TransparencySoftware', { '@id': 'chargy-1.5.0', name: { en: 'Chargy Transparency Software' }, version: '1.5.0',
+                                                      openSourceLicenses: [ { '@id': 'AGPL-3.0', description: { en: 'GNU Affero General Public License version 3' }, URLs: [ 'https://www.gnu.org/licenses/agpl-3.0.html' ] } ] },
+                                                    [ 'TransparencySoftwareManufacturer', 'OpenChargingCloud' ]) ],
+        signers:      [ gdModels, wzModels, kdmModels, occSoftware ],
+    }));
+
+    // ---- Certificates of the PTB: one of a model of charging stations, naming the meter it was issued with, one of a
+    //      model of energy meters, each for hardware revisions and firmware versions of its model (csharp-review 16, 17).
+    const certificateOfPTB = { '@id': 'PTB-2026-0042', legislation: 'MID', chargingStationManufacturerId: 'GraphDefined', chargingStationModel: 'GD-DC300', hardwareRevisions: [ '1.0' ], firmwareVersions: [ '2.5.0' ],
+                               energyMeters: [ { manufacturerId: 'KERNBERG', modelId: 'KDM-500', hardwareRevisions: [ '2.1' ], firmwareVersions: [ '3.2' ] } ],
+                               verifiedTransparencySoftwareIds: [ 'chargy-1.5.0' ], compatibleTransparencySoftwareIds: [], notBefore: minute(3), notAfter: '2036-10-18T08:03:00.000Z' };
+    const meterCertificate = { '@id': 'PTB-2026-0017', legislation: 'MID', energyMeterManufacturerId: 'KERNBERG', energyMeterModel: 'KDM-500', hardwareRevisions: [ '2.1' ], firmwareVersions: [ '3.2' ],
+                               verifiedTransparencySoftwareIds: [ 'chargy-1.5.0' ], compatibleTransparencySoftwareIds: [], notBefore: minute(3), notAfter: '2036-10-18T08:03:00.000Z' };
+
+    parties.take('commit-3', parties.prepare({
+        createdAt:    minute(3),
+        description:  'PTB-2026-0042 for the GD-DC300 with the KDM-500, PTB-2026-0017 for the KDM-500',
+        changes:      [ add('ConformityCertificate', certificateOfPTB, [ 'ConformityAssessmentBody', 'PTB' ]), add('ConformityCertificate', meterCertificate, [ 'ConformityAssessmentBody', 'PTB' ]) ],
+        signers:      [ ptbCertificates ],
+    }));
+
+    P.accepted('parties-models-and-certificates', 'The manufacturers add their models in the hardware revisions and firmware versions they have, the PTB a certificate of a model of charging stations naming the meter it was issued with, and one of a model of energy meters.', `${B('4.1')}; csharp-review 16, 17`);
+
+    // ---- A charging pool of DE*GEF: a station of the GD-DC300 naming its certificate, its meter its own; a station of
+    //      Winzerla; an EVSE group.
+    const meter   = (more = {}) => defined({ '@id': 'DE*GEF*M1*1', manufacturerId: 'KERNBERG', modelId: 'KDM-500', hardwareRevision: '2.1', firmwareVersion: '3.2', certificateIds: [ 'PTB-2026-0017' ], created: minute(4), lastChange: minute(4), ...more });
+    const station = (more = {}, meterMore = {}) => defined({ '@id': 'DE*GEF*S1', manufacturerId: 'GraphDefined', modelId: 'GD-DC300', hardwareRevision: '1.0', firmwareVersion: '2.5.0', certificateIds: [ 'PTB-2026-0042' ],
+                                                             EVSEs: [ { '@id': 'DE*GEF*E1*1', maxPower: 150000, energyMeter: meter(meterMore), created: minute(4), lastChange: minute(4) } ], created: minute(4), lastChange: minute(4), ...more });
+    const winzerla = { '@id': 'DE*GEF*S2', manufacturerId: 'Winzerla', modelId: 'W-AC22', hardwareRevision: 'A', firmwareVersion: '1.0',
+                       EVSEs: [ { '@id': 'DE*GEF*E2*1', maxPower: 22000, created: minute(4), lastChange: minute(4) } ], created: minute(4), lastChange: minute(4) };
+    const pool    = (stationMore, meterMore) => ({ '@id': 'DE*GEF*P1', name: { en: 'Jena Paradies' }, chargingStations: [ station(stationMore, meterMore), winzerla ] });
+    const poolOf  = (name, stationMore, meterMore) => parties.prepare({
+        createdAt:    minute(4),
+        description:  name,
+        changes:      [ add('ChargingPool', pool(stationMore, meterMore)), add('EVSEGroup', { '@id': 'DE*GEF*EG_HW', name: { en: 'Highway' }, EVSEIds: [ 'DE*GEF*E1*1' ] }) ],
+        signers:      [ gefInfrastructure ],
+    });
+
+    const commit4 = poolOf('Jena Paradies, a station of the GD-DC300 and one of Winzerla; the EVSE group Highway');
+    parties.keep('commit-4', commit4);
+
+    // What the version names, it holds (4.1): models, hardware revisions and firmware versions of the models, certificates
+    // of their kind and model. WWCP_POI.TS leaves the references a version holds to WWCP_POI.
+    const references = { notApplicable: [ TYPESCRIPT ] };
+    P.refused('station-firmware-of-no-model', 'A charging station naming a firmware version its model does not have.', `${B('4.1')}; csharp-review 16`,
+              'commit-4-firmware', poolOf('A station of the GD-DC300 in the firmware 2.6.0', { firmwareVersion: '2.6.0' }), 'commit-4',
+              { ...references, reason: "is no firmware version of its model 'GD-DC300'" });
+    P.refused('station-revision-not-certified', 'A charging station of a hardware revision of its model the certificate it names does not cover.', `${B('4.1')}; csharp-review 16`,
+              'commit-4-revision', poolOf('A station of the GD-DC300 in the hardware revision 1.1', { hardwareRevision: '1.1' }), 'commit-4',
+              { ...references, reason: "does not cover its hardware revision '1.1'" });
+    P.refused('station-certificate-of-a-meter', 'A charging station naming the certificate of a model of energy meters.', `${B('4.1')}; csharp-review 17`,
+              'commit-4-station-certificate', poolOf('A station naming PTB-2026-0017', { certificateIds: [ 'PTB-2026-0017' ] }), 'commit-4',
+              { ...references, reason: 'not for a model of charging stations' });
+    P.refused('meter-certificate-of-a-station', 'An energy meter naming the certificate of a model of charging stations.', `${B('4.1')}; csharp-review 17`,
+              'commit-4-meter-certificate', poolOf('A meter naming PTB-2026-0042', {}, { certificateIds: [ 'PTB-2026-0042' ] }), 'commit-4',
+              { ...references, reason: 'not for a model of energy meters' });
+    P.refused('meter-not-of-the-certificate', 'An energy meter in a firmware version of its model, in a charging station whose certificate names its meters in another one.', `${B('4.1')}; csharp-review 17`,
+              'commit-4-meter-firmware', poolOf('A meter in the firmware 3.3', {}, { firmwareVersion: '3.3', certificateIds: undefined }), 'commit-4-meter-firmware-control',
+              { ...references, reason: "is none of the energy meters the certificate 'PTB-2026-0042' was issued with" });
+    parties.keep('commit-4-meter-firmware-control', poolOf('A meter in the firmware 3.2, naming no certificate', {}, { certificateIds: undefined }));
+
+    parties.take('commit-4', commit4);
+    P.accepted('parties-station-and-meter', 'A charging station names its model, hardware revision, firmware version and certificate, its energy meter those of its own.', `${B('4.1')}; csharp-review 16, 17`);
+
+    // ---- The roaming network operator states a certificate in place of a body without signing keys (csharp-review 13, 15).
+    const certificateOfBSI = (more = {}) => defined({ '@id': 'BSI-2026-0001', chargingStationManufacturerId: 'GraphDefined', chargingStationModel: 'GD-DC300', hardwareRevisions: [ '1.0' ], firmwareVersions: [ '2.5.0' ],
+                                                      verifiedTransparencySoftwareIds: [ 'chargy-1.5.0' ], compatibleTransparencySoftwareIds: [], notBefore: minute(5), notAfter: '2031-10-18T08:05:00.000Z',
+                                                      statedBy: 'roamingNetworkOperator', ...more });
+    const certificateBy = (signers, more) => parties.prepare({
+        createdAt:    minute(5),
+        description:  'BSI-2026-0001, stated by the roaming network operator in place of the BSI',
+        changes:      [ add('ConformityCertificate', certificateOfBSI(more), [ 'ConformityAssessmentBody', 'BSI' ]) ],
+        signers,
+    });
+
+    const commit5 = certificateBy([ alphaParty, betaParty ]);
+    parties.keep('commit-5', commit5);
+
+    P.then('rno-states-certificate-with-keys-for-certificates', 'The roaming network operator adds a certificate of a body without signing keys in its place, signed by two holders with signing keys certified for certificates alone.', `${B('4.1')}; csharp-review 13`,
+           'commit-5-certificates', certificateBy([ alphaCertificates, betaCertificates ]));
+    P.refused('rno-states-certificate-with-keys-for-tariffs', 'The roaming network operator adds a certificate of a body without signing keys in its place, signed by two holders with signing keys certified for tariffs alone: a key of the roaming network operator signs in place of a party what it may sign, or the party.', `${B('4.1')}; csharp-review 13`,
+              'commit-5-tariffs', certificateBy([ alphaTariffs, betaTariffs ]), 'commit-5', { reason: "Change 0: Add of the ConformityCertificate 'BSI-2026-0001' needs" });
+    P.refused('rno-states-certificate-one-holder', 'The roaming network operator adds a certificate of a body without signing keys in its place, signed by one holder of its quorum of two.', `${B('4.1')}; csharp-review 13`,
+              'commit-5-one-holder', certificateBy([ alphaParty ]), 'commit-5', { reason: "Change 0: Add of the ConformityCertificate 'BSI-2026-0001' needs" });
+    P.refused('rno-states-certificate-unsaid', 'The roaming network operator adds a certificate of a body without signing keys in its place, without saying so in its statedBy.', `${B('4.1, Who states a certificate')}; csharp-review 15`,
+              'commit-5-unsaid', certificateBy([ alphaParty, betaParty ], { statedBy: undefined }), 'commit-5',
+              { reason: "The certificate 'BSI-2026-0001' of the conformity assessment body 'BSI' without signing keys is stated by the roaming network operator in its place: its statedBy is 'roamingNetworkOperator'!" });
+
+    parties.take('commit-5', commit5);
+    P.accepted('rno-states-certificate', 'The roaming network operator adds a certificate of a body without signing keys in its place, signed by two holders with signing keys for the party, and says so in its statedBy.', `${B('4.1')}; csharp-review 13, 15`);
+
+    {
+        const byPTB = (more) => parties.prepare({ createdAt: minute(5.5), description: 'PTB-2026-0099', signers: [ ptbCertificates ],
+                                                  changes: [ add('ConformityCertificate', { ...meterCertificate, '@id': 'PTB-2026-0099', ...more }, [ 'ConformityAssessmentBody', 'PTB' ]) ] });
+        parties.keep('commit-6-ptb', byPTB({}));
+        P.refused('body-certificate-said-by-rno', 'A body with signing keys adds a certificate whose statedBy names the roaming network operator.', `${B('4.1, Who states a certificate')}; csharp-review 15`,
+                  'commit-6-ptb-stated', byPTB({ statedBy: 'roamingNetworkOperator' }), 'commit-6-ptb',
+                  { reason: "The certificate 'PTB-2026-0099' of the conformity assessment body 'PTB' is stated by the body itself, with its keys: it names no statedBy!" });
+    }
+
+    // ---- The BSI gets keys, by the roaming network operator recovering them; a certificate the roaming network operator
+    //      stated it changes only by stating it itself, removing its statedBy (csharp-review 15).
+    parties.take('commit-6', parties.prepare({
+        createdAt:    minute(6),
+        description:  'The keys of the BSI',
+        changes:      [ update('ConformityAssessmentBody', 'BSI', 'signingKeys',  null, inOrder([ bsiCertificates ])),
+                        update('ConformityAssessmentBody', 'BSI', 'identityKeys', null, inOrder([ bsiIdentity ])) ],
+        signers:      [ alphaIdentity, betaIdentity, bsiIdentity ],
+    }));
+
+    const byBSI = (changes, description) => parties.prepare({ createdAt: minute(7), description, changes, signers: [ bsiCertificates ] });
+    const commit7 = byBSI([ unset('ConformityCertificate', 'BSI-2026-0001', 'statedBy', 'roamingNetworkOperator', [ 'ConformityAssessmentBody', 'BSI' ]) ], 'The BSI states BSI-2026-0001 itself');
+    parties.keep('commit-7', commit7);
+
+    P.refused('body-changes-certificate-said-by-rno', 'A body that got its signing keys since changes a certificate the roaming network operator stated in its place, its statedBy kept.', `${B('4.1, Who states a certificate')}; csharp-review 15`,
+              'commit-7-kept', byBSI([ update('ConformityCertificate', 'BSI-2026-0001', 'notAfter', '2031-10-18T08:05:00.000Z', '2030-10-18T08:05:00.000Z', [ 'ConformityAssessmentBody', 'BSI' ]) ], 'The BSI shortens BSI-2026-0001'), 'commit-7',
+              { reason: "The certificate 'BSI-2026-0001' of the conformity assessment body 'BSI' is stated by the body itself, with its keys: it names no statedBy!" });
+
+    parties.take('commit-7', commit7);
+    P.accepted('body-states-certificate-itself', 'A body that got its signing keys since states a certificate the roaming network operator stated in its place itself, removing its statedBy.', `${B('4.1, Who states a certificate')}; csharp-review 15`);
+
+    // ---- An EVSE changes: the lastChange of everything embedding it changes with it (csharp-review 8); its old value is
+    //      compared as canonical JSON (csharp-review 12).
+    const maxPowerOf = ({ signer = gefInfrastructure, ...more } = {}) => parties.prepare({
+        createdAt:    minute(8),
+        description:  'DE*GEF*E1*1 at 300 kW',
+        changes:      [ update('EVSE', 'DE*GEF*E1*1', 'maxPower', 'oldValue' in more ? more.oldValue : 150000, 300000) ],
+        signers:      [ signer ],
+        ...without(more, 'oldValue'),
+    });
+
+    const commit8 = maxPowerOf();
+    parties.keep('commit-8', commit8);
+
+    {
+        // As section 4 said before WWCP_POI 8e6a1fa: the lastChange of the EVSE and of the roaming network alone.
+        const content = copyOf(commit8.content);
+        const gef     = byId(content.chargingStationOperators, 'DE*GEF');
+        const before  = byId(parties.head.content.chargingStationOperators, 'DE*GEF');
+        gef.lastChange = before.lastChange;
+        gef.chargingPools[0].lastChange = before.chargingPools[0].lastChange;
+        gef.chargingPools[0].chargingStations[0].lastChange = before.chargingPools[0].chargingStations[0].lastChange;
+        P.refused('lastChange-of-what-embeds-it', 'An EVSE changes, the change set leading to a version in which neither its charging station nor its charging pool nor its operator changed their lastChange, as section 4 said before WWCP_POI 8e6a1fa.', `${B('4, Timestamps')}; csharp-review 8`,
+                  'commit-8-lastChange', maxPowerOf({ content }), 'commit-8', { reason: 'The result does not match the change set' });
+    }
+
+    P.refused('old-value-other', 'A change whose old value is not the value it finds.', `${B('4, Old values')}; csharp-review 12`,
+              'commit-8-old-value', maxPowerOf({ oldValue: 22000 }), 'commit-8', { reason: "Change 0: the property 'maxPower' of the EVSE 'DE*GEF*E1*1' is no longer the expected old value" });
+    P.refused('old-value-decimal', 'A change whose old value is 150000.0 where it finds 150000: compared as canonical JSON, they are other values.', `${B('4, Old values')}; csharp-review 12`,
+              'commit-8-old-value-decimal', maxPowerOf({ oldValue: { [RAW]: '150000.0' } }), 'commit-8', { reason: "Change 0: the property 'maxPower' of the EVSE 'DE*GEF*E1*1' is no longer the expected old value" });
+    P.then('old-value-none', 'A change without old value, its change set not rebased: it compares nothing, the beforeETags pin the version.', `${B('4, Old values')}; csharp-review 12`,
+           'commit-8-without-old-value', maxPowerOf({ oldValue: undefined }));
+    P.refused('key-expired', 'A change signed by a signing key of its owner that expired before the createdAt of its change set.', `${B('4.1')}; csharp-review 3`,
+              'commit-8-expired', maxPowerOf({ signer: gefExpiring }), 'commit-8');
+    P.refused('key-expired-besides', 'A change signed by a signing key of its owner and, besides, by one of its owner that expired before the createdAt of its change set: every signature is by a key valid at its createdAt.',
+              `${B('4.1; 4.2')} (proposed for every change set, as 4.2 says of one waiting); csharp-review 3`,
+              'commit-8-expired-besides', maxPowerOf({ signers: [ gefInfrastructure, gefExpiring ] }), 'commit-8',
+              { ...deviation('D8-expired-signature'), reason: `the key '${gefExpiring.id}' of the ChargingStationOperator 'DE*GEF' is not valid at ${minute(8)}` });
+    P.then('signature-of-another-party', 'A change signed by a signing key of its owner and, besides, by a signing key of another party: every signature is by a key of a party.', B('4.1'),
+           'commit-8-another-party', maxPowerOf({ signers: [ gefInfrastructure, kdmModels ] }));
+
+    // Rebased (4): prepared for the version before the BSI stated its certificate itself, and made again for the head,
+    // naming the change set it was prepared from; only its old values tell what a change set committed meanwhile changed.
+    {
+        const rebased = (what, changes) => {
+            const original = parties.prepare({ createdAt: minute(6.5), description: what, changes, signers: [], before: parties.contentAt(6) }).commit.changeSet;
+            const entry    = { '@id': original['@id'], beforeETags: original.beforeETags, afterETags: original.afterETags };
+            const again    = parties.prepare({ createdAt: minute(6.5), description: what, changes, signers: [ gefInfrastructure ], metadata: { rebasedFrom: [ entry ] } });
+            anchor(`the rebasedFrom of '${what}'`, changeSetIdOf({ ...without(again.commit.changeSet, 'metadata'), beforeETags: entry.beforeETags, afterETags: entry.afterETags }), entry['@id']);
+            return again;
+        };
+        const evse = { '@id': 'DE*GEF*E1*2', maxPower: 150000, created: minute(6.5), lastChange: minute(6.5) };
+        P.then('rebased-with-old-values', 'A change set prepared for the version before, made again for the head and naming the one it was prepared from: its change gives the old value it finds.', `${B('4, Rebased')}; csharp-review 12`,
+               'commit-8-rebased', rebased('DE*GEF*E1*1 at 300 kW, rebased', [ update('EVSE', 'DE*GEF*E1*1', 'maxPower', 150000, 300000) ]));
+        P.refused('rebased-without-old-value', 'A change set prepared for the version before, made again for the head and naming the one it was prepared from: its change gives no old value, so a change committed meanwhile may have been overwritten.', `${B('4, Rebased')}; csharp-review 12`,
+                  'commit-8-rebased-without-old-value', rebased('DE*GEF*E1*1 at 300 kW, rebased without its old value', [ update('EVSE', 'DE*GEF*E1*1', 'maxPower', undefined, 300000) ]), 'commit-8-rebased',
+                  { reason: 'which was rebased, has no old value' });
+        P.then('rebased-add', 'A change set prepared for the version before, made again for the head and naming the one it was prepared from: an Add gives no old value.', `${B('4, Rebased')}; csharp-review 12`,
+               'commit-8-rebased-add', rebased('DE*GEF*E1*2, rebased', [ add('EVSE', evse, [ 'ChargingStation', 'DE*GEF*S1' ]) ]));
+    }
+
+    parties.take('commit-8', commit8);
+    P.accepted('lastChange-and-old-value', 'An EVSE changes, with its old value: its charging station, its charging pool and its operator change their lastChange with it.', `${B('4, Timestamps')}; csharp-review 8, 12`);
+
+    // ---- What another party names is not withdrawn while it names it, also not by the roaming network operator; both
+    //      change it in one change set both sign (csharp-review 18).
+    const leaving = (description, changes, signers) => parties.prepare({ createdAt: minute(9), description, changes, signers });
+    const station2Removed     = remove('ChargingStation', 'DE*GEF*S2', found(parties, 'ChargingStation', 'DE*GEF*S2'));
+    const winzerlaRemoved     = remove('ChargingStationManufacturer', 'Winzerla', found(parties, 'ChargingStationManufacturer', 'Winzerla'));
+    const modelRemoved        = (model) => remove('ChargingStationModel', model, found(parties, 'ChargingStationModel', model, undefined, [ 'ChargingStationManufacturer', 'Winzerla' ]), [ 'ChargingStationManufacturer', 'Winzerla' ]);
+
+    const commit9 = leaving('Winzerla leaves, with the station of DE*GEF of its model', [ station2Removed, winzerlaRemoved ], [ alphaParty, betaParty, gefInfrastructure ]);
+    parties.keep('commit-9', commit9);
+    parties.keep('commit-9-model-control', leaving('Winzerla withdraws the W-AC11', [ modelRemoved('W-AC11') ], [ wzModels ]));
+
+    P.refused('withdrawn-while-named-party', 'The roaming network operator removes a charging station manufacturer whose model a charging station of another party names.', `${B('4.1, What another party names')}; csharp-review 18`,
+              'commit-9-named', leaving('Winzerla leaves', [ winzerlaRemoved ], [ alphaParty, betaParty ]), 'commit-9',
+              { ...references, reason: "The manufacturer 'Winzerla' of the charging station 'DE*GEF*S2' is unknown in the roaming network: the change set withdraws it while it is still named" });
+    P.refused('withdrawn-while-named-model', 'A charging station manufacturer withdraws a model a charging station of another party names.', `${B('4.1, What another party names')}; csharp-review 18`,
+              'commit-9-model', leaving('Winzerla withdraws the W-AC22', [ modelRemoved('W-AC22') ], [ wzModels ]), 'commit-9-model-control',
+              { ...references, reason: "The model 'W-AC22' of the charging station 'DE*GEF*S2' is unknown at its manufacturer 'Winzerla': the change set withdraws it while it is still named" });
+
+    parties.take('commit-9', commit9);
+    P.accepted('withdrawn-with-what-names-it', 'The roaming network operator removes a charging station manufacturer together with the charging station of another party naming its model, in one change set both sign.', `${B('4.1, What another party names')}; csharp-review 18`);
+
+    // ---- DE*GEF renews its signing key for infrastructure: the key removed signs nothing more (csharp-review 3, in a
+    //      linear history; the merges of section 5.3 the TypeScript port does not take). Keys are given in their order (10).
+    const renewing = (keys) => parties.prepare({ createdAt: minute(10), description: 'DE*GEF renews its signing key for infrastructure', signers: [ gefParty ],
+                                                 changes: [ update('ChargingStationOperator', 'DE*GEF', 'signingKeys', found(parties, 'ChargingStationOperator', 'DE*GEF', 'signingKeys'), keys) ] });
+    const commit10 = renewing(inOrder([ gefRenewed, gefParty ]));
+    parties.keep('commit-10', commit10);
+
+    P.refused('new-value-keys-out-of-order', 'A change of the signing keys of a party giving them out of the order of their @ids, in which the content holds them.', `${B('2, Written forms; 4, New values')}; csharp-review 10`,
+              'commit-10-out-of-order', renewing(inOrder([ gefRenewed, gefParty ]).reverse()), 'commit-10', { reason: 'is not given as the content holds it' });
+
+    parties.take('commit-10', commit10);
+
+    const evseChange = (signer) => parties.prepare({ createdAt: minute(11), description: 'DE*GEF*E1*1 at 350 kW', signers: [ signer ],
+                                                     changes: [ update('EVSE', 'DE*GEF*E1*1', 'maxPower', 300000, 350000) ] });
+    parties.keep('commit-11-renewed', evseChange(gefRenewed));
+    P.refused('key-removed', 'A change signed by the signing key its owner removed in the version before.', `${B('4.1')}; csharp-review 3`,
+              'commit-11-removed', evseChange(gefInfrastructure), 'commit-11-renewed', { reason: 'is no key of a party of' });
+
+    // ---- What a change set gives is what the content holds (csharp-review 10): an EVSE added with a JSON-LD context, or
+    //      with a timestamp not to the millisecond, is refused.
+    const evseAdded = (description, evse) => parties.prepare({ createdAt: minute(11), description, signers: [ gefRenewed ],
+                                                               changes: [ add('EVSE', { '@id': 'DE*GEF*E1*2', maxPower: 150000, ...evse }, [ 'ChargingStation', 'DE*GEF*S1' ]) ] });
+    parties.keep('commit-11-evse', evseAdded('DE*GEF*E1*2', {}));
+    parties.keep('commit-11-evse-created', evseAdded('DE*GEF*E1*2, created before', { created: '2026-10-18T08:10:30.000Z' }));
+
+    P.refused('new-value-context', 'An EVSE added naming a JSON-LD context: embedded, an object names none.', `${B('1.1; 4, New values')}; csharp-review 10`,
+              'commit-11-evse-context', evseAdded('DE*GEF*E1*2, with its context', { '@context': CONTEXT + 'evse/v1' }), 'commit-11-evse', { reason: 'is not given as the content holds it' });
+    P.refused('new-value-timestamp', 'An EVSE added with a timestamp not to the millisecond: the content holds it as yyyy-MM-ddTHH:mm:ss.fffZ.', `${B('2, Written forms; 4, New values')}; csharp-review 10`,
+              'commit-11-evse-timestamp', evseAdded('DE*GEF*E1*2, created before', { created: '2026-10-18T08:10:30Z' }), 'commit-11-evse-created', { reason: 'is not given as the content holds it' });
+
+    // ---- A change of a group is one of a provider's group while a provider has it, else one of the group of the operator its
+    //      identification names (csharp-review 9): DE-GEF adds a group of the identification of one of DE*GEF, written as
+    //      the content holds it, DE*GEF*EG_HW, renames it and removes it again; renamed after it removed it, the change is
+    //      one of the operator's group, which the provider does not own. WWCP_POI.TS applies no change of a provider's group.
+    const providerGroup = (description, ...changes) => parties.prepare({ createdAt: minute(12), description, changes, signers: [ empSigning ] });
+    const groupAdded    = add('EVSEGroup', { '@id': 'DE*GEF*EG_HW', name: { en: 'Highway' }, EVSEIds: [ 'DE*GEF*E1*1' ] }, [ 'EMobilityProvider', 'DE-GEF' ]);
+    const groupRenamed  = update('EVSEGroup', 'DE*GEF*EG_HW', 'name', { en: 'Highway' }, { en: 'Autobahn' });
+    const groupRemoved  = (name) => remove('EVSEGroup', 'DE*GEF*EG_HW', { ...groupAdded.newValue, name, created: minute(12), lastChange: minute(12) });
+
+    parties.keep('commit-12-provider', providerGroup('DE-GEF adds an EVSE group Highway, names it Autobahn and removes it', groupAdded, groupRenamed, groupRemoved({ en: 'Autobahn' })));
+    P.refused('owner-of-what-was-removed', 'An e-mobility provider adds an EVSE group of the identification of one of the charging station operator of its prefix, removes it and then renames it, in one change set it alone signs: once its group is removed, the change is one of the group of the operator, which the provider does not own.', `${B('4.1, Within a change set; 9.3')}; csharp-review 9`,
+              'commit-12-provider-removed', providerGroup('DE-GEF adds an EVSE group Highway, removes it and names it Autobahn', groupAdded, groupRemoved({ en: 'Highway' }), groupRenamed),
+              'commit-12-provider', { notApplicable: [ TYPESCRIPT ], reason: "needs a signature by a signing key of the ChargingStationOperator 'DE*GEF'" });
+
+    // ---- The roaming network operator adds a grid connection point in place of a grid operator without keys
+    //      (csharp-review 13). WWCP_POI.TS applies no change of a grid connection point.
+    const connection = (signers) => parties.prepare({ createdAt: minute(12), description: 'connection-1 of DE*NET, by the roaming network operator in its place', signers,
+                                                      changes: [ add('GridConnectionPoint', { '@id': 'connection-1' }, [ 'GridOperator', 'DE*NET' ]) ] });
+    P.then('rno-adds-grid-connection-point', 'The roaming network operator adds a grid connection point of a grid operator without keys in its place, signed by two holders with signing keys for the party.', `${B('4.1')}; csharp-review 13`,
+           'commit-12-connection', connection([ alphaParty, betaParty ]), { notApplicable: [ TYPESCRIPT ] });
+    P.refused('rno-adds-grid-connection-point-with-keys-for-tariffs', 'The roaming network operator adds a grid connection point of a grid operator without keys in its place, signed by two holders with signing keys for tariffs alone.', `${B('4.1')}; csharp-review 13`,
+              'commit-12-connection-tariffs', connection([ alphaTariffs, betaTariffs ]), 'commit-12-connection',
+              { notApplicable: [ TYPESCRIPT ], reason: "Change 0: Add of the GridConnectionPoint 'connection-1' needs" });
+
+
+    // =================================================================================================================
+    //  history-epochs: three epochs, the signatures of the first checkpoint of each (11.3)
+    // =================================================================================================================
+
+    const alphaES256  = keyOf('ES256', seedOf('Alpha, ES256'),    { notAfter: NOT_AFTER, holder: 'Alpha', usages: [ 'party' ] });
+    const betaEd448   = keyOf('Ed448', seedOf('Beta, Ed448', 57), { notAfter: NOT_AFTER, holder: 'Beta',  usages: [ 'party' ] });
+
+    const epochs = generatedHistory('history-epochs',
+                                    'The roaming network rn1 of DE*RNO through three epochs: the first of every algorithm, the second of ES256 and Ed25519 identified with SHA-512, the third of Ed25519 alone identified with SHA-384. Alpha signs checkpoints with an Ed25519 and an ES256 key, Beta with an Ed448 key.',
+                                    networkOf(rnoOf([ [ alphaParty, alphaIdentity ], [ betaParty, betaIdentity ], [ alphaES256, alphaIdentity ], [ betaEd448, betaIdentity ] ])),
+                                    leader);
+    histories.push(epochs);
+
+    const profiles = (identificationHash, signatureAlgorithms) => ({ canonicalization: S('styx-canonical-json-v1', 'the canonicalization of the profiles'), identificationHash,
+                                                                      commit: CONTEXTS.commit, checkpoint: CONTEXTS.checkpoint, priceStatement: CONTEXTS.priceStatement, signatureAlgorithms });
+    const by = (...keys) => keys.map(key => ({ key }));
+
+    const renamed = (name, at) => epochs.prepare({ createdAt: at, description: `rn1: ${name.en}`, signers: [ alphaParty, betaParty ],
+                                                   changes: [ update('RoamingNetwork', 'rn1', 'name', found(epochs, 'RoamingNetwork', 'rn1', 'name'), name) ] });
+
+    epochs.take('epoch-1-commit-1', renamed({ en: 'Example of three epochs' }, minute(1)));
+    epochs.takeCheckpoint('epoch-1-checkpoint-0', epochs.checkpoint({ createdAt: minute(2), signers: by(alphaParty, betaEd448), final: true, next: { epoch: 2, profiles: profiles('sha512', [ 'ES256', 'Ed25519' ]) } }));
+    epochs.nextEpoch();
+    epochs.takeCheckpoint('epoch-2-checkpoint-0', epochs.checkpoint({ createdAt: minute(3), signers: by(alphaParty, alphaES256), final: true, next: { epoch: 3, profiles: profiles('sha384', [ 'Ed25519' ]) } }));
+    epochs.nextEpoch();
+
+    const E = replaysOf(epochs);
+
+    // The first checkpoint of the third epoch: signed with the algorithms of either epoch, never with another one, though the
+    // first epoch took it (csharp-review 14).
+    const firstOfEpoch3 = epochs.checkpoint({ createdAt: minute(4), signers: by(alphaParty, alphaES256) });
+    replay('epoch-first-checkpoint-algorithms-of-either', epochs, 'accepted', 'The first checkpoint of the third epoch, signed with ES256, an algorithm of the second epoch only, and Ed25519.', `${B('11.3')}; csharp-review 14`,
+           { steps: epochs.steps({ op: 'takeCheckpoint', document: epochs.keep('epoch-3-checkpoint-0', firstOfEpoch3) }) });
+    E.refused('epoch-first-checkpoint-algorithm-of-neither', 'The first checkpoint of the third epoch, signed with Ed448, which neither the second nor the third epoch accepts, though the first one did.', `${B('11.3')}; csharp-review 14`,
+              'epoch-3-checkpoint-0-Ed448', epochs.checkpoint({ createdAt: minute(4), signers: by(alphaParty, betaEd448) }), 'epoch-3-checkpoint-0',
+              { op: 'takeCheckpoint', reason: "is neither one of the epoch 3, Ed25519, nor of the epoch 2, ES256, Ed25519" });
+
+    epochs.takeCheckpoint('epoch-3-checkpoint-0', firstOfEpoch3);
+    epochs.take('epoch-3-commit-1', renamed({ en: 'Example of the third epoch' }, minute(5)));
+
+    epochs.keep('epoch-3-checkpoint-1', epochs.checkpoint({ createdAt: minute(6), signers: by(alphaParty) }));
+    E.refused('epoch-later-checkpoint-algorithm-of-before', 'A later checkpoint of the third epoch, signed with ES256, an algorithm of the second epoch only: every checkpoint but the first is signed with the algorithms of its own epoch.', `${B('11.3')}; csharp-review 14`,
+              'epoch-3-checkpoint-1-ES256', epochs.checkpoint({ createdAt: minute(6), signers: by(alphaES256) }), 'epoch-3-checkpoint-1',
+              { op: 'takeCheckpoint', reason: "is not one of the epoch 3, Ed25519" });
+
+    epochs.takeCheckpoint('epoch-3-checkpoint-1', epochs.checkpoint({ createdAt: minute(6), signers: by(alphaParty) }));
+    E.accepted('epochs', 'Three epochs, each started from the final checkpoint of the one before, the third with a commit and two checkpoints.', `${B('11')}; csharp-review 14`);
+
+    // Every document a replay names is one of its history, and the control of a refusal another than the one refused.
+    for (const vector of replays) {
+        const documents = histories.find(history => history.id === vector.history).documents;
+        for (const name of [ ...vector.steps.map(step => step.document).filter(Boolean), ...(vector.control === undefined ? [] : [ vector.control ]) ])
+            if (documents[name] === undefined)
+                fail(`${vector.id}: no document ${name} in ${vector.history}`);
+        if (vector.control !== undefined && documents[vector.control] === documents[vector.steps.at(-1).document])
+            fail(`${vector.id}: the refused document is its control`);
+    }
+
+
+    return vectorFile(
+        'WWCP POI 3 SPECIFICATION.md, sections 4, 5, 10 and 11 (libs/WWCP_POI/SPECIFICATION.md)',
+        'Small histories the generator made and signed, with the Ed25519 keys of section 6 and keys of seeds of its own (Ed25519, Ed448, ES256 after RFC 6979): their documents as JSON text, to be read as POI reads JSON, and replays taking them step by step. A replay "accepted" takes every step; one "refused" takes every step but its last, which it refuses (naming "reason", where both implementations word it alike), and takes "control" in place of the last one, the document refused but for what the replay is about.',
+        { histories: ids(histories.map(history => ({ id: history.id, description: history.description, documents: history.documents })), 'histories'),
+          replays:   ids(replays, 'replays') });
+
+}
+
+
+// =====================================================================================================================
 //  Write, check, mirror
 // =====================================================================================================================
+
+// =====================================================================================================================
+//  Write, check, mirror
+// =====================================================================================================================
+
+const frozen  = historyVectors();
+anchorTheRun(frozen);
 
 const outputs = {
     'poi-canonical-json.json':  canonicalVectors(),
     'poi-encodings.json':       encodingVectors(),
     'poi-specification.json':   specificationVectors(),
     'poi-trust.json':           trustVectors(),
-    'poi-history.json':         historyVectors(),
+    'poi-history.json':         frozen,
     'poi-refusals.json':        refusalVectors(),
+    'poi-histories.json':       signedHistories(),
 };
 
 let drift = 0;

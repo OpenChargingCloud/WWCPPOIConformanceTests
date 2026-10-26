@@ -18,10 +18,11 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-    canonicalJSON, ChargingStationProof, Checkpoint, CheckpointProof, Commit, etagToText, History, isArray, PriceStatement,
-    RoamingNetwork, TrustAnchor, verifyChargingStation,
+    canonicalJSON, ChargingStationProof, Checkpoint, CheckpointProof, Commit, etagToText, PriceStatement, RoamingNetwork,
+    TrustAnchor, verifyChargingStation,
 } from '../../../libs/WWCP_POI.TS/src/index.ts';
 
+import { replay } from './replay.ts';
 import { history, runDocument, runText, skipReason } from './vectors.ts';
 
 
@@ -127,42 +128,7 @@ describe(`poi-history.json: what the C# examples published (${history.run})`, ()
                 // The replay checks the content; who may sign commits and checkpoints is the verifier's business, not its.
                 expect(vector.commitAndCheckpointSignatures).toBe('unchecked');
 
-                let current: History | undefined;
-                const now = (): History => { if (current === undefined) throw new Error('The replay starts with a snapshot!'); return current; };
-
-                for (const step of vector.steps) {
-                    switch (step.op) {
-
-                        case 'fromSnapshot':
-                            current = History.fromSnapshot(runDocument(step.file));
-                            break;
-
-                        case 'append': {
-                            const commits = runDocument(step.file);
-                            for (const commit of isArray(commits) ? commits : [ commits ])
-                                now().append(commit);
-                            break;
-                        }
-
-                        case 'takeCheckpoint':
-                            now().takeCheckpoint(runDocument(step.file));
-                            break;
-
-                        case 'startNextEpoch':
-                            current = now().startNextEpoch();
-                            expect(current.root.commit.id).toBe(step.genesisCommitId);
-                            break;
-
-                        case 'expectHead':
-                            expect(now().epoch.number).toBe(step.epoch);
-                            expect(now().head.commit.revision).toBe(step.revision);
-                            expect(now().head.commit.id).toBe(step.commitId);
-                            if (step.eTags !== undefined)
-                                expect(now().head.network.eTags().map(etagToText)).toEqual(step.eTags);
-                            break;
-
-                    }
-                }
+                replay(vector.steps, step => runDocument(step.file ?? ''));
 
             });
     });

@@ -18,10 +18,13 @@ Each finding says how it was established:
 
 Since this review, this repository holds the C# implementation and this port to the same golden test vectors. Where the
 two take or calculate different things, it is written down and pinned in
-[implementation-deviations.md](implementation-deviations.md) (cited below as *D1* to *D6*): it demonstrates findings 6,
+[implementation-deviations.md](implementation-deviations.md) (cited below as *D1* to *D8*): it demonstrates findings 6,
 7, 19, 20 and 21 with vectors, and found two deviations more, a JSON reader for hashing that takes what is no JSON (D1)
-and the revision of a station proof left unchecked (D2), both fixed in WWCP_POI `2c90847`, so that the two agree on
-every vector. This document stays the review of the C# implementation.
+and the revision of a station proof left unchecked (D2), both fixed in WWCP_POI `2c90847`. Since, it holds the fixed
+findings with vectors as far as a verifier reaches them, replaying small histories it signs itself
+(`poi-histories.json`; which finding which vectors hold, implementation-deviations.md lists), and found one deviation
+more, of this port: a change set signed, besides by its owner, by a key not valid at its `createdAt` is taken here,
+refused by WWCP_POI (D8, see 3). This document stays the review of the C# implementation.
 
 | # | Finding | Severity | Status | Since `bbd4cbd` |
 |---|---|---|---|---|
@@ -165,7 +168,10 @@ change set waiting for the signatures of a quorum (4.2) whenever anything else i
   expired key sign nothing. Commits of peers are checked by what they say, not by that clock.
 
 `MergeTests` of WWCP_POI hold the scenario above and its expiry variants. The TypeScript port takes no merges and
-replays linear histories only, so nothing changes there.
+replays linear histories only, so nothing changes there. WWCPPOIConformanceTests holds both to what a linear history
+asks: a key expired before the `createdAt` of a change set, or removed in the version before, signs nothing of it
+(`key-expired`, `key-removed`); and found that this port takes a change set signed by such a key besides its owner's
+valid one, which WWCP_POI refuses (D8, `key-expired-besides`).
 
 
 ## 4. ✅ A change set counts as committed by its `@id` alone
@@ -335,8 +341,9 @@ parking operator say the same, and `ChargingTariffOfferTests` and `TransparencyT
 offer and the body of a changed certificate as well. No implementation calculates other ETags than before: the frozen
 runs, the test vectors and the TypeScript port stay as they are. `tests/lastChange.test.ts` of the port checks every
 change set of both epochs of the run, and refuses `afterETags` calculated as the specification said before (revision 10
-of epoch 1). A refusal vector of WWCPPOIConformanceTests would need such a change set signed anew, by keys the run does
-not publish. The effective `lastChange` of 8.1 takes the one of a station or pool without templates as it is; it is not
+of epoch 1). WWCPPOIConformanceTests holds both implementations to it with a history it signs itself: an EVSE changed,
+its station, pool and operator with it (`lastChange-and-old-value`), and refused, as the specification said before
+(`lastChange-of-what-embeds-it`). The effective `lastChange` of 8.1 takes the one of a station or pool without templates as it is; it is not
 older than those of its EVSEs and stations as long as the `createdAt` of the change sets grows, and where it does not,
 e.g. after merges, the floors of section 8.8 (point 3) remain open.
 
@@ -373,6 +380,7 @@ share an identification within a change set. `ProviderGroupTests`, `EnergyMeterT
 
 This port applies no change of a provider's group, nor of a grid connection point; its record of the energy meter
 templates and groups an earlier change added reaches only changes that applying refuses. It stays as it is.
+WWCPPOIConformanceTests holds WWCP_POI to the scenario of the provider's group (`owner-of-what-was-removed`).
 
 
 ## 10. ✅ What a signed change set says is not what the content holds
@@ -415,7 +423,8 @@ The TypeScript port applies a new value as it is given and refuses one it can te
 of the values: a JSON-LD context outside custom data, identified elements and the lists of section 2 out of their order or
 given twice, a timestamp not UTC to the millisecond (`tests/newValues.test.ts`); it compares old values as they are given.
 Every other form it cannot tell ends in other `afterETags` than the change set names, unless a change set was made to
-pass: a known limit. Custom data holds its values as given in C# since Styx `06b592d3` (finding 20).
+pass: a known limit. WWCPPOIConformanceTests holds both implementations to three of the forms this port tells, in the
+same words (`new-value-context`, `new-value-keys-out-of-order`, `new-value-timestamp`). Custom data holds its values as given in C# since Styx `06b592d3` (finding 20).
 
 
 ## 11. ✅ Epoch 1 checkpoints name their epoch, the specification says they do not
@@ -454,7 +463,8 @@ unnoticed.
 (`RebasedFromError`; `checkRebasedFrom` here), so that a rebase is held to what `TryRebase` does wherever it was made.
 One not rebased is read as before. `RebaseTests` and `tests/changeSet.test.ts` hold it, and the vector
 `changeSet-rebased-without-old-value` of WWCPPOIConformanceTests holds both implementations to it, refused in the same
-words.
+words; and histories it signs itself, to old values compared as canonical JSON, `150000.0` refused for `150000`, and
+to rebases with them and without (`old-value-*`, `rebased-*`).
 
 
 ## 13. ✅ The roaming network operator can not sign in place of a body or grid operator without keys
@@ -497,7 +507,9 @@ stay what they are, for keys only. Section 4.1 says so, and `docs/ConformityAsse
 `docs/GridOperator.md`. `TransparencyTests` holds it in C#, with the RNO's signing key certified for `party`,
 `certificates` and `infrastructure` alone; `tests/ownership.test.ts` in this port, signing with the Ed25519 keys of
 section 6, whose private seeds the specification gives (`rnoHolders` of `checkOwnership` counts `party` besides the
-usage).
+usage). WWCPPOIConformanceTests holds both implementations to it for the certificates of a body without keys, its
+signing keys certified for the party, for certificates and for tariffs alone (`rno-states-certificate*`), and WWCP_POI
+for the grid connection points of a grid operator without keys.
 
 
 ## 14. ✅ The first checkpoint of a later epoch takes signatures of any algorithm
@@ -521,7 +533,8 @@ the second names them in its `epoch`, `{epoch, profiles, previous?, previousProf
 store write. The first checkpoint of an epoch takes a signature, and `TryMakeCheckpoint` and `TryCloseEpoch` a signer, of
 the algorithms of either epoch alone; without the profiles of the epoch before, of its own alone (SPECIFICATION.md 11.3).
 `EpochTests` holds it through three epochs, ES256 and ML-DSA-65 in the second, ML-DSA-65 alone in the third, Ed25519
-refused; `tests/epochAlgorithms.test.ts` in this port, with checkpoints made after the epoch 2 of QA.
+refused; `tests/epochAlgorithms.test.ts` in this port, with checkpoints made after the epoch 2 of QA; and
+WWCPPOIConformanceTests both, through three epochs of a history it signs itself (`epoch-*`).
 
 
 ## 15. ✅ Who stated a certificate can not be told once its body has keys
@@ -544,7 +557,8 @@ the keys of the body, is refused; a body that got its keys since changes a certi
 `statedBy`, stating it itself (SPECIFICATION.md 4.1). The proof gives it with the certificate. `TransparencyTests` holds
 it; this port refuses such change sets alike (`tests/certificateStatedBy.test.ts`) and gives every certificate of a
 verified station with `statedBy`, `ConformityAssessmentBody` or `RoamingNetworkOperator`, in place of `bodyHasKeys`.
-No example states a certificate in place of a body, so the vectors stay those of the run at `987fa26`.
+No example states a certificate in place of a body; WWCPPOIConformanceTests holds both implementations to it with a
+history it signs itself (`rno-states-certificate-unsaid`, `body-*`).
 
 
 ## 16. ✅ A certificate is for a version of a model, but no station or meter names one of its model's
@@ -606,7 +620,8 @@ its model it covers, at least one of each, and refuses the `chargingStationModel
 checked after every change set, so that a revision or firmware version still named stays in its model. Example A13
 compares the hardware revision and the firmware version of the station with its certificate. This port applies the
 changes of them and takes them of templates; the references, as those to manufacturers and models before, it leaves to
-WWCP_POI.
+WWCP_POI. WWCPPOIConformanceTests holds both implementations to a station and a meter naming them, and WWCP_POI alone to
+the references (`station-firmware-of-no-model`, `station-revision-not-certified`).
 
 
 ## 17. ✅ An energy meter names the certificate of a station model, and has none of its own
@@ -680,6 +695,8 @@ is one of them. A `transparencySoftwareStatus` names a release and its legal sta
 the PTB certifies the GD-DC300 with the KDM-500 and Chargy as its components, and the KDM-500 with Chargy. This port
 gives the `certificates` of a verified station, each with `forThisModel`, and with the transparency software of a meter
 the certificates naming its release; the references a version holds it leaves to WWCP_POI, as it does those of 16.
+WWCPPOIConformanceTests holds WWCP_POI alone to them (`station-certificate-of-a-meter`, `meter-certificate-of-a-station`,
+`meter-not-of-the-certificate`).
 
 
 ## 18. ✅ What one party names blocks what another party withdraws
@@ -707,7 +724,8 @@ change it in one change set both sign, so that the RNO removes a party another o
 party. A refusal for it says so: when the references a change set leaves were resolved by the version before it,
 `TryApplyChangeSet` adds that the change set withdraws what is still named, and how it is withdrawn.
 `ManufacturerModelTests` holds it. This port leaves the references a version holds to WWCP_POI, as it does those of 16
-and 17.
+and 17. WWCPPOIConformanceTests holds both implementations to a withdrawal together with what names it
+(`withdrawn-with-what-names-it`), and WWCP_POI alone to the refusal (`withdrawn-while-named-*`).
 
 
 ## 19. Smaller points

@@ -17,6 +17,7 @@ with `node:crypto` alone mismatches. `--check` is the drift guard of CI. The fil
 | `poi-trust.json` | SPECIFICATION.md sections 8.4 to 8.6 | `stationProofs`: proofs of the example network of section 6, its operator holding the quorum of section 6, signed with its Ed25519 keys: trust anchor and proof (JSON text), the time `at`, the `root` the proof leads to, and `expected` `accepted` or `refused`. |
 | `poi-history.json` | `runs/csharp-987fa26`, the frozen run | Documents of the run and what an implementation must calculate of them: `versions` (ETags), `commits`, `checkpoints` (identifications and fields), `checkpointProofs`, `priceStatements` (digests, chains), `trustAnchors`, `stationProofs` (root, verified against the trust anchor at `at`), `replays` (the history commit by commit). |
 | `poi-refusals.json` | the frozen run; SPECIFICATION.md | `vectors`: a document of the run with a JSON patch applied, checked at another time, against another trust anchor or checkpoint, or a text: each must be refused. |
+| `poi-histories.json` | SPECIFICATION.md sections 4, 5, 10 and 11; histories the generator signs | `histories`: small histories of the roaming network `rn1` of section 6, made and signed by the generator, their documents as JSON text. `replays`: a history taken step by step, `accepted`, or its last step `refused`, with its `control`. |
 
 ## The frozen run
 
@@ -72,8 +73,31 @@ A harness checks the unpatched document first, the control, so that a refusal is
 vector gives it, is a text the refusal names, as both implementations word it: a harness checks that it does, so that
 the vector is refused for what it is about.
 
+## Histories the generator signs
+
+The keys of the frozen run are random and private: nothing of it can be changed and signed anew. `poi-histories.json`
+holds histories `tools/generate-test-vectors.mjs` makes itself (its section 7), of the roaming network `rn1` and its
+operator `DE*RNO` with the quorum of SPECIFICATION.md section 6, and of parties with keys of seeds of their own:
+Ed25519 and Ed448 sign deterministically, ES256 with the nonces of RFC 6979, so regenerating changes no byte. What the
+generator calculates of them - deterministic CBOR, the effective tree, identifications, signature inputs, ES256 - it
+first calculates of the frozen run and of RFC 6979, against what is written there, and refuses to write on a mismatch.
+
+- `histories`: `id`, `description`, and `documents`, JSON text by name: `genesis`, a snapshot (`{commit, roamingNetwork}`)
+  of revision 0, then commits and checkpoints, to be read as POI reads JSON.
+- `replays`: `history` names the history, `steps` its documents, as the replay of `poi-history.json` names files of the
+  run: `fromSnapshot`, `append`, `takeCheckpoint` with `document`, `startNextEpoch` with the `genesisCommitId` every
+  implementation makes of the final checkpoint, `expectHead`. Commit and checkpoint signatures are taken unchecked
+  (`commitAndCheckpointSignatures`); the signatures of change sets are their owners' and checked, and the algorithms of
+  every signature are checked against the profiles of the epoch.
+- `expected`: `accepted` takes every step. `refused` takes every step but the last, which it refuses; and takes
+  `control` in place of the last one, a document of the history refused but for what the replay is about, so that the
+  refusal is that document's doing. `reason`, where given, is a text the refusal names: as both implementations word
+  it, or, of a replay one implementation does not apply to (`notApplicable`), as the one it applies to words it.
+
 ## Adding vectors
 
 Add them to the generator, with a fresh `id`, run it, and make sure both harnesses run them (or mark `requires` /
 `notApplicable` deliberately). A vector enters only when at least two implementations agree on it - the generator's
-anchors and one harness, at the least - or carries the `knownDeviations` of the one that does not.
+anchors and one harness, at the least - or carries the `knownDeviations` of the one that does not. A change of what a
+vector file holds touches three harnesses: the C# one and the TypeScript one of this repository, and
+`tests/conformance.ts` with `tests/conformance.test.ts` of WWCP_POI.TS, which vendors the files.

@@ -23,6 +23,11 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   vector FORMAT therefore touches three harnesses: the C# one and the TS one here, and `tests/conformance.ts` there.
 - **The trust vectors** (`poi-trust.json`) are signed by the generator with the Ed25519 seeds of SPECIFICATION.md
   section 6 (and two of its own) - deterministic, so regenerating changes no byte unless the generator changes.
+- **The histories the generator signs** (`poi-histories.json`, its section 7) are where a vector needs a history signed
+  anew, which the private keys of the frozen run do not allow: small histories of `rn1`, keys of the seeds of section 6
+  and of its own (Ed25519, Ed448, ES256 after RFC 6979), its own small applier for the after ETags, and replays,
+  every refusal with its `control`. What it calculates (CBOR, the effective tree, identifications, signature inputs) it
+  anchors on the frozen run first. Its effective content is the content: no templates or tariffs in those histories.
 - **What the implementations get wrong:** `docs/implementation-deviations.md`. Each deviation is in `DEVIATIONS` of the
   generator, marked on its vectors (`knownDeviations`, `deviation` anchor) and pinned: the harness of the deviating
   implementation expects the deviation, so a fix turns it red. Fixing one means: remove it from `DEVIATIONS`,
@@ -48,8 +53,9 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 315 passed (its 6 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped), TS 297
-passed / 7 skipped (signing: WWCP_POI.TS verifies only). Skips are load-bearing, not noise.
+Expected: C# 358 passed (its 7 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped), TS 328
+passed / 17 skipped (7 signing: WWCP_POI.TS verifies only; 10 replays of `poi-histories.json` that WWCP_POI.TS leaves
+to WWCP_POI: references, provider groups, grid connection points). Skips are load-bearing, not noise.
 
 ## Ground rules
 

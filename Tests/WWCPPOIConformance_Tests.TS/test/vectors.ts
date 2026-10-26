@@ -161,12 +161,16 @@ export interface HistoryVectors {
     readonly replays:           ReadonlyArray<Applicability & { id: string, description: string, commitAndCheckpointSignatures: 'unchecked', steps: ReplayStep[] }>;
 }
 
+/** A step of a replay: its document a file of the frozen run (poi-history.json), or one of its history (poi-histories.json). */
 export type ReplayStep =
-    | { op: 'fromSnapshot',    file: string }
-    | { op: 'append',          file: string }
-    | { op: 'takeCheckpoint',  file: string }
+    | { op: 'fromSnapshot',    file?: string, document?: string }
+    | { op: 'append',          file?: string, document?: string }
+    | { op: 'takeCheckpoint',  file?: string, document?: string }
     | { op: 'startNextEpoch',  genesisCommitId: string }
     | { op: 'expectHead',      epoch: number, revision: number, commitId: string, eTags?: string[] };
+
+/** A step of a replay that takes a document. */
+export type DocumentStep = Extract<ReplayStep, { file?: string }>;
 
 export const history = load<HistoryVectors>('poi-history.json');
 
@@ -193,6 +197,45 @@ export interface RefusalVector extends Applicability {
 }
 
 export const refusals = load<{ run: string, vectors: RefusalVector[] }>('poi-refusals.json');
+
+
+// ---- poi-histories.json -----------------------------------------------------------------------------------------
+
+/** A history the generator made and signed: its documents, JSON text by name. */
+export interface GeneratedHistory {
+    readonly id:           string;
+    readonly description:  string;
+    readonly documents:    Readonly<Record<string, string>>;
+}
+
+export interface HistoryReplayVector extends Applicability {
+    readonly id:           string;
+    readonly description:  string;
+    readonly basis:        string;
+    readonly history:      string;
+    readonly commitAndCheckpointSignatures: 'unchecked';
+    readonly expected:     'accepted' | 'refused';
+    /** Every one taken; of a refused replay every one but the last, which is refused. */
+    readonly steps:        ReplayStep[];
+    /** Of a refused replay: the document taken in place of the last one, refused but for what the replay is about. */
+    readonly control?:     string;
+    /** What the refusal names, as both implementations word it. */
+    readonly reason?:      string;
+}
+
+export const histories = load<{ histories: GeneratedHistory[], replays: HistoryReplayVector[] }>('poi-histories.json');
+
+/** A document of a history of poi-histories.json, read as POI reads JSON. */
+export function historyDocument(historyId: string, name: string | undefined): JSONValue {
+
+    const text = histories.histories.find(item => item.id === historyId)?.documents[name ?? ''];
+
+    if (text === undefined)
+        throw new Error(`The history '${historyId}' has no document '${name ?? ''}'`);
+
+    return parseJSON(text);
+
+}
 
 
 // ---- Documents of the frozen run ----------------------------------------------------------------------------------

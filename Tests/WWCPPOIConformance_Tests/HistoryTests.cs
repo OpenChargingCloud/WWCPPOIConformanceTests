@@ -230,58 +230,9 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
             Assert.That(Vector["commitAndCheckpointSignatures"]?.Value<String>(), Is.EqualTo("unchecked"), "A replay of another kind is not known to this harness");
 
             RoamingNetworkHistory? history = null;
-            String?                error;
 
             foreach (var step in ((JArray) Vector["steps"]!).Cast<JObject>())
-            {
-
-                var op = Text(step, "op");
-
-                switch (op)
-                {
-
-                    case "fromSnapshot":
-                        Assert.That(RoamingNetworkHistory.TryFromSnapshot((JObject) VectorFiles.RunDocument(Text(step, "file")), out history, out error), Is.True, error);
-                        break;
-
-                    case "append":
-                        var commits = VectorFiles.RunDocument(Text(step, "file"));
-                        foreach (var json in commits is JArray array ? array.Cast<JObject>() : [ (JObject) commits ])
-                        {
-                            Assert.That(RoamingNetworkCommit.TryParse(json, out var commit, out error), Is.True, error);
-                            Assert.That(history!.TryAppend(commit!, out error, VerifyCommitSignature: (_, _) => true), Is.True, () => $"Revision {commit!.Revision}: {error}");
-                        }
-                        break;
-
-                    case "takeCheckpoint":
-                        Assert.That(RoamingNetworkCheckpoint.TryParse((JObject) VectorFiles.RunDocument(Text(step, "file")), out var checkpoint, out error), Is.True, error);
-                        Assert.That(history!.TryAddCheckpoint(checkpoint!, out error, VerifyCheckpointSignature: (_, _) => true), Is.True, () => $"Checkpoint {checkpoint!.Sequence}: {error}");
-                        break;
-
-                    case "startNextEpoch":
-                        Assert.That(history!.TryStartNextEpoch(out var next, out error), Is.True, error);
-                        history = next!;
-                        Assert.That(history.Root.Id.ToString(), Is.EqualTo(Text(step, "genesisCommitId")));
-                        break;
-
-                    case "expectHead":
-                        using (Assert.EnterMultipleScope())
-                        {
-                            Assert.That(history!.Epoch.Number,                Is.EqualTo(Number(step, "epoch")));
-                            Assert.That(history.Head.Commit.Revision,         Is.EqualTo(Number(step, "revision")));
-                            Assert.That(history.Head.Commit.Id.ToString(),    Is.EqualTo(Text(step, "commitId")));
-                            if (step["eTags"] is JArray)
-                                Assert.That(history.Head.RoamingNetwork.CalcETags().Select(eTag => eTag.ToString()), Is.EqualTo(VectorFiles.Strings(step, "eTags")));
-                        }
-                        break;
-
-                    default:
-                        Assert.Fail($"The replay step '{op}' is not known to this harness: the vector files are newer than the harness!");
-                        break;
-
-                }
-
-            }
+                Assert.That(Replay.TryStep(ref history, step, step => VectorFiles.RunDocument(Text(step, "file")), out var error), Is.True, $"{step["op"]}: {error}");
 
         }
 

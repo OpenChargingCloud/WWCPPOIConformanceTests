@@ -2,7 +2,7 @@
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
 (WWCP_POI3, `libs/WWCP_POI` at `2c90847`, Hermod `fbb442f`, Styx `06b592d3`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `0d1fe42`) take or calculate different things.
+`libs/WWCP_POI.TS` at `e726426`) take or calculate different things.
 
 Each deviation is
 
@@ -30,9 +30,13 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D5](#d5-attestation-role) | ✅ The role of an attestation is not checked: **fixed** in WWCP_POI `6e469a0` | WWCP_POI3 | `trust-role` | low-medium | 6 |
 | [D6](#d6-foreign-operator) | ✅ A proof's certificates and key statement may name another roaming network operator: **fixed** in WWCP_POI `65e658d` | WWCP_POI3 | `trust-certificate-operator`, `trust-statement-operator` | low-medium | 19 |
 | [D7](#d7-certificate-twice) | ✅ A certificate may name a hardware revision or firmware version twice, and so may the energy meters it was issued with: **fixed** in WWCP_POI.TS `b9c786e` | WWCP_POI.TS | `version-text-certificate-twice`, `version-text-certificate-energy-meter-twice` | low | - |
+| [D8](#d8-expired-signature) | A change set signed, besides by its owner, by a key of a party not valid at its `createdAt` is taken | WWCP_POI.TS | `key-expired-besides` | low (interop) | 3 |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
-round. All seven are fixed: on all 293 vectors the two implementations agree (see
+round. All seven are fixed. D8, found by the histories the generator signs (`poi-histories.json`), is the other way
+round as well, and open. Of the 338 vectors both implementations run 321 - the 7 requiring `signing` and the 10 of
+`poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them but
+the one of D8 (see
 [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
@@ -216,6 +220,33 @@ the certificate, each energy meter with its texts and then its versions twice, a
 `version-text-certificate-twice` and `version-text-certificate-energy-meter-twice`.
 
 
+<a id="d8-expired-signature"></a>
+## D8. A change set signed, besides by its owner, by a key not valid at its `createdAt` is taken
+
+**Vector:** `key-expired-besides` (`poi-histories.json`): the EVSE `DE*GEF*E1*1` of `history-parties` changes, its
+change set signed by the signing key of `DE*GEF` for infrastructure and, besides, by another one of `DE*GEF` for
+infrastructure that expired half a minute before its `createdAt`. Its control, signed by the first key alone, is taken
+by both; signed besides by a valid key of another party, it is taken by both as well (`signature-of-another-party`).
+
+**Where:** WWCP_POI.TS, `src/history/apply.ts`, `checkOwnership`: every signature must verify, by a key of a party of
+the version or by a new identity key of one of its changes; whether the key is valid at `createdAt` is asked only of the
+keys counted for an owner (`signedValid`). Its comment says more: "every signature valid, by a key of a party of the
+version valid at `createdAt` or by a new identity key of one of its changes". WWCP_POI3,
+`WWCP_POI3/RoamingNetwork/RoamingNetwork.Ownership.cs`, `TryGetSigners`, does so: "Signature 1: the key '…' of the
+ChargingStationOperator 'DE*GEF' is not valid at 2026-10-18T08:08:00.000Z!".
+
+**Why it matters:** the extra signature gives nobody anything, the valid one of its owner decides. But the two take
+different histories: a change set a C# server refuses, a TypeScript verifier replaying the history takes, and with
+`notBefore` the same holds for a key not valid yet. SPECIFICATION.md says it of a change set waiting (4.2: "every
+signature it has is valid by a key of that version valid at its `createdAt` and when it takes it, or by a new identity
+key of one of its changes"); of every change set 4.1 says only "Every signature MUST be by a key of a party, or by a new
+identity key": the vector names its basis "proposed" for a commit.
+
+**Fix:** `checkOwnership` refuses a signature by a key of a party that is not valid at `createdAt`, as its comment says
+and as WWCP_POI3 does; a new identity key proving its possession stays exempt, its `notBefore` may still be to come
+(4.1). SPECIFICATION.md 4.1 could say it of every change set.
+
+
 ## What both do alike
 
 Both implementations calculate, byte for byte, and take or refuse alike:
@@ -251,13 +282,31 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   does not read - empty, or beginning or ending with whitespace as `Char.IsWhiteSpace` tells it, U+0085 as well - of a
   charging station, an energy meter, their templates, a model and a certificate, or a model, a certificate or an
   energy meter a certificate was issued with naming one twice (WWCP_POI.TS since `24c97a6`, D7);
-- all 22 trust vectors: a valid proof, expired attestations, attestations of the future (D3), one holder only
+- all 25 trust vectors: a valid proof, expired attestations, attestations of the future (D3), one holder only
   (also twice), a key that may not sign for the party, a signing key expired before it attested and one that ended
   after it attested, a key certified by another holder's identity key, an uncertified key, other identity keys pinned,
   the quorum of the key statement above the one of the trust anchor, an attestation of another network, a changed
   entity, a wrong signature, a subject attestation and one in the role of a witness counted for the quorum (D4, D5), a
   certificate and a key statement of another roaming network operator (D6), attestations without `validUntil`
-  ([O4](#o4-no-valid-until)), valid for a day, and valid longer.
+  ([O4](#o4-no-valid-until)), valid for a day, and valid longer; and the holders of a quorum as the trust anchor names
+  them (csharp-review 1), two identity keys of Alpha one holder, a key statement naming one of them as Beta's, and a key
+  the statement does not name counted for the holder the trust anchor names;
+- 30 of the 31 replays of `poi-histories.json` both run, the one of D8 aside: histories the generator made and signed
+  with keys whose seeds it gives (the Ed25519 keys of section 6, and Ed25519, Ed448 and ES256 keys of its own), every
+  refusal with its control, the document refused but for what it is about, taken in its place: who signs in place of a
+  party without keys and with which usages (csharp-review 13), who states a certificate (15), lastChange of what embeds
+  a changed EVSE (8), old values, also `150000.0` for `150000`, and rebases with and without them (12), a signing key
+  expired before the `createdAt` and one removed in the version before (3, in a linear history), new values with a
+  JSON-LD context, out of their order or with a timestamp not to the millisecond (10), a withdrawal together with what
+  names it (18), certificates of models in hardware revisions and firmware versions, of stations and of meters (16, 17),
+  and three epochs, the first checkpoint of the third one signed with an algorithm of the second one only, and with one
+  of neither (14); where both word a refusal alike, `reason` names it. The other 10, which WWCP_POI.TS leaves to
+  WWCP_POI (the references a version holds, changes of a group of an e-mobility provider and of a grid connection
+  point), hold WWCP_POI3 alone to them: a station in a firmware version its model does not have, of a hardware revision
+  its certificate does not cover, a certificate of the other kind named by a station or a meter, a meter its station's
+  certificate was not issued with (16, 17), a manufacturer or a model withdrawn while a station names it (18), a
+  provider renaming, after it removed its group, the operator's group of the same identification (9), and a grid
+  connection point the roaming network operator adds in place of a grid operator without keys (13).
 
 
 ## Observations
@@ -301,29 +350,40 @@ specification has to decide first.
 vector expects `refused` now, and both implementations refuse it when they read the attestations.
 
 
-## Not covered by vectors yet
+## The findings of csharp-review and their vectors
 
-Of *csharp-review*: keys removed in a later version signing change sets for an older one (3), change sets committed by
-their `@id` alone (4), witnesses signing checkpoints of a history started from a snapshot (5), `lastChange` of what
-embeds a changed entity (8, where the TypeScript port does as the C# code, against the specification), the order of
-arrays in change sets (10), `epoch` in checkpoints of epoch 1 (11, both write and read it), changes without `oldValue`
-(12, but for a rebased change set, above; the rebase itself is a server's), the RNO signing in place of parties without
-keys (13), and the algorithms of the first checkpoint of a later
-epoch (14). Most need a history signed anew - a vector maker with
-fixed keys on the C# side (Styx signs ECDSA after RFC 6979 and ML-DSA deterministically as well) - or server behavior,
-which no verifier vector reaches.
+What of the 21 findings of *csharp-review* a verifier reaches, and which vectors hold the implementations to it. All but
+two questions of design in 19 are fixed in WWCP_POI; what is a server's (a witness, its journal, the clock taking a
+change set, change sets waiting, rebasing and merging) no verifier vector reaches. Most findings needed a history
+signed anew, which the keys of the frozen run, random and private, do not allow: `poi-histories.json` holds small
+histories the generator signs itself (the replays named below are of it), every refusal with its control. Where a
+vector says *WWCP_POI3 alone*, WWCP_POI.TS leaves what it checks to WWCP_POI (`notApplicable`), as its review says.
 
-Of the texts WWCP_POI reads as given since `c31e5e3` and `3672b06`: that it takes them so - whitespace inside, case, a
-leading U+FEFF, which `Char.IsWhiteSpace` does not take for whitespace -, as `poi-refusals.json` holds refusals only;
-and a change set leading to a text it refuses, which needs a history signed anew as well.
+| # | Finding | Vectors | Not covered, and why |
+|---|---|---|---|
+| 1 | The holders counted for a quorum | `trust-holder-keys`, `trust-holder-renamed`, `trust-holder-unnamed-key` (`poi-trust.json`) | |
+| 2 | ECDSA twins of price statements | `priceStatement:proofs/QA-priceStatement-malleated-twin.json#` (`poi-history.json`): the twin of a statement of the run has the digest of the genuine one | |
+| 3 | A removed or expired key still signs, through an older version | `key-expired`, `key-removed`, in a linear history; `key-expired-besides` ([D8](#d8-expired-signature)) | Through an older version: a change set of a branch signed by a key the other tip removed, or let expire, conflicts in the merge (5.3). WWCP_POI.TS takes no merges, so a vector would hold WWCP_POI3 alone, and the generator would have to calculate the three-way merge of section 5.3. The clock of the server taking a change set (4.1) is a server's. |
+| 4 | A change set counts as committed by its `@id` alone | `changeSet-id`, `changeSet-rebasedFrom`, `changeSet-without-changes`, `changeSet-merge-id` (`poi-refusals.json`) | `alreadyCommitted` and the change sets waiting (4.2) are a server's. |
+| 5 | A witness signs the first checkpoint of a history started from a snapshot | | A witness and its journal are a server's. |
+| 6 | A subject attestation verifies a whole proof | `trust-subject`, `trust-role` ([D4](#d4-subject-attestation), [D5](#d5-attestation-role)) | |
+| 7 | Attestations without `validUntil`, keys checked at a self-chosen `signedAt` | `stationProof-before-signed`, `trust-future` ([D3](#d3-future-attestation)), `trust-no-valid-until`, `trust-a-day`, `trust-too-long`, `trust-key-ended` | |
+| 8 | `lastChange` of what embeds a changed entity | `lastChange-and-old-value`, `lastChange-of-what-embeds-it` (as section 4 said before WWCP_POI `8e6a1fa`, refused); the replay of the run, `replay-QA-both-epochs` | |
+| 9 | A provider's change of an operator's group, by a stale owner record | `owner-of-what-was-removed` (WWCP_POI3 alone: WWCP_POI.TS applies no change of a provider's group) | Energy meter templates and groups: there a stale record reaches only changes that applying refuses, in both, so no vector tells the owner rule from it. A grid connection point handed on within a change set: WWCP_POI.TS applies none. |
+| 10 | What a signed change set says is not what the content holds | `new-value-context`, `new-value-keys-out-of-order`, `new-value-timestamp`; the replay of the run takes the values of its change sets as the content holds them | The written forms WWCP_POI.TS can not tell without the types of the values (an identification in another case, a country, a URL without its scheme, …) end in other afterETags there: refused as well, but for that. |
+| 11 | Epoch 1 checkpoints name their epoch | `checkpoint-epoch` (`poi-refusals.json`); every checkpoint of the run and of `history-epochs` | |
+| 12 | A change without `oldValue` is not checked at all | `old-value-other`, `old-value-decimal` (`150000.0` for `150000`), `old-value-none`, `rebased-with-old-values`, `rebased-without-old-value`, `rebased-add`; `changeSet-rebased-without-old-value` (`poi-refusals.json`) | The rebase itself (`TryRebase`) is a server's. |
+| 13 | The RNO can not sign in place of a body or grid operator without keys | `rno-states-certificate`, `rno-states-certificate-with-keys-for-certificates`, `rno-states-certificate-with-keys-for-tariffs`, `rno-states-certificate-one-holder`; `rno-adds-grid-connection-point`, `rno-adds-grid-connection-point-with-keys-for-tariffs` (WWCP_POI3 alone: WWCP_POI.TS applies no change of a grid connection point) | The models of a manufacturer without keys a version names from before: a manufacturer is added with keys now. |
+| 14 | The first checkpoint of a later epoch takes signatures of any algorithm | `epoch-first-checkpoint-algorithms-of-either`, `epoch-first-checkpoint-algorithm-of-neither`, `epoch-later-checkpoint-algorithm-of-before`, `epochs` | A snapshot of the third epoch naming the profiles of the second (`previousProfiles`): the replays start their epochs themselves. |
+| 15 | Who stated a certificate can not be told once its body has keys | `rno-states-certificate-unsaid`, `body-certificate-said-by-rno`, `body-changes-certificate-said-by-rno`, `body-states-certificate-itself` | What a verifier tells of a station proof, the `statedBy` of its certificates: the vectors check what a proof is, not what an app shows of it. |
+| 16 | A certificate is for a version of a model, but no station or meter names one | `parties-models-and-certificates`, `parties-station-and-meter`; `station-firmware-of-no-model`, `station-revision-not-certified` (WWCP_POI3 alone: WWCP_POI.TS leaves the references a version holds to WWCP_POI) | Templates naming them: the generator calculates no effective content of templates. |
+| 17 | An energy meter names the certificate of a station model, and has none of its own | `parties-station-and-meter`; `station-certificate-of-a-meter`, `meter-certificate-of-a-station`, `meter-not-of-the-certificate` (WWCP_POI3 alone) | |
+| 18 | What one party names blocks what another party withdraws | `withdrawn-with-what-names-it`; `withdrawn-while-named-party`, `withdrawn-while-named-model` (WWCP_POI3 alone) | |
+| 19 | Smaller points | The quorum of a trust anchor by holders (see 1); certificates and a key statement of another operator, `trust-certificate-operator`, `trust-statement-operator` ([D6](#d6-foreign-operator)); a conformity assessment body and a grid operator added without keys, `parties-added` | The roles of checkpoint signatures and the key statements the examples trust are the verifier's and the examples'; price statements taken into an epoch and the data of models are open questions of design; building the examples and the dependencies of COSE.TS no vector reaches. |
+| 20 | Custom data: numbers as binary floating-point numbers, timestamps in the time zone of the server | `spec-2-custom-data-decimals`, `-integers`, `-texts`, `-nested` (`poi-specification.json`) | |
+| 21 | The custom data of an address is lost | `spec-2-custom-data-address` (`poi-specification.json`) | |
 
-ECDSA twins of price statements (2) are fixed in WWCP_POI `dbf39b0`: the digest of a statement leaves its signature
-value out. The frozen run holds the twin of a statement (`proofs/QA-priceStatement-malleated-twin.json`), and both
-implementations calculate for it the digest of the genuine statement (`poi-history.json`, `priceStatements`).
-
-The quorum counted by holders the counted keys name (1) is fixed in WWCP_POI `3e32f48`: a trust anchor names the keys
-per holder, the holders are counted as the verifier knows them, and a key keeps its holder. The trust vectors hold it
-for both implementations, signed by the generator with a second identity key of Alpha: `trust-holder-keys` (both keys
-of Alpha one holder, taken), `trust-holder-renamed` (a key statement naming one of them as Beta's, refused) and
-`trust-holder-unnamed-key` (a key the statement does not name certifying a signing key of "Beta", counted for Alpha,
-refused).
+No finding of the review, and not covered either: of the texts WWCP_POI reads as given since `c31e5e3` and `3672b06`,
+that it takes them so - whitespace inside, case, a leading U+FEFF, which `Char.IsWhiteSpace` does not take for
+whitespace -, as `poi-refusals.json` holds refusals only; and a change set leading to a text it refuses, which a
+history of `poi-histories.json` could hold.
