@@ -29,15 +29,15 @@ Styx `91901a9`):
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
-The two implementations agree on 268 of the 278 vectors. On 10, **WWCP_POI3 takes what WWCP_POI.TS refuses**, two
-open deviations, each marked on its vectors and pinned (D3 is fixed in WWCP_POI `be07037`, D4 and D5 in `6e469a0`, D6
-in `65e658d`) - see
+The two implementations agree on all 278 vectors. The six deviations the vectors found, where **WWCP_POI3 took what
+WWCP_POI.TS refuses**, are fixed in WWCP_POI (D1 and D2 in `2c90847`, D3 in `be07037`, D4 and D5 in `6e469a0`,
+D6 in `65e658d`), and their vectors hold both implementations to it - see
 **[docs/implementation-deviations.md](docs/implementation-deviations.md)**:
 
 | | Deviation of WWCP_POI3 |
 |---|---|
-| D1 | The JSON reader for hashing takes what is no JSON (trailing commas, comments, `0x10`, a second value after the first …) |
-| D2 | A station proof may name another revision than its attestations |
+| D1 | ✅ The JSON reader for hashing takes what is no JSON (trailing commas, comments, `0x10`, a second value after the first …): fixed in WWCP_POI `2c90847` |
+| D2 | ✅ A station proof may name another revision than its attestations: fixed in WWCP_POI `2c90847` |
 | D3 | ✅ An attestation counts before it was signed: fixed in WWCP_POI `be07037` |
 | D4 | ✅ An attestation of a subject counts for the whole proof: fixed in WWCP_POI `6e469a0` |
 | D5 | ✅ The role of an attestation is not checked: fixed in WWCP_POI `6e469a0` |

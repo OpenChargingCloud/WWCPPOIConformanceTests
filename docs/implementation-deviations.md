@@ -24,23 +24,22 @@ WWCP_POI.TS](https://github.com/OpenChargingCloud/WWCP_POI.TS/blob/master/docs/c
 
 | | Deviation | Who deviates | Vectors | Severity | csharp-review |
 |---|---|---|---|---|---|
-| [D1](#d1-lenient-json) | The JSON reader for hashing takes what is no JSON: trailing commas, comments, single quotes, unquoted names, `01`, `0x10`, raw control characters, a second value after the first | WWCP_POI3 | 9 of `poi-canonical-json.json` | medium (interop) | new |
-| [D2](#d2-proof-revision) | A station proof may name another revision than its attestations | WWCP_POI3 | `stationProof-revision` | low | new |
+| [D1](#d1-lenient-json) | ✅ The JSON reader for hashing takes what is no JSON: trailing commas, comments, single quotes, unquoted names, `01`, `0x10`, raw control characters, a second value after the first: **fixed** in WWCP_POI `2c90847` | WWCP_POI3 | 9 of `poi-canonical-json.json` | medium (interop) | new |
+| [D2](#d2-proof-revision) | ✅ A station proof may name another revision than its attestations: **fixed** in WWCP_POI `2c90847` | WWCP_POI3 | `stationProof-revision` | low | new |
 | [D3](#d3-future-attestation) | ✅ An attestation counts before it was signed: **fixed** in WWCP_POI `be07037` | WWCP_POI3 | `stationProof-before-signed`, `trust-future` | medium | 7 |
 | [D4](#d4-subject-attestation) | ✅ An attestation of a subject counts for the whole proof: **fixed** in WWCP_POI `6e469a0` | WWCP_POI3 | `trust-subject` | medium | 6 |
 | [D5](#d5-attestation-role) | ✅ The role of an attestation is not checked: **fixed** in WWCP_POI `6e469a0` | WWCP_POI3 | `trust-role` | low-medium | 6 |
 | [D6](#d6-foreign-operator) | ✅ A proof's certificates and key statement may name another roaming network operator: **fixed** in WWCP_POI `65e658d` | WWCP_POI3 | `trust-certificate-operator`, `trust-statement-operator` | low-medium | 19 |
 
-In each case WWCP_POI.TS refuses what the vector says is to be refused, and WWCP_POI3 takes it. Of the open ones, D1
-and D2, these are 10 of the 278 vectors; on the other 268 the two implementations agree (see
-[What both do alike](#what-both-do-alike)).
+In each case WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it. All six are fixed: on
+all 278 vectors the two implementations agree (see [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
 [O1](#o1-internal-reader) to [O4](#o4-no-valid-until).
 
 
 <a id="d1-lenient-json"></a>
-## D1. The JSON reader for hashing takes what is no JSON
+## D1. ✅ The JSON reader for hashing takes what is no JSON
 
 **Vectors:** `refuse-trailing-comma-array`, `refuse-trailing-comma-object`, `refuse-comment`, `refuse-single-quotes`,
 `refuse-unquoted-name`, `refuse-leading-zero`, `refuse-hex-number`, `refuse-raw-control-character`,
@@ -77,9 +76,15 @@ its first.
 (strict by default, no comments, no trailing commas) and build the `JToken` from it, or check the whole text with it
 first, as `CheckDecimals` already does for the decimals, and refuse anything but whitespace after the first value.
 
+**Fixed** in WWCP_POI `2c90847`, as SPECIFICATION.md section 1 says now: `POIJSON.Read` checks every text, not
+only one with decimals, with `System.Text.Json`'s `Utf8JsonReader` as RFC 8259 writes JSON - no comments, no trailing
+commas, nothing but whitespace after the first value - in the same pass that checks the decimals, a stream of a store as
+well. `ReadFrom`, for a WebSocket message, checks its first value and leaves what follows to its caller, which refuses
+it. Both implementations refuse all nine vectors.
+
 
 <a id="d2-proof-revision"></a>
-## D2. A station proof may name another revision than its attestations
+## D2. ✅ A station proof may name another revision than its attestations
 
 **Vector:** `stationProof-revision` (`poi-refusals.json`): the station proof of `DE*GEF*E1*1` of the frozen run with
 its `revision` changed, its `commitId` not.
@@ -92,6 +97,9 @@ WWCP_POI.TS compares `roamingNetworkId`, `commitId`, `revision` and the hash alg
 is shown to whoever checks it (`RoamingNetworkProof.Revision`), and is not what anybody signed.
 
 **Fix:** compare `attestation.Revision` with `Revision` where the proof names one, as with `CommitId`.
+
+**Fixed** in WWCP_POI `2c90847`, as SPECIFICATION.md 8.4 says now: an attestation counts for a proof only where
+it names the commit and the revision the proof names. Both implementations refuse `stationProof-revision`.
 
 
 <a id="d3-future-attestation"></a>
@@ -184,7 +192,8 @@ another one. Both implementations refuse `trust-certificate-operator` and `trust
 Both implementations calculate, byte for byte, and take or refuse alike:
 
 - canonical JSON and deterministic CBOR: 57 vectors of Styx (section 4, its escaping table code point by code point,
-  unpaired surrogates), and the refusal of decimals a `System.Decimal` can not hold and of properties named twice;
+  unpaired surrogates), and the refusal of decimals a `System.Decimal` can not hold, of properties named twice and of
+  what RFC 8259 does not call JSON (D1);
 - Base64 as POI reads it (canonical only) and Base45 (RFC 9285);
 - every example of SPECIFICATION.md section 6: content, ETags, skeletons and the effective tree, the identifications of
   the genesis of both epochs (SHA-256 and SHA-512), key thumbprints, the signatures, the digest of the price statement,
@@ -194,10 +203,11 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 5 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 45 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
-  and trust anchors; among them a change set naming `rebasedFrom` rightly with a change without `oldValue`, which a
-  rebase may have overwritten a concurrent change with (csharp-review 12; WWCP_POI `1717ee2`, WWCP_POI.TS
-  `4e4ec38`), and versions naming twice an identification unique within the roaming network - an EVSE
+- the refusal of 46 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+  and trust anchors; among them a station proof naming another revision than its attestations (D2), a change set
+  naming `rebasedFrom` rightly with a change without `oldValue`, which a rebase may have overwritten a concurrent change
+  with (csharp-review 12; WWCP_POI `1717ee2`, WWCP_POI.TS `4e4ec38`), and versions naming twice an identification
+  unique within the roaming network - an EVSE
   group of a provider and an operator of the same prefix, an energy meter, a grid connection point, an energy meter
   template, a transparency software release and a certificate, compared without case - refused for it in the same words
   (WWCP_POI.TS since `e32c2cd`);

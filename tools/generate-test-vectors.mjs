@@ -65,8 +65,6 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
-    'D1-lenient-json':   [ CSHARP ],
-    'D2-proof-revision': [ CSHARP ],
 };
 
 const deviation = (name) => {
@@ -351,9 +349,7 @@ function canonicalVectors() {
     ];
 
     quoted(SPEC, 'MUST be refused, not rounded; so MUST an object that names a property twice.', 'that decimals and duplicates are refused');
-
-    // What Newtonsoft, below POIJSON.Read of WWCP_POI3, takes nonetheless.
-    const lenient = new Set([ 'trailing-comma-array', 'trailing-comma-object', 'comment', 'single-quotes', 'unquoted-name', 'leading-zero', 'hex-number', 'raw-control-character', 'second-value' ]);
+    quoted(SPEC, 'without quotes, `01` and `0x10`, a raw control character in a string, and a second value after the first.', 'that what RFC 8259 does not call JSON is refused');
 
     const invalidInputs = refuse.map(([ id, input, expectedError, description ]) => ({
         id:            `refuse-${id}`,
@@ -361,7 +357,6 @@ function canonicalVectors() {
         source:        expectedError === 'syntax' ? 'RFC 8259; ' + `${STYX_README}, section 1` : `${SPEC}, section 1; ${STYX_README}, section 1`,
         input,
         expectedError,
-        ...(lenient.has(id) ? deviation('D1-lenient-json') : {}),
     }));
 
     return vectorFile(
@@ -1174,7 +1169,8 @@ function refusalVectors() {
     proofVector('stationProof-other-anchor',   'Against the trust anchor of epoch 1, whose identity keys did not sign the key statement of epoch 2.', [], { trustAnchor: 'published/QA-trustAnchor.txt' });
     proofVector('stationProof-entity',         'An EVSE the proof gives completely changed: the proof leads to another root.',                       [ { op: 'replace', path: pathOfEVSE(sp, 'DE*GEF*E1*1') + '/maxPower', value: 999999 } ]);
     proofVector('stationProof-signature',      'The value of every attestation changed.',                                                            sp.attestations.map((attestation, index) => ({ op: 'replace', path: `/attestations/${index}/value`, value: attestation.value.slice(0, 8) + (attestation.value[8] === 'A' ? 'B' : 'A') + attestation.value.slice(9) })));
-    proofVector('stationProof-revision',       'Another revision than its attestations name, the commit the same.',                                   [ { op: 'replace', path: '/revision', value: sp.revision + 1 } ], deviation('D2-proof-revision'));
+    quoted(SPEC, 'An attestation counts for the proof only where it names the', 'that an attestation counts for the commit and revision it names only');
+    proofVector('stationProof-revision',       'Another revision than its attestations name, the commit the same.',                                   [ { op: 'replace', path: '/revision', value: sp.revision + 1 } ]);
     proofVector('stationProof-commit',         'Another commit than its attestations name.',                                                          [ { op: 'replace', path: '/commitId', value: '0'.repeat(128) } ]);
     proofVector('stationProof-no-attestations','Without attestations.',                                                                              [ { op: 'replace', path: '/attestations', value: [] } ]);
     proofVector('stationProof-one-holder',     'With the attestation of one holder only, where the quorum takes more.',                             [ { op: 'replace', path: '/attestations', value: [ sp.attestations[0] ] } ]);

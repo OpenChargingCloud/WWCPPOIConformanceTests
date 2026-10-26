@@ -563,55 +563,35 @@
       "description": "RFC 8259: no trailing comma in an array.",
       "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
       "input": "[1,]",
-      "expectedError": "syntax",
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+      "expectedError": "syntax"
     },
     {
       "id": "refuse-trailing-comma-object",
       "description": "RFC 8259: no trailing comma in an object.",
       "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
       "input": "{\"a\":1,}",
-      "expectedError": "syntax",
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+      "expectedError": "syntax"
     },
     {
       "id": "refuse-comment",
       "description": "RFC 8259: JSON has no comments.",
       "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
       "input": "{\"a\":1/* a comment */}",
-      "expectedError": "syntax",
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+      "expectedError": "syntax"
     },
     {
       "id": "refuse-single-quotes",
       "description": "RFC 8259: strings are written in double quotes.",
       "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
       "input": "{'a':1}",
-      "expectedError": "syntax",
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+      "expectedError": "syntax"
     },
     {
       "id": "refuse-unquoted-name",
       "description": "RFC 8259: names are strings.",
       "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
       "input": "{a:1}",
-      "expectedError": "syntax",
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+      "expectedError": "syntax"
     },
     {
       "id": "refuse-nan",
@@ -632,11 +612,7 @@
       "description": "RFC 8259: no leading zeros.",
       "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
       "input": "[01]",
-      "expectedError": "syntax",
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+      "expectedError": "syntax"
     },
     {
       "id": "refuse-leading-plus",
@@ -664,11 +640,7 @@
       "description": "RFC 8259: no hexadecimal numbers.",
       "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
       "input": "[0x10]",
-      "expectedError": "syntax",
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+      "expectedError": "syntax"
     },
     {
       "id": "refuse-invalid-escape",
@@ -682,22 +654,14 @@
       "description": "RFC 8259: a control character in a string must be escaped.",
       "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
       "input": "[\"a\tb\"]",
-      "expectedError": "syntax",
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+      "expectedError": "syntax"
     },
     {
       "id": "refuse-second-value",
       "description": "Two JSON texts are not one: what follows the first value must not be dropped silently.",
       "source": "RFC 8259; libs/Styx/Styx/Illias/JSON/README.md, section 1",
       "input": "{\"a\":1} {\"b\":2}",
-      "expectedError": "syntax",
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d1-lenient-json"
+      "expectedError": "syntax"
     },
     {
       "id": "refuse-unclosed",

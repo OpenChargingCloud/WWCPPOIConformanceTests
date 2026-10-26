@@ -1023,11 +1023,7 @@
       },
       "trustAnchor": "published/QA-trustAnchor-mldsa.txt",
       "at": "2026-10-26T00:58:00.000Z",
-      "evseId": "DE*GEF*E1*1",
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d2-proof-revision"
+      "evseId": "DE*GEF*E1*1"
     },
     {
       "expected": "refused",
