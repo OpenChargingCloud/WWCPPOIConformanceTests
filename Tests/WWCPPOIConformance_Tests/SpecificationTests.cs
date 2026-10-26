@@ -34,7 +34,8 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 {
 
     /// <summary>
-    /// poi-specification.json: the examples of SPECIFICATION.md, section 6, every value as written there.
+    /// poi-specification.json: the examples of SPECIFICATION.md, section 6, every value as written there, and the content
+    /// of the example with custom data (section 2).
     /// </summary>
     [TestFixture]
     public class SpecificationTests
@@ -77,6 +78,8 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(CanonicalJSON.Serialize(content),                             Is.EqualTo(Text(Vector, "content")));
+                // The content as the version holds it, read again: custom data as given (section 2).
+                Assert.That(CanonicalJSON.Serialize(network!.ToJSON(IncludeETags: false)), Is.EqualTo(Text(Vector, "content")));
                 Assert.That(network!.CalcETags().Select(eTag => eTag.ToString()),         Is.EqualTo(VectorFiles.Strings(Vector, "eTags")));
             }
 

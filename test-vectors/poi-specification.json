@@ -1,6 +1,6 @@
 {
-  "specification": "WWCP POI 3 SPECIFICATION.md, section 6 (libs/WWCP_POI/SPECIFICATION.md)",
-  "description": "The examples of the specification, every value as written there: the content of a version, its ETags and its effective tree, identifications, keys, signatures, a price statement and a trust anchor.",
+  "specification": "WWCP POI 3 SPECIFICATION.md, section 6, and section 2 on custom data (libs/WWCP_POI/SPECIFICATION.md)",
+  "description": "The examples of the specification, every value as written there: the content of a version, its ETags and its effective tree, identifications, keys, signatures, a price statement and a trust anchor; and the content of the example with custom data, held as given (section 2), its ETags calculated here.",
   "contents": [
     {
       "id": "spec-6-content",
@@ -10,6 +10,61 @@
         "json:sha256:hex:5592afaf5dfcceebc17c8a29f4493e061406f648b76a6fee8b6fe15d553c7108",
         "cbor:sha256:hex:567697f19947efa4679a0e401e1e7c5f528ffb7ca0d3d7928d3b2ed02abef52d",
         "effectiveTree:sha256:hex:84acb445aa41df13e83b7af61f25a8387dc65c0c7e83b29b907e9ed06045b44a"
+      ]
+    },
+    {
+      "id": "spec-2-custom-data-decimals",
+      "description": "The EVSE of the example with custom data of decimals: their decimal places kept (1.50, 0.10, 0.000), and digits a binary floating-point number does not hold.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, section 2 (custom data); csharp-review 20",
+      "content": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/v1\",\"@id\":\"rn1\",\"chargingStationOperators\":[{\"@id\":\"DE*GEF\",\"chargingPools\":[{\"@id\":\"DE*GEF*P1\",\"chargingStations\":[{\"@id\":\"DE*GEF*S1\",\"EVSEs\":[{\"@id\":\"DE*GEF*E1*1\",\"created\":\"2026-01-01T00:00:00.000Z\",\"customData\":{\"beyondDouble\":0.1000000000000000055511151231,\"manyDigits\":12345678901234567.123456789,\"negative\":-0.5,\"price\":0.39,\"scale\":1.50,\"small\":0.0000001,\"tenth\":0.10,\"zero\":0.000},\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"maxPower\":22000,\"maxVoltage\":230.5}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\"}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\"}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"name\":{\"en\":\"Charging Station Operator 'DE*GEF'\"}}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"name\":{\"en\":\"Example\"}}",
+      "eTags": [
+        "json:sha256:hex:ebdac407497e93a4c644b5e08ce62824780b5d50fc1112678af545c3b0daea33",
+        "cbor:sha256:hex:9f02bb0afe62e4132f383cc6ea289e5f243aa18c604c1056e436382408ba3dc9",
+        "effectiveTree:sha256:hex:96379044bfcd5845fbae812ab4dbd29f748e5fee55777d327f8bc36ea346abaa"
+      ]
+    },
+    {
+      "id": "spec-2-custom-data-integers",
+      "description": "The charging station of the example with custom data of integers beyond the safe integers of a binary floating-point number, beyond 64 bits and beyond the mantissa of a decimal.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, section 2 (custom data); csharp-review 20",
+      "content": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/v1\",\"@id\":\"rn1\",\"chargingStationOperators\":[{\"@id\":\"DE*GEF\",\"chargingPools\":[{\"@id\":\"DE*GEF*P1\",\"chargingStations\":[{\"@id\":\"DE*GEF*S1\",\"EVSEs\":[{\"@id\":\"DE*GEF*E1*1\",\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"maxPower\":22000,\"maxVoltage\":230.5}],\"created\":\"2026-01-01T00:00:00.000Z\",\"customData\":{\"beyond64Bits\":18446744073709551616,\"beyondDouble\":9007199254740993,\"decimalMax\":79228162514264337593543950335,\"huge\":123456789012345678901234567890123456789,\"negative\":-9223372036854775809,\"uint64Max\":18446744073709551615},\"lastChange\":\"2026-01-01T00:00:00.000Z\"}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\"}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"name\":{\"en\":\"Charging Station Operator 'DE*GEF'\"}}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"name\":{\"en\":\"Example\"}}",
+      "eTags": [
+        "json:sha256:hex:dba32f52130f5ae433c079782a114f5c2dbcdd4d5fe43e431d484af4420b599f",
+        "cbor:sha256:hex:6d6becd80aca4ce605de95597bafd2307d82f1f89da642c1cbcc282243b64065",
+        "effectiveTree:sha256:hex:094b98dd9ce470c8bf3b390eab73b86b6fe889cf9aa2b1b2eccab87ee2e421b1"
+      ]
+    },
+    {
+      "id": "spec-2-custom-data-texts",
+      "description": "The charging pool of the example with custom data of texts that look like timestamps, in UTC, with an offset and without one, or like numbers: texts, in every time zone.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, section 2 (custom data); csharp-review 20",
+      "content": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/v1\",\"@id\":\"rn1\",\"chargingStationOperators\":[{\"@id\":\"DE*GEF\",\"chargingPools\":[{\"@id\":\"DE*GEF*P1\",\"chargingStations\":[{\"@id\":\"DE*GEF*S1\",\"EVSEs\":[{\"@id\":\"DE*GEF*E1*1\",\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"maxPower\":22000,\"maxVoltage\":230.5}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\"}],\"created\":\"2026-01-01T00:00:00.000Z\",\"customData\":{\"date\":\"2026-10-26\",\"negativeOffset\":\"2026-10-26T07:00:00-05:00\",\"noZone\":\"2026-10-26T12:00:00\",\"number\":\"1.50\",\"offset\":\"2026-10-26T14:00:00+02:00\",\"reading\":\"1.10 kWh\",\"utc\":\"2026-10-26T12:00:00Z\",\"utcMillis\":\"2026-10-26T12:00:00.000Z\"},\"lastChange\":\"2026-01-01T00:00:00.000Z\"}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"name\":{\"en\":\"Charging Station Operator 'DE*GEF'\"}}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"name\":{\"en\":\"Example\"}}",
+      "eTags": [
+        "json:sha256:hex:947f0c6cbe7b40e61d3bb6da2b36b56ad02584ccd042243ba2d669013937e36f",
+        "cbor:sha256:hex:0ccf056f3e536bc24cc1d4a9d7bb21a175f8fe94ccd35a8e927cabd2183ab669",
+        "effectiveTree:sha256:hex:d399a0aaa25e5fd1889e1664707c19e6c00184e50453d73fa8eab89b9bad1638"
+      ]
+    },
+    {
+      "id": "spec-2-custom-data-address",
+      "description": "The charging station operator of the example with an address giving custom data: a decimal, an integer beyond 64 bits and a timestamp with an offset, kept with the address.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, section 2 (custom data); csharp-review 21",
+      "content": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/v1\",\"@id\":\"rn1\",\"chargingStationOperators\":[{\"@id\":\"DE*GEF\",\"address\":{\"city\":{\"de\":\"Jena\"},\"country\":\"DEU\",\"customData\":{\"floorArea\":120.50,\"meterId\":18446744073709551616,\"openedAt\":\"2026-10-26T08:00:00+01:00\"},\"houseNumber\":\"1a\",\"postalCode\":\"07745\",\"street\":\"Tatzendpromenade\"},\"chargingPools\":[{\"@id\":\"DE*GEF*P1\",\"chargingStations\":[{\"@id\":\"DE*GEF*S1\",\"EVSEs\":[{\"@id\":\"DE*GEF*E1*1\",\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"maxPower\":22000,\"maxVoltage\":230.5}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\"}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\"}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"name\":{\"en\":\"Charging Station Operator 'DE*GEF'\"}}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"name\":{\"en\":\"Example\"}}",
+      "eTags": [
+        "json:sha256:hex:6bd5798e9768e169dd24b452b6f945f9f9c9de063e61f8e6368321f5a8e4f34f",
+        "cbor:sha256:hex:e61ed60bbd626199f02706efcb04bd8002072d9ad829da26a09aace74cf5d8cf",
+        "effectiveTree:sha256:hex:b0d7548bba92f32328c1ef309be3ad81eb5872dc718b9fb655887cd0af63f0a3"
+      ]
+    },
+    {
+      "id": "spec-2-custom-data-nested",
+      "description": "The roaming network of the example with custom data of a JSON-LD context, objects and arrays nesting decimals, integers, texts that look like timestamps, and booleans.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, section 2 (custom data); csharp-review 20",
+      "content": "{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/v1\",\"@id\":\"rn1\",\"chargingStationOperators\":[{\"@id\":\"DE*GEF\",\"chargingPools\":[{\"@id\":\"DE*GEF*P1\",\"chargingStations\":[{\"@id\":\"DE*GEF*S1\",\"EVSEs\":[{\"@id\":\"DE*GEF*E1*1\",\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"maxPower\":22000,\"maxVoltage\":230.5}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\"}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\"}],\"created\":\"2026-01-01T00:00:00.000Z\",\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"name\":{\"en\":\"Charging Station Operator 'DE*GEF'\"}}],\"created\":\"2026-01-01T00:00:00.000Z\",\"customData\":{\"@context\":\"https://example.org/contexts/custom/v1\",\"readings\":[1.50,\"1.10 kWh\",18446744073709551616,true,\"2026-10-26T14:00:00+02:00\"],\"tariff\":{\"currency\":\"EUR\",\"price\":0.390,\"validFrom\":\"2026-10-26T00:00:00+01:00\"}},\"lastChange\":\"2026-01-01T00:00:00.000Z\",\"name\":{\"en\":\"Example\"}}",
+      "eTags": [
+        "json:sha256:hex:c27da4fcc115bc05f2c02d6b22ecde9b4ce1d8d357e0ece08f8be3f7edecd85d",
+        "cbor:sha256:hex:7833370b3891342c4aa40d4ffed8408debaa23ac50145cca4db512cc3163a46a",
+        "effectiveTree:sha256:hex:f6090135d533394dabf3cc782cf34bc7361ca32e5fec6dcee9ec283353d8eb0e"
       ]
     }
   ],

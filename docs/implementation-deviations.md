@@ -1,8 +1,8 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `2c90847`, Hermod `fbb442f`, Styx `91901a9`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `b9c786e`) take or calculate different things.
+(WWCP_POI3, `libs/WWCP_POI` at `2c90847`, Hermod `fbb442f`, Styx `06b592d3`) and the TypeScript port (WWCP_POI.TS,
+`libs/WWCP_POI.TS` at `0d1fe42`) take or calculate different things.
 
 Each deviation is
 
@@ -32,7 +32,7 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D7](#d7-certificate-twice) | ✅ A certificate may name a hardware revision or firmware version twice, and so may the energy meters it was issued with: **fixed** in WWCP_POI.TS `b9c786e` | WWCP_POI.TS | `version-text-certificate-twice`, `version-text-certificate-energy-meter-twice` | low | - |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
-round. All seven are fixed: on all 288 vectors the two implementations agree (see
+round. All seven are fixed: on all 293 vectors the two implementations agree (see
 [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
@@ -227,6 +227,14 @@ Both implementations calculate, byte for byte, and take or refuse alike:
 - every example of SPECIFICATION.md section 6: content, ETags, skeletons and the effective tree, the identifications of
   the genesis of both epochs (SHA-256 and SHA-512), key thumbprints, the signatures, the digest of the price statement,
   the trust anchor and its QR code;
+- custom data held as given (section 2; *csharp-review 20, 21*), in the content of the example of section 6, its
+  canonical JSON and its ETags: decimals keeping their decimal places and digits a double does not hold, integers beyond
+  53 and 64 bits and beyond the mantissa of a decimal, texts that look like timestamps in UTC, with an offset and
+  without one, a JSON-LD context, objects and arrays nesting them, and the custom data of an address
+  (`spec-2-custom-data-*`). WWCP_POI3 does since Styx `06b592d3`: against Styx `91901a9` it wrote
+  `0.1000000000000000055511151231` as `0.1`, `1.50` as `1.5`, an integer of 39 digits as `1.2345678901234568E+38`,
+  `"2026-10-26T07:00:00-05:00"` as `"2026-10-26T13:00:00.0000000+01:00"` in the time zone of the machine, dropped the
+  custom data of the address, and its CBOR of a text that looks like a timestamp ended in an `InvalidCastException`;
 - of the frozen run of the C# examples: the ETags of 14 versions, the identifications of 51 commits and 8 checkpoints,
   6 commit proofs against their checkpoints, the digests and chains of 8 price statements, 2 trust anchors and their QR
   codes, 5 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole

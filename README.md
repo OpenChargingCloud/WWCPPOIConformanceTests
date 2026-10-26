@@ -19,17 +19,17 @@ where they agree is shown, and where they differ is written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `2c90847`, WWCP_POI.TS `b9c786e`, Hermod `fbb442f`,
-Styx `91901a9`):
+Both harnesses are green against the pinned submodules (WWCP_POI `2c90847`, WWCP_POI.TS `0d1fe42`, Hermod `fbb442f`,
+Styx `06b592d3`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 288 | 310 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 288 | 292 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
+| C# harness (NUnit), WWCP_POI3 | 293 | 315 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 293 | 297 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
-The two implementations agree on all 288 vectors. The six deviations the vectors found first, where **WWCP_POI3 took
+The two implementations agree on all 293 vectors. The six deviations the vectors found first, where **WWCP_POI3 took
 what WWCP_POI.TS refuses**, are fixed in WWCP_POI (D1 and D2 in `2c90847`, D3 in `be07037`, D4 and D5 in `6e469a0`,
 D6 in `65e658d`); D7, the other way round, where **WWCP_POI.TS took what WWCP_POI3 refuses**, in WWCP_POI.TS
 `b9c786e`. Their vectors hold both implementations to it - see
@@ -47,15 +47,17 @@ D6 in `65e658d`); D7, the other way round, where **WWCP_POI.TS took what WWCP_PO
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
 ([`docs/csharp-review.md`](docs/csharp-review.md));
-D1, D2 and D7 are new.
+D1, D2 and D7 are new. Findings 20 and 21 of that review, custom data held as given, also the custom data of an
+address, are fixed in Styx `06b592d3`; the vectors `spec-2-custom-data-*` hold both implementations to it (against
+Styx `91901a9`, WWCP_POI3 wrote other decimals, integers and timestamps, and dropped the custom data of an address).
 
 ## What is in here
 
 | Directory | Content |
 |---|---|
-| [`test-vectors/`](test-vectors/README.md) | **The golden vectors**, generated: canonical JSON and CBOR, encodings, the examples of SPECIFICATION.md section 6, signed trust scenarios, the documents of the frozen run with what to calculate of them, and refusals. Their format is in the [README](test-vectors/README.md) there. |
+| [`test-vectors/`](test-vectors/README.md) | **The golden vectors**, generated: canonical JSON and CBOR, encodings, the examples of SPECIFICATION.md section 6 and its content with custom data, signed trust scenarios, the documents of the frozen run with what to calculate of them, and refusals. Their format is in the [README](test-vectors/README.md) there. |
 | `test-vectors/runs/csharp-987fa26/` | **The frozen run**: what the C# examples A1 to A13 of WWCP_POI `987fa26` published and MakeProofs made of the same history, public data only (WWCP_POI.TS keeps a vendored copy, next to its copy of the golden vectors). |
-| [`tools/generate-test-vectors.mjs`](tools/generate-test-vectors.mjs) | The generator: Node, no dependencies. Takes every value verbatim from its source, re-derives the anchors with `node:crypto` alone (identifications, ETags of canonical JSON, tree digests, thumbprints, Ed25519 signatures, the digests chaining price statements), signs the trust scenarios deterministically, and refuses to write on any mismatch. |
+| [`tools/generate-test-vectors.mjs`](tools/generate-test-vectors.mjs) | The generator: Node, no dependencies. Takes every value verbatim from its source, re-derives the anchors with `node:crypto` alone (identifications, ETags of canonical JSON and deterministic CBOR, tree digests, thumbprints, Ed25519 signatures, the digests chaining price statements), signs the trust scenarios deterministically, and refuses to write on any mismatch. |
 | `Tests/WWCPPOIConformance_Tests/` | The **C# harness** (NUnit): WWCP_POI3 against every vector file, plus `VendoredCopiesTests`. |
 | `Tests/WWCPPOIConformance_Tests.TS/` | The **TypeScript harness** (vitest): WWCP_POI.TS, imported from source, against every vector file. |
 | [`docs/implementation-deviations.md`](docs/implementation-deviations.md) | Where the two differ, why it matters, how to fix it; what both do alike; what the vectors do not cover yet. |
@@ -71,9 +73,9 @@ D1, D2 and D7 are new.
 | [`libs/Hermod`](https://github.com/Vanaheimr/Hermod) | Below WWCP_POI3 |
 | [`libs/Styx`](https://github.com/Vanaheimr/Styx) | Below Hermod: canonical JSON, deterministic CBOR, COSE - and its README, a source of vectors |
 
-Hermod is pinned at the commit the RoamingHubCLI pins together with WWCP_POI, `fbb442f` since `801bbce`. Styx is
-still at `91901a9`, where the RoamingHubCLI has moved on to `06b592d3`, which keeps custom data as given (findings 20
-and 21 of the review WWCP_POI.TS made of the C# implementation) - not pinned here yet, and no vector covers it yet.
+Hermod and Styx are pinned at the commits the RoamingHubCLI pins together with WWCP_POI: Hermod `fbb442f` since
+`801bbce`, Styx `06b592d3` since `cbf20d5`, the parent of `2c90847`. Styx `06b592d3` keeps custom data as given (findings
+20 and 21 of the review WWCP_POI.TS made of the C# implementation), which the vectors `spec-2-custom-data-*` cover.
 
 ```bash
 git clone --recurse-submodules https://github.com/OpenChargingCloud/WWCPPOIConformanceTests.git

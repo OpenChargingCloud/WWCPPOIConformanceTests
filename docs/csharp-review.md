@@ -19,9 +19,9 @@ Each finding says how it was established:
 Since this review, this repository holds the C# implementation and this port to the same golden test vectors. Where the
 two take or calculate different things, it is written down and pinned in
 [implementation-deviations.md](implementation-deviations.md) (cited below as *D1* to *D6*): it demonstrates findings 6,
-7 and 19 with vectors, and found two deviations more, a JSON reader for hashing that takes what is no JSON (D1) and the
-revision of a station proof left unchecked (D2), both fixed in WWCP_POI `2c90847`, so that the two agree on every
-vector. This document stays the review of the C# implementation.
+7, 19, 20 and 21 with vectors, and found two deviations more, a JSON reader for hashing that takes what is no JSON (D1)
+and the revision of a station proof left unchecked (D2), both fixed in WWCP_POI `2c90847`, so that the two agree on
+every vector. This document stays the review of the C# implementation.
 
 | # | Finding | Severity | Status | Since `bbd4cbd` |
 |---|---|---|---|---|
@@ -791,6 +791,13 @@ bits). SPECIFICATION.md of WWCP_POI says so in section 2 since `7493da7` and no 
 which before the fix ended in an `InvalidCastException`. The examples and the frozen run hold no custom data: no
 document of them changes.
 
+The vectors hold both implementations to it: `spec-2-custom-data-decimals`, `-integers`, `-texts` and `-nested` of
+`poi-specification.json` give the content of the example of section 6 with custom data, its canonical JSON and its
+ETags. Against Styx `91901a9`, WWCP_POI wrote `0.1000000000000000055511151231` as `0.1`, `1.50` as `1.5`, an integer of
+39 digits as `1.2345678901234568E+38`, `"2026-10-26T07:00:00-05:00"` as `"2026-10-26T13:00:00.0000000+01:00"` in the
+time zone of the machine, and its CBOR ETag of a text that looks like a timestamp ended in the `InvalidCastException`;
+against `06b592d3` it calculates what this port does.
+
 
 ## 21. ✅ The custom data of an address is lost
 
@@ -805,6 +812,9 @@ given as `"CustomData"` it is written in lower case and dropped when read again.
 **Fixed** in Styx `06b592d3`: an address reads `"customData"`, its values as finding 20 reads them, and
 `Address.TryParse(String)` reads its JSON text without turning texts into timestamps or numbers into doubles. The
 address of a charging station keeps its custom data in `NewValueTests.Custom_data_is_held_as_given`.
+
+The vector `spec-2-custom-data-address` holds both implementations to it: the address of the charging station operator
+of section 6 with custom data. Against Styx `91901a9`, WWCP_POI wrote the address without it.
 
 
 ## What was checked and found sound

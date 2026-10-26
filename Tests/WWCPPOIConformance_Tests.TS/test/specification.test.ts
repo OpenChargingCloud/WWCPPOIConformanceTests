@@ -32,13 +32,16 @@ const utf8 = (text: string): Uint8Array =>
     new TextEncoder().encode(text);
 
 
-describe('poi-specification.json: the examples of SPECIFICATION.md, section 6', () => {
+describe('poi-specification.json: the examples of SPECIFICATION.md, section 6, and custom data (section 2)', () => {
 
     for (const vector of specification.contents)
         it(`${vector.id}: ${vector.description}`, () => {
             const content = parseJSONObject(vector.content);
+            const network = RoamingNetwork.parse(content);
             expect(canonicalJSON(content)).toBe(vector.content);
-            expect(RoamingNetwork.parse(content).eTags().map(etagToText)).toEqual(vector.eTags);
+            // The content as the version holds it: custom data as given (section 2).
+            expect(canonicalJSON(network.content)).toBe(vector.content);
+            expect(network.eTags().map(etagToText)).toEqual(vector.eTags);
         });
 
     for (const vector of specification.skeletons)

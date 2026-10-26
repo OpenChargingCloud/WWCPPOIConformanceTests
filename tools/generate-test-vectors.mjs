@@ -21,7 +21,7 @@
  *
  *   - libs/Styx/Styx/Illias/JSON/README.md, section 4, and the escaping table of
  *     libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs: canonical JSON and deterministic CBOR;
- *   - libs/WWCP_POI/SPECIFICATION.md, sections 1 and 6: the examples of the specification;
+ *   - libs/WWCP_POI/SPECIFICATION.md, sections 1 and 6: the examples of the specification, and section 2: custom data;
  *   - test-vectors/runs/<run>/: what one run of the C# examples A1 to A13 of WWCP_POI published, frozen.
  *
  * Every value is taken VERBATIM from its source, and this script refuses to write when a source no longer says it
@@ -210,11 +210,75 @@ function canonical(value) {
     }
     if (Array.isArray(value))          return '[' + value.map(canonical).join(',') + ']';
     if (value[RAW] !== undefined) {
-        if (/[eE+]/.test(value[RAW]) || value[RAW].startsWith('-0'))
+        if (/[eE+]/.test(value[RAW]) || /^-0(\.0+)?$/.test(value[RAW]))
             fail(`canonical JSON of the number ${value[RAW]}: not written canonically`);
         return value[RAW];
     }
     return '{' + Object.keys(value).sort().map(key => canonicalString(key) + ':' + canonical(value[key])).join(',') + '}';
+}
+
+
+// ---- Deterministic CBOR, as far as the anchors need it (Styx section 3) ---------------------------------------------
+//
+// Of what parseRaw() reads: integers as major types 0 and 1, beyond 64 bits as bignums (tags 2 and 3), a number with
+// decimal places as a decimal fraction (tag 4, [-decimal places, mantissa]), strings as text strings, the keys of a map in
+// the bytewise order of their encodings. Anchored on the vectors of the Styx README before anything is calculated with it.
+
+function cborHead(major, value) {
+    if (value < 24n)           return Buffer.of(major << 5 | Number(value));
+    if (value < 0x100n)        return Buffer.of(major << 5 | 24, Number(value));
+    if (value < 0x10000n)      { const head = Buffer.alloc(3); head[0] = major << 5 | 25; head.writeUInt16BE(Number(value), 1); return head; }
+    if (value < 0x100000000n)  { const head = Buffer.alloc(5); head[0] = major << 5 | 26; head.writeUInt32BE(Number(value), 1); return head; }
+    const head = Buffer.alloc(9); head[0] = major << 5 | 27; head.writeBigUInt64BE(value, 1); return head;
+}
+
+function cborInteger(value) {
+    const bignum = (tag, magnitude) => { const hex = magnitude.toString(16); const bytes = Buffer.from(hex.length % 2 === 0 ? hex : '0' + hex, 'hex');
+                                         return Buffer.concat([ cborHead(6, tag), cborHead(2, BigInt(bytes.length)), bytes ]); };
+    if (value >= 0n)
+        return value < 1n << 64n ? cborHead(0, value) : bignum(2n, value);
+    return -1n - value < 1n << 64n ? cborHead(1, -1n - value) : bignum(3n, -1n - value);
+}
+
+function cbor(value) {
+    if (value === null)                return Buffer.of(0xf6);
+    if (value === true)                return Buffer.of(0xf5);
+    if (value === false)               return Buffer.of(0xf4);
+    if (typeof value === 'string')     { const bytes = utf8(value); return Buffer.concat([ cborHead(3, BigInt(bytes.length)), bytes ]); }
+    if (typeof value === 'number') {
+        if (!Number.isSafeInteger(value))
+            fail(`deterministic CBOR of the number ${value}: give it as written, parseRaw()`);
+        return cborInteger(BigInt(value));
+    }
+    if (Array.isArray(value))          return Buffer.concat([ cborHead(4, BigInt(value.length)), ...value.map(cbor) ]);
+    if (value[RAW] !== undefined) {
+        if (/[eE+]/.test(value[RAW]))
+            fail(`deterministic CBOR of the number ${value[RAW]}: not written canonically`);
+        const [ integer, decimalPlaces ] = value[RAW].split('.');
+        if (decimalPlaces === undefined)
+            return cborInteger(BigInt(integer));
+        return Buffer.concat([ cborHead(6, 4n), cborHead(4, 2n), cborInteger(BigInt(-decimalPlaces.length)), cborInteger(BigInt(integer + decimalPlaces)) ]);
+    }
+    const entries = Object.keys(value).map(key => [ cbor(key), cbor(value[key]) ]).sort(([ left ], [ right ]) => Buffer.compare(left, right));
+    return Buffer.concat([ cborHead(5, BigInt(entries.length)), ...entries.flat() ]);
+}
+
+
+// ---- The effectiveTree of a version of the shape of section 6 (8.2) --------------------------------------------------
+//
+// Bottom-up, each child array of one child pruned to the digest of that child, SHA-256(0x00 || skeleton), which is the
+// root of the array. Anchored on the root of section 6 before anything is calculated with it.
+
+const CHILD_ARRAYS = [ 'chargingStationOperators', 'chargingPools', 'chargingStations', 'EVSEs' ];
+
+function treeDigest(entity) {
+    const skeleton = { ...entity };
+    for (const name of CHILD_ARRAYS.filter(name => entity[name] !== undefined)) {
+        if (entity[name].length !== 1)
+            fail(`the effectiveTree of ${name}: only child arrays of one child are known to this script`);
+        skeleton[name] = { '@merkleRoot': treeDigest(entity[name][0]), '@size': 1 };
+    }
+    return sha256(Buffer.concat([ Buffer.of(0), utf8(canonical(skeleton)) ]));
 }
 
 
@@ -276,6 +340,10 @@ function canonicalVectors() {
             ...(cbor === undefined ? {} : { cborHex: quoted(STYX_README, cbor, 'the CBOR of a vector').replaceAll(' ', '') }),
         },
     }));
+
+    // The anchors of cbor(): the deterministic CBOR the README gives.
+    for (const vector of vectors.filter(vector => vector.expected.cborHex !== undefined))
+        anchor(`the deterministic CBOR of ${vector.input}`, cbor(parseRaw(vector.input)).toString('hex'), vector.expected.cborHex);
 
     // The escaping table of Styx (section 2.3), one code point per vector, given in the input as a JSON escape so that
     // this file stays readable; the expected canonical JSON is the string as Styx writes it.
@@ -440,6 +508,41 @@ function specificationVectors() {
 
     anchor('the root of the tree is the effectiveTree ETag', 'effectiveTree:sha256:hex:' + skeletons[4].digest, eTags[2]);
 
+    // The ETags of a content calculated here (3.1): of its canonical JSON, of its deterministic CBOR, its effectiveTree;
+    // the three anchored on the content of the example.
+    const eTagsOf = (version) => [ 'json:sha256:hex:'          + sha256(utf8(canonical(version))),
+                                   'cbor:sha256:hex:'          + sha256(cbor(version)),
+                                   'effectiveTree:sha256:hex:' + treeDigest(version) ];
+
+    anchor('the ETags of the content of the example', eTagsOf(parseRaw(content)).join(', '), eTags.join(', '));
+
+    // Custom data (section 2) is held as given: numbers with their decimal places and of any size, texts as texts, also
+    // those that look like timestamps, in every time zone, nested as given; so is the custom data of an address
+    // (csharp-review 20, 21). The content of the example, one of its entities giving custom data, and its ETags.
+    S('places (`1.50`), and texts as texts, also those that look like timestamps, in every time zone; so is the custom', 'that custom data is held as given');
+
+    const basis = `${SPEC}, section 2 (custom data)`;
+
+    const customDataContent = (name, description, review, change) => {
+        const version = parseRaw(content);
+        const [ operator ] = version.chargingStationOperators, [ pool ] = operator.chargingPools, [ station ] = pool.chargingStations, [ evse ] = station.EVSEs;
+        change({ network: version, operator, pool, station, evse });
+        return { id: `spec-2-custom-data-${name}`, description, basis: `${basis}; csharp-review ${review}`, content: canonical(version), eTags: eTagsOf(version) };
+    };
+
+    const customDataContents = [
+        customDataContent('decimals', 'The EVSE of the example with custom data of decimals: their decimal places kept (1.50, 0.10, 0.000), and digits a binary floating-point number does not hold.', 20,
+                          ({ evse })     => evse.customData     = parseRaw('{"beyondDouble":0.1000000000000000055511151231,"manyDigits":12345678901234567.123456789,"negative":-0.5,"price":0.39,"scale":1.50,"small":0.0000001,"tenth":0.10,"zero":0.000}')),
+        customDataContent('integers', 'The charging station of the example with custom data of integers beyond the safe integers of a binary floating-point number, beyond 64 bits and beyond the mantissa of a decimal.', 20,
+                          ({ station })  => station.customData  = parseRaw('{"beyond64Bits":18446744073709551616,"beyondDouble":9007199254740993,"decimalMax":79228162514264337593543950335,"huge":123456789012345678901234567890123456789,"negative":-9223372036854775809,"uint64Max":18446744073709551615}')),
+        customDataContent('texts', 'The charging pool of the example with custom data of texts that look like timestamps, in UTC, with an offset and without one, or like numbers: texts, in every time zone.', 20,
+                          ({ pool })     => pool.customData     = parseRaw('{"date":"2026-10-26","negativeOffset":"2026-10-26T07:00:00-05:00","noZone":"2026-10-26T12:00:00","number":"1.50","offset":"2026-10-26T14:00:00+02:00","reading":"1.10 kWh","utc":"2026-10-26T12:00:00Z","utcMillis":"2026-10-26T12:00:00.000Z"}')),
+        customDataContent('address', 'The charging station operator of the example with an address giving custom data: a decimal, an integer beyond 64 bits and a timestamp with an offset, kept with the address.', 21,
+                          ({ operator }) => operator.address    = parseRaw('{"city":{"de":"Jena"},"country":"DEU","customData":{"floorArea":120.50,"meterId":18446744073709551616,"openedAt":"2026-10-26T08:00:00+01:00"},"houseNumber":"1a","postalCode":"07745","street":"Tatzendpromenade"}')),
+        customDataContent('nested', 'The roaming network of the example with custom data of a JSON-LD context, objects and arrays nesting decimals, integers, texts that look like timestamps, and booleans.', 20,
+                          ({ network })  => network.customData  = parseRaw('{"@context":"https://example.org/contexts/custom/v1","readings":[1.50,"1.10 kWh",18446744073709551616,true,"2026-10-26T14:00:00+02:00"],"tariff":{"currency":"EUR","price":0.390,"validFrom":"2026-10-26T00:00:00+01:00"}}')),
+    ];
+
     // Identifications: the digest of the canonical JSON of a commit without its @id (5.1, 11.3).
     const genesisContent = S('{"@context":"https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3","eTags":[["json","sha256","hex","5592afaf5dfcceebc17c8a29f4493e061406f648b76a6fee8b6fe15d553c7108"],["cbor","sha256","hex","567697f19947efa4679a0e401e1e7c5f528ffb7ca0d3d7928d3b2ed02abef52d"],["effectiveTree","sha256","hex","84acb445aa41df13e83b7af61f25a8387dc65c0c7e83b29b907e9ed06045b44a"]],"revision":0,"roamingNetworkId":"rn1"}', 'the content of the genesis commit');
     const genesisId      = S('498e076a90b8d71254c017a80d164442abaa99b4d11d4deb9b8c86576917c29a', 'the identification of the genesis commit');
@@ -537,10 +640,10 @@ function specificationVectors() {
     anchor('the CBOR of the QR code', String(fromBase45(qrCode.slice('WWCP/TA-2:'.length)).length), S('223 bytes', 'the size of the CBOR').split(' ')[0]);
 
     return vectorFile(
-        'WWCP POI 3 SPECIFICATION.md, section 6 (libs/WWCP_POI/SPECIFICATION.md)',
-        'The examples of the specification, every value as written there: the content of a version, its ETags and its effective tree, identifications, keys, signatures, a price statement and a trust anchor.',
+        'WWCP POI 3 SPECIFICATION.md, section 6, and section 2 on custom data (libs/WWCP_POI/SPECIFICATION.md)',
+        'The examples of the specification, every value as written there: the content of a version, its ETags and its effective tree, identifications, keys, signatures, a price statement and a trust anchor; and the content of the example with custom data, held as given (section 2), its ETags calculated here.',
         {
-            contents:          [ { id: 'spec-6-content', description: 'The content of the example version, its canonical JSON, and its ETags (2, 3, 8.2).', content, eTags } ],
+            contents:          ids([ { id: 'spec-6-content', description: 'The content of the example version, its canonical JSON, and its ETags (2, 3, 8.2).', content, eTags }, ...customDataContents ], 'specification (contents)'),
             skeletons,
             commits,
             keys:              coseKeys,
