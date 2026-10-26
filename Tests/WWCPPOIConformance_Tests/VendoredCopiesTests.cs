@@ -26,7 +26,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 
     /// <summary>
     /// WWCP_POI.TS carries a VENDORED COPY of the golden vector files and of the frozen run (tests/vectors/poi-*.json,
-    /// tests/vectors/csharp-dbf39b0), so that its own test suite (tests/conformance.test.ts) runs against the very same
+    /// tests/vectors/csharp-987fa26), so that its own test suite (tests/conformance.test.ts) runs against the very same
     /// bytes while staying self-contained.
     ///
     /// These tests fail when a vendored copy drifts from test-vectors/ of this repository. In CI that guards the pinned
