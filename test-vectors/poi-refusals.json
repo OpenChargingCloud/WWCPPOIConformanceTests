@@ -812,6 +812,236 @@
     },
     {
       "expected": "refused",
+      "id": "version-text-station-serial-number",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStation.md",
+      "description": "The charging station DE*GEF*S1 names a serial number ending with a tab: a serial number is taken as given, not trimmed, and neither begins nor ends with whitespace.",
+      "reason": "Invalid serial number 'DCS-2026-001\t'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/chargingStations/0/serialNumber",
+            "value": "DCS-2026-001\t"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-text-meter-serial-number",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/EnergyMeter.md",
+      "description": "The energy meter DE*GEF*M1*1 names its serial number with a space before it.",
+      "reason": "Invalid serial number ' DCM-2026-001-1'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/chargingStationOperators/0/chargingPools/0/chargingStations/0/EVSEs/0/energyMeter/serialNumber",
+            "value": " DCM-2026-001-1"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-text-template-hardware-revision",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationTemplate.md, libs/WWCP_POI/docs/ChargingStationManufacturer.md",
+      "description": "The charging station template DE*GEF*ST_AC names an empty hardware revision: it gives one of the hardware revisions of its model, none of which is empty.",
+      "reason": "Invalid hardware revision ''!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/chargingStationOperators/0/chargingStationTemplates/0/hardwareRevision",
+            "value": ""
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-text-template-firmware-version",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/EnergyMeterTemplate.md, libs/WWCP_POI/docs/EnergyMeterManufacturer.md",
+      "description": "The energy meter template DE*GEF*EMT_DC names its firmware version followed by U+0085 (NEL): whitespace as Char.IsWhiteSpace tells it, though String.prototype.trim keeps it.",
+      "reason": "Invalid firmware version '3.2'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/chargingStationOperators/0/energyMeterTemplates/1/firmwareVersion",
+            "value": "3.2"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-text-model-hardware-revision",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/EnergyMeterManufacturer.md",
+      "description": "The energy meter model KDM-500 names a further hardware revision ending with a space.",
+      "reason": "Invalid hardware revision '2.2 '!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/energyMeterManufacturers/0/energyMeterModels/0/hardwareRevisions/-",
+            "value": "2.2 "
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-text-model-twice",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationManufacturer.md",
+      "description": "The charging station model GD-DC300 names the firmware version 2.4.0 twice.",
+      "reason": "A firmware version of the charging station model 'GD-DC300' must not be given twice!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationManufacturers/0/chargingStationModels/1/firmwareVersions/-",
+            "value": "2.4.0"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-text-certificate-hardware-revision",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md, libs/WWCP_POI/docs/EnergyMeterManufacturer.md",
+      "description": "The certificate PTB-2026-0017 names a further hardware revision with a space before it: it names hardware revisions of its model, none of which begins with whitespace.",
+      "reason": "hardwareRevisions[1]: Invalid text representation of a hardware revision: ' 2.1'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/conformityAssessmentBodies/1/certificates/0/hardwareRevisions/-",
+            "value": " 2.1"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-text-certificate-energy-meter",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md, libs/WWCP_POI/docs/EnergyMeterManufacturer.md",
+      "description": "The energy meter the certificate PTB-2026-0042 was issued with names its firmware version followed by a no-break space (U+00A0).",
+      "reason": "energyMeters[0]: firmwareVersions[0]: Invalid text representation of a firmware version: '3.2 '!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/1/certificates/1/energyMeters/0/firmwareVersions/0",
+            "value": "3.2 "
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-text-certificate-twice",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0017 names the hardware revision 2.1 twice.",
+      "reason": "A hardware revision of the certificate 'PTB-2026-0017' must not be given twice!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/conformityAssessmentBodies/1/certificates/0/hardwareRevisions/-",
+            "value": "2.1"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-text-certificate-energy-meter-twice",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The energy meter the certificate PTB-2026-0042 was issued with names the hardware revision 2.1 twice.",
+      "reason": "A hardware revision of the certified energy meter model 'KDM-500' of 'KERNBERG' must not be given twice!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/conformityAssessmentBodies/1/certificates/1/energyMeters/0/hardwareRevisions/-",
+            "value": "2.1"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
       "id": "checkpointProof-index",
       "kind": "checkpointProof",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 10.4",

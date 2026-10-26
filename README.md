@@ -19,22 +19,23 @@ where they agree is shown, and where they differ is written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `2c90847`, WWCP_POI.TS `1d2280d`, Hermod `fbb442f`,
+Both harnesses are green against the pinned submodules (WWCP_POI `2c90847`, WWCP_POI.TS `b9c786e`, Hermod `fbb442f`,
 Styx `91901a9`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 278 | 300 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 278 | 282 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
+| C# harness (NUnit), WWCP_POI3 | 288 | 310 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 288 | 292 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
-The two implementations agree on all 278 vectors. The six deviations the vectors found, where **WWCP_POI3 took what
-WWCP_POI.TS refuses**, are fixed in WWCP_POI (D1 and D2 in `2c90847`, D3 in `be07037`, D4 and D5 in `6e469a0`,
-D6 in `65e658d`), and their vectors hold both implementations to it - see
+The two implementations agree on all 288 vectors. The six deviations the vectors found first, where **WWCP_POI3 took
+what WWCP_POI.TS refuses**, are fixed in WWCP_POI (D1 and D2 in `2c90847`, D3 in `be07037`, D4 and D5 in `6e469a0`,
+D6 in `65e658d`); D7, the other way round, where **WWCP_POI.TS took what WWCP_POI3 refuses**, in WWCP_POI.TS
+`b9c786e`. Their vectors hold both implementations to it - see
 **[docs/implementation-deviations.md](docs/implementation-deviations.md)**:
 
-| | Deviation of WWCP_POI3 |
+| | Deviation |
 |---|---|
 | D1 | ✅ The JSON reader for hashing takes what is no JSON (trailing commas, comments, `0x10`, a second value after the first …): fixed in WWCP_POI `2c90847` |
 | D2 | ✅ A station proof may name another revision than its attestations: fixed in WWCP_POI `2c90847` |
@@ -42,10 +43,11 @@ D6 in `65e658d`), and their vectors hold both implementations to it - see
 | D4 | ✅ An attestation of a subject counts for the whole proof: fixed in WWCP_POI `6e469a0` |
 | D5 | ✅ The role of an attestation is not checked: fixed in WWCP_POI `6e469a0` |
 | D6 | ✅ A proof's certificates and key statement may name another roaming network operator: fixed in WWCP_POI `65e658d` |
+| D7 | ✅ WWCP_POI.TS: a certificate may name a hardware revision or firmware version twice, and so may the energy meters it was issued with: fixed in WWCP_POI.TS `b9c786e` |
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
 ([`docs/csharp-review.md`](https://github.com/OpenChargingCloud/WWCP_POI.TS/blob/master/docs/csharp-review.md));
-D1 and D2 are new.
+D1, D2 and D7 are new.
 
 ## What is in here
 

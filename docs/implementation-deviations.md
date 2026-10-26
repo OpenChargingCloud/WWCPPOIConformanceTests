@@ -2,7 +2,7 @@
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
 (WWCP_POI3, `libs/WWCP_POI` at `2c90847`, Hermod `fbb442f`, Styx `91901a9`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `1d2280d`) take or calculate different things.
+`libs/WWCP_POI.TS` at `b9c786e`) take or calculate different things.
 
 Each deviation is
 
@@ -30,9 +30,11 @@ WWCP_POI.TS](https://github.com/OpenChargingCloud/WWCP_POI.TS/blob/master/docs/c
 | [D4](#d4-subject-attestation) | ✅ An attestation of a subject counts for the whole proof: **fixed** in WWCP_POI `6e469a0` | WWCP_POI3 | `trust-subject` | medium | 6 |
 | [D5](#d5-attestation-role) | ✅ The role of an attestation is not checked: **fixed** in WWCP_POI `6e469a0` | WWCP_POI3 | `trust-role` | low-medium | 6 |
 | [D6](#d6-foreign-operator) | ✅ A proof's certificates and key statement may name another roaming network operator: **fixed** in WWCP_POI `65e658d` | WWCP_POI3 | `trust-certificate-operator`, `trust-statement-operator` | low-medium | 19 |
+| [D7](#d7-certificate-twice) | ✅ A certificate may name a hardware revision or firmware version twice, and so may the energy meters it was issued with: **fixed** in WWCP_POI.TS `b9c786e` | WWCP_POI.TS | `version-text-certificate-twice`, `version-text-certificate-energy-meter-twice` | low | - |
 
-In each case WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it. All six are fixed: on
-all 278 vectors the two implementations agree (see [What both do alike](#what-both-do-alike)).
+In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
+round. All seven are fixed: on all 288 vectors the two implementations agree (see
+[What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
 [O1](#o1-internal-reader) to [O4](#o4-no-valid-until).
@@ -187,6 +189,34 @@ than the one the proof gives, in the words of WWCP_POI.TS, and counts no attesta
 another one. Both implementations refuse `trust-certificate-operator` and `trust-statement-operator`.
 
 
+<a id="d7-certificate-twice"></a>
+## D7. ✅ A certificate may name a hardware revision or firmware version twice
+
+**Vectors:** `version-text-certificate-twice` (the certificate `PTB-2026-0017` names the hardware revision `2.1`
+twice) and `version-text-certificate-energy-meter-twice` (the energy meter `PTB-2026-0042` was issued with names it
+twice), `poi-refusals.json`: the head of the frozen run so changed, without its `eTags`.
+
+**Where:** WWCP_POI.TS `src/network/versionTexts.ts`, `invalidCertifiedVersion`: it refuses a hardware revision or
+firmware version of a certificate, and of the energy meters it was issued with, that is no text, empty, or beginning or
+ending with whitespace, but takes one given twice ("A certificate may name one twice"), and `tests/versionTexts.test.ts`
+expects so. WWCP_POI3 takes them through `ModelVersions.Of`, as the versions of a model (`ConformityCertificate` and
+`CertifiedEnergyMeter` of WWCP_POI2), and refuses one given twice: "A hardware revision of the certificate
+'PTB-2026-0017' must not be given twice!". `docs/ConformityAssessmentBody.md` of WWCP_POI says "each once".
+
+**Why it matters:** low. Both calculate the same, as the content keeps these arrays as given (SPECIFICATION.md
+section 2); but WWCP_POI.TS takes a roaming network version that WWCP_POI refuses to read, and that no WWCP_POI server
+holds.
+
+**Fix:** refuse, in `invalidCertifiedVersion`, a hardware revision or firmware version given twice, in the words of
+WWCP_POI, and turn the test round.
+
+**Fixed** in WWCP_POI.TS `b9c786e`: `invalidCertificateVersion` refuses a hardware revision or firmware version a
+certificate or an energy meter it was issued with names twice, in the words and in the order of WWCP_POI - the texts of
+the certificate, each energy meter with its texts and then its versions twice, and last the certificate's versions twice
+-, and so does `invalidModelVersion` for a model, once both its arrays were read. Both implementations refuse
+`version-text-certificate-twice` and `version-text-certificate-energy-meter-twice`.
+
+
 ## What both do alike
 
 Both implementations calculate, byte for byte, and take or refuse alike:
@@ -203,14 +233,17 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 5 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 46 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+- the refusal of 56 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors; among them a station proof naming another revision than its attestations (D2), a change set
   naming `rebasedFrom` rightly with a change without `oldValue`, which a rebase may have overwritten a concurrent change
   with (csharp-review 12; WWCP_POI `1717ee2`, WWCP_POI.TS `4e4ec38`), and versions naming twice an identification
   unique within the roaming network - an EVSE
   group of a provider and an operator of the same prefix, an energy meter, a grid connection point, an energy meter
   template, a transparency software release and a certificate, compared without case - refused for it in the same words
-  (WWCP_POI.TS since `e32c2cd`);
+  (WWCP_POI.TS since `e32c2cd`), and versions naming a serial number, hardware revision or firmware version WWCP_POI
+  does not read - empty, or beginning or ending with whitespace as `Char.IsWhiteSpace` tells it, U+0085 as well - of a
+  charging station, an energy meter, their templates, a model and a certificate, or a model, a certificate or an
+  energy meter a certificate was issued with naming one twice (WWCP_POI.TS since `24c97a6`, D7);
 - all 22 trust vectors: a valid proof, expired attestations, attestations of the future (D3), one holder only
   (also twice), a key that may not sign for the party, a signing key expired before it attested and one that ended
   after it attested, a key certified by another holder's identity key, an uncertified key, other identity keys pinned,
@@ -272,6 +305,10 @@ keys (13), and the algorithms of the first checkpoint of a later
 epoch (14). Most need a history signed anew - a vector maker with
 fixed keys on the C# side (Styx signs ECDSA after RFC 6979 and ML-DSA deterministically as well) - or server behavior,
 which no verifier vector reaches.
+
+Of the texts WWCP_POI reads as given since `c31e5e3` and `3672b06`: that it takes them so - whitespace inside, case, a
+leading U+FEFF, which `Char.IsWhiteSpace` does not take for whitespace -, as `poi-refusals.json` holds refusals only;
+and a change set leading to a text it refuses, which needs a history signed anew as well.
 
 ECDSA twins of price statements (2) are fixed in WWCP_POI `dbf39b0`: the digest of a statement leaves its signature
 value out. The frozen run holds the twin of a statement (`proofs/QA-priceStatement-malleated-twin.json`), and both

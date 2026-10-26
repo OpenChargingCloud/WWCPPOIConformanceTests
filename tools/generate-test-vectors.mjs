@@ -1146,6 +1146,79 @@ function refusalVectors() {
           [ { op: 'add', path: '/conformityAssessmentBodies/-', value: { '@id': 'VDE', name: { de: 'VDE Prüf- und Zertifizierungsinstitut' }, notifiedFor: [ 'MID' ],
                                                                         certificates: [ { ...ptb.certificates.find(certificate => certificate['@id'] === 'PTB-2026-0042'), '@id': 'ptb-2026-0042' } ], created, lastChange: created } } ]);
 
+    // ---- Versions: hardware revisions, firmware versions and serial numbers taken as given, not trimmed, not empty and
+    //      neither beginning nor ending with whitespace as Char.IsWhiteSpace tells it (HardwareRevision, FirmwareVersion
+    //      and SerialNumber of WWCP_POI2), and those of a model or of a certificate each once (ModelVersions.Of). The head
+    //      of the run with one of them changed, without its eTags, as above; the refusal names it (`reason`) in the words
+    //      both share: WWCP_POI names the text it refuses, not what names it.
+    const DOCS      = 'libs/WWCP_POI/docs';
+    const named     = (pointer, id) => at(qa, `${pointer}/@id`) === id ? pointer : fail(`QA.json#${pointer} is not ${id}`);
+    const station   = named('/chargingStationOperators/0/chargingPools/0/chargingStations/0', 'DE*GEF*S1');
+    const meter     = named(`${station}/EVSEs/0/energyMeter`,                                'DE*GEF*M1*1');
+    const acStation = named('/chargingStationOperators/0/chargingStationTemplates/0',        'DE*GEF*ST_AC');
+    const dcMeter   = named('/chargingStationOperators/0/energyMeterTemplates/1',            'DE*GEF*EMT_DC');
+    const dc300     = named('/chargingStationManufacturers/0/chargingStationModels/1',       'GD-DC300');
+    const kdm500    = named('/energyMeterManufacturers/0/energyMeterModels/0',               'KDM-500');
+    const ptb0017   = named('/conformityAssessmentBodies/1/certificates/0',                  'PTB-2026-0017');
+    const ptb0042   = named('/conformityAssessmentBodies/1/certificates/1',                  'PTB-2026-0042');
+    const withText  = twice;
+
+    quoted(`${DOCS}/ChargingStation.md`,             'taken as given, not trimmed and compared ordinally, case included; not empty and neither beginning nor ending with whitespace.', 'that a serial number is taken as given');
+    quoted(`${DOCS}/EnergyMeter.md`,                 'taken as given, not trimmed and compared ordinally, case included; not empty and neither beginning nor ending with whitespace.', 'that a serial number is taken as given');
+    quoted(`${DOCS}/ChargingStationManufacturer.md`, 'The hardware revisions it was built in, each once, none empty or beginning or ending with whitespace, in their given order.',      'that a model names its hardware revisions each once, as given');
+    quoted(`${DOCS}/EnergyMeterManufacturer.md`,     'The hardware revisions it was built in, each once, none empty or beginning or ending with whitespace, in their given order.',      'that a model names its hardware revisions each once, as given');
+    quoted(`${DOCS}/ConformityAssessmentBody.md`,    'each one of the `hardwareRevisions` of the model, compared ordinally; each once, in their given order.',                          'that a certificate names the hardware revisions of its model each once');
+
+    withText('version-text-station-serial-number',          `${DOCS}/ChargingStation.md`,
+             'The charging station DE*GEF*S1 names a serial number ending with a tab: a serial number is taken as given, not trimmed, and neither begins nor ends with whitespace.',
+             "Invalid serial number 'DCS-2026-001\t'!",
+             [ { op: 'add', path: `${station}/serialNumber`, value: 'DCS-2026-001\t' } ]);
+
+    withText('version-text-meter-serial-number',            `${DOCS}/EnergyMeter.md`,
+             'The energy meter DE*GEF*M1*1 names its serial number with a space before it.',
+             "Invalid serial number ' DCM-2026-001-1'!",
+             [ { op: 'replace', path: `${meter}/serialNumber`, value: ' DCM-2026-001-1' } ]);
+
+    withText('version-text-template-hardware-revision',     `${DOCS}/ChargingStationTemplate.md, ${DOCS}/ChargingStationManufacturer.md`,
+             'The charging station template DE*GEF*ST_AC names an empty hardware revision: it gives one of the hardware revisions of its model, none of which is empty.',
+             "Invalid hardware revision ''!",
+             [ { op: 'replace', path: `${acStation}/hardwareRevision`, value: '' } ]);
+
+    withText('version-text-template-firmware-version',      `${DOCS}/EnergyMeterTemplate.md, ${DOCS}/EnergyMeterManufacturer.md`,
+             'The energy meter template DE*GEF*EMT_DC names its firmware version followed by U+0085 (NEL): whitespace as Char.IsWhiteSpace tells it, though String.prototype.trim keeps it.',
+             "Invalid firmware version '3.2\u0085'!",
+             [ { op: 'replace', path: `${dcMeter}/firmwareVersion`, value: '3.2\u0085' } ]);
+
+    withText('version-text-model-hardware-revision',        `${DOCS}/EnergyMeterManufacturer.md`,
+             'The energy meter model KDM-500 names a further hardware revision ending with a space.',
+             "Invalid hardware revision '2.2 '!",
+             [ { op: 'add', path: `${kdm500}/hardwareRevisions/-`, value: '2.2 ' } ]);
+
+    withText('version-text-model-twice',                    `${DOCS}/ChargingStationManufacturer.md`,
+             'The charging station model GD-DC300 names the firmware version 2.4.0 twice.',
+             "A firmware version of the charging station model 'GD-DC300' must not be given twice!",
+             [ { op: 'add', path: `${dc300}/firmwareVersions/-`, value: '2.4.0' } ]);
+
+    withText('version-text-certificate-hardware-revision',  `${DOCS}/ConformityAssessmentBody.md, ${DOCS}/EnergyMeterManufacturer.md`,
+             'The certificate PTB-2026-0017 names a further hardware revision with a space before it: it names hardware revisions of its model, none of which begins with whitespace.',
+             "hardwareRevisions[1]: Invalid text representation of a hardware revision: ' 2.1'!",
+             [ { op: 'add', path: `${ptb0017}/hardwareRevisions/-`, value: ' 2.1' } ]);
+
+    withText('version-text-certificate-energy-meter',       `${DOCS}/ConformityAssessmentBody.md, ${DOCS}/EnergyMeterManufacturer.md`,
+             'The energy meter the certificate PTB-2026-0042 was issued with names its firmware version followed by a no-break space (U+00A0).',
+             "energyMeters[0]: firmwareVersions[0]: Invalid text representation of a firmware version: '3.2 '!",
+             [ { op: 'replace', path: `${ptb0042}/energyMeters/0/firmwareVersions/0`, value: '3.2 ' } ]);
+
+    withText('version-text-certificate-twice',              `${DOCS}/ConformityAssessmentBody.md`,
+             'The certificate PTB-2026-0017 names the hardware revision 2.1 twice.',
+             "A hardware revision of the certificate 'PTB-2026-0017' must not be given twice!",
+             [ { op: 'add', path: `${ptb0017}/hardwareRevisions/-`, value: '2.1' } ]);
+
+    withText('version-text-certificate-energy-meter-twice', `${DOCS}/ConformityAssessmentBody.md`,
+             'The energy meter the certificate PTB-2026-0042 was issued with names the hardware revision 2.1 twice.',
+             "A hardware revision of the certified energy meter model 'KDM-500' of 'KERNBERG' must not be given twice!",
+             [ { op: 'add', path: `${ptb0042}/energyMeters/0/hardwareRevisions/-`, value: '2.1' } ]);
+
     // ---- Checkpoint proofs (10.4).
     const proof4 = jsonRun('published/QA-proof-revision-4.json');
     refuse({ id: 'checkpointProof-index',     kind: 'checkpointProof', basis: `${SPEC}, 10.4`, description: 'Another position of the commit in the checkpoint.',                                  document: patched('published/QA-proof-revision-4.json', '', [ { op: 'replace', path: '/@index', value: proof4['@index'] === 0 ? 1 : 0 } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });
