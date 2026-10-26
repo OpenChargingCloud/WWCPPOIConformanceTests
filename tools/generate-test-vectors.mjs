@@ -45,11 +45,11 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT         = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT          = join(ROOT, 'test-vectors');
-const RUN          = 'csharp-80e4ccc';
+const RUN          = 'csharp-987fa26';
 const RUN_DIR      = join(OUT, 'runs', RUN);
 
 /** A point in time while the key statements, the keys and the attestations of the frozen run are valid. */
-const AT           = '2026-10-25T16:27:00.000Z';
+const AT           = '2026-10-26T00:58:00.000Z';
 
 const STYX_README  = 'libs/Styx/Styx/Illias/JSON/README.md';
 const STYX_TESTS   = 'libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs';
@@ -1118,7 +1118,7 @@ function refusalVectors() {
     has(gef.energyMeterTemplates, 'DE*GEF*EMT_AC');
     has(gef.chargingPools.flatMap(pool => pool.chargingStations).flatMap(station => station.EVSEs).map(evse => evse.energyMeter).filter(Boolean), 'DE*GEF*M1*1');
     has([ release ],                         'chargy-1.5.0');
-    has(ptb.transparencySoftwareCertificates, 'PTB-2026-0042');
+    has(ptb.certificates,                     'PTB-2026-0042');
 
     twice('version-twice-group',                 `${SPEC}, 9.3`,
           'The e-mobility provider DE-GEF, of the prefix of the charging station operator DE*GEF, has an EVSE group of the identification of one of the operator, its suffix in lowercase.',
@@ -1148,9 +1148,9 @@ function refusalVectors() {
 
     twice('version-twice-certificate',           'libs/WWCP_POI/docs/ConformityAssessmentBody.md',
           'Another conformity assessment body has a certificate of the identification of the one of PTB, in lowercase.',
-          "The transparency software certificate 'ptb-2026-0042' of the conformity assessment body 'VDE' is one of the conformity assessment body 'PTB' already",
+          "The certificate 'ptb-2026-0042' of the conformity assessment body 'VDE' is one of the conformity assessment body 'PTB' already",
           [ { op: 'add', path: '/conformityAssessmentBodies/-', value: { '@id': 'VDE', name: { de: 'VDE Prüf- und Zertifizierungsinstitut' }, notifiedFor: [ 'MID' ],
-                                                                        transparencySoftwareCertificates: [ { ...ptb.transparencySoftwareCertificates[0], '@id': 'ptb-2026-0042' } ], created, lastChange: created } } ]);
+                                                                        certificates: [ { ...ptb.certificates.find(certificate => certificate['@id'] === 'PTB-2026-0042'), '@id': 'ptb-2026-0042' } ], created, lastChange: created } } ]);
 
     // ---- Checkpoint proofs (10.4).
     const proof4 = jsonRun('published/QA-proof-revision-4.json');
