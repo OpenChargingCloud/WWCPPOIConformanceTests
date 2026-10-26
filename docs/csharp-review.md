@@ -23,8 +23,8 @@ two take or calculate different things, it is written down and pinned in
 and the revision of a station proof left unchecked (D2), both fixed in WWCP_POI `2c90847`. Since, it holds the fixed
 findings with vectors as far as a verifier reaches them, replaying small histories it signs itself
 (`poi-histories.json`; which finding which vectors hold, implementation-deviations.md lists), and found one deviation
-more, of this port: a change set signed, besides by its owner, by a key not valid at its `createdAt` is taken here,
-refused by WWCP_POI (D8, see 3). This document stays the review of the C# implementation.
+more, of this port: a change set signed, besides by its owner, by a key not valid at its `createdAt` was taken here,
+refused by WWCP_POI (D8, see 3), refused here as well since. This document stays the review of the C# implementation.
 
 | # | Finding | Severity | Status | Since `bbd4cbd` |
 |---|---|---|---|---|
@@ -170,8 +170,10 @@ change set waiting for the signatures of a quorum (4.2) whenever anything else i
 `MergeTests` of WWCP_POI hold the scenario above and its expiry variants. The TypeScript port takes no merges and
 replays linear histories only, so nothing changes there. WWCPPOIConformanceTests holds both to what a linear history
 asks: a key expired before the `createdAt` of a change set, or removed in the version before, signs nothing of it
-(`key-expired`, `key-removed`); and found that this port takes a change set signed by such a key besides its owner's
-valid one, which WWCP_POI refuses (D8, `key-expired-besides`).
+(`key-expired`, `key-removed`); and found that this port took a change set signed by such a key besides its owner's
+valid one, which WWCP_POI refuses (D8, `key-expired-besides`). It refuses it since, in the words of WWCP_POI: every
+signature by a key of a party of the version is by one valid at the `createdAt` of the change set (`checkOwnership`, as
+`TryGetSigners`), only a new identity key proving its possession may be one valid later (`tests/ownership.test.ts`).
 
 
 ## 4. ✅ A change set counts as committed by its `@id` alone

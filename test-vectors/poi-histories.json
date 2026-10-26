@@ -936,7 +936,8 @@
           "document": "commit-8-expired"
         }
       ],
-      "control": "commit-8"
+      "control": "commit-8",
+      "reason": "Signature 0: the key '13c2c77763a2539db0b9c763bbca22e865b675130f82c7d888d51ab24045dd9b' of the ChargingStationOperator 'DE*GEF' is not valid at 2026-10-18T08:08:00.000Z!"
     },
     {
       "id": "key-expired-besides",
@@ -984,11 +985,7 @@
         }
       ],
       "control": "commit-8",
-      "reason": "the key '13c2c77763a2539db0b9c763bbca22e865b675130f82c7d888d51ab24045dd9b' of the ChargingStationOperator 'DE*GEF' is not valid at 2026-10-18T08:08:00.000Z",
-      "knownDeviations": [
-        "wwcp-poi.ts"
-      ],
-      "deviation": "docs/implementation-deviations.md#d8-expired-signature"
+      "reason": "Signature 1: the key '13c2c77763a2539db0b9c763bbca22e865b675130f82c7d888d51ab24045dd9b' of the ChargingStationOperator 'DE*GEF' is not valid at 2026-10-18T08:08:00.000Z!"
     },
     {
       "id": "signature-of-another-party",

@@ -2,7 +2,7 @@
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
 (WWCP_POI3, `libs/WWCP_POI` at `2c90847`, Hermod `fbb442f`, Styx `06b592d3`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `e726426`) take or calculate different things.
+`libs/WWCP_POI.TS` at `e2b66b6`) take or calculate different things.
 
 Each deviation is
 
@@ -30,13 +30,12 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D5](#d5-attestation-role) | ✅ The role of an attestation is not checked: **fixed** in WWCP_POI `6e469a0` | WWCP_POI3 | `trust-role` | low-medium | 6 |
 | [D6](#d6-foreign-operator) | ✅ A proof's certificates and key statement may name another roaming network operator: **fixed** in WWCP_POI `65e658d` | WWCP_POI3 | `trust-certificate-operator`, `trust-statement-operator` | low-medium | 19 |
 | [D7](#d7-certificate-twice) | ✅ A certificate may name a hardware revision or firmware version twice, and so may the energy meters it was issued with: **fixed** in WWCP_POI.TS `b9c786e` | WWCP_POI.TS | `version-text-certificate-twice`, `version-text-certificate-energy-meter-twice` | low | - |
-| [D8](#d8-expired-signature) | A change set signed, besides by its owner, by a key of a party not valid at its `createdAt` is taken | WWCP_POI.TS | `key-expired-besides` | low (interop) | 3 |
+| [D8](#d8-expired-signature) | ✅ A change set signed, besides by its owner, by a key of a party not valid at its `createdAt` is taken: **fixed** in WWCP_POI.TS `e2b66b6` | WWCP_POI.TS | `key-expired-besides` | low (interop) | 3 |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
-round. All seven are fixed. D8, found by the histories the generator signs (`poi-histories.json`), is the other way
-round as well, and open. Of the 338 vectors both implementations run 321 - the 7 requiring `signing` and the 10 of
-`poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them but
-the one of D8 (see
+round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well. All
+eight are fixed: of the 338 vectors both implementations run 321 - the 7 requiring `signing` and the 10 of
+`poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them (see
 [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
@@ -221,7 +220,7 @@ the certificate, each energy meter with its texts and then its versions twice, a
 
 
 <a id="d8-expired-signature"></a>
-## D8. A change set signed, besides by its owner, by a key not valid at its `createdAt` is taken
+## D8. ✅ A change set signed, besides by its owner, by a key not valid at its `createdAt` is taken
 
 **Vector:** `key-expired-besides` (`poi-histories.json`): the EVSE `DE*GEF*E1*1` of `history-parties` changes, its
 change set signed by the signing key of `DE*GEF` for infrastructure and, besides, by another one of `DE*GEF` for
@@ -245,6 +244,13 @@ identity key": the vector names its basis "proposed" for a commit.
 **Fix:** `checkOwnership` refuses a signature by a key of a party that is not valid at `createdAt`, as its comment says
 and as WWCP_POI3 does; a new identity key proving its possession stays exempt, its `notBefore` may still be to come
 (4.1). SPECIFICATION.md 4.1 could say it of every change set.
+
+**Fixed** in WWCP_POI.TS `e2b66b6`: every signature by a key of a party of the version is by one valid at the
+`createdAt` of the change set, also one besides the signatures of its owners, refused otherwise in the words of
+WWCP_POI3 ("Signature 1: the key '…' of the ChargingStationOperator 'DE*GEF' is not valid at
+2026-10-18T08:08:00.000Z!"); a new identity key may still be one valid later (`tests/ownership.test.ts`). Both
+implementations refuse `key-expired-besides`, and `key-expired` in the same words, which both name as `reason` now.
+SPECIFICATION.md 4.1 says it of a change set waiting only; the basis of the vector stays "proposed" for every one.
 
 
 ## What both do alike
@@ -291,12 +297,13 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   ([O4](#o4-no-valid-until)), valid for a day, and valid longer; and the holders of a quorum as the trust anchor names
   them (csharp-review 1), two identity keys of Alpha one holder, a key statement naming one of them as Beta's, and a key
   the statement does not name counted for the holder the trust anchor names;
-- 30 of the 31 replays of `poi-histories.json` both run, the one of D8 aside: histories the generator made and signed
+- all 31 replays of `poi-histories.json` both run: histories the generator made and signed
   with keys whose seeds it gives (the Ed25519 keys of section 6, and Ed25519, Ed448 and ES256 keys of its own), every
   refusal with its control, the document refused but for what it is about, taken in its place: who signs in place of a
   party without keys and with which usages (csharp-review 13), who states a certificate (15), lastChange of what embeds
   a changed EVSE (8), old values, also `150000.0` for `150000`, and rebases with and without them (12), a signing key
-  expired before the `createdAt` and one removed in the version before (3, in a linear history), new values with a
+  expired before the `createdAt`, also besides a valid one of its owner (D8), and one removed in the version before (3,
+  in a linear history), new values with a
   JSON-LD context, out of their order or with a timestamp not to the millisecond (10), a withdrawal together with what
   names it (18), certificates of models in hardware revisions and firmware versions, of stations and of meters (16, 17),
   and three epochs, the first checkpoint of the third one signed with an algorithm of the second one only, and with one

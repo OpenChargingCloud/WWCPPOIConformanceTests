@@ -20,7 +20,7 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `2c90847`, WWCP_POI.TS `e726426`, Hermod `fbb442f`,
+Both harnesses are green against the pinned submodules (WWCP_POI `2c90847`, WWCP_POI.TS `e2b66b6`, Hermod `fbb442f`,
 Styx `06b592d3`):
 
 | | Vectors | Passed | Skipped |
@@ -30,11 +30,11 @@ Styx `06b592d3`):
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
-The two implementations agree on every vector both run but one. The six deviations the vectors found first, where
+The two implementations agree on every vector both run. The six deviations the vectors found first, where
 **WWCP_POI3 took what WWCP_POI.TS refuses**, are fixed in WWCP_POI (D1 and D2 in `2c90847`, D3 in `be07037`, D4 and
 D5 in `6e469a0`, D6 in `65e658d`); D7, the other way round, where **WWCP_POI.TS took what WWCP_POI3 refuses**, in
-WWCP_POI.TS `b9c786e`. Their vectors hold both implementations to it. D8, found by the histories the generator signs,
-is the other way round as well, and open - see
+WWCP_POI.TS `b9c786e`; D8, found by the histories the generator signs, the other way round as well, in WWCP_POI.TS
+`e2b66b6`. Their vectors hold both implementations to it - see
 **[docs/implementation-deviations.md](docs/implementation-deviations.md)**:
 
 | | Deviation |
@@ -46,7 +46,7 @@ is the other way round as well, and open - see
 | D5 | ✅ The role of an attestation is not checked: fixed in WWCP_POI `6e469a0` |
 | D6 | ✅ A proof's certificates and key statement may name another roaming network operator: fixed in WWCP_POI `65e658d` |
 | D7 | ✅ WWCP_POI.TS: a certificate may name a hardware revision or firmware version twice, and so may the energy meters it was issued with: fixed in WWCP_POI.TS `b9c786e` |
-| D8 | WWCP_POI.TS takes a change set signed, besides by its owner, by a key of a party not valid at its `createdAt`, which WWCP_POI3 refuses: open, pinned on `key-expired-besides` |
+| D8 | ✅ WWCP_POI.TS takes a change set signed, besides by its owner, by a key of a party not valid at its `createdAt`, which WWCP_POI3 refuses: fixed in WWCP_POI.TS `e2b66b6` |
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
 ([`docs/csharp-review.md`](docs/csharp-review.md)); D1, D2, D7 and D8 are new. Which of its 21 findings the vectors

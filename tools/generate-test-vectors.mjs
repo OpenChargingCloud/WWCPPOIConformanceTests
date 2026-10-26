@@ -69,7 +69,6 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
-    'D8-expired-signature':  [ TYPESCRIPT ],
 };
 
 const deviation = (name) => {
@@ -2353,11 +2352,12 @@ function signedHistories() {
     P.then('old-value-none', 'A change without old value, its change set not rebased: it compares nothing, the beforeETags pin the version.', `${B('4, Old values')}; csharp-review 12`,
            'commit-8-without-old-value', maxPowerOf({ oldValue: undefined }));
     P.refused('key-expired', 'A change signed by a signing key of its owner that expired before the createdAt of its change set.', `${B('4.1')}; csharp-review 3`,
-              'commit-8-expired', maxPowerOf({ signer: gefExpiring }), 'commit-8');
+              'commit-8-expired', maxPowerOf({ signer: gefExpiring }), 'commit-8',
+              { reason: `Signature 0: the key '${gefExpiring.id}' of the ChargingStationOperator 'DE*GEF' is not valid at ${minute(8)}!` });
     P.refused('key-expired-besides', 'A change signed by a signing key of its owner and, besides, by one of its owner that expired before the createdAt of its change set: every signature is by a key valid at its createdAt.',
               `${B('4.1; 4.2')} (proposed for every change set, as 4.2 says of one waiting); csharp-review 3`,
               'commit-8-expired-besides', maxPowerOf({ signers: [ gefInfrastructure, gefExpiring ] }), 'commit-8',
-              { ...deviation('D8-expired-signature'), reason: `the key '${gefExpiring.id}' of the ChargingStationOperator 'DE*GEF' is not valid at ${minute(8)}` });
+              { reason: `Signature 1: the key '${gefExpiring.id}' of the ChargingStationOperator 'DE*GEF' is not valid at ${minute(8)}!` });
     P.then('signature-of-another-party', 'A change signed by a signing key of its owner and, besides, by a signing key of another party: every signature is by a key of a party.', B('4.1'),
            'commit-8-another-party', maxPowerOf({ signers: [ gefInfrastructure, kdmModels ] }));
 
