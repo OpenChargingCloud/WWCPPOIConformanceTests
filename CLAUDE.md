@@ -27,6 +27,9 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   generator, marked on its vectors (`knownDeviations`, `deviation` anchor) and pinned: the harness of the deviating
   implementation expects the deviation, so a fix turns it red. Fixing one means: remove it from `DEVIATIONS`,
   regenerate, update the document.
+- **What WWCP_POI.TS found reading the C# code:** `docs/csharp-review.md`, cited as *csharp-review N* (in vectors,
+  the deviations, WWCP_POI.TS and the tests of WWCP_POI); fixed findings are marked ✅. It moved here from `docs/` of
+  WWCP_POI.TS, which keeps a stub there.
 - The C# harness reads JSON through WWCP_POI3's internal `POIJSON.Read`, by reflection (`VectorFiles.cs`,
   `POIJSONReader`): as the implementation reads what it hashes. If it goes away, adapt the harness, do not fall back
   to plain Newtonsoft (which is lenient, see D1).

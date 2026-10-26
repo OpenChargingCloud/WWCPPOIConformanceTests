@@ -46,7 +46,7 @@ D6 in `65e658d`); D7, the other way round, where **WWCP_POI.TS took what WWCP_PO
 | D7 | ✅ WWCP_POI.TS: a certificate may name a hardware revision or firmware version twice, and so may the energy meters it was issued with: fixed in WWCP_POI.TS `b9c786e` |
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
-([`docs/csharp-review.md`](https://github.com/OpenChargingCloud/WWCP_POI.TS/blob/master/docs/csharp-review.md));
+([`docs/csharp-review.md`](docs/csharp-review.md));
 D1, D2 and D7 are new.
 
 ## What is in here
@@ -59,6 +59,7 @@ D1, D2 and D7 are new.
 | `Tests/WWCPPOIConformance_Tests/` | The **C# harness** (NUnit): WWCP_POI3 against every vector file, plus `VendoredCopiesTests`. |
 | `Tests/WWCPPOIConformance_Tests.TS/` | The **TypeScript harness** (vitest): WWCP_POI.TS, imported from source, against every vector file. |
 | [`docs/implementation-deviations.md`](docs/implementation-deviations.md) | Where the two differ, why it matters, how to fix it; what both do alike; what the vectors do not cover yet. |
+| [`docs/csharp-review.md`](docs/csharp-review.md) | The review WWCP_POI.TS made of the C# implementation while porting it, cited as *csharp-review N*: each finding, how it was established, and where it was fixed. |
 | `libs/` | Git submodules: the two implementations, and Hermod and Styx below the C# one. |
 
 ## Submodules

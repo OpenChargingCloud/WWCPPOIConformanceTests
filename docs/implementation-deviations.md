@@ -15,9 +15,8 @@ A fixed deviation keeps its section, marked ✅ with the commit that fixed it; i
 to what they say.
 
 Every deviation below is **demonstrated**: a vector shows it, run by both harnesses. Where it confirms a finding of the
-review WWCP_POI.TS made of the C# implementation while porting it ([`docs/csharp-review.md` of
-WWCP_POI.TS](https://github.com/OpenChargingCloud/WWCP_POI.TS/blob/master/docs/csharp-review.md), cited as
-*csharp-review N*), it says so. Findings there that read the code only are now shown with data.
+review WWCP_POI.TS made of the C# implementation while porting it ([`csharp-review.md`](csharp-review.md), cited
+as *csharp-review N*), it says so. Findings there that read the code only are now shown with data.
 
 
 ## Summary

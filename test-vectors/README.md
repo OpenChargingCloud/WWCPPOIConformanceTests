@@ -24,7 +24,7 @@ with `node:crypto` alone mismatches. `--check` is the drift guard of CI. The fil
 data only; its console output is `csharp-output.log`), and in `proofs/`, what `proofs/MakeProofs.cs.txt` made of the
 same history with the C# implementation, at `at`. It replaces `csharp-80e4ccc`, since `987fa26` gave models, stations,
 meters and certificates hardware revisions and firmware versions, and certificates for station and meter models with
-their components (WWCP_POI.TS, docs/csharp-review.md, 16 and 17). WWCP_POI.TS keeps a vendored copy of it and of the `poi-*.json` for
+their components (docs/csharp-review.md, 16 and 17). WWCP_POI.TS keeps a vendored copy of it and of the `poi-*.json` for
 its own suite (`tests/conformance.test.ts`); `VendoredCopiesTests` of the C# harness fails when a copy drifts. Every
 run of the examples makes new keys, so every digest of another run differs: this run is frozen, not regenerated.
 
