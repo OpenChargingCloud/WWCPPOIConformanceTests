@@ -19,7 +19,7 @@ where they agree is shown, and where they differ is written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `193bbe2`, WWCP_POI.TS `475e9d3`, Hermod `fbb442f`,
+Both harnesses are green against the pinned submodules (WWCP_POI `65e658d`, WWCP_POI.TS `3e65099`, Hermod `fbb442f`,
 Styx `91901a9`):
 
 | | Vectors | Passed | Skipped |
@@ -29,8 +29,9 @@ Styx `91901a9`):
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
-The two implementations agree on 266 of the 278 vectors. On 12, **WWCP_POI3 takes what WWCP_POI.TS refuses**, three
-open deviations, each marked on its vectors and pinned (D3 is fixed in WWCP_POI `be07037`, D4 and D5 in `6e469a0`) - see
+The two implementations agree on 268 of the 278 vectors. On 10, **WWCP_POI3 takes what WWCP_POI.TS refuses**, two
+open deviations, each marked on its vectors and pinned (D3 is fixed in WWCP_POI `be07037`, D4 and D5 in `6e469a0`, D6
+in `65e658d`) - see
 **[docs/implementation-deviations.md](docs/implementation-deviations.md)**:
 
 | | Deviation of WWCP_POI3 |
@@ -40,7 +41,7 @@ open deviations, each marked on its vectors and pinned (D3 is fixed in WWCP_POI 
 | D3 | ✅ An attestation counts before it was signed: fixed in WWCP_POI `be07037` |
 | D4 | ✅ An attestation of a subject counts for the whole proof: fixed in WWCP_POI `6e469a0` |
 | D5 | ✅ The role of an attestation is not checked: fixed in WWCP_POI `6e469a0` |
-| D6 | A proof's certificates and key statement may name another roaming network operator |
+| D6 | ✅ A proof's certificates and key statement may name another roaming network operator: fixed in WWCP_POI `65e658d` |
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
 ([`docs/csharp-review.md`](https://github.com/OpenChargingCloud/WWCP_POI.TS/blob/master/docs/csharp-review.md));

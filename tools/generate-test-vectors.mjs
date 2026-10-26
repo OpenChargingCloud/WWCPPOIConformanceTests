@@ -67,7 +67,6 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
 const DEVIATIONS = {
     'D1-lenient-json':   [ CSHARP ],
     'D2-proof-revision': [ CSHARP ],
-    'D6-foreign-operator':     [ CSHARP ],
 };
 
 const deviation = (name) => {
@@ -749,9 +748,9 @@ function trustVectors() {
     vector('too-long',             'refused',  'Attestations valid for 24 hours and a millisecond, checked within them: an attestation is valid for 24 hours at most.', `${B('8.5, Validity')}; csharp-review 7`,
            { proof: proofOf({ attest: (root) => [ attestation(alphaSigning, root, { until: '2026-10-18T18:00:00.001Z' }), attestation(betaSigning, root, { until: '2026-10-18T18:00:00.001Z' }) ] }) });
     vector('certificate-operator', 'refused',  'The certificate of the signing key of Beta names another roaming network operator.', `${B('8.6')}; csharp-review 19`,
-           { proof: proofOf({ network: networkOf(rnoOf({ certificates: [ certificates[0], certificate(betaSigning, betaIdentity, { operatorId: 'DE*XYZ' }) ] })) }), ...deviation('D6-foreign-operator') });
+           { proof: proofOf({ network: networkOf(rnoOf({ certificates: [ certificates[0], certificate(betaSigning, betaIdentity, { operatorId: 'DE*XYZ' }) ] })) }) });
     vector('statement-operator',   'refused',  'The key statement names another roaming network operator.', `${B('8.6')}; csharp-review 19`,
-           { proof: proofOf({ network: networkOf(rnoOf({ statement: keyStatement({ operatorId: 'DE*XYZ' }), certificates })) }), ...deviation('D6-foreign-operator') });
+           { proof: proofOf({ network: networkOf(rnoOf({ statement: keyStatement({ operatorId: 'DE*XYZ' }), certificates })) }) });
     vector('usage',                'refused',  'The signing key of Beta may sign tariffs only, not for the party.', B('8.5, Trust; 4.1'),
            { proof: withKey(signingKey(seeds.betaSigning, 'Beta', { usages: [ 'tariffs' ] })) });
     vector('key-expired',          'refused',  'The signing key of Beta expired before it attested (notAfter).', B('8.6'),

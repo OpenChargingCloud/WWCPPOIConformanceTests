@@ -29,10 +29,10 @@ WWCP_POI.TS](https://github.com/OpenChargingCloud/WWCP_POI.TS/blob/master/docs/c
 | [D3](#d3-future-attestation) | ✅ An attestation counts before it was signed: **fixed** in WWCP_POI `be07037` | WWCP_POI3 | `stationProof-before-signed`, `trust-future` | medium | 7 |
 | [D4](#d4-subject-attestation) | ✅ An attestation of a subject counts for the whole proof: **fixed** in WWCP_POI `6e469a0` | WWCP_POI3 | `trust-subject` | medium | 6 |
 | [D5](#d5-attestation-role) | ✅ The role of an attestation is not checked: **fixed** in WWCP_POI `6e469a0` | WWCP_POI3 | `trust-role` | low-medium | 6 |
-| [D6](#d6-foreign-operator) | A proof's certificates and key statement may name another roaming network operator | WWCP_POI3 | `trust-certificate-operator`, `trust-statement-operator` | low-medium | 19 |
+| [D6](#d6-foreign-operator) | ✅ A proof's certificates and key statement may name another roaming network operator: **fixed** in WWCP_POI `65e658d` | WWCP_POI3 | `trust-certificate-operator`, `trust-statement-operator` | low-medium | 19 |
 
-In each case WWCP_POI.TS refuses what the vector says is to be refused, and WWCP_POI3 takes it. Of the open ones, D1,
-D2 and D6, these are 12 of the 278 vectors; on the other 266 the two implementations agree (see
+In each case WWCP_POI.TS refuses what the vector says is to be refused, and WWCP_POI3 takes it. Of the open ones, D1
+and D2, these are 10 of the 278 vectors; on the other 268 the two implementations agree (see
 [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
@@ -159,7 +159,7 @@ network operator.
 
 
 <a id="d6-foreign-operator"></a>
-## D6. A proof's certificates and key statement may name another roaming network operator
+## D6. ✅ A proof's certificates and key statement may name another roaming network operator
 
 **Vectors:** `trust-certificate-operator` (the certificate of Beta's signing key names `DE*XYZ`) and
 `trust-statement-operator` (the key statement names `DE*XYZ`), `poi-trust.json`.
@@ -173,6 +173,10 @@ the quorum; but a statement or certificate that holder made for another operator
 sharing the holder, is taken as one of this operator.
 
 **Fix:** refuse, in `Verify`, a key statement or certificate of another operator than the proof's.
+
+**Fixed** in WWCP_POI `65e658d`, as SPECIFICATION.md 8.6 requires: `Verify` refuses a key statement of another operator
+than the one the proof gives, in the words of WWCP_POI.TS, and counts no attestation by a signing key certified for
+another one. Both implementations refuse `trust-certificate-operator` and `trust-statement-operator`.
 
 
 ## What both do alike
@@ -197,12 +201,13 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   group of a provider and an operator of the same prefix, an energy meter, a grid connection point, an energy meter
   template, a transparency software release and a certificate, compared without case - refused for it in the same words
   (WWCP_POI.TS since `e32c2cd`);
-- of the 22 trust vectors, 20: a valid proof, expired attestations, attestations of the future (D3), one holder only
+- all 22 trust vectors: a valid proof, expired attestations, attestations of the future (D3), one holder only
   (also twice), a key that may not sign for the party, a signing key expired before it attested and one that ended
   after it attested, a key certified by another holder's identity key, an uncertified key, other identity keys pinned,
   the quorum of the key statement above the one of the trust anchor, an attestation of another network, a changed
-  entity, a wrong signature, a subject attestation and one in the role of a witness counted for the quorum (D4, D5),
-  attestations without `validUntil` ([O4](#o4-no-valid-until)), valid for a day, and valid longer.
+  entity, a wrong signature, a subject attestation and one in the role of a witness counted for the quorum (D4, D5), a
+  certificate and a key statement of another roaming network operator (D6), attestations without `validUntil`
+  ([O4](#o4-no-valid-until)), valid for a day, and valid longer.
 
 
 ## Observations
