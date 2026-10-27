@@ -17,9 +17,6 @@
 
 #region Usings
 
-using System.Reflection;
-using System.Runtime.ExceptionServices;
-
 using Newtonsoft.Json.Linq;
 
 using NUnit.Framework;
@@ -31,7 +28,8 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 
     /// <summary>
     /// The golden vector files (test-vectors/poi-*.json) and the documents of the frozen run they name, read as the
-    /// implementation reads JSON it hashes: POIJSON.Read of WWCP_POI3.
+    /// implementation reads JSON it hashes: POIJSON.Read of WWCP_POI3 (SPECIFICATION.md, section 1), which keeps decimals
+    /// as written, strings as strings, and refuses a property named twice and a number a decimal can not hold.
     /// </summary>
     public static class VectorFiles
     {
@@ -100,7 +98,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 
         private static JObject Load(String FileName)
 
-            => (JObject) POIJSONReader.Read(File.ReadAllText(Path.Combine(VectorsDirectory, FileName)));
+            => (JObject) POIJSON.Read(File.ReadAllText(Path.Combine(VectorsDirectory, FileName)));
 
 
         #region Cases(File, ListName)
@@ -170,7 +168,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
         /// </summary>
         public static JToken RunDocument(String File, String Pointer = "")
 
-            => Resolve(POIJSONReader.Read(RunText(File)), Pointer, File).DeepClone();
+            => Resolve(POIJSON.Read(RunText(File)), Pointer, File).DeepClone();
 
         public static JToken RunDocument(JObject Reference)
 
@@ -238,37 +236,6 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
             => Tokens(Pointer).Aggregate(Document, (value, token) => Step(value, token, Where));
 
         #endregion
-
-    }
-
-
-    /// <summary>
-    /// JSON read as WWCP_POI3 reads what it hashes or signs again (SPECIFICATION.md, section 1): POIJSON.Read, which
-    /// keeps decimals as written, strings as strings, and refuses a property named twice and a number a decimal can not
-    /// hold. It is internal to WWCP_POI3, so it is called by reflection; that a client can not read JSON as POI does
-    /// without it is noted in docs/implementation-deviations.md.
-    /// </summary>
-    public static class POIJSONReader
-    {
-
-        private static readonly MethodInfo read =
-            (typeof(RoamingNetwork).Assembly.GetType("cloud.charging.open.protocols.WWCP.POI.POIJSON")
-                 ?? throw new InvalidOperationException("WWCP_POI3 has no POIJSON any more: adapt the harness!")).
-            GetMethod("Read", BindingFlags.Public | BindingFlags.Static, [ typeof(String), typeof(Int32) ])
-                 ?? throw new InvalidOperationException("WWCP_POI3 has no POIJSON.Read(String, Int32) any more: adapt the harness!");
-
-        public static JToken Read(String Text)
-        {
-            try
-            {
-                return (JToken) read.Invoke(null, [ Text, 64 ])!;
-            }
-            catch (TargetInvocationException e) when (e.InnerException is not null)
-            {
-                ExceptionDispatchInfo.Capture(e.InnerException).Throw();
-                throw;
-            }
-        }
 
     }
 

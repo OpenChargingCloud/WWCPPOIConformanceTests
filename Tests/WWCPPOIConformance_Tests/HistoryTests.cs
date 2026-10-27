@@ -180,7 +180,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
                 Assert.That((UInt64) anchor.MinConsensus,                         Is.EqualTo(Number(Vector, "minConsensus")));
                 Assert.That(CanonicalJSON.Serialize(anchor.ToJSON()),            Is.EqualTo(CanonicalJSONText));
                 Assert.That(anchor.ToQRCode(),                                    Is.EqualTo(QRCode));
-                Assert.That(RoamingNetworkTrustAnchor.TryParse((JObject) POIJSONReader.Read(CanonicalJSONText), out var fromJSON, out error), Is.True, error);
+                Assert.That(RoamingNetworkTrustAnchor.TryParse((JObject) POIJSON.Read(CanonicalJSONText), out var fromJSON, out error), Is.True, error);
                 Assert.That(fromJSON?.ToQRCode(),                                 Is.EqualTo(QRCode));
             }
 

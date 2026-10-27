@@ -20,7 +20,7 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `2729e9e`, WWCP_POI.TS `1f0d9c7`, Hermod `fbb442f`,
+Both harnesses are green against the pinned submodules (WWCP_POI `f0a85fa`, WWCP_POI.TS `1f0d9c7`, Hermod `fbb442f`,
 Styx `06b592d3`):
 
 | | Vectors | Passed | Skipped |

@@ -51,14 +51,14 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 
             var text = (String Name) => Vector[Name]!.Value<String>()!;
 
-            var proofJSON = (JObject) POIJSONReader.Read(text("proof"));
+            var proofJSON = (JObject) POIJSON.Read(text("proof"));
 
             // The root the proof leads to, whatever its attestations: also a proof refused for one of them, e.g. one without
             // a validUntil, leads to it.
             var unattested = (JObject) proofJSON.DeepClone();
             unattested.Remove(RoamingNetworkProof.PropertyKeys.Attestations);
 
-            Assert.That(RoamingNetworkTrustAnchor.TryParse((JObject) POIJSONReader.Read(text("trustAnchor")), out var anchor, out var error), Is.True, error);
+            Assert.That(RoamingNetworkTrustAnchor.TryParse((JObject) POIJSON.Read(text("trustAnchor")), out var anchor, out var error), Is.True, error);
             Assert.That(RoamingNetworkProof.TryParse(unattested, out var network, out error),                                            Is.True, error);
             Assert.That(network!.TryCalculateETag(out var root, out error),                                                              Is.True, error);
             Assert.That(root.ToString(),                                                                                                  Is.EqualTo(text("root")));

@@ -57,7 +57,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 
             VectorFiles.SkipUnlessApplicable(Vector);
 
-            var token     = POIJSONReader.Read(Vector["input"]!.Value<String>()!);
+            var token     = POIJSON.Read(Vector["input"]!.Value<String>()!);
             var expected  = (JObject) Vector["expected"]!;
 
             using (Assert.EnterMultipleScope())
@@ -85,13 +85,13 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
             if (VectorFiles.Deviates(Vector))
             {
                 // Pinned: the known deviation still holds. Once it is refused, remove the marker in the generator.
-                Assert.DoesNotThrow(() => POIJSONReader.Read(input), "The known deviation is gone: remove the knownDeviations marker of the vector in tools/generate-test-vectors.mjs!");
+                Assert.DoesNotThrow(() => POIJSON.Read(input), "The known deviation is gone: remove the knownDeviations marker of the vector in tools/generate-test-vectors.mjs!");
                 return;
             }
 
             var read = (JToken?) null;
 
-            Assert.That(() => read = POIJSONReader.Read(input),
+            Assert.That(() => read = POIJSON.Read(input),
                         Throws.Exception,
                         () => $"Taken as {read?.ToString(Newtonsoft.Json.Formatting.None) ?? "?"}, canonical: {(read is null ? "?" : CanonicalJSON.Serialize(read))}");
 

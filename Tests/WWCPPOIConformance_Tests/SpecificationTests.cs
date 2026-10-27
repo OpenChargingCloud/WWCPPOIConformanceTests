@@ -71,7 +71,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
         public void The_content_and_its_ETags(JObject Vector)
         {
 
-            var content = (JObject) POIJSONReader.Read(Text(Vector, "content"));
+            var content = (JObject) POIJSON.Read(Text(Vector, "content"));
 
             Assert.That(RoamingNetwork.TryParse(content, out var network, out var error), Is.True, error);
 
@@ -89,7 +89,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
         public void A_skeleton_and_its_digest(JObject Vector)
         {
 
-            var skeleton = POIJSONReader.Read(Text(Vector, "skeleton"));
+            var skeleton = POIJSON.Read(Text(Vector, "skeleton"));
 
             using (Assert.EnterMultipleScope())
             {
@@ -158,7 +158,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(CanonicalJSON.Serialize(POIJSONReader.Read(Text(Vector, "input"))),  Is.EqualTo(Text(Vector, "input")));
+                Assert.That(CanonicalJSON.Serialize(POIJSON.Read(Text(Vector, "input"))),  Is.EqualTo(Text(Vector, "input")));
                 Assert.That(Verifies(Vector, out var error),                                       Is.True, error);
             }
 
@@ -197,7 +197,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
         [TestCaseSource(nameof(TrustAnchors))]
         public void A_trust_anchor_and_its_QR_code(JObject Vector)
 
-            => HistoryTests.CheckTrustAnchor(Text(Vector, "qrCode"), Vector, CanonicalJSON.Serialize(POIJSONReader.Read(Text(Vector, "json"))));
+            => HistoryTests.CheckTrustAnchor(Text(Vector, "qrCode"), Vector, CanonicalJSON.Serialize(POIJSON.Read(Text(Vector, "json"))));
 
     }
 

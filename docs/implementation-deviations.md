@@ -1,7 +1,7 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `2729e9e`, Hermod `fbb442f`, Styx `06b592d3`) and the TypeScript port (WWCP_POI.TS,
+(WWCP_POI3, `libs/WWCP_POI` at `f0a85fa`, Hermod `fbb442f`, Styx `06b592d3`) and the TypeScript port (WWCP_POI.TS,
 `libs/WWCP_POI.TS` at `1f0d9c7`) take or calculate different things.
 
 Each deviation is
@@ -392,7 +392,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
 ## Observations
 
 <a id="o1-internal-reader"></a>
-### O1. A C# client can not read JSON as POI requires
+### O1. ✅ A C# client can not read JSON as POI requires
 
 SPECIFICATION.md section 1: "Whoever reads JSON in order to hash it again MUST read numbers with a fraction as
 decimals …, MUST be refused …; so MUST an object that names a property twice." WWCP_POI3 does so in `POIJSON.Read`,
@@ -401,6 +401,12 @@ does: `RoamingNetworkCommit.TryParse(String)` and others call it, `RoamingNetwor
 and the pattern of the C# examples (`examples/csharp/helpers.cs`, `ReadJSON`) lacks the duplicate and decimal checks.
 The harness calls `POIJSON.Read` by reflection (`VectorFiles.cs`). Making it public, or giving `RoamingNetwork` a
 `TryParse(String)`, would close this.
+
+**Closed** in WWCP_POI `33df473`, both: `POIJSON` is public with its reading alone - `Read(String, Int32)`,
+`Read(Stream, Int32)`, `Reader` and `ReadFrom` - and `RoamingNetwork` has `Parse(String)` and `TryParse(String)`, read
+with it, as the key statement, the signing key certificate, the withdrawal of a change set and the proofs of a commit
+and of a price statement have; the examples read their files with it (`Helpers.ReadJSON`, `ReadJSONArray`). The
+harness calls `POIJSON.Read` directly.
 
 <a id="o2-etag-tryparse"></a>
 ### O2. `ETag.TryParse(String)` is less strict than `ETag.Parse(String)`

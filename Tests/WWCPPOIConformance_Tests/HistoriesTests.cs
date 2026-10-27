@@ -58,7 +58,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
             Error   = null;
 
             foreach (var step in Steps)
-                if (!Replay.TryStep(ref History, step, step => POIJSONReader.Read(documents[step["document"]!.Value<String>()!]!.Value<String>()!), out Error))
+                if (!Replay.TryStep(ref History, step, step => POIJSON.Read(documents[step["document"]!.Value<String>()!]!.Value<String>()!), out Error))
                 {
                     Error = $"{step["op"]} {step["document"]}: {Error}";
                     return false;
