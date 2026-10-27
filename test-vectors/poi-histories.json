@@ -44,8 +44,13 @@
         "commit-9-model": "{\"@id\":\"030ed85114e072de41c8fa5348fe6eddbddf328808984d592d36e991ba5d5275\",\"changeSet\":{\"@id\":\"13f2509e17eb43c47e27285719ab0004a3bc288d62d3e453dbb08b871a67b34f\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"0630ebefd44125c10b8cb5a9164fd390b3b9fe8f4e8961c9eec3352f2e96bd35\"],[\"cbor\",\"sha256\",\"hex\",\"82d9658c4af30095b13a973d4d8c6bf62fd9b43ecdfd96d8ff76fe5a584bf6b2\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"38ad3948777790b86482a5f4683534e8fb63f2079c8a267d4e0b43050c9bc0a6\"],[\"cbor\",\"sha256\",\"hex\",\"b6109ff767d83aa924df85b63bbd6150fac43aaf7aff2a4746a2bcb039ea15e3\"]],\"changes\":[{\"entityId\":\"W-AC22\",\"entityType\":\"ChargingStationModel\",\"kind\":\"Remove\",\"oldValue\":{\"@id\":\"W-AC22\",\"firmwareVersions\":[\"1.0\"],\"hardwareRevisions\":[\"A\"],\"maxPower\":22000,\"name\":{\"en\":\"Winzerla AC 22\"}},\"parentEntityId\":\"Winzerla\",\"parentEntityType\":\"ChargingStationManufacturer\"}],\"createdAt\":\"2026-10-18T08:09:00.000Z\",\"description\":{\"en\":\"Winzerla withdraws the W-AC22\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"bb82a9d8f0a6bc3993b03477ee54e17ae62454fe74a9fa4ab642acdea2600942\",\"value\":\"aiCneSKU4mlAC//JXSutst15BqYOO8qUZYXV1f5mC9IN6pX82I2/vOszSbqZ6wS+NZ5AB+w4DhjAnlBUTNHpCA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"0630ebefd44125c10b8cb5a9164fd390b3b9fe8f4e8961c9eec3352f2e96bd35\"],[\"cbor\",\"sha256\",\"hex\",\"82d9658c4af30095b13a973d4d8c6bf62fd9b43ecdfd96d8ff76fe5a584bf6b2\"],[\"effectiveTree\",\"sha256\",\"hex\",\"5dc5591d8a703a8778c07ca7cc06c804164d07f5759f0abffa0514a6505760e7\"]],\"parentIds\":[\"b06057350d881a2cdcc3a0f9e1486b7931e779311a767345b5f151e5ccd4c4d0\"],\"revision\":9,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:09:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"N8VgCEwbzaO7FFvLCGaaKjApD+LdU5tMGykmMgTmP5NbWQ/BjYcZXUPY9tuEGUS+u3zhZdEuky+wcKrMzmzOCg==\"}]}",
         "commit-10": "{\"@id\":\"d7f98c4c5d14737f1da9f6dd6021ebbfa57c2ca1fa6cf3405e62ea6768aa52e0\",\"changeSet\":{\"@id\":\"fce8b689472beac5f440d0796f8fdfb249475357598229a67072f72dffb3b394\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"4f903a1327b5852ec94fc8d8d01ad19c4ea3dd455c6f29667576ad3fdc591534\"],[\"cbor\",\"sha256\",\"hex\",\"cf45697aa337109b677bc5668d56781a41f2f422f1a1141ae32cf8929db5357e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"6eeef8d8993e3ad67aa9be5c4a31b80d4f7f2f76dea0be1115ee4b44625d5c65\"],[\"cbor\",\"sha256\",\"hex\",\"c0cf089c795231bbf5653aa36529249c0de87ef8f67c64b3235f7d059649dbad\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"key\":\"owEBIAYhWCCvNCT++wWK1J4k8ouo/R1OpRhF1HCT9Cwnnhgqh92qPg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},{\"@id\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"key\":\"owEBIAYhWCAJ4NHtxsgBzBV4RkKxGHU90crMOaxfTlRmg5SdbsjkPw==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"infrastructure\"]}],\"oldValue\":[{\"@id\":\"13c2c77763a2539db0b9c763bbca22e865b675130f82c7d888d51ab24045dd9b\",\"key\":\"owEBIAYhWCB0YyEchcpHYqSbIbFmIsboRzg1T9hX//WCqLQW8eEN4w==\",\"notAfter\":\"2026-10-18T08:07:30.000Z\",\"usages\":[\"infrastructure\"]},{\"@id\":\"27f1f00d788c61088c1ad1a70b2f5200c09cd79dac2ba34911333cff88532561\",\"key\":\"owEBIAYhWCCMGwy+pvjEckUG+08BYydovKdRT6Ne5MC93WL5QyGcsA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"infrastructure\"]},{\"@id\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"key\":\"owEBIAYhWCCvNCT++wWK1J4k8ouo/R1OpRhF1HCT9Cwnnhgqh92qPg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]}],\"propertyName\":\"signingKeys\"}],\"createdAt\":\"2026-10-18T08:10:00.000Z\",\"description\":{\"en\":\"DE*GEF renews its signing key for infrastructure\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"Nzw1rnFiZaFAsKiqeRif7uR4iiQLO5BX/1v8xKIJlsPK1xxYa5TW7LIRJm6E6WzuGaIgPqCuo0EmRpYUK9rrDw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"4f903a1327b5852ec94fc8d8d01ad19c4ea3dd455c6f29667576ad3fdc591534\"],[\"cbor\",\"sha256\",\"hex\",\"cf45697aa337109b677bc5668d56781a41f2f422f1a1141ae32cf8929db5357e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"1992350be192d0779c4892a3239a29407974d8bf0a5343bca83d3ca8fae6a963\"]],\"parentIds\":[\"a87cb0b78d1c175f5653dff9bc81f23b0125ebb5fa011fe3408af4705ba1d756\"],\"revision\":10,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:10:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"Bz8Thk/gRXZ+qKwL8VKKWxGvw3ox5eLdY0qZV4GGWAT/V+JowtWaoOQX/jIthd5WQCI+ATROAhb+219GsupPBA==\"}]}",
         "commit-10-out-of-order": "{\"@id\":\"d6faf5205d8c9d7278086f9053408886f58a3796ce1fd95afcf938dd902e0f97\",\"changeSet\":{\"@id\":\"ef92e05faa537f2272266260fa4b334fcc4776c85c5bf80d5f79401351b7b815\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"9331a4820899db310ad5be4c26eefe748025c14a291638eb6fc047509e2b0061\"],[\"cbor\",\"sha256\",\"hex\",\"84a34f9cafac0d9d51142f93ed527fd71207e8c2c842fa26c40bba7855691b44\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"6eeef8d8993e3ad67aa9be5c4a31b80d4f7f2f76dea0be1115ee4b44625d5c65\"],[\"cbor\",\"sha256\",\"hex\",\"c0cf089c795231bbf5653aa36529249c0de87ef8f67c64b3235f7d059649dbad\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"key\":\"owEBIAYhWCAJ4NHtxsgBzBV4RkKxGHU90crMOaxfTlRmg5SdbsjkPw==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"infrastructure\"]},{\"@id\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"key\":\"owEBIAYhWCCvNCT++wWK1J4k8ouo/R1OpRhF1HCT9Cwnnhgqh92qPg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]}],\"oldValue\":[{\"@id\":\"13c2c77763a2539db0b9c763bbca22e865b675130f82c7d888d51ab24045dd9b\",\"key\":\"owEBIAYhWCB0YyEchcpHYqSbIbFmIsboRzg1T9hX//WCqLQW8eEN4w==\",\"notAfter\":\"2026-10-18T08:07:30.000Z\",\"usages\":[\"infrastructure\"]},{\"@id\":\"27f1f00d788c61088c1ad1a70b2f5200c09cd79dac2ba34911333cff88532561\",\"key\":\"owEBIAYhWCCMGwy+pvjEckUG+08BYydovKdRT6Ne5MC93WL5QyGcsA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"infrastructure\"]},{\"@id\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"key\":\"owEBIAYhWCCvNCT++wWK1J4k8ouo/R1OpRhF1HCT9Cwnnhgqh92qPg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]}],\"propertyName\":\"signingKeys\"}],\"createdAt\":\"2026-10-18T08:10:00.000Z\",\"description\":{\"en\":\"DE*GEF renews its signing key for infrastructure\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"/tjlRRqYgS34tIqE0Ua+X4+/4t1bANirRBEYejFeOhkoZidRckIvOSJRzYBvJotYn9RLp4MR4IrHU6LpcjXVBw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"9331a4820899db310ad5be4c26eefe748025c14a291638eb6fc047509e2b0061\"],[\"cbor\",\"sha256\",\"hex\",\"84a34f9cafac0d9d51142f93ed527fd71207e8c2c842fa26c40bba7855691b44\"],[\"effectiveTree\",\"sha256\",\"hex\",\"c788499f9f328a810d469271d77cda6592a5c9efc7cbb61bd9f68f49e0e3ca9a\"]],\"parentIds\":[\"a87cb0b78d1c175f5653dff9bc81f23b0125ebb5fa011fe3408af4705ba1d756\"],\"revision\":10,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:10:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"tQsnj0VzwPqac+lICWJ7+c6kdV6frTyrm2mvibPCkzZW4Wk7VpABLOSjp08hum1FF/uqhfQFdzEhnYomPyzyCw==\"}]}",
-        "commit-11-renewed": "{\"@id\":\"0a2eb325d68243f81166be8e29545d75b4895f77b73b838aa5903bdd96c043fd\",\"changeSet\":{\"@id\":\"076ad7bfa16b1db7fb3b28102261cc71607a9954bfdd30b7e3a49e224986ec00\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"3ff1b7f14df4ca823dd08062e597b44cfc70006bc28eb531ff4a7121379c71ea\"],[\"cbor\",\"sha256\",\"hex\",\"f5446947da83fb8528c74cb9015be8d39157cf3ec577837c258e478da785819f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"4f903a1327b5852ec94fc8d8d01ad19c4ea3dd455c6f29667576ad3fdc591534\"],[\"cbor\",\"sha256\",\"hex\",\"cf45697aa337109b677bc5668d56781a41f2f422f1a1141ae32cf8929db5357e\"]],\"changes\":[{\"entityId\":\"DE*GEF*E1*1\",\"entityType\":\"EVSE\",\"kind\":\"UpdateProperty\",\"newValue\":350000,\"oldValue\":300000,\"propertyName\":\"maxPower\"}],\"createdAt\":\"2026-10-18T08:11:00.000Z\",\"description\":{\"en\":\"DE*GEF*E1*1 at 350 kW\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"QpOWY2o/lw3lx71O9gdJ6HUpB4q8fHTehrd0AqIl+o9Ww6hOBrqNdtH9kWFUKULYEbhcBl/SmXMFQ09ngFN1Cw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"3ff1b7f14df4ca823dd08062e597b44cfc70006bc28eb531ff4a7121379c71ea\"],[\"cbor\",\"sha256\",\"hex\",\"f5446947da83fb8528c74cb9015be8d39157cf3ec577837c258e478da785819f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"21da22acbdffe0f491916003f156c35932496539c0b2972c816f043d8b443c84\"]],\"parentIds\":[\"d7f98c4c5d14737f1da9f6dd6021ebbfa57c2ca1fa6cf3405e62ea6768aa52e0\"],\"revision\":11,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:11:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"1JeB2UQyiwKT6xEnOLPDFJ3m5QRmKfWsPDlDFZm3o4/sEBYrVYSuAXYF1wuluC4EflkwG5G4jtiLlFXhpD/FAQ==\"}]}",
-        "commit-11-removed": "{\"@id\":\"0a2eb325d68243f81166be8e29545d75b4895f77b73b838aa5903bdd96c043fd\",\"changeSet\":{\"@id\":\"076ad7bfa16b1db7fb3b28102261cc71607a9954bfdd30b7e3a49e224986ec00\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"3ff1b7f14df4ca823dd08062e597b44cfc70006bc28eb531ff4a7121379c71ea\"],[\"cbor\",\"sha256\",\"hex\",\"f5446947da83fb8528c74cb9015be8d39157cf3ec577837c258e478da785819f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"4f903a1327b5852ec94fc8d8d01ad19c4ea3dd455c6f29667576ad3fdc591534\"],[\"cbor\",\"sha256\",\"hex\",\"cf45697aa337109b677bc5668d56781a41f2f422f1a1141ae32cf8929db5357e\"]],\"changes\":[{\"entityId\":\"DE*GEF*E1*1\",\"entityType\":\"EVSE\",\"kind\":\"UpdateProperty\",\"newValue\":350000,\"oldValue\":300000,\"propertyName\":\"maxPower\"}],\"createdAt\":\"2026-10-18T08:11:00.000Z\",\"description\":{\"en\":\"DE*GEF*E1*1 at 350 kW\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"27f1f00d788c61088c1ad1a70b2f5200c09cd79dac2ba34911333cff88532561\",\"value\":\"tUC8RAf4ozBMu0QpoChk+QlY8Q3HJe/cz6m7MztSTR/VqgwWpLdr62runLgYzV3t3zWBP9Wao975Oe2Pt5aFBQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"3ff1b7f14df4ca823dd08062e597b44cfc70006bc28eb531ff4a7121379c71ea\"],[\"cbor\",\"sha256\",\"hex\",\"f5446947da83fb8528c74cb9015be8d39157cf3ec577837c258e478da785819f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"21da22acbdffe0f491916003f156c35932496539c0b2972c816f043d8b443c84\"]],\"parentIds\":[\"d7f98c4c5d14737f1da9f6dd6021ebbfa57c2ca1fa6cf3405e62ea6768aa52e0\"],\"revision\":11,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:11:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"U1R82mKtGlAA61rDld3kHQVN5au+yQ+WSYyHRAU0F9lfNdcQnhhwdYK5OIRDGZrh6fn5pKRo2ZzWgRyWmQd5Dw==\"}]}",
+        "commit-11-renewed": "{\"@id\":\"dd8cc30a7ae99fcbaca38923cd89d96421ca739d33b3d8b5410c28b6c38c508e\",\"changeSet\":{\"@id\":\"2e79b30ff21228812b057c7cdfc5d1e27976724a31019d7f244982724fc54d2a\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"d34f3e135256c9b2661ac17de40c7060eb47338db2a415eb75d1bb2f4c41908b\"],[\"cbor\",\"sha256\",\"hex\",\"5e6d4bce5a0274674f1b0bbfa2af1f0ade7a4dbfbdb483519587ee5fb5067942\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"4f903a1327b5852ec94fc8d8d01ad19c4ea3dd455c6f29667576ad3fdc591534\"],[\"cbor\",\"sha256\",\"hex\",\"cf45697aa337109b677bc5668d56781a41f2f422f1a1141ae32cf8929db5357e\"]],\"changes\":[{\"entityId\":\"DE*GEF*E1*1\",\"entityType\":\"EVSE\",\"kind\":\"UpdateProperty\",\"newValue\":250000,\"oldValue\":300000,\"propertyName\":\"maxPower\"}],\"createdAt\":\"2026-10-18T08:11:00.000Z\",\"description\":{\"en\":\"DE*GEF*E1*1 at 250 kW\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"HM9Kbbfn4VN/HoIdGrtc/trUXZen42cU9/3GA1V9eOakbz6IKm0tWWtbSVJ6OF53lVoW38EZESUpDzivLck8Bw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"d34f3e135256c9b2661ac17de40c7060eb47338db2a415eb75d1bb2f4c41908b\"],[\"cbor\",\"sha256\",\"hex\",\"5e6d4bce5a0274674f1b0bbfa2af1f0ade7a4dbfbdb483519587ee5fb5067942\"],[\"effectiveTree\",\"sha256\",\"hex\",\"991c61c9907ba95a5b032475d7884bfc815ba6a774ae47cfbdf2e25436749c71\"]],\"parentIds\":[\"d7f98c4c5d14737f1da9f6dd6021ebbfa57c2ca1fa6cf3405e62ea6768aa52e0\"],\"revision\":11,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:11:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"SVYVcoRGqmcGoJiwfw0x1cry1uZxzL43DN+MPRB1MhV/1UzclW1vQ2b+EOC9TWzpQ+GTkgdPdnVj1gjmUC1YBg==\"}]}",
+        "commit-11-removed": "{\"@id\":\"dd8cc30a7ae99fcbaca38923cd89d96421ca739d33b3d8b5410c28b6c38c508e\",\"changeSet\":{\"@id\":\"2e79b30ff21228812b057c7cdfc5d1e27976724a31019d7f244982724fc54d2a\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"d34f3e135256c9b2661ac17de40c7060eb47338db2a415eb75d1bb2f4c41908b\"],[\"cbor\",\"sha256\",\"hex\",\"5e6d4bce5a0274674f1b0bbfa2af1f0ade7a4dbfbdb483519587ee5fb5067942\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"4f903a1327b5852ec94fc8d8d01ad19c4ea3dd455c6f29667576ad3fdc591534\"],[\"cbor\",\"sha256\",\"hex\",\"cf45697aa337109b677bc5668d56781a41f2f422f1a1141ae32cf8929db5357e\"]],\"changes\":[{\"entityId\":\"DE*GEF*E1*1\",\"entityType\":\"EVSE\",\"kind\":\"UpdateProperty\",\"newValue\":250000,\"oldValue\":300000,\"propertyName\":\"maxPower\"}],\"createdAt\":\"2026-10-18T08:11:00.000Z\",\"description\":{\"en\":\"DE*GEF*E1*1 at 250 kW\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"27f1f00d788c61088c1ad1a70b2f5200c09cd79dac2ba34911333cff88532561\",\"value\":\"RCbxfrgSEJOW8sFSWBIojJxx/ar7e8aKCdcFDIwjYIih8mBEw/mALeHdS3GigeawqEEgnigUUS2hd+7p/4AYDQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"d34f3e135256c9b2661ac17de40c7060eb47338db2a415eb75d1bb2f4c41908b\"],[\"cbor\",\"sha256\",\"hex\",\"5e6d4bce5a0274674f1b0bbfa2af1f0ade7a4dbfbdb483519587ee5fb5067942\"],[\"effectiveTree\",\"sha256\",\"hex\",\"991c61c9907ba95a5b032475d7884bfc815ba6a774ae47cfbdf2e25436749c71\"]],\"parentIds\":[\"d7f98c4c5d14737f1da9f6dd6021ebbfa57c2ca1fa6cf3405e62ea6768aa52e0\"],\"revision\":11,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:11:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"xAmAU63u+NlwaZ/dZvLAOD8epM8OlAPaybwISdILKJa4as1hOdwBSyHMqrVKHjPY/FEt44WXI9TEYn8GqWanBA==\"}]}",
+        "commit-11-above-model": "{\"@id\":\"0a2eb325d68243f81166be8e29545d75b4895f77b73b838aa5903bdd96c043fd\",\"changeSet\":{\"@id\":\"076ad7bfa16b1db7fb3b28102261cc71607a9954bfdd30b7e3a49e224986ec00\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"3ff1b7f14df4ca823dd08062e597b44cfc70006bc28eb531ff4a7121379c71ea\"],[\"cbor\",\"sha256\",\"hex\",\"f5446947da83fb8528c74cb9015be8d39157cf3ec577837c258e478da785819f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"4f903a1327b5852ec94fc8d8d01ad19c4ea3dd455c6f29667576ad3fdc591534\"],[\"cbor\",\"sha256\",\"hex\",\"cf45697aa337109b677bc5668d56781a41f2f422f1a1141ae32cf8929db5357e\"]],\"changes\":[{\"entityId\":\"DE*GEF*E1*1\",\"entityType\":\"EVSE\",\"kind\":\"UpdateProperty\",\"newValue\":350000,\"oldValue\":300000,\"propertyName\":\"maxPower\"}],\"createdAt\":\"2026-10-18T08:11:00.000Z\",\"description\":{\"en\":\"DE*GEF*E1*1 at 350 kW\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"QpOWY2o/lw3lx71O9gdJ6HUpB4q8fHTehrd0AqIl+o9Ww6hOBrqNdtH9kWFUKULYEbhcBl/SmXMFQ09ngFN1Cw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"3ff1b7f14df4ca823dd08062e597b44cfc70006bc28eb531ff4a7121379c71ea\"],[\"cbor\",\"sha256\",\"hex\",\"f5446947da83fb8528c74cb9015be8d39157cf3ec577837c258e478da785819f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"21da22acbdffe0f491916003f156c35932496539c0b2972c816f043d8b443c84\"]],\"parentIds\":[\"d7f98c4c5d14737f1da9f6dd6021ebbfa57c2ca1fa6cf3405e62ea6768aa52e0\"],\"revision\":11,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:11:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"1JeB2UQyiwKT6xEnOLPDFJ3m5QRmKfWsPDlDFZm3o4/sEBYrVYSuAXYF1wuluC4EflkwG5G4jtiLlFXhpD/FAQ==\"}]}",
+        "commit-11-model": "{\"@id\":\"6c9c3711ca9ee727dd393bc9b774511346c28f35ab490b00f6ac15bfc4520882\",\"changeSet\":{\"@id\":\"21955edc0d1f9f7476604522688a533760f21ea5de25f298150111fe27f9d68d\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"9b5488acc00a9705b77964a713c8e66e2028292e405a77eccfd89ce22c8e2fe3\"],[\"cbor\",\"sha256\",\"hex\",\"9ff88e1d56d6c1e83dc3b0e12168fa7956d1753acd6b3d3dcdafd1f8dd5a925f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"4f903a1327b5852ec94fc8d8d01ad19c4ea3dd455c6f29667576ad3fdc591534\"],[\"cbor\",\"sha256\",\"hex\",\"cf45697aa337109b677bc5668d56781a41f2f422f1a1141ae32cf8929db5357e\"]],\"changes\":[{\"entityId\":\"GD-DC300\",\"entityType\":\"ChargingStationModel\",\"kind\":\"UpdateProperty\",\"newValue\":350000,\"oldValue\":300000,\"parentEntityId\":\"GraphDefined\",\"parentEntityType\":\"ChargingStationManufacturer\",\"propertyName\":\"maxPower\"}],\"createdAt\":\"2026-10-18T08:11:00.000Z\",\"description\":{\"en\":\"The GD-DC300 at 350 kW\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed448\",\"keyId\":\"4b4559e653161ee13d7dfa936ccefc455ce6576972d551b8058d79edfce0fa8f\",\"value\":\"AMo4uV7QJ5QmqAI1YW/b7IpIgClTbmQR9Z7Yar5fbXn/2IDUxQsTA2XnUQBRtZWfq5tAb1btqfGA8RMMGmq5pqOiiAMXl7RQNBHgi6WqCVHWuvvV17aEwZLpNjaL2SDNVQym5g+Z+VWwOx7w48zh6jAA\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"9b5488acc00a9705b77964a713c8e66e2028292e405a77eccfd89ce22c8e2fe3\"],[\"cbor\",\"sha256\",\"hex\",\"9ff88e1d56d6c1e83dc3b0e12168fa7956d1753acd6b3d3dcdafd1f8dd5a925f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"5c72a1466d65679b5bb611605ac8772415d3955896aaee9b8849820172126809\"]],\"parentIds\":[\"d7f98c4c5d14737f1da9f6dd6021ebbfa57c2ca1fa6cf3405e62ea6768aa52e0\"],\"revision\":11,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:11:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"oQhuNzrBr69dAWWtlN9QCXpabOb528xKxjxrnMMwY1qIyHxs32F5TaRsq87eff0kHmRtb0eWGFbTucNJOnjUCA==\"}]}",
+        "commit-11-model-lowered": "{\"@id\":\"e5a021e3b0b39dd7141cbf4509c40fa1171d1c609e11c45b0a9492956b42e209\",\"changeSet\":{\"@id\":\"6698e0cb2e342e18a981d1bfe1bcd0e3002e790677a60c997341597f832743a3\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"948ef734ae8818ae14c0d82bf9eaf1eb939dcd9bbb4685fd9c5796bcd5e43757\"],[\"cbor\",\"sha256\",\"hex\",\"4ba1cd8b76167c7de084f395f2cd803362957c6a82fa345cc471264447e4b5b9\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"4f903a1327b5852ec94fc8d8d01ad19c4ea3dd455c6f29667576ad3fdc591534\"],[\"cbor\",\"sha256\",\"hex\",\"cf45697aa337109b677bc5668d56781a41f2f422f1a1141ae32cf8929db5357e\"]],\"changes\":[{\"entityId\":\"GD-DC300\",\"entityType\":\"ChargingStationModel\",\"kind\":\"UpdateProperty\",\"newValue\":250000,\"oldValue\":300000,\"parentEntityId\":\"GraphDefined\",\"parentEntityType\":\"ChargingStationManufacturer\",\"propertyName\":\"maxPower\"}],\"createdAt\":\"2026-10-18T08:11:00.000Z\",\"description\":{\"en\":\"The GD-DC300 at 250 kW\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed448\",\"keyId\":\"4b4559e653161ee13d7dfa936ccefc455ce6576972d551b8058d79edfce0fa8f\",\"value\":\"Do34B10uQsLVdspq5l1wbIqyPFua3WU6zyBP3G4CFF2ZZU0pHRTreeE10jLoHBPd7zEvzTvVgREAiKKI6pHPazZxsYjYPfFwi19h743RCVfnIWFqsw4H8SkBauk8Oa1eoSrnlqeBOz3kwJMAUPI03ScA\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"948ef734ae8818ae14c0d82bf9eaf1eb939dcd9bbb4685fd9c5796bcd5e43757\"],[\"cbor\",\"sha256\",\"hex\",\"4ba1cd8b76167c7de084f395f2cd803362957c6a82fa345cc471264447e4b5b9\"],[\"effectiveTree\",\"sha256\",\"hex\",\"7a555a042cf7b11f01b4fb4a57dac42dd8348bb0ec7ed53400b171e463d17695\"]],\"parentIds\":[\"d7f98c4c5d14737f1da9f6dd6021ebbfa57c2ca1fa6cf3405e62ea6768aa52e0\"],\"revision\":11,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:11:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"dVYEEl3JJizKmhkYvS7qV4cz8IWZdNhbd4EOnqoJ0HifZhprbhLFJDcw5sp99BxDRC1b7CVEdzIAWOZgYj/iAw==\"}]}",
+        "commit-11-meter": "{\"@id\":\"87a46639f44d1cc4856c8d59e70bfb712008842897c03fa00a54dee295ce46a7\",\"changeSet\":{\"@id\":\"d69f3553ea59ca6b3b88f8246647fa60abe6233a38406536ee6b50b6a7c5a4f8\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"d8ae8b9cf292ebb6cede64f7a7a61623a6612deb5c2e3f305d3f1657895a0946\"],[\"cbor\",\"sha256\",\"hex\",\"609ff67cd4280675bec1fea98578a1474d075ae71cf4dc4c47c3a2c036f9295f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"4f903a1327b5852ec94fc8d8d01ad19c4ea3dd455c6f29667576ad3fdc591534\"],[\"cbor\",\"sha256\",\"hex\",\"cf45697aa337109b677bc5668d56781a41f2f422f1a1141ae32cf8929db5357e\"]],\"changes\":[{\"entityId\":\"KDM-500\",\"entityType\":\"EnergyMeterModel\",\"kind\":\"UpdateProperty\",\"newValue\":[\"OCMF\"],\"oldValue\":null,\"parentEntityId\":\"KERNBERG\",\"parentEntityType\":\"EnergyMeterManufacturer\",\"propertyName\":\"signatureMethods\"},{\"entityId\":\"DE*GEF*E1*2\",\"entityType\":\"EVSE\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*E1*2\",\"energyMeter\":{\"@id\":\"DE*GEF*M1*2\",\"certificateIds\":[\"PTB-2026-0017\"],\"created\":\"2026-10-18T08:11:00.000Z\",\"firmwareVersion\":\"3.2\",\"hardwareRevision\":\"2.1\",\"lastChange\":\"2026-10-18T08:11:00.000Z\",\"manufacturerId\":\"KERNBERG\",\"modelId\":\"KDM-500\",\"signatureMethods\":[\"OCMF\"]},\"maxPower\":150000},\"parentEntityId\":\"DE*GEF*S1\",\"parentEntityType\":\"ChargingStation\"}],\"createdAt\":\"2026-10-18T08:11:00.000Z\",\"description\":{\"en\":\"The KDM-500 signs with OCMF; DE*GEF*E1*2 with a meter signing with OCMF\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"d1a59bcfb2a87d70e95e284dbc9ad76d052c92f35d8ecacf02c41ca0272b57e4\",\"value\":\"Ko06JIt/yU8TqBBfvEgc5W/bTF8XPTpnd7mWzH9AHsTM8qOOJQB6fM5U8+4IjnQhzr0s1BHLARyRnHuS39d/AA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"EmRnH/YUFtVsJYT7ungudIDlgmUzUu6s2q2cIg2ixAsutpb7Ds0M+qxCi6RGuZqec3DT8oA5Sp94BRe78pN0AQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"d8ae8b9cf292ebb6cede64f7a7a61623a6612deb5c2e3f305d3f1657895a0946\"],[\"cbor\",\"sha256\",\"hex\",\"609ff67cd4280675bec1fea98578a1474d075ae71cf4dc4c47c3a2c036f9295f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"2d10196b2a3cbedd805962a7f12bad81641b4796f04e6e55f9b6aa4225c33d1c\"]],\"parentIds\":[\"d7f98c4c5d14737f1da9f6dd6021ebbfa57c2ca1fa6cf3405e62ea6768aa52e0\"],\"revision\":11,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:11:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"qbF2N1IrVL0X77fnjh2LqjICGgHMupmUHFep8W7/SY0HBSD7zbqTps5T0Qxcqa6yJfiNw9WWheWB/3R1pDjXCA==\"}]}",
+        "commit-11-meter-method": "{\"@id\":\"d46729b3589de265c9cdf0fabf1c8cca156468dfc93fe12f9e6547ee25706dcc\",\"changeSet\":{\"@id\":\"6b156ce708ce3b7c69f6dc1e6ac96f44b02a38eb91af2ef686e8145cbc281d88\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"42906d91046d4d47050c56620d35e3d882afd4680beb6f0bcf4f076f9aaf373f\"],[\"cbor\",\"sha256\",\"hex\",\"7284e42b27be27486e8b477a196f287d9340a27de63bd2c6e1179fb839a28bba\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"4f903a1327b5852ec94fc8d8d01ad19c4ea3dd455c6f29667576ad3fdc591534\"],[\"cbor\",\"sha256\",\"hex\",\"cf45697aa337109b677bc5668d56781a41f2f422f1a1141ae32cf8929db5357e\"]],\"changes\":[{\"entityId\":\"KDM-500\",\"entityType\":\"EnergyMeterModel\",\"kind\":\"UpdateProperty\",\"newValue\":[\"OCMF\"],\"oldValue\":null,\"parentEntityId\":\"KERNBERG\",\"parentEntityType\":\"EnergyMeterManufacturer\",\"propertyName\":\"signatureMethods\"},{\"entityId\":\"DE*GEF*E1*2\",\"entityType\":\"EVSE\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*E1*2\",\"energyMeter\":{\"@id\":\"DE*GEF*M1*2\",\"certificateIds\":[\"PTB-2026-0017\"],\"created\":\"2026-10-18T08:11:00.000Z\",\"firmwareVersion\":\"3.2\",\"hardwareRevision\":\"2.1\",\"lastChange\":\"2026-10-18T08:11:00.000Z\",\"manufacturerId\":\"KERNBERG\",\"modelId\":\"KDM-500\",\"signatureMethods\":[\"EDL40\"]},\"maxPower\":150000},\"parentEntityId\":\"DE*GEF*S1\",\"parentEntityType\":\"ChargingStation\"}],\"createdAt\":\"2026-10-18T08:11:00.000Z\",\"description\":{\"en\":\"The KDM-500 signs with OCMF; DE*GEF*E1*2 with a meter signing with EDL40\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"d1a59bcfb2a87d70e95e284dbc9ad76d052c92f35d8ecacf02c41ca0272b57e4\",\"value\":\"oRWPTB5JYeO5HBk81P0+wKhQCPG8cR3b2Md8Uyr/BYMbDYGSCypKiHmcMVNP7WRE/GehoW1Kh0DGbVgKkH26Bg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"DKF8hayP3qvBu5cnwoCYgjV0OPPzUffHptfKTYXtxVlaE7nj3e8U+a0fCerfF2X+XNcWjwqBKK/aa2GTlns2Ag==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"42906d91046d4d47050c56620d35e3d882afd4680beb6f0bcf4f076f9aaf373f\"],[\"cbor\",\"sha256\",\"hex\",\"7284e42b27be27486e8b477a196f287d9340a27de63bd2c6e1179fb839a28bba\"],[\"effectiveTree\",\"sha256\",\"hex\",\"ebb83bd1f7df9e566ad95c20fbb8db3b13c484e3c8c8c1c1468e6ece3cfc2a3b\"]],\"parentIds\":[\"d7f98c4c5d14737f1da9f6dd6021ebbfa57c2ca1fa6cf3405e62ea6768aa52e0\"],\"revision\":11,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:11:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"JkFoC6x0ng8AbV700rnRSEUzs7bXH0fw8p6us8k6K2pbfGnwMcEdcDpDzTbuHoyTypdox/C8ipw0aQWdhGHyBg==\"}]}",
         "commit-11-evse": "{\"@id\":\"e41bf95ec6236a2e9363f79a3bf16e83473691cd293573b9c1aafd95843fe4de\",\"changeSet\":{\"@id\":\"3a99cc7526c258263e9a6c048b9bcf29329370d5ed0a552c6c8aea07bc5d1b1d\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"7e6946ef5fd915ec0c5ddd4cc21c9449f3b7a8a9fb80890eef0e3909866f88c0\"],[\"cbor\",\"sha256\",\"hex\",\"a8fd8229ee0325c2581311ee8fe3e2ceb4e1b70597bc504d047044d5f8b9fe2a\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"4f903a1327b5852ec94fc8d8d01ad19c4ea3dd455c6f29667576ad3fdc591534\"],[\"cbor\",\"sha256\",\"hex\",\"cf45697aa337109b677bc5668d56781a41f2f422f1a1141ae32cf8929db5357e\"]],\"changes\":[{\"entityId\":\"DE*GEF*E1*2\",\"entityType\":\"EVSE\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*E1*2\",\"maxPower\":150000},\"parentEntityId\":\"DE*GEF*S1\",\"parentEntityType\":\"ChargingStation\"}],\"createdAt\":\"2026-10-18T08:11:00.000Z\",\"description\":{\"en\":\"DE*GEF*E1*2\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"PavmHvjRrVkz6E3u3nOLly+uuR22MoV7ONlij22cVbky61iTvSm9lmFbq18uVsg1IcMkp9JvLncEt+yrJt8OCQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"7e6946ef5fd915ec0c5ddd4cc21c9449f3b7a8a9fb80890eef0e3909866f88c0\"],[\"cbor\",\"sha256\",\"hex\",\"a8fd8229ee0325c2581311ee8fe3e2ceb4e1b70597bc504d047044d5f8b9fe2a\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d653ee42e7df34d287805e46b45c7a763001e0e3b2ef19c77dcc170b8ab8cb9f\"]],\"parentIds\":[\"d7f98c4c5d14737f1da9f6dd6021ebbfa57c2ca1fa6cf3405e62ea6768aa52e0\"],\"revision\":11,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:11:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"wpDE32D5+qp88pV/8zLnXIE0uMzEWecQ+erOUlRJXMu1TR5TmEHNzNnekse/8o1IR1KyawMmjJYw2F8oke9tCg==\"}]}",
         "commit-11-evse-created": "{\"@id\":\"6b5b5342164dd8417391fc835bc09c70899bdc25ebb308d768c3769f93b60679\",\"changeSet\":{\"@id\":\"b89c853ce7bcb9407def8d1863b101d33bc75d20f5128522fc452ccd3606aff0\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"cef7546dbdc1c783a32317cbfb2f9344ca65300812e36cc9baf852193708f6eb\"],[\"cbor\",\"sha256\",\"hex\",\"b40c7086849a5daaa61f07d9d571f616a98ba5d4cbb24556434bd9362fdbbd92\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"4f903a1327b5852ec94fc8d8d01ad19c4ea3dd455c6f29667576ad3fdc591534\"],[\"cbor\",\"sha256\",\"hex\",\"cf45697aa337109b677bc5668d56781a41f2f422f1a1141ae32cf8929db5357e\"]],\"changes\":[{\"entityId\":\"DE*GEF*E1*2\",\"entityType\":\"EVSE\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*E1*2\",\"created\":\"2026-10-18T08:10:30.000Z\",\"maxPower\":150000},\"parentEntityId\":\"DE*GEF*S1\",\"parentEntityType\":\"ChargingStation\"}],\"createdAt\":\"2026-10-18T08:11:00.000Z\",\"description\":{\"en\":\"DE*GEF*E1*2, created before\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"eZVS8twiSf3yAYlAMcV44XRneb4poXvRzBBSUe4+P6oZfSMo4IW2e1V+IuonDWDxEHpMnQYmVxbKJObCwIXRCg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"cef7546dbdc1c783a32317cbfb2f9344ca65300812e36cc9baf852193708f6eb\"],[\"cbor\",\"sha256\",\"hex\",\"b40c7086849a5daaa61f07d9d571f616a98ba5d4cbb24556434bd9362fdbbd92\"],[\"effectiveTree\",\"sha256\",\"hex\",\"cac8a402788eb5127b946df6add5b4cb4a10a3209304ccddbac279b222208267\"]],\"parentIds\":[\"d7f98c4c5d14737f1da9f6dd6021ebbfa57c2ca1fa6cf3405e62ea6768aa52e0\"],\"revision\":11,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:11:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"/eJc6sgchneKHcbcwfgCzgfrTDqdL5q7542rCdAqZupJaaYZ62a5VwJog5bn82iL4+e0CXfWDWjaxPzfTJ3RDA==\"}]}",
         "commit-11-evse-context": "{\"@id\":\"a61f422f52eb6cdcc0a8c3b17bfbc577ca55fac360c83cf85668602d8fd09cd9\",\"changeSet\":{\"@id\":\"5889a0ca00559d1f007a2eaf3713da2c5f4ea82b5e1768744737f27fc39f0487\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a30071834383509b1bc4f042f33f10f043adc66fa93011ce71e18d2704fdf80f\"],[\"cbor\",\"sha256\",\"hex\",\"3fb1757927b6dc8efca4c2ffc2c916c3c8b5bbe9825f8a58a208f388a96e38c1\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"4f903a1327b5852ec94fc8d8d01ad19c4ea3dd455c6f29667576ad3fdc591534\"],[\"cbor\",\"sha256\",\"hex\",\"cf45697aa337109b677bc5668d56781a41f2f422f1a1141ae32cf8929db5357e\"]],\"changes\":[{\"entityId\":\"DE*GEF*E1*2\",\"entityType\":\"EVSE\",\"kind\":\"Add\",\"newValue\":{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/evse/v1\",\"@id\":\"DE*GEF*E1*2\",\"maxPower\":150000},\"parentEntityId\":\"DE*GEF*S1\",\"parentEntityType\":\"ChargingStation\"}],\"createdAt\":\"2026-10-18T08:11:00.000Z\",\"description\":{\"en\":\"DE*GEF*E1*2, with its context\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"aTupVi/c39VYUPzWzw8kpd4qn4AidOTAI+XJGeL2upURb0/ekXCY1aV1/OqsGRUuB6inWjbyJQotlq9O237xDw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a30071834383509b1bc4f042f33f10f043adc66fa93011ce71e18d2704fdf80f\"],[\"cbor\",\"sha256\",\"hex\",\"3fb1757927b6dc8efca4c2ffc2c916c3c8b5bbe9825f8a58a208f388a96e38c1\"],[\"effectiveTree\",\"sha256\",\"hex\",\"c7ad4dd1a02f0527518d70c6a491a6ac72f07d021b5cda6ec0087e6e3046885e\"]],\"parentIds\":[\"d7f98c4c5d14737f1da9f6dd6021ebbfa57c2ca1fa6cf3405e62ea6768aa52e0\"],\"revision\":11,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:11:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"z3WCGvGUgAk5ficHS83lzmyUWbXyIwuueWx0EyKcLMJyLrLC62Px5avP9KDWvmHozkyTiaQW1IDXBO0A039RAg==\"}]}",
@@ -1549,6 +1554,195 @@
       ],
       "control": "commit-11-renewed",
       "reason": "is no key of a party of"
+    },
+    {
+      "id": "evse-above-its-model",
+      "description": "An EVSE raised above the maxPower of the model of its charging station.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, What a model rates; csharp-review 19",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "commit-11-above-model"
+        }
+      ],
+      "control": "commit-11-renewed",
+      "reason": "The maximum power of the EVSE 'DE*GEF*E1*1', 350 kW, is above the one of the model 'GD-DC300' of 'GraphDefined' of its charging station 'DE*GEF*S1', 300 kW!",
+      "notApplicable": [
+        "wwcp-poi.ts"
+      ]
+    },
+    {
+      "id": "model-below-what-names-it",
+      "description": "A charging station manufacturer lowering the maxPower of its model below an EVSE of a charging station of another party naming it.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, What a model rates; csharp-review 19",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "commit-11-model-lowered"
+        }
+      ],
+      "control": "commit-11-model",
+      "reason": "The maximum power of the EVSE 'DE*GEF*E1*1', 300 kW, is above the one of the model 'GD-DC300' of 'GraphDefined' of its charging station 'DE*GEF*S1', 250 kW!",
+      "notApplicable": [
+        "wwcp-poi.ts"
+      ]
+    },
+    {
+      "id": "meter-signing-not-as-its-model",
+      "description": "An energy meter signing with a signature method its model does not name, the model naming one.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, What a model rates; csharp-review 19",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "commit-11-meter-method"
+        }
+      ],
+      "control": "commit-11-meter",
+      "reason": "The energy meter 'DE*GEF*M1*2' signs with 'EDL40', no signature method of its model 'KDM-500' of 'KERNBERG'!",
+      "notApplicable": [
+        "wwcp-poi.ts"
+      ]
     },
     {
       "id": "new-value-context",

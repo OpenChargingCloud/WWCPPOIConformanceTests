@@ -20,13 +20,13 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `1964903`, WWCP_POI.TS `e2b66b6`, Hermod `fbb442f`,
+Both harnesses are green against the pinned submodules (WWCP_POI `2729e9e`, WWCP_POI.TS `60d4f0a`, Hermod `fbb442f`,
 Styx `06b592d3`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 338 | 358 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 338 | 328 tests | 17: 7 signing from the private seeds, which WWCP_POI.TS does not do; 10 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, groups of e-mobility providers, grid connection points) |
+| C# harness (NUnit), WWCP_POI3 | 341 | 361 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 341 | 328 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 

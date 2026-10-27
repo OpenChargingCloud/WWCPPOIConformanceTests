@@ -53,8 +53,8 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 358 passed (its 7 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped), TS 328
-passed / 17 skipped (7 signing: WWCP_POI.TS verifies only; 10 replays of `poi-histories.json` that WWCP_POI.TS leaves
+Expected: C# 361 passed (its 7 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped), TS 328
+passed / 20 skipped (7 signing: WWCP_POI.TS verifies only; 13 replays of `poi-histories.json` that WWCP_POI.TS leaves
 to WWCP_POI: references, provider groups, grid connection points). Skips are load-bearing, not noise.
 
 ## Ground rules

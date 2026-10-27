@@ -46,7 +46,7 @@ refused by WWCP_POI (D8, see 3), refused here as well since. This document stays
 | 16 | ✅ A certificate is for a version of a model, but no station or meter names one of its model's | medium | confirmed | **new**; **fixed** in `7e0b0ac`, and in this port alike |
 | 17 | ✅ An energy meter names the certificate of a station model, and has none of its own | medium | confirmed | **new**; **fixed** in `987fa26`, and in this port alike |
 | 18 | ✅ What one party names blocks what another party withdraws | low | confirmed | **new**; **fixed** in `52f1172`, the specification following the code |
-| 19 | Smaller points | low | confirmed | extended; **mostly fixed** in `65e658d`, the price statements of an epoch in `1964903`, one left open as a question of design |
+| 19 | ✅ Smaller points | low | confirmed | extended; **fixed** in `65e658d`, the price statements of an epoch in `1964903`, the data of models in `2729e9e` |
 | 20 | ✅ Custom data: numbers as binary floating-point numbers, timestamps in the time zone of the server | medium (interop) | confirmed | **new**, found fixing 10; **fixed** in Styx `06b592d3` |
 | 21 | ✅ The custom data of an address is lost | low | confirmed | **new**, found fixing 10; **fixed** in Styx `06b592d3` |
 
@@ -730,7 +730,7 @@ and 17. WWCPPOIConformanceTests holds both implementations to a withdrawal toget
 (`withdrawn-with-what-names-it`), and WWCP_POI alone to the refusal (`withdrawn-while-named-*`).
 
 
-## 19. Smaller points
+## 19. ✅ Smaller points
 
 - ✅ **Trust anchor quorum (fixed in `3e32f48`):** `minConsensus` is checked against the number of keys, not of holders
   (`RoamingNetworkTrustAnchor.cs`, `TryCheck`); see 1. Since the trust anchor names its keys per holder, `TryCheck`
@@ -772,11 +772,22 @@ and 17. WWCPPOIConformanceTests holds both implementations to a withdrawal toget
   one of the epoch before as `previous`, which no server checks across the epochs, as none holds it as the current one
   there (SPECIFICATION.md 11.4). A server signing for an operator follows that one, also after a restart (`EpochTests`);
   the mirror of example A12 takes the price statements of `OCC` now.
-- **Models describe, nothing compares (open):** a model states `maxPower`, `currentTypes`, `connectorTypes` and `numberOfEVSEs`
-  (charging stations), `currentTypes`, `maxCurrent` and `signatureMethods` (energy meters); a station of 300 kW may name
-  a model of 44 kW, a meter signing with a method its model does not name. The network checks only that the model
-  exists. An app showing the model's data next to the station's may show both, contradicting each other. Left open as a
-  question of design: whether the data of a model is a limit for what names it, or a description beside it.
+- ✅ **Models describe, nothing compares (fixed in `2729e9e`):** a model states `maxPower`, `currentTypes`,
+  `connectorTypes` and `numberOfEVSEs` (charging stations), `currentTypes`, `maxCurrent` and `signatureMethods` (energy
+  meters); a station of 300 kW may name a model of 44 kW, a meter signing with a method its model does not name. The
+  network checks only that the model exists. An app showing the model's data next to the station's may show both,
+  contradicting each other. Left open as a question of design: whether the data of a model is a limit for what names it,
+  or a description beside it.
+  **Decided** and fixed in `2729e9e`, both, field by field: what a model rates limits what names it, the rest describes
+  it. A version holds no charging station whose `maxPower`, or that of one of its EVSEs, is above the one of its model,
+  and no energy meter signing with a method its model does not name, where it names any; each as it is at runtime, with
+  what its templates give it (SPECIFICATION.md 4.1, *What a model rates*). So a change set raising one of them above its
+  model is refused, and so is a manufacturer's lowering its model below one of them; both change together, in one change
+  set both sign. `ChargingStationModelComparer` and `EnergyMeterModelComparer` say what contradicts a model, a rule a
+  method, to be extended where a field turns out to be a limit as well; the other data are compared with nothing:
+  `currentTypes`, `connectorTypes`, `numberOfEVSEs`, `maxCurrent`, `accuracyClass`, `measurands`. The replays
+  `evse-above-its-model`, `model-below-what-names-it` and `meter-signing-not-as-its-model` hold WWCP_POI to it; this
+  port leaves it to WWCP_POI, with the references a version holds.
 - ✅ **Keyless parties in section 4.1 (fixed in `65e658d`):** `SPECIFICATION.md:276` says a party is added with
   keys of each kind, "a grid operator also with none"; the code (`TryCheckPartyChange`) and the rest of section 4.1 allow
   a conformity assessment body without keys as well. Section 4.1 says so now.

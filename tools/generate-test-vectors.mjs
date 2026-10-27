@@ -2417,11 +2417,37 @@ function signedHistories() {
 
     parties.take('commit-10', commit10);
 
-    const evseChange = (signer) => parties.prepare({ createdAt: minute(11), description: 'DE*GEF*E1*1 at 350 kW', signers: [ signer ],
-                                                     changes: [ update('EVSE', 'DE*GEF*E1*1', 'maxPower', 300000, 350000) ] });
+    const evseChange = (signer, maxPower = 250000) => parties.prepare({ createdAt: minute(11), description: `DE*GEF*E1*1 at ${maxPower / 1000} kW`, signers: [ signer ],
+                                                                        changes: [ update('EVSE', 'DE*GEF*E1*1', 'maxPower', 300000, maxPower) ] });
     parties.keep('commit-11-renewed', evseChange(gefRenewed));
     P.refused('key-removed', 'A change signed by the signing key its owner removed in the version before.', `${B('4.1')}; csharp-review 3`,
               'commit-11-removed', evseChange(gefInfrastructure), 'commit-11-renewed', { reason: 'is no key of a party of' });
+
+    // ---- What a model rates limits what names it (4.1): no EVSE above the maxPower of the model of its charging station,
+    //      no model lowered below one naming it, no energy meter signing with a method its model does not name.
+    P.refused('evse-above-its-model', 'An EVSE raised above the maxPower of the model of its charging station.', `${B('4.1, What a model rates')}; csharp-review 19`,
+              'commit-11-above-model', evseChange(gefRenewed, 350000), 'commit-11-renewed',
+              { ...references, reason: "The maximum power of the EVSE 'DE*GEF*E1*1', 350 kW, is above the one of the model 'GD-DC300' of 'GraphDefined' of its charging station 'DE*GEF*S1', 300 kW!" });
+
+    const modelRated = (maxPower) => parties.prepare({ createdAt: minute(11), description: `The GD-DC300 at ${maxPower / 1000} kW`, signers: [ gdModels ],
+                                                       changes: [ update('ChargingStationModel', 'GD-DC300', 'maxPower', 300000, maxPower, [ 'ChargingStationManufacturer', 'GraphDefined' ]) ] });
+    parties.keep('commit-11-model', modelRated(350000));
+    P.refused('model-below-what-names-it', 'A charging station manufacturer lowering the maxPower of its model below an EVSE of a charging station of another party naming it.', `${B('4.1, What a model rates')}; csharp-review 19`,
+              'commit-11-model-lowered', modelRated(250000), 'commit-11-model',
+              { ...references, reason: "The maximum power of the EVSE 'DE*GEF*E1*1', 300 kW, is above the one of the model 'GD-DC300' of 'GraphDefined' of its charging station 'DE*GEF*S1', 250 kW!" });
+
+    const meterSigning = (signatureMethod) => parties.prepare({
+        createdAt:    minute(11),
+        description:  `The KDM-500 signs with OCMF; DE*GEF*E1*2 with a meter signing with ${signatureMethod}`,
+        changes:      [ update('EnergyMeterModel', 'KDM-500', 'signatureMethods', null, [ 'OCMF' ], [ 'EnergyMeterManufacturer', 'KERNBERG' ]),
+                        add('EVSE', { '@id': 'DE*GEF*E1*2', maxPower: 150000, energyMeter: meter({ '@id': 'DE*GEF*M1*2', signatureMethods: [ signatureMethod ], created: minute(11), lastChange: minute(11) }) },
+                            [ 'ChargingStation', 'DE*GEF*S1' ]) ],
+        signers:      [ kdmModels, gefRenewed ],
+    });
+    parties.keep('commit-11-meter', meterSigning('OCMF'));
+    P.refused('meter-signing-not-as-its-model', 'An energy meter signing with a signature method its model does not name, the model naming one.', `${B('4.1, What a model rates')}; csharp-review 19`,
+              'commit-11-meter-method', meterSigning('EDL40'), 'commit-11-meter',
+              { ...references, reason: "The energy meter 'DE*GEF*M1*2' signs with 'EDL40', no signature method of its model 'KDM-500' of 'KERNBERG'!" });
 
     // ---- What a change set gives is what the content holds (csharp-review 10): an EVSE added with a JSON-LD context, or
     //      with a timestamp not to the millisecond, is refused.
