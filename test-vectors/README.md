@@ -15,17 +15,20 @@ with `node:crypto` alone mismatches. `--check` is the drift guard of CI. The fil
 | `poi-encodings.json` | RFC 4648, RFC 9285 | `base64`/`base64Invalid`: canonical Base64 as POI reads keys and signature values; `base45`/`base45Invalid`: Base45, as the QR code of a trust anchor holds its CBOR. |
 | `poi-specification.json` | SPECIFICATION.md section 6, every value verbatim; section 2 for custom data | `contents` (content, ETags; also the content of section 6 with custom data, held as given, its ETags calculated by the generator), `skeletons` (skeleton, digest), `commits` (commit, content, identification), `keys` (COSE key, thumbprint), `signatures` (input, value, key, private seed) and `invalidSignatures`, `priceStatements` (statement, digest), `trustAnchors` (JSON, QR code). |
 | `poi-trust.json` | SPECIFICATION.md sections 8.4 to 8.6 | `stationProofs`: proofs of the example network of section 6, its operator holding the quorum of section 6, signed with its Ed25519 keys: trust anchor and proof (JSON text), the time `at`, the `root` the proof leads to, and `expected` `accepted` or `refused`. |
-| `poi-history.json` | `runs/csharp-987fa26`, the frozen run | Documents of the run and what an implementation must calculate of them: `versions` (ETags), `commits`, `checkpoints` (identifications and fields), `checkpointProofs`, `priceStatements` (digests, chains), `trustAnchors`, `stationProofs` (root, verified against the trust anchor at `at`), `replays` (the history commit by commit). |
+| `poi-history.json` | `runs/csharp-33447ac`, the frozen run | Documents of the run and what an implementation must calculate of them: `versions` (ETags), `commits`, `checkpoints` (identifications and fields), `checkpointProofs`, `priceStatements` (digests, chains), `trustAnchors`, `stationProofs` (root, verified against the trust anchor at `at`), `replays` (the history commit by commit). |
 | `poi-refusals.json` | the frozen run; SPECIFICATION.md | `vectors`: a document of the run with a JSON patch applied, checked at another time, against another trust anchor or checkpoint, or a text: each must be refused. |
 | `poi-histories.json` | SPECIFICATION.md sections 4, 5, 8.5, 10 and 11; histories the generator signs | `histories`: small histories of the roaming network `rn1` of section 6, made and signed by the generator, their documents as JSON text. `replays`: a history taken step by step, `accepted`, or its last step `refused`, with its `control`. `anchoredSnapshots`: a history started from a snapshot of another server, of the head or of a checkpoint, only anchored in the trust anchor at `at` (10.5, Anchored), with its `control`. |
 
 ## The frozen run
 
-`runs/csharp-987fa26/` is what one run of the C# examples A1 to A13 of WWCP_POI at commit `987fa26` published (public
+`runs/csharp-33447ac/` is what one run of the C# examples A1 to A14 of WWCP_POI at commit `33447ac` published (public
 data only; its console output is `csharp-output.log`), and in `proofs/`, what `proofs/MakeProofs.cs.txt` made of the
-same history with the C# implementation, at `at`. It replaces `csharp-80e4ccc`, since `987fa26` gave models, stations,
-meters and certificates hardware revisions and firmware versions, and certificates for station and meter models with
-their components (docs/csharp-review.md, 16 and 17). WWCP_POI.TS keeps a vendored copy of it and of the `poi-*.json` for
+same history with the C# implementation, at `at`. It replaces `csharp-987fa26`, since example A14 publishes the
+QI-Digital documents of a meter (`published/EM-LAB-DCC-2026-0815.json`, `PTB-DE-26-M-PTB-0108.json`,
+`PTB-DE-26-QS-PTB-0042.json`, `SAALE-DoC-SM-3-2026-01.json`) and adds the calibration laboratory EM-LAB to QA, so that
+the head is revision 8 of epoch 2; `csharp-987fa26` had replaced `csharp-80e4ccc`, since `987fa26` gave models,
+stations, meters and certificates hardware revisions and firmware versions, and certificates for station and meter
+models with their components (docs/csharp-review.md, 16 and 17). WWCP_POI.TS keeps a vendored copy of it and of the `poi-*.json` for
 its own suite (`tests/conformance.test.ts`); `VendoredCopiesTests` of the C# harness fails when a copy drifts. Every
 run of the examples makes new keys, so every digest of another run differs: this run is frozen, not regenerated.
 

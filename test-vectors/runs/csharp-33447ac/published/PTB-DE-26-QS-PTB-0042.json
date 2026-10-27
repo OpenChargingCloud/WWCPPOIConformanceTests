@@ -1,0 +1,36 @@
+{
+  "@context": "https://open.charging.cloud/contexts/wwcp/qiDigital/digitalCertificateOfConformity/v1",
+  "@id": "DE-26-QS-PTB-0042",
+  "revision": 0,
+  "module": "D",
+  "legislation": {
+    "name": "MID",
+    "act": "Directive 2014/32/EU"
+  },
+  "conformityAssessmentBodyId": "PTB",
+  "notifiedBodyNumber": "0102",
+  "manufacturer": {
+    "type": "EnergyMeterManufacturer",
+    "manufacturerId": "SAALE",
+    "scope": [
+      "MI-003"
+    ]
+  },
+  "validFrom": "2026-10-27T17:20:56.787Z",
+  "validUntil": "2029-10-27T17:20:56.787Z",
+  "conclusion": {
+    "en": "The quality system of SAALE for production, final product inspection and testing meets the MID, Annex II, module D, for MI-003."
+  },
+  "conditions": [
+    {
+      "en": "Subject to the surveillance of the notified body."
+    }
+  ],
+  "documentURL": "https://www.ptb.example/certificates/DE-26-QS-PTB-0042.pdf",
+  "signature": {
+    "signedAt": "2026-10-27T17:20:57.139Z",
+    "algorithm": "ML-DSA-65",
+    "keyId": "aef3ed777c623e6d85a210e3daafc4fd2979f489e3d6990b86efbe50d370d0f9",
+    "value": "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"
+  }
+}

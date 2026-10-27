@@ -31,7 +31,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 {
 
     /// <summary>
-    /// poi-history.json: what the C# examples A1 to A13 of WWCP_POI published in one run, frozen - checked by the
+    /// poi-history.json: what the C# examples A1 to A14 of WWCP_POI published in one run, frozen - checked by the
     /// implementation as it is now, so that the day it calculates otherwise than it did, this turns red.
     /// </summary>
     [TestFixture]

@@ -1,0 +1,71 @@
+{
+  "@context": "https://open.charging.cloud/contexts/wwcp/qiDigital/digitalDeclarationOfConformity/v1",
+  "@id": "DoC-SM-3-2026-01",
+  "model": {
+    "type": "EnergyMeterModel",
+    "manufacturerId": "SAALE",
+    "modelId": "SM-3",
+    "hardwareRevisions": [
+      "1.4"
+    ],
+    "firmwareVersions": [
+      "1.0.7"
+    ]
+  },
+  "legislations": [
+    {
+      "name": "MID",
+      "act": "Directive 2014/32/EU"
+    },
+    {
+      "name": "EMC",
+      "act": "Directive 2014/30/EU"
+    },
+    {
+      "name": "RoHS",
+      "act": "Directive 2011/65/EU"
+    }
+  ],
+  "standards": [
+    {
+      "reference": "EN 50470-1:2006"
+    },
+    {
+      "reference": "EN 50470-3:2022"
+    }
+  ],
+  "notifiedBodies": [
+    {
+      "conformityAssessmentBodyId": "PTB",
+      "notifiedBodyNumber": "0102",
+      "module": "B",
+      "certificateId": "DE-26-M-PTB-0108",
+      "intervention": {
+        "en": "Performed the EU-type examination and issued the EU-type examination certificate"
+      }
+    },
+    {
+      "conformityAssessmentBodyId": "PTB",
+      "notifiedBodyNumber": "0102",
+      "module": "D",
+      "certificateId": "DE-26-QS-PTB-0042",
+      "intervention": {
+        "en": "Approved the quality system of the manufacturer and surveils it"
+      }
+    }
+  ],
+  "additionalInformation": {
+    "en": "Accuracy class B, three-phase, 3 x 230/400 V, 0.25 to 63 A."
+  },
+  "placeOfIssue": "Halle (Saale)",
+  "signatory": {
+    "name": "Jane Doe",
+    "role": "Managing director"
+  },
+  "signature": {
+    "signedAt": "2026-10-27T17:20:57.203Z",
+    "algorithm": "ES256",
+    "keyId": "e68d50a706f7b5672927db071b06669dc9157a777fef42697a124e9b46ac578a",
+    "value": "SVvKIH3eH/h2gAvVApY/UXk2ndxUG+2EnunaY1VlIqqGSZraw0/z86A5XOi293yI9UZt4nPUGI6y44DwHhmxOQ=="
+  }
+}

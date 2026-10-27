@@ -22,7 +22,7 @@
  *   - libs/Styx/Styx/Illias/JSON/README.md, section 4, and the escaping table of
  *     libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs: canonical JSON and deterministic CBOR;
  *   - libs/WWCP_POI/SPECIFICATION.md, sections 1 and 6: the examples of the specification, and section 2: custom data;
- *   - test-vectors/runs/<run>/: what one run of the C# examples A1 to A13 of WWCP_POI published, frozen;
+ *   - test-vectors/runs/<run>/: what one run of the C# examples A1 to A14 of WWCP_POI published, frozen;
  *   - and what it makes and signs itself, deterministically: the station proofs of section 4 (poi-trust.json) and the
  *     histories of section 7 (poi-histories.json), with the keys of section 6 of the specification and of seeds of its own.
  *
@@ -49,11 +49,11 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT         = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT          = join(ROOT, 'test-vectors');
-const RUN          = 'csharp-987fa26';
+const RUN          = 'csharp-33447ac';
 const RUN_DIR      = join(OUT, 'runs', RUN);
 
 /** A point in time while the key statements, the keys and the attestations of the frozen run are valid. */
-const AT           = '2026-10-26T00:58:00.000Z';
+const AT           = '2026-10-27T17:23:00.000Z';
 
 const STYX_README  = 'libs/Styx/Styx/Illias/JSON/README.md';
 const STYX_TESTS   = 'libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs';
@@ -1269,7 +1269,7 @@ function historyVectors() {
         ids(list, `history (${name})`);
 
     return vectorFile(
-        `WWCP POI 3 (libs/WWCP_POI), as its C# examples A1 to A13 published it in one run: test-vectors/runs/${RUN}`,
+        `WWCP POI 3 (libs/WWCP_POI), as its C# examples A1 to A14 published it in one run: test-vectors/runs/${RUN}`,
         'What a roaming network, its servers, its witnesses and a driver\'s app published, public data only, frozen as the reference implementation wrote it. Each entry names a document of the run (file and JSON pointer) and what an implementation must calculate of it, or that it must accept it.',
         { run: `runs/${RUN}`, at: AT, versions, commits, checkpoints, checkpointProofs, priceStatements, trustAnchors, stationProofs, replays });
 
@@ -1336,13 +1336,14 @@ function refusalVectors() {
     if (contentId(commitN.changeSet) !== commitN.changeSet['@id'] || contentId(otherN) !== otherN['@id'] || commitIdOf(commitN) !== commitN['@id'])
         fail('the change sets and the commit of the run are not identified as this script identifies them');
 
-    // The change set changed as given, identified anew by its content unless it names its @id, and its commit identified anew.
-    const changeSetPatch = (changes, changeSetId) => {
-        const changeSet = { ...commitN.changeSet, ...changes };
+    // The change set of the commit changed as given, identified anew by its content unless it names its @id, and its commit
+    // identified anew.
+    const changeSetPatch = (changes, changeSetId, commit = commitN) => {
+        const changeSet = { ...commit.changeSet, ...changes };
         const id        = changeSetId ?? contentId(changeSet);
-        return [ ...Object.entries(changes).map(([ property, value ]) => ({ op: property in commitN.changeSet ? 'replace' : 'add', path: `/changeSet/${property}`, value })),
+        return [ ...Object.entries(changes).map(([ property, value ]) => ({ op: property in commit.changeSet ? 'replace' : 'add', path: `/changeSet/${property}`, value })),
                  { op: 'replace', path: '/changeSet/@id', value: id },
-                 { op: 'replace', path: '/@id',           value: commitIdOf({ ...commitN, changeSet: { ...changeSet, '@id': id } }) } ];
+                 { op: 'replace', path: '/@id',           value: commitIdOf({ ...commit, changeSet: { ...changeSet, '@id': id } }) } ];
     };
 
     refuse({ id: 'changeSet-id',              kind: 'commit', basis: `${SPEC}, 4, 5.2`, description: 'The change set of a commit has the @id of another change set of the run, its commit identified anew: a change set is identified by its content, nobody names another one with its @id (csharp-review 4).', document: patched('published/QA-commit.json', '', changeSetPatch({}, otherN['@id'])) });
@@ -1352,16 +1353,21 @@ function refusalVectors() {
 
     // Rebased with a change naming no old value: only old values tell that a change set committed meanwhile changed what it
     // changes, which the rebase would have overwritten (csharp-review 12). It names the change set it was rebased from
-    // rightly, with the ETags of another change set of the run, so that only the missing old value is refused.
-    if (!commitN.changeSet.changes.some(change => 'oldValue' in change && change.kind !== 'Add' && change.kind !== 'AddElement'))
-        fail('published/QA-commit.json: no change of its change set names an old value');
+    // rightly, with the ETags of another change set of the run, so that only the missing old value is refused. The commit is
+    // the last one of epoch 2 that changes what is there: the head commit only adds since example A14.
+    const commitsToHead    = parseRaw(readRun('proofs/QA-epoch-2-commits-to-head.json'));
+    const changing         = commitsToHead.findLastIndex(commit => commit.changeSet.changes.some(change => 'oldValue' in change && change.kind !== 'Add' && change.kind !== 'AddElement'));
+    const commitU          = commitsToHead[changing] ?? fail('proofs/QA-epoch-2-commits-to-head.json: no change of a change set names an old value');
 
-    const withoutOldValues = commitN.changeSet.changes.map(change => without(change, 'oldValue'));
-    const rebasedOriginal  = { ...commitN.changeSet, changes: withoutOldValues, beforeETags: otherN.beforeETags, afterETags: otherN.afterETags };
+    if (contentId(commitU.changeSet) !== commitU.changeSet['@id'] || commitIdOf(commitU) !== commitU['@id'])
+        fail('the commit of the run that changes what is there is not identified as this script identifies it');
+
+    const withoutOldValues = commitU.changeSet.changes.map(change => without(change, 'oldValue'));
+    const rebasedOriginal  = { ...commitU.changeSet, changes: withoutOldValues, beforeETags: otherN.beforeETags, afterETags: otherN.afterETags };
 
     refuse({ id: 'changeSet-rebased-without-old-value', kind: 'commit', basis: `${SPEC}, 4; csharp-review 12`, reason: 'which was rebased, has no old value',
              description: 'The change set of a commit without the old value of its change, naming the change set it was rebased from rightly, identified anew: a rebase without old values may have overwritten a concurrent change.',
-             document: patched('published/QA-commit.json', '', changeSetPatch({ changes: withoutOldValues, metadata: { rebasedFrom: [ { '@id': contentId(rebasedOriginal), beforeETags: otherN.beforeETags, afterETags: otherN.afterETags } ] } })) });
+             document: patched('proofs/QA-epoch-2-commits-to-head.json', `/${changing}`, changeSetPatch({ changes: withoutOldValues, metadata: { rebasedFrom: [ { '@id': contentId(rebasedOriginal), beforeETags: otherN.beforeETags, afterETags: otherN.afterETags } ] } }, undefined, commitU)) });
 
     // ---- Checkpoints (10.1): their @id is the digest of their content.
     refuse({ id: 'checkpoint-sequence',       kind: 'checkpoint', basis: `${SPEC}, 10.1`, description: 'Another sequence.',                                                                            document: patched('published/QA-checkpoint-1.json', '', [ { op: 'replace', path: '/sequence', value: 2 } ]) });
@@ -1438,8 +1444,8 @@ function refusalVectors() {
     const dcMeter   = named('/chargingStationOperators/0/energyMeterTemplates/1',            'DE*GEF*EMT_DC');
     const dc300     = named('/chargingStationManufacturers/0/chargingStationModels/1',       'GD-DC300');
     const kdm500    = named('/energyMeterManufacturers/0/energyMeterModels/0',               'KDM-500');
-    const ptb0017   = named('/conformityAssessmentBodies/1/certificates/0',                  'PTB-2026-0017');
-    const ptb0042   = named('/conformityAssessmentBodies/1/certificates/1',                  'PTB-2026-0042');
+    const ptb0017   = named('/conformityAssessmentBodies/2/certificates/0',                  'PTB-2026-0017');
+    const ptb0042   = named('/conformityAssessmentBodies/2/certificates/1',                  'PTB-2026-0042');
     const withText  = twice;
 
     quoted(`${DOCS}/ChargingStation.md`,             'taken as given, not trimmed and compared ordinally, case included; not empty and neither beginning nor ending with whitespace.', 'that a serial number is taken as given');

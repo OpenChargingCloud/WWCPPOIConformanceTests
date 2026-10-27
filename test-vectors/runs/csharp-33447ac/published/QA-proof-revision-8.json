@@ -1,0 +1,33 @@
+{
+  "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/checkpointProof/v1",
+  "checkpointId": "886ce7be2d33f6b0f08598c2fbc93794189ebc97e0325883733bec1c2ee5b979",
+  "leaf": {
+    "commitId": "a881f22454a53aff9eafb22b683af39be17e2058eeb8d446f8e082fc9feca4e6",
+    "eTags": [
+      [
+        "json",
+        "sha256",
+        "hex",
+        "1e0b5fac8ad3d81e5d225614a074bf7a364862bed9edab0e365d4b3f7ff4b83d"
+      ],
+      [
+        "cbor",
+        "sha256",
+        "hex",
+        "aa7f806f23eae4304419f47f9cfad3663f99d182ab77d0bb256ee30c7c04890c"
+      ],
+      [
+        "effectiveTree",
+        "sha256",
+        "hex",
+        "6920c38a215648ee00556d513b53e72efc1d15b0b30e9a66302bb06281ba31ca"
+      ]
+    ],
+    "revision": 8
+  },
+  "@index": 0,
+  "@size": 2,
+  "@auditPath": [
+    "6d800cceaddd034195b73ed4fc3f75dc1f7ee15df6bc7d8e214eb0fdc7bdeb89"
+  ]
+}

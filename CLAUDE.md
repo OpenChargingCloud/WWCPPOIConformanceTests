@@ -11,13 +11,14 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   rerun it, never the JSON. It takes every value verbatim from its source (drift guard), re-derives the anchors with
   `node:crypto` and refuses to write on a mismatch; `--check` is the CI guard. The format is in
   `test-vectors/README.md`.
-- **The frozen run** `test-vectors/runs/csharp-987fa26/` is what the C# examples A1 to A13 and MakeProofs of WWCP_POI
-  `987fa26` published. Every run of the examples makes new keys: it is frozen, not regenerated - replaced only when the
-  specification changes what a run publishes (`987fa26`: hardware revisions and firmware versions, certificates for
-  station and meter models with their components, `csharp-80e4ccc` before with new values given as the content holds
-  them, `csharp-bc3b1bd` before with change sets identified by their content, `csharp-dbf39b0` before with the digests
-  of price statements, `csharp-801bbce` before that).
-- **WWCP_POI.TS vendors everything** in `tests/vectors` (the run as `csharp-987fa26`, next to the `poi-*.json`) and runs
+- **The frozen run** `test-vectors/runs/csharp-33447ac/` is what the C# examples A1 to A14 and MakeProofs of WWCP_POI
+  `33447ac` published. Every run of the examples makes new keys: it is frozen, not regenerated - replaced only when the
+  specification or the examples change what a run publishes (`33447ac`: example A14, the QI-Digital documents of a
+  meter, and the calibration laboratory EM-LAB in QA, `csharp-987fa26` before with hardware revisions and firmware
+  versions, certificates for station and meter models with their components, `csharp-80e4ccc` before with new values
+  given as the content holds them, `csharp-bc3b1bd` before with change sets identified by their content,
+  `csharp-dbf39b0` before with the digests of price statements, `csharp-801bbce` before that).
+- **WWCP_POI.TS vendors everything** in `tests/vectors` (the run as `csharp-33447ac`, next to the `poi-*.json`) and runs
   the golden vectors in its own suite, `tests/conformance.test.ts` with its loader `tests/conformance.ts`.
   `VendoredCopiesTests` fails on drift; `--mirror libs/WWCP_POI.TS/tests/vectors` refreshes the copy. A change of the
   vector FORMAT therefore touches three harnesses: the C# one and the TS one here, and `tests/conformance.ts` there.
@@ -55,7 +56,7 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 398 passed (its 7 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped), TS 365
+Expected: C# 399 passed (its 7 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped), TS 366
 passed / 20 skipped (7 signing: WWCP_POI.TS verifies only; 13 replays of `poi-histories.json` that WWCP_POI.TS leaves
 to WWCP_POI: references, provider groups, grid connection points). Skips are load-bearing, not noise.
 

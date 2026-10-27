@@ -2,7 +2,7 @@
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
 (WWCP_POI3, `libs/WWCP_POI` at `8f66f2f`, Hermod `fbb442f`, Styx `06b592d3`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `febaf84`) take or calculate different things.
+`libs/WWCP_POI.TS` at `42671c4`) take or calculate different things.
 
 Each deviation is
 
@@ -35,7 +35,7 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
 round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well, and so
-is D9, found by vectors of the certificates WWCP_POI3 refuses to read. All nine are fixed: of the 378 vectors both
+is D9, found by vectors of the certificates WWCP_POI3 refuses to read. All nine are fixed: of the 379 vectors both
 implementations run 337 - the 7 requiring `signing` and the 13 of `poi-histories.json` that WWCP_POI.TS leaves to
 WWCP_POI are WWCP_POI3's alone - and agree on every one of them (see [What both do alike](#what-both-do-alike)).
 

@@ -20,13 +20,13 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `8f66f2f`, WWCP_POI.TS `febaf84`, Hermod `fbb442f`,
+Both harnesses are green against the pinned submodules (WWCP_POI `8f66f2f`, WWCP_POI.TS `42671c4`, Hermod `fbb442f`,
 Styx `06b592d3`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 378 | 398 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 378 | 365 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
+| C# harness (NUnit), WWCP_POI3 | 379 | 399 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 379 | 366 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
@@ -62,7 +62,7 @@ decimals, integers and timestamps, and dropped the custom data of an address).
 | Directory | Content |
 |---|---|
 | [`test-vectors/`](test-vectors/README.md) | **The golden vectors**, generated: canonical JSON and CBOR, encodings, the examples of SPECIFICATION.md section 6 and its content with custom data, signed trust scenarios, the documents of the frozen run with what to calculate of them, refusals, and histories the generator signs, replayed step by step. Their format is in the [README](test-vectors/README.md) there. |
-| `test-vectors/runs/csharp-987fa26/` | **The frozen run**: what the C# examples A1 to A13 of WWCP_POI `987fa26` published and MakeProofs made of the same history, public data only (WWCP_POI.TS keeps a vendored copy, next to its copy of the golden vectors). |
+| `test-vectors/runs/csharp-33447ac/` | **The frozen run**: what the C# examples A1 to A14 of WWCP_POI `33447ac` published and MakeProofs made of the same history, public data only (WWCP_POI.TS keeps a vendored copy, next to its copy of the golden vectors). |
 | [`tools/generate-test-vectors.mjs`](tools/generate-test-vectors.mjs) | The generator: Node, no dependencies. Takes every value verbatim from its source, re-derives the anchors with `node:crypto` alone (identifications, ETags of canonical JSON and deterministic CBOR, tree digests, thumbprints, signatures, the digests chaining price statements), signs the trust scenarios and the histories deterministically (Ed25519, Ed448, ES256 after RFC 6979), and refuses to write on any mismatch. |
 | `Tests/WWCPPOIConformance_Tests/` | The **C# harness** (NUnit): WWCP_POI3 against every vector file, plus `VendoredCopiesTests`. |
 | `Tests/WWCPPOIConformance_Tests.TS/` | The **TypeScript harness** (vitest): WWCP_POI.TS, imported from source, against every vector file. |
