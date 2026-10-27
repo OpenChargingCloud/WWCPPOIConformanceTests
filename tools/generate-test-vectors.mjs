@@ -1498,6 +1498,112 @@ function refusalVectors() {
              "A hardware revision of the certified energy meter model 'KDM-500' of 'KERNBERG' must not be given twice!",
              [ { op: 'add', path: `${ptb0042}/energyMeters/0/hardwareRevisions/-`, value: '2.1' } ]);
 
+    // ---- Versions: a certificate as WWCP_POI takes it (ConformityCertificate and CertifiedEnergyMeter of WWCP_POI2): for
+    //      exactly one model, with its manufacturer; at least one hardware revision and one firmware version, also of each
+    //      energy meter it was issued with; an absolute documentURL, a legislation not empty, notBefore not after
+    //      notAfter; at least one release, none twice, none both verified and compatible (compared without case, as
+    //      releases are); energy meters of a charging station model only, each model once (without case, as models are).
+    //      The head of the run with one certificate changed, without its eTags, as above; the refusal names it (`reason`)
+    //      in the words of WWCP_POI. PTB-2026-0017 is for the energy meter model KDM-500, PTB-2026-0042 for the charging
+    //      station model GD-DC300, issued with KDM-500.
+    const CERTIFICATES = `${DOCS}/ConformityAssessmentBody.md`;
+    const malformed    = (id, description, reason, patch) =>
+                             refuse({ id, kind: 'version', basis: CERTIFICATES, description, reason,
+                                      document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, ...patch ]) });
+
+    quoted(CERTIFICATES, '- For exactly one model: `chargingStationManufacturerId` and `chargingStationModel`, or `energyMeterManufacturerId` and\n  `energyMeterModel`, each with its manufacturer.',
+           'that a certificate is for exactly one model, with its manufacturer');
+    quoted(CERTIFICATES, 'Mandatory, at least one: the hardware revisions of the model it covers',                                   'that a certificate names at least one hardware revision');
+    quoted(CERTIFICATES, 'Mandatory, at least one: the firmware versions of the model it covers',                                     'that a certificate names at least one firmware version');
+    quoted(CERTIFICATES, '| `documentURL` | URL | update/remove | Absolute;',                                                         'that the documentURL of a certificate is absolute');
+    quoted(CERTIFICATES, '| `legislation` | string | update/remove | The legislation it is issued under, e.g. `MID`: one its body is `notifiedFor`. |',
+           'what legislation a certificate names');
+    quoted(CERTIFICATES, '| `notAfter` | timestamp | update/remove | End of validity; not before `notBefore`. |',                    'that a certificate ends no earlier than it begins');
+    quoted(CERTIFICATES, '- At least one release in both lists together; a release not in both, not twice, not empty.',              'which releases a certificate names');
+    quoted(CERTIFICATES, 'a model of an energy meter manufacturer of the network in at least one of its hardware revisions and firmware versions; each model once, in their given order; omitted when none. A certificate for an energy meter model names none.',
+           'which energy meters a certificate names');
+
+    malformed('version-certificate-model-none',
+              'The certificate PTB-2026-0017 names no model: its energyMeterManufacturerId and energyMeterModel removed.',
+              "The certificate 'PTB-2026-0017' must be for either a charging station model or an energy meter model!",
+              [ { op: 'remove', path: `${ptb0017}/energyMeterManufacturerId` }, { op: 'remove', path: `${ptb0017}/energyMeterModel` } ]);
+
+    malformed('version-certificate-model-both',
+              'The certificate PTB-2026-0017 for the energy meter model KDM-500 of KERNBERG names the charging station model GD-DC300 of GraphDefined as well.',
+              "The certificate 'PTB-2026-0017' must be for either a charging station model or an energy meter model!",
+              [ { op: 'add', path: `${ptb0017}/chargingStationManufacturerId`, value: 'GraphDefined' }, { op: 'add', path: `${ptb0017}/chargingStationModel`, value: 'GD-DC300' } ]);
+
+    malformed('version-certificate-model-without-manufacturer',
+              'The certificate PTB-2026-0042 names the charging station model GD-DC300 without its manufacturer.',
+              "The certificate 'PTB-2026-0042' must name the charging station model it is for with its manufacturer!",
+              [ { op: 'remove', path: `${ptb0042}/chargingStationManufacturerId` } ]);
+
+    malformed('version-certificate-manufacturer-without-model',
+              'The certificate PTB-2026-0017 names the energy meter manufacturer KERNBERG without its model.',
+              "The certificate 'PTB-2026-0017' must name the energy meter model it is for with its manufacturer!",
+              [ { op: 'remove', path: `${ptb0017}/energyMeterModel` } ]);
+
+    malformed('version-certificate-hardware-revisions-none',
+              'The certificate PTB-2026-0017 names no hardware revision: an empty array.',
+              "The certificate 'PTB-2026-0017' must name at least one hardware revision of its model!",
+              [ { op: 'replace', path: `${ptb0017}/hardwareRevisions`, value: [] } ]);
+
+    malformed('version-certificate-firmware-versions-none',
+              'The certificate PTB-2026-0042 names no firmware version: none given.',
+              "The certificate 'PTB-2026-0042' must name at least one firmware version of its model!",
+              [ { op: 'remove', path: `${ptb0042}/firmwareVersions` } ]);
+
+    // Without a slash before it: .NET on Linux takes "/certificates/…" as an absolute URI, of a file.
+    malformed('version-certificate-document-url-relative',
+              'The certificate PTB-2026-0017 names its documentURL as a relative reference, a path without scheme and host.',
+              'documentURL: expected an absolute URL.',
+              [ { op: 'replace', path: `${ptb0017}/documentURL`, value: 'certificates/PTB-2026-0017.pdf' } ]);
+
+    malformed('version-certificate-legislation-empty',
+              'The certificate PTB-2026-0042 names a legislation of a space alone.',
+              'A legislation must not be empty.',
+              [ { op: 'replace', path: `${ptb0042}/legislation`, value: ' ' } ]);
+
+    malformed('version-certificate-validity-reversed',
+              'The certificate PTB-2026-0017 ends a millisecond before it begins: its notAfter before its notBefore.',
+              'notBefore must not exceed notAfter.',
+              [ { op: 'replace', path: `${ptb0017}/notAfter`, value: new Date(Date.parse(at(qa, `${ptb0017}/notBefore`)) - 1).toISOString() } ]);
+
+    malformed('version-certificate-release-none',
+              'The certificate PTB-2026-0017 names no transparency software release, neither verified nor compatible.',
+              'A document must identify at least one software release.',
+              [ { op: 'replace', path: `${ptb0017}/verifiedTransparencySoftwareIds`, value: [] } ]);
+
+    malformed('version-certificate-release-twice',
+              'The certificate PTB-2026-0042 names its verified release chargy-1.5.0 twice.',
+              'Empty or duplicate TransparencySoftware reference.',
+              [ { op: 'add', path: `${ptb0042}/verifiedTransparencySoftwareIds/-`, value: 'chargy-1.5.0' } ]);
+
+    malformed('version-certificate-release-both',
+              'The certificate PTB-2026-0042 names its verified release chargy-1.5.0 as compatible as well, in uppercase: releases are compared without case.',
+              'A release cannot be both verified and merely compatible in the same document.',
+              [ { op: 'add', path: `${ptb0042}/compatibleTransparencySoftwareIds/-`, value: 'CHARGY-1.5.0' } ]);
+
+    malformed('version-certificate-energy-meters-of-meter-model',
+              'The certificate PTB-2026-0017 for the energy meter model KDM-500 names that model as an energy meter it was issued with: only a certificate of a charging station model names energy meters.',
+              "The certificate 'PTB-2026-0017' of an energy meter model names no energy meters!",
+              [ { op: 'add', path: `${ptb0017}/energyMeters`, value: [ { manufacturerId: 'KERNBERG', modelId: 'KDM-500', hardwareRevisions: [ '2.1' ], firmwareVersions: [ '3.2' ] } ] } ]);
+
+    malformed('version-certificate-energy-meter-twice',
+              'The certificate PTB-2026-0042 names the energy meter model KDM-500 of KERNBERG twice, the second time in lowercase: models are compared without case.',
+              "The energy meter model 'KDM-500' of 'KERNBERG' must not be given twice in the certificate 'PTB-2026-0042'!",
+              [ { op: 'add', path: `${ptb0042}/energyMeters/-`, value: { manufacturerId: 'KERNBERG', modelId: 'kdm-500', hardwareRevisions: [ '2.1' ], firmwareVersions: [ '3.2' ] } } ]);
+
+    malformed('version-certificate-energy-meter-hardware-revisions-none',
+              'The energy meter the certificate PTB-2026-0042 was issued with names no hardware revision: an empty array.',
+              "The certified energy meter model 'KDM-500' of 'KERNBERG' must name at least one hardware revision!",
+              [ { op: 'replace', path: `${ptb0042}/energyMeters/0/hardwareRevisions`, value: [] } ]);
+
+    malformed('version-certificate-energy-meter-firmware-versions-none',
+              'The energy meter the certificate PTB-2026-0042 was issued with names no firmware version: none given.',
+              "The certified energy meter model 'KDM-500' of 'KERNBERG' must name at least one firmware version!",
+              [ { op: 'remove', path: `${ptb0042}/energyMeters/0/firmwareVersions` } ]);
+
     // ---- Checkpoint proofs (10.4).
     const proof4 = jsonRun('published/QA-proof-revision-4.json');
     refuse({ id: 'checkpointProof-index',     kind: 'checkpointProof', basis: `${SPEC}, 10.4`, description: 'Another position of the commit in the checkpoint.',                                  document: patched('published/QA-proof-revision-4.json', '', [ { op: 'replace', path: '/@index', value: proof4['@index'] === 0 ? 1 : 0 } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });

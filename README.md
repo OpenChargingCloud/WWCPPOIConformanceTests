@@ -20,13 +20,13 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `2729e9e`, WWCP_POI.TS `60d4f0a`, Hermod `fbb442f`,
+Both harnesses are green against the pinned submodules (WWCP_POI `2729e9e`, WWCP_POI.TS `1f0d9c7`, Hermod `fbb442f`,
 Styx `06b592d3`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 341 | 361 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 341 | 328 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
+| C# harness (NUnit), WWCP_POI3 | 357 | 377 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 357 | 344 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
@@ -34,7 +34,8 @@ The two implementations agree on every vector both run. The six deviations the v
 **WWCP_POI3 took what WWCP_POI.TS refuses**, are fixed in WWCP_POI (D1 and D2 in `2c90847`, D3 in `be07037`, D4 and
 D5 in `6e469a0`, D6 in `65e658d`); D7, the other way round, where **WWCP_POI.TS took what WWCP_POI3 refuses**, in
 WWCP_POI.TS `b9c786e`; D8, found by the histories the generator signs, the other way round as well, in WWCP_POI.TS
-`e2b66b6`. Their vectors hold both implementations to it - see
+`e2b66b6`; D9, certificates WWCP_POI3 refuses to read, the other way round as well, in WWCP_POI.TS `1f0d9c7`.
+Their vectors hold both implementations to it - see
 **[docs/implementation-deviations.md](docs/implementation-deviations.md)**:
 
 | | Deviation |
@@ -47,9 +48,10 @@ WWCP_POI.TS `b9c786e`; D8, found by the histories the generator signs, the other
 | D6 | ✅ A proof's certificates and key statement may name another roaming network operator: fixed in WWCP_POI `65e658d` |
 | D7 | ✅ WWCP_POI.TS: a certificate may name a hardware revision or firmware version twice, and so may the energy meters it was issued with: fixed in WWCP_POI.TS `b9c786e` |
 | D8 | ✅ WWCP_POI.TS takes a change set signed, besides by its owner, by a key of a party not valid at its `createdAt`, which WWCP_POI3 refuses: fixed in WWCP_POI.TS `e2b66b6` |
+| D9 | ✅ WWCP_POI.TS takes a certificate WWCP_POI3 refuses to read: for no model or for two, without a hardware revision, firmware version or release, a relative `documentURL`, an empty legislation, a `notAfter` before its `notBefore`, a release twice or both verified and compatible, energy meters of an energy meter model or one model twice (16 vectors `version-certificate-*`): fixed in WWCP_POI.TS `1f0d9c7` |
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
-([`docs/csharp-review.md`](docs/csharp-review.md)); D1, D2, D7 and D8 are new. Which of its 21 findings the vectors
+([`docs/csharp-review.md`](docs/csharp-review.md)); D1, D2, D7, D8 and D9 are new. Which of its 21 findings the vectors
 hold, and why the rest is out of their reach, is listed in [docs/implementation-deviations.md](docs/implementation-deviations.md).
 Findings 20 and 21, custom data held as given, also the custom data of an address, are fixed in Styx `06b592d3`; the
 vectors `spec-2-custom-data-*` hold both implementations to it (against Styx `91901a9`, WWCP_POI3 wrote other

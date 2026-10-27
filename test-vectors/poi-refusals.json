@@ -1042,6 +1042,398 @@
     },
     {
       "expected": "refused",
+      "id": "version-certificate-model-none",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0017 names no model: its energyMeterManufacturerId and energyMeterModel removed.",
+      "reason": "The certificate 'PTB-2026-0017' must be for either a charging station model or an energy meter model!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "remove",
+            "path": "/conformityAssessmentBodies/1/certificates/0/energyMeterManufacturerId"
+          },
+          {
+            "op": "remove",
+            "path": "/conformityAssessmentBodies/1/certificates/0/energyMeterModel"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-model-both",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0017 for the energy meter model KDM-500 of KERNBERG names the charging station model GD-DC300 of GraphDefined as well.",
+      "reason": "The certificate 'PTB-2026-0017' must be for either a charging station model or an energy meter model!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/conformityAssessmentBodies/1/certificates/0/chargingStationManufacturerId",
+            "value": "GraphDefined"
+          },
+          {
+            "op": "add",
+            "path": "/conformityAssessmentBodies/1/certificates/0/chargingStationModel",
+            "value": "GD-DC300"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-model-without-manufacturer",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0042 names the charging station model GD-DC300 without its manufacturer.",
+      "reason": "The certificate 'PTB-2026-0042' must name the charging station model it is for with its manufacturer!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "remove",
+            "path": "/conformityAssessmentBodies/1/certificates/1/chargingStationManufacturerId"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-manufacturer-without-model",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0017 names the energy meter manufacturer KERNBERG without its model.",
+      "reason": "The certificate 'PTB-2026-0017' must name the energy meter model it is for with its manufacturer!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "remove",
+            "path": "/conformityAssessmentBodies/1/certificates/0/energyMeterModel"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-hardware-revisions-none",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0017 names no hardware revision: an empty array.",
+      "reason": "The certificate 'PTB-2026-0017' must name at least one hardware revision of its model!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/1/certificates/0/hardwareRevisions",
+            "value": []
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-firmware-versions-none",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0042 names no firmware version: none given.",
+      "reason": "The certificate 'PTB-2026-0042' must name at least one firmware version of its model!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "remove",
+            "path": "/conformityAssessmentBodies/1/certificates/1/firmwareVersions"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-document-url-relative",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0017 names its documentURL as a relative reference, a path without scheme and host.",
+      "reason": "documentURL: expected an absolute URL.",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/1/certificates/0/documentURL",
+            "value": "certificates/PTB-2026-0017.pdf"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-legislation-empty",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0042 names a legislation of a space alone.",
+      "reason": "A legislation must not be empty.",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/1/certificates/1/legislation",
+            "value": " "
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-validity-reversed",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0017 ends a millisecond before it begins: its notAfter before its notBefore.",
+      "reason": "notBefore must not exceed notAfter.",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/1/certificates/0/notAfter",
+            "value": "2026-10-26T00:56:51.633Z"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-release-none",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0017 names no transparency software release, neither verified nor compatible.",
+      "reason": "A document must identify at least one software release.",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/1/certificates/0/verifiedTransparencySoftwareIds",
+            "value": []
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-release-twice",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0042 names its verified release chargy-1.5.0 twice.",
+      "reason": "Empty or duplicate TransparencySoftware reference.",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/conformityAssessmentBodies/1/certificates/1/verifiedTransparencySoftwareIds/-",
+            "value": "chargy-1.5.0"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-release-both",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0042 names its verified release chargy-1.5.0 as compatible as well, in uppercase: releases are compared without case.",
+      "reason": "A release cannot be both verified and merely compatible in the same document.",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/conformityAssessmentBodies/1/certificates/1/compatibleTransparencySoftwareIds/-",
+            "value": "CHARGY-1.5.0"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-energy-meters-of-meter-model",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0017 for the energy meter model KDM-500 names that model as an energy meter it was issued with: only a certificate of a charging station model names energy meters.",
+      "reason": "The certificate 'PTB-2026-0017' of an energy meter model names no energy meters!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/conformityAssessmentBodies/1/certificates/0/energyMeters",
+            "value": [
+              {
+                "manufacturerId": "KERNBERG",
+                "modelId": "KDM-500",
+                "hardwareRevisions": [
+                  "2.1"
+                ],
+                "firmwareVersions": [
+                  "3.2"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-energy-meter-twice",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0042 names the energy meter model KDM-500 of KERNBERG twice, the second time in lowercase: models are compared without case.",
+      "reason": "The energy meter model 'KDM-500' of 'KERNBERG' must not be given twice in the certificate 'PTB-2026-0042'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/conformityAssessmentBodies/1/certificates/1/energyMeters/-",
+            "value": {
+              "manufacturerId": "KERNBERG",
+              "modelId": "kdm-500",
+              "hardwareRevisions": [
+                "2.1"
+              ],
+              "firmwareVersions": [
+                "3.2"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-energy-meter-hardware-revisions-none",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The energy meter the certificate PTB-2026-0042 was issued with names no hardware revision: an empty array.",
+      "reason": "The certified energy meter model 'KDM-500' of 'KERNBERG' must name at least one hardware revision!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/1/certificates/1/energyMeters/0/hardwareRevisions",
+            "value": []
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-certificate-energy-meter-firmware-versions-none",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The energy meter the certificate PTB-2026-0042 was issued with names no firmware version: none given.",
+      "reason": "The certified energy meter model 'KDM-500' of 'KERNBERG' must name at least one firmware version!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "remove",
+            "path": "/conformityAssessmentBodies/1/certificates/1/energyMeters/0/firmwareVersions"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
       "id": "checkpointProof-index",
       "kind": "checkpointProof",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 10.4",

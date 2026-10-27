@@ -2,7 +2,7 @@
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
 (WWCP_POI3, `libs/WWCP_POI` at `2729e9e`, Hermod `fbb442f`, Styx `06b592d3`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `60d4f0a`) take or calculate different things.
+`libs/WWCP_POI.TS` at `1f0d9c7`) take or calculate different things.
 
 Each deviation is
 
@@ -31,12 +31,13 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D6](#d6-foreign-operator) | ✅ A proof's certificates and key statement may name another roaming network operator: **fixed** in WWCP_POI `65e658d` | WWCP_POI3 | `trust-certificate-operator`, `trust-statement-operator` | low-medium | 19 |
 | [D7](#d7-certificate-twice) | ✅ A certificate may name a hardware revision or firmware version twice, and so may the energy meters it was issued with: **fixed** in WWCP_POI.TS `b9c786e` | WWCP_POI.TS | `version-text-certificate-twice`, `version-text-certificate-energy-meter-twice` | low | - |
 | [D8](#d8-expired-signature) | ✅ A change set signed, besides by its owner, by a key of a party not valid at its `createdAt` is taken: **fixed** in WWCP_POI.TS `e2b66b6` | WWCP_POI.TS | `key-expired-besides` | low (interop) | 3 |
+| [D9](#d9-certificate-malformed) | ✅ A certificate WWCP_POI3 refuses to read is taken: for no model or for two, a model without its manufacturer or a manufacturer without its model, no hardware revision or firmware version, also of an energy meter it was issued with, a relative `documentURL`, an empty legislation, a `notAfter` before its `notBefore`, no release, one twice or both verified and compatible, energy meters of an energy meter model, one model twice: **fixed** in WWCP_POI.TS `1f0d9c7` | WWCP_POI.TS | the 16 `version-certificate-*` | low | - |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
-round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well. All
-eight are fixed: of the 341 vectors both implementations run 321 - the 7 requiring `signing` and the 13 of
-`poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them (see
-[What both do alike](#what-both-do-alike)).
+round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well, and so
+is D9, found by vectors of the certificates WWCP_POI3 refuses to read. All nine are fixed: of the 357 vectors both
+implementations run 337 - the 7 requiring `signing` and the 13 of `poi-histories.json` that WWCP_POI.TS leaves to
+WWCP_POI are WWCP_POI3's alone - and agree on every one of them (see [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
 [O1](#o1-internal-reader) to [O4](#o4-no-valid-until).
@@ -253,6 +254,73 @@ implementations refuse `key-expired-besides`, and `key-expired` in the same word
 SPECIFICATION.md 4.1 says it of a change set waiting only; the basis of the vector stays "proposed" for every one.
 
 
+<a id="d9-certificate-malformed"></a>
+## D9. ✅ A certificate WWCP_POI3 refuses to read is taken
+
+**Vectors:** the 16 `version-certificate-*` (`poi-refusals.json`): the head of the frozen run, without its `eTags`,
+with one of its two certificates changed - `PTB-2026-0017`, for the energy meter model `KDM-500` of `KERNBERG`, or
+`PTB-2026-0042`, for the charging station model `GD-DC300` of `GraphDefined`, issued with `KDM-500`. WWCP_POI3 refuses
+each in the words its `reason` names:
+
+| Vector | The certificate | WWCP_POI3 |
+|---|---|---|
+| `version-certificate-model-none` | `PTB-2026-0017` names no model | "The certificate 'PTB-2026-0017' must be for either a charging station model or an energy meter model!" |
+| `version-certificate-model-both` | `PTB-2026-0017` names `GD-DC300` of `GraphDefined` as well | the same |
+| `version-certificate-model-without-manufacturer` | `PTB-2026-0042` names `GD-DC300` without its manufacturer | "… must name the charging station model it is for with its manufacturer!" |
+| `version-certificate-manufacturer-without-model` | `PTB-2026-0017` names `KERNBERG` without its model | "… must name the energy meter model it is for with its manufacturer!" |
+| `version-certificate-hardware-revisions-none` | `PTB-2026-0017` names `[]` | "… must name at least one hardware revision of its model!" |
+| `version-certificate-firmware-versions-none` | `PTB-2026-0042` names none | "… must name at least one firmware version of its model!" |
+| `version-certificate-document-url-relative` | `PTB-2026-0017` names `certificates/PTB-2026-0017.pdf` | "documentURL: expected an absolute URL." |
+| `version-certificate-legislation-empty` | `PTB-2026-0042` names `" "` | "A legislation must not be empty." |
+| `version-certificate-validity-reversed` | `PTB-2026-0017` ends a millisecond before it begins | "notBefore must not exceed notAfter." |
+| `version-certificate-release-none` | `PTB-2026-0017` names no release | "A document must identify at least one software release." |
+| `version-certificate-release-twice` | `PTB-2026-0042` names `chargy-1.5.0` verified twice | "Empty or duplicate TransparencySoftware reference." |
+| `version-certificate-release-both` | `PTB-2026-0042` names it compatible as well, as `CHARGY-1.5.0` | "A release cannot be both verified and merely compatible in the same document." |
+| `version-certificate-energy-meters-of-meter-model` | `PTB-2026-0017`, of an energy meter model, names `KDM-500` as an energy meter it was issued with | "The certificate 'PTB-2026-0017' of an energy meter model names no energy meters!" |
+| `version-certificate-energy-meter-twice` | `PTB-2026-0042` names `KDM-500` again, as `kdm-500` | "The energy meter model 'KDM-500' of 'KERNBERG' must not be given twice in the certificate 'PTB-2026-0042'!" |
+| `version-certificate-energy-meter-hardware-revisions-none` | its energy meter names `[]` | "The certified energy meter model 'KDM-500' of 'KERNBERG' must name at least one hardware revision!" |
+| `version-certificate-energy-meter-firmware-versions-none` | its energy meter names none | "… must name at least one firmware version!" |
+
+**Where:** WWCP_POI3 reads a certificate through `ConformityCertificate` and `CertifiedEnergyMeter` of WWCP_POI2:
+`StrictJSON.Link` refuses a `documentURL` that is not absolute, the constructors refuse the rest. WWCP_POI.TS reads of a
+certificate its identification (unique in the roaming network), who states it (`src/history/apply.ts`) and the texts of
+its versions (`src/network/versionTexts.ts`, D7), nothing else of its shape: it takes all 16. `docs/ConformityAssessmentBody.md`
+of WWCP_POI says each rule, and the generator quotes it: "For exactly one model …, each with its manufacturer",
+"Mandatory, at least one", "Absolute", "not before `notBefore`", "At least one release in both lists together; a release
+not in both, not twice, not empty", "each model once", "A certificate for an energy meter model names none".
+
+**Why it matters:** low. A certificate enters a version only by a change set its body, or the roaming network operator
+in its place, signs, and no WWCP_POI server holds one of these; but WWCP_POI.TS takes a roaming network version that
+WWCP_POI refuses to read, and a station proof gives its verifier the certificates as they are.
+
+**Fix:** refuse them where `RoamingNetwork.parse` refuses the texts of D7, in the words of WWCP_POI3 and in its order:
+first what it reads as the arguments of a certificate - the texts of its versions, each energy meter it was issued with
+(its texts, its versions twice, at least one of each), its `documentURL` - then what the constructor checks: the model,
+the versions twice, at least one of each, the legislation, the validity, the releases, the energy meters.
+
+**Fixed** in WWCP_POI.TS `1f0d9c7`: `src/network/certificates.ts`, `invalidCertificates`, which
+`RoamingNetwork.parse` checks after `invalidVersionText`, also for the version a change set leads to, reads a certificate
+as `ConformityCertificate.TryParse` does, in its words and in its order: first its arguments, by their path after the
+certificate - the JSON types of its model, the texts of its versions (moved there from `versionTexts.ts`, in the same
+words), its releases (not empty once trimmed), each energy meter it was issued with (an object, of a manufacturer and a
+model, its texts, its versions twice, at least one of each), the types of its document number and URL, an absolute
+`documentURL`, timestamps with an explicit offset, the type of its legislation -, then what the constructor checks: the
+model, the versions twice, at least one of each, the legislation, `notBefore` not after `notAfter` to the tick, the
+releases each once (ordinally, once trimmed, as `References` compares them), at least one, none both verified and
+compatible (without case), the energy meters of a charging station model only, each model once - of those named twice
+the one named first, as `GroupBy` gives it. `tests/certificates.test.ts` holds it, and the order. Both implementations
+refuse all 16 `version-certificate-*`, in the words their `reason` names.
+
+**Not covered:** WWCP_POI3 reads a certificate strictly, as every entity (`StrictJSON`): an unknown property, a
+property of another JSON type, a timestamp without its offset is an error; WWCP_POI.TS takes them, of every entity but
+the properties of a certificate it reads since D9 - an unknown property also there. No vector holds it yet, as it is
+not of certificates alone. And WWCP_POI3 compares the releases of a certificate for being
+named twice ordinally (`References`), though without case for being both verified and compatible
+(`TransparencySoftware_Id`), as releases are compared: by its code, `chargy-1.5.0` and `CHARGY-1.5.0` both verified are
+taken, against "not twice", and WWCP_POI.TS takes them as well, as WWCP_POI3 does. A refusal vector can not say it
+while both take it.
+
+
 ## What both do alike
 
 Both implementations calculate, byte for byte, and take or refuse alike:
@@ -277,7 +345,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 5 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 56 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+- the refusal of 72 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors; among them a station proof naming another revision than its attestations (D2), a change set
   naming `rebasedFrom` rightly with a change without `oldValue`, which a rebase may have overwritten a concurrent change
   with (csharp-review 12; WWCP_POI `1717ee2`, WWCP_POI.TS `4e4ec38`), and versions naming twice an identification
@@ -287,7 +355,12 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   (WWCP_POI.TS since `e32c2cd`), and versions naming a serial number, hardware revision or firmware version WWCP_POI
   does not read - empty, or beginning or ending with whitespace as `Char.IsWhiteSpace` tells it, U+0085 as well - of a
   charging station, an energy meter, their templates, a model and a certificate, or a model, a certificate or an
-  energy meter a certificate was issued with naming one twice (WWCP_POI.TS since `24c97a6`, D7);
+  energy meter a certificate was issued with naming one twice (WWCP_POI.TS since `24c97a6`, D7), and versions naming a
+  certificate WWCP_POI does not read - for no model or for two, a model without its manufacturer and the other way
+  round, without a hardware revision, a firmware version or a release, also an energy meter it was issued with without
+  one of its versions, a relative `documentURL`, an empty legislation, ending before it begins, a release twice or both
+  verified and compatible, compared without case, energy meters of an energy meter model, one model twice, compared
+  without case (WWCP_POI.TS since `1f0d9c7`, D9);
 - all 25 trust vectors: a valid proof, expired attestations, attestations of the future (D3), one holder only
   (also twice), a key that may not sign for the party, a signing key expired before it attested and one that ended
   after it attested, a key certified by another holder's identity key, an uncertified key, other identity keys pinned,
