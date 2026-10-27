@@ -46,7 +46,7 @@ refused by WWCP_POI (D8, see 3), refused here as well since. This document stays
 | 16 | ✅ A certificate is for a version of a model, but no station or meter names one of its model's | medium | confirmed | **new**; **fixed** in `7e0b0ac`, and in this port alike |
 | 17 | ✅ An energy meter names the certificate of a station model, and has none of its own | medium | confirmed | **new**; **fixed** in `987fa26`, and in this port alike |
 | 18 | ✅ What one party names blocks what another party withdraws | low | confirmed | **new**; **fixed** in `52f1172`, the specification following the code |
-| 19 | Smaller points | low | confirmed | extended; **mostly fixed** in `65e658d`, two left open as questions of design |
+| 19 | Smaller points | low | confirmed | extended; **mostly fixed** in `65e658d`, the price statements of an epoch in `1964903`, one left open as a question of design |
 | 20 | ✅ Custom data: numbers as binary floating-point numbers, timestamps in the time zone of the server | medium (interop) | confirmed | **new**, found fixing 10; **fixed** in Styx `06b592d3` |
 | 21 | ✅ The custom data of an address is lost | low | confirmed | **new**, found fixing 10; **fixed** in Styx `06b592d3` |
 
@@ -762,11 +762,16 @@ and 17. WWCPPOIConformanceTests holds both implementations to a withdrawal toget
   witnesses of example A6 follow the key statement by succession, commit by commit (`ExampleA4.Followed`): so they follow
   the ML-DSA keys of epoch 2, which the old keys stated, and refuse a version whose statement the keys they trust did not
   sign. The examples run as before, but for the words of example A13 on who states a certificate (15).
-- **Price statements taken along into an epoch they are not of (open):** `TryStartNextEpoch` takes the current
-  statements of epoch 1, signed with ES256, into epoch 2, which a peer starting in epoch 2 refuses (example A12,
+- ✅ **Price statements taken along into an epoch they are not of (fixed in `1964903`):** `TryStartNextEpoch` takes the
+  current statements of epoch 1, signed with ES256, into epoch 2, which a peer starting in epoch 2 refuses (example A12,
   *Limits*). Left open as a question of design, which example A12 calls open as well: whether a peer takes the statements
   taken along with the algorithms of the epoch before, as the signatures of the first checkpoint, or the epoch takes along
-  only those of its own algorithms and the chains of the others begin anew.
+  only those of its own algorithms and the chains of the others begin anew. **Decided** and fixed in `1964903`, the
+  latter: the next epoch takes along the current statements of its algorithms alone. The chain of an entity whose
+  statement it does not take along goes on all the same: its next statement has the next `sequence` and names the last
+  one of the epoch before as `previous`, which no server checks across the epochs, as none holds it as the current one
+  there (SPECIFICATION.md 11.4). A server signing for an operator follows that one, also after a restart (`EpochTests`);
+  the mirror of example A12 takes the price statements of `OCC` now.
 - **Models describe, nothing compares (open):** a model states `maxPower`, `currentTypes`, `connectorTypes` and `numberOfEVSEs`
   (charging stations), `currentTypes`, `maxCurrent` and `signatureMethods` (energy meters); a station of 300 kW may name
   a model of 44 kW, a meter signing with a method its model does not name. The network checks only that the model

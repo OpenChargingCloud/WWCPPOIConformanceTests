@@ -1,7 +1,7 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `2c90847`, Hermod `fbb442f`, Styx `06b592d3`) and the TypeScript port (WWCP_POI.TS,
+(WWCP_POI3, `libs/WWCP_POI` at `1964903`, Hermod `fbb442f`, Styx `06b592d3`) and the TypeScript port (WWCP_POI.TS,
 `libs/WWCP_POI.TS` at `e2b66b6`) take or calculate different things.
 
 Each deviation is
@@ -360,7 +360,7 @@ vector expects `refused` now, and both implementations refuse it when they read 
 ## The findings of csharp-review and their vectors
 
 What of the 21 findings of *csharp-review* a verifier reaches, and which vectors hold the implementations to it. All but
-two questions of design in 19 are fixed in WWCP_POI; what is a server's (a witness, its journal, the clock taking a
+one question of design in 19 are fixed in WWCP_POI; what is a server's (a witness, its journal, the clock taking a
 change set, change sets waiting, rebasing and merging) no verifier vector reaches. Most findings needed a history
 signed anew, which the keys of the frozen run, random and private, do not allow: `poi-histories.json` holds small
 histories the generator signs itself (the replays named below are of it), every refusal with its control. Where a
@@ -386,7 +386,7 @@ vector says *WWCP_POI3 alone*, WWCP_POI.TS leaves what it checks to WWCP_POI (`n
 | 16 | A certificate is for a version of a model, but no station or meter names one | `parties-models-and-certificates`, `parties-station-and-meter`; `station-firmware-of-no-model`, `station-revision-not-certified` (WWCP_POI3 alone: WWCP_POI.TS leaves the references a version holds to WWCP_POI) | Templates naming them: the generator calculates no effective content of templates. |
 | 17 | An energy meter names the certificate of a station model, and has none of its own | `parties-station-and-meter`; `station-certificate-of-a-meter`, `meter-certificate-of-a-station`, `meter-not-of-the-certificate` (WWCP_POI3 alone) | |
 | 18 | What one party names blocks what another party withdraws | `withdrawn-with-what-names-it`; `withdrawn-while-named-party`, `withdrawn-while-named-model` (WWCP_POI3 alone) | |
-| 19 | Smaller points | The quorum of a trust anchor by holders (see 1); certificates and a key statement of another operator, `trust-certificate-operator`, `trust-statement-operator` ([D6](#d6-foreign-operator)); a conformity assessment body and a grid operator added without keys, `parties-added` | The roles of checkpoint signatures and the key statements the examples trust are the verifier's and the examples'; price statements taken into an epoch and the data of models are open questions of design; building the examples and the dependencies of COSE.TS no vector reaches. |
+| 19 | Smaller points | The quorum of a trust anchor by holders (see 1); certificates and a key statement of another operator, `trust-certificate-operator`, `trust-statement-operator` ([D6](#d6-foreign-operator)); a conformity assessment body and a grid operator added without keys, `parties-added` | The roles of checkpoint signatures and the key statements the examples trust are the verifier's and the examples'; which price statements an epoch takes along, decided in WWCP_POI `1964903`, is a server's; the data of models is an open question of design; building the examples and the dependencies of COSE.TS no vector reaches. |
 | 20 | Custom data: numbers as binary floating-point numbers, timestamps in the time zone of the server | `spec-2-custom-data-decimals`, `-integers`, `-texts`, `-nested` (`poi-specification.json`) | |
 | 21 | The custom data of an address is lost | `spec-2-custom-data-address` (`poi-specification.json`) | |
 
