@@ -1,8 +1,8 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `ff2c56f`, Hermod `fbb442f`, Styx `06b592d3`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `1f0d9c7`) take or calculate different things.
+(WWCP_POI3, `libs/WWCP_POI` at `8f66f2f`, Hermod `fbb442f`, Styx `06b592d3`) and the TypeScript port (WWCP_POI.TS,
+`libs/WWCP_POI.TS` at `febaf84`) take or calculate different things.
 
 Each deviation is
 
@@ -35,7 +35,7 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
 round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well, and so
-is D9, found by vectors of the certificates WWCP_POI3 refuses to read. All nine are fixed: of the 357 vectors both
+is D9, found by vectors of the certificates WWCP_POI3 refuses to read. All nine are fixed: of the 378 vectors both
 implementations run 337 - the 7 requiring `signing` and the 13 of `poi-histories.json` that WWCP_POI.TS leaves to
 WWCP_POI are WWCP_POI3's alone - and agree on every one of them (see [What both do alike](#what-both-do-alike)).
 
@@ -416,13 +416,19 @@ the round trip. Read in the code, not shown by a vector: the text form of an ETa
 implementations share.
 
 <a id="o3-unchecked-history"></a>
-### O3. A history without a verifier of signatures
+### O3. ✅ A history without a verifier of signatures
 
 `RoamingNetworkHistory.TryAppend` of WWCP_POI3 refuses a signed commit when it is given no verifier of commit
 signatures ("is signed, but there is no verifier of commit signatures!"); `History` of WWCP_POI.TS appends it, its
 signatures unchecked, when `HistoryOptions.verifyCommit` is left out (the same for checkpoints). Not a difference in
 what either calculates - the replay vector checks content and says so (`commitAndCheckpointSignatures: "unchecked"`) -
 but in what an API takes by default: WWCP_POI.TS could refuse signed commits without a verifier, as WWCP_POI3 does.
+
+**Closed** in WWCP_POI.TS `161692b`: a signed commit or checkpoint without `verifyCommit` / `verifyCheckpoint` is
+refused, also the commit of a snapshot, in the words of WWCP_POI3 ("The commit '…' is signed, but there is no verifier
+of commit signatures!", the same for checkpoints). A snapshot is taken only anchored in a trust anchor, or unanchored
+when asked for explicitly (`unanchored`). The replays, `commitAndCheckpointSignatures: "unchecked"`, pass verifiers
+taking every signature and start unanchored, as they always checked content alone.
 
 <a id="o4-no-valid-until"></a>
 ### O4. ✅ Attestations without `validUntil` are valid forever, in both
@@ -438,7 +444,7 @@ vector expects `refused` now, and both implementations refuse it when they read 
 
 ## The findings of csharp-review and their vectors
 
-What of the 21 findings of *csharp-review* a verifier reaches, and which vectors hold the implementations to it. All but
+What of the 22 findings of *csharp-review* a verifier reaches, and which vectors hold the implementations to it. All but
 one question of design in 19 are fixed in WWCP_POI; what is a server's (a witness, its journal, the clock taking a
 change set, change sets waiting, rebasing and merging) no verifier vector reaches. Most findings needed a history
 signed anew, which the keys of the frozen run, random and private, do not allow: `poi-histories.json` holds small
@@ -468,6 +474,7 @@ vector says *WWCP_POI3 alone*, WWCP_POI.TS leaves what it checks to WWCP_POI (`n
 | 19 | Smaller points | The quorum of a trust anchor by holders (see 1); certificates and a key statement of another operator, `trust-certificate-operator`, `trust-statement-operator` ([D6](#d6-foreign-operator)); a conformity assessment body and a grid operator added without keys, `parties-added`; what a model rates, `evse-above-its-model`, `model-below-what-names-it`, `meter-signing-not-as-its-model` (WWCP_POI3 alone) | The roles of checkpoint signatures and the key statements the examples trust are the verifier's and the examples'; which price statements an epoch takes along, decided in WWCP_POI `1964903`, is a server's; the other data of a model, which describe it and are compared with nothing, no vector reaches, nor a station above its model by a template; building the examples and the dependencies of COSE.TS no vector reaches. |
 | 20 | Custom data: numbers as binary floating-point numbers, timestamps in the time zone of the server | `spec-2-custom-data-decimals`, `-integers`, `-texts`, `-nested` (`poi-specification.json`) | |
 | 21 | The custom data of an address is lost | `spec-2-custom-data-address` (`poi-specification.json`) | |
+| 22 | A peer starting from a snapshot passes over attestations it can not read | `anchored-head-unreadable-attestation`, `anchored-head-attestation-not-an-object` (`poi-histories.json`), against `TryFromAnchoredSnapshot`, which the peer uses | The peer itself, its connection and what it asks for |
 
 No finding of the review, and not covered either: of the texts WWCP_POI reads as given since `c31e5e3` and `3672b06`,
 that it takes them so - whitespace inside, case, a leading U+FEFF, which `Char.IsWhiteSpace` does not take for

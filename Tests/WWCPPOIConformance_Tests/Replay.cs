@@ -70,7 +70,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
                         if (!RoamingNetworkCommit.TryParse(json, out var commit, out Error))
                             return false;
 
-                        if (!History!.TryAppend(commit, out Error, VerifyCommitSignature: (_, _) => true))
+                        if (!History!.TryAppend(commit, out Error, VerifyCommitSignature: (_, _, _) => true))
                         {
                             Error = $"Revision {commit.Revision}: {Error}";
                             return false;

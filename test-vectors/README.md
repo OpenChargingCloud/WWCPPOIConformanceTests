@@ -17,7 +17,7 @@ with `node:crypto` alone mismatches. `--check` is the drift guard of CI. The fil
 | `poi-trust.json` | SPECIFICATION.md sections 8.4 to 8.6 | `stationProofs`: proofs of the example network of section 6, its operator holding the quorum of section 6, signed with its Ed25519 keys: trust anchor and proof (JSON text), the time `at`, the `root` the proof leads to, and `expected` `accepted` or `refused`. |
 | `poi-history.json` | `runs/csharp-987fa26`, the frozen run | Documents of the run and what an implementation must calculate of them: `versions` (ETags), `commits`, `checkpoints` (identifications and fields), `checkpointProofs`, `priceStatements` (digests, chains), `trustAnchors`, `stationProofs` (root, verified against the trust anchor at `at`), `replays` (the history commit by commit). |
 | `poi-refusals.json` | the frozen run; SPECIFICATION.md | `vectors`: a document of the run with a JSON patch applied, checked at another time, against another trust anchor or checkpoint, or a text: each must be refused. |
-| `poi-histories.json` | SPECIFICATION.md sections 4, 5, 10 and 11; histories the generator signs | `histories`: small histories of the roaming network `rn1` of section 6, made and signed by the generator, their documents as JSON text. `replays`: a history taken step by step, `accepted`, or its last step `refused`, with its `control`. |
+| `poi-histories.json` | SPECIFICATION.md sections 4, 5, 8.5, 10 and 11; histories the generator signs | `histories`: small histories of the roaming network `rn1` of section 6, made and signed by the generator, their documents as JSON text. `replays`: a history taken step by step, `accepted`, or its last step `refused`, with its `control`. `anchoredSnapshots`: a history started from a snapshot of another server, of the head or of a checkpoint, only anchored in the trust anchor at `at` (10.5, Anchored), with its `control`. |
 
 ## The frozen run
 
@@ -93,6 +93,15 @@ first calculates of the frozen run and of RFC 6979, against what is written ther
   `control` in place of the last one, a document of the history refused but for what the replay is about, so that the
   refusal is that document's doing. `reason`, where given, is a text the refusal names: as both implementations word
   it, or, of a replay one implementation does not apply to (`notApplicable`), as the one it applies to words it.
+- `anchoredSnapshots`: a server or client starting a history from another server (SPECIFICATION.md 10.5, Anchored).
+  `document` names a snapshot among the documents of `history`: of the head (`snapshot: "head"`, `{commit,
+  roamingNetwork, attestations?}`), taken only when the attestations it carries attest its head as a proof of its root
+  is verified (8.4 to 8.6), or of a checkpoint (`"checkpoint"`, `{commit, roamingNetwork, checkpoint}`), taken only when
+  the checkpoint is signed in the role `roamingNetworkOperator` as the trust anchor and the key statement of its version
+  require. `trustAnchor` is JSON text, `at` the time the keys and attestations must be valid at. The other signatures of
+  commits and checkpoints are taken unchecked (`commitAndCheckpointSignatures`). `expected` is `accepted` or `refused`;
+  a refusal has a `control`, `{document, trustAnchor, at}` with what the vector is about given otherwise, which is
+  taken, and `reason` as of a replay.
 
 ## Adding vectors
 

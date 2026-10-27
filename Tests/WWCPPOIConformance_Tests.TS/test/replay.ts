@@ -17,9 +17,13 @@
 
 import { expect } from 'vitest';
 
-import { etagToText, History, isArray, type JSONValue } from '../../../libs/WWCP_POI.TS/src/index.ts';
+import { etagToText, History, isArray, type JSONValue, type SnapshotOptions } from '../../../libs/WWCP_POI.TS/src/index.ts';
 
 import type { DocumentStep, ReplayStep } from './vectors.ts';
+
+
+/** As commitAndCheckpointSignatures: "unchecked" says: content checked, snapshot unanchored, signatures taken as they are. */
+const UNCHECKED: SnapshotOptions = { unanchored: true, verifyCommit: () => undefined, verifyCheckpoint: () => undefined };
 
 
 /**
@@ -37,7 +41,7 @@ export function replayStep(current: History | undefined, step: ReplayStep, docum
     switch (step.op) {
 
         case 'fromSnapshot':
-            return History.fromSnapshot(documentOf(step));
+            return History.fromSnapshot(documentOf(step), UNCHECKED);
 
         case 'append': {
             const commits = documentOf(step);

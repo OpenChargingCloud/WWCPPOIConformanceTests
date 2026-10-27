@@ -17,8 +17,10 @@
 
 import { describe, expect, it } from 'vitest';
 
+import { History, parseJSON, TrustAnchor } from '../../../libs/WWCP_POI.TS/src/index.ts';
+
 import { replay, replayStep } from './replay.ts';
-import { deviates, histories, historyDocument, skipReason, type ReplayStep } from './vectors.ts';
+import { deviates, histories, historyDocument, skipReason, type AnchoredSnapshotCase, type ReplayStep } from './vectors.ts';
 
 
 describe('poi-histories.json: histories the generator signed, what they take and refuse', () => {
@@ -59,6 +61,54 @@ describe('poi-histories.json: histories the generator signed, what they take and
                 expect(() => replayStep(current, last, documentOf)).toThrow();
             else
                 expect(() => replayStep(current, last, documentOf)).toThrow(vector.reason);
+
+        });
+
+    }
+
+});
+
+
+describe('poi-histories.json: snapshots of another server, a history started from them only anchored in the trust anchor', () => {
+
+    for (const vector of histories.anchoredSnapshots) {
+
+        it.skipIf(skipReason(vector) !== undefined)(`${vector.id} (${vector.expected}): ${vector.description}`, () => {
+
+            // What anchors the history is checked against the trust anchor; the other signatures are the verifier's business.
+            expect(vector.commitAndCheckpointSignatures).toBe('unchecked');
+
+            if (vector.snapshot !== 'head' && vector.snapshot !== 'checkpoint')
+                throw new Error(`A snapshot of a '${String(vector.snapshot)}' is not known to this harness: the vector files are newer than the harness!`);
+
+            // As a server or client starts from another server (10.5, Anchored): from a snapshot of the head with the
+            // attestations it carries, or of a checkpoint with its signatures, at the time given.
+            const start = (snapshot: AnchoredSnapshotCase): History =>
+                History.fromSnapshot(historyDocument(vector.history, snapshot.document),
+                                     { trustAnchor: TrustAnchor.fromJSON(parseJSON(snapshot.trustAnchor)), at: snapshot.at, verifyCommit: () => undefined, verifyCheckpoint: () => undefined });
+
+            if (vector.expected === 'accepted') {
+                start(vector);
+                return;
+            }
+
+            if (vector.control === undefined)
+                throw new Error(`The refusal ${vector.id} names no control`);
+
+            // The control: the snapshot, the trust anchor and the time, what the vector is about given otherwise, taken.
+            start(vector.control);
+
+            if (deviates(vector)) {
+                // Pinned: the known deviation still holds. Once it is refused, remove the marker in the generator.
+                start(vector);
+                return;
+            }
+
+            // Refused for what the vector is about, where it names it.
+            if (vector.reason === undefined)
+                expect(() => start(vector)).toThrow();
+            else
+                expect(() => start(vector)).toThrow(vector.reason);
 
         });
 

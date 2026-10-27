@@ -20,13 +20,13 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `ff2c56f`, WWCP_POI.TS `1f0d9c7`, Hermod `fbb442f`,
+Both harnesses are green against the pinned submodules (WWCP_POI `8f66f2f`, WWCP_POI.TS `febaf84`, Hermod `fbb442f`,
 Styx `06b592d3`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 357 | 377 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 357 | 344 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
+| C# harness (NUnit), WWCP_POI3 | 378 | 398 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 378 | 365 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
@@ -51,7 +51,7 @@ Their vectors hold both implementations to it - see
 | D9 | ✅ WWCP_POI.TS takes a certificate WWCP_POI3 refuses to read: for no model or for two, without a hardware revision, firmware version or release, a relative `documentURL`, an empty legislation, a `notAfter` before its `notBefore`, a release twice or both verified and compatible, energy meters of an energy meter model or one model twice (16 vectors `version-certificate-*`): fixed in WWCP_POI.TS `1f0d9c7` |
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
-([`docs/csharp-review.md`](docs/csharp-review.md)); D1, D2, D7, D8 and D9 are new. Which of its 21 findings the vectors
+([`docs/csharp-review.md`](docs/csharp-review.md)); D1, D2, D7, D8 and D9 are new. Which of its 22 findings the vectors
 hold, and why the rest is out of their reach, is listed in [docs/implementation-deviations.md](docs/implementation-deviations.md).
 Findings 20 and 21, custom data held as given, also the custom data of an address, are fixed in Styx `06b592d3`; the
 vectors `spec-2-custom-data-*` hold both implementations to it (against Styx `91901a9`, WWCP_POI3 wrote other

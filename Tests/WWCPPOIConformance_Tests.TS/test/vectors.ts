@@ -223,7 +223,31 @@ export interface HistoryReplayVector extends Applicability {
     readonly reason?:      string;
 }
 
-export const histories = load<{ histories: GeneratedHistory[], replays: HistoryReplayVector[] }>('poi-histories.json');
+/** What a history is started from: a snapshot of a history of poi-histories.json, a trust anchor, a time. */
+export interface AnchoredSnapshotCase {
+    /** The name of the snapshot among the documents of the history. */
+    readonly document:     string;
+    /** JSON text of the trust anchor, read as POI reads JSON. */
+    readonly trustAnchor:  string;
+    readonly at:           string;
+}
+
+export interface AnchoredSnapshotVector extends Applicability, AnchoredSnapshotCase {
+    readonly id:           string;
+    readonly description:  string;
+    readonly basis:        string;
+    readonly history:      string;
+    /** A snapshot of the head, with the attestations of its head, or of a checkpoint (10.5). */
+    readonly snapshot:     'head' | 'checkpoint';
+    readonly commitAndCheckpointSignatures: 'unchecked';
+    readonly expected:     'accepted' | 'refused';
+    /** Of a refusal: the snapshot, the trust anchor and the time, what the vector is about given otherwise, taken. */
+    readonly control?:     AnchoredSnapshotCase;
+    /** What the refusal names, as both implementations word it. */
+    readonly reason?:      string;
+}
+
+export const histories = load<{ histories: GeneratedHistory[], replays: HistoryReplayVector[], anchoredSnapshots: AnchoredSnapshotVector[] }>('poi-histories.json');
 
 /** A document of a history of poi-histories.json, read as POI reads JSON. */
 export function historyDocument(historyId: string, name: string | undefined): JSONValue {

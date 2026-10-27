@@ -1690,6 +1690,7 @@ const CONTEXTS = {
     keyStatement:         CONTEXT + 'keyStatement/v3',
     certificate:          CONTEXT + 'signingKeyCertificate/v2',
     priceStatement:       CONTEXT + 'priceStatement/v1',
+    attestation:          CONTEXT + 'attestation/v1',
 };
 
 
@@ -1729,6 +1730,9 @@ const checkpointAsSigned = (checkpoint) => ({ ...without(checkpoint, 'signatures
 /** The signature input of a key statement (8.6) and of the certificate of a signing key (8.6). */
 const keyStatementSignatureInput = (statement, { algorithm, keyId }) => canonical({ '@context': CONTEXTS.keyStatement, algorithm, keyId, ...without(statement, 'signatures') });
 const certificateSignatureInput  = (certificate)                     => canonical({ '@context': CONTEXTS.certificate, ...without(certificate, 'value') });
+
+/** The signature input of an attestation (8.5): the attestation without its value, with its @context. */
+const attestationSignatureInput  = (attestation)                     => canonical({ '@context': CONTEXTS.attestation, ...without(attestation, 'value') });
 
 
 // ---- The anchors: what section 7 calculates, calculated first of the frozen run --------------------------------------
@@ -1826,6 +1830,25 @@ function anchorTheRun(history) {
 
     if (verified < 100)
         fail(`anchor: only ${verified} signatures of the run verified, the inputs of section 7 are not checked`);
+
+    // The attestations the run embeds, in its proofs and the evidence of its driver: as section 7 signs those of a snapshot.
+    const attestations = [];
+    const embedded = (value) => {
+        if (Array.isArray(value))
+            value.forEach(embedded);
+        else if (value !== null && typeof value === 'object' && value[RAW] === undefined) {
+            if (Array.isArray(value.attestations))
+                attestations.push(...value.attestations);
+            Object.values(value).forEach(embedded);
+        }
+    };
+    documents.forEach(({ json }) => embedded(json));
+
+    const verifiedBefore = verified;
+    for (const attestation of attestations)
+        check(`an attestation of the commit ${attestation.commitId}`, attestation, attestationSignatureInput(attestation));
+    if (verified === verifiedBefore)
+        fail('anchor: no attestation of the run verified, the input of an attestation of section 7 is not checked');
 
     // ES256 with the nonces of RFC 6979: its example of P-256 and SHA-256 (A.2.5), and verified by node:crypto.
     const rfc = es256Of(0xc9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721n);
@@ -2062,14 +2085,17 @@ function generatedHistory(id, description, genesis, leader) {
             return { commit: signCommit({ '@id': commitIdOf(commit, epoch.hash), ...commit }, [ { key: leader.key } ], createdAt), content: after };
         },
 
-        /** Keeps a document of the history under its name, e.g. a commit to be refused or the control of one. */
-        keep: (name, prepared) => {
-            const value = text(prepared.commit ?? prepared);
+        /** Keeps a document of the history under its name, e.g. a snapshot another server gives of it. */
+        keepDocument: (name, document) => {
+            const value = text(document);
             if (documents[name] !== undefined && documents[name] !== value)
                 fail(`${id}: another document ${name} is there already`);
             documents[name] = value;
             return name;
         },
+
+        /** Keeps a commit or a checkpoint of the history under its name, e.g. one to be refused or the control of one. */
+        keep: (name, prepared) => history.keepDocument(name, prepared.commit ?? prepared),
 
         /** Takes a commit: its step follows, and it is the head. */
         take: (name, prepared) => {
@@ -2640,6 +2666,150 @@ function signedHistories() {
     epochs.takeCheckpoint('epoch-3-checkpoint-1', epochs.checkpoint({ createdAt: minute(6), signers: by(alphaParty) }));
     E.accepted('epochs', 'Three epochs, each started from the final checkpoint of the one before, the third with a commit and two checkpoints.', `${B('11')}; csharp-review 14`);
 
+
+    // =================================================================================================================
+    //  history-anchored: what a server or client takes of another server, only anchored in the trust anchor (8.5, 10.5)
+    // =================================================================================================================
+
+    quoted(SPEC, '- **Anchored:** a server or client takes a history of another server, from a checkpoint or from a snapshot of the head,', 'the anchored start of 10.5');
+
+    // Alpha holds a second signing key for the party, Beta one ending at 08:12, after it attested and signed; a signing key
+    // of "Beta" no certificate names.
+    const alphaSecond   = rnoSigning('Alpha, party 2', 'Alpha', [ 'party' ]);
+    const betaEnding    = keyOf('Ed25519', seedOf('Beta, party, ending'), { notAfter: minute(12), holder: 'Beta', usages: [ 'party' ] });
+    const uncertified   = rnoSigning('Beta, uncertified', 'Beta', [ 'party' ]);
+
+    const anchored = generatedHistory('history-anchored',
+                                      'The roaming network rn1 of DE*RNO, the quorum of Alpha and Beta, Alpha with a second signing key for the party, Beta with one ending at 08:12: DE*GEF added, its head attested and checkpointed, as another server gives them to whoever starts from it.',
+                                      networkOf(rnoOf([ [ alphaParty, alphaIdentity ], [ betaParty, betaIdentity ], [ alphaSecond, alphaIdentity ], [ betaEnding, betaIdentity ] ])),
+                                      leader);
+    histories.push(anchored);
+
+    anchored.take('commit-1', anchored.prepare({
+        createdAt:    minute(1),
+        description:  'DE*GEF',
+        changes:      [ add('ChargingStationOperator', party('DE*GEF', { en: 'GraphDefined Charging Solutions' }, [ gefIdentity ], [ gefInfrastructure ])) ],
+        signers:      [ alphaParty, betaParty, gefIdentity ],
+    }));
+
+    const anchoredHead  = anchored.head;
+    const rootOf        = (version) => version.commit.eTags.find(eTag => eTag[0] === 'effectiveTree');
+    const parentVersion = anchoredHead.versions[0];
+
+    /** An attestation of the head (8.5), signed by the given key at 08:10, valid for 15 minutes: of its commit and root, by DE*RNO. */
+    const attestationBy = (key, { commit = anchoredHead.commit, eTag = rootOf(anchoredHead), role = 'roamingNetworkOperator', subject } = {}) => {
+        const fields = { roamingNetworkId: 'rn1', commitId: commit['@id'], revision: commit.revision, eTag, role, signer: 'DE*RNO', signedAt: minute(10), validUntil: minute(25),
+                         ...(subject === undefined ? {} : { subject }), algorithm: key.algorithm, keyId: key.id };
+        return { ...fields, value: key.sign(attestationSignatureInput(fields)) };
+    };
+
+    // The node of DE*GEF in the tree of the head, as a subject attests it (8.5, Subject).
+    const gefNode = mth(hashOf('sha256'), [ utf8(canonical(skeletonOf(byId(anchoredHead.content.chargingStationOperators, 'DE*GEF'), 'charging station operator', hashOf('sha256')))) ]).toString('hex');
+
+    /** A snapshot of the head (8.5): the version, its commit, and the attestations given. */
+    const headSnapshot = (name, attestations) =>
+        anchored.keepDocument(name, { commit: anchoredHead.commit, roamingNetwork: anchoredHead.content, ...(attestations === undefined ? {} : { attestations }) });
+
+    /** A snapshot of the checkpoint of the head (10.5), signed by the given signers at 08:02. */
+    const checkpointBy       = (...signers) => anchored.checkpoint({ createdAt: minute(2), signers });
+    const checkpointSnapshot = (name, checkpoint) => anchored.keepDocument(name, { commit: anchoredHead.commit, roamingNetwork: anchoredHead.content, checkpoint });
+
+    const checkpoint0  = checkpointBy({ key: alphaParty }, { key: betaParty });
+
+    const snapshots = {
+        head:                    headSnapshot('snapshot-of-the-head',                   [ attestationBy(alphaParty), attestationBy(betaParty) ]),
+        unattested:              headSnapshot('snapshot-of-the-head-unattested'),
+        otherCommit:             headSnapshot('snapshot-of-the-head-other-commit',      [ attestationBy(alphaParty, { commit: parentVersion.commit }), attestationBy(betaParty, { commit: parentVersion.commit }) ]),
+        otherRoot:               headSnapshot('snapshot-of-the-head-other-root',        [ attestationBy(alphaParty, { eTag: rootOf(parentVersion) }), attestationBy(betaParty, { eTag: rootOf(parentVersion) }) ]),
+        keyEnding:               headSnapshot('snapshot-of-the-head-key-ending',        [ attestationBy(alphaParty), attestationBy(betaEnding) ]),
+        uncertified:             headSnapshot('snapshot-of-the-head-uncertified-key',   [ attestationBy(alphaParty), attestationBy(uncertified) ]),
+        oneHolder:               headSnapshot('snapshot-of-the-head-one-holder',        [ attestationBy(alphaParty), attestationBy(alphaSecond) ]),
+        witness:                 headSnapshot('snapshot-of-the-head-witness',           [ attestationBy(alphaParty), attestationBy(betaParty, { role: 'witness' }) ]),
+        subject:                 headSnapshot('snapshot-of-the-head-subject',           [ attestationBy(alphaParty), attestationBy(betaParty, { subject: { entityType: 'ChargingStationOperator', entityId: 'DE*GEF', digest: gefNode } }) ]),
+        unreadable:              headSnapshot('snapshot-of-the-head-unreadable-attestation', [ attestationBy(alphaParty), attestationBy(betaParty), without(attestationBy(alphaSecond), 'signedAt') ]),
+        attestationAsText:       headSnapshot('snapshot-of-the-head-attestation-as-text',    [ attestationBy(alphaParty), attestationBy(betaParty), canonical(attestationBy(alphaSecond)) ]),
+        checkpoint:              checkpointSnapshot('snapshot-of-checkpoint-0',                  checkpoint0),
+        checkpointWitnessed:     checkpointSnapshot('snapshot-of-checkpoint-0-witnessed',        checkpointBy({ key: alphaParty, role: 'witness' }, { key: betaParty, role: 'witness' })),
+        checkpointUncertified:   checkpointSnapshot('snapshot-of-checkpoint-0-uncertified-key',  checkpointBy({ key: alphaParty }, { key: uncertified })),
+        checkpointOneHolder:     checkpointSnapshot('snapshot-of-checkpoint-0-one-holder',       checkpointBy({ key: alphaParty }, { key: alphaSecond })),
+        checkpointKeyEnding:     checkpointSnapshot('snapshot-of-checkpoint-0-key-ending',       checkpointBy({ key: alphaParty }, { key: betaEnding })),
+    };
+
+    anchored.takeCheckpoint('checkpoint-0', checkpoint0);
+    replay('anchored-history', anchored, 'accepted', 'DE*GEF added to rn1, and the checkpoint of the head: the history the snapshots of anchoredSnapshots are of, taken as its server takes it.', B('4.1; 10.1'),
+           { steps: anchored.steps(anchored.expectHead()) });
+
+    /** A trust anchor of the quorum of Alpha and Beta (8.6), of rn1 or another roaming network. */
+    const trustAnchorOf = (networkId = 'rn1') => canonical({ '@id': networkId, '@context': CONTEXT + 'trustAnchor/v2', urls: [ `https://hub.example/poi/RNs/${networkId}`, `https://mirror.example/poi/RNs/${networkId}` ],
+                                                             keys: [ alphaIdentity.id, betaIdentity.id ], minConsensus: 2, name: { en: 'Example' } });
+
+    const anchoredSnapshots = [];
+
+    /**
+     * A snapshot of the head or of a checkpoint another server gives, taken against a trust anchor at a point in time, or
+     * refused; a refusal with its control, what it changes given otherwise, taken.
+     */
+    const anchoredSnapshot = (id, snapshot, expected, description, basis, { document, trustAnchor = trustAnchorOf(), at = minute(15), control, reason }) => {
+        const vector = { id, description, basis, history: anchored.id, snapshot, commitAndCheckpointSignatures: 'unchecked', expected, document, trustAnchor, at };
+        if (expected === 'refused') {
+            vector.control = { document, trustAnchor, at, ...(control ?? fail(`${id}: a refusal without its control`)) };
+            if (JSON.stringify(vector.control) === JSON.stringify({ document, trustAnchor, at }))
+                fail(`${id}: the control is what is refused`);
+        }
+        anchoredSnapshots.push(reason === undefined ? vector : { ...vector, reason });
+    };
+
+    const anchoredBasis = B('8.5, Trust; 10.5, Anchored');
+    const toTheHead     = { document: snapshots.head };
+
+    anchoredSnapshot('anchored-head',                       'head', 'accepted', 'A snapshot of the head with attestations of its root in the role of the roaming network operator, by the signing keys of Alpha and Beta, each certified by the identity key of its holder the trust anchor names; within the validity of the attestations.', anchoredBasis,
+                     { document: snapshots.head });
+    anchoredSnapshot('anchored-head-unattested',            'head', 'refused',  'A snapshot of the head without attestations: the keys of the operator a version names are public and prove nothing.', anchoredBasis,
+                     { document: snapshots.unattested, control: toTheHead, reason: 'No attestation of the head' });
+    anchoredSnapshot('anchored-head-other-commit',          'head', 'refused',  'A snapshot of the head whose attestations name its root, but the commit and the revision of its parent.', anchoredBasis,
+                     { document: snapshots.otherCommit, control: toTheHead, reason: 'of 0 holders attest the root' });
+    anchoredSnapshot('anchored-head-other-root',            'head', 'refused',  'A snapshot of the head whose attestations name its commit, but the root of the version of its parent.', anchoredBasis,
+                     { document: snapshots.otherRoot, control: toTheHead, reason: 'of 0 holders attest the root' });
+    anchoredSnapshot('anchored-head-expired',               'head', 'refused',  'A minute after the attestations of the head ended (validUntil).', `${B('8.5, Validity')}; ${anchoredBasis}`,
+                     { document: snapshots.head, at: minute(26), control: { at: minute(15) }, reason: 'of 0 holders attest the root' });
+    anchoredSnapshot('anchored-head-not-yet-valid',         'head', 'refused',  'A minute before the attestations of the head were signed.', `${B('8.5, Validity')}; ${anchoredBasis}`,
+                     { document: snapshots.head, at: minute(9), control: { at: minute(15) }, reason: 'of 0 holders attest the root' });
+    anchoredSnapshot('anchored-head-key-ended',             'head', 'refused',  'The signing key of Beta ended (notAfter, 08:12) after it attested the head (08:10) and before the time checked, its attestation still valid; checked before it ended, the snapshot is taken.', `${B('8.5, Validity; 8.6')}; ${anchoredBasis}`,
+                     { document: snapshots.keyEnding, control: { at: minute(11) }, reason: 'of 1 holder attest the root' });
+    anchoredSnapshot('anchored-head-uncertified-key',       'head', 'refused',  'Beta attests the head with a signing key no certificate names, so no identity key the trust anchor names certifies it.', anchoredBasis,
+                     { document: snapshots.uncertified, control: toTheHead, reason: 'of 1 holder attest the root' });
+    anchoredSnapshot('anchored-head-one-holder',            'head', 'refused',  'Attested by the two signing keys of Alpha: one holder, where the trust anchor and the key statement take two.', anchoredBasis,
+                     { document: snapshots.oneHolder, control: toTheHead, reason: 'of 1 holder attest the root' });
+    anchoredSnapshot('anchored-head-role',                  'head', 'refused',  'Beta attests the head in the role of a witness: the roaming network operator attests its versions.', anchoredBasis,
+                     { document: snapshots.witness, control: toTheHead, reason: 'of 1 holder attest the root' });
+    anchoredSnapshot('anchored-head-subject',               'head', 'refused',  'Alpha attests the root of the head, Beta only the node of DE*GEF (a subject), which does not count for the head.', `${B('8.5, Subject')}; ${anchoredBasis}`,
+                     { document: snapshots.subject, control: toTheHead, reason: 'of 1 holder attest the root' });
+    anchoredSnapshot('anchored-head-other-network',         'head', 'refused',  'A trust anchor of another roaming network.', anchoredBasis,
+                     { document: snapshots.head, trustAnchor: trustAnchorOf('rn2'), control: { trustAnchor: trustAnchorOf() }, reason: "The trust anchor is one of the roaming network 'rn2'!" });
+
+    // The attestations of a snapshot are read as those of a proof (csharp-review 22): one that can not be read refuses it,
+    // though Alpha and Beta attest its head beside it.
+    quoted(SPEC, 'a snapshot whose `attestations` is not an array of attestations that can all be read is refused', 'the reading of the attestations of a snapshot of 8.5');
+    anchoredSnapshot('anchored-head-unreadable-attestation', 'head', 'refused', 'A snapshot of the head attested by Alpha and Beta, and with a third attestation without its signedAt: an attestation that can not be read refuses the snapshot, as it refuses a proof.', `${B('8.5')}; ${anchoredBasis}; csharp-review 22`,
+                     { document: snapshots.unreadable, control: toTheHead, reason: 'Invalid attestation' });
+    anchoredSnapshot('anchored-head-attestation-not-an-object', 'head', 'refused', 'A snapshot of the head attested by Alpha and Beta, and with a third attestation given as JSON text, not as an object.', `${B('8.5')}; ${anchoredBasis}; csharp-review 22`,
+                     { document: snapshots.attestationAsText, control: toTheHead, reason: 'Invalid attestation' });
+
+    const toTheCheckpoint = { document: snapshots.checkpoint };
+
+    anchoredSnapshot('anchored-checkpoint',                 'checkpoint', 'accepted', 'A snapshot of the checkpoint of the head, signed in the role of the roaming network operator by the signing keys of Alpha and Beta, each certified by the identity key of its holder the trust anchor names.', anchoredBasis,
+                     { document: snapshots.checkpoint });
+    anchoredSnapshot('anchored-checkpoint-role',            'checkpoint', 'refused',  'A snapshot of the checkpoint of the head, Alpha and Beta signing it as witnesses only.', `${B('10.2')}; ${anchoredBasis}`,
+                     { document: snapshots.checkpointWitnessed, control: toTheCheckpoint, reason: 'of 0 holders sign the checkpoint' });
+    anchoredSnapshot('anchored-checkpoint-uncertified-key', 'checkpoint', 'refused',  'Beta signs the checkpoint with a signing key no certificate names.', anchoredBasis,
+                     { document: snapshots.checkpointUncertified, control: toTheCheckpoint, reason: 'of 1 holder sign the checkpoint' });
+    anchoredSnapshot('anchored-checkpoint-one-holder',      'checkpoint', 'refused',  'The checkpoint signed by the two signing keys of Alpha: one holder, where the trust anchor and the key statement take two.', anchoredBasis,
+                     { document: snapshots.checkpointOneHolder, control: toTheCheckpoint, reason: 'of 1 holder sign the checkpoint' });
+    anchoredSnapshot('anchored-checkpoint-key-ended',       'checkpoint', 'refused',  'The signing key of Beta ended (notAfter, 08:12) after it signed the checkpoint (08:02) and before the time checked; checked before it ended, the snapshot is taken.', `${B('8.6')}; ${anchoredBasis}`,
+                     { document: snapshots.checkpointKeyEnding, control: { at: minute(11) }, reason: 'of 1 holder sign the checkpoint' });
+    anchoredSnapshot('anchored-checkpoint-other-network',   'checkpoint', 'refused',  'A trust anchor of another roaming network.', anchoredBasis,
+                     { document: snapshots.checkpoint, trustAnchor: trustAnchorOf('rn2'), control: { trustAnchor: trustAnchorOf() }, reason: "The trust anchor is one of the roaming network 'rn2'!" });
+
     // Every document a replay names is one of its history, and the control of a refusal another than the one refused.
     for (const vector of replays) {
         const documents = histories.find(history => history.id === vector.history).documents;
@@ -2650,12 +2820,18 @@ function signedHistories() {
             fail(`${vector.id}: the refused document is its control`);
     }
 
+    for (const vector of anchoredSnapshots)
+        for (const name of [ vector.document, ...(vector.control === undefined ? [] : [ vector.control.document ]) ])
+            if (anchored.documents[name] === undefined)
+                fail(`${vector.id}: no document ${name} in ${vector.history}`);
+
 
     return vectorFile(
-        'WWCP POI 3 SPECIFICATION.md, sections 4, 5, 10 and 11 (libs/WWCP_POI/SPECIFICATION.md)',
-        'Small histories the generator made and signed, with the Ed25519 keys of section 6 and keys of seeds of its own (Ed25519, Ed448, ES256 after RFC 6979): their documents as JSON text, to be read as POI reads JSON, and replays taking them step by step. A replay "accepted" takes every step; one "refused" takes every step but its last, which it refuses (naming "reason", where both implementations word it alike), and takes "control" in place of the last one, the document refused but for what the replay is about.',
-        { histories: ids(histories.map(history => ({ id: history.id, description: history.description, documents: history.documents })), 'histories'),
-          replays:   ids(replays, 'replays') });
+        'WWCP POI 3 SPECIFICATION.md, sections 4, 5, 8.5, 10 and 11 (libs/WWCP_POI/SPECIFICATION.md)',
+        'Small histories the generator made and signed, with the Ed25519 keys of section 6 and keys of seeds of its own (Ed25519, Ed448, ES256 after RFC 6979): their documents as JSON text, to be read as POI reads JSON, and replays taking them step by step. A replay "accepted" takes every step; one "refused" takes every step but its last, which it refuses (naming "reason", where both implementations word it alike), and takes "control" in place of the last one, the document refused but for what the replay is about. Anchored snapshots: a snapshot of the head or of a checkpoint another server gives, a history started from it only anchored in the trust anchor at the time "at" (10.5, Anchored); a refusal takes its "control", the snapshot, the trust anchor and the time with what it changes given otherwise.',
+        { histories:          ids(histories.map(history => ({ id: history.id, description: history.description, documents: history.documents })), 'histories'),
+          replays:            ids(replays, 'replays'),
+          anchoredSnapshots:  ids(anchoredSnapshots, 'anchoredSnapshots') });
 
 }
 

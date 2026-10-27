@@ -49,6 +49,7 @@ refused by WWCP_POI (D8, see 3), refused here as well since. This document stays
 | 19 | ✅ Smaller points | low | confirmed | extended; **fixed** in `65e658d`, the price statements of an epoch in `1964903`, the data of models in `2729e9e` |
 | 20 | ✅ Custom data: numbers as binary floating-point numbers, timestamps in the time zone of the server | medium (interop) | confirmed | **new**, found fixing 10; **fixed** in Styx `06b592d3` |
 | 21 | ✅ The custom data of an address is lost | low | confirmed | **new**, found fixing 10; **fixed** in Styx `06b592d3` |
+| 22 | ✅ A peer starting from a snapshot passes over attestations it can not read | low | confirmed | **new**, found by the vectors of the anchored start; **fixed** in `8f66f2f` |
 
 ✅ marks what WWCP_POI has fixed since; the finding stays as it was found, with how it was fixed.
 
@@ -851,6 +852,29 @@ address of a charging station keeps its custom data in `NewValueTests.Custom_dat
 
 The vector `spec-2-custom-data-address` holds both implementations to it: the address of the charging station operator
 of section 6 with custom data. Against Styx `91901a9`, WWCP_POI wrote the address without it.
+
+
+## 22. ✅ A peer starting from a snapshot passes over attestations it can not read
+
+**Where:** `WWCP_POI3/Sync/RoamingNetworkPeer.cs:1062-1064` (StartFromSnapshotAsync) at `719317d`.
+
+Starting from a snapshot of the head of another server (SPECIFICATION.md 10.5, Anchored, since `ff2c56f`), the peer read
+its `attestations` with `OfType<JObject>()` and `RoamingNetworkAttestation.TryParse(…, out _)`: an entry that is no JSON
+object, one that can not be read, and an `attestations` that is no array were dropped without a word, and the head was
+verified with the rest. A snapshot attested by enough holders, with one more attestation that can not be read, was
+taken. Everywhere else POI3 reads strictly: `RoamingNetworkProof.TryParse` refuses a proof for the same attestation
+("Invalid attestation N: …"), and WWCP_POI.TS refuses such a snapshot. No vector reached it: the glue between the
+snapshot, its attestations and `VerifyHead` was private to the peer and needed a connection (confirmed by reading).
+
+**Fix:** read the attestations of a snapshot as those of a proof, in a public anchored start the peer uses.
+
+**Fixed** in `8f66f2f`: `RoamingNetworkHistory.TryFromAnchoredSnapshot` starts a history from a snapshot of the head,
+its attestations read strictly ("The attestations of the snapshot must be a JSON array!", "Invalid attestation N of the
+snapshot: …") and its head verified with `VerifyHead` at a given time; `TryFromAnchoredCheckpointSnapshot` from the
+snapshot of a checkpoint, verified with the proof of its root. The peer starts with both, and SPECIFICATION.md 8.5 says
+that a snapshot whose `attestations` is not an array of attestations that can all be read is refused. The vectors
+`anchored-head-unreadable-attestation` and `anchored-head-attestation-not-an-object` (`poi-histories.json`) hold both
+implementations to it; the harness of WWCP_POI3 calls the public start, as the peer does.
 
 
 ## What was checked and found sound
