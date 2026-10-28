@@ -50,7 +50,7 @@ refused by WWCP_POI (D8, see 3), refused here as well since. This document stays
 | 20 | ✅ Custom data: numbers as binary floating-point numbers, timestamps in the time zone of the server | medium (interop) | confirmed | **new**, found fixing 10; **fixed** in Styx `06b592d3` |
 | 21 | ✅ The custom data of an address is lost | low | confirmed | **new**, found fixing 10; **fixed** in Styx `06b592d3` |
 | 22 | ✅ A peer starting from a snapshot passes over attestations it can not read | low | confirmed | **new**, found by the vectors of the anchored start; **fixed** in `8f66f2f` |
-| 23 | The calibration certificate of a charging station is compared with its own serial number | low | confirmed | **new**, found reading the QI-Digital documents of example A14; open |
+| 23 | ✅ The calibration certificate of a charging station is compared with its own serial number | low | demonstrated | **new**, found reading the QI-Digital documents of example A14; **fixed** in `bbe8fb8`, and in this port alike (D11) |
 
 ✅ marks what WWCP_POI has fixed since; the finding stays as it was found, with how it was fixed.
 
@@ -878,7 +878,7 @@ that a snapshot whose `attestations` is not an array of attestations that can al
 implementations to it; the harness of WWCP_POI3 calls the public start, as the peer does.
 
 
-## 23. The calibration certificate of a charging station is compared with its own serial number
+## 23. ✅ The calibration certificate of a charging station is compared with its own serial number
 
 **Where:** `WWCP_POI3/RoamingNetwork/QIDigital/QIDigitalItem.cs:238` (`TryVerify(RoamingNetwork, …)`) at `8f66f2f`.
 
@@ -898,6 +898,14 @@ only (example A14), and its keys are private (confirmed by reading).
 **Fix:** build the actual item of a charging station with the serial number the roaming network gives it,
 `Of(chargingStation, chargingStation.SerialNumber)`, and refuse a calibration certificate naming another one, or one
 when the station has none; then a vector, with a calibration certificate of a charging station signed anew.
+
+**Fixed** in `bbe8fb8`: `QIDigitalItem.Of(ChargingStation)` takes the serial number the roaming network gives the
+station, as `Of(EnergyMeter)` takes the meter's, and `TryVerify` compares the certificate with it: a station of another
+serial number, or of none, is refused ("The charging station 'DE*GEF*S2' has the serial number 'GD-AC44-2026-0003',
+not 'GD-AC44-2026-0002'!"). The vectors `qid-calibration-station`, `qid-calibration-station-replaced` and
+`qid-calibration-station-without-serial-number` (`poi-qidigital.json`) show it, with a calibration certificate of a
+station the generator signs with a key of its own, which QA patched gives EM-LAB. This port compared alike, and
+refuses both since WWCP_POI.TS `9153bc6` (D11).
 
 
 ## What was checked and found sound

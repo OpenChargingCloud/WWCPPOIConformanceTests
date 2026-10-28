@@ -34,9 +34,11 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
 - **The QI-Digital documents** (`poi-qidigital.json`, its section 8): the four papers of a meter example A14 published,
   a proof of concept of WWCP_POI3 (`RoamingNetwork/QIDigital`, no part of SPECIFICATION.md), checked as example A14
   checks them. The keys of the run are private, so what needs a valid signature over other content comes from QA
-  patched, not from a document signed anew; the generator verifies each document's signature (ML-DSA-65, ES256) over
-  its input as WWCP_POI3 writes it first. A document whose number text matters is given as `{ text }`: TS reads the
-  vector files with `JSON.parse`, which would carry a patched 2^63 as 9223372036854776000.
+  patched, not from a document signed anew - but for the calibration certificate of a charging station, which the
+  generator signs with a key of its own that QA patched gives EM-LAB; the generator verifies each document's signature
+  (ML-DSA-65, ES256, Ed25519) over its input as WWCP_POI3 writes it first. A document whose number text matters is
+  given as `{ text }`: TS reads the vector files with `JSON.parse`, which would carry a patched 2^63 as
+  9223372036854776000.
 - **What the implementations get wrong:** `docs/implementation-deviations.md`. Each deviation is in `DEVIATIONS` of the
   generator, marked on its vectors (`knownDeviations`, `deviation` anchor) and pinned: the harness of the deviating
   implementation expects the deviation, so a fix turns it red. Fixing one means: remove it from `DEVIATIONS`,
@@ -62,7 +64,7 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 445 passed (its 8 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped), TS 410
+Expected: C# 449 passed (its 8 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped), TS 414
 passed / 20 skipped (7 signing: WWCP_POI.TS verifies only; 13 replays of `poi-histories.json` that WWCP_POI.TS leaves
 to WWCP_POI: references, provider groups, grid connection points). Skips are load-bearing, not noise.
 

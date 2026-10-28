@@ -1546,11 +1546,7 @@
           "patch": []
         },
         "at": "2026-10-27T17:23:00.000Z"
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d10"
+      }
     },
     {
       "id": "qid-calibration-text-not-a-text",
@@ -1589,11 +1585,465 @@
           "patch": []
         },
         "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-station",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "accepted",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "A calibration certificate of the charging station DE*GEF*S2, signed by a key of EM-LAB for certificates, against QA with that key and the station with the serial number GD-AC44-2026-0002: its item the station as QA names it at runtime, with its serial number.",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/@id",
+            "value": "DCC-2026-0816"
+          },
+          {
+            "op": "replace",
+            "path": "/item",
+            "value": {
+              "type": "ChargingStation",
+              "id": "DE*GEF*S2",
+              "manufacturerId": "GraphDefined",
+              "modelId": "GD-AC44",
+              "serialNumber": "GD-AC44-2026-0002",
+              "hardwareRevision": "1.0",
+              "firmwareVersion": "1.8.2"
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/signature",
+            "value": {
+              "signedAt": "2026-10-27T17:21:00.000Z",
+              "algorithm": "Ed25519",
+              "keyId": "fb806a07105fa8fa42e797c852e18e4a23fd1f06aa000b36ff0c93333e4125d2",
+              "value": "4+B39mpk6+yvPG4sk9N+jB8OXd1fEuPnCkgjZZQB90E7PZxV3AtOR6oeXO/XRgZUMY5DWu2HR9MsVQlpteHWBw=="
+            }
+          }
+        ]
       },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d10"
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/conformityAssessmentBodies/1/signingKeys/2",
+            "value": {
+              "@id": "fb806a07105fa8fa42e797c852e18e4a23fd1f06aa000b36ff0c93333e4125d2",
+              "key": "owEBIAYhWCBZ6ZsGUFYmXaCSJcw8MY6SX1v6Z+dVfhCyiERz7szVsw==",
+              "notAfter": "2027-10-27T17:20:56.787Z",
+              "usages": [
+                "certificates"
+              ]
+            }
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/chargingStations/1/serialNumber",
+            "value": "GD-AC44-2026-0002"
+          }
+        ]
+      },
+      "at": "2026-10-27T17:23:00.000Z"
+    },
+    {
+      "id": "qid-calibration-station-key-of-no-laboratory",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The calibration certificate of the station against QA without the key it was signed with: a calibration certificate is signed by a key of its laboratory.",
+      "reason": "is no signing key of the calibration laboratory 'EM-LAB'",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/@id",
+            "value": "DCC-2026-0816"
+          },
+          {
+            "op": "replace",
+            "path": "/item",
+            "value": {
+              "type": "ChargingStation",
+              "id": "DE*GEF*S2",
+              "manufacturerId": "GraphDefined",
+              "modelId": "GD-AC44",
+              "serialNumber": "GD-AC44-2026-0002",
+              "hardwareRevision": "1.0",
+              "firmwareVersion": "1.8.2"
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/signature",
+            "value": {
+              "signedAt": "2026-10-27T17:21:00.000Z",
+              "algorithm": "Ed25519",
+              "keyId": "fb806a07105fa8fa42e797c852e18e4a23fd1f06aa000b36ff0c93333e4125d2",
+              "value": "4+B39mpk6+yvPG4sk9N+jB8OXd1fEuPnCkgjZZQB90E7PZxV3AtOR6oeXO/XRgZUMY5DWu2HR9MsVQlpteHWBw=="
+            }
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/chargingStations/1/serialNumber",
+            "value": "GD-AC44-2026-0002"
+          }
+        ]
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": [
+            {
+              "op": "replace",
+              "path": "/@id",
+              "value": "DCC-2026-0816"
+            },
+            {
+              "op": "replace",
+              "path": "/item",
+              "value": {
+                "type": "ChargingStation",
+                "id": "DE*GEF*S2",
+                "manufacturerId": "GraphDefined",
+                "modelId": "GD-AC44",
+                "serialNumber": "GD-AC44-2026-0002",
+                "hardwareRevision": "1.0",
+                "firmwareVersion": "1.8.2"
+              }
+            },
+            {
+              "op": "replace",
+              "path": "/signature",
+              "value": {
+                "signedAt": "2026-10-27T17:21:00.000Z",
+                "algorithm": "Ed25519",
+                "keyId": "fb806a07105fa8fa42e797c852e18e4a23fd1f06aa000b36ff0c93333e4125d2",
+                "value": "4+B39mpk6+yvPG4sk9N+jB8OXd1fEuPnCkgjZZQB90E7PZxV3AtOR6oeXO/XRgZUMY5DWu2HR9MsVQlpteHWBw=="
+              }
+            }
+          ]
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": [
+            {
+              "op": "remove",
+              "path": "/eTags"
+            },
+            {
+              "op": "add",
+              "path": "/conformityAssessmentBodies/1/signingKeys/2",
+              "value": {
+                "@id": "fb806a07105fa8fa42e797c852e18e4a23fd1f06aa000b36ff0c93333e4125d2",
+                "key": "owEBIAYhWCBZ6ZsGUFYmXaCSJcw8MY6SX1v6Z+dVfhCyiERz7szVsw==",
+                "notAfter": "2027-10-27T17:20:56.787Z",
+                "usages": [
+                  "certificates"
+                ]
+              }
+            },
+            {
+              "op": "add",
+              "path": "/chargingStationOperators/0/chargingPools/0/chargingStations/1/serialNumber",
+              "value": "GD-AC44-2026-0002"
+            }
+          ]
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-station-replaced",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The calibration certificate of the station against QA with the station of another serial number, replaced by another one of the same model and versions: it is not the one calibrated.",
+      "reason": "has the serial number 'GD-AC44-2026-0003', not 'GD-AC44-2026-0002'!",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/@id",
+            "value": "DCC-2026-0816"
+          },
+          {
+            "op": "replace",
+            "path": "/item",
+            "value": {
+              "type": "ChargingStation",
+              "id": "DE*GEF*S2",
+              "manufacturerId": "GraphDefined",
+              "modelId": "GD-AC44",
+              "serialNumber": "GD-AC44-2026-0002",
+              "hardwareRevision": "1.0",
+              "firmwareVersion": "1.8.2"
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/signature",
+            "value": {
+              "signedAt": "2026-10-27T17:21:00.000Z",
+              "algorithm": "Ed25519",
+              "keyId": "fb806a07105fa8fa42e797c852e18e4a23fd1f06aa000b36ff0c93333e4125d2",
+              "value": "4+B39mpk6+yvPG4sk9N+jB8OXd1fEuPnCkgjZZQB90E7PZxV3AtOR6oeXO/XRgZUMY5DWu2HR9MsVQlpteHWBw=="
+            }
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/conformityAssessmentBodies/1/signingKeys/2",
+            "value": {
+              "@id": "fb806a07105fa8fa42e797c852e18e4a23fd1f06aa000b36ff0c93333e4125d2",
+              "key": "owEBIAYhWCBZ6ZsGUFYmXaCSJcw8MY6SX1v6Z+dVfhCyiERz7szVsw==",
+              "notAfter": "2027-10-27T17:20:56.787Z",
+              "usages": [
+                "certificates"
+              ]
+            }
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/chargingStations/1/serialNumber",
+            "value": "GD-AC44-2026-0003"
+          }
+        ]
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": [
+            {
+              "op": "replace",
+              "path": "/@id",
+              "value": "DCC-2026-0816"
+            },
+            {
+              "op": "replace",
+              "path": "/item",
+              "value": {
+                "type": "ChargingStation",
+                "id": "DE*GEF*S2",
+                "manufacturerId": "GraphDefined",
+                "modelId": "GD-AC44",
+                "serialNumber": "GD-AC44-2026-0002",
+                "hardwareRevision": "1.0",
+                "firmwareVersion": "1.8.2"
+              }
+            },
+            {
+              "op": "replace",
+              "path": "/signature",
+              "value": {
+                "signedAt": "2026-10-27T17:21:00.000Z",
+                "algorithm": "Ed25519",
+                "keyId": "fb806a07105fa8fa42e797c852e18e4a23fd1f06aa000b36ff0c93333e4125d2",
+                "value": "4+B39mpk6+yvPG4sk9N+jB8OXd1fEuPnCkgjZZQB90E7PZxV3AtOR6oeXO/XRgZUMY5DWu2HR9MsVQlpteHWBw=="
+              }
+            }
+          ]
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": [
+            {
+              "op": "remove",
+              "path": "/eTags"
+            },
+            {
+              "op": "add",
+              "path": "/conformityAssessmentBodies/1/signingKeys/2",
+              "value": {
+                "@id": "fb806a07105fa8fa42e797c852e18e4a23fd1f06aa000b36ff0c93333e4125d2",
+                "key": "owEBIAYhWCBZ6ZsGUFYmXaCSJcw8MY6SX1v6Z+dVfhCyiERz7szVsw==",
+                "notAfter": "2027-10-27T17:20:56.787Z",
+                "usages": [
+                  "certificates"
+                ]
+              }
+            },
+            {
+              "op": "add",
+              "path": "/chargingStationOperators/0/chargingPools/0/chargingStations/1/serialNumber",
+              "value": "GD-AC44-2026-0002"
+            }
+          ]
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-station-without-serial-number",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The calibration certificate of the station against QA naming no serial number of the station: the station of the certificate is one of a serial number.",
+      "reason": "has the serial number '', not 'GD-AC44-2026-0002'!",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/@id",
+            "value": "DCC-2026-0816"
+          },
+          {
+            "op": "replace",
+            "path": "/item",
+            "value": {
+              "type": "ChargingStation",
+              "id": "DE*GEF*S2",
+              "manufacturerId": "GraphDefined",
+              "modelId": "GD-AC44",
+              "serialNumber": "GD-AC44-2026-0002",
+              "hardwareRevision": "1.0",
+              "firmwareVersion": "1.8.2"
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/signature",
+            "value": {
+              "signedAt": "2026-10-27T17:21:00.000Z",
+              "algorithm": "Ed25519",
+              "keyId": "fb806a07105fa8fa42e797c852e18e4a23fd1f06aa000b36ff0c93333e4125d2",
+              "value": "4+B39mpk6+yvPG4sk9N+jB8OXd1fEuPnCkgjZZQB90E7PZxV3AtOR6oeXO/XRgZUMY5DWu2HR9MsVQlpteHWBw=="
+            }
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/conformityAssessmentBodies/1/signingKeys/2",
+            "value": {
+              "@id": "fb806a07105fa8fa42e797c852e18e4a23fd1f06aa000b36ff0c93333e4125d2",
+              "key": "owEBIAYhWCBZ6ZsGUFYmXaCSJcw8MY6SX1v6Z+dVfhCyiERz7szVsw==",
+              "notAfter": "2027-10-27T17:20:56.787Z",
+              "usages": [
+                "certificates"
+              ]
+            }
+          }
+        ]
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": [
+            {
+              "op": "replace",
+              "path": "/@id",
+              "value": "DCC-2026-0816"
+            },
+            {
+              "op": "replace",
+              "path": "/item",
+              "value": {
+                "type": "ChargingStation",
+                "id": "DE*GEF*S2",
+                "manufacturerId": "GraphDefined",
+                "modelId": "GD-AC44",
+                "serialNumber": "GD-AC44-2026-0002",
+                "hardwareRevision": "1.0",
+                "firmwareVersion": "1.8.2"
+              }
+            },
+            {
+              "op": "replace",
+              "path": "/signature",
+              "value": {
+                "signedAt": "2026-10-27T17:21:00.000Z",
+                "algorithm": "Ed25519",
+                "keyId": "fb806a07105fa8fa42e797c852e18e4a23fd1f06aa000b36ff0c93333e4125d2",
+                "value": "4+B39mpk6+yvPG4sk9N+jB8OXd1fEuPnCkgjZZQB90E7PZxV3AtOR6oeXO/XRgZUMY5DWu2HR9MsVQlpteHWBw=="
+              }
+            }
+          ]
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": [
+            {
+              "op": "remove",
+              "path": "/eTags"
+            },
+            {
+              "op": "add",
+              "path": "/conformityAssessmentBodies/1/signingKeys/2",
+              "value": {
+                "@id": "fb806a07105fa8fa42e797c852e18e4a23fd1f06aa000b36ff0c93333e4125d2",
+                "key": "owEBIAYhWCBZ6ZsGUFYmXaCSJcw8MY6SX1v6Z+dVfhCyiERz7szVsw==",
+                "notAfter": "2027-10-27T17:20:56.787Z",
+                "usages": [
+                  "certificates"
+                ]
+              }
+            },
+            {
+              "op": "add",
+              "path": "/chargingStationOperators/0/chargingPools/0/chargingStations/1/serialNumber",
+              "value": "GD-AC44-2026-0002"
+            }
+          ]
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
     }
   ]
 }

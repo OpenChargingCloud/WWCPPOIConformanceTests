@@ -118,11 +118,14 @@ first calculates of the frozen run and of RFC 6979, against what is written ther
   valid); `cover` the certificate of conformity covering the energy meter of the EVSE `evseId` of
   `chargingStationOperatorId`, as `network` names it at runtime. These other inputs must read: if one does not, the
   harness fails.
-- The keys of the run are private: what needs a valid signature over other content, a patched QA gives instead.
-  `expected` is `accepted` or `refused`; a refusal has a `control`, the same check of the documents of the run against QA
-  as published at `at`, which is taken, and `reason` as of a replay. The generator verifies the signature of each
-  document over its input as WWCP_POI3 writes it (its context, content and signature without the value, canonical JSON)
-  before it writes a vector.
+- The keys of the run are private: what needs a valid signature over other content, a patched QA gives instead. The
+  one document signed anew, a calibration certificate of the charging station `DE*GEF*S2` (`qid-calibration-station*`),
+  is the one of the run patched, signed by the generator with an Ed25519 key of a seed of its own for certificates, which
+  QA patched gives EM-LAB. `expected` is `accepted` or `refused`; a refusal has a `control`, the same check of the
+  documents of the run against QA as published at `at` - of the certificate of the station, against QA with its key and
+  the station of its serial number -, which is taken, and `reason` as of a replay. The generator verifies the signature
+  of each document over its input as WWCP_POI3 writes it (its context, content and signature without the value,
+  canonical JSON) before it writes a vector.
 
 ## Adding vectors
 

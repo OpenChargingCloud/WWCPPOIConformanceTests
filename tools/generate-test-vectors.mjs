@@ -69,12 +69,11 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
-    D10: [ CSHARP ],
 };
 
 const deviation = (name) => {
-    const implementations = DEVIATIONS[name] ?? fail(`no deviation ${name}`);
-    return { knownDeviations: implementations, deviation: `docs/implementation-deviations.md#${name.toLowerCase()}` };
+    const { implementations, anchor } = DEVIATIONS[name] ?? fail(`no deviation ${name}`);
+    return { knownDeviations: implementations, deviation: `docs/implementation-deviations.md#${anchor}` };
 };
 
 const args         = process.argv.slice(2);
@@ -2173,28 +2172,31 @@ function generatedHistory(id, description, genesis, leader) {
 }
 
 
+// ---- Keys of its own: of seeds of their names (sections 7 and 8) ----------------------------------------------------
+
+/** A seed of a key of its own, of its name: deterministic, and no key of anyone. */
+const seedOf = (name, bytes = 32) => createHash('shake256', { outputLength: bytes }).update(`WWCPPOIConformanceTests: ${name}`).digest('hex');
+
+/** A key of POI (4.1): its COSE key, its @id (the RFC 9679 thumbprint), its JSON with what it names, and its signatures. */
+const keyOf = (algorithm, seed, more = {}) => {
+    const pair = algorithm === 'Ed25519' ? (() => { const ed = ed25519(seed); return { coseKey: coseKeyOf(ed.publicKey), sign: ed.sign }; })()
+               : algorithm === 'Ed448'   ? ed448(seed)
+               : algorithm === 'ES256'   ? es256(seed)
+               :                           fail(`no keys of ${algorithm}`);
+    const id   = sha256(Buffer.from(pair.coseKey, 'base64'));
+    if (verifiesWith(algorithm, pair.coseKey, id, pair.sign(id)) !== true)
+        fail(`anchor: node:crypto does not verify a signature of the ${algorithm} key ${id}`);
+    return { algorithm, id, sign: pair.sign, json: { '@id': id, key: pair.coseKey, ...more } };
+};
+
+
 // ---- The histories and what they take and refuse --------------------------------------------------------------------
 
 function signedHistories() {
 
     const S = (text, what) => quoted(SPEC, text, what);
 
-    /** A seed of a key of its own, of its name: deterministic, and no key of anyone. */
-    const seedOf = (name, bytes = 32) => createHash('shake256', { outputLength: bytes }).update(`WWCPPOIConformanceTests: ${name}`).digest('hex');
-
-    /** A key of POI (4.1): its COSE key, its @id (the RFC 9679 thumbprint), its JSON with what it names, and its signatures. */
-    const keyOf = (algorithm, seed, more = {}) => {
-        const pair = algorithm === 'Ed25519' ? (() => { const ed = ed25519(seed); return { coseKey: coseKeyOf(ed.publicKey), sign: ed.sign }; })()
-                   : algorithm === 'Ed448'   ? ed448(seed)
-                   : algorithm === 'ES256'   ? es256(seed)
-                   :                           fail(`section 7: no keys of ${algorithm}`);
-        const id   = sha256(Buffer.from(pair.coseKey, 'base64'));
-        if (verifiesWith(algorithm, pair.coseKey, id, pair.sign(id)) !== true)
-            fail(`anchor: node:crypto does not verify a signature of the ${algorithm} key ${id}`);
-        return { algorithm, id, sign: pair.sign, json: { '@id': id, key: pair.coseKey, ...more } };
-    };
-
-    const inOrder     = (keys) => [ ...keys ].sort((left, right) => left.id < right.id ? -1 : 1).map(key => key.json);
+    const inOrder    = (keys) => [ ...keys ].sort((left, right) => left.id < right.id ? -1 : 1).map(key => key.json);
     const NOT_AFTER   = '2027-10-17T00:00:00.000Z';
 
     // ---- The roaming network operator DE*RNO: the identity keys of Alpha and Beta of section 6, their signing keys for
@@ -3039,12 +3041,59 @@ function qiDigitalVectors() {
         fail(`${DCC}: no coverage factor 2 to write beyond Int64`);
     refuse('qid-calibration-number-beyond-int64', 'verify', DCC, 'The coverage factor of the error at Imin written as 2^63, one beyond the whole numbers WWCP_POI3 holds as one (Int64). Both refuse it, in words of their own.', undefined, { text: beyondInt64 });
 
-    // ---- Refused by WWCP_POI.TS, taken by WWCP_POI3 (D10): a text of no language, or one that is no text, it drops while
-    //      reading, so it is no part of what it signs and the signature still verifies - unsigned, it travels with a
-    //      signed document.
+    // ---- Refused: a text of no language, or one that is no text. Left out while reading, it would be no part of what is
+    //      signed, and the signature would still verify - unsigned, it would travel with a signed document (D10, fixed).
 
-    refuse('qid-calibration-text-of-no-language', 'verify', DCC, 'The name of the measurement with a text in "xx", no language.', "'xx' is no language!", { document: [ { op: 'add', path: '/measurementResults/0/name/xx', value: 'Messfehler der Wirkenergie' } ] }, deviation('D10'));
-    refuse('qid-calibration-text-not-a-text',     'verify', DCC, 'The name of the measurement with a number for its text in "de".', "the text in 'de' must be a text!", { document: [ { op: 'add', path: '/measurementResults/0/name/de', value: 5 } ] }, deviation('D10'));
+    refuse('qid-calibration-text-of-no-language', 'verify', DCC, 'The name of the measurement with a text in "xx", no language.', "'xx' is no language!", { document: [ { op: 'add', path: '/measurementResults/0/name/xx', value: 'Messfehler der Wirkenergie' } ] });
+    refuse('qid-calibration-text-not-a-text',     'verify', DCC, 'The name of the measurement with a number for its text in "de".', "the text in 'de' must be a text!", { document: [ { op: 'add', path: '/measurementResults/0/name/de', value: 5 } ] });
+
+    // ---- The calibration certificate of a charging station, signed anew (csharp-review 23). The run holds the one of a
+    //      meter only, signed by a key of EM-LAB that is private. This one the generator signs with a key of its own for
+    //      certificates, which QA patched gives EM-LAB besides its own: the meter's certificate of the run, of the station
+    //      DE*GEF*S2 instead, as QA names it at runtime - the manufacturer, model and versions of its template, the serial
+    //      number QA patched gives the station alone (no template gives it).
+
+    const stationOf = named(qa, '/chargingStationOperators/0/chargingPools/0/chargingStations/1', 'DE*GEF*S2', QA);
+    const stAC      = named(qa, '/chargingStationOperators/0/chargingStationTemplates/0', 'DE*GEF*ST_AC', QA);
+    const station   = at(qa, stationOf);
+    const template  = at(qa, stAC);
+
+    if (JSON.stringify(station.templateIds) !== '["DE*GEF*ST_AC"]' || [ 'manufacturerId', 'modelId', 'serialNumber', 'hardwareRevision', 'firmwareVersion' ].some(property => property in station))
+        fail(`${QA}#${stationOf}: not a station of the template DE*GEF*ST_AC alone`);
+
+    const SERIAL    = 'GD-AC44-2026-0002';
+    const labCerts  = keyOf('Ed25519', seedOf('EM-LAB, certificates'), { notAfter: at(qa, `${labKey}/notAfter`), usages: [ 'certificates' ] });
+    const labKeys   = at(qa, `${emLab}/signingKeys`);
+    const keyAt     = labKeys.filter(key => key['@id'] < labCerts.id).length;
+
+    const item      = { type: 'ChargingStation', id: station['@id'], manufacturerId: template.manufacturerId, modelId: template.modelId, serialNumber: SERIAL,
+                        hardwareRevision: template.hardwareRevision, firmwareVersion: template.firmwareVersion };
+    const raw       = parseRaw(readRun(DCC));
+    const unsigned  = { signedAt: '2026-10-27T17:21:00.000Z', algorithm: labCerts.algorithm, keyId: labCerts.id };
+    const signature = { ...unsigned, value: labCerts.sign(canonical({ ...raw, '@id': 'DCC-2026-0816', item, signature: unsigned })) };
+
+    if (verifiesWith(signature.algorithm, labCerts.json.key, canonical({ ...raw, '@id': 'DCC-2026-0816', item, signature: unsigned }), signature.value) !== true)
+        fail('anchor: the calibration certificate of the station does not verify');
+
+    const ofStation   = [ { op: 'replace', path: '/@id', value: 'DCC-2026-0816' }, { op: 'replace', path: '/item', value: item }, { op: 'replace', path: '/signature', value: signature } ];
+    const withKey     = { op: 'add', path: `${emLab}/signingKeys/${keyAt}`, value: labCerts.json };
+    const serialOf    = (serialNumber) => ({ op: 'add', path: `${stationOf}/serialNumber`, value: serialNumber });
+    const atStation   = caseOf('verify', DCC, { document: ofStation, network: [ withKey, serialOf(SERIAL) ] });
+
+    // Refused but for what it is about: its control the certificate against QA with the key and the serial number.
+    const refuseOfStation = (id, description, reason, network, more = {}) =>
+        vectors.push({ id, kind: KINDS[DCC], check: 'verify', expected: 'refused', basis: BASIS, description, reason, ...caseOf('verify', DCC, { document: ofStation, network }), control: atStation, ...more });
+
+    vectors.push({ id: 'qid-calibration-station', kind: KINDS[DCC], check: 'verify', expected: 'accepted', basis: BASIS,
+                   description: `A calibration certificate of the charging station DE*GEF*S2, signed by a key of EM-LAB for certificates, against QA with that key and the station with the serial number ${SERIAL}: its item the station as QA names it at runtime, with its serial number.`,
+                   ...atStation });
+
+    refuseOfStation('qid-calibration-station-key-of-no-laboratory', 'The calibration certificate of the station against QA without the key it was signed with: a calibration certificate is signed by a key of its laboratory.',
+                    "is no signing key of the calibration laboratory 'EM-LAB'", [ serialOf(SERIAL) ]);
+    refuseOfStation('qid-calibration-station-replaced', 'The calibration certificate of the station against QA with the station of another serial number, replaced by another one of the same model and versions: it is not the one calibrated.',
+                    `has the serial number 'GD-AC44-2026-0003', not '${SERIAL}'!`, [ withKey, serialOf('GD-AC44-2026-0003') ]);
+    refuseOfStation('qid-calibration-station-without-serial-number', 'The calibration certificate of the station against QA naming no serial number of the station: the station of the certificate is one of a serial number.',
+                    `has the serial number '', not '${SERIAL}'!`, [ withKey ]);
 
     return vectorFile(
         `WWCP POI 3: the QI-Digital documents, a proof of concept (${QI_DIGITAL}), as example A14 (${EXAMPLE_A14}) published them in one run: test-vectors/runs/${RUN}`,
