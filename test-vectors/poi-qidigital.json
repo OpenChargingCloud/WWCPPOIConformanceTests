@@ -1,0 +1,1599 @@
+{
+  "specification": "WWCP POI 3: the QI-Digital documents, a proof of concept (libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital), as example A14 (libs/WWCP_POI/examples/exampleA14.md) published them in one run: test-vectors/runs/csharp-33447ac",
+  "description": "The papers of the meter of DE*GEF*E2*1 as their issuers signed them: the digital certificates of conformity of the PTB, the digital declaration of conformity of SAALE and the digital calibration certificate of EM-LAB. A vector names its document (file, JSON pointer, JSON patch; or text) and its check: \"verify\" against the roaming network \"network\" at \"at\", \"certificate\" the declaration against the certificate of conformity \"certificate\", \"cover\" the certificate of conformity covering the energy meter of the EVSE \"evseId\" of \"chargingStationOperatorId\" as \"network\" names it at runtime. A refusal while reading the document is a refusal; the other inputs must read. A refusal takes its \"control\" first, the same check with the documents of the run, against QA as published, at \"at\", and names its \"reason\" where both implementations word it alike.",
+  "run": "runs/csharp-33447ac",
+  "at": "2026-10-27T17:23:00.000Z",
+  "vectors": [
+    {
+      "id": "qid-type-examination",
+      "kind": "certificateOfConformity",
+      "check": "verify",
+      "expected": "accepted",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The EU-type examination certificate of the SM-3 (module B), against QA: of the PTB, the notified body 0102 for the MID, valid at AT, for a model of SAALE in revisions and versions it has, signed by the key of the PTB for certificates (ML-DSA-65).",
+      "document": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z"
+    },
+    {
+      "id": "qid-quality-system",
+      "kind": "certificateOfConformity",
+      "check": "verify",
+      "expected": "accepted",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The approval of the quality system of SAALE (module D), against QA: for an energy meter manufacturer of QA, scope MI-003, signed by the key of the PTB for certificates.",
+      "document": {
+        "file": "published/PTB-DE-26-QS-PTB-0042.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z"
+    },
+    {
+      "id": "qid-declaration",
+      "kind": "declarationOfConformity",
+      "check": "verify",
+      "expected": "accepted",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The EU declaration of conformity of the SM-3, against QA: signed by the key of SAALE for its models (ES256), each notified body it names one of QA with its number.",
+      "document": {
+        "file": "published/SAALE-DoC-SM-3-2026-01.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z"
+    },
+    {
+      "id": "qid-calibration",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "accepted",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The calibration certificate of the meter of DE*GEF*E2*1, against QA: of EM-LAB, signed by its key for certificates, its item the meter as QA names it at runtime.",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z"
+    },
+    {
+      "id": "qid-declaration-type-examination",
+      "kind": "declarationOfConformity",
+      "check": "certificate",
+      "expected": "accepted",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The declaration against the EU-type examination certificate it names: of the notified body and the module it names it with, under one of its legislations, for its model in all its revisions and versions.",
+      "document": {
+        "file": "published/SAALE-DoC-SM-3-2026-01.json",
+        "pointer": "",
+        "patch": []
+      },
+      "certificate": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": []
+      }
+    },
+    {
+      "id": "qid-declaration-quality-system",
+      "kind": "declarationOfConformity",
+      "check": "certificate",
+      "expected": "accepted",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The declaration against the approval of the quality system it names: of the manufacturer of its model, of its kind, with energy meters in its scope.",
+      "document": {
+        "file": "published/SAALE-DoC-SM-3-2026-01.json",
+        "pointer": "",
+        "patch": []
+      },
+      "certificate": {
+        "file": "published/PTB-DE-26-QS-PTB-0042.json",
+        "pointer": "",
+        "patch": []
+      }
+    },
+    {
+      "id": "qid-type-examination-covers-meter",
+      "kind": "certificateOfConformity",
+      "check": "cover",
+      "expected": "accepted",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The EU-type examination certificate covers the meter of DE*GEF*E2*1 as QA names it at runtime: its model, hardware revision and firmware version.",
+      "document": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "chargingStationOperatorId": "DE*GEF",
+      "evseId": "DE*GEF*E2*1"
+    },
+    {
+      "id": "qid-quality-system-covers-meter",
+      "kind": "certificateOfConformity",
+      "check": "cover",
+      "expected": "accepted",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The approval of the quality system covers the meter of DE*GEF*E2*1: an energy meter of SAALE, of MI-003.",
+      "document": {
+        "file": "published/PTB-DE-26-QS-PTB-0042.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "chargingStationOperatorId": "DE*GEF",
+      "evseId": "DE*GEF*E2*1"
+    },
+    {
+      "id": "qid-declaration-certificate-in-lower-case",
+      "kind": "declarationOfConformity",
+      "check": "certificate",
+      "expected": "accepted",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The declaration against the EU-type examination certificate, its @id written in lower case: identifications are compared without case (DigitalCertificateOfConformity_Id), the certificate is the one it names.",
+      "document": {
+        "file": "published/SAALE-DoC-SM-3-2026-01.json",
+        "pointer": "",
+        "patch": []
+      },
+      "certificate": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/@id",
+            "value": "de-26-m-ptb-0108"
+          }
+        ]
+      }
+    },
+    {
+      "id": "qid-calibration-changed",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "Another error at Imax, changed after it was signed (example A14, 6a): its signature is not the one of its content.",
+      "reason": "The signature of the digital calibration certificate 'DCC-2026-0815' is invalid",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/measurementResults/0/results/3/quantities/1/value",
+            "value": -0.12
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-declaration-changed",
+      "kind": "declarationOfConformity",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "Another place of issue, changed after it was signed.",
+      "reason": "The signature of the digital declaration of conformity 'DoC-SM-3-2026-01' is invalid",
+      "document": {
+        "file": "published/SAALE-DoC-SM-3-2026-01.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/placeOfIssue",
+            "value": "Halle"
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/SAALE-DoC-SM-3-2026-01.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-type-examination-changed",
+      "kind": "certificateOfConformity",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "Valid a year longer, changed after it was signed.",
+      "reason": "The signature of the digital certificate of conformity 'DE-26-M-PTB-0108' is invalid",
+      "document": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/validUntil",
+            "value": "2037-10-27T17:20:56.787Z"
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/PTB-DE-26-M-PTB-0108.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-not-signed",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "Without its signature.",
+      "reason": "The digital calibration certificate 'DCC-2026-0815' is not signed",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/signature"
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-key-of-another-party",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "Naming the key of the PTB for certificates as its signing key: a calibration certificate is signed by a key of its laboratory.",
+      "reason": "is no signing key of the calibration laboratory 'EM-LAB'",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/signature/keyId",
+            "value": "aef3ed777c623e6d85a210e3daafc4fd2979f489e3d6990b86efbe50d370d0f9"
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-unknown-property",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "A property a calibration certificate does not have: unsigned, it would travel with a signed document.",
+      "reason": "Unknown property 'x' of a digital calibration certificate!",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/x",
+            "value": 1
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-context",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "Another JSON-LD context, which names another kind or version of document.",
+      "reason": "The JSON-LD context of a digital calibration certificate must be",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/@context",
+            "value": "https://open.charging.cloud/contexts/wwcp/qiDigital/digitalCalibrationCertificate/v2"
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-timestamp",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The end of the calibration written with an offset, the same instant: a timestamp of a QI-Digital document is written as it is signed, in UTC with milliseconds.",
+      "reason": "must be written as yyyy-MM-ddTHH:mm:ss.fffZ!",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/endPerformanceDate",
+            "value": "2026-10-27T18:20:56.787+02:00"
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-type-examination-not-notified",
+      "kind": "certificateOfConformity",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The EU-type examination certificate issued under the RED, for which QA does not notify the PTB: the body is checked before the signature, which no longer verifies.",
+      "reason": "is not notified for the RED",
+      "document": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/legislation",
+            "value": {
+              "name": "RED",
+              "act": "Directive 2014/53/EU"
+            }
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/PTB-DE-26-M-PTB-0108.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-coverage-factor",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The error at Imax with a coverage factor and probability, but without the expanded uncertainty they are of.",
+      "reason": "is one of an expanded uncertainty",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/measurementResults/0/results/3/quantities/1/expandedUncertainty"
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-location-lower-case",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The performance location written \"customer\", not as it is named: a name is read as it is written, without case only where it is compared.",
+      "reason": "Invalid performance location 'customer'!",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/performanceLocation",
+            "value": "customer"
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-location-number",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The performance location written \"1\", the number Customer has in WWCP_POI3: a name is read by its name.",
+      "reason": "Invalid performance location '1'!",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/performanceLocation",
+            "value": "1"
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-quality-system-names-a-model",
+      "kind": "certificateOfConformity",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The approval of a quality system (module D) naming the model SM-3 as well as its manufacturer: a certificate of module D names a manufacturer, not a model.",
+      "reason": "approves the quality system of a manufacturer and names it, not a model",
+      "document": {
+        "file": "published/PTB-DE-26-QS-PTB-0042.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/model",
+            "value": {
+              "type": "EnergyMeterModel",
+              "manufacturerId": "SAALE",
+              "modelId": "SM-3",
+              "hardwareRevisions": [
+                "1.4"
+              ],
+              "firmwareVersions": [
+                "1.0.7"
+              ]
+            }
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/PTB-DE-26-QS-PTB-0042.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-type-examination-names-a-manufacturer",
+      "kind": "certificateOfConformity",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The EU-type examination certificate (module B) naming SAALE in place of its model: a certificate of module B names a model, not a manufacturer.",
+      "reason": "is for a model and names it, not a manufacturer",
+      "document": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/model"
+          },
+          {
+            "op": "add",
+            "path": "/manufacturer",
+            "value": {
+              "type": "EnergyMeterManufacturer",
+              "manufacturerId": "SAALE",
+              "scope": [
+                "MI-003"
+              ]
+            }
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/PTB-DE-26-M-PTB-0108.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-type-examination-other-number",
+      "kind": "certificateOfConformity",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "QA naming the PTB the notified body 0103: the certificate is of the notified body 0102.",
+      "reason": "is the notified body '0103', not '0102'",
+      "document": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/2/notifiedBodyNumber",
+            "value": "0103"
+          }
+        ]
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/PTB-DE-26-M-PTB-0108.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-type-examination-firmware-of-no-model",
+      "kind": "certificateOfConformity",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "QA with the SM-3 on the firmware 1.0.8 alone, and the template of the AC meter with it: the certificate is for the firmware 1.0.7, which the model no longer has.",
+      "reason": "The firmware version '1.0.7' is none of the model 'SM-3' of 'SAALE'!",
+      "document": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/energyMeterManufacturers/1/energyMeterModels/0/firmwareVersions",
+            "value": [
+              "1.0.8"
+            ]
+          },
+          {
+            "op": "replace",
+            "path": "/chargingStationOperators/0/energyMeterTemplates/0/firmwareVersion",
+            "value": "1.0.8"
+          }
+        ]
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/PTB-DE-26-M-PTB-0108.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-meter-updated",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "QA with the meter of DE*GEF*E2*1 on the firmware 1.0.8 since, a version of the SM-3 as well: a meter changed since is no longer the one calibrated.",
+      "reason": "runs the firmware version '1.0.8', not '1.0.7'!",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/energyMeterManufacturers/1/energyMeterModels/0/firmwareVersions",
+            "value": [
+              "1.0.7",
+              "1.0.8"
+            ]
+          },
+          {
+            "op": "replace",
+            "path": "/chargingStationOperators/0/energyMeterTemplates/0/firmwareVersion",
+            "value": "1.0.8"
+          }
+        ]
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-without-laboratory",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "QA without EM-LAB: the laboratory of a calibration certificate is a conformity assessment body of the roaming network.",
+      "reason": "The calibration laboratory 'EM-LAB' of the digital calibration certificate 'DCC-2026-0815' is no conformity assessment body of the roaming network 'QA'!",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "remove",
+            "path": "/conformityAssessmentBodies/1"
+          }
+        ]
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-key-for-party",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "QA with the key EM-LAB signed with for its own properties only: a calibration certificate is signed by a key that may sign certificates.",
+      "reason": "may not sign 'certificates', only 'party'",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/1/signingKeys/0/usages",
+            "value": [
+              "party"
+            ]
+          }
+        ]
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-key-ended-before",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "QA with the key EM-LAB signed with ended before it signed.",
+      "reason": ", when the digital calibration certificate 'DCC-2026-0815' was signed!",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/1/signingKeys/0/notAfter",
+            "value": "2026-10-27T17:20:57.000Z"
+          }
+        ]
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-declaration-key-of-no-manufacturer",
+      "kind": "declarationOfConformity",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "QA without the key SAALE signed with for its models: a declaration is signed by a key of the manufacturer of its model.",
+      "reason": "is no signing key of the energy meter manufacturer 'SAALE'",
+      "document": {
+        "file": "published/SAALE-DoC-SM-3-2026-01.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "remove",
+            "path": "/energyMeterManufacturers/1/signingKeys/1"
+          }
+        ]
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/SAALE-DoC-SM-3-2026-01.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-quality-system-expired",
+      "kind": "certificateOfConformity",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "After the approval of the quality system ended (validUntil, three years).",
+      "reason": "'DE-26-QS-PTB-0042' is not valid at 2029-10-28T00:00:00.000Z!",
+      "document": {
+        "file": "published/PTB-DE-26-QS-PTB-0042.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2029-10-28T00:00:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/PTB-DE-26-QS-PTB-0042.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-key-ended",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "After the key EM-LAB signed with ended (notAfter, a year): the key is valid when it signed and when the certificate is checked.",
+      "reason": "of the calibration laboratory 'EM-LAB' is not valid at 2027-10-28T00:00:00.000Z!",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2027-10-28T00:00:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-declaration-no-such-certificate",
+      "kind": "declarationOfConformity",
+      "check": "certificate",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "A certificate the declaration does not name: DE-26-M-PTB-0109.",
+      "reason": "names no certificate 'DE-26-M-PTB-0109'",
+      "document": {
+        "file": "published/SAALE-DoC-SM-3-2026-01.json",
+        "pointer": "",
+        "patch": []
+      },
+      "certificate": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/@id",
+            "value": "DE-26-M-PTB-0109"
+          }
+        ]
+      },
+      "control": {
+        "document": {
+          "file": "published/SAALE-DoC-SM-3-2026-01.json",
+          "pointer": "",
+          "patch": []
+        },
+        "certificate": {
+          "file": "published/PTB-DE-26-M-PTB-0108.json",
+          "pointer": "",
+          "patch": []
+        }
+      }
+    },
+    {
+      "id": "qid-declaration-certificate-of-another-body",
+      "kind": "declarationOfConformity",
+      "check": "certificate",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The EU-type examination certificate as one of the BSI: the declaration names it as one of the notified body 0102, the PTB.",
+      "reason": "is one of 'BSI', not of the notified body 0102 'PTB'",
+      "document": {
+        "file": "published/SAALE-DoC-SM-3-2026-01.json",
+        "pointer": "",
+        "patch": []
+      },
+      "certificate": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodyId",
+            "value": "BSI"
+          }
+        ]
+      },
+      "control": {
+        "document": {
+          "file": "published/SAALE-DoC-SM-3-2026-01.json",
+          "pointer": "",
+          "patch": []
+        },
+        "certificate": {
+          "file": "published/PTB-DE-26-M-PTB-0108.json",
+          "pointer": "",
+          "patch": []
+        }
+      }
+    },
+    {
+      "id": "qid-declaration-certificate-of-another-module",
+      "kind": "declarationOfConformity",
+      "check": "certificate",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The EU-type examination certificate as one of module F: the declaration names it with module B.",
+      "reason": "is one of the module F, not B!",
+      "document": {
+        "file": "published/SAALE-DoC-SM-3-2026-01.json",
+        "pointer": "",
+        "patch": []
+      },
+      "certificate": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/module",
+            "value": "F"
+          }
+        ]
+      },
+      "control": {
+        "document": {
+          "file": "published/SAALE-DoC-SM-3-2026-01.json",
+          "pointer": "",
+          "patch": []
+        },
+        "certificate": {
+          "file": "published/PTB-DE-26-M-PTB-0108.json",
+          "pointer": "",
+          "patch": []
+        }
+      }
+    },
+    {
+      "id": "qid-declaration-certificate-under-another-legislation",
+      "kind": "declarationOfConformity",
+      "check": "certificate",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The EU-type examination certificate issued under the RED, none of the legislations of the declaration.",
+      "reason": "is issued under the RED, none of the legislations of",
+      "document": {
+        "file": "published/SAALE-DoC-SM-3-2026-01.json",
+        "pointer": "",
+        "patch": []
+      },
+      "certificate": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/legislation",
+            "value": {
+              "name": "RED",
+              "act": "Directive 2014/53/EU"
+            }
+          }
+        ]
+      },
+      "control": {
+        "document": {
+          "file": "published/SAALE-DoC-SM-3-2026-01.json",
+          "pointer": "",
+          "patch": []
+        },
+        "certificate": {
+          "file": "published/PTB-DE-26-M-PTB-0108.json",
+          "pointer": "",
+          "patch": []
+        }
+      }
+    },
+    {
+      "id": "qid-declaration-firmware-not-covered",
+      "kind": "declarationOfConformity",
+      "check": "certificate",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The EU-type examination certificate for the firmware 1.0.8 only: the declaration is for the firmware 1.0.7 as well.",
+      "reason": "does not cover the firmware version '1.0.7'",
+      "document": {
+        "file": "published/SAALE-DoC-SM-3-2026-01.json",
+        "pointer": "",
+        "patch": []
+      },
+      "certificate": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/model/firmwareVersions",
+            "value": [
+              "1.0.8"
+            ]
+          }
+        ]
+      },
+      "control": {
+        "document": {
+          "file": "published/SAALE-DoC-SM-3-2026-01.json",
+          "pointer": "",
+          "patch": []
+        },
+        "certificate": {
+          "file": "published/PTB-DE-26-M-PTB-0108.json",
+          "pointer": "",
+          "patch": []
+        }
+      }
+    },
+    {
+      "id": "qid-declaration-quality-system-of-another-manufacturer",
+      "kind": "declarationOfConformity",
+      "check": "certificate",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The approval of the quality system of KERNBERG: the declaration is of a model of SAALE.",
+      "reason": "approves the quality system of the energy meter manufacturer 'KERNBERG'",
+      "document": {
+        "file": "published/SAALE-DoC-SM-3-2026-01.json",
+        "pointer": "",
+        "patch": []
+      },
+      "certificate": {
+        "file": "published/PTB-DE-26-QS-PTB-0042.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/manufacturer/manufacturerId",
+            "value": "KERNBERG"
+          }
+        ]
+      },
+      "control": {
+        "document": {
+          "file": "published/SAALE-DoC-SM-3-2026-01.json",
+          "pointer": "",
+          "patch": []
+        },
+        "certificate": {
+          "file": "published/PTB-DE-26-QS-PTB-0042.json",
+          "pointer": "",
+          "patch": []
+        }
+      }
+    },
+    {
+      "id": "qid-type-examination-other-meter",
+      "kind": "certificateOfConformity",
+      "check": "cover",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The meter of DE*GEF*E1*1, a KDM-500 of KERNBERG: the EU-type examination certificate covers the SM-3 only.",
+      "reason": "The energy meter 'DE*GEF*M1*1' is no 'SM-3' of 'SAALE'!",
+      "document": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "chargingStationOperatorId": "DE*GEF",
+      "evseId": "DE*GEF*E1*1",
+      "control": {
+        "document": {
+          "file": "published/PTB-DE-26-M-PTB-0108.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "chargingStationOperatorId": "DE*GEF",
+        "evseId": "DE*GEF*E2*1"
+      }
+    },
+    {
+      "id": "qid-quality-system-other-meter",
+      "kind": "certificateOfConformity",
+      "check": "cover",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The meter of DE*GEF*E1*1: the approval of the quality system covers the meters of SAALE only.",
+      "reason": "The energy meter 'DE*GEF*M1*1' is none of 'SAALE'!",
+      "document": {
+        "file": "published/PTB-DE-26-QS-PTB-0042.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "chargingStationOperatorId": "DE*GEF",
+      "evseId": "DE*GEF*E1*1",
+      "control": {
+        "document": {
+          "file": "published/PTB-DE-26-QS-PTB-0042.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "chargingStationOperatorId": "DE*GEF",
+        "evseId": "DE*GEF*E2*1"
+      }
+    },
+    {
+      "id": "qid-type-examination-meter-updated",
+      "kind": "certificateOfConformity",
+      "check": "cover",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The meter of DE*GEF*E2*1 in QA with it on the firmware 1.0.8, a version of the SM-3 as well: the certificate covers the SM-3 in the firmware 1.0.7.",
+      "reason": "The firmware version '1.0.8' of the energy meter 'DE*GEF*M2*1' is none the model 'SM-3' is covered in!",
+      "document": {
+        "file": "published/PTB-DE-26-M-PTB-0108.json",
+        "pointer": "",
+        "patch": []
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/energyMeterManufacturers/1/energyMeterModels/0/firmwareVersions",
+            "value": [
+              "1.0.7",
+              "1.0.8"
+            ]
+          },
+          {
+            "op": "replace",
+            "path": "/chargingStationOperators/0/energyMeterTemplates/0/firmwareVersion",
+            "value": "1.0.8"
+          }
+        ]
+      },
+      "chargingStationOperatorId": "DE*GEF",
+      "evseId": "DE*GEF*E2*1",
+      "control": {
+        "document": {
+          "file": "published/PTB-DE-26-M-PTB-0108.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "chargingStationOperatorId": "DE*GEF",
+        "evseId": "DE*GEF*E2*1"
+      }
+    },
+    {
+      "id": "qid-calibration-number-beyond-int64",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The coverage factor of the error at Imin written as 2^63, one beyond the whole numbers WWCP_POI3 holds as one (Int64). Both refuse it, in words of their own.",
+      "document": {
+        "text": "{\n  \"@context\": \"https://open.charging.cloud/contexts/wwcp/qiDigital/digitalCalibrationCertificate/v1\",\n  \"@id\": \"DCC-2026-0815\",\n  \"countryCode\": \"DE\",\n  \"calibrationLaboratoryId\": \"EM-LAB\",\n  \"calibrationLaboratoryCode\": \"D-K-12345-01-00\",\n  \"customer\": \"GraphDefined Charging Solutions\",\n  \"orderNumber\": \"PO-2026-0815\",\n  \"item\": {\n    \"type\": \"EnergyMeter\",\n    \"id\": \"DE*GEF*M2*1\",\n    \"manufacturerId\": \"SAALE\",\n    \"modelId\": \"SM-3\",\n    \"serialNumber\": \"ACM-2026-002-1\",\n    \"hardwareRevision\": \"1.4\",\n    \"firmwareVersion\": \"1.0.7\"\n  },\n  \"beginPerformanceDate\": \"2026-10-27T14:20:56.787Z\",\n  \"endPerformanceDate\": \"2026-10-27T16:20:56.787Z\",\n  \"performanceLocation\": \"Customer\",\n  \"respPersons\": [\n    {\n      \"name\": \"Dr. Erika Mustermann\",\n      \"role\": \"Head of laboratory\",\n      \"mainSigner\": true\n    },\n    {\n      \"name\": \"Max Mustermann\",\n      \"role\": \"Calibration engineer\"\n    }\n  ],\n  \"statements\": [\n    {\n      \"declaration\": {\n        \"en\": \"The meter conforms to its accuracy class B.\"\n      },\n      \"refType\": \"basic_conformity\",\n      \"norm\": \"EN 50470-3:2022\",\n      \"conformity\": \"Pass\"\n    }\n  ],\n  \"measurementResults\": [\n    {\n      \"name\": {\n        \"en\": \"Measurement error of the active energy\"\n      },\n      \"usedMethods\": [\n        {\n          \"reference\": \"EN 50470-3:2022\",\n          \"title\": {\n            \"en\": \"Accuracy test of static meters\"\n          }\n        }\n      ],\n      \"influenceConditions\": [\n        {\n          \"refType\": \"basic_temperature\",\n          \"value\": 23.1,\n          \"unit\": \"\\\\degreecelsius\",\n          \"expandedUncertainty\": 0.5,\n          \"coverageFactor\": 2\n        }\n      ],\n      \"results\": [\n        {\n          \"name\": {\n            \"en\": \"Imin\"\n          },\n          \"refType\": \"basic_calibrationPoint\",\n          \"quantities\": [\n            {\n              \"refType\": \"basic_nominalValue\",\n              \"value\": 0.25,\n              \"unit\": \"\\\\ampere\"\n            },\n            {\n              \"refType\": \"basic_measurementError\",\n              \"value\": 0.42,\n              \"unit\": \"\\\\percent\",\n              \"expandedUncertainty\": 0.08,\n              \"coverageFactor\": 9223372036854775808,\n              \"coverageProbability\": 0.95,\n              \"toleranceLower\": -1.5,\n              \"toleranceUpper\": 1.5,\n              \"conformity\": \"Pass\"\n            }\n          ]\n        },\n        {\n          \"name\": {\n            \"en\": \"Itr\"\n          },\n          \"refType\": \"basic_calibrationPoint\",\n          \"quantities\": [\n            {\n              \"refType\": \"basic_nominalValue\",\n              \"value\": 0.5,\n              \"unit\": \"\\\\ampere\"\n            },\n            {\n              \"refType\": \"basic_measurementError\",\n              \"value\": -0.18,\n              \"unit\": \"\\\\percent\",\n              \"expandedUncertainty\": 0.08,\n              \"coverageFactor\": 2,\n              \"coverageProbability\": 0.95,\n              \"toleranceLower\": -1,\n              \"toleranceUpper\": 1,\n              \"conformity\": \"Pass\"\n            }\n          ]\n        },\n        {\n          \"name\": {\n            \"en\": \"Iref\"\n          },\n          \"refType\": \"basic_calibrationPoint\",\n          \"quantities\": [\n            {\n              \"refType\": \"basic_nominalValue\",\n              \"value\": 5,\n              \"unit\": \"\\\\ampere\"\n            },\n            {\n              \"refType\": \"basic_measurementError\",\n              \"value\": 0.06,\n              \"unit\": \"\\\\percent\",\n              \"expandedUncertainty\": 0.08,\n              \"coverageFactor\": 2,\n              \"coverageProbability\": 0.95,\n              \"toleranceLower\": -1,\n              \"toleranceUpper\": 1,\n              \"conformity\": \"Pass\"\n            }\n          ]\n        },\n        {\n          \"name\": {\n            \"en\": \"Imax\"\n          },\n          \"refType\": \"basic_calibrationPoint\",\n          \"quantities\": [\n            {\n              \"refType\": \"basic_nominalValue\",\n              \"value\": 63,\n              \"unit\": \"\\\\ampere\"\n            },\n            {\n              \"refType\": \"basic_measurementError\",\n              \"value\": -0.21,\n              \"unit\": \"\\\\percent\",\n              \"expandedUncertainty\": 0.08,\n              \"coverageFactor\": 2,\n              \"coverageProbability\": 0.95,\n              \"toleranceLower\": -1,\n              \"toleranceUpper\": 1,\n              \"conformity\": \"Pass\"\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"recalibrationDue\": \"2034-10-27T17:20:56.787Z\",\n  \"signature\": {\n    \"signedAt\": \"2026-10-27T17:20:57.223Z\",\n    \"algorithm\": \"ML-DSA-65\",\n    \"keyId\": \"b6148aa78b7ca1b5e4721db72c13b7e485476fac6893e87c176763085b4efd69\",\n    \"value\": \"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\"\n  }\n}"
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      }
+    },
+    {
+      "id": "qid-calibration-text-of-no-language",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The name of the measurement with a text in \"xx\", no language.",
+      "reason": "'xx' is no language!",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/measurementResults/0/name/xx",
+            "value": "Messfehler der Wirkenergie"
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d10"
+    },
+    {
+      "id": "qid-calibration-text-not-a-text",
+      "kind": "calibrationCertificate",
+      "check": "verify",
+      "expected": "refused",
+      "basis": "libs/WWCP_POI/examples/exampleA14.md, 5; libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital",
+      "description": "The name of the measurement with a number for its text in \"de\".",
+      "reason": "the text in 'de' must be a text!",
+      "document": {
+        "file": "published/EM-LAB-DCC-2026-0815.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/measurementResults/0/name/de",
+            "value": 5
+          }
+        ]
+      },
+      "network": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": []
+      },
+      "at": "2026-10-27T17:23:00.000Z",
+      "control": {
+        "document": {
+          "file": "published/EM-LAB-DCC-2026-0815.json",
+          "pointer": "",
+          "patch": []
+        },
+        "network": {
+          "file": "published/QA.json",
+          "pointer": "",
+          "patch": []
+        },
+        "at": "2026-10-27T17:23:00.000Z"
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d10"
+    }
+  ]
+}

@@ -94,6 +94,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
         public static JObject History        { get; } = Load("poi-history.json");
         public static JObject Refusals       { get; } = Load("poi-refusals.json");
         public static JObject Histories      { get; } = Load("poi-histories.json");
+        public static JObject QIDigital      { get; } = Load("poi-qidigital.json");
 
 
         private static JObject Load(String FileName)

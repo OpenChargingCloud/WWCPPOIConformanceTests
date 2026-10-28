@@ -2,7 +2,7 @@
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
 (WWCP_POI3, `libs/WWCP_POI` at `8f66f2f`, Hermod `fbb442f`, Styx `06b592d3`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `42671c4`) take or calculate different things.
+`libs/WWCP_POI.TS` at `51916b5`) take or calculate different things.
 
 Each deviation is
 
@@ -32,12 +32,15 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D7](#d7-certificate-twice) | ✅ A certificate may name a hardware revision or firmware version twice, and so may the energy meters it was issued with: **fixed** in WWCP_POI.TS `b9c786e` | WWCP_POI.TS | `version-text-certificate-twice`, `version-text-certificate-energy-meter-twice` | low | - |
 | [D8](#d8-expired-signature) | ✅ A change set signed, besides by its owner, by a key of a party not valid at its `createdAt` is taken: **fixed** in WWCP_POI.TS `e2b66b6` | WWCP_POI.TS | `key-expired-besides` | low (interop) | 3 |
 | [D9](#d9-certificate-malformed) | ✅ A certificate WWCP_POI3 refuses to read is taken: for no model or for two, a model without its manufacturer or a manufacturer without its model, no hardware revision or firmware version, also of an energy meter it was issued with, a relative `documentURL`, an empty legislation, a `notAfter` before its `notBefore`, no release, one twice or both verified and compatible, energy meters of an energy meter model, one model twice: **fixed** in WWCP_POI.TS `1f0d9c7` | WWCP_POI.TS | the 16 `version-certificate-*` | low | - |
+| [D10](#d10-text-of-no-language) | A text of a QI-Digital document in no language, or one that is no text, is left out while reading: the signature verifies, the text travels with the document unsigned | WWCP_POI3 | `qid-calibration-text-of-no-language`, `qid-calibration-text-not-a-text` | low | new |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
 round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well, and so
-is D9, found by vectors of the certificates WWCP_POI3 refuses to read. All nine are fixed: of the 379 vectors both
-implementations run 337 - the 7 requiring `signing` and the 13 of `poi-histories.json` that WWCP_POI.TS leaves to
-WWCP_POI are WWCP_POI3's alone - and agree on every one of them (see [What both do alike](#what-both-do-alike)).
+is D9, found by vectors of the certificates WWCP_POI3 refuses to read. All nine are fixed. D10, found by the vectors of
+the QI-Digital documents of example A14 (`poi-qidigital.json`), is WWCP_POI3's again, and open: of the 423 vectors both
+implementations run 381 - the 7 requiring `signing` and the 13 of `poi-histories.json` that WWCP_POI.TS leaves to
+WWCP_POI are WWCP_POI3's alone - and agree on every one of them but the 2 of D10 (see
+[What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
 [O1](#o1-internal-reader) to [O4](#o4-no-valid-until).
@@ -321,6 +324,35 @@ taken, against "not twice", and WWCP_POI.TS takes them as well, as WWCP_POI3 doe
 while both take it.
 
 
+
+<a id="d10-text-of-no-language"></a>
+## D10. A text of a QI-Digital document in no language, or one that is no text, is left out while reading
+
+**Vectors:** `qid-calibration-text-of-no-language` and `qid-calibration-text-not-a-text` (`poi-qidigital.json`): the
+calibration certificate `DCC-2026-0815` of `EM-LAB` as example A14 published it, the name of its measurement given in
+`"xx"` as well, no language, or with the number 5 as its text in `"de"`. WWCP_POI.TS refuses each ("'xx' is no
+language!", "the text in 'de' must be a text!"); WWCP_POI3 takes both, and verifies the signature.
+
+**Where:** WWCP_POI3 reads the texts of a QI-Digital document with `POIJSON.TryParseI18N`, that is with
+`ImmutableI18NString.TryParse` of Styx, which leaves out without a word a key that is no language of `Languages` and a
+value that is no string. A QI-Digital document is signed as WWCP_POI3 writes it again from what it read
+(`AQIDigitalDocument`: its context, its content and its signature without its value), so what it left out is no part of
+what the signature covers: the text in `"xx"` verifies, and travels with the signed certificate, unsigned - what
+`QIDigitalJSON.TryOnly` refuses an unknown property for. WWCP_POI.TS refuses both while reading
+(`src/qidigital/json.ts`, `i18nOf`), and takes a language written in upper case, `EN`, as `en`. WWCP_POI.TS
+found it reading the C# code; the vectors show it. Names of WWCP_POI3 are read strictly, both refuse a performance
+location written `customer` or `1` alike (`POIJSON.TryParseEnum`: no case ignored, the name as it is written).
+
+**Why it matters:** low. A reader of WWCP_POI3 shows nothing of the text it left out; a reader that shows the document
+as it was handed out shows a text nobody signed, beside a valid signature.
+
+**Fix:** refuse a key that is no language and a value that is no string where WWCP_POI3 reads the texts of a QI-Digital
+document, in the words of WWCP_POI.TS: "'xx' is no language!", "the text in 'de' must be a text!".
+
+**Not covered:** the texts of the entities of a roaming network are read by the same `POIJSON.TryParseI18N`; whether a
+text left out there passes the ETags of a version, no vector shows yet.
+
+
 ## What both do alike
 
 Both implementations calculate, byte for byte, and take or refuse alike:
@@ -386,7 +418,22 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   its certificate does not cover, a certificate of the other kind named by a station or a meter, a meter its station's
   certificate was not issued with (16, 17), a manufacturer or a model withdrawn while a station names it (18), a
   provider renaming, after it removed its group, the operator's group of the same identification (9), and a grid
-  connection point the roaming network operator adds in place of a grid operator without keys (13).
+  connection point the roaming network operator adds in place of a grid operator without keys (13);
+- 42 of the 44 vectors of the QI-Digital documents of example A14 (`poi-qidigital.json`): the two certificates of
+  conformity of the PTB, the declaration of conformity of SAALE and the calibration certificate of EM-LAB, each verified
+  against QA at the time of the run, signed with ML-DSA-65 and ES256; the declaration against both certificates it names,
+  also one whose `@id` is written in lower case (identifications are compared without case); both certificates covering
+  the meter of `DE*GEF*E2*1`; and refused, each with its control and its `reason`: changed after it was signed, not
+  signed, naming a key of another party, an unknown property, another JSON-LD context, a timestamp with an offset, a
+  coverage factor without its uncertainty, a certificate of module D naming a model and one of module B naming a
+  manufacturer, a legislation its body is not notified for, a performance location written otherwise; against QA
+  changed - another notified body number, the firmware of the certificate no longer one of its model, the meter updated
+  since, without the laboratory, its key for certificates only for itself or ended before it signed, without the key
+  SAALE signed with -; after the approval of the quality system and after the laboratory's key ended; the declaration
+  against a certificate it does not name, of another body, module or legislation, not covering its firmware, approving
+  the quality system of another manufacturer; a meter the certificates do not cover, also the meter updated since; and a
+  whole number beyond Int64, which both refuse in words of their own: WWCP_POI3 while reading the quantity, WWCP_POI.TS
+  when it writes the signature input.
 
 
 ## Observations
@@ -444,8 +491,8 @@ vector expects `refused` now, and both implementations refuse it when they read 
 
 ## The findings of csharp-review and their vectors
 
-What of the 22 findings of *csharp-review* a verifier reaches, and which vectors hold the implementations to it. All but
-one question of design in 19 are fixed in WWCP_POI; what is a server's (a witness, its journal, the clock taking a
+What of the 23 findings of *csharp-review* a verifier reaches, and which vectors hold the implementations to it. All but
+23 are fixed in WWCP_POI; what is a server's (a witness, its journal, the clock taking a
 change set, change sets waiting, rebasing and merging) no verifier vector reaches. Most findings needed a history
 signed anew, which the keys of the frozen run, random and private, do not allow: `poi-histories.json` holds small
 histories the generator signs itself (the replays named below are of it), every refusal with its control. Where a
@@ -475,6 +522,7 @@ vector says *WWCP_POI3 alone*, WWCP_POI.TS leaves what it checks to WWCP_POI (`n
 | 20 | Custom data: numbers as binary floating-point numbers, timestamps in the time zone of the server | `spec-2-custom-data-decimals`, `-integers`, `-texts`, `-nested` (`poi-specification.json`) | |
 | 21 | The custom data of an address is lost | `spec-2-custom-data-address` (`poi-specification.json`) | |
 | 22 | A peer starting from a snapshot passes over attestations it can not read | `anchored-head-unreadable-attestation`, `anchored-head-attestation-not-an-object` (`poi-histories.json`), against `TryFromAnchoredSnapshot`, which the peer uses | The peer itself, its connection and what it asks for |
+| 23 | The calibration certificate of a charging station is compared with its own serial number | | Open: the frozen run holds the calibration certificate of an energy meter only, and its keys are private; once WWCP_POI compares it, a vector with a calibration certificate of a station signed anew. |
 
 No finding of the review, and not covered either: of the texts WWCP_POI reads as given since `c31e5e3` and `3672b06`,
 that it takes them so - whitespace inside, case, a leading U+FEFF, which `Char.IsWhiteSpace` does not take for

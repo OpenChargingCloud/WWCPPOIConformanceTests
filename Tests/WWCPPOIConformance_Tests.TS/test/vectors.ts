@@ -262,6 +262,45 @@ export function historyDocument(historyId: string, name: string | undefined): JS
 }
 
 
+// ---- poi-qidigital.json -----------------------------------------------------------------------------------------
+
+/** A document of a QI-Digital vector: of the run with a JSON patch, or JSON text where the text of a number matters. */
+export type QIDigitalDocumentRef = (DocumentRef & { readonly patch: PatchOperation[] }) | { readonly text: string };
+
+/** What a QI-Digital document is checked with: the document, and what its check takes besides it. */
+export interface QIDigitalCase {
+    readonly document:                    QIDigitalDocumentRef;
+    /** verify, cover: the roaming network, QA of the run, patched. */
+    readonly network?:                    DocumentRef & { readonly patch: PatchOperation[] };
+    /** verify: when. */
+    readonly at?:                         string;
+    /** certificate: the certificate of conformity the declaration is checked against. */
+    readonly certificate?:                DocumentRef & { readonly patch: PatchOperation[] };
+    /** cover: the EVSE whose energy meter, as the network names it at runtime, the certificate covers. */
+    readonly chargingStationOperatorId?:  string;
+    readonly evseId?:                     string;
+}
+
+export interface QIDigitalVector extends Applicability, QIDigitalCase {
+    readonly id:           string;
+    readonly description:  string;
+    readonly basis:        string;
+    readonly kind:         'certificateOfConformity' | 'declarationOfConformity' | 'calibrationCertificate';
+    readonly check:        'verify' | 'certificate' | 'cover';
+    readonly expected:     'accepted' | 'refused';
+    /** Of a refusal: the same check of the documents of the run, against QA as published, taken. */
+    readonly control?:     QIDigitalCase;
+    /** What the refusal names, as both implementations word it. */
+    readonly reason?:      string;
+}
+
+export const qiDigital = load<{ run: string, at: string, vectors: QIDigitalVector[] }>('poi-qidigital.json');
+
+/** A document of a QI-Digital case, read as POI reads JSON. */
+export const qiDigitalDocument = (ref: QIDigitalDocumentRef): JSONValue =>
+    'text' in ref ? parseJSON(ref.text) : patched(ref);
+
+
 // ---- Documents of the frozen run ----------------------------------------------------------------------------------
 
 const RUN = new URL(`${history.run}/`, VECTORS);

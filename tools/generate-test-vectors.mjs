@@ -69,6 +69,7 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
+    D10: [ CSHARP ],
 };
 
 const deviation = (name) => {
@@ -225,23 +226,35 @@ function es256Of(d) {
 const es256 = (seedHex) => es256Of(modulo(bigintOf(Buffer.from(seedHex, 'hex')), P256.n - 1n) + 1n);
 
 
-// ---- Verifying with a COSE key (RFC 9052): EC2 of P-256, P-384 and P-521, OKP of Ed25519 and Ed448 ------------------
+// ---- Verifying with a COSE key (RFC 9052): EC2 of P-256, P-384 and P-521, OKP of Ed25519 and Ed448, AKP of ML-DSA ----
+
+/**
+ * The SubjectPublicKeyInfo (RFC 9881) of an ML-DSA public key: the DER head of each parameter set, its OID
+ * 2.16.840.1.101.3.4.3.17 to 19, and the key as its BIT STRING, by its COSE algorithm (-48 to -50).
+ */
+const ML_DSA_SPKI = {
+    [-48]: '30820532300b06096086480165030403110382052100',
+    [-49]: '308207b2300b0609608648016503040312038207a100',
+    [-50]: '30820a32300b060960864801650304031303820a2100',
+};
 
 /** The public key of a COSE key in Base64 for node:crypto, or undefined for a kind node:crypto does not verify here. */
 function nodeKeyOf(coseKey) {
     const map   = decodeCbor(Buffer.from(coseKey, 'base64'));
     const url   = (bytes) => Buffer.from(bytes).toString('base64url');
+    if (map[1] === 7)
+        return ML_DSA_SPKI[map[3]] === undefined ? undefined : createPublicKey({ key: Buffer.concat([ Buffer.from(ML_DSA_SPKI[map[3]], 'hex'), map[-1] ]), format: 'der', type: 'spki' });
     const jwk   = map[1] === 2 ? { kty: 'EC',  crv: { 1: 'P-256', 2: 'P-384', 3: 'P-521' }[map[-1]], x: url(map[-2]), y: url(map[-3]) }
                 : map[1] === 1 ? { kty: 'OKP', crv: { 6: 'Ed25519', 7: 'Ed448' }[map[-1]],           x: url(map[-2]) }
                 :                undefined;
     return jwk === undefined || jwk.crv === undefined ? undefined : createPublicKey({ key: jwk, format: 'jwk' });
 }
 
-/** Whether a signature value verifies with a COSE key, or undefined where node:crypto does not verify its algorithm (ML-DSA). */
+/** Whether a signature value verifies with a COSE key, or undefined where node:crypto does not verify its algorithm. */
 function verifiesWith(algorithm, coseKey, text, valueBase64) {
     const key   = nodeKeyOf(coseKey);
     const hash  = { ES256: 'sha256', ES384: 'sha384', ES512: 'sha512' }[algorithm];
-    if (key === undefined || (hash === undefined && ![ 'Ed25519', 'Ed448', 'EdDSA' ].includes(algorithm)))
+    if (key === undefined || (hash === undefined && ![ 'Ed25519', 'Ed448', 'EdDSA', 'ML-DSA-44', 'ML-DSA-65', 'ML-DSA-87' ].includes(algorithm)))
         return undefined;
     return hash === undefined ? verify(null, utf8(text), key, Buffer.from(valueBase64, 'base64'))
                               : verify(hash, utf8(text), { key, dsaEncoding: 'ieee-p1363' }, Buffer.from(valueBase64, 'base64'));
@@ -2843,8 +2856,203 @@ function signedHistories() {
 
 
 // =====================================================================================================================
-//  Write, check, mirror
+//  8. The QI-Digital documents of example A14: the papers of a meter, checked against QA
 // =====================================================================================================================
+//
+// What example A14 published in the frozen run: the digital certificates of conformity of the PTB for the SM-3 (module B)
+// and for the quality system of SAALE (module D), the digital declaration of conformity of SAALE and the digital
+// calibration certificate of EM-LAB for the meter of DE*GEF*E2*1, each signed by its issuer with a key of QA. The keys of
+// the run are private: what needs a valid signature over other content, QA patched gives instead - the roaming network
+// is an input of the check - and the checks that look at no signature, a declaration against a certificate and a
+// certificate covering a meter, take documents patched.
+
+const EXAMPLE_A14  = 'libs/WWCP_POI/examples/exampleA14.md';
+const QI_DIGITAL   = 'libs/WWCP_POI/WWCP_POI3/RoamingNetwork/QIDigital';
+
+/** A copy of a document with a JSON patch (RFC 6902: add, replace, remove) applied, as the harnesses apply it. */
+function applyPatch(document, patch, where) {
+    const copy = structuredClone(document);
+    for (const { op, path, value } of patch) {
+        const tokens  = path.split('/').slice(1).map(token => token.replaceAll('~1', '/').replaceAll('~0', '~'));
+        const parent  = at(copy, tokens.slice(0, -1).map(token => '/' + token.replaceAll('~', '~0').replaceAll('/', '~1')).join(''));
+        const last    = tokens.at(-1);
+        if (op !== 'add' && !(last in parent))
+            fail(`${where}${path}: the patch ${op}s nothing`);
+        if (op === 'replace' && JSON.stringify(parent[last]) === JSON.stringify(value))
+            fail(`${where}${path}: the patch changes nothing`);
+        if (Array.isArray(parent)) {
+            const index = last === '-' ? parent.length : Number(last);
+            if      (op === 'remove') parent.splice(index, 1);
+            else if (op === 'add')    parent.splice(index, 0, structuredClone(value));
+            else                      parent[index] = structuredClone(value);
+        }
+        else if (op === 'remove') delete parent[last];
+        else                      parent[last] = structuredClone(value);
+    }
+    return copy;
+}
+
+function qiDigitalVectors() {
+
+    const QA    = 'published/QA.json';
+    const B     = 'published/PTB-DE-26-M-PTB-0108.json';
+    const D     = 'published/PTB-DE-26-QS-PTB-0042.json';
+    const DDOC  = 'published/SAALE-DoC-SM-3-2026-01.json';
+    const DCC   = 'published/EM-LAB-DCC-2026-0815.json';
+
+    const KINDS    = { [B]: 'certificateOfConformity', [D]: 'certificateOfConformity', [DDOC]: 'declarationOfConformity', [DCC]: 'calibrationCertificate' };
+    const ISSUERS  = { [B]: 'PTB', [D]: 'PTB', [DDOC]: 'SAALE', [DCC]: 'EM-LAB' };
+
+    const qa        = jsonRun(QA);
+    const documents = Object.fromEntries(Object.keys(KINDS).map(file => [ file, jsonRun(file) ]));
+
+    // The anchor: each document signed by a key of its issuer in QA, over its signature input as WWCP_POI3 writes it
+    // (AQIDigitalDocument): its JSON-LD context, its content and its signature without its value, in canonical JSON.
+    const signingKeys = new Map([ ...qa.conformityAssessmentBodies, ...qa.energyMeterManufacturers ].flatMap(party => (party.signingKeys ?? []).map(key => [ key['@id'], { party: party['@id'], key } ])));
+    for (const file of Object.keys(KINDS)) {
+        const document  = parseRaw(readRun(file));
+        const signing   = signingKeys.get(document.signature?.keyId) ?? fail(`${file}: signed by no signing key of QA`);
+        if (signing.party !== ISSUERS[file])
+            fail(`${file}: signed by a key of ${signing.party}, not of its issuer ${ISSUERS[file]}`);
+        if (verifiesWith(document.signature.algorithm, signing.key.key, canonical({ ...document, signature: without(document.signature, 'value') }), document.signature.value) !== true)
+            fail(`anchor: the signature of ${file} (${document.signature.algorithm}) does not verify over its input as WWCP_POI3 writes it`);
+    }
+
+    quoted(EXAMPLE_A14, 'each of a conformity assessment body of `QA` with its number, notified for its', 'what a certificate of conformity is checked against');
+    quoted(EXAMPLE_A14, 'signed by a key of the manufacturer of its model that may sign `models`; each notified body it names', 'what a declaration of conformity is checked against');
+    quoted(EXAMPLE_A14, 'signed by a key of its laboratory that may sign `certificates`; its item the meter of', 'what a calibration certificate is checked against');
+    quoted(EXAMPLE_A14, 'A certificate of module D, D1, E, E1, H or H1 names a manufacturer, one of module B, F, F1 or G a model:', 'which certificates name a manufacturer');
+
+    // Where the vectors patch QA and the documents, each guarded: a pointer that names another thing fails here.
+    const named   = (document, pointer, id, what) => at(document, `${pointer}/@id`) === id ? pointer : fail(`${what}#${pointer} is not ${id}`);
+    const emLab   = named(qa, '/conformityAssessmentBodies/1', 'EM-LAB', QA);
+    const ptb     = named(qa, '/conformityAssessmentBodies/2', 'PTB', QA);
+    const saale   = named(qa, '/energyMeterManufacturers/1', 'SAALE', QA);
+    const sm3     = named(qa, `${saale}/energyMeterModels/0`, 'SM-3', QA);
+    const acMeter = named(qa, '/chargingStationOperators/0/energyMeterTemplates/0', 'DE*GEF*EMT_AC', QA);
+    const labKey  = named(qa, `${emLab}/signingKeys/0`, documents[DCC].signature.keyId, QA);
+    const ddocKey = named(qa, `${saale}/signingKeys/1`, documents[DDOC].signature.keyId, QA);
+    const imax    = '/measurementResults/0/results/3';
+
+    if (at(documents[DCC], `${imax}/name/en`) !== 'Imax' || at(documents[DCC], `${imax}/quantities/1/refType`) !== 'basic_measurementError')
+        fail(`${DCC}#${imax}: not the error at Imax`);
+    if (at(qa, `${ptb}/notifiedBodyNumber`) !== '0102' || JSON.stringify(at(qa, `${ptb}/notifiedFor`)) !== '["MID"]')
+        fail(`${QA}#${ptb}: not the notified body 0102 for the MID`);
+    if (JSON.stringify(at(qa, `${sm3}/firmwareVersions`)) !== '["1.0.7"]' || at(qa, `${acMeter}/firmwareVersion`) !== '1.0.7')
+        fail(`${QA}: the SM-3 and the template of the AC meter are no longer on the firmware 1.0.7`);
+
+    // ---- A case: the document, and what the check takes besides it.
+
+    const run      = (file, patch = []) => (applyPatch(jsonRun(file), patch, file), { file, pointer: '', patch });
+    const network  = (patch = []) => run(QA, patch.length === 0 ? [] : [ { op: 'remove', path: '/eTags' }, ...patch ]);
+
+    const caseOf = (check, file, { document = [], text, network: patch = [], at: time = AT, certificate, evseId = 'DE*GEF*E2*1' } = {}) => ({
+        document: text === undefined ? run(file, document) : { text },
+        ...(check === 'verify'       ? { network: network(patch), at: time }                                           : {}),
+        ...(check === 'certificate'  ? { certificate: run(certificate.file, certificate.patch) }                       : {}),
+        ...(check === 'cover'        ? { network: network(patch), chargingStationOperatorId: 'DE*GEF', evseId }        : {}),
+    });
+
+    const vectors  = [];
+    const BASIS    = `${EXAMPLE_A14}, 5; ${QI_DIGITAL}`;
+
+    const take = (id, check, file, description, given = {}) =>
+        vectors.push({ id, kind: KINDS[file], check, expected: 'accepted', basis: BASIS, description, ...caseOf(check, file, given) });
+
+    // A refusal takes its control: the same check of the documents of the run, against QA as published, at AT.
+    const refuse = (id, check, file, description, reason, given, more = {}) => {
+        const refused  = caseOf(check, file, given);
+        const control  = caseOf(check, file, given.certificate === undefined ? {} : { certificate: { file: given.certificate.file } });
+        if (JSON.stringify(refused) === JSON.stringify(control))
+            fail(`${id}: the refusal is its control`);
+        vectors.push({ id, kind: KINDS[file], check, expected: 'refused', basis: BASIS, description, ...(reason === undefined ? {} : { reason }), ...refused, control, ...more });
+    };
+
+    // ---- Taken: the papers of the meter, as example A14 checks them (5).
+
+    take('qid-type-examination',                 'verify',       B,    'The EU-type examination certificate of the SM-3 (module B), against QA: of the PTB, the notified body 0102 for the MID, valid at AT, for a model of SAALE in revisions and versions it has, signed by the key of the PTB for certificates (ML-DSA-65).');
+    take('qid-quality-system',                   'verify',       D,    'The approval of the quality system of SAALE (module D), against QA: for an energy meter manufacturer of QA, scope MI-003, signed by the key of the PTB for certificates.');
+    take('qid-declaration',                      'verify',       DDOC, 'The EU declaration of conformity of the SM-3, against QA: signed by the key of SAALE for its models (ES256), each notified body it names one of QA with its number.');
+    take('qid-calibration',                      'verify',       DCC,  'The calibration certificate of the meter of DE*GEF*E2*1, against QA: of EM-LAB, signed by its key for certificates, its item the meter as QA names it at runtime.');
+    take('qid-declaration-type-examination',     'certificate',  DDOC, 'The declaration against the EU-type examination certificate it names: of the notified body and the module it names it with, under one of its legislations, for its model in all its revisions and versions.', { certificate: { file: B } });
+    take('qid-declaration-quality-system',       'certificate',  DDOC, 'The declaration against the approval of the quality system it names: of the manufacturer of its model, of its kind, with energy meters in its scope.', { certificate: { file: D } });
+    take('qid-type-examination-covers-meter',    'cover',        B,    'The EU-type examination certificate covers the meter of DE*GEF*E2*1 as QA names it at runtime: its model, hardware revision and firmware version.');
+    take('qid-quality-system-covers-meter',      'cover',        D,    'The approval of the quality system covers the meter of DE*GEF*E2*1: an energy meter of SAALE, of MI-003.');
+    take('qid-declaration-certificate-in-lower-case', 'certificate', DDOC, 'The declaration against the EU-type examination certificate, its @id written in lower case: identifications are compared without case (DigitalCertificateOfConformity_Id), the certificate is the one it names.', { certificate: { file: B, patch: [ { op: 'replace', path: '/@id', value: documents[B]['@id'].toLowerCase() } ] } });
+
+    // ---- Refused: changed after it was signed, or not signed by its issuer as it must be.
+
+    refuse('qid-calibration-changed',            'verify', DCC,  'Another error at Imax, changed after it was signed (example A14, 6a): its signature is not the one of its content.', "The signature of the digital calibration certificate 'DCC-2026-0815' is invalid", { document: [ { op: 'replace', path: `${imax}/quantities/1/value`, value: -0.12 } ] });
+    refuse('qid-declaration-changed',            'verify', DDOC, 'Another place of issue, changed after it was signed.', "The signature of the digital declaration of conformity 'DoC-SM-3-2026-01' is invalid", { document: [ { op: 'replace', path: '/placeOfIssue', value: 'Halle' } ] });
+    refuse('qid-type-examination-changed',       'verify', B,    'Valid a year longer, changed after it was signed.', "The signature of the digital certificate of conformity 'DE-26-M-PTB-0108' is invalid", { document: [ { op: 'replace', path: '/validUntil', value: '2037-10-27T17:20:56.787Z' } ] });
+    refuse('qid-calibration-not-signed',         'verify', DCC,  'Without its signature.', "The digital calibration certificate 'DCC-2026-0815' is not signed", { document: [ { op: 'remove', path: '/signature' } ] });
+    refuse('qid-calibration-key-of-another-party', 'verify', DCC, 'Naming the key of the PTB for certificates as its signing key: a calibration certificate is signed by a key of its laboratory.', "is no signing key of the calibration laboratory 'EM-LAB'", { document: [ { op: 'replace', path: '/signature/keyId', value: documents[B].signature.keyId } ] });
+
+    // ---- Refused: what WWCP_POI3 refuses to read (QIDigitalJSON).
+
+    refuse('qid-calibration-unknown-property',   'verify', DCC,  'A property a calibration certificate does not have: unsigned, it would travel with a signed document.', "Unknown property 'x' of a digital calibration certificate!", { document: [ { op: 'add', path: '/x', value: 1 } ] });
+    refuse('qid-calibration-context',            'verify', DCC,  'Another JSON-LD context, which names another kind or version of document.', 'The JSON-LD context of a digital calibration certificate must be', { document: [ { op: 'replace', path: '/@context', value: 'https://open.charging.cloud/contexts/wwcp/qiDigital/digitalCalibrationCertificate/v2' } ] });
+    refuse('qid-calibration-timestamp',          'verify', DCC,  'The end of the calibration written with an offset, the same instant: a timestamp of a QI-Digital document is written as it is signed, in UTC with milliseconds.', 'must be written as yyyy-MM-ddTHH:mm:ss.fffZ!', { document: [ { op: 'replace', path: '/endPerformanceDate', value: '2026-10-27T18:20:56.787+02:00' } ] });
+    refuse('qid-type-examination-not-notified',  'verify', B,    'The EU-type examination certificate issued under the RED, for which QA does not notify the PTB: the body is checked before the signature, which no longer verifies.', "is not notified for the RED", { document: [ { op: 'replace', path: '/legislation', value: { name: 'RED', act: 'Directive 2014/53/EU' } } ] });
+    refuse('qid-calibration-coverage-factor',    'verify', DCC,  'The error at Imax with a coverage factor and probability, but without the expanded uncertainty they are of.', 'is one of an expanded uncertainty', { document: [ { op: 'remove', path: `${imax}/quantities/1/expandedUncertainty` } ] });
+    refuse('qid-calibration-location-lower-case', 'verify', DCC, 'The performance location written "customer", not as it is named: a name is read as it is written, without case only where it is compared.', "Invalid performance location 'customer'!", { document: [ { op: 'replace', path: '/performanceLocation', value: 'customer' } ] });
+    refuse('qid-calibration-location-number',     'verify', DCC, 'The performance location written "1", the number Customer has in WWCP_POI3: a name is read by its name.', "Invalid performance location '1'!", { document: [ { op: 'replace', path: '/performanceLocation', value: '1' } ] });
+    refuse('qid-quality-system-names-a-model',   'verify', D,    'The approval of a quality system (module D) naming the model SM-3 as well as its manufacturer: a certificate of module D names a manufacturer, not a model.', 'approves the quality system of a manufacturer and names it, not a model', { document: [ { op: 'add', path: '/model', value: documents[B].model } ] });
+    refuse('qid-type-examination-names-a-manufacturer', 'verify', B, 'The EU-type examination certificate (module B) naming SAALE in place of its model: a certificate of module B names a model, not a manufacturer.', 'is for a model and names it, not a manufacturer', { document: [ { op: 'remove', path: '/model' }, { op: 'add', path: '/manufacturer', value: documents[D].manufacturer } ] });
+
+    // ---- Refused: the documents as signed, against QA as it would be otherwise.
+
+    refuse('qid-type-examination-other-number',  'verify', B,    'QA naming the PTB the notified body 0103: the certificate is of the notified body 0102.', "is the notified body '0103', not '0102'", { network: [ { op: 'replace', path: `${ptb}/notifiedBodyNumber`, value: '0103' } ] });
+    refuse('qid-type-examination-firmware-of-no-model', 'verify', B, 'QA with the SM-3 on the firmware 1.0.8 alone, and the template of the AC meter with it: the certificate is for the firmware 1.0.7, which the model no longer has.', "The firmware version '1.0.7' is none of the model 'SM-3' of 'SAALE'!", { network: [ { op: 'replace', path: `${sm3}/firmwareVersions`, value: [ '1.0.8' ] }, { op: 'replace', path: `${acMeter}/firmwareVersion`, value: '1.0.8' } ] });
+    refuse('qid-calibration-meter-updated',      'verify', DCC,  'QA with the meter of DE*GEF*E2*1 on the firmware 1.0.8 since, a version of the SM-3 as well: a meter changed since is no longer the one calibrated.', "runs the firmware version '1.0.8', not '1.0.7'!", { network: [ { op: 'replace', path: `${sm3}/firmwareVersions`, value: [ '1.0.7', '1.0.8' ] }, { op: 'replace', path: `${acMeter}/firmwareVersion`, value: '1.0.8' } ] });
+    refuse('qid-calibration-without-laboratory', 'verify', DCC,  'QA without EM-LAB: the laboratory of a calibration certificate is a conformity assessment body of the roaming network.', "The calibration laboratory 'EM-LAB' of the digital calibration certificate 'DCC-2026-0815' is no conformity assessment body of the roaming network 'QA'!", { network: [ { op: 'remove', path: emLab } ] });
+    refuse('qid-calibration-key-for-party',      'verify', DCC,  'QA with the key EM-LAB signed with for its own properties only: a calibration certificate is signed by a key that may sign certificates.', "may not sign 'certificates', only 'party'", { network: [ { op: 'replace', path: `${labKey}/usages`, value: [ 'party' ] } ] });
+    refuse('qid-calibration-key-ended-before',   'verify', DCC,  'QA with the key EM-LAB signed with ended before it signed.', ", when the digital calibration certificate 'DCC-2026-0815' was signed!", { network: [ { op: 'replace', path: `${labKey}/notAfter`, value: '2026-10-27T17:20:57.000Z' } ] });
+    refuse('qid-declaration-key-of-no-manufacturer', 'verify', DDOC, 'QA without the key SAALE signed with for its models: a declaration is signed by a key of the manufacturer of its model.', "is no signing key of the energy meter manufacturer 'SAALE'", { network: [ { op: 'remove', path: ddocKey } ] });
+
+    // ---- Refused: at another time.
+
+    refuse('qid-quality-system-expired',         'verify', D,    'After the approval of the quality system ended (validUntil, three years).', "'DE-26-QS-PTB-0042' is not valid at 2029-10-28T00:00:00.000Z!", { at: '2029-10-28T00:00:00.000Z' });
+    refuse('qid-calibration-key-ended',          'verify', DCC,  'After the key EM-LAB signed with ended (notAfter, a year): the key is valid when it signed and when the certificate is checked.', "of the calibration laboratory 'EM-LAB' is not valid at 2027-10-28T00:00:00.000Z!", { at: '2027-10-28T00:00:00.000Z' });
+
+    // ---- Refused: the declaration against a certificate it does not name as it is. No signature is looked at here, the
+    //      certificate's own check tells whether it is valid.
+
+    refuse('qid-declaration-no-such-certificate', 'certificate', DDOC, 'A certificate the declaration does not name: DE-26-M-PTB-0109.', "names no certificate 'DE-26-M-PTB-0109'", { certificate: { file: B, patch: [ { op: 'replace', path: '/@id', value: 'DE-26-M-PTB-0109' } ] } });
+    refuse('qid-declaration-certificate-of-another-body', 'certificate', DDOC, 'The EU-type examination certificate as one of the BSI: the declaration names it as one of the notified body 0102, the PTB.', "is one of 'BSI', not of the notified body 0102 'PTB'", { certificate: { file: B, patch: [ { op: 'replace', path: '/conformityAssessmentBodyId', value: 'BSI' } ] } });
+    refuse('qid-declaration-certificate-of-another-module', 'certificate', DDOC, 'The EU-type examination certificate as one of module F: the declaration names it with module B.', "is one of the module F, not B!", { certificate: { file: B, patch: [ { op: 'replace', path: '/module', value: 'F' } ] } });
+    refuse('qid-declaration-certificate-under-another-legislation', 'certificate', DDOC, 'The EU-type examination certificate issued under the RED, none of the legislations of the declaration.', 'is issued under the RED, none of the legislations of', { certificate: { file: B, patch: [ { op: 'replace', path: '/legislation', value: { name: 'RED', act: 'Directive 2014/53/EU' } } ] } });
+    refuse('qid-declaration-firmware-not-covered', 'certificate', DDOC, 'The EU-type examination certificate for the firmware 1.0.8 only: the declaration is for the firmware 1.0.7 as well.', "does not cover the firmware version '1.0.7'", { certificate: { file: B, patch: [ { op: 'replace', path: '/model/firmwareVersions', value: [ '1.0.8' ] } ] } });
+    refuse('qid-declaration-quality-system-of-another-manufacturer', 'certificate', DDOC, 'The approval of the quality system of KERNBERG: the declaration is of a model of SAALE.', "approves the quality system of the energy meter manufacturer 'KERNBERG'", { certificate: { file: D, patch: [ { op: 'replace', path: '/manufacturer/manufacturerId', value: 'KERNBERG' } ] } });
+
+    // ---- Refused: a meter the certificates do not cover (example A14, 6b).
+
+    refuse('qid-type-examination-other-meter',   'cover', B, 'The meter of DE*GEF*E1*1, a KDM-500 of KERNBERG: the EU-type examination certificate covers the SM-3 only.', "The energy meter 'DE*GEF*M1*1' is no 'SM-3' of 'SAALE'!", { evseId: 'DE*GEF*E1*1' });
+    refuse('qid-quality-system-other-meter',     'cover', D, 'The meter of DE*GEF*E1*1: the approval of the quality system covers the meters of SAALE only.', "The energy meter 'DE*GEF*M1*1' is none of 'SAALE'!", { evseId: 'DE*GEF*E1*1' });
+    refuse('qid-type-examination-meter-updated', 'cover', B, 'The meter of DE*GEF*E2*1 in QA with it on the firmware 1.0.8, a version of the SM-3 as well: the certificate covers the SM-3 in the firmware 1.0.7.', "The firmware version '1.0.8' of the energy meter 'DE*GEF*M2*1' is none the model 'SM-3' is covered in!", { network: [ { op: 'replace', path: `${sm3}/firmwareVersions`, value: [ '1.0.7', '1.0.8' ] }, { op: 'replace', path: `${acMeter}/firmwareVersion`, value: '1.0.8' } ] });
+
+    // ---- Refused: a whole number beyond what WWCP_POI3 holds as one (Int64).
+    //      Given as JSON text: a patch would carry the number as JavaScript reads it, 9223372036854776000.
+
+    const beyondInt64 = readRun(DCC).replaceAll('\r\n', '\n').replace('"coverageFactor": 2,', '"coverageFactor": 9223372036854775808,');
+    if (!beyondInt64.includes('9223372036854775808') || beyondInt64.split('9223372036854775808').length !== 2)
+        fail(`${DCC}: no coverage factor 2 to write beyond Int64`);
+    refuse('qid-calibration-number-beyond-int64', 'verify', DCC, 'The coverage factor of the error at Imin written as 2^63, one beyond the whole numbers WWCP_POI3 holds as one (Int64). Both refuse it, in words of their own.', undefined, { text: beyondInt64 });
+
+    // ---- Refused by WWCP_POI.TS, taken by WWCP_POI3 (D10): a text of no language, or one that is no text, it drops while
+    //      reading, so it is no part of what it signs and the signature still verifies - unsigned, it travels with a
+    //      signed document.
+
+    refuse('qid-calibration-text-of-no-language', 'verify', DCC, 'The name of the measurement with a text in "xx", no language.', "'xx' is no language!", { document: [ { op: 'add', path: '/measurementResults/0/name/xx', value: 'Messfehler der Wirkenergie' } ] }, deviation('D10'));
+    refuse('qid-calibration-text-not-a-text',     'verify', DCC, 'The name of the measurement with a number for its text in "de".', "the text in 'de' must be a text!", { document: [ { op: 'add', path: '/measurementResults/0/name/de', value: 5 } ] }, deviation('D10'));
+
+    return vectorFile(
+        `WWCP POI 3: the QI-Digital documents, a proof of concept (${QI_DIGITAL}), as example A14 (${EXAMPLE_A14}) published them in one run: test-vectors/runs/${RUN}`,
+        'The papers of the meter of DE*GEF*E2*1 as their issuers signed them: the digital certificates of conformity of the PTB, the digital declaration of conformity of SAALE and the digital calibration certificate of EM-LAB. A vector names its document (file, JSON pointer, JSON patch; or text) and its check: "verify" against the roaming network "network" at "at", "certificate" the declaration against the certificate of conformity "certificate", "cover" the certificate of conformity covering the energy meter of the EVSE "evseId" of "chargingStationOperatorId" as "network" names it at runtime. A refusal while reading the document is a refusal; the other inputs must read. A refusal takes its "control" first, the same check with the documents of the run, against QA as published, at "at", and names its "reason" where both implementations word it alike.',
+        { run: `runs/${RUN}`, at: AT, vectors: ids(vectors, 'poi-qidigital.json') });
+
+}
+
 
 // =====================================================================================================================
 //  Write, check, mirror
@@ -2861,6 +3069,7 @@ const outputs = {
     'poi-history.json':         frozen,
     'poi-refusals.json':        refusalVectors(),
     'poi-histories.json':       signedHistories(),
+    'poi-qidigital.json':       qiDigitalVectors(),
 };
 
 let drift = 0;

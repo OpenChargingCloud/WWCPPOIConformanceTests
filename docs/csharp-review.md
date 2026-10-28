@@ -50,6 +50,7 @@ refused by WWCP_POI (D8, see 3), refused here as well since. This document stays
 | 20 | ✅ Custom data: numbers as binary floating-point numbers, timestamps in the time zone of the server | medium (interop) | confirmed | **new**, found fixing 10; **fixed** in Styx `06b592d3` |
 | 21 | ✅ The custom data of an address is lost | low | confirmed | **new**, found fixing 10; **fixed** in Styx `06b592d3` |
 | 22 | ✅ A peer starting from a snapshot passes over attestations it can not read | low | confirmed | **new**, found by the vectors of the anchored start; **fixed** in `8f66f2f` |
+| 23 | The calibration certificate of a charging station is compared with its own serial number | low | confirmed | **new**, found reading the QI-Digital documents of example A14; open |
 
 ✅ marks what WWCP_POI has fixed since; the finding stays as it was found, with how it was fixed.
 
@@ -875,6 +876,28 @@ snapshot of a checkpoint, verified with the proof of its root. The peer starts w
 that a snapshot whose `attestations` is not an array of attestations that can all be read is refused. The vectors
 `anchored-head-unreadable-attestation` and `anchored-head-attestation-not-an-object` (`poi-histories.json`) hold both
 implementations to it; the harness of WWCP_POI3 calls the public start, as the peer does.
+
+
+## 23. The calibration certificate of a charging station is compared with its own serial number
+
+**Where:** `WWCP_POI3/RoamingNetwork/QIDigital/QIDigitalItem.cs:238` (`TryVerify(RoamingNetwork, …)`) at `8f66f2f`.
+
+A digital calibration certificate names its item, a charging station or an energy meter, with its serial number, and
+`DigitalCalibrationCertificate.TryVerify` checks that the item is the one the roaming network names at runtime, "of the
+manufacturer, the model, the serial number, the hardware revision and the firmware version it names: a charging
+station or an energy meter changed since does not match its certificate any more". For an energy meter the network's
+serial number is taken (`Of(energyMeter)`); for a charging station the item is built as `Of(chargingStation,
+SerialNumber)`, with the serial number of the certificate itself, so that `SerialNumber != actual.SerialNumber` never
+holds. A charging station has a serial number of its own in the roaming network (`ChargingStation.SerialNumber`, "as its
+manufacturer marked it", docs/ChargingStation.md), and it is not compared: the calibration certificate of a station is
+taken for any station of the same identification, model and versions, also after the station was replaced by another
+one. WWCP_POI.TS does the same on purpose, as this implementation does (`ofChargingStation(station, this.serialNumber)`,
+`src/qidigital/parts.ts:579`). No vector shows it: the frozen run holds the calibration certificate of an energy meter
+only (example A14), and its keys are private (confirmed by reading).
+
+**Fix:** build the actual item of a charging station with the serial number the roaming network gives it,
+`Of(chargingStation, chargingStation.SerialNumber)`, and refuse a calibration certificate naming another one, or one
+when the station has none; then a vector, with a calibration certificate of a charging station signed anew.
 
 
 ## What was checked and found sound

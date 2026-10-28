@@ -18,6 +18,7 @@ with `node:crypto` alone mismatches. `--check` is the drift guard of CI. The fil
 | `poi-history.json` | `runs/csharp-33447ac`, the frozen run | Documents of the run and what an implementation must calculate of them: `versions` (ETags), `commits`, `checkpoints` (identifications and fields), `checkpointProofs`, `priceStatements` (digests, chains), `trustAnchors`, `stationProofs` (root, verified against the trust anchor at `at`), `replays` (the history commit by commit). |
 | `poi-refusals.json` | the frozen run; SPECIFICATION.md | `vectors`: a document of the run with a JSON patch applied, checked at another time, against another trust anchor or checkpoint, or a text: each must be refused. |
 | `poi-histories.json` | SPECIFICATION.md sections 4, 5, 8.5, 10 and 11; histories the generator signs | `histories`: small histories of the roaming network `rn1` of section 6, made and signed by the generator, their documents as JSON text. `replays`: a history taken step by step, `accepted`, or its last step `refused`, with its `control`. `anchoredSnapshots`: a history started from a snapshot of another server, of the head or of a checkpoint, only anchored in the trust anchor at `at` (10.5, Anchored), with its `control`. |
+| `poi-qidigital.json` | example A14 of WWCP_POI and `WWCP_POI3/RoamingNetwork/QIDigital`; the frozen run | `vectors`: the QI-Digital documents example A14 published - two digital certificates of conformity, a declaration of conformity, a calibration certificate - each checked as example A14 checks it, against QA (`verify`), against a certificate it names (`certificate`) or covering a meter (`cover`), `accepted` or `refused` with its `control`. |
 
 ## The frozen run
 
@@ -105,6 +106,23 @@ first calculates of the frozen run and of RFC 6979, against what is written ther
   commits and checkpoints are taken unchecked (`commitAndCheckpointSignatures`). `expected` is `accepted` or `refused`;
   a refusal has a `control`, `{document, trustAnchor, at}` with what the vector is about given otherwise, which is
   taken, and `reason` as of a replay.
+
+`poi-qidigital.json` (a proof of concept of WWCP_POI3, no part of SPECIFICATION.md; example A14 says what is checked):
+
+- `kind`: `certificateOfConformity`, `declarationOfConformity` or `calibrationCertificate`; `document` a document of the
+  run with a JSON patch (`{file, pointer, patch}`), or JSON text (`{text}`) where the text of a number matters, read as POI
+  reads JSON. A refusal while reading it is a refusal.
+- `check`: `verify` the document against the roaming network `network` (QA of the run, patched; a patched one leaves out
+  its `eTags`) at `at`: its issuer, signing key, validity and what it names; `certificate` the declaration against the
+  certificate of conformity `certificate` (no signature is looked at, the certificate's own check tells whether it is
+  valid); `cover` the certificate of conformity covering the energy meter of the EVSE `evseId` of
+  `chargingStationOperatorId`, as `network` names it at runtime. These other inputs must read: if one does not, the
+  harness fails.
+- The keys of the run are private: what needs a valid signature over other content, a patched QA gives instead.
+  `expected` is `accepted` or `refused`; a refusal has a `control`, the same check of the documents of the run against QA
+  as published at `at`, which is taken, and `reason` as of a replay. The generator verifies the signature of each
+  document over its input as WWCP_POI3 writes it (its context, content and signature without the value, canonical JSON)
+  before it writes a vector.
 
 ## Adding vectors
 

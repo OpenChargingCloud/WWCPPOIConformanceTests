@@ -20,21 +20,22 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `8f66f2f`, WWCP_POI.TS `42671c4`, Hermod `fbb442f`,
+Both harnesses are green against the pinned submodules (WWCP_POI `8f66f2f`, WWCP_POI.TS `51916b5`, Hermod `fbb442f`,
 Styx `06b592d3`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 379 | 399 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 379 | 366 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
+| C# harness (NUnit), WWCP_POI3 | 423 | 445 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 423 | 410 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
-The two implementations agree on every vector both run. The six deviations the vectors found first, where
+The two implementations agree on every vector both run but the two of D10. The six deviations the vectors found first, where
 **WWCP_POI3 took what WWCP_POI.TS refuses**, are fixed in WWCP_POI (D1 and D2 in `2c90847`, D3 in `be07037`, D4 and
 D5 in `6e469a0`, D6 in `65e658d`); D7, the other way round, where **WWCP_POI.TS took what WWCP_POI3 refuses**, in
 WWCP_POI.TS `b9c786e`; D8, found by the histories the generator signs, the other way round as well, in WWCP_POI.TS
-`e2b66b6`; D9, certificates WWCP_POI3 refuses to read, the other way round as well, in WWCP_POI.TS `1f0d9c7`.
+`e2b66b6`; D9, certificates WWCP_POI3 refuses to read, the other way round as well, in WWCP_POI.TS `1f0d9c7`. D10,
+found by the vectors of the QI-Digital documents of example A14, is WWCP_POI3's, and open.
 Their vectors hold both implementations to it - see
 **[docs/implementation-deviations.md](docs/implementation-deviations.md)**:
 
@@ -49,9 +50,10 @@ Their vectors hold both implementations to it - see
 | D7 | ✅ WWCP_POI.TS: a certificate may name a hardware revision or firmware version twice, and so may the energy meters it was issued with: fixed in WWCP_POI.TS `b9c786e` |
 | D8 | ✅ WWCP_POI.TS takes a change set signed, besides by its owner, by a key of a party not valid at its `createdAt`, which WWCP_POI3 refuses: fixed in WWCP_POI.TS `e2b66b6` |
 | D9 | ✅ WWCP_POI.TS takes a certificate WWCP_POI3 refuses to read: for no model or for two, without a hardware revision, firmware version or release, a relative `documentURL`, an empty legislation, a `notAfter` before its `notBefore`, a release twice or both verified and compatible, energy meters of an energy meter model or one model twice (16 vectors `version-certificate-*`): fixed in WWCP_POI.TS `1f0d9c7` |
+| D10 | WWCP_POI3 leaves out a text of a QI-Digital document in no language, or one that is no text, while reading it: the signature verifies, the text travels with the document unsigned; WWCP_POI.TS refuses it. Open |
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
-([`docs/csharp-review.md`](docs/csharp-review.md)); D1, D2, D7, D8 and D9 are new. Which of its 22 findings the vectors
+([`docs/csharp-review.md`](docs/csharp-review.md)); D1, D2, D7, D8, D9 and D10 are new. Which of its 23 findings the vectors
 hold, and why the rest is out of their reach, is listed in [docs/implementation-deviations.md](docs/implementation-deviations.md).
 Findings 20 and 21, custom data held as given, also the custom data of an address, are fixed in Styx `06b592d3`; the
 vectors `spec-2-custom-data-*` hold both implementations to it (against Styx `91901a9`, WWCP_POI3 wrote other
@@ -61,7 +63,7 @@ decimals, integers and timestamps, and dropped the custom data of an address).
 
 | Directory | Content |
 |---|---|
-| [`test-vectors/`](test-vectors/README.md) | **The golden vectors**, generated: canonical JSON and CBOR, encodings, the examples of SPECIFICATION.md section 6 and its content with custom data, signed trust scenarios, the documents of the frozen run with what to calculate of them, refusals, and histories the generator signs, replayed step by step. Their format is in the [README](test-vectors/README.md) there. |
+| [`test-vectors/`](test-vectors/README.md) | **The golden vectors**, generated: canonical JSON and CBOR, encodings, the examples of SPECIFICATION.md section 6 and its content with custom data, signed trust scenarios, the documents of the frozen run with what to calculate of them, refusals, histories the generator signs, replayed step by step, and the QI-Digital documents of example A14, checked as it checks them. Their format is in the [README](test-vectors/README.md) there. |
 | `test-vectors/runs/csharp-33447ac/` | **The frozen run**: what the C# examples A1 to A14 of WWCP_POI `33447ac` published and MakeProofs made of the same history, public data only (WWCP_POI.TS keeps a vendored copy, next to its copy of the golden vectors). |
 | [`tools/generate-test-vectors.mjs`](tools/generate-test-vectors.mjs) | The generator: Node, no dependencies. Takes every value verbatim from its source, re-derives the anchors with `node:crypto` alone (identifications, ETags of canonical JSON and deterministic CBOR, tree digests, thumbprints, signatures, the digests chaining price statements), signs the trust scenarios and the histories deterministically (Ed25519, Ed448, ES256 after RFC 6979), and refuses to write on any mismatch. |
 | `Tests/WWCPPOIConformance_Tests/` | The **C# harness** (NUnit): WWCP_POI3 against every vector file, plus `VendoredCopiesTests`. |
