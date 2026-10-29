@@ -42,7 +42,7 @@ is D9, found by vectors of the certificates WWCP_POI3 refuses to read. All nine 
 the QI-Digital documents of example A14 (`poi-qidigital.json`), was WWCP_POI3's again, and is fixed as well. D11 is
 *csharp-review 23*, which WWCP_POI.TS shared: fixed in WWCP_POI in the same commit as D10, and in WWCP_POI.TS
 `9153bc6`. D12, found by the vectors of EV Taler (WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), was WWCP_POI.TS's, and
-is fixed in WWCP_POI.TS `37b34f2`. Of the 444 vectors both implementations run 402 - the 7 requiring `signing` and the 13 of `poi-histories.json`
+is fixed in WWCP_POI.TS `37b34f2`. Of the 452 vectors both implementations run 410 - the 7 requiring `signing` and the 13 of `poi-histories.json`
 that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them (see
 [What both do alike](#what-both-do-alike)).
 
@@ -493,7 +493,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   ([O4](#o4-no-valid-until)), valid for a day, and valid longer; and the holders of a quorum as the trust anchor names
   them (csharp-review 1), two identity keys of Alpha one holder, a key statement naming one of them as Beta's, and a key
   the statement does not name counted for the holder the trust anchor names;
-- all 31 replays of `poi-histories.json` both run: histories the generator made and signed
+- all 39 replays of `poi-histories.json` both run: histories the generator made and signed
   with keys whose seeds it gives (the Ed25519 keys of section 6, and Ed25519, Ed448 and ES256 keys of its own), every
   refusal with its control, the document refused but for what it is about, taken in its place: who signs in place of a
   party without keys and with which usages (csharp-review 13), who states a certificate (15), lastChange of what embeds
@@ -502,7 +502,12 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   in a linear history), new values with a
   JSON-LD context, out of their order or with a timestamp not to the millisecond (10), a withdrawal together with what
   names it (18), certificates of models in hardware revisions and firmware versions, of stations and of meters (16, 17),
-  and three epochs, the first checkpoint of the third one signed with an algorithm of the second one only, and with one
+  the EV Taler merchant of a charging station operator signed by its key for payments, not by one for the party or for
+  infrastructure, nor by the roaming network operator in place of an operator with signing keys, and a charging pool
+  naming the payment option `EVTaler` only with it, checked after the last change of a change set: both added in one,
+  in either order, both removed in one, the merchant first, but neither the pool naming it without the merchant nor the
+  merchant removed while the pool names it (EV Taler, phase 1; WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), and three
+  epochs, the first checkpoint of the third one signed with an algorithm of the second one only, and with one
   of neither (14); where both word a refusal alike, `reason` names it. The other 10, which WWCP_POI.TS leaves to
   WWCP_POI (the references a version holds, changes of a group of an e-mobility provider and of a grid connection
   point), hold WWCP_POI3 alone to them: a station in a firmware version its model does not have, of a hardware revision

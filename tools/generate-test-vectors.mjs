@@ -107,6 +107,11 @@ function quoted(file, text, what) {
     return text;
 }
 
+/** The EV Taler merchant of the example of ChargingStationOperator.md, as it gives it (sections 6 and 7). */
+const EV_TALER_DOC = 'libs/WWCP_POI/docs/ChargingStationOperator.md';
+const evTalerOfTheExample = () =>
+    JSON.parse(`{${source(EV_TALER_DOC).match(/```json\n("evTaler": \{[\s\S]*?\n\})\n```/)?.[1] ?? fail(`${EV_TALER_DOC} no longer gives an example of an EV Taler merchant`)}}`).evTaler;
+
 /** An object without the given properties. */
 const without = (object, ...properties) => Object.fromEntries(Object.entries(object).filter(([ property ]) => !properties.includes(property)));
 
@@ -1629,11 +1634,11 @@ function refusalVectors() {
     //      signing keys of the usages POI knows, payments among them. The head of the run, which names no merchant, with
     //      the merchant of the example of ChargingStationOperator.md given, one of its values changed, or with a pool or
     //      a key changed, without its eTags, as above; the refusal names it (`reason`) in the words of WWCP_POI3.
-    const OPERATOR    = `${DOCS}/ChargingStationOperator.md`;
+    const OPERATOR    = EV_TALER_DOC;
     const POOL        = `${DOCS}/ChargingPool.md`;
     const gefAt       = named('/chargingStationOperators/0', 'DE*GEF');
     const pool1       = named(`${gefAt}/chargingPools/0`,  'DE*GEF*P1');
-    const evTaler     = JSON.parse(`{${source(OPERATOR).match(/```json\n("evTaler": \{[\s\S]*?\n\})\n```/)?.[1] ?? fail(`${OPERATOR} no longer gives an example of an EV Taler merchant`)}}`).evTaler;
+    const evTaler     = evTalerOfTheExample();
     const exchange    = evTaler.exchanges?.[0] ?? fail(`${OPERATOR}: the example of an EV Taler merchant names no exchange`);
     const CROCKFORD   = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
     const lastBitsOf  = (key) => CROCKFORD.indexOf(key.at(-1)) & 0x0F;
@@ -2804,6 +2809,58 @@ function signedHistories() {
     P.refused('rno-adds-grid-connection-point-with-keys-for-tariffs', 'The roaming network operator adds a grid connection point of a grid operator without keys in its place, signed by two holders with signing keys for tariffs alone.', `${B('4.1')}; csharp-review 13`,
               'commit-12-connection-tariffs', connection([ alphaTariffs, betaTariffs ]), 'commit-12-connection',
               { notApplicable: [ TYPESCRIPT ], reason: "Change 0: Add of the GridConnectionPoint 'connection-1' needs" });
+
+    // ---- EV Taler (concepts/EVTaler.md, phase 1): DE*GEF adds a signing key for payments; its merchant, the evTaler of
+    //      the example of ChargingStationOperator.md, is signed by a key that may sign payments, not by one for the party,
+    //      nor by the roaming network operator, which signs in place of a party without signing keys only (SignerOf of
+    //      WWCP_POI3), not of DE*GEF; a charging pool naming the payment option EVTaler
+    //      needs it, checked after the last change of a change set, so that one change set adds both in either order and
+    //      removes the merchant only with the last pool naming EVTaler.
+    const EV_TALER_BASIS = `${B('4.1')}; ${EV_TALER_DOC}`;
+    S('a change of the `evTaler` of a charging station operator, an element change within it as well, the usage\n`payments`.', 'that a change of the merchant is signed for payments');
+    S('so the RNO\nsigns in place of a party without signing keys', 'that the roaming network operator signs in place of a party without signing keys');
+    quoted(EV_TALER_DOC, 'checked\n  when the operator is made and after the last change of a change set, so that one change set may add both in either\n  order, and remove `evTaler` only with the last `EVTaler`.',
+           'when a pool naming EVTaler is checked for the merchant');
+
+    const merchant    = evTalerOfTheExample();
+    const gefPayments = keyOf('Ed25519', seedOf('DE*GEF, payments'), { notAfter: NOT_AFTER, usages: [ 'payments' ] });
+
+    parties.take('evtaler-key', parties.prepare({ createdAt: minute(13), description: 'DE*GEF adds a signing key for payments', signers: [ gefParty ],
+                                                changes: [ update('ChargingStationOperator', 'DE*GEF', 'signingKeys', found(parties, 'ChargingStationOperator', 'DE*GEF', 'signingKeys'), inOrder([ gefRenewed, gefParty, gefPayments ])) ] }));
+
+    const merchantAdded  = update('ChargingStationOperator', 'DE*GEF', 'evTaler', found(parties, 'ChargingStationOperator', 'DE*GEF', 'evTaler'), merchant);
+    const poolNamesIt    = update('ChargingPool', 'DE*GEF*P1', 'paymentOptions', found(parties, 'ChargingPool', 'DE*GEF*P1', 'paymentOptions'), [ 'EVTaler' ]);
+    const paying         = (description, changes, signers) => parties.prepare({ createdAt: minute(14), description, changes, signers });
+
+    parties.keep('evtaler-merchant', paying('DE*GEF names its EV Taler merchant', [ merchantAdded ], [ gefPayments ]));
+    const forPayments = { reason: "needs a signature by a signing key of the ChargingStationOperator 'DE*GEF' that may sign 'payments'!" };
+    P.refused('evtaler-merchant-signed-for-party', 'A charging station operator names its EV Taler merchant, signed by its signing key for the party alone: a change of evTaler needs a key that may sign payments.', EV_TALER_BASIS,
+              'evtaler-merchant-party', paying('DE*GEF names its EV Taler merchant', [ merchantAdded ], [ gefParty ]), 'evtaler-merchant', forPayments);
+    P.refused('evtaler-merchant-signed-for-infrastructure', 'A charging station operator names its EV Taler merchant, signed by its signing key for infrastructure alone.', EV_TALER_BASIS,
+              'evtaler-merchant-infrastructure', paying('DE*GEF names its EV Taler merchant', [ merchantAdded ], [ gefRenewed ]), 'evtaler-merchant', forPayments);
+    P.refused('evtaler-merchant-signed-by-rno', 'The roaming network operator names the EV Taler merchant of a charging station operator with signing keys, signed by two holders with signing keys for the party: it signs in place of a party without signing keys only.', EV_TALER_BASIS,
+              'evtaler-merchant-rno', paying('DE*GEF names its EV Taler merchant, by the roaming network operator', [ merchantAdded ], [ alphaParty, betaParty ]), 'evtaler-merchant',
+              { reason: "needs a signature by a signing key of the ChargingStationOperator 'DE*GEF'!" });
+
+    parties.keep('evtaler-both', paying('DE*GEF names its EV Taler merchant, Jena Paradies the payment option EVTaler', [ merchantAdded, poolNamesIt ], [ gefPayments, gefRenewed ]));
+    const noMerchant = { reason: "The charging pool 'DE*GEF*P1' names the payment option 'EVTaler', but its operator 'DE*GEF' has no EV Taler merchant!" };
+    P.refused('evtaler-pool-without-merchant', 'A charging pool names the payment option EVTaler, its operator no EV Taler merchant.', EV_TALER_BASIS,
+              'evtaler-pool', paying('Jena Paradies names the payment option EVTaler', [ poolNamesIt ], [ gefRenewed ]), 'evtaler-both', noMerchant);
+    P.then('evtaler-pool-before-merchant', 'One change set names the payment option EVTaler of a charging pool first, then the EV Taler merchant of its operator: checked after its last change.', EV_TALER_BASIS,
+           'evtaler-pool-first', paying('Jena Paradies names the payment option EVTaler, DE*GEF its EV Taler merchant', [ poolNamesIt, merchantAdded ], [ gefRenewed, gefPayments ]));
+
+    parties.take('evtaler-both', paying('DE*GEF names its EV Taler merchant, Jena Paradies the payment option EVTaler', [ merchantAdded, poolNamesIt ], [ gefPayments, gefRenewed ]));
+    P.accepted('evtaler-merchant-and-pool', 'A charging station operator names its EV Taler merchant, signed by its key for payments, and a charging pool of it the payment option EVTaler, in one change set.', EV_TALER_BASIS);
+
+    const merchantRemoved = unset('ChargingStationOperator', 'DE*GEF', 'evTaler', found(parties, 'ChargingStationOperator', 'DE*GEF', 'evTaler'));
+    const poolNamesNone   = unset('ChargingPool', 'DE*GEF*P1', 'paymentOptions', found(parties, 'ChargingPool', 'DE*GEF*P1', 'paymentOptions'));
+    const leavingTaler    = (description, changes, signers) => parties.prepare({ createdAt: minute(15), description, changes, signers });
+
+    parties.keep('evtaler-removed', leavingTaler('Jena Paradies names no payment option, DE*GEF no EV Taler merchant', [ poolNamesNone, merchantRemoved ], [ gefRenewed, gefPayments ]));
+    P.refused('evtaler-merchant-removed-while-named', 'A charging station operator removes its EV Taler merchant while a charging pool of it names the payment option EVTaler.', EV_TALER_BASIS,
+              'evtaler-removed-merchant', leavingTaler('DE*GEF names no EV Taler merchant', [ merchantRemoved ], [ gefPayments ]), 'evtaler-removed', noMerchant);
+    P.then('evtaler-removed-with-the-pool', 'One change set removes the EV Taler merchant of a charging station operator first, then the payment option EVTaler of its charging pool: checked after its last change.', EV_TALER_BASIS,
+           'evtaler-removed-merchant-first', leavingTaler('DE*GEF names no EV Taler merchant, Jena Paradies no payment option', [ merchantRemoved, poolNamesNone ], [ gefPayments, gefRenewed ]));
 
 
     // =================================================================================================================
