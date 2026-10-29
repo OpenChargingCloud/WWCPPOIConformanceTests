@@ -2,7 +2,7 @@
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
 (WWCP_POI3, `libs/WWCP_POI` at `ec3dace`, Hermod `0fff6c9`, Styx `f494c8cd`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `37b34f2`) take or calculate different things.
+`libs/WWCP_POI.TS` at `1f914ac`) take or calculate different things.
 
 Each deviation is
 
@@ -426,10 +426,12 @@ naming usages. `tests/partyKeys.test.ts` holds it. Both refuse `version-key-usag
 operator, against WWCP_POI3 `ec3dace`, found 40 alike in the same words, and besides, no vector holds yet:
 
 - five keys both refuse, within the same frame in other words - without `@id` or `key`, a `key` that is no Base64,
-  `notBefore` after `notAfter`, another `@context`: WWCP_POI.TS words them as its `POIPublicKey.parse` does;
+  `notBefore` after `notAfter`, another `@context`: worded alike since WWCP_POI.TS `f13cdff`, which reads a key in the
+  words and the order of `POIPublicKey.TryParse`;
 - two keys WWCP_POI3 takes and WWCP_POI.TS refuses: a `notAfter` of a date only, or with an offset. WWCP_POI3 writes it
-  again as `yyyy-MM-ddTHH:mm:ss.fffZ`, WWCP_POI.TS takes only a timestamp written so. Which of the two is right,
-  SPECIFICATION.md is to say before a vector does;
+  again as `yyyy-MM-ddTHH:mm:ss.fffZ`, WWCP_POI.TS takes only a timestamp written so - on purpose, as it refuses a
+  timestamp `null` and a key in CBOR that is not deterministic, which WWCP_POI3 takes and writes again as well. Which of
+  the two is right, SPECIFICATION.md is to say before a vector does;
 - keys not in the order of their identifications, and an empty `signingKeys`, both take; WWCP_POI3 writes them sorted
   and without the empty array.
 
