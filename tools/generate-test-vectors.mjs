@@ -69,6 +69,7 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
+    D13: { implementations: [ CSHARP ], anchor: 'd13-written-forms' },
 };
 
 const deviation = (name) => {
@@ -1721,6 +1722,42 @@ function refusalVectors() {
              description: 'A signing key of DE*GEF names the usage zzz besides its own: a usage POI does not know.',
              reason: `The usage 'zzz' of the public key '${at(qa, `${keyAt}/@id`)}' is unknown`,
              document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, { op: 'add', path: `${keyAt}/usages/-`, value: 'zzz' } ]) });
+
+    // ---- Versions: a key as the content holds it (2, Written forms; 4.1): its timestamps UTC to the millisecond, its key
+    //      the deterministic CBOR of its COSE key. The signing key of DE*GEF for price statements and tariffs with its
+    //      notAfter or its key written otherwise. The same instant with an offset, and the same key in CBOR that is not
+    //      deterministic, keep the eTags of the version as published: written again, the content has them, read as given
+    //      it does not. A notAfter of a date only, or null, is another content: without its eTags, as above.
+    const WRITTEN   = `${SPEC}, 2, 4.1`;
+    const notAfter  = at(qa, `${keyAt}/notAfter`);
+    const coseKey   = Buffer.from(at(qa, `${keyAt}/key`), 'base64');
+    quoted(SPEC, '- **Timestamps:** UTC to the millisecond, `yyyy-MM-ddTHH:mm:ss.fffZ`.',            'how a timestamp is written');
+    quoted(SPEC, '"key": "<Base64 of the deterministic CBOR of the public COSE key>"',               'how the key of a key is written');
+    quoted(SPEC, 'the content holds every value as its entity writes it, read again',               'that the content holds every value as written');
+    if (!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(notAfter) || Date.parse(notAfter) % 86_400_000 === 0)
+        fail(`QA.json: the notAfter of the key ${keyAt} is no timestamp of a time of day, written as POI writes it`);
+    if (coseKey[0] !== 0xa3 || coseKey[1] !== 0x01)
+        fail(`QA.json: the key ${keyAt} is no COSE key of three parameters, kty first`);
+
+    const inZone    = new Date(Date.parse(notAfter) + 2 * 3_600_000).toISOString().replace('Z', '+02:00');
+    const notShort  = Buffer.concat([ Buffer.of(0xa3, 0x18, 0x01), coseKey.subarray(2) ]).toString('base64');
+    const keyId     = at(qa, `${keyAt}/@id`);
+    const written   = (id, description, reason, keepETags, patch) =>
+        refuse({ id, kind: 'version', basis: WRITTEN, description, reason,
+                 document: patched('published/QA.json', '', [ ...(keepETags ? [] : [ { op: 'remove', path: '/eTags' } ]), ...patch ]), ...deviation('D13') });
+
+    written('version-key-not-after-offset',  `The signing key of DE*GEF for price statements and tariffs names its notAfter, ${notAfter}, as the same instant with the offset +02:00, ${inZone}; the version keeps its eTags.`,
+            `The notAfter of the key '${keyId}' must be written as yyyy-MM-ddTHH:mm:ss.fffZ, not '${inZone}'!`,
+            true,  [ { op: 'replace', path: `${keyAt}/notAfter`, value: inZone } ]);
+    written('version-key-not-after-date',    `The signing key of DE*GEF for price statements and tariffs names its notAfter as a date only, ${notAfter.slice(0, 10)}.`,
+            `The notAfter of the key '${keyId}' must be written as yyyy-MM-ddTHH:mm:ss.fffZ, not '${notAfter.slice(0, 10)}'!`,
+            false, [ { op: 'replace', path: `${keyAt}/notAfter`, value: notAfter.slice(0, 10) } ]);
+    written('version-key-not-after-null',    'The signing key of DE*GEF for price statements and tariffs names its notAfter as null: neither a timestamp nor left out.',
+            `The notAfter of the key '${keyId}' must be a text!`,
+            false, [ { op: 'replace', path: `${keyAt}/notAfter`, value: null } ]);
+    written('version-key-cbor-not-deterministic', 'The signing key of DE*GEF for price statements and tariffs gives its COSE key with the label 1 (kty) in two bytes, 0x18 0x01, not in its shortest form: CBOR that is not deterministic, of the same key; the version keeps its eTags.',
+            'deterministic CBOR',
+            true,  [ { op: 'replace', path: `${keyAt}/key`, value: notShort } ]);
 
     // ---- Checkpoint proofs (10.4).
     const proof4 = jsonRun('published/QA-proof-revision-4.json');

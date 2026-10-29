@@ -35,6 +35,7 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D10](#d10-text-of-no-language) | ✅ A text of a QI-Digital document in no language, or one that is no text, is left out while reading: the signature verifies, the text travels with the document unsigned: **fixed** in WWCP_POI `bbe8fb8` | WWCP_POI3 | `qid-calibration-text-of-no-language`, `qid-calibration-text-not-a-text` | low | new |
 | [D11](#d11-station-serial-number) | ✅ The calibration certificate of a charging station is compared with its own serial number: taken for a station of another serial number, or of none: **fixed** in WWCP_POI.TS `9153bc6` | WWCP_POI.TS | `qid-calibration-station-replaced`, `qid-calibration-station-without-serial-number` | low | 23 |
 | [D12](#d12-party-key-usage) | ✅ A version whose charging station operator names a signing key of a usage POI does not know is taken: the keys of a party are read where they are used, not with the version: **fixed** in WWCP_POI.TS `37b34f2` | WWCP_POI.TS | `version-key-usage-unknown` | low | new |
+| [D13](#d13-written-forms) | A key written otherwise than POI writes it is taken and written again: a `notAfter` with an offset, of a date only or `null`, a COSE key in CBOR that is not deterministic - with an offset and in CBOR that is not deterministic against the `eTags` of the version as published | WWCP_POI3 | `version-key-not-after-offset`, `version-key-not-after-date`, `version-key-not-after-null`, `version-key-cbor-not-deterministic` | medium (interop) | new |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
 round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well, and so
@@ -42,8 +43,10 @@ is D9, found by vectors of the certificates WWCP_POI3 refuses to read. All nine 
 the QI-Digital documents of example A14 (`poi-qidigital.json`), was WWCP_POI3's again, and is fixed as well. D11 is
 *csharp-review 23*, which WWCP_POI.TS shared: fixed in WWCP_POI in the same commit as D10, and in WWCP_POI.TS
 `9153bc6`. D12, found by the vectors of EV Taler (WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), was WWCP_POI.TS's, and
-is fixed in WWCP_POI.TS `37b34f2`. Of the 452 vectors both implementations run 410 - the 7 requiring `signing` and the 13 of `poi-histories.json`
-that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them (see
+is fixed in WWCP_POI.TS `37b34f2`. D13, a key written otherwise than POI writes it, which WWCP_POI3 takes and writes
+again, is WWCP_POI3's and open. Of the 456 vectors both implementations run 414 - the 7 requiring `signing` and the 13
+of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them but
+the four of D13 (see
 [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
@@ -428,12 +431,45 @@ operator, against WWCP_POI3 `ec3dace`, found 40 alike in the same words, and bes
 - five keys both refuse, within the same frame in other words - without `@id` or `key`, a `key` that is no Base64,
   `notBefore` after `notAfter`, another `@context`: worded alike since WWCP_POI.TS `f13cdff`, which reads a key in the
   words and the order of `POIPublicKey.TryParse`;
-- two keys WWCP_POI3 takes and WWCP_POI.TS refuses: a `notAfter` of a date only, or with an offset. WWCP_POI3 writes it
-  again as `yyyy-MM-ddTHH:mm:ss.fffZ`, WWCP_POI.TS takes only a timestamp written so - on purpose, as it refuses a
-  timestamp `null` and a key in CBOR that is not deterministic, which WWCP_POI3 takes and writes again as well. Which of
-  the two is right, SPECIFICATION.md is to say before a vector does;
+- two keys WWCP_POI3 takes and WWCP_POI.TS refuses: a `notAfter` of a date only, or with an offset, now
+  [D13](#d13-written-forms), with a timestamp `null` and a key in CBOR that is not deterministic;
 - keys not in the order of their identifications, and an empty `signingKeys`, both take; WWCP_POI3 writes them sorted
   and without the empty array.
+
+
+<a id="d13-written-forms"></a>
+## D13. A key written otherwise than POI writes it is taken, and written again
+
+**Vectors:** `version-key-not-after-offset`, `version-key-not-after-date`, `version-key-not-after-null` and
+`version-key-cbor-not-deterministic` (`poi-refusals.json`): the head of the frozen run, the signing key `1cf5b42e…` of
+`DE*GEF` for price statements and tariffs written otherwise - its `notAfter`, `2027-10-27T17:20:49.271Z`, as the same
+instant with the offset `+02:00`, as the date `2027-10-27` or as `null`; its COSE key with the label 1 (kty) in two
+bytes, `0x18 0x01`: the same key, in CBOR that is not deterministic. The first and the last keep the `eTags` of the
+version as published, the other two, another content, leave them out. WWCP_POI.TS refuses all four ("The notAfter of
+the key '…' must be written as yyyy-MM-ddTHH:mm:ss.fffZ, not '…'!", "… must be a text!", "Invalid COSE key: Invalid
+deterministic CBOR: …"); WWCP_POI3 takes all four - the first and the last with the `eTags` as published.
+
+**Where:** WWCP_POI3 reads a key (`POIPublicKey.TryParse`) as a value - a timestamp of any form it parses, `null` as
+none, a COSE key in any CBOR of it - and writes it again as POI writes it; the `eTags` of a version it checks against
+the content it writes, not against the one it was given. So the version with the offset, or with the key in CBOR that
+is not deterministic, has the `eTags` of the version as published for WWCP_POI3: written again, it is that version;
+as given, its canonical JSON has another digest, and WWCP_POI.TS, which hashes what it was given, finds no commit of
+it. SPECIFICATION.md says how the content holds them: "Timestamps: UTC to the millisecond,
+`yyyy-MM-ddTHH:mm:ss.fffZ`" (2, Written forms) and "Base64 of the deterministic CBOR of the public COSE key" (4.1);
+of a new value a change set gives that a reader MUST refuse one written otherwise (4, New values), and WWCP_POI3 does
+(`new-value-timestamp`, csharp-review 10). Of a version it says it of none. WWCP_POI.TS refuses them on purpose.
+
+**Why it matters:** medium (interop). The two implementations disagree on whether a version is the one its `eTags`
+and its commit name; and a reader of WWCP_POI3 holds as verified a document whose bytes no commit covers - the pattern
+of D1 and D10.
+
+**Fix:** say in SPECIFICATION.md, section 2, that a reader MUST refuse a value of the content not written as it says,
+as section 4 says it of a new value; refuse it where WWCP_POI3 reads a key, in the words the vectors' `reason` names;
+then remove D13 from `DEVIATIONS` of the generator.
+
+**Not covered:** only the key of a party is shown. Whether WWCP_POI3 takes other values of a version written otherwise
+- `created` and `lastChange`, the timestamps of a certificate, decimals - and WWCP_POI.TS refuses them as well, no vector
+shows yet.
 
 
 ## What both do alike
