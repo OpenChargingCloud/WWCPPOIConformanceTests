@@ -1,7 +1,7 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `aa87117`, Hermod `0fff6c9`, Styx `f494c8cd`) and the TypeScript port (WWCP_POI.TS,
+(WWCP_POI3, `libs/WWCP_POI` at `8108522`, Hermod `0fff6c9`, Styx `f494c8cd`) and the TypeScript port (WWCP_POI.TS,
 `libs/WWCP_POI.TS` at `9decdb5`) take or calculate different things.
 
 Each deviation is
@@ -35,7 +35,7 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D10](#d10-text-of-no-language) | ✅ A text of a QI-Digital document in no language, or one that is no text, is left out while reading: the signature verifies, the text travels with the document unsigned: **fixed** in WWCP_POI `bbe8fb8` | WWCP_POI3 | `qid-calibration-text-of-no-language`, `qid-calibration-text-not-a-text` | low | new |
 | [D11](#d11-station-serial-number) | ✅ The calibration certificate of a charging station is compared with its own serial number: taken for a station of another serial number, or of none: **fixed** in WWCP_POI.TS `9153bc6` | WWCP_POI.TS | `qid-calibration-station-replaced`, `qid-calibration-station-without-serial-number` | low | 23 |
 | [D12](#d12-party-key-usage) | ✅ A version whose charging station operator names a signing key of a usage POI does not know is taken: the keys of a party are read where they are used, not with the version: **fixed** in WWCP_POI.TS `37b34f2` | WWCP_POI.TS | `version-key-usage-unknown` | low | new |
-| [D13](#d13-written-forms) | ✅ A key written otherwise than POI writes it is taken and written again: a `notAfter` with an offset, of a date only or `null`, a COSE key in CBOR that is not deterministic - with an offset and in CBOR that is not deterministic against the `eTags` of the version as published: **fixed** in WWCP_POI `72df830` | WWCP_POI3 | `version-key-not-after-offset`, `version-key-not-after-date`, `version-key-not-after-null`, `version-key-cbor-not-deterministic` | medium (interop) | new |
+| [D13](#d13-written-forms) | ✅ A key written otherwise than POI writes it is taken and written again: a `notAfter` with an offset, of a date only or `null`, a COSE key in CBOR that is not deterministic - with an offset and in CBOR that is not deterministic against the `eTags` of the version as published: **fixed** in WWCP_POI `a425530` | WWCP_POI3 | `version-key-not-after-offset`, `version-key-not-after-date`, `version-key-not-after-null`, `version-key-cbor-not-deterministic` | medium (interop) | new |
 | [D14](#d14-body-malformed) | ✅ A conformity assessment body WWCP_POI3 refuses to read is taken: a certificate under a legislation it is not notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice: **fixed** in WWCP_POI.TS `4ff1fc2` | WWCP_POI.TS | `version-body-certificate-not-notified`, `version-body-number-three-digits`, `version-body-notified-for-empty`, `version-body-notified-for-twice` | low | - |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
@@ -45,7 +45,7 @@ the QI-Digital documents of example A14 (`poi-qidigital.json`), was WWCP_POI3's 
 *csharp-review 23*, which WWCP_POI.TS shared: fixed in WWCP_POI in the same commit as D10, and in WWCP_POI.TS
 `9153bc6`. D12, found by the vectors of EV Taler (WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), was WWCP_POI.TS's, and
 is fixed in WWCP_POI.TS `37b34f2`. D13, a key written otherwise than POI writes it, which WWCP_POI3 took and wrote
-again, was WWCP_POI3's, and is fixed in WWCP_POI `72df830`. D14, a conformity assessment body WWCP_POI3 refuses to
+again, was WWCP_POI3's, and is fixed in WWCP_POI `a425530`. D14, a conformity assessment body WWCP_POI3 refuses to
 read, was WWCP_POI.TS's, and is fixed in WWCP_POI.TS `4ff1fc2`. Of the 464 vectors both implementations run 422 - the 7 requiring `signing` and the
 13 of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them
 (see
@@ -469,7 +469,7 @@ of D1 and D10.
 as section 4 says it of a new value; refuse it where WWCP_POI3 reads a key, in the words the vectors' `reason` names;
 then remove D13 from `DEVIATIONS` of the generator.
 
-**Fixed** in WWCP_POI `72df830`: `POIPublicKey.TryParse` reads a key as the content holds it, in the words of
+**Fixed** in WWCP_POI `a425530`: `POIPublicKey.TryParse` reads a key as the content holds it, in the words of
 WWCP_POI.TS - a timestamp a text written as `yyyy-MM-ddTHH:mm:ss.fffZ` and read back as written ("The notAfter of the
 key '…' must be written as yyyy-MM-ddTHH:mm:ss.fffZ, not '…'!", "… must be a text!" for `null`), the key the
 deterministic CBOR of its COSE key ("Invalid COSE key: Invalid deterministic CBOR: …"); SPECIFICATION.md 2, Written
@@ -516,7 +516,7 @@ vectors for what they are about.
 
 **Covered since:** a `notifiedFor` out of its ordinal order, which both took - WWCP_POI3 writing it sorted (its
 constructor ordered it), WWCP_POI.TS hashing it as given, a value written otherwise, as in D13 -, both refuse since
-WWCP_POI `aa87117` and WWCP_POI.TS `9decdb5` (`version-body-notified-for-out-of-order`), and SPECIFICATION.md 2 says
+WWCP_POI `8108522` and WWCP_POI.TS `9decdb5` (`version-body-notified-for-out-of-order`), and SPECIFICATION.md 2 says
 so; two bodies of the same `notifiedBodyNumber` (S32), a number that is no text and legislations that are no array of
 texts both refuse alike (`version-body-number-twice`, `version-body-number-not-a-text`,
 `version-body-notified-for-not-texts`).
@@ -572,10 +572,10 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   option `EVTaler` while its operator names no merchant (EV Taler, phase 1; WWCP_POI `ec3dace`, WWCP_POI.TS
   `0aaf713`), refused in the same words, and a version naming a signing key of a usage POI does not know
   (WWCP_POI.TS since `37b34f2`, D12), and a version naming a key not written as POI writes it - its `notAfter` with
-  an offset, of a date only or `null`, its key in CBOR that is not deterministic (WWCP_POI since `72df830`, D13), and a
+  an offset, of a date only or `null`, its key in CBOR that is not deterministic (WWCP_POI since `a425530`, D13), and a
   version naming a conformity assessment body WWCP_POI does not read - a certificate under a legislation it is not
   notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice (WWCP_POI.TS since
-  `4ff1fc2`, D14), out of its ordinal order (WWCP_POI since `aa87117`, WWCP_POI.TS since `9decdb5`), a number that is no
+  `4ff1fc2`, D14), out of its ordinal order (WWCP_POI since `8108522`, WWCP_POI.TS since `9decdb5`), a number that is no
   text, legislations that are no array of texts, the number of another body (S32);
 - all 25 trust vectors: a valid proof, expired attestations, attestations of the future (D3), one holder only
   (also twice), a key that may not sign for the party, a signing key expired before it attested and one that ended

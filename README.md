@@ -20,7 +20,7 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `aa87117`, WWCP_POI.TS `9decdb5`, Hermod `0fff6c9`,
+Both harnesses are green against the pinned submodules (WWCP_POI `8108522`, WWCP_POI.TS `9decdb5`, Hermod `0fff6c9`,
 Styx `f494c8cd`):
 
 | | Vectors | Passed | Skipped |
@@ -39,7 +39,7 @@ found by the vectors of the QI-Digital documents of example A14, WWCP_POI3's, in
 calibration certificate of a charging station compared with its own serial number, of both, in WWCP_POI in the same
 commit and in WWCP_POI.TS `9153bc6`; D12, found by the vectors of EV Taler, a signing key of a party of a usage POI does
 not know, WWCP_POI.TS's, in WWCP_POI.TS `37b34f2`. D13, a key written otherwise than POI writes it, WWCP_POI3's, in
-WWCP_POI `72df830`. D14, a conformity assessment body WWCP_POI3 refuses to read, WWCP_POI.TS's, in WWCP_POI.TS
+WWCP_POI `a425530`. D14, a conformity assessment body WWCP_POI3 refuses to read, WWCP_POI.TS's, in WWCP_POI.TS
 `4ff1fc2`.
 Their vectors hold both implementations to it - see
 **[docs/implementation-deviations.md](docs/implementation-deviations.md)**:
@@ -58,7 +58,7 @@ Their vectors hold both implementations to it - see
 | D10 | ✅ WWCP_POI3 leaves out a text of a QI-Digital document in no language, or one that is no text, while reading it: the signature verifies, the text travels with the document unsigned; WWCP_POI.TS refuses it: fixed in WWCP_POI `bbe8fb8` |
 | D11 | ✅ WWCP_POI.TS compares the calibration certificate of a charging station with its own serial number, and takes it for a station of another serial number, or of none, as WWCP_POI3 did before `bbe8fb8`: fixed in WWCP_POI.TS `9153bc6` |
 | D12 | ✅ WWCP_POI.TS takes a version whose charging station operator names a signing key of a usage POI does not know, which WWCP_POI3 refuses: it read the keys of a party where it used them, not with the version: fixed in WWCP_POI.TS `37b34f2` |
-| D13 | ✅ WWCP_POI3 takes a key written otherwise than POI writes it, and writes it again: a `notAfter` with an offset, of a date only or `null`, a COSE key in CBOR that is not deterministic - with an offset and in CBOR that is not deterministic against the `eTags` of the version as published; WWCP_POI.TS refuses them: fixed in WWCP_POI `72df830` |
+| D13 | ✅ WWCP_POI3 takes a key written otherwise than POI writes it, and writes it again: a `notAfter` with an offset, of a date only or `null`, a COSE key in CBOR that is not deterministic - with an offset and in CBOR that is not deterministic against the `eTags` of the version as published; WWCP_POI.TS refuses them: fixed in WWCP_POI `a425530` |
 | D14 | ✅ WWCP_POI.TS takes a conformity assessment body WWCP_POI3 refuses to read: a certificate under a legislation the body is not notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice: fixed in WWCP_POI.TS `4ff1fc2` |
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
@@ -92,9 +92,9 @@ decimals, integers and timestamps, and dropped the custom data of an address).
 | [`libs/Styx`](https://github.com/Vanaheimr/Styx) | Below Hermod: canonical JSON, deterministic CBOR, COSE - and its README, a source of vectors |
 
 Hermod and Styx are pinned at the commits the RoamingHubCLI pins together with WWCP_POI (`e1b9d63`, with WWCP_POI
-`41b1fbc`, on which `72df830` and `aa87117` build): Hermod `0fff6c9`, Styx `f494c8cd`. WWCP_POI since `7862c86` needs a
-Hermod that checks the origin of a request (`HTTPRequest.AllowsOrigin`). Styx keeps custom data as given since
-`06b592d3` (findings 20 and 21 of the review WWCP_POI.TS made of the C# implementation), which the vectors
+`41b1fbc`, on which `f53d220`, `a425530` and `8108522` build): Hermod `0fff6c9`, Styx `f494c8cd`. WWCP_POI since
+`7862c86` needs a Hermod that checks the origin of a request (`HTTPRequest.AllowsOrigin`). Styx keeps custom data as
+given since `06b592d3` (findings 20 and 21 of the review WWCP_POI.TS made of the C# implementation), which the vectors
 `spec-2-custom-data-*` cover.
 
 ```bash

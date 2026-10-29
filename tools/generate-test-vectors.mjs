@@ -1664,7 +1664,7 @@ function refusalVectors() {
               [ { op: 'replace', path: `${ptbAt}/notifiedFor`, value: [ 'MID', 'MID' ] } ]);
 
     // Its legislations as the content holds them, in their ordinal order (SPECIFICATION.md 2, Written forms; WWCP_POI
-    // aa87117, WWCP_POI.TS 9decdb5); its number and its legislations texts; its number one no other body has (S32).
+    // 8108522, WWCP_POI.TS 9decdb5); its number and its legislations texts; its number one no other body has (S32).
     const bsiAt = named('/conformityAssessmentBodies/0', 'BSI');
     if ('notifiedBodyNumber' in at(qa, bsiAt))
         fail('QA.json: BSI names a notified body number already');
