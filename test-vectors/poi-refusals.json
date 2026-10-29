@@ -1925,11 +1925,7 @@
             "value": "2027-10-27T19:20:49.271+02:00"
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d13-written-forms"
+      }
     },
     {
       "expected": "refused",
@@ -1952,11 +1948,7 @@
             "value": "2027-10-27"
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d13-written-forms"
+      }
     },
     {
       "expected": "refused",
@@ -1979,11 +1971,7 @@
             "value": null
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d13-written-forms"
+      }
     },
     {
       "expected": "refused",
@@ -2002,11 +1990,7 @@
             "value": "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"
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d13-written-forms"
+      }
     },
     {
       "expected": "refused",

@@ -1,7 +1,7 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `ec3dace`, Hermod `0fff6c9`, Styx `f494c8cd`) and the TypeScript port (WWCP_POI.TS,
+(WWCP_POI3, `libs/WWCP_POI` at `72df830`, Hermod `0fff6c9`, Styx `f494c8cd`) and the TypeScript port (WWCP_POI.TS,
 `libs/WWCP_POI.TS` at `1f914ac`) take or calculate different things.
 
 Each deviation is
@@ -35,7 +35,7 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D10](#d10-text-of-no-language) | ✅ A text of a QI-Digital document in no language, or one that is no text, is left out while reading: the signature verifies, the text travels with the document unsigned: **fixed** in WWCP_POI `bbe8fb8` | WWCP_POI3 | `qid-calibration-text-of-no-language`, `qid-calibration-text-not-a-text` | low | new |
 | [D11](#d11-station-serial-number) | ✅ The calibration certificate of a charging station is compared with its own serial number: taken for a station of another serial number, or of none: **fixed** in WWCP_POI.TS `9153bc6` | WWCP_POI.TS | `qid-calibration-station-replaced`, `qid-calibration-station-without-serial-number` | low | 23 |
 | [D12](#d12-party-key-usage) | ✅ A version whose charging station operator names a signing key of a usage POI does not know is taken: the keys of a party are read where they are used, not with the version: **fixed** in WWCP_POI.TS `37b34f2` | WWCP_POI.TS | `version-key-usage-unknown` | low | new |
-| [D13](#d13-written-forms) | A key written otherwise than POI writes it is taken and written again: a `notAfter` with an offset, of a date only or `null`, a COSE key in CBOR that is not deterministic - with an offset and in CBOR that is not deterministic against the `eTags` of the version as published | WWCP_POI3 | `version-key-not-after-offset`, `version-key-not-after-date`, `version-key-not-after-null`, `version-key-cbor-not-deterministic` | medium (interop) | new |
+| [D13](#d13-written-forms) | ✅ A key written otherwise than POI writes it is taken and written again: a `notAfter` with an offset, of a date only or `null`, a COSE key in CBOR that is not deterministic - with an offset and in CBOR that is not deterministic against the `eTags` of the version as published: **fixed** in WWCP_POI `72df830` | WWCP_POI3 | `version-key-not-after-offset`, `version-key-not-after-date`, `version-key-not-after-null`, `version-key-cbor-not-deterministic` | medium (interop) | new |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
 round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well, and so
@@ -43,10 +43,9 @@ is D9, found by vectors of the certificates WWCP_POI3 refuses to read. All nine 
 the QI-Digital documents of example A14 (`poi-qidigital.json`), was WWCP_POI3's again, and is fixed as well. D11 is
 *csharp-review 23*, which WWCP_POI.TS shared: fixed in WWCP_POI in the same commit as D10, and in WWCP_POI.TS
 `9153bc6`. D12, found by the vectors of EV Taler (WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), was WWCP_POI.TS's, and
-is fixed in WWCP_POI.TS `37b34f2`. D13, a key written otherwise than POI writes it, which WWCP_POI3 takes and writes
-again, is WWCP_POI3's and open. Of the 456 vectors both implementations run 414 - the 7 requiring `signing` and the 13
-of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them but
-the four of D13 (see
+is fixed in WWCP_POI.TS `37b34f2`. D13, a key written otherwise than POI writes it, which WWCP_POI3 took and wrote
+again, was WWCP_POI3's, and is fixed in WWCP_POI `72df830`. Of the 456 vectors both implementations run 414 - the 7 requiring `signing` and the 13
+of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them (see
 [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
@@ -438,7 +437,7 @@ operator, against WWCP_POI3 `ec3dace`, found 40 alike in the same words, and bes
 
 
 <a id="d13-written-forms"></a>
-## D13. A key written otherwise than POI writes it is taken, and written again
+## D13. ✅ A key written otherwise than POI writes it is taken, and written again
 
 **Vectors:** `version-key-not-after-offset`, `version-key-not-after-date`, `version-key-not-after-null` and
 `version-key-cbor-not-deterministic` (`poi-refusals.json`): the head of the frozen run, the signing key `1cf5b42e…` of
@@ -466,6 +465,13 @@ of D1 and D10.
 **Fix:** say in SPECIFICATION.md, section 2, that a reader MUST refuse a value of the content not written as it says,
 as section 4 says it of a new value; refuse it where WWCP_POI3 reads a key, in the words the vectors' `reason` names;
 then remove D13 from `DEVIATIONS` of the generator.
+
+**Fixed** in WWCP_POI `72df830`: `POIPublicKey.TryParse` reads a key as the content holds it, in the words of
+WWCP_POI.TS - a timestamp a text written as `yyyy-MM-ddTHH:mm:ss.fffZ` and read back as written ("The notAfter of the
+key '…' must be written as yyyy-MM-ddTHH:mm:ss.fffZ, not '…'!", "… must be a text!" for `null`), the key the
+deterministic CBOR of its COSE key ("Invalid COSE key: Invalid deterministic CBOR: …"); SPECIFICATION.md 2, Written
+forms, says that a reader MUST refuse a key of a party written otherwise, and the decisions of its README say so.
+`KeyWrittenFormsTests` holds it. Both refuse all four vectors for what they are about.
 
 **Not covered:** only the key of a party is shown. Whether WWCP_POI3 takes other values of a version written otherwise
 - `created` and `lastChange`, the timestamps of a certificate, decimals - and WWCP_POI.TS refuses them as well, no vector
@@ -496,7 +502,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 5 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 89 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+- the refusal of 93 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors; among them a price statement naming its EVSE in another spelling, `DE*GEF*E11` for `DE*GEF*E1*1`,
   and a checkpoint naming two statements of one EVSE and sequence, in two spellings or of two prices, a split view
   (12.1, 12.3; WWCP_POI `4680d99`, WWCP_POI.TS `6bcf7f5`), each refused by WWCP_POI3 as a history takes it and by
@@ -521,7 +527,8 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   HTTPS, its master public key in lower case, the currency `XXX` or no name - and a charging pool naming the payment
   option `EVTaler` while its operator names no merchant (EV Taler, phase 1; WWCP_POI `ec3dace`, WWCP_POI.TS
   `0aaf713`), refused in the same words, and a version naming a signing key of a usage POI does not know
-  (WWCP_POI.TS since `37b34f2`, D12);
+  (WWCP_POI.TS since `37b34f2`, D12), and a version naming a key not written as POI writes it - its `notAfter` with
+  an offset, of a date only or `null`, its key in CBOR that is not deterministic (WWCP_POI since `72df830`, D13);
 - all 25 trust vectors: a valid proof, expired attestations, attestations of the future (D3), one holder only
   (also twice), a key that may not sign for the party, a signing key expired before it attested and one that ended
   after it attested, a key certified by another holder's identity key, an uncertified key, other identity keys pinned,

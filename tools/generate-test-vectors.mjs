@@ -69,7 +69,6 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
-    D13: { implementations: [ CSHARP ], anchor: 'd13-written-forms' },
 };
 
 const deviation = (name) => {
@@ -1744,7 +1743,7 @@ function refusalVectors() {
     const keyId     = at(qa, `${keyAt}/@id`);
     const written   = (id, description, reason, keepETags, patch) =>
         refuse({ id, kind: 'version', basis: WRITTEN, description, reason,
-                 document: patched('published/QA.json', '', [ ...(keepETags ? [] : [ { op: 'remove', path: '/eTags' } ]), ...patch ]), ...deviation('D13') });
+                 document: patched('published/QA.json', '', [ ...(keepETags ? [] : [ { op: 'remove', path: '/eTags' } ]), ...patch ]) });
 
     written('version-key-not-after-offset',  `The signing key of DE*GEF for price statements and tariffs names its notAfter, ${notAfter}, as the same instant with the offset +02:00, ${inZone}; the version keeps its eTags.`,
             `The notAfter of the key '${keyId}' must be written as yyyy-MM-ddTHH:mm:ss.fffZ, not '${inZone}'!`,
