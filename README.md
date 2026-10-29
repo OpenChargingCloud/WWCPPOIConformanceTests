@@ -20,7 +20,7 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`, Hermod `0fff6c9`,
+Both harnesses are green against the pinned submodules (WWCP_POI `ec3dace`, WWCP_POI.TS `37b34f2`, Hermod `0fff6c9`,
 Styx `f494c8cd`):
 
 | | Vectors | Passed | Skipped |
@@ -37,7 +37,8 @@ WWCP_POI.TS `b9c786e`; D8, found by the histories the generator signs, the other
 `e2b66b6`; D9, certificates WWCP_POI3 refuses to read, the other way round as well, in WWCP_POI.TS `1f0d9c7`. D10,
 found by the vectors of the QI-Digital documents of example A14, WWCP_POI3's, in WWCP_POI `bbe8fb8`; D11, the
 calibration certificate of a charging station compared with its own serial number, of both, in WWCP_POI in the same
-commit and in WWCP_POI.TS `9153bc6`.
+commit and in WWCP_POI.TS `9153bc6`; D12, found by the vectors of EV Taler, a signing key of a party of a usage POI does
+not know, WWCP_POI.TS's, in WWCP_POI.TS `37b34f2`.
 Their vectors hold both implementations to it - see
 **[docs/implementation-deviations.md](docs/implementation-deviations.md)**:
 
@@ -54,10 +55,11 @@ Their vectors hold both implementations to it - see
 | D9 | ✅ WWCP_POI.TS takes a certificate WWCP_POI3 refuses to read: for no model or for two, without a hardware revision, firmware version or release, a relative `documentURL`, an empty legislation, a `notAfter` before its `notBefore`, a release twice or both verified and compatible, energy meters of an energy meter model or one model twice (16 vectors `version-certificate-*`): fixed in WWCP_POI.TS `1f0d9c7` |
 | D10 | ✅ WWCP_POI3 leaves out a text of a QI-Digital document in no language, or one that is no text, while reading it: the signature verifies, the text travels with the document unsigned; WWCP_POI.TS refuses it: fixed in WWCP_POI `bbe8fb8` |
 | D11 | ✅ WWCP_POI.TS compares the calibration certificate of a charging station with its own serial number, and takes it for a station of another serial number, or of none, as WWCP_POI3 did before `bbe8fb8`: fixed in WWCP_POI.TS `9153bc6` |
+| D12 | ✅ WWCP_POI.TS takes a version whose charging station operator names a signing key of a usage POI does not know, which WWCP_POI3 refuses: it read the keys of a party where it used them, not with the version: fixed in WWCP_POI.TS `37b34f2` |
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
 ([`docs/csharp-review.md`](docs/csharp-review.md)), and so does D11, finding 23, which WWCP_POI.TS shares; D1, D2, D7,
-D8, D9 and D10 are new. Which of its 23 findings the vectors
+D8, D9, D10 and D12 are new. Which of its 23 findings the vectors
 hold, and why the rest is out of their reach, is listed in [docs/implementation-deviations.md](docs/implementation-deviations.md).
 Findings 20 and 21, custom data held as given, also the custom data of an address, are fixed in Styx `06b592d3`; the
 vectors `spec-2-custom-data-*` hold both implementations to it (against Styx `91901a9`, WWCP_POI3 wrote other

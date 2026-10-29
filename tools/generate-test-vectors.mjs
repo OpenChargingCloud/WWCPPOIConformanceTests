@@ -69,7 +69,6 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
-    D12: { implementations: [ TYPESCRIPT ], anchor: 'd12-party-key-usage' },
 };
 
 const deviation = (name) => {
@@ -1716,8 +1715,7 @@ function refusalVectors() {
     refuse({ id: 'version-key-usage-unknown', kind: 'version', basis: OPERATOR,
              description: 'A signing key of DE*GEF names the usage zzz besides its own: a usage POI does not know.',
              reason: `The usage 'zzz' of the public key '${at(qa, `${keyAt}/@id`)}' is unknown`,
-             document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, { op: 'add', path: `${keyAt}/usages/-`, value: 'zzz' } ]),
-             ...deviation('D12') });
+             document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, { op: 'add', path: `${keyAt}/usages/-`, value: 'zzz' } ]) });
 
     // ---- Checkpoint proofs (10.4).
     const proof4 = jsonRun('published/QA-proof-revision-4.json');

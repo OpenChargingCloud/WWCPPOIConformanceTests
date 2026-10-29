@@ -2,7 +2,7 @@
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
 (WWCP_POI3, `libs/WWCP_POI` at `ec3dace`, Hermod `0fff6c9`, Styx `f494c8cd`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `0aaf713`) take or calculate different things.
+`libs/WWCP_POI.TS` at `37b34f2`) take or calculate different things.
 
 Each deviation is
 
@@ -34,16 +34,16 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D9](#d9-certificate-malformed) | ✅ A certificate WWCP_POI3 refuses to read is taken: for no model or for two, a model without its manufacturer or a manufacturer without its model, no hardware revision or firmware version, also of an energy meter it was issued with, a relative `documentURL`, an empty legislation, a `notAfter` before its `notBefore`, no release, one twice or both verified and compatible, energy meters of an energy meter model, one model twice: **fixed** in WWCP_POI.TS `1f0d9c7` | WWCP_POI.TS | the 16 `version-certificate-*` | low | - |
 | [D10](#d10-text-of-no-language) | ✅ A text of a QI-Digital document in no language, or one that is no text, is left out while reading: the signature verifies, the text travels with the document unsigned: **fixed** in WWCP_POI `bbe8fb8` | WWCP_POI3 | `qid-calibration-text-of-no-language`, `qid-calibration-text-not-a-text` | low | new |
 | [D11](#d11-station-serial-number) | ✅ The calibration certificate of a charging station is compared with its own serial number: taken for a station of another serial number, or of none: **fixed** in WWCP_POI.TS `9153bc6` | WWCP_POI.TS | `qid-calibration-station-replaced`, `qid-calibration-station-without-serial-number` | low | 23 |
-| [D12](#d12-party-key-usage) | A version whose charging station operator names a signing key of a usage POI does not know is taken: the keys of a party are read where they are used, not with the version | WWCP_POI.TS | `version-key-usage-unknown` | low | new |
+| [D12](#d12-party-key-usage) | ✅ A version whose charging station operator names a signing key of a usage POI does not know is taken: the keys of a party are read where they are used, not with the version: **fixed** in WWCP_POI.TS `37b34f2` | WWCP_POI.TS | `version-key-usage-unknown` | low | new |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
 round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well, and so
 is D9, found by vectors of the certificates WWCP_POI3 refuses to read. All nine are fixed. D10, found by the vectors of
 the QI-Digital documents of example A14 (`poi-qidigital.json`), was WWCP_POI3's again, and is fixed as well. D11 is
 *csharp-review 23*, which WWCP_POI.TS shared: fixed in WWCP_POI in the same commit as D10, and in WWCP_POI.TS
-`9153bc6`. D12, found by the vectors of EV Taler (WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), is WWCP_POI.TS's and
-open. Of the 444 vectors both implementations run 402 - the 7 requiring `signing` and the 13 of `poi-histories.json`
-that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them but the one of D12 (see
+`9153bc6`. D12, found by the vectors of EV Taler (WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), was WWCP_POI.TS's, and
+is fixed in WWCP_POI.TS `37b34f2`. Of the 444 vectors both implementations run 402 - the 7 requiring `signing` and the 13 of `poi-histories.json`
+that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them (see
 [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
@@ -394,7 +394,7 @@ vectors for what they are about.
 
 
 <a id="d12-party-key-usage"></a>
-## D12. A version whose charging station operator names a signing key of an unknown usage is taken
+## D12. ✅ A version whose charging station operator names a signing key of an unknown usage is taken
 
 **Vectors:** `version-key-usage-unknown` (`poi-refusals.json`): the head of the frozen run, without its `eTags`, a
 signing key of `DE*GEF` naming the usage `zzz` after `priceStatements` and `tariffs`. WWCP_POI3 refuses it ("Invalid
@@ -415,9 +415,23 @@ the first time it reads the keys of its party; but it takes a roaming network ve
 **Fix:** read the keys of every party where `RoamingNetwork.parse` reads the version, with `POIPublicKey.parseAll`, in
 the words the vector's `reason` names; then remove D12 from `DEVIATIONS` of the generator.
 
-**Not covered:** what else `POIPublicKey.parse` refuses of a key - an `@id` that is not its thumbprint, a usage twice or
-out of its ordinal order - `RoamingNetwork.parse` presumably takes alike, as it reads no key of a party; no vector shows
-it yet.
+**Fixed** in WWCP_POI.TS `37b34f2`: `RoamingNetwork.parse` reads the keys of every party, and the identity keys of the
+roaming network operator, as WWCP_POI3 reads them wherever it reads a party (`invalidPartyKeys`,
+`src/network/partyKeys.ts`; `POIPartyKeys.TryParse`, then `POIPartyKeys.Check`), in its order and its words: the
+parties as `RoamingNetwork.TryParse` reads them, charging station operators last; every key as `POIPublicKey.parse`
+reads it ("Invalid signing key '…': …"), then none twice, none both a signing and an identity key, no identity key
+naming usages. `tests/partyKeys.test.ts` holds it. Both refuse `version-key-usage-unknown` for what it is about.
+
+**Not covered:** a probe of WWCP_POI.TS with 47 variants of the keys of every party and of the roaming network
+operator, against WWCP_POI3 `ec3dace`, found 40 alike in the same words, and besides, no vector holds yet:
+
+- five keys both refuse, within the same frame in other words - without `@id` or `key`, a `key` that is no Base64,
+  `notBefore` after `notAfter`, another `@context`: WWCP_POI.TS words them as its `POIPublicKey.parse` does;
+- two keys WWCP_POI3 takes and WWCP_POI.TS refuses: a `notAfter` of a date only, or with an offset. WWCP_POI3 writes it
+  again as `yyyy-MM-ddTHH:mm:ss.fffZ`, WWCP_POI.TS takes only a timestamp written so. Which of the two is right,
+  SPECIFICATION.md is to say before a vector does;
+- keys not in the order of their identifications, and an empty `signingKeys`, both take; WWCP_POI3 writes them sorted
+  and without the empty array.
 
 
 ## What both do alike
@@ -444,7 +458,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 5 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 88 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+- the refusal of 89 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors; among them a price statement naming its EVSE in another spelling, `DE*GEF*E11` for `DE*GEF*E1*1`,
   and a checkpoint naming two statements of one EVSE and sequence, in two spellings or of two prices, a split view
   (12.1, 12.3; WWCP_POI `4680d99`, WWCP_POI.TS `6bcf7f5`), each refused by WWCP_POI3 as a history takes it and by
@@ -468,7 +482,8 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   public key in lower case or with its last 4 bits set, no exchange or one twice; of an exchange its base URL not
   HTTPS, its master public key in lower case, the currency `XXX` or no name - and a charging pool naming the payment
   option `EVTaler` while its operator names no merchant (EV Taler, phase 1; WWCP_POI `ec3dace`, WWCP_POI.TS
-  `0aaf713`), refused in the same words;
+  `0aaf713`), refused in the same words, and a version naming a signing key of a usage POI does not know
+  (WWCP_POI.TS since `37b34f2`, D12);
 - all 25 trust vectors: a valid proof, expired attestations, attestations of the future (D3), one holder only
   (also twice), a key that may not sign for the party, a signing key expired before it attested and one that ended
   after it attested, a key certified by another holder's identity key, an uncertified key, other identity keys pinned,
