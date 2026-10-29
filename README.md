@@ -20,13 +20,13 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `72df830`, WWCP_POI.TS `ad5dff3`, Hermod `0fff6c9`,
+Both harnesses are green against the pinned submodules (WWCP_POI `aa87117`, WWCP_POI.TS `9decdb5`, Hermod `0fff6c9`,
 Styx `f494c8cd`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 460 | 482 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 460 | 447 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
+| C# harness (NUnit), WWCP_POI3 | 464 | 486 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 464 | 451 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
@@ -92,7 +92,7 @@ decimals, integers and timestamps, and dropped the custom data of an address).
 | [`libs/Styx`](https://github.com/Vanaheimr/Styx) | Below Hermod: canonical JSON, deterministic CBOR, COSE - and its README, a source of vectors |
 
 Hermod and Styx are pinned at the commits the RoamingHubCLI pins together with WWCP_POI (`e1b9d63`, with WWCP_POI
-`41b1fbc`, on which `72df830` builds): Hermod `0fff6c9`, Styx `f494c8cd`. WWCP_POI since `7862c86` needs a
+`41b1fbc`, on which `72df830` and `aa87117` build): Hermod `0fff6c9`, Styx `f494c8cd`. WWCP_POI since `7862c86` needs a
 Hermod that checks the origin of a request (`HTTPRequest.AllowsOrigin`). Styx keeps custom data as given since
 `06b592d3` (findings 20 and 21 of the review WWCP_POI.TS made of the C# implementation), which the vectors
 `spec-2-custom-data-*` cover.

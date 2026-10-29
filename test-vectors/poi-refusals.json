@@ -1532,6 +1532,101 @@
     },
     {
       "expected": "refused",
+      "id": "version-body-notified-for-out-of-order",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "PTB is notified for MID and CRA, in this order: not the ordinal one, in which the content holds them and WWCP_POI would write them again.",
+      "reason": "The legislations the conformity assessment body 'PTB' is notified for are written in their ordinal order!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/2/notifiedFor",
+            "value": [
+              "MID",
+              "CRA"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-body-number-not-a-text",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "PTB names its notified body number as the number 102.",
+      "reason": "The notified body number must be a text!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/2/notifiedBodyNumber",
+            "value": 102
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-body-notified-for-not-texts",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "PTB names the legislation it is notified for as a text, not in an array.",
+      "reason": "The legislations notified for must be a JSON array of texts!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/2/notifiedFor",
+            "value": "MID"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-body-number-twice",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "BSI names the notified body number of PTB, 0102, as its own: the number of PTB, which follows BSI, is the one of BSI already.",
+      "reason": "The notified body number '0102' of the conformity assessment body 'PTB' is the one of the conformity assessment body 'BSI' already!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/conformityAssessmentBodies/0/notifiedBodyNumber",
+            "value": "0102"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
       "id": "version-evtaler-pool-without-merchant",
       "kind": "version",
       "basis": "libs/WWCP_POI/docs/ChargingPool.md, libs/WWCP_POI/docs/ChargingStationOperator.md",

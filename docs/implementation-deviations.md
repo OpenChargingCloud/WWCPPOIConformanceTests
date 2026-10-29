@@ -1,8 +1,8 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `72df830`, Hermod `0fff6c9`, Styx `f494c8cd`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `ad5dff3`) take or calculate different things.
+(WWCP_POI3, `libs/WWCP_POI` at `aa87117`, Hermod `0fff6c9`, Styx `f494c8cd`) and the TypeScript port (WWCP_POI.TS,
+`libs/WWCP_POI.TS` at `9decdb5`) take or calculate different things.
 
 Each deviation is
 
@@ -46,7 +46,7 @@ the QI-Digital documents of example A14 (`poi-qidigital.json`), was WWCP_POI3's 
 `9153bc6`. D12, found by the vectors of EV Taler (WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), was WWCP_POI.TS's, and
 is fixed in WWCP_POI.TS `37b34f2`. D13, a key written otherwise than POI writes it, which WWCP_POI3 took and wrote
 again, was WWCP_POI3's, and is fixed in WWCP_POI `72df830`. D14, a conformity assessment body WWCP_POI3 refuses to
-read, was WWCP_POI.TS's, and is fixed in WWCP_POI.TS `4ff1fc2`. Of the 460 vectors both implementations run 418 - the 7 requiring `signing` and the
+read, was WWCP_POI.TS's, and is fixed in WWCP_POI.TS `4ff1fc2`. Of the 464 vectors both implementations run 422 - the 7 requiring `signing` and the
 13 of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them
 (see
 [What both do alike](#what-both-do-alike)).
@@ -514,9 +514,12 @@ checked as the constructor of `ConformityAssessmentBody` checks it, in its words
 `notifiedBodyNumber` that is no text and a `notifiedFor` that is no array of texts, before them. Both refuse all four
 vectors for what they are about.
 
-**Not covered:** a `notifiedFor` out of its ordinal order, which WWCP_POI3 takes and writes sorted (its constructor
-orders it) - a value written otherwise, as in D13 -, and two bodies of the same `notifiedBodyNumber` (S32), which
-WWCP_POI.TS ports with `d6b0127`: no vector holds them yet.
+**Covered since:** a `notifiedFor` out of its ordinal order, which both took - WWCP_POI3 writing it sorted (its
+constructor ordered it), WWCP_POI.TS hashing it as given, a value written otherwise, as in D13 -, both refuse since
+WWCP_POI `aa87117` and WWCP_POI.TS `9decdb5` (`version-body-notified-for-out-of-order`), and SPECIFICATION.md 2 says
+so; two bodies of the same `notifiedBodyNumber` (S32), a number that is no text and legislations that are no array of
+texts both refuse alike (`version-body-number-twice`, `version-body-number-not-a-text`,
+`version-body-notified-for-not-texts`).
 
 
 ## What both do alike
@@ -543,7 +546,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 5 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 97 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+- the refusal of 101 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors; among them a price statement naming its EVSE in another spelling, `DE*GEF*E11` for `DE*GEF*E1*1`,
   and a checkpoint naming two statements of one EVSE and sequence, in two spellings or of two prices, a split view
   (12.1, 12.3; WWCP_POI `4680d99`, WWCP_POI.TS `6bcf7f5`), each refused by WWCP_POI3 as a history takes it and by
@@ -572,7 +575,8 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   an offset, of a date only or `null`, its key in CBOR that is not deterministic (WWCP_POI since `72df830`, D13), and a
   version naming a conformity assessment body WWCP_POI does not read - a certificate under a legislation it is not
   notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice (WWCP_POI.TS since
-  `4ff1fc2`, D14);
+  `4ff1fc2`, D14), out of its ordinal order (WWCP_POI since `aa87117`, WWCP_POI.TS since `9decdb5`), a number that is no
+  text, legislations that are no array of texts, the number of another body (S32);
 - all 25 trust vectors: a valid proof, expired attestations, attestations of the future (D3), one holder only
   (also twice), a key that may not sign for the party, a signing key expired before it attested and one that ended
   after it attested, a key certified by another holder's identity key, an uncertified key, other identity keys pinned,

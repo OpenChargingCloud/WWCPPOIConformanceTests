@@ -1663,6 +1663,34 @@ function refusalVectors() {
               "A legislation the conformity assessment body 'PTB' is notified for must not be given twice!",
               [ { op: 'replace', path: `${ptbAt}/notifiedFor`, value: [ 'MID', 'MID' ] } ]);
 
+    // Its legislations as the content holds them, in their ordinal order (SPECIFICATION.md 2, Written forms; WWCP_POI
+    // aa87117, WWCP_POI.TS 9decdb5); its number and its legislations texts; its number one no other body has (S32).
+    const bsiAt = named('/conformityAssessmentBodies/0', 'BSI');
+    if ('notifiedBodyNumber' in at(qa, bsiAt))
+        fail('QA.json: BSI names a notified body number already');
+    quoted(SPEC,         'and the `notifiedFor` of a\n  conformity assessment body out of its ordinal order', 'that a reader refuses a notifiedFor out of its ordinal order');
+    quoted(CERTIFICATES, '- Two bodies can not have the same `notifiedBodyNumber`.',                     'that a notified body number names one body');
+
+    bodyMalformed('version-body-notified-for-out-of-order',
+              'PTB is notified for MID and CRA, in this order: not the ordinal one, in which the content holds them and WWCP_POI would write them again.',
+              "The legislations the conformity assessment body 'PTB' is notified for are written in their ordinal order!",
+              [ { op: 'replace', path: `${ptbAt}/notifiedFor`, value: [ 'MID', 'CRA' ] } ]);
+
+    bodyMalformed('version-body-number-not-a-text',
+              'PTB names its notified body number as the number 102.',
+              'The notified body number must be a text!',
+              [ { op: 'replace', path: `${ptbAt}/notifiedBodyNumber`, value: 102 } ]);
+
+    bodyMalformed('version-body-notified-for-not-texts',
+              'PTB names the legislation it is notified for as a text, not in an array.',
+              'The legislations notified for must be a JSON array of texts!',
+              [ { op: 'replace', path: `${ptbAt}/notifiedFor`, value: 'MID' } ]);
+
+    bodyMalformed('version-body-number-twice',
+              'BSI names the notified body number of PTB, 0102, as its own: the number of PTB, which follows BSI, is the one of BSI already.',
+              "The notified body number '0102' of the conformity assessment body 'PTB' is the one of the conformity assessment body 'BSI' already!",
+              [ { op: 'add', path: `${bsiAt}/notifiedBodyNumber`, value: '0102' } ]);
+
     // ---- Versions: EV Taler (concepts/EVTaler.md, phase 1): the merchant of a charging station operator at a GNU Taler
     //      merchant backend (EVTalerMerchant and EVTalerExchange of WWCP_POI3) - base URLs HTTPS, without user, query
     //      and fragment, ending in '/'; public keys as GNU Taler writes them; at least one exchange, each once, with an
