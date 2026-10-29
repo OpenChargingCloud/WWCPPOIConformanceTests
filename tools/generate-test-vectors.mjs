@@ -69,6 +69,7 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
+    D14: { implementations: [ TYPESCRIPT ], anchor: 'd14-body-malformed' },
 };
 
 const deviation = (name) => {
@@ -1626,6 +1627,42 @@ function refusalVectors() {
               'The energy meter the certificate PTB-2026-0042 was issued with names no firmware version: none given.',
               "The certified energy meter model 'KDM-500' of 'KERNBERG' must name at least one firmware version!",
               [ { op: 'remove', path: `${ptb0042}/energyMeters/0/firmwareVersions` } ]);
+
+    // ---- Versions: a conformity assessment body as WWCP_POI takes it (ConformityAssessmentBody of WWCP_POI3): its
+    //      notifiedBodyNumber four digits, the legislations it is notifiedFor none empty and each once, every certificate
+    //      it issued under a legislation one it is notified for. The head of the run with PTB changed, which is notified
+    //      for MID as 0102, without its eTags, as above. WWCP_POI.TS takes them (D14).
+    const ptbAt = named('/conformityAssessmentBodies/2', 'PTB');
+    const bodyMalformed = (id, description, reason, patch) =>
+                              refuse({ id, kind: 'version', basis: CERTIFICATES, description, reason,
+                                       document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, ...patch ]), ...deviation('D14') });
+    if (JSON.stringify(at(qa, `${ptbAt}/notifiedFor`)) !== '["MID"]' || at(qa, `${ptbAt}/notifiedBodyNumber`) !== '0102' || at(qa, `${ptb0042}/legislation`) !== 'MID')
+        fail('QA.json: PTB is no longer notified for MID alone as 0102, or PTB-2026-0042 not issued under MID');
+
+    quoted(CERTIFICATES, 'Its number as a notified body: four digits, e.g. `0102`',                     'that a notified body number is four digits');
+    quoted(CERTIFICATES, 'The legislations it is a notified body for, each once',                           'that a body is notified for each legislation once');
+    quoted(CERTIFICATES, '`MID` and `CRA` (`ConformityAssessmentBody.Legislations`) are well known, any other nonempty text names another one.',
+           'that a legislation is a nonempty text');
+
+    bodyMalformed('version-body-certificate-not-notified',
+              'The certificate PTB-2026-0042 is issued under the legislation CRA, for which its body, notified for MID, is no notified body.',
+              "The certificate 'PTB-2026-0042' is issued under the legislation 'CRA', which the conformity assessment body 'PTB' is not notified for!",
+              [ { op: 'replace', path: `${ptb0042}/legislation`, value: 'CRA' } ]);
+
+    bodyMalformed('version-body-number-three-digits',
+              'PTB names its notified body number in three digits, 102 for 0102.',
+              "The notified body number '102' of the conformity assessment body 'PTB' must be four digits!",
+              [ { op: 'replace', path: `${ptbAt}/notifiedBodyNumber`, value: '102' } ]);
+
+    bodyMalformed('version-body-notified-for-empty',
+              'PTB is notified for MID and for an empty legislation.',
+              "A legislation the conformity assessment body 'PTB' is notified for must not be empty!",
+              [ { op: 'replace', path: `${ptbAt}/notifiedFor`, value: [ '', 'MID' ] } ]);
+
+    bodyMalformed('version-body-notified-for-twice',
+              'PTB is notified for MID twice.',
+              "A legislation the conformity assessment body 'PTB' is notified for must not be given twice!",
+              [ { op: 'replace', path: `${ptbAt}/notifiedFor`, value: [ 'MID', 'MID' ] } ]);
 
     // ---- Versions: EV Taler (concepts/EVTaler.md, phase 1): the merchant of a charging station operator at a GNU Taler
     //      merchant backend (EVTalerMerchant and EVTalerExchange of WWCP_POI3) - base URLs HTTPS, without user, query

@@ -36,6 +36,7 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D11](#d11-station-serial-number) | ✅ The calibration certificate of a charging station is compared with its own serial number: taken for a station of another serial number, or of none: **fixed** in WWCP_POI.TS `9153bc6` | WWCP_POI.TS | `qid-calibration-station-replaced`, `qid-calibration-station-without-serial-number` | low | 23 |
 | [D12](#d12-party-key-usage) | ✅ A version whose charging station operator names a signing key of a usage POI does not know is taken: the keys of a party are read where they are used, not with the version: **fixed** in WWCP_POI.TS `37b34f2` | WWCP_POI.TS | `version-key-usage-unknown` | low | new |
 | [D13](#d13-written-forms) | ✅ A key written otherwise than POI writes it is taken and written again: a `notAfter` with an offset, of a date only or `null`, a COSE key in CBOR that is not deterministic - with an offset and in CBOR that is not deterministic against the `eTags` of the version as published: **fixed** in WWCP_POI `72df830` | WWCP_POI3 | `version-key-not-after-offset`, `version-key-not-after-date`, `version-key-not-after-null`, `version-key-cbor-not-deterministic` | medium (interop) | new |
+| [D14](#d14-body-malformed) | A conformity assessment body WWCP_POI3 refuses to read is taken: a certificate under a legislation it is not notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice | WWCP_POI.TS | `version-body-certificate-not-notified`, `version-body-number-three-digits`, `version-body-notified-for-empty`, `version-body-notified-for-twice` | low | - |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
 round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well, and so
@@ -44,8 +45,10 @@ the QI-Digital documents of example A14 (`poi-qidigital.json`), was WWCP_POI3's 
 *csharp-review 23*, which WWCP_POI.TS shared: fixed in WWCP_POI in the same commit as D10, and in WWCP_POI.TS
 `9153bc6`. D12, found by the vectors of EV Taler (WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), was WWCP_POI.TS's, and
 is fixed in WWCP_POI.TS `37b34f2`. D13, a key written otherwise than POI writes it, which WWCP_POI3 took and wrote
-again, was WWCP_POI3's, and is fixed in WWCP_POI `72df830`. Of the 456 vectors both implementations run 414 - the 7 requiring `signing` and the 13
-of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them (see
+again, was WWCP_POI3's, and is fixed in WWCP_POI `72df830`. D14, a conformity assessment body WWCP_POI3 refuses to
+read, is WWCP_POI.TS's and open. Of the 460 vectors both implementations run 418 - the 7 requiring `signing` and the
+13 of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them
+but the four of D14 (see
 [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
@@ -476,6 +479,39 @@ forms, says that a reader MUST refuse a key of a party written otherwise, and th
 **Not covered:** only the key of a party is shown. Whether WWCP_POI3 takes other values of a version written otherwise
 - `created` and `lastChange`, the timestamps of a certificate, decimals - and WWCP_POI.TS refuses them as well, no vector
 shows yet.
+
+
+<a id="d14-body-malformed"></a>
+## D14. A conformity assessment body WWCP_POI3 refuses to read is taken
+
+**Vectors:** `version-body-certificate-not-notified`, `version-body-number-three-digits`,
+`version-body-notified-for-empty` and `version-body-notified-for-twice` (`poi-refusals.json`): the head of the frozen
+run, without its `eTags`, with the body `PTB` - notified for `MID` as `0102` - changed. WWCP_POI3 refuses each in the
+words its `reason` names; WWCP_POI.TS takes all four:
+
+| Vector | The body | WWCP_POI3 |
+|---|---|---|
+| `version-body-certificate-not-notified` | its certificate `PTB-2026-0042` is issued under `CRA` | "The certificate 'PTB-2026-0042' is issued under the legislation 'CRA', which the conformity assessment body 'PTB' is not notified for!" |
+| `version-body-number-three-digits` | its `notifiedBodyNumber` is `102` | "The notified body number '102' of the conformity assessment body 'PTB' must be four digits!" |
+| `version-body-notified-for-empty` | its `notifiedFor` is `[ "", "MID" ]` | "A legislation the conformity assessment body 'PTB' is notified for must not be empty!" |
+| `version-body-notified-for-twice` | its `notifiedFor` is `[ "MID", "MID" ]` | "… must not be given twice!" |
+
+**Where:** the constructor of `ConformityAssessmentBody` of WWCP_POI3 checks them. `RoamingNetwork.parse` of
+WWCP_POI.TS reads of a body its certificates (D9) and its keys (D12), not its `notifiedBodyNumber`, its `notifiedFor`
+and what the legislation of a certificate of it must be. `docs/ConformityAssessmentBody.md` of WWCP_POI says each
+rule, and the generator quotes it: "four digits, e.g. `0102`", "each once", "any other nonempty text", "one its body
+is `notifiedFor`". WWCP_POI.TS found it porting WWCP_POI `d6b0127` (S31, S32); the vectors show it.
+
+**Why it matters:** low. The `notifiedBodyNumber` and `notifiedFor` of a body are the RNO's (S32), and a certificate
+enters a version only by a change set its body, or the RNO in its place, signs; but WWCP_POI.TS takes a roaming
+network version that WWCP_POI refuses to read, and a station proof gives its verifier the certificates as they are.
+
+**Fix:** refuse them where `RoamingNetwork.parse` reads a body, in the words of WWCP_POI3 and in its order - the
+number, the legislations, then the certificates -; then remove D14 from `DEVIATIONS` of the generator.
+
+**Not covered:** a `notifiedFor` out of its ordinal order, which WWCP_POI3 takes and writes sorted (its constructor
+orders it) - a value written otherwise, as in D13 -, and two bodies of the same `notifiedBodyNumber` (S32), which
+WWCP_POI.TS ports with `d6b0127`: no vector holds them yet.
 
 
 ## What both do alike

@@ -1434,6 +1434,120 @@
     },
     {
       "expected": "refused",
+      "id": "version-body-certificate-not-notified",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "The certificate PTB-2026-0042 is issued under the legislation CRA, for which its body, notified for MID, is no notified body.",
+      "reason": "The certificate 'PTB-2026-0042' is issued under the legislation 'CRA', which the conformity assessment body 'PTB' is not notified for!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/2/certificates/1/legislation",
+            "value": "CRA"
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d14-body-malformed"
+    },
+    {
+      "expected": "refused",
+      "id": "version-body-number-three-digits",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "PTB names its notified body number in three digits, 102 for 0102.",
+      "reason": "The notified body number '102' of the conformity assessment body 'PTB' must be four digits!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/2/notifiedBodyNumber",
+            "value": "102"
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d14-body-malformed"
+    },
+    {
+      "expected": "refused",
+      "id": "version-body-notified-for-empty",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "PTB is notified for MID and for an empty legislation.",
+      "reason": "A legislation the conformity assessment body 'PTB' is notified for must not be empty!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/2/notifiedFor",
+            "value": [
+              "",
+              "MID"
+            ]
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d14-body-malformed"
+    },
+    {
+      "expected": "refused",
+      "id": "version-body-notified-for-twice",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ConformityAssessmentBody.md",
+      "description": "PTB is notified for MID twice.",
+      "reason": "A legislation the conformity assessment body 'PTB' is notified for must not be given twice!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/2/notifiedFor",
+            "value": [
+              "MID",
+              "MID"
+            ]
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d14-body-malformed"
+    },
+    {
+      "expected": "refused",
       "id": "version-evtaler-pool-without-merchant",
       "kind": "version",
       "basis": "libs/WWCP_POI/docs/ChargingPool.md, libs/WWCP_POI/docs/ChargingStationOperator.md",
