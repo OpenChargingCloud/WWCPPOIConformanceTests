@@ -69,6 +69,7 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
+    D15: { implementations: [ CSHARP ], anchor: 'd15-content-as-held' },
 };
 
 const deviation = (name) => {
@@ -1821,6 +1822,166 @@ function refusalVectors() {
     written('version-key-cbor-not-deterministic', 'The signing key of DE*GEF for price statements and tariffs gives its COSE key with the label 1 (kty) in two bytes, 0x18 0x01, not in its shortest form: CBOR that is not deterministic, of the same key; the version keeps its eTags.',
             'deterministic CBOR',
             true,  [ { op: 'replace', path: `${keyAt}/key`, value: notShort } ]);
+
+    // ---- Versions: the content as its entities write it (2, Written forms): what a reader takes and writes otherwise
+    //      would be another text than the one hashed - what the content orders out of its ordinal order, the texts of an
+    //      ordered list untrimmed, a list the content leaves out where it is empty given empty, a property given as null,
+    //      an embedded object naming its JSON-LD context, a text in languages not keyed by the lower-case code of a known
+    //      language, a timestamp not UTC to the millisecond; of a key of a party and of an EV Taler merchant and its
+    //      exchanges a property POI does not read, a base URL without its scheme or untrimmed, a currency untrimmed. The
+    //      head of the run so changed; where it is the version as published, written again, with its eTags - as the
+    //      version with the key of D13 -, else without; the reason in the words of WWCP_POI.TS (`notWrittenAsHeld`).
+    const HELD        = `${SPEC}, 2`;
+    const dotted      = (pointer) => pointer.split('/').slice(1).reduce((path, token) => /^\d+$/.test(token) ? `${path}[${token}]` : path === '' ? token : `${path}.${token}`, '');
+    const notHeld     = (pointer, reason) => `'${dotted(pointer)}' is not written as the content holds it: ${reason}!`;
+    const ORDER       = 'its elements are in the order the content holds them in';
+    const TRIMMED     = 'the texts of its elements are trimmed';
+    const LEFT_OUT    = 'a list without elements is left out';
+    const NO_VALUE    = 'a property without a value is left out';
+    const NO_CONTEXT  = 'embedded, an object names no JSON-LD context';
+    const LANGUAGES   = 'a text in languages names each language as Styx writes it, in lower case, with a text';
+    const UTC_MS      = 'a timestamp is UTC to the millisecond, yyyy-MM-ddTHH:mm:ss.fffZ';
+    const asHeld      = (id, basis, description, reason, keepETags, patch) =>
+        refuse({ id, kind: 'version', basis, description, reason,
+                 document: patched('published/QA.json', '', [ ...(keepETags ? [] : [ { op: 'remove', path: '/eTags' } ]), ...patch ]), ...deviation('D15') });
+    const ordinally   = (texts) => texts.every((text, index) => index === 0 || texts[index - 1] < text);
+    const contextOf   = (file, context) => quoted(file, `"${context}";`, `the JSON-LD context ${context}`) && context;
+    const KEY_CS      = 'libs/WWCP_POI/WWCP_POI3/DataStructures/POIPublicKey.cs';
+    const TALER_CS    = 'libs/WWCP_POI/WWCP_POI3/DataStructures/EVTalerMerchant.cs';
+    const pool2       = named(`${gefAt}/chargingPools/1`, 'DE*GEF*P2');
+    const bodies      = at(qa, '/conformityAssessmentBodies');
+    const signingKeys = at(qa, `${gefAt}/signingKeys`);
+    const identities  = at(qa, `${gefAt}/identityKeys`);
+    const poolName    = at(qa, `${pool1}/name`);
+    const created2    = at(qa, `${pool2}/created`);
+    const bsi         = named('/conformityAssessmentBodies/0', 'BSI');
+
+    quoted(SPEC, '- in the ordinal order of their identifications, as written: embedded entities',                      'that embedded entities are in the ordinal order of their identifications');
+    quoted(SPEC, 'the `signingKeys` and `identityKeys` of a party;',                                                     'that the keys of a party are in the ordinal order of their identifications');
+    quoted(SPEC, '`features`, `parkingRestrictions`, `services`, `standards`, `nutsCodes`',                              'that predefined values are in the ordinal order of their texts');
+    quoted(SPEC, 'every other one trimmed; enumerations by their exact names.',                                         'that predefined values are trimmed');
+    quoted(SPEC, '- **Absent values** are left out, also empty arrays, texts and objects',                              'that empty arrays and absent values are left out');
+    quoted(SPEC, 'also where the object is embedded and its JSON leaves `@context` out',                                 'that an embedded object leaves its JSON-LD context out');
+    quoted(SPEC, '- **Texts:** multi-language texts keyed by the lower-case code of a known language',                  'how a text in languages is keyed');
+    quoted(SPEC, 'URLs with their scheme (`https://` unless given)',                                                    'that URLs are written with their scheme');
+    quoted(POOL, 'How charging can be paid: `Free`, `Contract`, `Direct`, `Cash`, `CreditCard`, `DebitCard`, `PrepaidCard`, `SMS`', 'which payment options POI knows');
+    if (!ordinally(bodies.map(body => body['@id'])) || !ordinally(signingKeys.map(key => key['@id'])) || !ordinally(identities.map(key => key['@id'])) || identities.length < 2)
+        fail('QA.json: the conformity assessment bodies, or the keys of DE*GEF, are not in the ordinal order of their identifications, or DE*GEF has fewer than two identity keys');
+    if ('paymentOptions' in at(qa, pool2) || 'description' in at(qa, pool2) || JSON.stringify(Object.keys(poolName)) !== '["en"]' || at(qa, `${bsi}/notifiedFor`).length === 0)
+        fail('QA.json: DE*GEF*P2 names payment options or a description, DE*GEF*P1 its name in another language than English, or BSI no legislation');
+    if (!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(created2))
+        fail(`QA.json: DE*GEF*P2 was created at no timestamp written as POI writes it: ${created2}`);
+
+    // What the content orders, out of its order: written again in the order of the version as published.
+    asHeld('version-held-bodies-out-of-order', HELD,
+           `The conformity assessment bodies in reverse order, ${bodies.map(body => body['@id']).reverse().join(', ')}: not in the ordinal order of their identifications; the version keeps its eTags.`,
+           notHeld('/conformityAssessmentBodies', ORDER),
+           true,  [ { op: 'replace', path: '/conformityAssessmentBodies', value: [ ...bodies ].reverse() } ]);
+    asHeld('version-held-signing-keys-out-of-order', HELD,
+           'The signing keys of DE*GEF in reverse order: not in the ordinal order of their identifications; the version keeps its eTags.',
+           notHeld(`${gefAt}/signingKeys`, ORDER),
+           true,  [ { op: 'replace', path: `${gefAt}/signingKeys`, value: [ ...signingKeys ].reverse() } ]);
+    asHeld('version-held-identity-keys-out-of-order', HELD,
+           'The identity keys of DE*GEF in reverse order: not in the ordinal order of their identifications; the version keeps its eTags.',
+           notHeld(`${gefAt}/identityKeys`, ORDER),
+           true,  [ { op: 'replace', path: `${gefAt}/identityKeys`, value: [ ...identities ].reverse() } ]);
+    asHeld('version-held-payment-options-out-of-order', `${HELD}; ${POOL}`,
+           'DE*GEF*P2 names the payment options SMS and Cash, in this order: not in the ordinal order of their texts.',
+           notHeld(`${pool2}/paymentOptions`, ORDER),
+           false, [ { op: 'add', path: `${pool2}/paymentOptions`, value: [ 'SMS', 'Cash' ] } ]);
+    asHeld('version-held-payment-options-ordinal', `${HELD}; ${POOL}`,
+           'DE*GEF*P2 names the payment options bitcoin and SMS, in this order: alphabetical regardless of case, but in their ordinal order an upper-case letter comes before a lower-case one.',
+           notHeld(`${pool2}/paymentOptions`, ORDER),
+           false, [ { op: 'add', path: `${pool2}/paymentOptions`, value: [ 'bitcoin', 'SMS' ] } ]);
+
+    // The texts of an ordered list untrimmed, a list given empty, a property given as null.
+    asHeld('version-held-payment-options-untrimmed', `${HELD}; ${POOL}`,
+           "DE*GEF*P2 names the payment option ' Cash', with a space before it: the content holds it trimmed.",
+           notHeld(`${pool2}/paymentOptions`, TRIMMED),
+           false, [ { op: 'add', path: `${pool2}/paymentOptions`, value: [ ' Cash' ] } ]);
+    asHeld('version-held-payment-options-empty', HELD,
+           'DE*GEF*P2 names its payment options as an empty array: the content leaves them out; the version keeps its eTags.',
+           notHeld(`${pool2}/paymentOptions`, LEFT_OUT),
+           true,  [ { op: 'add', path: `${pool2}/paymentOptions`, value: [] } ]);
+    asHeld('version-held-signing-keys-empty', HELD,
+           'DE*GEF names its signing keys as an empty array: the content leaves them out.',
+           notHeld(`${gefAt}/signingKeys`, LEFT_OUT),
+           false, [ { op: 'replace', path: `${gefAt}/signingKeys`, value: [] } ]);
+    asHeld('version-held-notified-for-none', HELD,
+           'BSI names the legislations it is notified for as an empty array: the content leaves them out.',
+           notHeld(`${bsi}/notifiedFor`, LEFT_OUT),
+           false, [ { op: 'replace', path: `${bsi}/notifiedFor`, value: [] } ]);
+    asHeld('version-held-description-null', HELD,
+           'DE*GEF*P2 names its description as null: the content leaves an absent value out; the version keeps its eTags.',
+           notHeld(`${pool2}/description`, NO_VALUE),
+           true,  [ { op: 'add', path: `${pool2}/description`, value: null } ]);
+
+    // An embedded object naming its JSON-LD context; a text in languages not keyed as the content keys it; a timestamp
+    // not UTC to the millisecond.
+    asHeld('version-held-key-context', HELD,
+           'The signing key of DE*GEF for price statements and tariffs, embedded in its party, names its JSON-LD context; the version keeps its eTags.',
+           notHeld(keyAt, NO_CONTEXT),
+           true,  [ { op: 'add', path: `${keyAt}/@context`, value: contextOf(KEY_CS, 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/publicKey/v1') } ]);
+    asHeld('version-held-name-language-upper-case', HELD,
+           `DE*GEF*P1 names its name by the language EN, in upper case: the content keys it by en; the version keeps its eTags.`,
+           notHeld(`${pool1}/name`, LANGUAGES),
+           true,  [ { op: 'replace', path: `${pool1}/name`, value: { EN: poolName.en } } ]);
+    asHeld('version-held-name-language-unknown', HELD,
+           'DE*GEF*P1 names its name also in the language xx, which is no known language; the version keeps its eTags.',
+           notHeld(`${pool1}/name`, LANGUAGES),
+           true,  [ { op: 'add', path: `${pool1}/name/xx`, value: poolName.en } ]);
+    asHeld('version-held-name-language-not-a-text', HELD,
+           'DE*GEF*P1 names its name also in German, as the number 5: no text; the version keeps its eTags.',
+           notHeld(`${pool1}/name`, LANGUAGES),
+           true,  [ { op: 'add', path: `${pool1}/name/de`, value: 5 } ]);
+    asHeld('version-held-description-language-number', HELD,
+           'The roaming network names its description by the language 10, a number: the content keys it by the lower-case code of a language.',
+           notHeld('/description', LANGUAGES),
+           false, [ { op: 'replace', path: '/description', value: { 10: at(qa, '/description/en') } } ]);
+    asHeld('version-held-created-offset', HELD,
+           `DE*GEF*P2 was created at ${created2}, given as the same instant with the offset +02:00; the version keeps its eTags.`,
+           notHeld(`${pool2}/created`, UTC_MS),
+           true,  [ { op: 'replace', path: `${pool2}/created`, value: new Date(Date.parse(created2) + 2 * 3_600_000).toISOString().replace('Z', '+02:00') } ]);
+
+    // A property of a key POI does not read.
+    asHeld('version-held-key-property-unread', HELD,
+           'The signing key of DE*GEF for price statements and tariffs names the property x, which a key does not have.',
+           `The public key '${keyId}' must not name the property 'x'!`,
+           false, [ { op: 'add', path: `${keyAt}/x`, value: 1 } ]);
+
+    // The EV Taler merchant of the example, given as the content does not hold it.
+    const another     = { masterPublicKey: `0${exchange.masterPublicKey.slice(1)}`, baseURL: 'https://exchange.example.ch/', currency: 'CHF', name: { en: 'Another Exchange' } };
+    const ofExchange  = (error) => `Invalid exchange of an EV Taler merchant: ${error}`;
+    if (!(another.masterPublicKey < exchange.masterPublicKey) || !evTaler.merchantBaseURL.startsWith('https://') || !exchange.baseURL.startsWith('https://') || JSON.stringify(Object.keys(exchange.name)) !== '["en"]')
+        fail(`${OPERATOR}: the example of an EV Taler merchant is no longer one these vectors change`);
+
+    const heldMerchant = (id, description, reason, changed) =>
+        asHeld(id, `${HELD}; ${OPERATOR}`, `DE*GEF names the EV Taler merchant of the example, ${description}.`, reason, false, merchant(changed));
+
+    heldMerchant('version-held-evtaler-context',              'naming its JSON-LD context, embedded in its operator',
+                 notHeld(`${gefAt}/evTaler`, NO_CONTEXT),                       { '@context': contextOf(TALER_CS, 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/evTalerMerchant/v1') });
+    heldMerchant('version-held-evtaler-exchange-context',     'its exchange naming its JSON-LD context, embedded in the merchant',
+                 notHeld(`${gefAt}/evTaler/exchanges/0`, NO_CONTEXT),           { exchanges: [ { ...exchange, '@context': contextOf(TALER_CS, 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/evTalerExchange/v1') } ] });
+    heldMerchant('version-held-evtaler-exchanges-out-of-order', `accepting also the exchange ${another.masterPublicKey} in CHF, after the one of the example: not in the ordinal order of their master public keys`,
+                 notHeld(`${gefAt}/evTaler/exchanges`, ORDER),                  { exchanges: [ exchange, another ] });
+    heldMerchant('version-held-evtaler-exchange-name-language', 'the name of its exchange by the language EN, in upper case',
+                 notHeld(`${gefAt}/evTaler/exchanges/0/name`, LANGUAGES),       { exchanges: [ { ...exchange, name: { EN: exchange.name.en } } ] });
+    heldMerchant('version-held-evtaler-property-unread',      'naming the property x, which a merchant does not have',
+                 "The EV Taler merchant must not name the property 'x'!",      { x: 1 });
+    heldMerchant('version-held-evtaler-exchange-property-unread', 'its exchange naming the property x, which an exchange does not have',
+                 ofExchange(`The exchange '${exchange.masterPublicKey}' must not name the property 'x'!`), { exchanges: [ { ...exchange, x: 1 } ] });
+
+    const noScheme    = evTaler.merchantBaseURL.replace('https://', '');
+    heldMerchant('version-held-evtaler-merchant-url-no-scheme', `its merchant base URL without its scheme, ${noScheme}`,
+                 `The merchant base URL '${noScheme}' is written as '${evTaler.merchantBaseURL}'!`, { merchantBaseURL: noScheme });
+    heldMerchant('version-held-evtaler-merchant-url-untrimmed', 'its merchant base URL with a space before and after it',
+                 `The merchant base URL ' ${evTaler.merchantBaseURL} ' is written as '${evTaler.merchantBaseURL}'!`, { merchantBaseURL: ` ${evTaler.merchantBaseURL} ` });
+    heldMerchant('version-held-evtaler-exchange-url-no-scheme', `the base URL of its exchange without its scheme, ${exchange.baseURL.replace('https://', '')}`,
+                 ofExchange(`The base URL '${exchange.baseURL.replace('https://', '')}' of the exchange '${exchange.masterPublicKey}' is written as '${exchange.baseURL}'!`),
+                 { exchanges: [ { ...exchange, baseURL: exchange.baseURL.replace('https://', '') } ] });
+    heldMerchant('version-held-evtaler-exchange-currency-untrimmed', `the currency of its exchange with a space before it, ' ${exchange.currency}'`,
+                 ofExchange(`The currency ' ${exchange.currency}' of the exchange '${exchange.masterPublicKey}' is written as '${exchange.currency}'!`),
+                 { exchanges: [ { ...exchange, currency: ` ${exchange.currency}` } ] });
 
     // ---- Checkpoint proofs (10.4).
     const proof4 = jsonRun('published/QA-proof-revision-4.json');

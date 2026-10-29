@@ -2187,6 +2187,1018 @@
     },
     {
       "expected": "refused",
+      "id": "version-held-bodies-out-of-order",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "The conformity assessment bodies in reverse order, PTB, EM-LAB, BSI: not in the ordinal order of their identifications; the version keeps its eTags.",
+      "reason": "'conformityAssessmentBodies' is not written as the content holds it: its elements are in the order the content holds them in!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies",
+            "value": [
+              {
+                "@id": "PTB",
+                "name": {
+                  "de": "Physikalisch-Technische Bundesanstalt"
+                },
+                "homepage": "https://www.ptb.de",
+                "notifiedBodyNumber": "0102",
+                "notifiedFor": [
+                  "MID"
+                ],
+                "certificates": [
+                  {
+                    "@id": "PTB-2026-0017",
+                    "energyMeterManufacturerId": "KERNBERG",
+                    "energyMeterModel": "KDM-500",
+                    "hardwareRevisions": [
+                      "2.1"
+                    ],
+                    "firmwareVersions": [
+                      "3.2"
+                    ],
+                    "verifiedTransparencySoftwareIds": [
+                      "chargy-1.5.0"
+                    ],
+                    "compatibleTransparencySoftwareIds": [],
+                    "documentURL": "https://www.ptb.example/certificates/PTB-2026-0017.pdf",
+                    "notBefore": "2026-10-27T17:20:56.014Z",
+                    "notAfter": "2036-10-27T17:20:56.014Z"
+                  },
+                  {
+                    "@id": "PTB-2026-0042",
+                    "chargingStationManufacturerId": "GraphDefined",
+                    "chargingStationModel": "GD-DC300",
+                    "hardwareRevisions": [
+                      "1.0"
+                    ],
+                    "firmwareVersions": [
+                      "2.5.0"
+                    ],
+                    "verifiedTransparencySoftwareIds": [
+                      "chargy-1.5.0"
+                    ],
+                    "compatibleTransparencySoftwareIds": [],
+                    "energyMeters": [
+                      {
+                        "manufacturerId": "KERNBERG",
+                        "modelId": "KDM-500",
+                        "hardwareRevisions": [
+                          "2.1"
+                        ],
+                        "firmwareVersions": [
+                          "3.2"
+                        ]
+                      }
+                    ],
+                    "documentURL": "https://www.ptb.example/certificates/PTB-2026-0042.pdf",
+                    "notBefore": "2026-10-27T17:20:56.014Z",
+                    "notAfter": "2036-10-27T17:20:56.014Z",
+                    "legislation": "MID"
+                  }
+                ],
+                "signingKeys": [
+                  {
+                    "@id": "aef3ed777c623e6d85a210e3daafc4fd2979f489e3d6990b86efbe50d370d0f9",
+                    "key": "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",
+                    "notAfter": "2027-10-27T17:20:56.014Z",
+                    "usages": [
+                      "certificates"
+                    ]
+                  },
+                  {
+                    "@id": "d4a26008f7f7136606d70c42b1e1042ef8bcc87a83e96b543b133a2b0f207382",
+                    "key": "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",
+                    "notAfter": "2027-10-27T17:20:56.014Z",
+                    "usages": [
+                      "party"
+                    ]
+                  }
+                ],
+                "identityKeys": [
+                  {
+                    "@id": "5b18b16e8008e4e9b94795dc3a5ec380ae6eda6919a8bfc026a3706f5fbbe1e8",
+                    "key": "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"
+                  }
+                ],
+                "created": "2026-10-27T17:20:56.071Z",
+                "lastChange": "2026-10-27T17:20:56.384Z"
+              },
+              {
+                "@id": "EM-LAB",
+                "name": {
+                  "en": "Jena Energy Meter Calibration Laboratory"
+                },
+                "homepage": "https://www.em-lab.example",
+                "signingKeys": [
+                  {
+                    "@id": "b6148aa78b7ca1b5e4721db72c13b7e485476fac6893e87c176763085b4efd69",
+                    "key": "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",
+                    "notAfter": "2027-10-27T17:20:56.787Z",
+                    "usages": [
+                      "certificates"
+                    ]
+                  },
+                  {
+                    "@id": "c45de6355f2dea21545f4adbc57a016c2727420aa67e2a7733189daffd09e364",
+                    "key": "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",
+                    "notAfter": "2027-10-27T17:20:56.787Z",
+                    "usages": [
+                      "party"
+                    ]
+                  }
+                ],
+                "identityKeys": [
+                  {
+                    "@id": "481d94c8fc8a49a1612211fa3c3328cadd7f9aa109a010b050068d1659d29fdb",
+                    "key": "owEHAzgwIFkHoHf8EXjb1pURf2x5nL+xFHGVMzhL4v8qM6Ibh6PCzws9yjyqF6kr5LyAlnrR+5qGPiy34hGgaU8dKnhYVStzB/QDla0YJZwJFI7+VBCQ3gCZhWP9No30nXQpS0MNWhC+9+Ky2SbQvqH9Ba9mIog75V4PVlABtkOUkuZkNufoe5LkdSSNzyAc42YLBCHYWSx/tdlyThn+1+6Ta8GVmMSA0hvJqFThkMnxZXgAyF+TnNfvJq/yfw3xtZuOtaIKVqrc0AEcGbraQ6pnmLNIuIH3VZNCi2QRbqhMWwPIj2i7Dnu1d3wA5i39csp/uOW3rLC7qV+oKZmwh8ZRAf1qaw+deO3ubENskaTF2RSLJbaLF7ogPD+x9rsM7bi32BAoZF4DSAcZqKSAxrfvjXfavcdG9UBb65TblvrGkDY54FKfb+iSborOxSW2LFETUA5CppWHtlvdgT/W1+BHCsSrXsV6paBG9HuxpOTGBM70WjREoPuVn26/S8w+ZRoRx0z8idYh+e8GAf741eB3IM1F4SthlKeVfW32vAjdYl4oAAvvEYgowX/sLu1UPW3HLBQJ20qBsbwymb4aFgmL26NUozLqQtrS+OHR1XcHlEK1OZp5I+Mlok+BqrDcFZpHg41We5AWT+97NXjItbUy8fv55VtZDV5RQIpBWZtXY4zWKsaBIryKSUeNhuW854rT16MmVGSaGBQyRZuC4KIaxCDmtZxWGxCOKKoC2c5SOunv9lKyDF5qhImH0MR/TxFaVwveHnC2Loalvx1qmzX3svXnbIUFnKqN373hPewjE+AOMRxcrcQuDAUNMM4xpxuU9+jdCKdBQ4b22FSuI4C1FdB5KNJRGRxQl58ebMYma8heRL+XU6AWHGfNomG4Kxs8RUSSQWmyAevOiZzeW398C/6NBgUYZdgetdUxS7FSKcu7YstqQvx7w8HoSDSNxePB3u054xljayyYG+JKtXklIJNIHozc36qWNRUzN4louS4bu//EBg1A7avoBRhYEcppvUXlqyJRQvFgNG19bptNeIw+Ibnd+NhA8JPBbyUnusztcakUO/gTmqN5863bjL/Xt/Dyo+PG9KKg+BSHpCddO5GuF9luHPbmVXwHQoBu1xUgT5hbJSZCzQQnxgGzmwN8rrc5ePijSPjgzrpBCvNZrK9e1HJlozITCEcFsYqohxuL+SoMD3z2yRbkyH2hxY1JdQibpjkmlqKOg/JhUz4165HkDdeBxyjnwM8lDG9106lX+xhVWmVzlS2n7yYzScxmaF739rP8GQWOYUEYcWt0nh5TojARqO449p0a/21dFbpI2yIBq1tQxlRDtYhwP4BChV7ZJYNaTwBPAriPXULZLdo+n5aICJR/dwqDO/+WpprHIBZTSuNupH2RcwODuHwafIVbsCfKSX85yn93DpDBqeAuky0Ocu2i4fVZHsfMpEQweTLGAXH4iKRvpVPcRcbSqcBTMhyjQCZXhWYGR0fltkA58KqIwiZmvBAByGCoAIO7v80hiPjqC7beTsO6kvUKrrcfFLZgEWBvQsweaf5uUIeEXYCIaCmsOYcQUZCDDK6GeQGntENphrkyFvQpQ6557OGCa4FNzOHbrHiJVhHaxljtPTWyuUVaflvOHuk96PCdogVqJP9HV6jxha4Q2UeYyvuN5/68pY+ZJCVcwUmYrizruGzJZ/VGweM+mZ7oNA3Imkho/I31ol/gz66G3INnbvL5o68I+QogTbDWE9K3b+PKCmWzVCiSKKReWyZ3+HlNAiJStV7yygJgXdvn0iv4qnii8l9NyrX5LhucPBl/pWhDD+FKbWHck0YPulo10hAuY5H3GVpgmfjkhfPjdYNR5sTYX+sUx7SO2uvnYhQOdeGn1YG0bQ+o168HzSEr2UgEKvq3DWHjJAPX8MdhjWyeLf6ihyvTQfWzOJl93Irf2yWqKZAnxfl7wzbObXwUSEIHqrjAV1HR6SHQIN6EoFMYqFY2C/TGGoEt2FFc/KGrgIi88XhTmvQe7JhH+DpUQvMcMa2j8h/4wYZB39zchdVYN6rzIjZo61e/7zl6OnYxIrx8QYwsyK2QvWk/mugogG4mtucUAKoTOXATVEBIuLpPzskOiQiNe5GRt+3YSP/mny7pi7p0nyS/f+FgBUwk98MrLEfX8VXklsO0oVFUzJqhi8fUXVsXoeBQWm8drWp/UhEyGnjVa/Z6a5dfs3KqWaUCamfLc3YBY2Mp7c7QwYpDqjKO3S9CnZI3qapOHMnWHw0YU7r9kI+AnlQqjW28Yp9rxkCZKRhLlPIQhOjXvopqXijX2LgOAK4bLaSeMcsVpaFkt8/1mYzG40zUKURnJGy1hNzMDnv7BWn9pu6sYTGuPbJeic6N666HbtaN7qbusXfLqtqlmfVd3TGG8UQBnu1wkwJjgVh+UMBPmrzq5IVaiREvPgIN+IVP3g/X0MjlygjBMfpgDZspTGsE4kfYAs9E0KQqO5oTZSjckJNiwF/bLpQCd3Oa3+x7FKEnx2rYntNYMQ9oEknfvGCqfWpWyaqiPwsf51Z+hiH++XxzxM+IvErYWDlfV7unrUFDXgbKh0ztdvh09R3z7xIpwm+kGaqdHVQflHrE"
+                  }
+                ],
+                "created": "2026-10-27T17:20:56.792Z",
+                "lastChange": "2026-10-27T17:20:56.793Z"
+              },
+              {
+                "@id": "BSI",
+                "name": {
+                  "de": "Bundesamt für Sicherheit in der Informationstechnik"
+                },
+                "homepage": "https://www.bsi.bund.de",
+                "notifiedFor": [
+                  "CRA"
+                ],
+                "created": "2026-10-27T17:20:56.138Z",
+                "lastChange": "2026-10-27T17:20:56.145Z"
+              }
+            ]
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-signing-keys-out-of-order",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "The signing keys of DE*GEF in reverse order: not in the ordinal order of their identifications; the version keeps its eTags.",
+      "reason": "'chargingStationOperators[0].signingKeys' is not written as the content holds it: its elements are in the order the content holds them in!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/chargingStationOperators/0/signingKeys",
+            "value": [
+              {
+                "@id": "c3b4e6c490cda6c4baa776fc89ff0ff9151b159eb87ad57aff9972f5c86b65a3",
+                "key": "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",
+                "notAfter": "2027-10-27T17:20:49.271Z",
+                "usages": [
+                  "party"
+                ]
+              },
+              {
+                "@id": "7391aeed930fd9949061be9c5abe9eefc389a8466015f7d1fefc935c1c5eee65",
+                "key": "owEHAzgwIFkHoH+AnSKAN/MauRtyYBV3KAFHqX+mxFJnj3+G4xudGMqxIkWEzfcehozAUCMat6TVRWbETmaJFp0mXQPte3rsHTq95SnOwPd2BdZB6KJfLwhF+KNQOFCzH3ab/O7cyhKQLLLO+b8UXmLoi954LVzBnGzguekQvr+mqHNvwzLYPZqsSNleFbWAcpFMkfE4yQBjgjneKKBwAxypPUbx4kwJ8/Nforj1Dgx6UsDV2vYOB8udLLWAkz8TPBwPDsKTAqe3vbB//dFz6Lj5Pit7eryQzHtrRnk3QoGcnB/Ht7FUxCjYtNxFfIvTVOfq8aeAS/rqME1vjmAPD1PknMl4sY6yhlp1CqcTIvKQJ7ClCsTzUInmsK75OIC6X4OB1d+twS1GZFP4mVKJsxKbqpj+0o2jsX8HxWx7RkmQuWynNwBhpy5w8tE/v3YNzWnjp7NCtTr8yC4psu0u3WgpzhO/dXyi1TWVrEMAyqOJGBFSA8TFe1zUgE7+C89aCNA0rAc+7sG0JuKjri2lwzlfhG6AOxes4RbbT3MrVstOoIYYDIiul2p349k9sqMPAL81oESFiZoyMuD8Z0AFiwUUkiLgHhdci+6e1YGyvPgXN2FdlzGGmHBHtK4ThnDeB2xGbnapY7MLJrqEWKvqjw4BLf6GXr7HQlnK2JP3X4+3bBxYLao47aqKqUW8mFpjiNB2261HvZlEU1Sa+fVYCp1UpOtCNBjRA2N/IXeHnbEu/uX/oEptWDlRLRXKYUxUCYi40sbqimQ2rt+Yl7r20NhhOo8k8j0HdU38bhXBY/wzmirkWyB7FDEmhB7N38jTohRla1IN6gdteXbHOWnqibSbmVK2zJ/zI7zqGLyl7uHZT+aTz8Tg2iXCxxMy/U27/RDY9IULKDMJBFpkw/k6aULv3BsXepHETMTAkPH1llmKkJR8rXtFr+tTCfmKqb/VRfw2JXr6n0WPrCXqK5Y7yQYvCfNA0+SwFO1rrn1Fr//iVsx8lsv49jG9SyjojoAUeIphvTgFxiJcYwpwsrXGSMbiTuGXCdnSiqu2vogyO9QuFQG9MDn8ESyzufNnP26Yr0wLEo59i50rm66TmaNKpfy3ighUf3P47TEiV4wj/vEjdAYB5d9t1n0PsjUtQY1ZwX1V/KM+LRVHYwDzIlNYzXsACEerjDE7YvHvNdHnVG+jTBoRVS2/43iHs+AEJt0wtPLPDDIL6r9yG2OcN32eJ/Ku7I0/g7Cmbsyr4oia0Y1ZaZ9OAhp0GIZTYOaP5bCGP9YBklCShJ7Wh6PCLai0q7ZQlRfxtOa5KTm/D0JvEHEVl2O0PISbWTaShuiXLX07CRPKsf3ORKnsDK9w777Vk+vmcSRaiGbuqqM7XGhhu5409LV6n2tU1/fvB7hshzvgw0E8Bj8wtpWZy6XrN4bXOT6g7evlVW8Bp9KdOGwzV+OBnTfia049qJQlx42QeVV1uIYrIqNmDa2jd8HNY3QKLYGEgn9YkcN3tEjYUW4LOv03ZoRox+h4roRD4jWt65N+aWZRJVjVISavIPM1tUVkh99gmEiWw2lN+DKA85C3iAcEaOi45gK4HCxAQNWrsAC16SW2y9LW34ORvz11ayPyJcElOlV+pL6Xit1Pn6S3ZLaSrsw1KSRUz5MCtmo8+/71Z2C7pITxoBwGat4MxURYoELw+Rzs2cBE4/dDqMcRE7MWeQDhP//UfKyJ02jXWxM6AV82pYLMHxtguY8rDKDjwqrwDyXmYG9bFWRJaVaHebnen0FBtKfWPrCEX3DMK9tiWHICZXGjPuvN4wQblExarNsV+DA9lInz7zpPNCuxGXOJQtybzterEdpBiQQThJq4SLd3DcK5FTaCH9gTsEGWnfoAL9WQ7NxXVvyWtX5VN0iUaXY/X1ygv+mrvPmIhtHcOS62TUEjqzlPWM3LeflD/P0o2s4AGO8k6ePkNyQ4btFhD7QK9SYFXJE4fWqOEx/6ZJEMHbUT+3j1dMan9pMVUk7wytbqhtlgKcAd0UeX6CHQvc9a5Ql8ialA1GyW3VqxumnP4/x16W6xygGV2S2NH13tHKdOL2B4Qtn9p2Ee4o3SZfrt/hV+r1VJVRAWu+8j7vOXEyWX1UdqKYkkOO6ExR25Tg+sSwbsHDYGRHhmE+AgGEbFzm97+VvKxBR+AcsRsQWKa+kwO3lSZ+xh/DH+DXh4sZGRkKZpwqTmVR6sZrRvDgZakDzzXaqZITF1+El0kqAoJqh+CUd1I1tAmttgNbpRq7ipllMD28g9SK0V8ZTnbaCPB0qzvnRYHyWcDE0nGMf91FK0OEIq++Dq4Ixf09TLIPfFJFL1DosQMH/he2ctkrWhrs6Yc4sDJInJn+oU5EaIQshakWbSIBQsEAOAzscvW9bQ8XxgSxXURRuOP5MY14ANX+rSjf/KonJJy6sdac9nL5AyJ60vP2vPFKn6AcZkML7pok31nqc4Y/UBpIM+TRbUlLn9g2sqvcj+JeeLSbirXhHji+XlML6LA8w4mLADKJy6a80Odw3csVSXufNXDxaFeUyxOH8FJXguSqZFiqjAlWnDpMSZ7DOI6GxmFleJCytSiL5Imj4+4gBBP/ZCx3Cc3KD74Lsf",
+                "notAfter": "2027-10-27T17:20:49.271Z",
+                "usages": [
+                  "infrastructure"
+                ]
+              },
+              {
+                "@id": "1cf5b42ec174e163cd2ca721d0f5357e162d61caf5f869f776f64b2919b33811",
+                "key": "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",
+                "notAfter": "2027-10-27T17:20:49.271Z",
+                "usages": [
+                  "priceStatements",
+                  "tariffs"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-identity-keys-out-of-order",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "The identity keys of DE*GEF in reverse order: not in the ordinal order of their identifications; the version keeps its eTags.",
+      "reason": "'chargingStationOperators[0].identityKeys' is not written as the content holds it: its elements are in the order the content holds them in!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/chargingStationOperators/0/identityKeys",
+            "value": [
+              {
+                "@id": "5ec5a61acd812c6bfb4713aeeebfbf4f48c516a179a529e7af2763600f27796a",
+                "key": "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"
+              },
+              {
+                "@id": "345d0745d467d50f97d20376068f1bafb1f36166eb5ca9c0409b484a43b89550",
+                "key": "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"
+              }
+            ]
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-payment-options-out-of-order",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingPool.md",
+      "description": "DE*GEF*P2 names the payment options SMS and Cash, in this order: not in the ordinal order of their texts.",
+      "reason": "'chargingStationOperators[0].chargingPools[1].paymentOptions' is not written as the content holds it: its elements are in the order the content holds them in!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/1/paymentOptions",
+            "value": [
+              "SMS",
+              "Cash"
+            ]
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-payment-options-ordinal",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingPool.md",
+      "description": "DE*GEF*P2 names the payment options bitcoin and SMS, in this order: alphabetical regardless of case, but in their ordinal order an upper-case letter comes before a lower-case one.",
+      "reason": "'chargingStationOperators[0].chargingPools[1].paymentOptions' is not written as the content holds it: its elements are in the order the content holds them in!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/1/paymentOptions",
+            "value": [
+              "bitcoin",
+              "SMS"
+            ]
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-payment-options-untrimmed",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingPool.md",
+      "description": "DE*GEF*P2 names the payment option ' Cash', with a space before it: the content holds it trimmed.",
+      "reason": "'chargingStationOperators[0].chargingPools[1].paymentOptions' is not written as the content holds it: the texts of its elements are trimmed!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/1/paymentOptions",
+            "value": [
+              " Cash"
+            ]
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-payment-options-empty",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "DE*GEF*P2 names its payment options as an empty array: the content leaves them out; the version keeps its eTags.",
+      "reason": "'chargingStationOperators[0].chargingPools[1].paymentOptions' is not written as the content holds it: a list without elements is left out!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/1/paymentOptions",
+            "value": []
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-signing-keys-empty",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "DE*GEF names its signing keys as an empty array: the content leaves them out.",
+      "reason": "'chargingStationOperators[0].signingKeys' is not written as the content holds it: a list without elements is left out!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/chargingStationOperators/0/signingKeys",
+            "value": []
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-notified-for-none",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "BSI names the legislations it is notified for as an empty array: the content leaves them out.",
+      "reason": "'conformityAssessmentBodies[0].notifiedFor' is not written as the content holds it: a list without elements is left out!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/conformityAssessmentBodies/0/notifiedFor",
+            "value": []
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-description-null",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "DE*GEF*P2 names its description as null: the content leaves an absent value out; the version keeps its eTags.",
+      "reason": "'chargingStationOperators[0].chargingPools[1].description' is not written as the content holds it: a property without a value is left out!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/1/description",
+            "value": null
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-key-context",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "The signing key of DE*GEF for price statements and tariffs, embedded in its party, names its JSON-LD context; the version keeps its eTags.",
+      "reason": "'chargingStationOperators[0].signingKeys[0]' is not written as the content holds it: embedded, an object names no JSON-LD context!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/signingKeys/0/@context",
+            "value": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/publicKey/v1"
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-name-language-upper-case",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "DE*GEF*P1 names its name by the language EN, in upper case: the content keys it by en; the version keeps its eTags.",
+      "reason": "'chargingStationOperators[0].chargingPools[0].name' is not written as the content holds it: a text in languages names each language as Styx writes it, in lower case, with a text!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/chargingStationOperators/0/chargingPools/0/name",
+            "value": {
+              "EN": "Jena Paradies"
+            }
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-name-language-unknown",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "DE*GEF*P1 names its name also in the language xx, which is no known language; the version keeps its eTags.",
+      "reason": "'chargingStationOperators[0].chargingPools[0].name' is not written as the content holds it: a text in languages names each language as Styx writes it, in lower case, with a text!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/name/xx",
+            "value": "Jena Paradies"
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-name-language-not-a-text",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "DE*GEF*P1 names its name also in German, as the number 5: no text; the version keeps its eTags.",
+      "reason": "'chargingStationOperators[0].chargingPools[0].name' is not written as the content holds it: a text in languages names each language as Styx writes it, in lower case, with a text!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/name/de",
+            "value": 5
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-description-language-number",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "The roaming network names its description by the language 10, a number: the content keys it by the lower-case code of a language.",
+      "reason": "'description' is not written as the content holds it: a text in languages names each language as Styx writes it, in lower case, with a text!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/description",
+            "value": {
+              "10": "The roaming network of the examples"
+            }
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-created-offset",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "DE*GEF*P2 was created at 2026-10-27T17:20:29.552Z, given as the same instant with the offset +02:00; the version keeps its eTags.",
+      "reason": "'chargingStationOperators[0].chargingPools[1].created' is not written as the content holds it: a timestamp is UTC to the millisecond, yyyy-MM-ddTHH:mm:ss.fffZ!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/chargingStationOperators/0/chargingPools/1/created",
+            "value": "2026-10-27T19:20:29.552+02:00"
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-key-property-unread",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "The signing key of DE*GEF for price statements and tariffs names the property x, which a key does not have.",
+      "reason": "The public key '1cf5b42ec174e163cd2ca721d0f5357e162d61caf5f869f776f64b2919b33811' must not name the property 'x'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/signingKeys/0/x",
+            "value": 1
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-evtaler-context",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, naming its JSON-LD context, embedded in its operator.",
+      "reason": "'chargingStationOperators[0].evTaler' is not written as the content holds it: embedded, an object names no JSON-LD context!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ],
+              "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/evTalerMerchant/v1"
+            }
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-evtaler-exchange-context",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, its exchange naming its JSON-LD context, embedded in the merchant.",
+      "reason": "'chargingStationOperators[0].evTaler.exchanges[0]' is not written as the content holds it: embedded, an object names no JSON-LD context!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  },
+                  "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/evTalerExchange/v1"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-evtaler-exchanges-out-of-order",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, accepting also the exchange 080MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0 in CHF, after the one of the example: not in the ordinal order of their master public keys.",
+      "reason": "'chargingStationOperators[0].evTaler.exchanges' is not written as the content holds it: its elements are in the order the content holds them in!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                },
+                {
+                  "masterPublicKey": "080MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.ch/",
+                  "currency": "CHF",
+                  "name": {
+                    "en": "Another Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-evtaler-exchange-name-language",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, the name of its exchange by the language EN, in upper case.",
+      "reason": "'chargingStationOperators[0].evTaler.exchanges[0].name' is not written as the content holds it: a text in languages names each language as Styx writes it, in lower case, with a text!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "EN": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-evtaler-property-unread",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, naming the property x, which a merchant does not have.",
+      "reason": "The EV Taler merchant must not name the property 'x'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ],
+              "x": 1
+            }
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-evtaler-exchange-property-unread",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, its exchange naming the property x, which an exchange does not have.",
+      "reason": "Invalid exchange of an EV Taler merchant: The exchange 'F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0' must not name the property 'x'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  },
+                  "x": 1
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-evtaler-merchant-url-no-scheme",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, its merchant base URL without its scheme, taler.gef.example/instances/de-gef/.",
+      "reason": "The merchant base URL 'taler.gef.example/instances/de-gef/' is written as 'https://taler.gef.example/instances/de-gef/'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-evtaler-merchant-url-untrimmed",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, its merchant base URL with a space before and after it.",
+      "reason": "The merchant base URL ' https://taler.gef.example/instances/de-gef/ ' is written as 'https://taler.gef.example/instances/de-gef/'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": " https://taler.gef.example/instances/de-gef/ ",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-evtaler-exchange-url-no-scheme",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, the base URL of its exchange without its scheme, exchange.example.eu/.",
+      "reason": "Invalid exchange of an EV Taler merchant: The base URL 'exchange.example.eu/' of the exchange 'F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0' is written as 'https://exchange.example.eu/'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-evtaler-exchange-currency-untrimmed",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, the currency of its exchange with a space before it, ' EUR'.",
+      "reason": "Invalid exchange of an EV Taler merchant: The currency ' EUR' of the exchange 'F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0' is written as 'EUR'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": " EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi3"
+      ],
+      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+    },
+    {
+      "expected": "refused",
       "id": "checkpointProof-index",
       "kind": "checkpointProof",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 10.4",

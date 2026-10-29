@@ -1,8 +1,8 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `8108522`, Hermod `0fff6c9`, Styx `f494c8cd`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `a3d0220`) take or calculate different things.
+(WWCP_POI3, `libs/WWCP_POI` at `da98e78`, Hermod `0fff6c9`, Styx `f494c8cd`) and the TypeScript port (WWCP_POI.TS,
+`libs/WWCP_POI.TS` at `e47d864`) take or calculate different things.
 
 Each deviation is
 
@@ -37,6 +37,7 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D12](#d12-party-key-usage) | ✅ A version whose charging station operator names a signing key of a usage POI does not know is taken: the keys of a party are read where they are used, not with the version: **fixed** in WWCP_POI.TS `37b34f2` | WWCP_POI.TS | `version-key-usage-unknown` | low | new |
 | [D13](#d13-written-forms) | ✅ A key written otherwise than POI writes it is taken and written again: a `notAfter` with an offset, of a date only or `null`, a COSE key in CBOR that is not deterministic - with an offset and in CBOR that is not deterministic against the `eTags` of the version as published: **fixed** in WWCP_POI `a425530` | WWCP_POI3 | `version-key-not-after-offset`, `version-key-not-after-date`, `version-key-not-after-null`, `version-key-cbor-not-deterministic` | medium (interop) | new |
 | [D14](#d14-body-malformed) | ✅ A conformity assessment body WWCP_POI3 refuses to read is taken: a certificate under a legislation it is not notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice: **fixed** in WWCP_POI.TS `4ff1fc2` | WWCP_POI.TS | `version-body-certificate-not-notified`, `version-body-number-three-digits`, `version-body-notified-for-empty`, `version-body-notified-for-twice` | low | - |
+| [D15](#d15-content-as-held) | A version written otherwise than the content holds it is taken, and written again: what the content orders out of its order, the texts of an ordered list untrimmed, a list given empty, a property given as `null`, an embedded object naming its JSON-LD context, a text in languages keyed otherwise, a timestamp with an offset, a property of a key or of an EV Taler merchant POI does not read, a URL without its scheme - 10 of them against the `eTags` of the version as published | WWCP_POI3 | the 27 `version-held-*` | medium (interop) | new |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
 round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well, and so
@@ -46,8 +47,10 @@ the QI-Digital documents of example A14 (`poi-qidigital.json`), was WWCP_POI3's 
 `9153bc6`. D12, found by the vectors of EV Taler (WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), was WWCP_POI.TS's, and
 is fixed in WWCP_POI.TS `37b34f2`. D13, a key written otherwise than POI writes it, which WWCP_POI3 took and wrote
 again, was WWCP_POI3's, and is fixed in WWCP_POI `a425530`. D14, a conformity assessment body WWCP_POI3 refuses to
-read, was WWCP_POI.TS's, and is fixed in WWCP_POI.TS `4ff1fc2`. Of the 464 vectors both implementations run 422 - the 7 requiring `signing` and the
-13 of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them
+read, was WWCP_POI.TS's, and is fixed in WWCP_POI.TS `4ff1fc2`. D15, a version written otherwise than the content holds
+it, which WWCP_POI3 takes and writes again, is WWCP_POI3's, and open. Of the 491 vectors both implementations run 449 -
+the 7 requiring `signing` and the 13 of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's
+alone - and agree on every one of them but the 27 of D15
 (see
 [What both do alike](#what-both-do-alike)).
 
@@ -476,9 +479,9 @@ deterministic CBOR of its COSE key ("Invalid COSE key: Invalid deterministic CBO
 forms, says that a reader MUST refuse a key of a party written otherwise, and the decisions of its README say so.
 `KeyWrittenFormsTests` holds it. Both refuse all four vectors for what they are about.
 
-**Not covered:** only the key of a party is shown. Whether WWCP_POI3 takes other values of a version written otherwise
-- `created` and `lastChange`, the timestamps of a certificate, decimals - and WWCP_POI.TS refuses them as well, no vector
-shows yet.
+**Covered since:** other values of a version written otherwise, which WWCP_POI3 takes as well and WWCP_POI.TS refuses
+since `5c534d4` - a `created` with an offset among them, a property of a key POI does not read, a key naming its JSON-LD
+context, keys out of their order -: [D15](#d15-content-as-held).
 
 
 <a id="d14-body-malformed"></a>
@@ -520,6 +523,54 @@ WWCP_POI `8108522` and WWCP_POI.TS `9decdb5` (`version-body-notified-for-out-of-
 so; two bodies of the same `notifiedBodyNumber` (S32), a number that is no text and legislations that are no array of
 texts both refuse alike (`version-body-number-twice`, `version-body-number-not-a-text`,
 `version-body-notified-for-not-texts`).
+
+
+<a id="d15-content-as-held"></a>
+## D15. A version written otherwise than the content holds it is taken, and written again
+
+**Vectors:** the 27 `version-held-*` (`poi-refusals.json`): the head of the frozen run with one value written otherwise
+than the content holds it (SPECIFICATION.md 2, Written forms) - with the `eTags` of the version as published where,
+written again, it is that version, else without them. WWCP_POI.TS refuses each, since `5c534d4`, in the words its
+`reason` names - "'<path>' is not written as the content holds it: <how>!", of a key and of an EV Taler merchant in the
+words of where it reads them -; WWCP_POI3 takes all 27, the 10 with the `eTags` as published:
+
+| Written otherwise | Vectors `version-held-*` | How the content holds it |
+|---|---|---|
+| what the content orders, out of its ordinal order | `bodies-out-of-order`, `signing-keys-out-of-order`, `identity-keys-out-of-order` (with the `eTags`), `payment-options-out-of-order` (`SMS`, `Cash`), `payment-options-ordinal` (`bitcoin`, `SMS`: alphabetical regardless of case), `evtaler-exchanges-out-of-order` | "its elements are in the order the content holds them in" |
+| the texts of an ordered list untrimmed | `payment-options-untrimmed` (`' Cash'`) | "the texts of its elements are trimmed" |
+| a list given empty | `payment-options-empty` (with the `eTags`), `signing-keys-empty`, `notified-for-none` | "a list without elements is left out" |
+| a property given as `null` | `description-null` (with the `eTags`) | "a property without a value is left out" |
+| an embedded object naming its JSON-LD context | `key-context` (with the `eTags`), `evtaler-context`, `evtaler-exchange-context` | "embedded, an object names no JSON-LD context" |
+| a text in languages keyed otherwise | `name-language-upper-case` (`EN`), `name-language-unknown` (`xx`), `name-language-not-a-text` (`"de": 5`), all three with the `eTags`, `description-language-number` (`10`), `evtaler-exchange-name-language` | "a text in languages names each language as Styx writes it, in lower case, with a text" |
+| a timestamp with an offset | `created-offset` (the same instant, `+02:00`, with the `eTags`) | "a timestamp is UTC to the millisecond, yyyy-MM-ddTHH:mm:ss.fffZ" |
+| a property POI does not read | `key-property-unread`, `evtaler-property-unread`, `evtaler-exchange-property-unread` | "The public key '…' must not name the property 'x'!", "The EV Taler merchant must not name …", "The exchange '…' must not name …" |
+| a URL without its scheme or untrimmed, a currency untrimmed | `evtaler-merchant-url-no-scheme`, `evtaler-merchant-url-untrimmed`, `evtaler-exchange-url-no-scheme`, `evtaler-exchange-currency-untrimmed` | "The merchant base URL '…' is written as '…'!", "The base URL '…' of the exchange '…' is written as '…'!", "The currency '…' of the exchange '…' is written as '…'!" |
+
+**Where:** WWCP_POI3 reads a version into its entities (`RoamingNetwork.TryParse`) and writes it again in its own
+form - ordered, trimmed, without what is empty or `null` and without the context of what is embedded, a text in
+languages as Styx reads it (a language in any case or by its number, the rest left out without a word), a timestamp
+in UTC, without a property it does not read, a URL with its scheme -, and checks the `eTags` of a version against the
+content it writes, not against the one it was given, as in D13. WWCP_POI.TS hashes what it was given. SPECIFICATION.md 2
+says how the content holds each ("Arrays are in the order the content holds them in", "every other one trimmed",
+"Absent values are left out, also empty arrays", "also where the object is embedded and its JSON leaves `@context`
+out", "multi-language texts keyed by the lower-case code of a known language", "UTC to the millisecond", "URLs with
+their scheme"); that a reader MUST refuse a new value written otherwise (4, New values), and of a version a key of a
+party (D13) and the `notifiedFor` of a body out of its order; of the rest of a version it says nothing. WWCP_POI.TS
+refuses all of it since `5c534d4`, on Achim's decision of 2026-10-29, as D13 decided it for keys: what WWCP_POI takes
+of a version and writes otherwise is refused. It found the cases probing WWCP_POI3 at `8108522` with 201 versions of
+QA; the vectors show them.
+
+**Why it matters:** medium (interop), as D13. The two implementations disagree on whether a version is the one its
+`eTags` and its commit name - for WWCP_POI3, 10 of the vectors are the version as published -, and a reader of
+WWCP_POI3 holds as verified a document whose bytes no commit covers.
+
+**Fix:** say in SPECIFICATION.md 2 that a reader MUST refuse a version not written as the content holds it, as it
+refuses a new value written otherwise; refuse it where WWCP_POI3 reads a version, in the words the vectors' `reason`
+names; then remove D15 from `DEVIATIONS` of the generator.
+
+**Not covered:** what the content writes by the type of a value, which WWCP_POI.TS checks without the types as far as
+it can tell: identifications in upper case, countries, decimals, e-mail addresses, durations. No vector shows yet
+whether WWCP_POI3 takes them written otherwise.
 
 
 ## What both do alike
