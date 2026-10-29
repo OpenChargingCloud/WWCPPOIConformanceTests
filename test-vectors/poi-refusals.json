@@ -1434,6 +1434,486 @@
     },
     {
       "expected": "refused",
+      "id": "version-evtaler-pool-without-merchant",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingPool.md, libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "The charging pool DE*GEF*P1 names the payment option EVTaler, its operator DE*GEF no EV Taler merchant.",
+      "reason": "The charging pool 'DE*GEF*P1' names the payment option 'EVTaler', but its operator 'DE*GEF' has no EV Taler merchant!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/paymentOptions",
+            "value": [
+              "EVTaler"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-merchant-url-http",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, its merchant base URL with http instead of https.",
+      "reason": "The merchant base URL 'http://taler.gef.example/instances/de-gef/' must be an HTTPS URL!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "http://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-merchant-url-user",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, its merchant base URL naming a user.",
+      "reason": "The merchant base URL 'https://gef@taler.gef.example/instances/de-gef/' must not name a user!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://gef@taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-merchant-url-query",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, its merchant base URL with a query.",
+      "reason": "The merchant base URL 'https://taler.gef.example/instances/de-gef/?instance=de-gef' must have neither a query nor a fragment!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/?instance=de-gef",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-merchant-url-no-slash",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, its merchant base URL not ending in '/'.",
+      "reason": "The merchant base URL 'https://taler.gef.example/instances/de-gef' must end with '/'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-merchant-key-lowercase",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, its merchant public key in lower case: the same key, but not as GNU Taler writes it.",
+      "reason": "An EV Taler merchant needs its merchant public key, as GNU Taler writes it, not 'esmbknr5cmzpayh9ad0qnkcpysjse0en5mh4fmpkn683r63hmd3g'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "esmbknr5cmzpayh9ad0qnkcpysjse0en5mh4fmpkn683r63hmd3g",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-merchant-key-last-bits",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, the last character of its merchant public key the next one of the alphabet: 52 characters of 5 bits are 260, a key of 32 bytes 256, the last 4 bits are zero.",
+      "reason": "An EV Taler merchant needs its merchant public key, as GNU Taler writes it, not 'ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3H'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3H",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-exchanges-none",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example without an exchange: an empty array.",
+      "reason": "A merchant accepts at least one exchange!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-exchange-twice",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, its exchange twice.",
+      "reason": "An exchange must not be given twice!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                },
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-exchange-url-http",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, the base URL of its exchange with http instead of https.",
+      "reason": "The base URL of the exchange 'F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0' 'http://exchange.example.eu/' must be an HTTPS URL!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "http://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-exchange-key-lowercase",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, the master public key of its exchange in lower case.",
+      "reason": "An exchange needs its master public key, as GNU Taler writes it, not 'f80mfrg8hvh6r9cq47krfqsjp3t6dbj4k1d9b703rjy3z39tbmj0'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "f80mfrg8hvh6r9cq47krfqsjp3t6dbj4k1d9b703rjy3z39tbmj0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-exchange-currency-xxx",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, the currency of its exchange XXX: the ISO 4217 code of no currency.",
+      "reason": "The currency of the exchange 'F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0' must be an ISO 4217 code, not 'XXX'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "XXX",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-exchange-name-none",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, its exchange without its name.",
+      "reason": "The exchange 'F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0' needs its name, as drivers see it!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-key-usage-unknown",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "A signing key of DE*GEF names the usage zzz besides its own: a usage POI does not know.",
+      "reason": "The usage 'zzz' of the public key '1cf5b42ec174e163cd2ca721d0f5357e162d61caf5f869f776f64b2919b33811' is unknown",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/signingKeys/0/usages/-",
+            "value": "zzz"
+          }
+        ]
+      },
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d12-party-key-usage"
+    },
+    {
+      "expected": "refused",
       "id": "checkpointProof-index",
       "kind": "checkpointProof",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 10.4",

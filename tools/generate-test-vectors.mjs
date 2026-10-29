@@ -69,6 +69,7 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
+    D12: { implementations: [ TYPESCRIPT ], anchor: 'd12-party-key-usage' },
 };
 
 const deviation = (name) => {
@@ -1621,6 +1622,102 @@ function refusalVectors() {
               'The energy meter the certificate PTB-2026-0042 was issued with names no firmware version: none given.',
               "The certified energy meter model 'KDM-500' of 'KERNBERG' must name at least one firmware version!",
               [ { op: 'remove', path: `${ptb0042}/energyMeters/0/firmwareVersions` } ]);
+
+    // ---- Versions: EV Taler (concepts/EVTaler.md, phase 1): the merchant of a charging station operator at a GNU Taler
+    //      merchant backend (EVTalerMerchant and EVTalerExchange of WWCP_POI3) - base URLs HTTPS, without user, query
+    //      and fragment, ending in '/'; public keys as GNU Taler writes them; at least one exchange, each once, with an
+    //      ISO 4217 currency but XXX and its name -, a charging pool naming the payment option EVTaler only with it, and
+    //      signing keys of the usages POI knows, payments among them. The head of the run, which names no merchant, with
+    //      the merchant of the example of ChargingStationOperator.md given, one of its values changed, or with a pool or
+    //      a key changed, without its eTags, as above; the refusal names it (`reason`) in the words of WWCP_POI3.
+    const OPERATOR    = `${DOCS}/ChargingStationOperator.md`;
+    const POOL        = `${DOCS}/ChargingPool.md`;
+    const gefAt       = named('/chargingStationOperators/0', 'DE*GEF');
+    const pool1       = named(`${gefAt}/chargingPools/0`,  'DE*GEF*P1');
+    const evTaler     = JSON.parse(`{${source(OPERATOR).match(/```json\n("evTaler": \{[\s\S]*?\n\})\n```/)?.[1] ?? fail(`${OPERATOR} no longer gives an example of an EV Taler merchant`)}}`).evTaler;
+    const exchange    = evTaler.exchanges?.[0] ?? fail(`${OPERATOR}: the example of an EV Taler merchant names no exchange`);
+    const CROCKFORD   = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+    const lastBitsOf  = (key) => CROCKFORD.indexOf(key.at(-1)) & 0x0F;
+    const merchant    = (changed) => [ { op: 'add', path: `${gefAt}/evTaler`, value: { ...evTaler, ...changed } } ];
+    const withMerchant = twice;
+
+    if (lastBitsOf(evTaler.merchantPublicKey) !== 0 || evTaler.merchantPublicKey.length !== 52)
+        fail(`${OPERATOR}: the merchant public key of the example is no key as GNU Taler writes it`);
+    if ('evTaler' in at(qa, gefAt) || 'paymentOptions' in at(qa, pool1))
+        fail('QA.json: DE*GEF names an EV Taler merchant, or DE*GEF*P1 payment options, already');
+
+    quoted(OPERATOR, 'The base URL of its instance at the merchant backend: HTTPS, without user, query and fragment, ending in `/`', 'what the merchant base URL is');
+    quoted(OPERATOR, "52 characters of Crockford's Base32 in upper case, the last 4 bits zero",                                   'how a public key of GNU Taler is written');
+    quoted(OPERATOR, '1..n exchanges it accepts, in the ordinal order of their `masterPublicKey`, each once.',                    'that a merchant accepts at least one exchange, each once');
+    quoted(OPERATOR, '| `baseURL` | URL | Its base URL, as `merchantBaseURL`. |',                                                 'that the base URL of an exchange is one as the merchant base URL');
+    quoted(OPERATOR, 'The ISO 4217 code of its coins, as the `currency` of a charging tariff; `XXX` is refused.',                 'which currency an exchange names');
+    quoted(OPERATOR, 'Its name as drivers see it, mandatory',                                                                       'that an exchange names its name');
+    quoted(OPERATOR, 'a charging pool or charging pool template of the operator naming `EVTaler` needs `evTaler`',                'that a pool naming EVTaler needs the merchant');
+    quoted(POOL,     'a pool\nnaming it needs the `evTaler` merchant of its [operator]',                                            'that a pool naming EVTaler needs the merchant');
+    quoted(OPERATOR, '`payments` (its `evTaler` merchant) and `party` (its other own properties, rotating its signing keys); everything without. In their ordinal order; unknown ones are refused.',
+           'that the usages of a signing key are those POI knows');
+
+    withMerchant('version-evtaler-pool-without-merchant', `${POOL}, ${OPERATOR}`,
+                 'The charging pool DE*GEF*P1 names the payment option EVTaler, its operator DE*GEF no EV Taler merchant.',
+                 "The charging pool 'DE*GEF*P1' names the payment option 'EVTaler', but its operator 'DE*GEF' has no EV Taler merchant!",
+                 [ { op: 'add', path: `${pool1}/paymentOptions`, value: [ 'EVTaler' ] } ]);
+
+    const merchantURL = (id, description, url, reason) =>
+        withMerchant(id, OPERATOR, `DE*GEF names the EV Taler merchant of the example, its merchant base URL ${description}.`,
+                     `The merchant base URL '${url}' must ${reason}`, merchant({ merchantBaseURL: url }));
+
+    merchantURL('version-evtaler-merchant-url-http',     'with http instead of https', evTaler.merchantBaseURL.replace('https://', 'http://'),                    'be an HTTPS URL!');
+    merchantURL('version-evtaler-merchant-url-user',     'naming a user',              evTaler.merchantBaseURL.replace('https://', 'https://gef@'),               'not name a user!');
+    merchantURL('version-evtaler-merchant-url-query',    'with a query',               `${evTaler.merchantBaseURL}?instance=de-gef`,                               'have neither a query nor a fragment!');
+    merchantURL('version-evtaler-merchant-url-no-slash', "not ending in '/'",          evTaler.merchantBaseURL.replace(/\/$/, ''),                                "end with '/'!");
+
+    withMerchant('version-evtaler-merchant-key-lowercase', OPERATOR,
+                 'DE*GEF names the EV Taler merchant of the example, its merchant public key in lower case: the same key, but not as GNU Taler writes it.',
+                 `An EV Taler merchant needs its merchant public key, as GNU Taler writes it, not '${evTaler.merchantPublicKey.toLowerCase()}'!`,
+                 merchant({ merchantPublicKey: evTaler.merchantPublicKey.toLowerCase() }));
+
+    const lastBitsSet = evTaler.merchantPublicKey.slice(0, -1) + CROCKFORD[CROCKFORD.indexOf(evTaler.merchantPublicKey.at(-1)) + 1];
+    withMerchant('version-evtaler-merchant-key-last-bits', OPERATOR,
+                 'DE*GEF names the EV Taler merchant of the example, the last character of its merchant public key the next one of the alphabet: 52 characters of 5 bits are 260, a key of 32 bytes 256, the last 4 bits are zero.',
+                 `An EV Taler merchant needs its merchant public key, as GNU Taler writes it, not '${lastBitsSet}'!`,
+                 merchant({ merchantPublicKey: lastBitsSet }));
+
+    withMerchant('version-evtaler-exchanges-none', OPERATOR,
+                 'DE*GEF names the EV Taler merchant of the example without an exchange: an empty array.',
+                 'A merchant accepts at least one exchange!',
+                 merchant({ exchanges: [] }));
+
+    withMerchant('version-evtaler-exchange-twice', OPERATOR,
+                 'DE*GEF names the EV Taler merchant of the example, its exchange twice.',
+                 'An exchange must not be given twice!',
+                 merchant({ exchanges: [ exchange, exchange ] }));
+
+    withMerchant('version-evtaler-exchange-url-http', OPERATOR,
+                 'DE*GEF names the EV Taler merchant of the example, the base URL of its exchange with http instead of https.',
+                 `The base URL of the exchange '${exchange.masterPublicKey}' '${exchange.baseURL.replace('https://', 'http://')}' must be an HTTPS URL!`,
+                 merchant({ exchanges: [ { ...exchange, baseURL: exchange.baseURL.replace('https://', 'http://') } ] }));
+
+    withMerchant('version-evtaler-exchange-key-lowercase', OPERATOR,
+                 'DE*GEF names the EV Taler merchant of the example, the master public key of its exchange in lower case.',
+                 `An exchange needs its master public key, as GNU Taler writes it, not '${exchange.masterPublicKey.toLowerCase()}'!`,
+                 merchant({ exchanges: [ { ...exchange, masterPublicKey: exchange.masterPublicKey.toLowerCase() } ] }));
+
+    withMerchant('version-evtaler-exchange-currency-xxx', OPERATOR,
+                 'DE*GEF names the EV Taler merchant of the example, the currency of its exchange XXX: the ISO 4217 code of no currency.',
+                 `The currency of the exchange '${exchange.masterPublicKey}' must be an ISO 4217 code, not 'XXX'!`,
+                 merchant({ exchanges: [ { ...exchange, currency: 'XXX' } ] }));
+
+    withMerchant('version-evtaler-exchange-name-none', OPERATOR,
+                 'DE*GEF names the EV Taler merchant of the example, its exchange without its name.',
+                 `The exchange '${exchange.masterPublicKey}' needs its name, as drivers see it!`,
+                 merchant({ exchanges: [ without(exchange, 'name') ] }));
+
+    const keyAt = `${gefAt}/signingKeys/0`;
+    refuse({ id: 'version-key-usage-unknown', kind: 'version', basis: OPERATOR,
+             description: 'A signing key of DE*GEF names the usage zzz besides its own: a usage POI does not know.',
+             reason: `The usage 'zzz' of the public key '${at(qa, `${keyAt}/@id`)}' is unknown`,
+             document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, { op: 'add', path: `${keyAt}/usages/-`, value: 'zzz' } ]),
+             ...deviation('D12') });
 
     // ---- Checkpoint proofs (10.4).
     const proof4 = jsonRun('published/QA-proof-revision-4.json');

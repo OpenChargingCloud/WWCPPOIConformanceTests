@@ -20,13 +20,13 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `7ee8c7d`, WWCP_POI.TS `7e8949f`, Hermod `0fff6c9`,
+Both harnesses are green against the pinned submodules (WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`, Hermod `0fff6c9`,
 Styx `f494c8cd`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 430 | 452 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 430 | 417 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
+| C# harness (NUnit), WWCP_POI3 | 444 | 466 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 444 | 431 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
@@ -85,8 +85,8 @@ decimals, integers and timestamps, and dropped the custom data of an address).
 | [`libs/Hermod`](https://github.com/Vanaheimr/Hermod) | Below WWCP_POI3 |
 | [`libs/Styx`](https://github.com/Vanaheimr/Styx) | Below Hermod: canonical JSON, deterministic CBOR, COSE - and its README, a source of vectors |
 
-Hermod and Styx are pinned at the commits the RoamingHubCLI pins together with WWCP_POI (`c8535c9`, with WWCP_POI
-`6d955d2`, which adds a concept paper to `7ee8c7d`): Hermod `0fff6c9`, Styx `f494c8cd`. WWCP_POI since `7862c86` needs a
+Hermod and Styx are pinned at the commits the RoamingHubCLI pins together with WWCP_POI (`85b3221`, with WWCP_POI
+`ec3dace`): Hermod `0fff6c9`, Styx `f494c8cd`. WWCP_POI since `7862c86` needs a
 Hermod that checks the origin of a request (`HTTPRequest.AllowsOrigin`). Styx keeps custom data as given since
 `06b592d3` (findings 20 and 21 of the review WWCP_POI.TS made of the C# implementation), which the vectors
 `spec-2-custom-data-*` cover.
