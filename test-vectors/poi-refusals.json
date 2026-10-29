@@ -2336,11 +2336,7 @@
             ]
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2385,11 +2381,7 @@
             ]
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2417,11 +2409,7 @@
             ]
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2447,11 +2435,7 @@
             ]
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2477,11 +2461,7 @@
             ]
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2506,11 +2486,7 @@
             ]
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2529,11 +2505,7 @@
             "value": []
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2556,11 +2528,7 @@
             "value": []
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2583,11 +2551,7 @@
             "value": []
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2606,11 +2570,7 @@
             "value": null
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2629,11 +2589,7 @@
             "value": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/publicKey/v1"
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2654,11 +2610,7 @@
             }
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2677,11 +2629,7 @@
             "value": "Jena Paradies"
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2700,11 +2648,7 @@
             "value": 5
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2729,11 +2673,7 @@
             }
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2752,11 +2692,7 @@
             "value": "2026-10-27T19:20:29.552+02:00"
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2779,11 +2715,7 @@
             "value": 1
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2820,11 +2752,7 @@
             }
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2861,11 +2789,7 @@
             }
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2909,11 +2833,7 @@
             }
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2949,11 +2869,7 @@
             }
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -2990,11 +2906,7 @@
             }
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -3031,11 +2943,7 @@
             }
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -3071,11 +2979,7 @@
             }
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -3111,11 +3015,7 @@
             }
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -3151,11 +3051,7 @@
             }
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
@@ -3191,11 +3087,7 @@
             }
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi3"
-      ],
-      "deviation": "docs/implementation-deviations.md#d15-content-as-held"
+      }
     },
     {
       "expected": "refused",
