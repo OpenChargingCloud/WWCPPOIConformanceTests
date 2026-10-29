@@ -20,7 +20,7 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `72df830`, WWCP_POI.TS `1f914ac`, Hermod `0fff6c9`,
+Both harnesses are green against the pinned submodules (WWCP_POI `72df830`, WWCP_POI.TS `e891049`, Hermod `0fff6c9`,
 Styx `f494c8cd`):
 
 | | Vectors | Passed | Skipped |
@@ -30,7 +30,7 @@ Styx `f494c8cd`):
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
-The two implementations agree on every vector both run but the four of D14, open. The six deviations the vectors found first, where
+The two implementations agree on every vector both run. The six deviations the vectors found first, where
 **WWCP_POI3 took what WWCP_POI.TS refuses**, are fixed in WWCP_POI (D1 and D2 in `2c90847`, D3 in `be07037`, D4 and
 D5 in `6e469a0`, D6 in `65e658d`); D7, the other way round, where **WWCP_POI.TS took what WWCP_POI3 refuses**, in
 WWCP_POI.TS `b9c786e`; D8, found by the histories the generator signs, the other way round as well, in WWCP_POI.TS
@@ -39,7 +39,8 @@ found by the vectors of the QI-Digital documents of example A14, WWCP_POI3's, in
 calibration certificate of a charging station compared with its own serial number, of both, in WWCP_POI in the same
 commit and in WWCP_POI.TS `9153bc6`; D12, found by the vectors of EV Taler, a signing key of a party of a usage POI does
 not know, WWCP_POI.TS's, in WWCP_POI.TS `37b34f2`. D13, a key written otherwise than POI writes it, WWCP_POI3's, in
-WWCP_POI `72df830`. D14, a conformity assessment body WWCP_POI3 refuses to read, WWCP_POI.TS's, is open.
+WWCP_POI `72df830`. D14, a conformity assessment body WWCP_POI3 refuses to read, WWCP_POI.TS's, in WWCP_POI.TS
+`4ff1fc2`.
 Their vectors hold both implementations to it - see
 **[docs/implementation-deviations.md](docs/implementation-deviations.md)**:
 
@@ -58,7 +59,7 @@ Their vectors hold both implementations to it - see
 | D11 | ✅ WWCP_POI.TS compares the calibration certificate of a charging station with its own serial number, and takes it for a station of another serial number, or of none, as WWCP_POI3 did before `bbe8fb8`: fixed in WWCP_POI.TS `9153bc6` |
 | D12 | ✅ WWCP_POI.TS takes a version whose charging station operator names a signing key of a usage POI does not know, which WWCP_POI3 refuses: it read the keys of a party where it used them, not with the version: fixed in WWCP_POI.TS `37b34f2` |
 | D13 | ✅ WWCP_POI3 takes a key written otherwise than POI writes it, and writes it again: a `notAfter` with an offset, of a date only or `null`, a COSE key in CBOR that is not deterministic - with an offset and in CBOR that is not deterministic against the `eTags` of the version as published; WWCP_POI.TS refuses them: fixed in WWCP_POI `72df830` |
-| D14 | WWCP_POI.TS takes a conformity assessment body WWCP_POI3 refuses to read: a certificate under a legislation the body is not notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice: open |
+| D14 | ✅ WWCP_POI.TS takes a conformity assessment body WWCP_POI3 refuses to read: a certificate under a legislation the body is not notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice: fixed in WWCP_POI.TS `4ff1fc2` |
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
 ([`docs/csharp-review.md`](docs/csharp-review.md)), and so does D11, finding 23, which WWCP_POI.TS shares; D1, D2, D7,

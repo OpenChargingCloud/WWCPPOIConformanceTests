@@ -1453,11 +1453,7 @@
             "value": "CRA"
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi.ts"
-      ],
-      "deviation": "docs/implementation-deviations.md#d14-body-malformed"
+      }
     },
     {
       "expected": "refused",
@@ -1480,11 +1476,7 @@
             "value": "102"
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi.ts"
-      ],
-      "deviation": "docs/implementation-deviations.md#d14-body-malformed"
+      }
     },
     {
       "expected": "refused",
@@ -1510,11 +1502,7 @@
             ]
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi.ts"
-      ],
-      "deviation": "docs/implementation-deviations.md#d14-body-malformed"
+      }
     },
     {
       "expected": "refused",
@@ -1540,11 +1528,7 @@
             ]
           }
         ]
-      },
-      "knownDeviations": [
-        "wwcp-poi.ts"
-      ],
-      "deviation": "docs/implementation-deviations.md#d14-body-malformed"
+      }
     },
     {
       "expected": "refused",

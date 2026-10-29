@@ -2,7 +2,7 @@
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
 (WWCP_POI3, `libs/WWCP_POI` at `72df830`, Hermod `0fff6c9`, Styx `f494c8cd`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `1f914ac`) take or calculate different things.
+`libs/WWCP_POI.TS` at `e891049`) take or calculate different things.
 
 Each deviation is
 
@@ -36,7 +36,7 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D11](#d11-station-serial-number) | ✅ The calibration certificate of a charging station is compared with its own serial number: taken for a station of another serial number, or of none: **fixed** in WWCP_POI.TS `9153bc6` | WWCP_POI.TS | `qid-calibration-station-replaced`, `qid-calibration-station-without-serial-number` | low | 23 |
 | [D12](#d12-party-key-usage) | ✅ A version whose charging station operator names a signing key of a usage POI does not know is taken: the keys of a party are read where they are used, not with the version: **fixed** in WWCP_POI.TS `37b34f2` | WWCP_POI.TS | `version-key-usage-unknown` | low | new |
 | [D13](#d13-written-forms) | ✅ A key written otherwise than POI writes it is taken and written again: a `notAfter` with an offset, of a date only or `null`, a COSE key in CBOR that is not deterministic - with an offset and in CBOR that is not deterministic against the `eTags` of the version as published: **fixed** in WWCP_POI `72df830` | WWCP_POI3 | `version-key-not-after-offset`, `version-key-not-after-date`, `version-key-not-after-null`, `version-key-cbor-not-deterministic` | medium (interop) | new |
-| [D14](#d14-body-malformed) | A conformity assessment body WWCP_POI3 refuses to read is taken: a certificate under a legislation it is not notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice | WWCP_POI.TS | `version-body-certificate-not-notified`, `version-body-number-three-digits`, `version-body-notified-for-empty`, `version-body-notified-for-twice` | low | - |
+| [D14](#d14-body-malformed) | ✅ A conformity assessment body WWCP_POI3 refuses to read is taken: a certificate under a legislation it is not notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice: **fixed** in WWCP_POI.TS `4ff1fc2` | WWCP_POI.TS | `version-body-certificate-not-notified`, `version-body-number-three-digits`, `version-body-notified-for-empty`, `version-body-notified-for-twice` | low | - |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
 round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well, and so
@@ -46,9 +46,9 @@ the QI-Digital documents of example A14 (`poi-qidigital.json`), was WWCP_POI3's 
 `9153bc6`. D12, found by the vectors of EV Taler (WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), was WWCP_POI.TS's, and
 is fixed in WWCP_POI.TS `37b34f2`. D13, a key written otherwise than POI writes it, which WWCP_POI3 took and wrote
 again, was WWCP_POI3's, and is fixed in WWCP_POI `72df830`. D14, a conformity assessment body WWCP_POI3 refuses to
-read, is WWCP_POI.TS's and open. Of the 460 vectors both implementations run 418 - the 7 requiring `signing` and the
+read, was WWCP_POI.TS's, and is fixed in WWCP_POI.TS `4ff1fc2`. Of the 460 vectors both implementations run 418 - the 7 requiring `signing` and the
 13 of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them
-but the four of D14 (see
+(see
 [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
@@ -482,7 +482,7 @@ shows yet.
 
 
 <a id="d14-body-malformed"></a>
-## D14. A conformity assessment body WWCP_POI3 refuses to read is taken
+## D14. ✅ A conformity assessment body WWCP_POI3 refuses to read is taken
 
 **Vectors:** `version-body-certificate-not-notified`, `version-body-number-three-digits`,
 `version-body-notified-for-empty` and `version-body-notified-for-twice` (`poi-refusals.json`): the head of the frozen
@@ -508,6 +508,11 @@ network version that WWCP_POI refuses to read, and a station proof gives its ver
 
 **Fix:** refuse them where `RoamingNetwork.parse` reads a body, in the words of WWCP_POI3 and in its order - the
 number, the legislations, then the certificates -; then remove D14 from `DEVIATIONS` of the generator.
+
+**Fixed** in WWCP_POI.TS `4ff1fc2`, with its port of WWCP_POI `d6b0127` (S31, S32) and before the vectors: a body is
+checked as the constructor of `ConformityAssessmentBody` checks it, in its words and its order - also a
+`notifiedBodyNumber` that is no text and a `notifiedFor` that is no array of texts, before them. Both refuse all four
+vectors for what they are about.
 
 **Not covered:** a `notifiedFor` out of its ordinal order, which WWCP_POI3 takes and writes sorted (its constructor
 orders it) - a value written otherwise, as in D13 -, and two bodies of the same `notifiedBodyNumber` (S32), which
@@ -538,7 +543,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 5 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 93 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+- the refusal of 97 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors; among them a price statement naming its EVSE in another spelling, `DE*GEF*E11` for `DE*GEF*E1*1`,
   and a checkpoint naming two statements of one EVSE and sequence, in two spellings or of two prices, a split view
   (12.1, 12.3; WWCP_POI `4680d99`, WWCP_POI.TS `6bcf7f5`), each refused by WWCP_POI3 as a history takes it and by
@@ -564,7 +569,10 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   option `EVTaler` while its operator names no merchant (EV Taler, phase 1; WWCP_POI `ec3dace`, WWCP_POI.TS
   `0aaf713`), refused in the same words, and a version naming a signing key of a usage POI does not know
   (WWCP_POI.TS since `37b34f2`, D12), and a version naming a key not written as POI writes it - its `notAfter` with
-  an offset, of a date only or `null`, its key in CBOR that is not deterministic (WWCP_POI since `72df830`, D13);
+  an offset, of a date only or `null`, its key in CBOR that is not deterministic (WWCP_POI since `72df830`, D13), and a
+  version naming a conformity assessment body WWCP_POI does not read - a certificate under a legislation it is not
+  notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice (WWCP_POI.TS since
+  `4ff1fc2`, D14);
 - all 25 trust vectors: a valid proof, expired attestations, attestations of the future (D3), one holder only
   (also twice), a key that may not sign for the party, a signing key expired before it attested and one that ended
   after it attested, a key certified by another holder's identity key, an uncertified key, other identity keys pinned,

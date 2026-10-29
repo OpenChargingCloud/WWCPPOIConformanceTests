@@ -69,7 +69,6 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
-    D14: { implementations: [ TYPESCRIPT ], anchor: 'd14-body-malformed' },
 };
 
 const deviation = (name) => {
@@ -1631,11 +1630,11 @@ function refusalVectors() {
     // ---- Versions: a conformity assessment body as WWCP_POI takes it (ConformityAssessmentBody of WWCP_POI3): its
     //      notifiedBodyNumber four digits, the legislations it is notifiedFor none empty and each once, every certificate
     //      it issued under a legislation one it is notified for. The head of the run with PTB changed, which is notified
-    //      for MID as 0102, without its eTags, as above. WWCP_POI.TS takes them (D14).
+    //      for MID as 0102, without its eTags, as above (D14, fixed in WWCP_POI.TS 4ff1fc2).
     const ptbAt = named('/conformityAssessmentBodies/2', 'PTB');
     const bodyMalformed = (id, description, reason, patch) =>
                               refuse({ id, kind: 'version', basis: CERTIFICATES, description, reason,
-                                       document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, ...patch ]), ...deviation('D14') });
+                                       document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, ...patch ]) });
     if (JSON.stringify(at(qa, `${ptbAt}/notifiedFor`)) !== '["MID"]' || at(qa, `${ptbAt}/notifiedBodyNumber`) !== '0102' || at(qa, `${ptb0042}/legislation`) !== 'MID')
         fail('QA.json: PTB is no longer notified for MID alone as 0102, or PTB-2026-0042 not issued under MID');
 
