@@ -18,15 +18,18 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-    ChargingStationProof, Checkpoint, CheckpointProof, Commit, POIPublicKey, PriceStatement, RoamingNetwork, TrustAnchor,
-    type JSONValue,
+    ChargingStationProof, Checkpoint, CheckpointProof, Commit, parsePriceStatements, POIPublicKey, PriceStatement, RoamingNetwork, TrustAnchor,
+    verifyChargingStation, verifyCheckpointPriceStatements, verifyPriceStatements, type JSONValue,
 } from '../../../libs/WWCP_POI.TS/src/index.ts';
 
 import { deviates, patched, refusals, runDocument, runText, skipReason, type RefusalVector } from './vectors.ts';
 
 
-/** What a vector of its kind checks, of the given document: throws when it is refused. */
-function check(vector: RefusalVector, document: JSONValue | undefined): void {
+/**
+ * What a vector of its kind checks, of the given document: throws when it is refused. Of the control, every document as
+ * published, also the price statements a checkpoint names.
+ */
+function check(vector: RefusalVector, document: JSONValue | undefined, control = false): void {
 
     const need = <T>(value: T | undefined, what: string): T => {
         if (value === undefined)
@@ -64,6 +67,22 @@ function check(vector: RefusalVector, document: JSONValue | undefined): void {
             return;
         }
 
+        // A price statement against the roaming network as it names its entity: taken by a client with the proof of the
+        // station of the entity, verified against the trust anchor at the time of the vector.
+        case 'entityPriceStatement': {
+            const at       = need(vector.at, 'time');
+            const station  = verifyChargingStation(TrustAnchor.parse(runText(need(vector.trustAnchor, 'trust anchor'))), runDocument(need(vector.stationProof, 'station proof')), { at });
+            verifyPriceStatements(station, [ need(document, 'price statement') ], { at });
+            return;
+        }
+
+        // The price statements a checkpoint names, checked against it.
+        case 'checkpointPriceStatements': {
+            const statements = need(vector.priceStatements, 'price statements');
+            verifyCheckpointPriceStatements(Checkpoint.parse(document), parsePriceStatements(control ? runDocument(statements) : patched(statements)));
+            return;
+        }
+
         case 'trustAnchor':
             TrustAnchor.parse(need(vector.text, 'text'));
             return;
@@ -83,7 +102,7 @@ describe(`poi-refusals.json: what an implementation must refuse`, () => {
 
             // The control: the document as published passes the same check, so the refusal is the patch's doing.
             if (vector.document !== undefined && vector.document.patch.length > 0)
-                check(vector, runDocument(vector.document));
+                check(vector, runDocument(vector.document), true);
 
             if (deviates(vector)) {
                 // Pinned: the known deviation still holds. Once it is refused, remove the marker in the generator.

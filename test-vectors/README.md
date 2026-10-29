@@ -70,12 +70,15 @@ A vector of `poi-refusals.json` names a `kind`, what is checked:
 | `checkpointProof` | the commit proof verifies against the checkpoint | `checkpoint` |
 | `stationProof` | the station proof verifies against the trust anchor at `at` | `trustAnchor` (a file of the run), `at` |
 | `priceStatement` | the price statement verifies with the signing keys of its charging station operator | `keysFrom` (the version) |
+| `entityPriceStatement` | the price statement is taken against the roaming network as it names its entity (12.1), by the route each implementation has: a history started from `snapshot` takes it at `at` (a server), a client takes it with the proof of its station `stationProof`, verified against `trustAnchor` at `at` | `snapshot`, `stationProof`, `trustAnchor`, `at` |
+| `checkpointPriceStatements` | the price statements `priceStatements` are those the checkpoint names, no two of one entity, in any spelling, and sequence that differ (12.3): taken along with it by a history started from `snapshot` of its commit, its signatures unchecked, or checked against it | `priceStatements` (with its own `patch`), `snapshot` |
 | `trustAnchor` | the text of a QR code is read | `text` |
 
-`document` gives the document: `file`, `pointer`, and `patch`, a JSON patch (RFC 6902; `add`, `replace`, `remove`).
-A harness checks the unpatched document first, the control, so that a refusal is the patch's doing. `reason`, where a
-vector gives it, is a text the refusal names, as both implementations word it: a harness checks that it does, so that
-the vector is refused for what it is about.
+`document` gives the document: `file`, `pointer`, and `patch`, a JSON patch (RFC 6902; `add`, `replace`, `remove`). A
+harness checks the unpatched document first, the control, so that a refusal is the patch's doing; of a
+`checkpointPriceStatements`, the checkpoint and its `priceStatements` as published. `reason`, where a vector gives it,
+is a text the refusal names, as both implementations word it: a harness checks that it does, so that the vector is
+refused for what it is about.
 
 ## Histories the generator signs
 

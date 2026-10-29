@@ -1,8 +1,8 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `bbe8fb8`, Hermod `6fb9899`, Styx `1262aa28`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `9153bc6`) take or calculate different things.
+(WWCP_POI3, `libs/WWCP_POI` at `7ee8c7d`, Hermod `0fff6c9`, Styx `f494c8cd`) and the TypeScript port (WWCP_POI.TS,
+`libs/WWCP_POI.TS` at `7e8949f`) take or calculate different things.
 
 Each deviation is
 
@@ -40,7 +40,7 @@ round. D8, found by the histories the generator signs (`poi-histories.json`), wa
 is D9, found by vectors of the certificates WWCP_POI3 refuses to read. All nine are fixed. D10, found by the vectors of
 the QI-Digital documents of example A14 (`poi-qidigital.json`), was WWCP_POI3's again, and is fixed as well. D11 is
 *csharp-review 23*, which WWCP_POI.TS shared: fixed in WWCP_POI in the same commit as D10, and in WWCP_POI.TS
-`9153bc6`. Of the 427 vectors both implementations run 385 - the 7 requiring `signing` and the 13 of
+`9153bc6`. Of the 430 vectors both implementations run 388 - the 7 requiring `signing` and the 13 of
 `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on every one of them (see
 [What both do alike](#what-both-do-alike)).
 
@@ -415,10 +415,14 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 5 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 72 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
-  and trust anchors; among them a station proof naming another revision than its attestations (D2), a change set
-  naming `rebasedFrom` rightly with a change without `oldValue`, which a rebase may have overwritten a concurrent change
-  with (csharp-review 12; WWCP_POI `1717ee2`, WWCP_POI.TS `4e4ec38`), and versions naming twice an identification
+- the refusal of 75 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+  and trust anchors; among them a price statement naming its EVSE in another spelling, `DE*GEF*E11` for `DE*GEF*E1*1`,
+  and a checkpoint naming two statements of one EVSE and sequence, in two spellings or of two prices, a split view
+  (12.1, 12.3; WWCP_POI `4680d99`, WWCP_POI.TS `6bcf7f5`), each refused by WWCP_POI3 as a history takes it and by
+  WWCP_POI.TS as a client checks it, in the same words; a station proof naming another revision than its attestations
+  (D2), a change set naming `rebasedFrom` rightly with a change without `oldValue`, which a rebase may have overwritten
+  a concurrent change with (csharp-review 12; WWCP_POI `1717ee2`, WWCP_POI.TS `4e4ec38`), and versions naming twice an
+  identification
   unique within the roaming network - an EVSE
   group of a provider and an operator of the same prefix, an energy meter, a grid connection point, an energy meter
   template, a transparency software release and a certificate, compared without case - refused for it in the same words
@@ -497,11 +501,17 @@ and of a price statement have; the examples read their files with it (`Helpers.R
 harness calls `POIJSON.Read` directly.
 
 <a id="o2-etag-tryparse"></a>
-### O2. `ETag.TryParse(String)` is less strict than `ETag.Parse(String)`
+### O2. ✅ `ETag.TryParse(String)` is less strict than `ETag.Parse(String)`
 
 `WWCP_POI3/ChangeSet/ETag/ETag.cs`: `Parse` refuses non-canonical Base64 digests, `TryParse` (`:224`) does not check
 the round trip. Read in the code, not shown by a vector: the text form of an ETag is C# API, no wire format both
 implementations share.
+
+**Closed** in WWCP_POI `7ee8c7d`: `TryParse(String)` reads the four parts with `FromTextParts`, as `Parse(String)` does,
+and refuses what it refuses, in its words. It took a Base64 digest with whitespace in it, or with the two unused bits of
+its last character set, which `Convert.FromBase64String` decodes to the same bytes
+(`ETagTests.The_text_form_is_read_by_TryParse_as_strictly_as_by_Parse`, red without the change). Nothing in WWCP_POI3
+calls it; the ETags of JSON and CBOR are read by `Parse(JToken)` and `Parse(CBORValue)`.
 
 <a id="o3-unchecked-history"></a>
 ### O3. ✅ A history without a verifier of signatures

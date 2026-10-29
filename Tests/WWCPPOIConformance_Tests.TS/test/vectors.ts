@@ -181,7 +181,7 @@ export interface PatchOperation { readonly op: 'add' | 'replace' | 'remove', rea
 
 export interface RefusalVector extends Applicability {
     readonly id:           string;
-    readonly kind:         'commit' | 'checkpoint' | 'version' | 'checkpointProof' | 'stationProof' | 'priceStatement' | 'trustAnchor';
+    readonly kind:         'commit' | 'checkpoint' | 'version' | 'checkpointProof' | 'stationProof' | 'priceStatement' | 'entityPriceStatement' | 'checkpointPriceStatements' | 'trustAnchor';
     readonly basis:        string;
     readonly description:  string;
     readonly expected:     'refused';
@@ -191,6 +191,11 @@ export interface RefusalVector extends Applicability {
     readonly at?:          string;
     readonly evseId?:      string;
     readonly keysFrom?:    DocumentRef;
+    /** Of an entityPriceStatement: the proof of the station of the entity (a client), the snapshot of its version (a server). */
+    readonly stationProof?: DocumentRef;
+    readonly snapshot?:    DocumentRef;
+    /** Of a checkpointPriceStatements: the statements the checkpoint names, patched as the checkpoint is. */
+    readonly priceStatements?: DocumentRef & { patch: PatchOperation[] };
     readonly text?:        string;
     /** What the refusal names, as both implementations word it. */
     readonly reason?:      string;

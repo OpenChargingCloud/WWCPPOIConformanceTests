@@ -44,9 +44,20 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 
 
         /// <summary>
-        /// What a vector of its kind checks of the given document: whether it is taken, and why not.
+        /// A history started from the snapshot a vector names, which must start one: it is no document under test.
         /// </summary>
-        private static Boolean Taken(JObject Vector, JToken? Document, out String? Error)
+        private static RoamingNetworkHistory HistoryFrom(JObject Snapshot)
+
+            => RoamingNetworkHistory.TryFromSnapshot((JObject) VectorFiles.RunDocument(Snapshot), out var history, out var error)
+                   ? history
+                   : throw new InvalidOperationException($"The snapshot does not start a history: {error}");
+
+
+        /// <summary>
+        /// What a vector of its kind checks of the given document: whether it is taken, and why not. Of the control, every
+        /// document as published, also the price statements a checkpoint names.
+        /// </summary>
+        private static Boolean Taken(JObject Vector, JToken? Document, out String? Error, Boolean Control = false)
         {
 
             JObject Need(String Name) => (JObject) (Vector[Name] ?? throw new InvalidOperationException($"The vector {Vector["id"]} names no {Name}!"));
@@ -80,6 +91,29 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
                     var keys      = ((JArray) operator_["signingKeys"]!).Cast<JObject>().Select(json => POIPublicKey.TryParse(json, out var key, out var keyError) ? key : throw new InvalidOperationException(keyError)).ToArray();
                     return statement.TryVerify(keys, out Error);
 
+                // A price statement against the roaming network as it names its entity: taken by a history started from
+                // the snapshot of the version it was made against, at the time of the vector, as a server takes one.
+                case "entityPriceStatement":
+                    if (!RoamingNetworkPriceStatement.TryParse((JObject) Document!, out var ofEntity, out Error))
+                        return false;
+                    var result = HistoryFrom(Need("snapshot")).TryAddPriceStatement(ofEntity, out Error, HistoryTests.Time(Text("at")));
+                    Error ??= result == POIPriceStatementResult.Taken ? null : $"The price statement is {result}, not taken!";
+                    return result == POIPriceStatementResult.Taken;
+
+                // The price statements a checkpoint names: taken along with it by a history started from the snapshot of
+                // its commit, which takes it as its first checkpoint, its signatures unchecked as in a replay.
+                case "checkpointPriceStatements":
+                    if (!RoamingNetworkCheckpoint.TryParse((JObject) Document!, out var named, out Error))
+                        return false;
+                    var statements = new List<RoamingNetworkPriceStatement>();
+                    foreach (var json in (JArray) (Control ? VectorFiles.RunDocument(Need("priceStatements")) : VectorFiles.Patched(Need("priceStatements"))))
+                    {
+                        if (!RoamingNetworkPriceStatement.TryParse((JObject) json, out var priceStatement, out Error))
+                            return false;
+                        statements.Add(priceStatement);
+                    }
+                    return HistoryFrom(Need("snapshot")).TryAddCheckpoint(named, out Error, VerifyCheckpointSignature: (_, _) => true, PriceStatements: statements);
+
                 case "trustAnchor":
                     return RoamingNetworkTrustAnchor.TryParse(Text("text"), out _, out Error);
 
@@ -103,7 +137,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 
             // The control: the document as published passes the same check, so the refusal is the patch's doing.
             if (reference is not null && ((JArray) reference["patch"]!).Count > 0)
-                Assert.That(Taken(Vector, VectorFiles.RunDocument(reference), out error), Is.True, () => $"The document as published is refused already: {error}");
+                Assert.That(Taken(Vector, VectorFiles.RunDocument(reference), out error, Control: true), Is.True, () => $"The document as published is refused already: {error}");
 
             if (VectorFiles.Deviates(Vector))
             {

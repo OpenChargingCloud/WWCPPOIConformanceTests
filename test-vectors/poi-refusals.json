@@ -1797,6 +1797,185 @@
     },
     {
       "expected": "refused",
+      "id": "priceStatement-entity-spelling",
+      "kind": "entityPriceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1",
+      "description": "The price statement of the evidence naming its EVSE DE*GEF*E1*1 as DE*GEF*E11, equal to it without \"*\": one entity, named as the roaming network names it.",
+      "reason": "The price statement names the EVSE 'DE*GEF*E1*1' as 'DE*GEF*E11': it has to name it as the roaming network does!",
+      "document": {
+        "file": "driver/evidence-DE_GEF_E1_1.json",
+        "pointer": "/priceStatements/0",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/entityId",
+            "value": "DE*GEF*E11"
+          }
+        ]
+      },
+      "snapshot": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": ""
+      },
+      "stationProof": {
+        "file": "driver/evidence-DE_GEF_E1_1.json",
+        "pointer": "/chargingStationProof"
+      },
+      "trustAnchor": "published/QA-trustAnchor.txt",
+      "at": "2026-10-27T17:20:48.115Z"
+    },
+    {
+      "expected": "refused",
+      "id": "checkpoint-price-statements-spelling",
+      "kind": "checkpointPriceStatements",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.3",
+      "description": "Checkpoint 4 naming, besides the first statement of DE*GEF*E1*1, one of DE*GEF*E11 of the same sequence: one entity in two spellings, two statements of one sequence.",
+      "reason": "names two price statements 0 of the EVSE 'DE*GEF*E11'",
+      "document": {
+        "file": "published/QA-checkpoint-4.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/priceStatements",
+            "value": {
+              "@merkleRoot": "185eb9c4f8d6adefd23e60958317575db18bbe8d530d5e35256a179823adca0f",
+              "@size": 4
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/@id",
+            "value": "ad9d955e9cb1fa4ee8120c8f2e220b69cd8ba4b7daaa6d3397c01387cfde3e00"
+          }
+        ]
+      },
+      "priceStatements": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/-",
+            "value": {
+              "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/priceStatement/v1",
+              "roamingNetworkId": "QA",
+              "entityType": "EVSE",
+              "entityId": "DE*GEF*E11",
+              "priceStatus": {
+                "prices": [
+                  {
+                    "chargingTariffId": "DE*GEF*T_DC",
+                    "elements": [
+                      {
+                        "priceComponents": [
+                          {
+                            "type": "ENERGY",
+                            "price": 0.59,
+                            "stepSize": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "validFrom": "2026-10-27T17:20:45.398Z",
+              "validUntil": "2026-10-27T18:20:45.398Z",
+              "sequence": 0,
+              "after": "d746e046a99c5ef2f4981fe7e31978513b9237eee63e59e806a2a547526e3047",
+              "role": "chargingStationOperator",
+              "signer": "DE*GEF",
+              "signedAt": "2026-10-27T17:20:45.398Z",
+              "algorithm": "ES256",
+              "keyId": "b6f50fff4920d07c49b301fe1b54ab46f8ccaaa1fdda3fd58e70b287f7fd1244",
+              "value": "+n84bYMmXFHMP7VMNMUNsfpWQQO9umTz8f6IUrRuyQvhDXmZeAfXupBhzTG3UyHwGO64mn/jJxu6O0eV6SenIQ=="
+            }
+          }
+        ]
+      },
+      "snapshot": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": ""
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "checkpoint-price-statements-other-price",
+      "kind": "checkpointPriceStatements",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.3",
+      "description": "Checkpoint 4 naming, besides the first statement of DE*GEF*E1*1, another one of the same sequence at 0.49 €/kWh: two statements of one sequence.",
+      "reason": "names two price statements 0 of the EVSE 'DE*GEF*E1*1'",
+      "document": {
+        "file": "published/QA-checkpoint-4.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/priceStatements",
+            "value": {
+              "@merkleRoot": "1688edd8b6503800b8e59986d113063d3f4e45e67537159f2aaa33ae0b58de9e",
+              "@size": 4
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/@id",
+            "value": "02b41e3cc930e739405fa6e6b3d9240c74927451c853851b8bfa7c2e7f8bfbe2"
+          }
+        ]
+      },
+      "priceStatements": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/-",
+            "value": {
+              "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/priceStatement/v1",
+              "roamingNetworkId": "QA",
+              "entityType": "EVSE",
+              "entityId": "DE*GEF*E1*1",
+              "priceStatus": {
+                "prices": [
+                  {
+                    "chargingTariffId": "DE*GEF*T_DC",
+                    "elements": [
+                      {
+                        "priceComponents": [
+                          {
+                            "type": "ENERGY",
+                            "price": 0.49,
+                            "stepSize": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "validFrom": "2026-10-27T17:20:45.398Z",
+              "validUntil": "2026-10-27T18:20:45.398Z",
+              "sequence": 0,
+              "after": "d746e046a99c5ef2f4981fe7e31978513b9237eee63e59e806a2a547526e3047",
+              "role": "chargingStationOperator",
+              "signer": "DE*GEF",
+              "signedAt": "2026-10-27T17:20:45.398Z",
+              "algorithm": "ES256",
+              "keyId": "b6f50fff4920d07c49b301fe1b54ab46f8ccaaa1fdda3fd58e70b287f7fd1244",
+              "value": "+n84bYMmXFHMP7VMNMUNsfpWQQO9umTz8f6IUrRuyQvhDXmZeAfXupBhzTG3UyHwGO64mn/jJxu6O0eV6SenIQ=="
+            }
+          }
+        ]
+      },
+      "snapshot": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": ""
+      }
+    },
+    {
+      "expected": "refused",
       "id": "trustAnchor-prefix",
       "kind": "trustAnchor",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 8.6",

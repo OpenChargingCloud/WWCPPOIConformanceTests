@@ -1656,6 +1656,78 @@ function refusalVectors() {
     refuse({ id: 'priceStatement-sequence',    kind: 'priceStatement', basis: `${SPEC}, 12.1`, description: 'Another sequence.',                     document: patched('published/QA-checkpoint-4-priceStatements.json', '/0', [ { op: 'replace', path: '/sequence', value: 7 } ]), keysFrom: { file: 'published/QA-checkpoint-4-snapshot.json', pointer: '/roamingNetwork' } });
     refuse({ id: 'priceStatement-entity',      kind: 'priceStatement', basis: `${SPEC}, 12.1`, description: 'Another EVSE.',                         document: patched('published/QA-checkpoint-4-priceStatements.json', '/0', [ { op: 'replace', path: '/entityId', value: 'DE*GEF*E1*2' } ]), keysFrom: { file: 'published/QA-checkpoint-4-snapshot.json', pointer: '/roamingNetwork' } });
 
+    // ---- A price statement names its entity as the roaming network does (12.1): identifications equal without "*",
+    //      whitespace and case are one entity with one chain. The statement of the evidence of example A10, made against
+    //      revision 13, checked as each implementation has it: taken by a history started from the snapshot of checkpoint
+    //      4 of revision 13 (a server, WWCP_POI3), and by a client with the proof of its station the evidence holds,
+    //      verified against the trust anchor of epoch 1 when charging began (WWCP_POI.TS).
+    quoted(SPEC, 'case, as `DE*GEF*E11` and `DE*GEF*E1*1`, are one entity with one chain; a statement naming it in another', 'that a statement names its entity as the roaming network does');
+
+    const EVIDENCE        = 'driver/evidence-DE_GEF_E1_1.json';
+    const CP4             = 'published/QA-checkpoint-4.json';
+    const CP4_STATEMENTS  = 'published/QA-checkpoint-4-priceStatements.json';
+    const CP4_SNAPSHOT    = 'published/QA-checkpoint-4-snapshot.json';
+    const evidence        = jsonRun(EVIDENCE);
+    const cp4             = rawRun(CP4);
+
+    if (evidence.priceStatements[0].entityId !== 'DE*GEF*E1*1' || evidence.priceStatements[0].after !== cp4['@id'] ||
+        evidence.chargingStationProof.revision !== 13 || jsonRun(CP4_SNAPSHOT).commit.revision !== 13 || jsonRun(CP4_SNAPSHOT).commit['@id'] !== cp4.commitId)
+        fail(`${EVIDENCE}: no longer the statement of DE*GEF*E1*1 made after checkpoint 4, of revision 13, with a proof of revision 13`);
+
+    const ofEntity = { snapshot: { file: CP4_SNAPSHOT, pointer: '' }, stationProof: { file: EVIDENCE, pointer: '/chargingStationProof' }, trustAnchor: 'published/QA-trustAnchor.txt', at: evidence.chargingStarted };
+
+    refuse({ id: 'priceStatement-entity-spelling', kind: 'entityPriceStatement', basis: `${SPEC}, 12.1`, description: 'The price statement of the evidence naming its EVSE DE*GEF*E1*1 as DE*GEF*E11, equal to it without "*": one entity, named as the roaming network names it.',
+             reason: "The price statement names the EVSE 'DE*GEF*E1*1' as 'DE*GEF*E11': it has to name it as the roaming network does!",
+             document: patched(EVIDENCE, '/priceStatements/0', [ { op: 'replace', path: '/entityId', value: 'DE*GEF*E11' } ]), ...ofEntity });
+
+    // ---- The price statements a checkpoint names (12.3): no two of one entity, in any spelling, and sequence that differ.
+    //      Checkpoint 4 of the run, its tree of statements calculated anew over its three and one more - the first of
+    //      DE*GEF*E1*1 named DE*GEF*E11, or with another price -, its @id with it; checked as each implementation has it:
+    //      taken along with the checkpoint by a history started from the snapshot of checkpoint 4, commit and checkpoint
+    //      signatures unchecked (WWCP_POI3), and checked against the checkpoint (WWCP_POI.TS). The second statement of a
+    //      split view is never signed: both refuse it before they look at its signature.
+    quoted(SPEC, 'valid at `signedAt`, and no two of one entity (12.1) and sequence differ.', 'that a checkpoint names no two statements of one entity and sequence that differ');
+    quoted(SPEC, 'identifications, then of their sequences; a leaf is the 32 bytes of the digest of a statement. It is part', 'the leaves of the tree of the price statements of a checkpoint');
+
+    const digestOf     = (statement) => sha256(utf8(canonical({ '@context': CONTEXTS.priceStatement, ...without(statement, 'value') })));
+    const statementsIn = (statements) => statements.map(statement => ({ statement, digest: digestOf(statement) })).
+                                                    sort((left, right) => (left.statement.entityType < right.statement.entityType ? -1 : left.statement.entityType > right.statement.entityType ? 1 : 0) ||
+                                                                          (left.statement.entityId   < right.statement.entityId   ? -1 : left.statement.entityId   > right.statement.entityId   ? 1 : 0) ||
+                                                                          (numberOf(left.statement.sequence) - numberOf(right.statement.sequence)) ||
+                                                                          (left.digest < right.digest ? -1 : 1));
+    const treeOf       = (statements) => ({ '@merkleRoot': mth(hashOf('sha256'), statementsIn(statements).map(({ digest }) => Buffer.from(digest, 'hex'))).toString('hex'), '@size': statements.length });
+    const statements4  = rawRun(CP4_STATEMENTS);
+
+    anchor('the tree of the price statements of checkpoint 4', JSON.stringify(treeOf(statements4)), JSON.stringify({ '@merkleRoot': cp4.priceStatements['@merkleRoot'], '@size': numberOf(cp4.priceStatements['@size']) }));
+    anchor('the identification of checkpoint 4', checkpointIdOf(cp4, 'sha256'), cp4['@id']);
+
+    const splitView = (id, description, reason, forged) => {
+        // The statement as the vector writes it and every reader reads it: JSON, its numbers written as JavaScript writes them.
+        const written  = parseRaw(JSON.stringify(forged));
+        const tree     = treeOf([ ...statements4, written ]);
+        const ordered  = statementsIn([ ...statements4, written ]).map(({ digest }) => digest);
+        if (ordered.indexOf(digestOf(statements4[0])) > ordered.indexOf(digestOf(written)))
+            fail(`${id}: the second statement of the split view is not checked after the first one`);
+        refuse({ id, kind: 'checkpointPriceStatements', basis: `${SPEC}, 12.3`, description, reason,
+                 document: patched(CP4, '', [ { op: 'replace', path: '/priceStatements', value: tree }, { op: 'replace', path: '/@id', value: checkpointIdOf({ ...cp4, priceStatements: tree }, 'sha256') } ]),
+                 priceStatements: patched(CP4_STATEMENTS, '', [ { op: 'add', path: '/-', value: forged } ]),
+                 snapshot: { file: CP4_SNAPSHOT, pointer: '' } });
+    };
+
+    const first4       = jsonRun(CP4_STATEMENTS)[0];
+    if (first4.entityId !== 'DE*GEF*E1*1' || first4.sequence !== 0)
+        fail(`${CP4_STATEMENTS}#/0: no longer the first statement of DE*GEF*E1*1`);
+
+    splitView('checkpoint-price-statements-spelling', 'Checkpoint 4 naming, besides the first statement of DE*GEF*E1*1, one of DE*GEF*E11 of the same sequence: one entity in two spellings, two statements of one sequence.',
+              "names two price statements 0 of the EVSE 'DE*GEF*E11'", { ...first4, entityId: 'DE*GEF*E11' });
+
+    // Another price, its digest after the one of the first statement: of one entity and sequence, the statements are in
+    // the order of their digests, and the first one of the two is checked before the second one.
+    const otherPrice   = [ 0.49, 0.59, 0.69, 0.79, 0.89, 0.99 ].map(price => { const forged = structuredClone(first4); forged.priceStatus.prices[0].elements[0].priceComponents[0].price = price; return forged; }).
+                             find(forged => digestOf(parseRaw(JSON.stringify(forged))) > digestOf(rawRun(CP4_STATEMENTS)[0]) && JSON.stringify(forged) !== JSON.stringify(first4)) ?? fail('no other price of a digest after the first statement');
+    splitView('checkpoint-price-statements-other-price', `Checkpoint 4 naming, besides the first statement of DE*GEF*E1*1, another one of the same sequence at ${otherPrice.priceStatus.prices[0].elements[0].priceComponents[0].price} €/kWh: two statements of one sequence.`,
+              "names two price statements 0 of the EVSE 'DE*GEF*E1*1'", otherPrice);
+
     // ---- Trust anchors (8.6): the text of the QR code.
     const qr = readRun('published/QA-trustAnchor.txt').trim();
     refuse({ id: 'trustAnchor-prefix',         kind: 'trustAnchor', basis: `${SPEC}, 8.6`, description: 'Another version of the QR code.',        text: qr.replace('WWCP/TA-2:', 'WWCP/TA-1:') });
