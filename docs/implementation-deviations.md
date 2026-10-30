@@ -2,7 +2,7 @@
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
 (WWCP_POI3, `libs/WWCP_POI` at `1de4dff`, Hermod `0fff6c9`, Styx `f494c8cd`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `b35427d`) take or calculate different things.
+`libs/WWCP_POI.TS` at `fb0562f`) take or calculate different things.
 
 Each deviation is
 
@@ -578,12 +578,13 @@ WWCP_POI.TS as well - against `3de830a` alone, these seven vectors were refused 
 2, Written forms, says that a reader MUST refuse a version written otherwise; `VersionWrittenFormTests` holds it. Both
 refuse all 27 vectors for what they are about.
 
-**Not covered:** WWCP_POI3 compares all of the content; WWCP_POI.TS what it can tell without the types of the values,
-since `6f48ab1` also an entity without its `lastChange`, a party without its name, an empty text in languages, a
-certificate without its lists of releases and an `@id` given as a number. So WWCP_POI3 refuses, written otherwise,
-what WWCP_POI.TS still takes: data licenses given by their identifications alone (`dataLicenseIds`), which it writes as
-`dataLicenses`; a property no type defines; what the content writes by the type of a value - identifications in upper
-case, countries, decimals, a coordinate with a trailing zero, e-mail addresses, durations. No vector shows them yet.
+**Not covered:** WWCP_POI3 compares all of the content. WWCP_POI.TS, since `fb0562f`, walks a version as WWCP_POI3
+`3de830a` writes it again (`notWritten`, after `FirstNotWritten`), in its words: also data licenses given by their
+identifications alone (`dataLicenseIds`), which WWCP_POI3 writes as `dataLicenses`, and a property no type writes,
+"the content leaves it out"; a `lastChange` or the name of a party left out, an identification of a charging station
+operator in upper case, a coordinate not as the double it is, a URL without its scheme, "the content holds it as '…'";
+the seven of the table in its own words. Its commit probed it against WWCP_POI3 `3de830a` with 1257 versions of QA,
+which hold no country, e-mail address or duration. No vector here shows these yet.
 
 
 ## What both do alike
