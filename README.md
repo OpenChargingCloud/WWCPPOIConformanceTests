@@ -20,7 +20,7 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `22c7aa8`, WWCP_POI.TS `e47d864`, Hermod `0fff6c9`,
+Both harnesses are green against the pinned submodules (WWCP_POI `1de4dff`, WWCP_POI.TS `b35427d`, Hermod `0fff6c9`,
 Styx `f494c8cd`):
 
 | | Vectors | Passed | Skipped |
@@ -41,7 +41,7 @@ commit and in WWCP_POI.TS `9153bc6`; D12, found by the vectors of EV Taler, a si
 not know, WWCP_POI.TS's, in WWCP_POI.TS `37b34f2`. D13, a key written otherwise than POI writes it, WWCP_POI3's, in
 WWCP_POI `a425530`. D14, a conformity assessment body WWCP_POI3 refuses to read, WWCP_POI.TS's, in WWCP_POI.TS
 `4ff1fc2`. D15, a version written otherwise than the content holds it, WWCP_POI3's, in
-WWCP_POI `22c7aa8`.
+WWCP_POI `3de830a` and `1de4dff`.
 Their vectors hold both implementations to it - see
 **[docs/implementation-deviations.md](docs/implementation-deviations.md)**:
 
@@ -61,7 +61,7 @@ Their vectors hold both implementations to it - see
 | D12 | ✅ WWCP_POI.TS takes a version whose charging station operator names a signing key of a usage POI does not know, which WWCP_POI3 refuses: it read the keys of a party where it used them, not with the version: fixed in WWCP_POI.TS `37b34f2` |
 | D13 | ✅ WWCP_POI3 takes a key written otherwise than POI writes it, and writes it again: a `notAfter` with an offset, of a date only or `null`, a COSE key in CBOR that is not deterministic - with an offset and in CBOR that is not deterministic against the `eTags` of the version as published; WWCP_POI.TS refuses them: fixed in WWCP_POI `a425530` |
 | D14 | ✅ WWCP_POI.TS takes a conformity assessment body WWCP_POI3 refuses to read: a certificate under a legislation the body is not notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice: fixed in WWCP_POI.TS `4ff1fc2` |
-| D15 | ✅ WWCP_POI3 takes a version written otherwise than the content holds it, and writes it again: what the content orders out of its order, ordered texts untrimmed, a list given empty, a property `null`, an embedded object naming its JSON-LD context, a text in languages keyed otherwise, a timestamp with an offset, a property of a key or an EV Taler merchant POI does not read, a URL without its scheme (27 vectors `version-held-*`, 10 against the `eTags` of the version as published); WWCP_POI.TS refuses them since `5c534d4`: fixed in WWCP_POI `22c7aa8` |
+| D15 | ✅ WWCP_POI3 takes a version written otherwise than the content holds it, and writes it again: what the content orders out of its order, ordered texts untrimmed, a list given empty, a property `null`, an embedded object naming its JSON-LD context, a text in languages keyed otherwise, a timestamp with an offset, a property of a key or an EV Taler merchant POI does not read, a URL without its scheme (27 vectors `version-held-*`, 10 against the `eTags` of the version as published); WWCP_POI.TS refuses them since `5c534d4`: fixed in WWCP_POI `3de830a` and `1de4dff` |
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
 ([`docs/csharp-review.md`](docs/csharp-review.md)), and so does D11, finding 23, which WWCP_POI.TS shares; D1, D2, D7,
@@ -94,7 +94,7 @@ decimals, integers and timestamps, and dropped the custom data of an address).
 | [`libs/Styx`](https://github.com/Vanaheimr/Styx) | Below Hermod: canonical JSON, deterministic CBOR, COSE - and its README, a source of vectors |
 
 Hermod and Styx are pinned at the commits the RoamingHubCLI pins together with WWCP_POI (`e1b9d63`, with WWCP_POI
-`41b1fbc`, on which `22c7aa8` builds): Hermod `0fff6c9`, Styx `f494c8cd`. WWCP_POI since
+`41b1fbc`, on which `1de4dff` builds): Hermod `0fff6c9`, Styx `f494c8cd`. WWCP_POI since
 `7862c86` needs a Hermod that checks the origin of a request (`HTTPRequest.AllowsOrigin`). Styx keeps custom data as
 given since `06b592d3` (findings 20 and 21 of the review WWCP_POI.TS made of the C# implementation), which the vectors
 `spec-2-custom-data-*` cover.

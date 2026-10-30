@@ -1668,7 +1668,7 @@ function refusalVectors() {
     const bsiAt = named('/conformityAssessmentBodies/0', 'BSI');
     if ('notifiedBodyNumber' in at(qa, bsiAt))
         fail('QA.json: BSI names a notified body number already');
-    quoted(SPEC,         'A reader MUST refuse a version not written so',                               'that a reader refuses a version not written as the content holds it');
+    quoted(SPEC,         'and the `notifiedFor`\n  of a conformity assessment body out of its ordinal order are refused', 'that a reader refuses a notifiedFor out of its ordinal order');
     quoted(SPEC,         '`measurands`, `notifiedFor`, `cardTypes`',                                    'that the content holds the legislations of a body in their ordinal order');
     quoted(CERTIFICATES, '- Two bodies can not have the same `notifiedBodyNumber`.',                     'that a notified body number names one body');
 
@@ -1864,7 +1864,7 @@ function refusalVectors() {
     quoted(SPEC, 'also where the object is embedded and its JSON leaves `@context` out',                                 'that an embedded object leaves its JSON-LD context out');
     quoted(SPEC, '- **Texts:** multi-language texts keyed by the lower-case code of a known language',                  'how a text in languages is keyed');
     quoted(SPEC, 'URLs with their scheme (`https://` unless given)',                                                    'that URLs are written with their scheme');
-    quoted(SPEC, 'A reader MUST refuse a version not written so, as it refuses a new value',                            'that a reader refuses a version not written as the content holds it');
+    quoted(SPEC, 'A reader MUST refuse a version written otherwise, as it refuses a new\n  value written otherwise',          'that a reader refuses a version not written as the content holds it');
     quoted(POOL, 'How charging can be paid: `Free`, `Contract`, `Direct`, `Cash`, `CreditCard`, `DebitCard`, `PrepaidCard`, `SMS`', 'which payment options POI knows');
     if (!ordinally(bodies.map(body => body['@id'])) || !ordinally(signingKeys.map(key => key['@id'])) || !ordinally(identities.map(key => key['@id'])) || identities.length < 2)
         fail('QA.json: the conformity assessment bodies, or the keys of DE*GEF, are not in the ordinal order of their identifications, or DE*GEF has fewer than two identity keys');
