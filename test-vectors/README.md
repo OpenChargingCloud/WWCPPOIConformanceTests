@@ -37,6 +37,35 @@ run of the examples makes new keys, so every digest of another run differs: this
 proofs are valid. A document is named by `file` (relative to the run) and `pointer`, a JSON pointer (RFC 6901) into
 it, `""` for the whole file.
 
+## The fixtures of ChargyWebApp
+
+`runs/chargy-fc513cd/` holds what ChargyWebApp at commit `fc513cd` has in `tests/fixtures/POISession`, `POIHistory`,
+`POIPrices`, `POIPublication` and `POITrustTransitions`, byte for byte: the documents of the verifier extensions of
+WWCP_POI.TS 0.2.0, which WWCP_POI3 has since WWCP_POI `89d2e02` (`WWCP_POI3/Verifier`) - the key of the meter of an
+EVSE, historical meter evidence, prices bound to a session, receipts of witnesses, trust transitions, the keys a CPO
+signs its documents with. SPECIFICATION.md names only the usages `chargeTransparencyRecords` and
+`witnessPublications`; both implementations call the rest experimental. The generators of ChargyWebApp
+(`build-tools/generatePOI*.mjs`) made them with WWCP_POI.TS itself, with keys of public seeds (Ed25519 41 to 44 and
+others, ML-DSA-65) and the published P-256 test key of a meter, whose ECDSA signatures differ every time: the fixtures
+are frozen, not regenerated. Each directory keeps its `README.md`, which says what each counterexample is, and its
+`provenance.json`, with the hashes of its files.
+
+Seven of them are the vector files WWCP_POI.TS 0.2.0 (`tests/vectors`) and WWCP_POI3 (`WWCP_POI3_Tests/Vectors/TS`)
+share, byte for byte: `history-session.json` is `POIHistory/archived-session.chargy`, `history-witnesses.json`
+`POIHistory/trusted-witnesses.json`, `session-price-ed.json`, `-pqc.json` and `-decimal.json` are
+`POIPrices/session-with-price.chargy`, `pqc-price.chargy` and `decimal-price.chargy`, `price-publication.json` is
+`POIPublication/vectors.json`, `trust-transitions.json` `POITrustTransitions/vectors.json`. Their `meter-session.json`
+is of an older run of ChargyWebApp (`97da24d`), not of this one.
+
+Before anything is taken of them, the generator checks with `node:crypto` alone what they claim (its section 9): the
+hashes of their provenance and that the shared copies are the same bytes; every signature over its input - key
+statements, certificates, attestations, checkpoints of the operator and of witnesses, price statements in Ed25519 and
+ML-DSA-65, agreements, receipts, both sides of a trust transition -; the OCMF readings with the key of their container;
+the identifications of checkpoints and commits, the root of every proof of a station, the inclusion of a commit and of
+a price statement in a checkpoint, the identification of a meter key, the digest of the start document an agreement
+binds, the statement, its SHA-256 and the tariff a receipt binds, the policy identity and the key statement a trust
+transition continues. What does not hold is exactly what the READMEs name broken; anything else stops the generator.
+
 ## Common fields
 
 - `id`: stable, never reused. `description`: what the vector shows.

@@ -23,6 +23,8 @@
  *     libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs: canonical JSON and deterministic CBOR;
  *   - libs/WWCP_POI/SPECIFICATION.md, sections 1 and 6: the examples of the specification, and section 2: custom data;
  *   - test-vectors/runs/<run>/: what one run of the C# examples A1 to A14 of WWCP_POI published, frozen;
+ *   - test-vectors/runs/chargy-<commit>/: the fixtures of ChargyWebApp of the verifier extensions of WWCP_POI.TS 0.2.0,
+ *     frozen; libs/WWCP_POI/WWCP_POI3/Verifier for their inputs (section 9);
  *   - and what it makes and signs itself, deterministically: the station proofs of section 4 (poi-trust.json) and the
  *     histories of section 7 (poi-histories.json), with the keys of section 6 of the specification and of seeds of its own.
  *
@@ -3590,11 +3592,364 @@ function qiDigitalVectors() {
 
 
 // =====================================================================================================================
+//  9. The verifier extensions of WWCP_POI.TS 0.2.0 (experimental): the fixtures of ChargyWebApp, frozen
+// =====================================================================================================================
+//
+// What WWCP_POI.TS 0.2.0 verifies beyond SPECIFICATION.md, and WWCP_POI3 since 89d2e02 as it does (WWCP_POI3/Verifier):
+// the key of the meter of an EVSE, historical meter evidence, prices bound to a session, receipts of witnesses that a
+// price was public before it, trust transitions and the keys a CPO signs its documents with. SPECIFICATION.md names only
+// the usages chargeTransparencyRecords and witnessPublications; both READMEs call the rest experimental. The documents
+// are the fixtures of ChargyWebApp fc513cd (tests/fixtures), which its generators made with WWCP_POI.TS itself and keys
+// of public seeds - Ed25519 41 to 44 and others, ML-DSA-65, the published P-256 test key of a meter -, frozen in
+// runs/chargy-fc513cd: their ECDSA signatures are not deterministic. Before a vector takes anything of them, this script
+// checks what they claim with node:crypto alone: the hashes of their provenance, every signature over its input, the
+// roots of the proofs of a station and of the inclusion proofs of a checkpoint, the digests the evidence binds.
+
+const CHARGY          = 'chargy-fc513cd';
+const CHARGY_DIR      = join(OUT, 'runs', CHARGY);
+const CHARGY_SETS     = [ 'POISession', 'POIHistory', 'POIPrices', 'POIPublication', 'POITrustTransitions' ];
+const VERIFIER        = 'libs/WWCP_POI/WWCP_POI3/Verifier';
+
+/** The vector files WWCP_POI.TS 0.2.0 (tests/vectors) and WWCP_POI3 (WWCP_POI3_Tests/Vectors/TS) share, by their fixture. */
+const SHARED_FIXTURES = {
+    'history-session.json':        'POIHistory/archived-session.chargy',
+    'history-witnesses.json':      'POIHistory/trusted-witnesses.json',
+    'session-price-ed.json':       'POIPrices/session-with-price.chargy',
+    'session-price-pqc.json':      'POIPrices/pqc-price.chargy',
+    'session-price-decimal.json':  'POIPrices/decimal-price.chargy',
+    'price-publication.json':      'POIPublication/vectors.json',
+    'trust-transitions.json':      'POITrustTransitions/vectors.json',
+};
+
+const chargyFiles = () => walk(CHARGY_DIR).map(path => relative(CHARGY_DIR, path).split(sep).join('/'));
+const readChargy  = (file) => readFileSync(join(CHARGY_DIR, file), 'utf8');
+
+/** The JSON-LD context of a document of an extension, as WWCP_POI3 names it. */
+const verifierContext = (file, context) => quoted(`${VERIFIER}/${file}`, `"${context}"`, `the JSON-LD context ${context}`) && context;
+
+const EXTENSION_CONTEXTS = {
+    trustTransition:           verifierContext('TrustTransition.cs',       'https://open.charging.cloud/contexts/wwcp/trustTransition/v1'),
+    sessionPriceAgreement:     verifierContext('SessionPriceAgreement.cs', 'https://open.charging.cloud/contexts/wwcp/sessionPriceAgreement/v1'),
+    pricePublicationReceipt:   verifierContext('PricePublication.cs',      'https://open.charging.cloud/contexts/wwcp/pricePublicationReceipt/v1'),
+    witnessPublicationPolicy:  verifierContext('PricePublication.cs',      'https://open.charging.cloud/contexts/wwcp/witnessPublicationPolicy/v1'),
+    sessionPriceEvidence:      verifierContext('SessionPriceEvidence.cs',  'https://open.charging.cloud/contexts/wwcp/sessionPriceEvidence/v1'),
+    historicalMeterEvidence:   verifierContext('HistoricalMeterEvidence.cs', 'https://open.charging.cloud/contexts/wwcp/historicalMeterEvidence/v1'),
+};
+
+/** A document of the run, read with its numbers as written, and every JSON document it holds as a string, read so too. */
+function chargyDocument(file) {
+    const embedded = (value) => {
+        if (typeof value === 'string' && value.startsWith('{') && value.endsWith('}')) {
+            try { return embedded(parseRaw(value)); } catch { return value; }
+        }
+        if (Array.isArray(value))
+            return value.map(embedded);
+        if (value !== null && typeof value === 'object' && value[RAW] === undefined)
+            return Object.fromEntries(Object.entries(value).map(([ key, item ]) => [ key, embedded(item) ]));
+        return value;
+    };
+    return embedded(parseRaw(readChargy(file)));
+}
+
+/** The root of a tree of RFC 9162 of a leaf, its index, the size of the tree and the audit path (2.1.3.2), or undefined. */
+function rootOfInclusion(hash, leaf, index, size, path) {
+    let fn = index, sn = size - 1, r = hash(Buffer.concat([ Buffer.of(0), leaf ]));
+    for (const p of path.map(hex => Buffer.from(hex, 'hex'))) {
+        if (sn === 0)
+            return undefined;
+        if ((fn & 1) === 1 || fn === sn) {
+            r = hash(Buffer.concat([ Buffer.of(1), p, r ]));
+            while ((fn & 1) === 0 && fn !== 0) { fn >>= 1; sn >>= 1; }
+        }
+        else
+            r = hash(Buffer.concat([ Buffer.of(1), r, p ]));
+        fn >>= 1; sn >>= 1;
+    }
+    return sn === 0 ? r.toString('hex') : undefined;
+}
+
+/**
+ * The root of the effective tree a proof of a station gives (8.2, 8.4): every child array as the proof gives it -
+ * completely, as the root and size of its tree, or as the leaves it reveals with their audit paths, which must lead
+ * to one root -, bottom-up.
+ */
+function rootOfProof(roamingNetwork) {
+    const hash     = hashOf('sha256');
+    const skeleton = (entity, parent) => {
+        const result = { ...entity };
+        for (const array of childArrays()[parent] ?? []) {
+            const children = entity[array];
+            if (children === undefined || (!Array.isArray(children) && children['@leaves'] === undefined))
+                continue;
+            if (Array.isArray(children)) {
+                result[array] = { '@merkleRoot': mth(hash, children.map(child => utf8(canonical(skeleton(child, CHILD_PARENTS[array]))))).toString('hex'), '@size': children.length };
+                continue;
+            }
+            const size  = numberOf(children['@size']);
+            const roots = new Set(children['@leaves'].map(leaf => rootOfInclusion(hash, utf8(canonical(skeleton(leaf['@entity'], CHILD_PARENTS[array]))), numberOf(leaf['@index']), size, leaf['@auditPath'])));
+            if (roots.size !== 1 || roots.has(undefined))
+                return undefined;
+            result[array] = { '@merkleRoot': [ ...roots ][0], '@size': size };
+        }
+        return result;
+    };
+    return mth(hash, [ utf8(canonical(skeleton(roamingNetwork, 'roaming network'))) ]).toString('hex');
+}
+
+/** The holders of a trust anchor of its QR code: one array of key @ids each, in their order (TrustTransition.PolicyIdOf). */
+function policyOfQRCode(text) {
+    const map  = decodeCbor(fromBase45(text.slice('WWCP/TA-2:'.length)));
+    const hex  = (key) => Buffer.from(key).toString('hex');
+    return { network: map['@id'], holders: map.keys.map(key => Array.isArray(key) ? key.map(hex) : [ hex(key) ]), minConsensus: map.minConsensus, urls: map.urls };
+}
+
+/**
+ * What of the run does not hold, by design: the counterexamples its READMEs name, whose signature, inclusion or digest
+ * is broken - and nothing else. Changed and signed again, the others are broken only where a verifier must find it.
+ */
+const CHARGY_BROKEN = [
+    // POISession: "Container key differs", "End reading changed without signing again".
+    'POISession/container-key-conflict.chargy: the ocmfBegin signed with the key of the container',
+    'POISession/container-key-conflict.chargy: the ocmfEnd signed with the key of the container',
+    'POISession/tampered-end-reading.chargy: the ocmfEnd signed with the key of the container',
+    // POIHistory: "the container's single key conflicts with the second key", "Modified commit leaf".
+    'POIHistory/key-rotation.chargy: the ocmfEnd signed with the key of the container',
+    'POIHistory/tampered-checkpoint.chargy: commit inclusion',
+    // POIPrices: "Invalid CPO price signature", "Inclusion's embedded price signature is invalid", "a different
+    // original-start digest".
+    'POIPrices/invalid-signature.chargy: the signature of a priceStatement',
+    'POIPrices/tampered-publication.chargy: the signature of a priceStatement',
+    'POIPrices/wrong-session.chargy: start document digest',
+    // POIPublication, and its variants in vectors.json: a receipt of another statement, of another signed statement, of
+    // another tariff; its source URL changed and not signed again - also of private-source, which therefore is refused
+    // for its signature as well.
+    'POIPublication/wrong-price.chargy: receipt names a statement',
+    'POIPublication/wrong-signed-price.chargy: receipt statement SHA-256',
+    'POIPublication/wrong-tariff.chargy: receipt tariff SHA-256',
+    'POIPublication/tampered-receipt.chargy: the signature of a pricePublicationReceipt',
+    'POIPublication/private-source.chargy: the signature of a pricePublicationReceipt',
+    'POIPublication/vectors.json: receipt names a statement',
+    'POIPublication/vectors.json: receipt statement SHA-256',
+    'POIPublication/vectors.json: receipt tariff SHA-256',
+    'POIPublication/vectors.json: the signature of a pricePublicationReceipt',
+    'POIPublication/vectors.json: the signature of a pricePublicationReceipt',
+    // POITrustTransitions: "an invalid target operational certificate", also in vectors.json; the target URL tampered
+    // after both quorums signed.
+    'POITrustTransitions/invalid-target-certificate.json: the signature of a certificate',
+    'POITrustTransitions/vectors.json: the signature of a certificate',
+    'POITrustTransitions/tampered-target-url.json: the signature of a trust transition (old)',
+    'POITrustTransitions/tampered-target-url.json: the signature of a trust transition (old)',
+    'POITrustTransitions/tampered-target-url.json: the signature of a trust transition (new)',
+    'POITrustTransitions/tampered-target-url.json: the signature of a trust transition (new)',
+];
+
+/** What the run must hold at least once each, so that an anchor that checks nothing is noticed. */
+const CHARGY_HOLDS = [
+    ...[ 'key statement', 'certificate', 'attestation', 'checkpoint (roamingNetworkOperator)', 'checkpoint (witness)', 'priceStatement',
+         'sessionPriceAgreement', 'pricePublicationReceipt', 'trust transition (old)', 'trust transition (new)' ].map(what => `the signature of a ${what}`),
+    'checkpoint id', 'commit id', 'proof root', 'commit inclusion', 'price statement inclusion', 'meter key id', 'the ocmfBegin signed with the key of the container',
+    'the ocmfEnd signed with the key of the container', 'start document digest', 'agreement names a statement', 'receipt names a statement',
+    'receipt statement SHA-256', 'receipt tariff SHA-256', 'policy id', 'key statement digest', 'provenance', 'shared copy',
+];
+
+function anchorTheChargyRun() {
+
+    // The inputs and digests of the extensions, as WWCP_POI3 calculates them: an agreement and a receipt sign what they
+    // name but their value, a transition its content with the side, the algorithm and the key of a signature; a receipt
+    // binds the canonical JSON of the statement as signed and of the tariff; a policy its URLs as absolute URIs, without
+    // trailing slashes, in their ordinal order.
+    quoted(`${VERIFIER}/SessionPriceAgreement.cs`, 'The signature input: the canonical JSON of what it names, but its value.', 'the signature input of an agreement');
+    quoted(`${VERIFIER}/PricePublication.cs`,      'The signature input: the canonical JSON of what it names, but its value.', 'the signature input of a receipt');
+    quoted(`${VERIFIER}/PricePublication.cs`,      'JSON of the complete original price statement, its signature included, and of the complete tariff selected, its', 'what a receipt binds');
+    quoted(`${VERIFIER}/TrustTransition.cs`,       'signed["side"]       = Side;', 'that a signature of a transition signs its side');
+    quoted(`${VERIFIER}/TrustTransition.cs`,       "new Uri(url.ToString()).AbsoluteUri.TrimEnd('/')).", 'the URLs of the policy identity');
+    quoted(`${VERIFIER}/TrustTransition.cs`,       'Order(StringComparer.Ordinal)', 'the order of the URLs of the policy identity');
+
+    // What holds, by kind; what does not, as `file: what`.
+    const verified = {}, broken = [];
+    const holds    = (what) => verified[what] = (verified[what] ?? 0) + 1;
+
+    const files = chargyFiles().filter(file => file.endsWith('.json') || file.endsWith('.chargy'));
+    const documents = files.map(file => ({ file, json: chargyDocument(file) }));
+
+    // Keys: every COSE key the run names, by its @id; a key that is no COSE key (a meter's SubjectPublicKeyInfo) apart.
+    const keys = new Map(), spkis = new Map();
+    const collect = (value) => {
+        if (Array.isArray(value))
+            value.forEach(collect);
+        else if (value !== null && typeof value === 'object' && value[RAW] === undefined) {
+            if (typeof value['@id'] === 'string' && typeof value.key === 'string') {
+                const first = Buffer.from(value.key, 'base64')[0];
+                if (first >> 5 === 5) keys.set(value['@id'], value.key);
+                else                  spkis.set(value['@id'], value.key);
+            }
+            Object.values(value).forEach(collect);
+        }
+    };
+    documents.forEach(({ json }) => collect(json));
+
+    const check = (file, what, { algorithm, keyId, value }, input) => {
+        const result = verifiesWith(algorithm, keys.get(keyId) ?? fail(`anchor: ${file}: no key ${keyId} of a ${what}`), input, value);
+        if      (result === true)  holds(`the signature of a ${what}`);
+        else if (result === false) broken.push(`${file}: the signature of a ${what}`);
+        else                       fail(`anchor: ${file}: node:crypto does not verify ${algorithm}, the signature of a ${what}`);
+    };
+
+    const visit = (file, value, parentKey) => {
+        if (Array.isArray(value)) {
+            value.forEach(item => visit(file, item, parentKey));
+            return;
+        }
+        if (value === null || typeof value !== 'object' || value[RAW] !== undefined)
+            return;
+        const context = value['@context'];
+        if (context === CONTEXTS.checkpoint) {
+            for (const signature of value.signatures ?? [])
+                check(file, `checkpoint (${signature.role})`, signature, roleSignatureInput(CONTEXTS.checkpointSignature, signature, 'checkpoint', checkpointAsSigned(value)));
+        }
+        else if (context === CONTEXTS.commit) {
+            for (const signature of value.signatures ?? [])
+                check(file, 'commit', signature, roleSignatureInput(CONTEXTS.commitSignature, signature, 'commit', commitAsSigned(value)));
+        }
+        else if (context === CONTEXTS.priceStatement || context === EXTENSION_CONTEXTS.sessionPriceAgreement || context === EXTENSION_CONTEXTS.pricePublicationReceipt)
+            check(file, context.split('/').slice(-2)[0], value, canonical(without(value, 'value')));
+        else if (context === EXTENSION_CONTEXTS.trustTransition) {
+            for (const signature of value.signatures ?? [])
+                check(file, `trust transition (${signature.side})`, signature, canonical({ ...without(value, 'signatures'), side: signature.side, algorithm: signature.algorithm, keyId: signature.keyId }));
+        }
+        if (value.signingKey !== undefined && value.roamingNetworkOperatorId !== undefined && typeof value.value === 'string')
+            check(file, 'certificate', value, certificateSignatureInput(value));
+        if (Array.isArray(value.identityKeys) && Array.isArray(value.signatures) && value.roamingNetworkOperatorId !== undefined)
+            for (const signature of value.signatures)
+                check(file, 'key statement', signature, keyStatementSignatureInput(value, signature));
+        if (parentKey === 'attestations')
+            check(file, 'attestation', value, attestationSignatureInput(value));
+        for (const [ key, item ] of Object.entries(value))
+            visit(file, item, key);
+    };
+    documents.forEach(({ file, json }) => visit(file, json, undefined));
+
+    // Everything else, per document: found by its kind.
+    const all = (value, predicate, found = []) => {
+        if (Array.isArray(value))
+            value.forEach(item => all(item, predicate, found));
+        else if (value !== null && typeof value === 'object' && value[RAW] === undefined) {
+            if (predicate(value))
+                found.push(value);
+            Object.values(value).forEach(item => all(item, predicate, found));
+        }
+        return found;
+    };
+    const expect = (file, what, actual, expected) => actual === expected ? holds(what) : broken.push(`${file}: ${what}`);
+
+    const checkpoints = new Map();
+    for (const { file, json } of documents)
+        for (const checkpoint of all(json, value => value['@context'] === CONTEXTS.checkpoint)) {
+            expect(file, 'checkpoint id', checkpointIdOf(checkpoint, 'sha256'), checkpoint['@id']);
+            checkpoints.set(checkpoint['@id'], checkpoint);
+        }
+
+    const statementDigest = (statement) => sha256(utf8(canonical({ '@context': CONTEXTS.priceStatement, ...without(statement, 'value') })));
+
+    for (const { file, json } of documents) {
+
+        for (const commit of all(json, value => value['@context'] === CONTEXTS.commit))
+            expect(file, 'commit id', commitIdOf(commit, identificationHashOf(commit['@id'])), commit['@id']);
+
+        for (const proof of all(json, value => value['@context'] === CONTEXT + 'proof/v1')) {
+            const root = rootOfProof(proof.roamingNetwork);
+            for (const attestation of proof.attestations ?? [])
+                expect(file, 'proof root', root, attestation.eTag?.[3]);
+        }
+
+        for (const proof of all(json, value => value['@context'] === CONTEXT + 'checkpointProof/v1')) {
+            const checkpoint = checkpoints.get(proof.checkpointId);
+            expect(file, 'commit inclusion', rootOfInclusion(hashOf('sha256'), commitLeafOf({ '@id': proof.leaf.commitId, eTags: proof.leaf.eTags, revision: proof.leaf.revision }), numberOf(proof['@index']), numberOf(proof['@size']), proof['@auditPath']), checkpoint?.commits?.['@merkleRoot']);
+        }
+
+        for (const proof of all(json, value => value['@context'] === CONTEXT + 'priceStatementProof/v1')) {
+            const checkpoint = checkpoints.get(proof.checkpointId);
+            expect(file, 'price statement inclusion', rootOfInclusion(hashOf('sha256'), Buffer.from(statementDigest(proof.priceStatement), 'hex'), numberOf(proof['@index']), numberOf(proof['@size']), proof['@auditPath']), checkpoint?.priceStatements?.['@merkleRoot']);
+        }
+
+        for (const session of all(json, value => typeof value.ocmfBegin === 'string')) {
+            const spki = createPublicKey({ key: Buffer.from(session.publicKey, 'base64'), format: 'der', type: 'spki' });
+            for (const which of [ 'ocmfBegin', 'ocmfEnd' ]) {
+                const [ , payload, signature ] = /^OCMF\|(.*)\|(\{[^|]*\})$/s.exec(session[which]) ?? fail(`${file}: ${which} is no OCMF`);
+                const { SA, SD } = JSON.parse(signature);
+                if (SA !== 'ECDSA-secp256r1-SHA256')
+                    fail(`anchor: ${file}: ${which} signed with ${SA}`);
+                expect(file, `the ${which} signed with the key of the container`, verify('sha256', utf8(payload), { key: spki, dsaEncoding: 'der' }, Buffer.from(SD, 'hex')), true);
+            }
+            const agreement = session.poiEvidence?.priceEvidence?.agreement;
+            if (agreement !== undefined)
+                expect(file, 'start document digest', sha256(utf8(session.ocmfBegin)), agreement.startDocumentSHA256);
+        }
+
+        for (const evidence of all(json, value => value['@context'] === EXTENSION_CONTEXTS.sessionPriceEvidence)) {
+            const digests = new Map((evidence.priceStatements ?? []).map(statement => [ statementDigest(statement), statement ]));
+            if (evidence.agreement !== undefined)
+                expect(file, 'agreement names a statement', digests.has(evidence.agreement.priceStatementDigest), true);
+            for (const receipt of evidence.publicationReceipts ?? []) {
+                const statement = digests.get(receipt.priceStatementDigest);
+                expect(file, 'receipt names a statement', statement !== undefined, true);
+                if (statement !== undefined)
+                    expect(file, 'receipt statement SHA-256', sha256(utf8(canonical(statement))), receipt.priceStatementSHA256);
+                const tariffs = all(evidence.chargingStationProof, value => value['@id'] === statement?.priceStatus?.chargingTariffId || value['@id'] === evidence.agreement?.chargingTariffId).filter(value => value.currency !== undefined);
+                expect(file, 'receipt tariff SHA-256', tariffs.some(tariff => sha256(utf8(canonical(tariff))) === receipt.tariffSHA256), true);
+            }
+        }
+
+    }
+
+    // The keys of meters, SubjectPublicKeyInfo: each identified by its SHA-256 (sha256-spki).
+    for (const [ id, key ] of spkis)
+        expect('the run', 'meter key id', sha256(Buffer.from(key, 'base64')), id);
+
+    // Trust transitions: each continues the trust anchor and the key statement of POITrustTransitions/vectors.json.
+    const succession = documents.find(({ file }) => file === 'POITrustTransitions/vectors.json').json;
+    for (const { file, json } of documents)
+        for (const transition of all(json, value => value['@context'] === EXTENSION_CONTEXTS.trustTransition)) {
+            expect(file, 'policy id', policyIdOf(succession.anchor), transition.fromPolicyId);
+            expect(file, 'key statement digest', keyStatementDigestOf(succession.operator.keyStatement), transition.fromStatementDigest);
+        }
+
+    // The hashes of the provenance of each set, and the vector files WWCP_POI.TS and WWCP_POI3 share, byte for byte.
+    for (const set of CHARGY_SETS) {
+        const provenance = JSON.parse(readChargy(`${set}/provenance.json`));
+        for (const [ name, hash ] of Object.entries(provenance.files))
+            expect(`${set}/provenance.json`, 'provenance', sha256(readFileSync(join(CHARGY_DIR, set, name))), typeof hash === 'string' ? hash : hash.sha256);
+    }
+    for (const [ name, fixture ] of Object.entries(SHARED_FIXTURES))
+        for (const copy of [ `libs/WWCP_POI.TS/tests/vectors/${name}`, `libs/WWCP_POI/WWCP_POI3_Tests/Vectors/TS/${name}` ])
+            expect(copy, 'shared copy', existsSync(join(ROOT, copy)) && readFileSync(join(ROOT, copy)).equals(readFileSync(join(CHARGY_DIR, fixture))), true);
+
+    anchor('what of the run does not hold', JSON.stringify(broken.sort(), null, 1), JSON.stringify([ ...CHARGY_BROKEN ].sort(), null, 1));
+    for (const what of CHARGY_HOLDS)
+        if (verified[what] === undefined)
+            fail(`anchor: nothing of the run checked as ${what}`);
+
+}
+
+/** The policy identity of a trust anchor (TrustTransition.PolicyIdOf): the SHA-256 of the canonical JSON of its policy. */
+function policyIdOf(qrCode) {
+    const { network, holders, minConsensus, urls } = policyOfQRCode(qrCode);
+    if (typeof minConsensus !== 'number')
+        fail('a trust anchor without its minConsensus: PolicyIdOf of it is not known to this script');
+    return sha256(utf8(canonical({ network, holders, minConsensus, urls: urls.map(url => new URL(url).href.replace(/\/+$/, '')).sort() })));
+}
+
+/** The digest of a key statement (TrustTransition.DigestOf): the SHA-256 of its content, its @context first, no signatures. */
+const keyStatementDigestOf = (statement) => sha256(utf8(canonical({ '@context': CONTEXTS.keyStatement, ...without(statement, 'signatures') })));
+
+
+// =====================================================================================================================
 //  Write, check, mirror
 // =====================================================================================================================
 
 const frozen  = historyVectors();
 anchorTheRun(frozen);
+anchorTheChargyRun();
 
 const outputs = {
     'poi-canonical-json.json':  canonicalVectors(),
