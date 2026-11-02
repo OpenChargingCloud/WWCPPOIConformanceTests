@@ -47,6 +47,8 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   what does not hold must be exactly `CHARGY_BROKEN`, the counterexamples their READMEs name. Seven of them are the
   vector files WWCP_POI.TS and WWCP_POI3 share (`tests/vectors`, `WWCP_POI3_Tests/Vectors/TS`), checked byte for byte.
   A vector's `result` is what both give, normalized by the adapters `Tests/.../VerifierTests.cs` and `test/verifier.ts`.
+  A refusal's `changes` (pointers of the case) and `documentChanges` (prefixes of the document a counterexample swaps
+  in) are calculated by the generator against its `control`, which stops on any claim that does not hold.
 - **What the implementations get wrong:** `docs/implementation-deviations.md`. Each deviation is in `DEVIATIONS` of the
   generator, marked on its vectors (`knownDeviations`, `deviation` anchor) and pinned: the harness of the deviating
   implementation expects the deviation, so a fix turns it red. Fixing one means: remove it from `DEVIATIONS`,
@@ -72,8 +74,8 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 580 passed / 1 skipped (its 9 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped:
-`poi-verifier.json` until WWCP_POI.TS vendors it), TS 545
+Expected: C# 618 passed / 1 skipped (its 9 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped:
+`poi-verifier.json` until WWCP_POI.TS vendors it), TS 583
 passed / 20 skipped (7 signing: WWCP_POI.TS verifies only; 13 replays of `poi-histories.json` that WWCP_POI.TS leaves
 to WWCP_POI: references, provider groups, grid connection points). Skips are load-bearing, not noise.
 

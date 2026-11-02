@@ -19,7 +19,7 @@ with `node:crypto` alone mismatches. `--check` is the drift guard of CI. The fil
 | `poi-refusals.json` | the frozen run; SPECIFICATION.md | `vectors`: a document of the run with a JSON patch applied, checked at another time, against another trust anchor or checkpoint, or a text: each must be refused. |
 | `poi-histories.json` | SPECIFICATION.md sections 4, 5, 8.5, 10 and 11; histories the generator signs | `histories`: small histories of the roaming network `rn1` of section 6, made and signed by the generator, their documents as JSON text. `replays`: a history taken step by step, `accepted`, or its last step `refused`, with its `control`. `anchoredSnapshots`: a history started from a snapshot of another server, of the head or of a checkpoint, only anchored in the trust anchor at `at` (10.5, Anchored), with its `control`. |
 | `poi-qidigital.json` | example A14 of WWCP_POI and `WWCP_POI3/RoamingNetwork/QIDigital`; the frozen run | `vectors`: the QI-Digital documents example A14 published - two digital certificates of conformity, a declaration of conformity, a calibration certificate - each checked as example A14 checks it, against QA (`verify`), against a certificate it names (`certificate`) or covering a meter (`cover`), `accepted` or `refused` with its `control`. |
-| `poi-verifier.json` | the README of WWCP_POI.TS 0.2.0 (experimental) and `WWCP_POI3/Verifier` of WWCP_POI; `runs/chargy-fc513cd`, the fixtures of ChargyWebApp | `vectors`: the verifier extensions of WWCP_POI.TS 0.2.0, which WWCP_POI3 has as well, each a `kind` of check with its inputs as documents of the fixtures and what both give of it (`result`, normalized), `accepted`, or `refused` with its `control`. |
+| `poi-verifier.json` | the README of WWCP_POI.TS 0.2.0 (experimental) and `WWCP_POI3/Verifier` of WWCP_POI; `runs/chargy-fc513cd`, the fixtures of ChargyWebApp | `vectors`: the verifier extensions of WWCP_POI.TS 0.2.0, which WWCP_POI3 has as well, each a `kind` of check with its inputs as documents of the fixtures and what both give of it (`result`, normalized), `accepted`, or `refused` with its `control`, the `reason` both name and what it `changes`. |
 
 ## The frozen run
 
@@ -81,7 +81,16 @@ words of the verdicts, counts:
 | `sessionPrice` | a price bound to a session (`evidence`, `request`: EVSE, serial number, `chargingStarted`, the SHA-256 of the start document; `policy`: a `publicationPolicy` of witnesses the verifier accepted) | the verdicts `signatures`, `agreement`, `applicability`, `publication`, `publicationBeforeStart`, `customerConsent`, `witnessedBy`, the `selected` statement (digest, algorithm, energy price as written), the `organizations` that witnessed it |
 | `trustTransition` | a transition (`transition`) of the operator `operator`, accepted at `acceptedAt` as `sequence` | `requiredConsensus`, how many holders signed of the old and of the next quorum, the policy identity of the next anchor, the epoch |
 | `chargingDocumentKeys` | the keys a CPO signs its documents with, of a station proof (`request`: EVSE, operator, `at`) | the station, the keys (identification, algorithm) |
+| `publicationReceipt` | a receipt of a witness read alone (`receipt`) | its `digest`, which the generator calculates as well |
 | `trustPolicyId`, `keyStatementDigest`, `offerHashes` | calculated alone: the policy identity of a trust anchor, the digest of a key statement, what a receipt binds of a statement and a tariff | the value, which the generator calculates as well |
+
+A `refused` vector has no `result`. Its `control` is the same check, of what the refusal is about given otherwise -
+the document the counterexample changes, the request or policy as the accepted case has it -, which both take first;
+`reason` is what both name, where they word it alike (WWCP_POI3 ends it with "!"). `changes` are the JSON pointers in
+which the case differs from its control, all of them; where a document of the run is another one (a `file` or
+`pointer` among the changes), `documentChanges` are prefixes covering every pointer in which that document differs,
+each of one at least - the serial number of a meter and the attestations signed again over it, say. The generator
+calculates both and stops where a vector claims otherwise, so a refusal cannot be of something its control already has.
 
 ## Common fields
 

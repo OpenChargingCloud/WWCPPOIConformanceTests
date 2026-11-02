@@ -25,8 +25,8 @@ Styx `f1057ea8`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 558 | 580 tests | 1: the vendored copy of `poi-verifier.json`, until WWCP_POI.TS vendors it |
-| TypeScript harness (vitest), WWCP_POI.TS | 558 | 545 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
+| C# harness (NUnit), WWCP_POI3 | 596 | 618 tests | 1: the vendored copy of `poi-verifier.json`, until WWCP_POI.TS vendors it |
+| TypeScript harness (vitest), WWCP_POI.TS | 596 | 583 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 

@@ -4023,14 +4023,16 @@ function verifierVectors() {
     //      selected statement is one of the evidence; the start document is the SHA-256 of the signed start reading.
     // Where a price is selected, the organizations that witnessed its publication before the start: none without a
     // policy of witnesses; where none is, nothing was looked at (null).
-    const priceVector = (id, set, file, description, verdicts, selected, { policy, organizations = selected === null ? null : [] } = {}) => {
+    const priceCase = (set, file, request = {}) =>
+        ({ trust: bootstrapOf(`${set}/${file}`, provenance(set).evaluatedAt ?? provenance(set).now, 'historical'), evidence: ref(`${set}/${file}`, '/poiEvidence/priceEvidence'),
+           request: { evseId: EVSE, meterSerialNumber: SERIAL, chargingStarted: provenance(set).chargingStarted, startDocumentSHA256: sha256(utf8(at(`${set}/${file}`, '/ocmfBegin'))), ...request } });
+    const priceVector = (id, set, file, description, verdicts, selected, { policy, organizations = selected === null ? null : [], request } = {}) => {
         const [ signatures, agreement, applicability, publication, publicationBeforeStart ] = verdicts.split(' ');
         const evidence  = at(`${set}/${file}`, '/poiEvidence/priceEvidence');
         if (selected !== null && !(evidence.priceStatements ?? []).some(statement => sha256(utf8(canonical({ '@context': CONTEXTS.priceStatement, ...without(statement, 'value') }))) === selected.digest))
             fail(`${set}/${file}: the selected digest ${selected.digest} is of no statement of the evidence`);
         accept({ id, kind: 'sessionPrice', basis: basis(policy === undefined ? 'Session-bound prices' : 'Independent price publication receipts', policy === undefined ? 'SessionPriceEvidence.cs' : 'PricePublication.cs'),
-                 description, trust: bootstrapOf(`${set}/${file}`, provenance(set).evaluatedAt ?? provenance(set).now, 'historical'), evidence: ref(`${set}/${file}`, '/poiEvidence/priceEvidence'),
-                 request: { evseId: EVSE, meterSerialNumber: SERIAL, chargingStarted: provenance(set).chargingStarted, startDocumentSHA256: sha256(utf8(at(`${set}/${file}`, '/ocmfBegin'))) },
+                 description, ...priceCase(set, file, request),
                  ...(policy === undefined ? {} : { policy }),
                  result: { signatures, agreement, applicability, publication, publicationBeforeStart, customerConsent: 'not-proven', witnessedBy: [], selected, organizations } });
     };
@@ -4122,9 +4124,200 @@ function verifierVectors() {
                  result: { priceStatementSHA256: sha256(utf8(canonical(at(SESSION, statement)))), tariffSHA256: sha256(utf8(canonical(at(SESSION, tariff)))) } });
     }
 
+    // ---- Refusals: what both refuse, each with its control - the same check, of what the refusal is about given
+    //      otherwise, which both take - and what changes from the control to the refusal, checked here: in the case
+    //      ("changes", all of it), and where a document of the run is another one, in that document ("documentChanges",
+    //      prefixes covering every difference, each one at least). Where both word the refusal alike, "reason" names it.
+    const REFUSAL_FIELDS = [ 'id', 'kind', 'basis', 'description', 'expected', 'control', 'reason', 'changes', 'documentChanges' ];
+    const refuse = ({ control, changes, documentChanges, reason, ...vector }) => {
+        const refused   = Object.fromEntries(Object.entries(vector).filter(([ key ]) => !REFUSAL_FIELDS.includes(key)));
+        anchor(`what ${vector.id} changes`, JSON.stringify(differences(refused, control).sort()), JSON.stringify([ ...changes ].sort()));
+        const documents = [ ...new Set(changes.filter(path => /\/(file|pointer)$/.test(path)).map(path => path.replace(/\/(file|pointer)$/, ''))) ];
+        if (documents.length !== (documentChanges === undefined ? 0 : 1))
+            fail(`${vector.id}: ${documents.length} documents change, ${documentChanges === undefined ? 'none' : 'one'} named`);
+        for (const path of documents) {
+            const named  = (object) => path.split('/').slice(1).reduce((item, key) => item[key], object);
+            const found  = differences(chargyAt(named(refused).file, named(refused).pointer), chargyAt(named(control).file, named(control).pointer));
+            const covers = (prefix, difference) => difference === prefix || difference.startsWith(prefix + '/');
+            const loose  = found.filter(difference => !documentChanges.some(prefix => covers(prefix, difference)));
+            const unused = documentChanges.filter(prefix => !found.some(difference => covers(prefix, difference)));
+            if (loose.length > 0 || unused.length > 0)
+                fail(`${vector.id}: the document of ${path} differs${loose.length > 0 ? ` in ${loose.join(', ')} as well` : ''}${unused.length > 0 ? ` not in ${unused.join(', ')}` : ''}`);
+        }
+        vectors.push({ expected: 'refused', ...vector, control, ...(reason === undefined ? {} : { reason }), changes, ...(documentChanges === undefined ? {} : { documentChanges }) });
+    };
+
+    // Both word these alike, WWCP_POI3 with a "!" at the end.
+    const NO_TRIAL  = 'Select exactly one explicitly identified meter key; no trial verification across keys';
+    const NO_MATCH  = 'The signed meter identity does not match the selected EVSE meter';
+    const OTHER_EVSE = 'DE*POI*E9*9';
+    const statementNotValid = (time, statement) => `The key statement is not valid at ${time}: it was signed at ${statement.signedAt} and is valid until ${statement.validUntil}!`;
+
+    // ---- The key of a meter: a proof of another meter, a key or meter or EVSE the proof does not give, two keys and none
+    //      asked for, a key of a SubjectPublicKeyInfo read as a COSE key. The trust is the bootstrap of the session.
+    {
+        const SESSION   = 'POISession/completed-session-with-evse-proof.chargy';
+        const session   = provenance('POISession');
+        const B         = basis('Meter-key association', 'VerifiedMeterKeyBinding.cs');
+        const meterCase = (file, request = {}) => ({ trust: bootstrapOf(SESSION, session.generatedAt), proof: ref(file, '/poiEvidence/chargingStationProof'),
+                                                     request: { evseId: EVSE, meterSerialNumber: SERIAL, keyFormat: 'spki-der', ...request } });
+        const refuseKey = (id, description, refused, control, reason, changes, documentChanges) =>
+            refuse({ id, kind: 'meterKey', basis: B, description, ...refused, control, reason, changes, documentChanges });
+        const AMBIGUOUS = 'POISession/ambiguous-meter-keys.chargy', WRONG_METER = 'POISession/wrong-meter-proof.chargy';
+        const SERIAL_OF_THE_EVSE = '/roamingNetwork/chargingStationOperators/0/chargingPools/0/chargingStations/@leaves/0/@entity/EVSEs/0/energyMeter/serialNumber';
+        anchor('the serial number of the meter of DE*POI*E1*1 in its proof', chargyAt(SESSION, '/poiEvidence/chargingStationProof' + SERIAL_OF_THE_EVSE), SERIAL);
+
+        refuseKey('meterKey-ambiguous', `${said('POISession', 'ambiguous-meter-keys.chargy')}: no key asked for by its identification.`,
+                  meterCase(AMBIGUOUS), meterCase(AMBIGUOUS, { keyId: session.meterKeyId }), NO_TRIAL, [ '/request/keyId' ]);
+        refuseKey('meterKey-unknown-key', 'A key of the meter asked for by an identification the proof does not give.',
+                  meterCase(SESSION, { keyId: '00'.repeat(32) }), meterCase(SESSION, { keyId: session.meterKeyId }), NO_TRIAL, [ '/request/keyId' ]);
+        refuseKey('meterKey-wrong-meter-proof', `${said('POISession', 'wrong-meter-proof.chargy')}: the proof, attested again, names another serial number for the meter of the EVSE.`,
+                  meterCase(WRONG_METER), meterCase(SESSION), NO_MATCH, [ '/proof/file' ], [ SERIAL_OF_THE_EVSE, '/commitId', '/revision', '/attestations' ]);
+        refuseKey('meterKey-other-serial', 'The key of a meter of another serial number than the proof gives the EVSE.',
+                  meterCase(SESSION, { meterSerialNumber: 'CHARGY-POI-METER-002' }), meterCase(SESSION), NO_MATCH, [ '/request/meterSerialNumber' ]);
+        refuseKey('meterKey-other-meter', 'The key of the meter of the EVSE asked for with the identification of another meter.',
+                  meterCase(SESSION, { meterId: 'DE*POI*M2' }), meterCase(SESSION, { meterId: 'DE*POI*M1' }), NO_MATCH, [ '/request/meterId' ]);
+        refuseKey('meterKey-other-evse', 'The key of the meter of an EVSE the proof does not give.',
+                  meterCase(SESSION, { evseId: OTHER_EVSE }), meterCase(SESSION), `The proof gives no charging station of the EVSE '${OTHER_EVSE}' completely!`, [ '/request/evseId' ]);
+        refuseKey('meterKey-cose-key', 'The key of the meter, a SubjectPublicKeyInfo, read as a COSE key. Both refuse it as no COSE key, worded otherwise: WWCP_POI3 names the COSE key, WWCP_POI.TS its CBOR decoder.',
+                  meterCase(SESSION, { keyFormat: 'cose-key' }), meterCase(SESSION), undefined, [ '/request/keyFormat' ]);
+    }
+
+    // ---- Historical meter evidence: the counterexamples of POIHistory against archived-session.chargy, a publication or
+    //      more witnesses required than the evidence gives, the bootstrap expired today, another EVSE or meter, a time
+    //      before the key statement of the evidence.
+    {
+        const history   = provenance('POIHistory');
+        const ARCHIVED  = 'POIHistory/archived-session.chargy', EXPIRED = 'POIHistory/expired-bootstrap-session.chargy';
+        const B         = basis('Historical meter evidence', 'HistoricalMeterEvidence.cs');
+        const histCase  = (file, { request = {}, trust = bootstrapOf(ARCHIVED, history.evaluatedAt), policy } = {}) =>
+            ({ trust, evidence: ref(file, '/poiEvidence/historicalEvidence'),
+               request: { evseId: EVSE, meterSerialNumber: SERIAL, measurementTimes: [ history.begin, history.end ], keyFormat: 'spki-der', ...request },
+               ...(policy === undefined ? {} : { policy }) });
+        const refuseHistory = (id, description, refused, control, reason, changes, documentChanges) =>
+            refuse({ id, kind: 'historicalMeterEvidence', basis: B, description, ...refused, control, reason, changes, documentChanges });
+        const coverage  = (time, why) => `No historical EVSE/meter/key coverage at ${time}: ${why}`;
+        const WITNESSED = (requiredWitnesses) => ({ witnesses: ref('POIHistory/trusted-witnesses.json'), requiredWitnesses });
+        const MISSING   = 'Required historical commit inclusion evidence is missing';
+        const swapped   = (name, why, reason, documentChanges) =>
+            refuseHistory(`historical-${name}`, `${said('POIHistory', `${name}.chargy`)}: ${why}`, histCase(`POIHistory/${name}.chargy`), histCase(ARCHIVED), reason, [ '/evidence/file' ], documentChanges);
+
+        swapped('conflicting-assignments', 'its second version gives another key at the same times.', 'Conflicting historical key assignments cover the same measurement time', [ '/versions/1' ]);
+        swapped('wrong-period', 'the attestations of the proof of its first version, signed again at another time.',
+                coverage(history.begin, `Valid attestations of trusted keys of 0 holders attest the root effectiveTree:sha256:hex:${rootOfProof(at('POIHistory/wrong-period.chargy', '/poiEvidence/historicalEvidence/versions/0/chargingStationProof').roamingNetwork)} of the proof, not of 2!`),
+                [ '/versions/0/chargingStationProof/attestations' ]);
+        swapped('tampered-checkpoint', 'the commit its inclusion proof names is another.', 'The proof does not lead to the commits of the checkpoint!', [ '/versions/0/commitProof/leaf/commitId' ]);
+
+        refuseHistory('historical-missing-checkpoint-witness-required', `${said('POIHistory', 'missing-checkpoint.chargy')}; one witness of trusted-witnesses.json required.`,
+                      histCase('POIHistory/missing-checkpoint.chargy', { policy: WITNESSED(1) }), histCase('POIHistory/missing-checkpoint.chargy'), MISSING, [ '/policy' ]);
+        refuseHistory('historical-key-rotation-publication-required', `${said('POIHistory', 'key-rotation.chargy')}; a publication required.`,
+                      histCase('POIHistory/key-rotation.chargy', { policy: { requirePublication: true } }), histCase('POIHistory/key-rotation.chargy'), MISSING, [ '/policy' ]);
+        refuseHistory('historical-archived-two-witnesses', 'archived-session.chargy, two witnesses required: the checkpoint is witnessed by one.',
+                      histCase(ARCHIVED, { policy: WITNESSED(2) }), histCase(ARCHIVED, { policy: WITNESSED(1) }), 'Historical checkpoint lacks the locally required RNO/witness quorum', [ '/policy/requiredWitnesses' ]);
+        refuseHistory('historical-expired-bootstrap-current', `${said('POIHistory', 'expired-bootstrap-session.chargy')}: a current trust context of it.`,
+                      histCase(EXPIRED, { trust: bootstrapOf(EXPIRED, history.evaluatedAt) }), histCase(EXPIRED, { trust: bootstrapOf(EXPIRED, history.evaluatedAt, 'historical') }),
+                      statementNotValid(history.evaluatedAt, at(EXPIRED, '/poiEvidence/bootstrap/keyStatement/keyStatement')), [ '/trust/context' ]);
+        refuseHistory('historical-other-evse', 'archived-session.chargy, asked for another EVSE.',
+                      histCase(ARCHIVED, { request: { evseId: OTHER_EVSE } }), histCase(ARCHIVED), 'Historical evidence belongs to another EVSE', [ '/request/evseId' ]);
+        refuseHistory('historical-other-serial', 'archived-session.chargy, asked for a meter of another serial number.',
+                      histCase(ARCHIVED, { request: { meterSerialNumber: 'CHARGY-POI-METER-002' } }), histCase(ARCHIVED), coverage(history.begin, NO_MATCH), [ '/request/meterSerialNumber' ]);
+        const BEFORE = '2026-05-01T10:00:00.000Z';
+        refuseHistory('historical-before-statement', 'archived-session.chargy, its first reading at a time before the key statement its first version gives was signed.',
+                      histCase(ARCHIVED, { request: { measurementTimes: [ BEFORE, history.end ] } }), histCase(ARCHIVED),
+                      coverage(BEFORE, statementNotValid(BEFORE, at(ARCHIVED, '/poiEvidence/historicalEvidence/versions/0/chargingStationProof/roamingNetwork/operator/keyStatement'))), [ '/request/measurementTimes/0' ]);
+    }
+
+    // ---- Prices bound to a session: another EVSE, a start after the verification or before the key statement; and, taken,
+    //      another meter or start document than the agreement binds.
+    {
+        const B       = basis('Session-bound prices', 'SessionPriceEvidence.cs');
+        const PRICE   = 'session-with-price.chargy';
+        const control = priceCase('POIPrices', PRICE);
+        const refusePrice = (id, description, request, reason) =>
+            refuse({ id, kind: 'sessionPrice', basis: B, description, ...priceCase('POIPrices', PRICE, request), control, reason, changes: Object.keys(request).map(key => `/request/${key}`) });
+        refusePrice('sessionPrice-other-evse', 'The price of session-with-price.chargy, asked for another EVSE.', { evseId: OTHER_EVSE }, 'Price evidence belongs to another EVSE');
+        refusePrice('sessionPrice-started-after-verification', 'The price of session-with-price.chargy, of a session started after the time of the verification.',
+                    { chargingStarted: new Date(Date.parse(provenance('POIPrices').evaluatedAt) + 1000).toISOString() }, 'Invalid original price context');
+        refusePrice('sessionPrice-started-before-statement', 'The price of session-with-price.chargy, of a session started before the key statement its station proof gives was signed.',
+                    { chargingStarted: '2026-05-01T10:00:00.000Z' }, statementNotValid('2026-05-01T10:00:00.000Z', at(`POIPrices/${PRICE}`, '/poiEvidence/priceEvidence/chargingStationProof/roamingNetwork/operator/keyStatement')));
+        priceVector('sessionPrice-other-meter', 'POIPrices', PRICE, 'The price of session-with-price.chargy, asked for a meter of another serial number: the agreement binds the meter, so neither it nor the price holds.',
+                    'valid invalid invalid missing not-proven', null, { request: { meterSerialNumber: 'CHARGY-POI-METER-002' } });
+        priceVector('sessionPrice-other-start-document', 'POIPrices', PRICE, 'The price of session-with-price.chargy, with the SHA-256 of its end reading as the start document: the agreement binds the start, so neither it nor the price holds.',
+                    'valid invalid invalid missing not-proven', null, { request: { startDocumentSHA256: sha256(utf8(at(`POIPrices/${PRICE}`, '/ocmfEnd'))) } });
+    }
+
+    // ---- Trust transitions: the counterexamples of POITrustTransitions against the transitions they change, a transition
+    //      out of order or accepted before it was signed.
+    {
+        const B        = basis('CPO envelope authority and compact trust succession', 'TrustTransition.cs');
+        const POLICY   = 'POITrustTransitions/policy-transition.json', EPOCH = 'POITrustTransitions/epoch-transition.json';
+        const ttCase   = (file, pointer = '', { acceptedAt = NOW, sequence = 0 } = {}) => ({ trust: ttTrust, operator: ref(TT, '/operator'), transition: ref(file, pointer), acceptedAt, sequence });
+        const refuseTransition = (id, description, refused, control, reason, changes, documentChanges) =>
+            refuse({ id, kind: 'trustTransition', basis: B, description, ...refused, control, reason, changes, documentChanges });
+        const QUORUMS  = 'Both old and new holder quorums must sign the trust transition';
+        const INTERVAL = 'Transition is expired, out of order or not accepted within its signed interval';
+        const INVALID_CERTIFICATE = `The certificate of the signing key '${at('POITrustTransitions/invalid-target-certificate.json', '/toOperator/signingKeyCertificates/0/signingKey/@id')}' is invalid: The signature is invalid`;
+
+        refuseTransition('trustTransition-missing-old-quorum', 'policy-transition.json signed by the new holders alone.',
+                         ttCase('POITrustTransitions/missing-old-quorum.json'), ttCase(POLICY), QUORUMS, [ '/transition/file' ], [ '/signatures' ]);
+        refuseTransition('trustTransition-missing-new-quorum', 'policy-transition.json signed by the old holders alone.',
+                         ttCase('POITrustTransitions/missing-new-quorum.json'), ttCase(POLICY), QUORUMS, [ '/transition/file' ], [ '/signatures' ]);
+        refuseTransition('trustTransition-tampered-target-url', 'policy-transition.json, the trust anchor it delegates to changed after both quorums signed.',
+                         ttCase('POITrustTransitions/tampered-target-url.json'), ttCase(POLICY), 'The signature is invalid!', [ '/transition/file' ], [ '/toAnchor' ]);
+        refuseTransition('trustTransition-invalid-target-certificate', 'policy-transition.json, both quorums signing genuinely an invalid certificate of the next operator.',
+                         ttCase('POITrustTransitions/invalid-target-certificate.json'), ttCase(POLICY), INVALID_CERTIFICATE, [ '/transition/file' ], [ '/toOperator/signingKeyCertificates/0/value', '/signatures' ]);
+        refuseTransition('trustTransition-invalid-target-certificate-of-vectors', 'The same of vectors.json, which WWCP_POI.TS and WWCP_POI3 share.',
+                         ttCase(TT, '/invalidCertificate'), ttCase(TT, '/policy'), INVALID_CERTIFICATE, [ '/transition/pointer' ], [ '/toOperator/signingKeyCertificates/0/value', '/signatures' ]);
+        refuseTransition('trustTransition-wrong-genesis', 'epoch-transition.json, signed again with another genesis of epoch 2.',
+                         ttCase('POITrustTransitions/wrong-genesis.json'), ttCase(EPOCH), 'The next epoch must start from the exact deterministic genesis and final checkpoint', [ '/transition/file' ], [ '/epochChange/genesis', '/signatures' ]);
+        refuseTransition('trustTransition-out-of-order', 'policy-transition.json, its sequence 0, applied as the second transition.',
+                         ttCase(POLICY, '', { sequence: 1 }), ttCase(POLICY), INTERVAL, [ '/sequence' ]);
+        refuseTransition('trustTransition-accepted-before-signed', 'policy-transition.json, accepted a second before it was signed.',
+                         ttCase(POLICY, '', { acceptedAt: new Date(Date.parse(at(POLICY, '/signedAt')) - 1000).toISOString() }), ttCase(POLICY), INTERVAL, [ '/acceptedAt' ]);
+    }
+
+    // ---- The keys a CPO signs its documents with: of the live documents of POITrustTransitions, each of the time it was
+    //      last updated - a proof giving only a key for price statements, a document of another CPO, a time after the
+    //      verification; and, taken, the keys of a key transition, and of a key change the proof does not give.
+    {
+        const B        = basis('CPO envelope authority and compact trust succession', 'AuthorizedChargingDocumentKeys.cs');
+        const live     = (name) => `POITrustTransitions/live-${name}.json`;
+        const keysCase = (file, pointer, request = {}) => ({ trust: ttTrust, proof: ref(file, pointer), request: { evseId: EVSE, operatorId: 'DE*POI', ...request } });
+        const liveCase = (name, request = {}) => keysCase(live(name), '/poiEvidence/chargingStationProof', { at: at(live(name), '/lastUpdated'), ...request });
+        const keysOf   = (name) => all(at(live(name), '/poiEvidence/chargingStationProof'), value => Array.isArray(value.signingKeys) && value['@id'] === 'DE*POI')[0].signingKeys
+                                       .filter(key => key.usages === undefined || key.usages.includes('chargeTransparencyRecords')).map(key => ({ id: key['@id'], algorithm: 'EdDSA-Ed25519' }));
+        const refuseKeys = (id, description, refused, control, reason, changes, documentChanges) =>
+            refuse({ id, kind: 'chargingDocumentKeys', basis: B, description, ...refused, control, reason, changes, documentChanges });
+
+        refuseKeys('chargingDocumentKeys-price-only-key', 'live-price-only-key.json: a genuine station proof gives DE*POI one key, for price statements only. Its control is the proof of live-wrong-cpo.json, whose key is for charge transparency records as well. WWCP_POI3 words it "charge transparency records", WWCP_POI.TS "charging transparency records".',
+                   liveCase('price-only-key'), liveCase('wrong-cpo'), 'The proven CPO supplies no valid keys authorized for', [ '/proof/file' ],
+                   [ '/roamingNetwork/chargingStationOperators/0/signingKeys/0/usages', '/commitId', '/attestations' ]);
+        refuseKeys('chargingDocumentKeys-foreign-cpo', `live-wrong-cpo.json: the document names ${at(live('wrong-cpo'), '/chargingStationOperator/@id')} as its CPO, the proof DE*POI as the operator of the EVSE.`,
+                   liveCase('wrong-cpo', { operatorId: at(live('wrong-cpo'), '/chargingStationOperator/@id') }), liveCase('wrong-cpo'), 'The live document CPO is not the operator of the proven EVSE', [ '/request/operatorId' ]);
+        refuseKeys('chargingDocumentKeys-after-verification', 'The keys of DE*POI of the proof of vectors.json, at a time after the verification.',
+                   keysCase(TT, '/baseProof', { at: new Date(Date.parse(NOW) + 1000).toISOString() }), keysCase(TT, '/baseProof', { at: '2026-11-01T00:05:01.000Z' }), 'Invalid charging-document evaluation time', [ '/request/at' ]);
+        accept({ id: 'chargingDocumentKeys-key-transition', kind: 'chargingDocumentKeys', basis: B, description: 'live-key-transition.json: the station proof gives DE*POI a second key, attested by the RNO: both keys are authorized.',
+                 ...liveCase('key-transition'), result: { chargingStationId: 'DE*POI*S1', keys: keysOf('key-transition') } });
+        accept({ id: 'chargingDocumentKeys-key-change-without-poi', kind: 'chargingDocumentKeys', basis: B, description: 'live-key-change-without-poi.json: the document names a second key of DE*POI the station proof does not give: only the key of the proof is authorized.',
+                 ...liveCase('key-change-without-poi'), result: { chargingStationId: 'DE*POI*S1', keys: keysOf('key-change-without-poi') } });
+    }
+
+    // ---- A receipt of a witness read alone (PricePublicationReceipt): of the two organizations, and of a private source.
+    {
+        const B       = basis('Independent price publication receipts', 'PricePublication.cs');
+        const BEFORE  = 'POIPublication/session-before-start.chargy', PRIVATE = 'POIPublication/private-source.chargy';
+        const receipt = (file, index) => ({ receipt: ref(file, `/poiEvidence/priceEvidence/publicationReceipts/${index}`) });
+        for (const [ index, name, description ] of [ [ 0, 'a', 'The receipt of organization A of session-before-start.chargy (Ed25519).' ], [ 1, 'b', 'The receipt of organization B of session-before-start.chargy (ML-DSA-65).' ] ])
+            accept({ id: `publicationReceipt-${name}`, kind: 'publicationReceipt', basis: B, description: `${description} Its digest: the SHA-256 of its canonical JSON, its signature included.`,
+                     ...receipt(BEFORE, index), result: { digest: sha256(utf8(canonical(at(BEFORE, `/poiEvidence/priceEvidence/publicationReceipts/${index}`)))) } });
+        refuse({ id: 'publicationReceipt-private-source', kind: 'publicationReceipt', basis: B,
+                 description: `private-source.chargy: the receipt of organization B names ${at(PRIVATE, '/poiEvidence/priceEvidence/publicationReceipts/1/publicSourceURL')} as its source, no public DNS host name - refused as read, before its signature is looked at.`,
+                 ...receipt(PRIVATE, 1), control: receipt(BEFORE, 1), reason: 'Publication sources require a public DNS hostname', changes: [ '/receipt/file' ], documentChanges: [ '/publicSourceURL' ] });
+    }
+
     return vectorFile(
         `WWCP_POI.TS 0.2.0 (README, experimental) and WWCP_POI3/Verifier of WWCP_POI; documents of test-vectors/runs/${CHARGY}`,
-        'The verifier extensions of WWCP_POI.TS 0.2.0, which WWCP_POI3 has as well: no part of SPECIFICATION.md but the usages chargeTransparencyRecords and witnessPublications. Each vector names a check ("kind"), its inputs as documents of the run (a file and a JSON pointer, read on into a string, which is a JSON document of its own) and what both implementations give of it ("result", normalized), or that it is refused. "trust" is a trust anchor and a key statement, every identity key of the anchor trusted, current or historical, at a time.',
+        'The verifier extensions of WWCP_POI.TS 0.2.0, which WWCP_POI3 has as well: no part of SPECIFICATION.md but the usages chargeTransparencyRecords and witnessPublications. Each vector names a check ("kind"), its inputs as documents of the run (a file and a JSON pointer, read on into a string, which is a JSON document of its own) and what both implementations give of it ("result", normalized), or that it is refused: then its "control", the same check of what the refusal is about given otherwise, is taken first, and "reason" is what both name, where they word it alike. "changes" are the JSON pointers of the case in which it differs from its control, "documentChanges", where a document of the run is another one, prefixes of every pointer in which that document differs. "trust" is a trust anchor and a key statement, every identity key of the anchor trusted, current or historical, at a time.',
         { run: `runs/${CHARGY}`, vectors: ids(vectors, 'verifier') });
 
 }
@@ -4138,6 +4331,17 @@ function all(value, predicate, found = []) {
             found.push(value);
         Object.values(value).forEach(item => all(item, predicate, found));
     }
+    return found;
+}
+
+/** Where two values differ, as JSON pointers: into objects and arrays both are, a number by its text. */
+function differences(a, b, path = '', found = []) {
+    const container = (value) => value !== null && typeof value === 'object' && value[RAW] === undefined;
+    if (container(a) && container(b) && Array.isArray(a) === Array.isArray(b))
+        for (const key of new Set([ ...Object.keys(a), ...Object.keys(b) ]))
+            differences(a[key], b[key], `${path}/${key.replaceAll('~', '~0').replaceAll('/', '~1')}`, found);
+    else if (a === undefined || b === undefined || canonical(a) !== canonical(b))
+        found.push(path);
     return found;
 }
 

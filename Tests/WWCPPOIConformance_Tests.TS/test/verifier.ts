@@ -18,7 +18,7 @@
 import { readFileSync } from 'node:fs';
 
 import { HistoricalTrustContext, initialTrustEpoch, isArray, isObject, KeyStatement, parseJSON, parseTrustedWitnesses, parseWitnessPublicationPolicy,
-         pricePublicationOfferHashes, PriceStatement, TrustAnchor, TrustContext, TrustTransition, trustPolicyId, trustStatementDigest,
+         pricePublicationOfferHashes, PricePublicationReceipt, PriceStatement, TrustAnchor, TrustContext, TrustTransition, trustPolicyId, trustStatementDigest,
          verifyChargingDocumentKeys, verifyHistoricalMeterEvidence, verifyMeterKey, verifySessionPriceEvidence, VerifiedTrustTransition,
          type JSONObject, type JSONValue } from '../../../libs/WWCP_POI.TS/src/index.ts';
 
@@ -78,11 +78,13 @@ export interface VerifierCase {
     readonly keyStatement?:    ChargyRef;
     readonly priceStatement?:  ChargyRef;
     readonly tariff?:          ChargyRef;
+    readonly receipt?:         ChargyRef;
 }
 
 export interface VerifierVector extends Applicability, VerifierCase {
     readonly id:           string;
-    readonly kind:         'meterKey' | 'historicalMeterEvidence' | 'sessionPrice' | 'trustTransition' | 'chargingDocumentKeys' | 'trustPolicyId' | 'keyStatementDigest' | 'offerHashes';
+    readonly kind:         'meterKey' | 'historicalMeterEvidence' | 'sessionPrice' | 'trustTransition' | 'chargingDocumentKeys' | 'trustPolicyId' | 'keyStatementDigest' | 'offerHashes'
+                         | 'publicationReceipt';
     readonly basis:        string;
     readonly description:  string;
     readonly expected:     'accepted' | 'refused';
@@ -216,6 +218,9 @@ export function results(kind: VerifierVector['kind'], check: VerifierCase): JSON
             const hashes = pricePublicationOfferHashes(PriceStatement.parse(chargyDocument(given(check.priceStatement, 'price statement'))), tariff);
             return { priceStatementSHA256: hashes.priceStatementSHA256, tariffSHA256: hashes.tariffSHA256 };
         }
+
+        case 'publicationReceipt':
+            return { digest: PricePublicationReceipt.parse(chargyDocument(given(check.receipt, 'receipt'))).digest() };
 
         default:
             throw new Error(`A verifier vector of the kind '${String(kind)}' is not known to this harness: the vector files are newer than the harness!`);

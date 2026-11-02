@@ -232,6 +232,9 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
                     return new JObject(new JProperty("priceStatementSHA256", statementHash), new JProperty("tariffSHA256", tariffHash));
                 }
 
+                case "publicationReceipt":
+                    return new JObject(new JProperty("digest", Ok(PricePublicationReceipt.TryParse(ChargyDocument(Check["receipt"]), out var receipt, out var receiptError), receipt, receiptError).Digest()));
+
                 default:
                     throw new InvalidOperationException($"A verifier vector of the kind '{Kind}' is not known to this harness: the vector files are newer than the harness!");
 

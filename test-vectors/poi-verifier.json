@@ -1,6 +1,6 @@
 {
   "specification": "WWCP_POI.TS 0.2.0 (README, experimental) and WWCP_POI3/Verifier of WWCP_POI; documents of test-vectors/runs/chargy-fc513cd",
-  "description": "The verifier extensions of WWCP_POI.TS 0.2.0, which WWCP_POI3 has as well: no part of SPECIFICATION.md but the usages chargeTransparencyRecords and witnessPublications. Each vector names a check (\"kind\"), its inputs as documents of the run (a file and a JSON pointer, read on into a string, which is a JSON document of its own) and what both implementations give of it (\"result\", normalized), or that it is refused. \"trust\" is a trust anchor and a key statement, every identity key of the anchor trusted, current or historical, at a time.",
+  "description": "The verifier extensions of WWCP_POI.TS 0.2.0, which WWCP_POI3 has as well: no part of SPECIFICATION.md but the usages chargeTransparencyRecords and witnessPublications. Each vector names a check (\"kind\"), its inputs as documents of the run (a file and a JSON pointer, read on into a string, which is a JSON document of its own) and what both implementations give of it (\"result\", normalized), or that it is refused: then its \"control\", the same check of what the refusal is about given otherwise, is taken first, and \"reason\" is what both name, where they word it alike. \"changes\" are the JSON pointers of the case in which it differs from its control, \"documentChanges\", where a document of the run is another one, prefixes of every pointer in which that document differs. \"trust\" is a trust anchor and a key statement, every identity key of the anchor trusted, current or historical, at a time.",
   "run": "runs/chargy-fc513cd",
   "vectors": [
     {
@@ -2848,6 +2848,2092 @@
         "priceStatementSHA256": "4a190459c23dda26260f5feff36bb1c7faf38558dab12fcb740060f924f4f33a",
         "tariffSHA256": "3a7325951936e115d7d8a27f58f91284b4efb5d5539311f62c3659d9db15f207"
       }
+    },
+    {
+      "expected": "refused",
+      "id": "meterKey-ambiguous",
+      "kind": "meterKey",
+      "basis": "libs/WWCP_POI.TS/README.md, Meter-key association (experimental); WWCP_POI3/Verifier/VerifiedMeterKeyBinding.cs",
+      "description": "Valid proof lists two candidates; no automatic trial selection: no key asked for by its identification.",
+      "trust": {
+        "anchor": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POISession/ambiguous-meter-keys.chargy",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyFormat": "spki-der"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POISession/completed-session-with-evse-proof.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POISession/completed-session-with-evse-proof.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "proof": {
+          "file": "POISession/ambiguous-meter-keys.chargy",
+          "pointer": "/poiEvidence/chargingStationProof"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "keyFormat": "spki-der",
+          "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c"
+        }
+      },
+      "reason": "Select exactly one explicitly identified meter key; no trial verification across keys",
+      "changes": [
+        "/request/keyId"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "meterKey-unknown-key",
+      "kind": "meterKey",
+      "basis": "libs/WWCP_POI.TS/README.md, Meter-key association (experimental); WWCP_POI3/Verifier/VerifiedMeterKeyBinding.cs",
+      "description": "A key of the meter asked for by an identification the proof does not give.",
+      "trust": {
+        "anchor": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POISession/completed-session-with-evse-proof.chargy",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyFormat": "spki-der",
+        "keyId": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POISession/completed-session-with-evse-proof.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POISession/completed-session-with-evse-proof.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "proof": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/chargingStationProof"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "keyFormat": "spki-der",
+          "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c"
+        }
+      },
+      "reason": "Select exactly one explicitly identified meter key; no trial verification across keys",
+      "changes": [
+        "/request/keyId"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "meterKey-wrong-meter-proof",
+      "kind": "meterKey",
+      "basis": "libs/WWCP_POI.TS/README.md, Meter-key association (experimental); WWCP_POI3/Verifier/VerifiedMeterKeyBinding.cs",
+      "description": "Valid proof names a different meter serial; no association: the proof, attested again, names another serial number for the meter of the EVSE.",
+      "trust": {
+        "anchor": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POISession/wrong-meter-proof.chargy",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyFormat": "spki-der"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POISession/completed-session-with-evse-proof.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POISession/completed-session-with-evse-proof.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "proof": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/chargingStationProof"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "keyFormat": "spki-der"
+        }
+      },
+      "reason": "The signed meter identity does not match the selected EVSE meter",
+      "changes": [
+        "/proof/file"
+      ],
+      "documentChanges": [
+        "/roamingNetwork/chargingStationOperators/0/chargingPools/0/chargingStations/@leaves/0/@entity/EVSEs/0/energyMeter/serialNumber",
+        "/commitId",
+        "/revision",
+        "/attestations"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "meterKey-other-serial",
+      "kind": "meterKey",
+      "basis": "libs/WWCP_POI.TS/README.md, Meter-key association (experimental); WWCP_POI3/Verifier/VerifiedMeterKeyBinding.cs",
+      "description": "The key of a meter of another serial number than the proof gives the EVSE.",
+      "trust": {
+        "anchor": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POISession/completed-session-with-evse-proof.chargy",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-002",
+        "keyFormat": "spki-der"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POISession/completed-session-with-evse-proof.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POISession/completed-session-with-evse-proof.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "proof": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/chargingStationProof"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "keyFormat": "spki-der"
+        }
+      },
+      "reason": "The signed meter identity does not match the selected EVSE meter",
+      "changes": [
+        "/request/meterSerialNumber"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "meterKey-other-meter",
+      "kind": "meterKey",
+      "basis": "libs/WWCP_POI.TS/README.md, Meter-key association (experimental); WWCP_POI3/Verifier/VerifiedMeterKeyBinding.cs",
+      "description": "The key of the meter of the EVSE asked for with the identification of another meter.",
+      "trust": {
+        "anchor": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POISession/completed-session-with-evse-proof.chargy",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyFormat": "spki-der",
+        "meterId": "DE*POI*M2"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POISession/completed-session-with-evse-proof.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POISession/completed-session-with-evse-proof.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "proof": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/chargingStationProof"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "keyFormat": "spki-der",
+          "meterId": "DE*POI*M1"
+        }
+      },
+      "reason": "The signed meter identity does not match the selected EVSE meter",
+      "changes": [
+        "/request/meterId"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "meterKey-other-evse",
+      "kind": "meterKey",
+      "basis": "libs/WWCP_POI.TS/README.md, Meter-key association (experimental); WWCP_POI3/Verifier/VerifiedMeterKeyBinding.cs",
+      "description": "The key of the meter of an EVSE the proof does not give.",
+      "trust": {
+        "anchor": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POISession/completed-session-with-evse-proof.chargy",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E9*9",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyFormat": "spki-der"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POISession/completed-session-with-evse-proof.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POISession/completed-session-with-evse-proof.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "proof": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/chargingStationProof"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "keyFormat": "spki-der"
+        }
+      },
+      "reason": "The proof gives no charging station of the EVSE 'DE*POI*E9*9' completely!",
+      "changes": [
+        "/request/evseId"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "meterKey-cose-key",
+      "kind": "meterKey",
+      "basis": "libs/WWCP_POI.TS/README.md, Meter-key association (experimental); WWCP_POI3/Verifier/VerifiedMeterKeyBinding.cs",
+      "description": "The key of the meter, a SubjectPublicKeyInfo, read as a COSE key. Both refuse it as no COSE key, worded otherwise: WWCP_POI3 names the COSE key, WWCP_POI.TS its CBOR decoder.",
+      "trust": {
+        "anchor": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POISession/completed-session-with-evse-proof.chargy",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyFormat": "cose-key"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POISession/completed-session-with-evse-proof.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POISession/completed-session-with-evse-proof.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "proof": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/chargingStationProof"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "keyFormat": "spki-der"
+        }
+      },
+      "changes": [
+        "/request/keyFormat"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "historical-conflicting-assignments",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "Different keys are genuinely attested for the same reading time; conflict fails: its second version gives another key at the same times.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "evidence": {
+        "file": "POIHistory/conflicting-assignments.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "evidence": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/historicalEvidence"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "measurementTimes": [
+            "2026-06-01T10:00:00.000Z",
+            "2026-06-01T10:30:00.000Z"
+          ],
+          "keyFormat": "spki-der"
+        }
+      },
+      "reason": "Conflicting historical key assignments cover the same measurement time",
+      "changes": [
+        "/evidence/file"
+      ],
+      "documentChanges": [
+        "/versions/1"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "historical-wrong-period",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "Start reading lies outside the signed attestation interval: the attestations of the proof of its first version, signed again at another time.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "evidence": {
+        "file": "POIHistory/wrong-period.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "evidence": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/historicalEvidence"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "measurementTimes": [
+            "2026-06-01T10:00:00.000Z",
+            "2026-06-01T10:30:00.000Z"
+          ],
+          "keyFormat": "spki-der"
+        }
+      },
+      "reason": "No historical EVSE/meter/key coverage at 2026-06-01T10:00:00.000Z: Valid attestations of trusted keys of 0 holders attest the root effectiveTree:sha256:hex:b169f5595b6797e21497b0aee261b00eadac6d182bcbade28d39071b01da619c of the proof, not of 2!",
+      "changes": [
+        "/evidence/file"
+      ],
+      "documentChanges": [
+        "/versions/0/chargingStationProof/attestations"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "historical-tampered-checkpoint",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "Modified commit leaf cannot validate against the signed checkpoint: the commit its inclusion proof names is another.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "evidence": {
+        "file": "POIHistory/tampered-checkpoint.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "evidence": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/historicalEvidence"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "measurementTimes": [
+            "2026-06-01T10:00:00.000Z",
+            "2026-06-01T10:30:00.000Z"
+          ],
+          "keyFormat": "spki-der"
+        }
+      },
+      "reason": "The proof does not lead to the commits of the checkpoint!",
+      "changes": [
+        "/evidence/file"
+      ],
+      "documentChanges": [
+        "/versions/0/commitProof/leaf/commitId"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "historical-missing-checkpoint-witness-required",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "Assignment and signatures pass; inclusion remains pending; one witness of trusted-witnesses.json required.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "evidence": {
+        "file": "POIHistory/missing-checkpoint.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "policy": {
+        "witnesses": {
+          "file": "POIHistory/trusted-witnesses.json",
+          "pointer": ""
+        },
+        "requiredWitnesses": 1
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "evidence": {
+          "file": "POIHistory/missing-checkpoint.chargy",
+          "pointer": "/poiEvidence/historicalEvidence"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "measurementTimes": [
+            "2026-06-01T10:00:00.000Z",
+            "2026-06-01T10:30:00.000Z"
+          ],
+          "keyFormat": "spki-der"
+        }
+      },
+      "reason": "Required historical commit inclusion evidence is missing",
+      "changes": [
+        "/policy"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "historical-key-rotation-publication-required",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "Two non-overlapping RNO-attested assignments validate both original signatures with different keys; the container's single key conflicts with the second key; inclusion/succession history deliberately absent; a publication required.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "evidence": {
+        "file": "POIHistory/key-rotation.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "policy": {
+        "requirePublication": true
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "evidence": {
+          "file": "POIHistory/key-rotation.chargy",
+          "pointer": "/poiEvidence/historicalEvidence"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "measurementTimes": [
+            "2026-06-01T10:00:00.000Z",
+            "2026-06-01T10:30:00.000Z"
+          ],
+          "keyFormat": "spki-der"
+        }
+      },
+      "reason": "Required historical commit inclusion evidence is missing",
+      "changes": [
+        "/policy"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "historical-archived-two-witnesses",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "archived-session.chargy, two witnesses required: the checkpoint is witnessed by one.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "evidence": {
+        "file": "POIHistory/archived-session.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "policy": {
+        "witnesses": {
+          "file": "POIHistory/trusted-witnesses.json",
+          "pointer": ""
+        },
+        "requiredWitnesses": 2
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "evidence": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/historicalEvidence"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "measurementTimes": [
+            "2026-06-01T10:00:00.000Z",
+            "2026-06-01T10:30:00.000Z"
+          ],
+          "keyFormat": "spki-der"
+        },
+        "policy": {
+          "witnesses": {
+            "file": "POIHistory/trusted-witnesses.json",
+            "pointer": ""
+          },
+          "requiredWitnesses": 1
+        }
+      },
+      "reason": "Historical checkpoint lacks the locally required RNO/witness quorum",
+      "changes": [
+        "/policy/requiredWitnesses"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "historical-expired-bootstrap-current",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "Expired bootstrap can be inspected/imported explicitly as a historical reference; current validity stays expired and each unknown key requires manual trust. No newly issued statement/server is needed: a current trust context of it.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/expired-bootstrap-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/expired-bootstrap-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "evidence": {
+        "file": "POIHistory/expired-bootstrap-session.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POIHistory/expired-bootstrap-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POIHistory/expired-bootstrap-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "historical"
+        },
+        "evidence": {
+          "file": "POIHistory/expired-bootstrap-session.chargy",
+          "pointer": "/poiEvidence/historicalEvidence"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "measurementTimes": [
+            "2026-06-01T10:00:00.000Z",
+            "2026-06-01T10:30:00.000Z"
+          ],
+          "keyFormat": "spki-der"
+        }
+      },
+      "reason": "The key statement is not valid at 2026-11-01T00:16:21.000Z: it was signed at 2026-05-31T10:00:00.000Z and is valid until 2026-06-01T14:00:00.000Z!",
+      "changes": [
+        "/trust/context"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "historical-other-evse",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "archived-session.chargy, asked for another EVSE.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "evidence": {
+        "file": "POIHistory/archived-session.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E9*9",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "evidence": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/historicalEvidence"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "measurementTimes": [
+            "2026-06-01T10:00:00.000Z",
+            "2026-06-01T10:30:00.000Z"
+          ],
+          "keyFormat": "spki-der"
+        }
+      },
+      "reason": "Historical evidence belongs to another EVSE",
+      "changes": [
+        "/request/evseId"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "historical-other-serial",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "archived-session.chargy, asked for a meter of another serial number.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "evidence": {
+        "file": "POIHistory/archived-session.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-002",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "evidence": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/historicalEvidence"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "measurementTimes": [
+            "2026-06-01T10:00:00.000Z",
+            "2026-06-01T10:30:00.000Z"
+          ],
+          "keyFormat": "spki-der"
+        }
+      },
+      "reason": "No historical EVSE/meter/key coverage at 2026-06-01T10:00:00.000Z: The signed meter identity does not match the selected EVSE meter",
+      "changes": [
+        "/request/meterSerialNumber"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "historical-before-statement",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "archived-session.chargy, its first reading at a time before the key statement its first version gives was signed.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "evidence": {
+        "file": "POIHistory/archived-session.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-05-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POIHistory/archived-session.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "evidence": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/historicalEvidence"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "measurementTimes": [
+            "2026-06-01T10:00:00.000Z",
+            "2026-06-01T10:30:00.000Z"
+          ],
+          "keyFormat": "spki-der"
+        }
+      },
+      "reason": "No historical EVSE/meter/key coverage at 2026-05-01T10:00:00.000Z: The key statement is not valid at 2026-05-01T10:00:00.000Z: it was signed at 2026-05-31T10:00:00.000Z and is valid until 2026-06-01T14:00:00.000Z!",
+      "changes": [
+        "/request/measurementTimes/0"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "sessionPrice-other-evse",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "The price of session-with-price.chargy, asked for another EVSE.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/session-with-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E9*9",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POIPrices/session-with-price.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POIPrices/session-with-price.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "historical"
+        },
+        "evidence": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/priceEvidence"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "chargingStarted": "2026-06-01T10:00:00.000Z",
+          "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+        }
+      },
+      "reason": "Price evidence belongs to another EVSE",
+      "changes": [
+        "/request/evseId"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "sessionPrice-started-after-verification",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "The price of session-with-price.chargy, of a session started after the time of the verification.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/session-with-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-11-01T00:16:22.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POIPrices/session-with-price.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POIPrices/session-with-price.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "historical"
+        },
+        "evidence": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/priceEvidence"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "chargingStarted": "2026-06-01T10:00:00.000Z",
+          "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+        }
+      },
+      "reason": "Invalid original price context",
+      "changes": [
+        "/request/chargingStarted"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "sessionPrice-started-before-statement",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "The price of session-with-price.chargy, of a session started before the key statement its station proof gives was signed.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/session-with-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-05-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POIPrices/session-with-price.chargy",
+            "pointer": "/poiEvidence/bootstrap/trustAnchor"
+          },
+          "keyStatement": {
+            "file": "POIPrices/session-with-price.chargy",
+            "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "historical"
+        },
+        "evidence": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/priceEvidence"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "meterSerialNumber": "CHARGY-POI-METER-001",
+          "chargingStarted": "2026-06-01T10:00:00.000Z",
+          "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+        }
+      },
+      "reason": "The key statement is not valid at 2026-05-01T10:00:00.000Z: it was signed at 2026-05-31T10:00:00.000Z and is valid until 2026-06-01T14:00:00.000Z!",
+      "changes": [
+        "/request/chargingStarted"
+      ]
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-other-meter",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "The price of session-with-price.chargy, asked for a meter of another serial number: the agreement binds the meter, so neither it nor the price holds.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/session-with-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-002",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "invalid",
+        "applicability": "invalid",
+        "publication": "missing",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": null,
+        "organizations": null
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-other-start-document",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "The price of session-with-price.chargy, with the SHA-256 of its end reading as the start document: the agreement binds the start, so neither it nor the price holds.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/session-with-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "21a509a1551c6b669b61441ee9ea987d2b18b12d7b59e0cce55c238ddfe23fca"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "invalid",
+        "applicability": "invalid",
+        "publication": "missing",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": null,
+        "organizations": null
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "trustTransition-missing-old-quorum",
+      "kind": "trustTransition",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "policy-transition.json signed by the new holders alone.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "operator": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/operator"
+      },
+      "transition": {
+        "file": "POITrustTransitions/missing-old-quorum.json",
+        "pointer": ""
+      },
+      "acceptedAt": "2026-11-01T00:16:21.000Z",
+      "sequence": 0,
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/anchor"
+          },
+          "keyStatement": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/operator/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "operator": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator"
+        },
+        "transition": {
+          "file": "POITrustTransitions/policy-transition.json",
+          "pointer": ""
+        },
+        "acceptedAt": "2026-11-01T00:16:21.000Z",
+        "sequence": 0
+      },
+      "reason": "Both old and new holder quorums must sign the trust transition",
+      "changes": [
+        "/transition/file"
+      ],
+      "documentChanges": [
+        "/signatures"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "trustTransition-missing-new-quorum",
+      "kind": "trustTransition",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "policy-transition.json signed by the old holders alone.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "operator": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/operator"
+      },
+      "transition": {
+        "file": "POITrustTransitions/missing-new-quorum.json",
+        "pointer": ""
+      },
+      "acceptedAt": "2026-11-01T00:16:21.000Z",
+      "sequence": 0,
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/anchor"
+          },
+          "keyStatement": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/operator/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "operator": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator"
+        },
+        "transition": {
+          "file": "POITrustTransitions/policy-transition.json",
+          "pointer": ""
+        },
+        "acceptedAt": "2026-11-01T00:16:21.000Z",
+        "sequence": 0
+      },
+      "reason": "Both old and new holder quorums must sign the trust transition",
+      "changes": [
+        "/transition/file"
+      ],
+      "documentChanges": [
+        "/signatures"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "trustTransition-tampered-target-url",
+      "kind": "trustTransition",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "policy-transition.json, the trust anchor it delegates to changed after both quorums signed.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "operator": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/operator"
+      },
+      "transition": {
+        "file": "POITrustTransitions/tampered-target-url.json",
+        "pointer": ""
+      },
+      "acceptedAt": "2026-11-01T00:16:21.000Z",
+      "sequence": 0,
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/anchor"
+          },
+          "keyStatement": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/operator/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "operator": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator"
+        },
+        "transition": {
+          "file": "POITrustTransitions/policy-transition.json",
+          "pointer": ""
+        },
+        "acceptedAt": "2026-11-01T00:16:21.000Z",
+        "sequence": 0
+      },
+      "reason": "The signature is invalid!",
+      "changes": [
+        "/transition/file"
+      ],
+      "documentChanges": [
+        "/toAnchor"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "trustTransition-invalid-target-certificate",
+      "kind": "trustTransition",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "policy-transition.json, both quorums signing genuinely an invalid certificate of the next operator.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "operator": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/operator"
+      },
+      "transition": {
+        "file": "POITrustTransitions/invalid-target-certificate.json",
+        "pointer": ""
+      },
+      "acceptedAt": "2026-11-01T00:16:21.000Z",
+      "sequence": 0,
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/anchor"
+          },
+          "keyStatement": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/operator/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "operator": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator"
+        },
+        "transition": {
+          "file": "POITrustTransitions/policy-transition.json",
+          "pointer": ""
+        },
+        "acceptedAt": "2026-11-01T00:16:21.000Z",
+        "sequence": 0
+      },
+      "reason": "The certificate of the signing key '8c9767b21a86722947077cc4617190568f07b75e9e256df0fdde126095cf8068' is invalid: The signature is invalid",
+      "changes": [
+        "/transition/file"
+      ],
+      "documentChanges": [
+        "/toOperator/signingKeyCertificates/0/value",
+        "/signatures"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "trustTransition-invalid-target-certificate-of-vectors",
+      "kind": "trustTransition",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "The same of vectors.json, which WWCP_POI.TS and WWCP_POI3 share.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "operator": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/operator"
+      },
+      "transition": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/invalidCertificate"
+      },
+      "acceptedAt": "2026-11-01T00:16:21.000Z",
+      "sequence": 0,
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/anchor"
+          },
+          "keyStatement": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/operator/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "operator": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator"
+        },
+        "transition": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/policy"
+        },
+        "acceptedAt": "2026-11-01T00:16:21.000Z",
+        "sequence": 0
+      },
+      "reason": "The certificate of the signing key '8c9767b21a86722947077cc4617190568f07b75e9e256df0fdde126095cf8068' is invalid: The signature is invalid",
+      "changes": [
+        "/transition/pointer"
+      ],
+      "documentChanges": [
+        "/toOperator/signingKeyCertificates/0/value",
+        "/signatures"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "trustTransition-wrong-genesis",
+      "kind": "trustTransition",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "epoch-transition.json, signed again with another genesis of epoch 2.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "operator": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/operator"
+      },
+      "transition": {
+        "file": "POITrustTransitions/wrong-genesis.json",
+        "pointer": ""
+      },
+      "acceptedAt": "2026-11-01T00:16:21.000Z",
+      "sequence": 0,
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/anchor"
+          },
+          "keyStatement": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/operator/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "operator": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator"
+        },
+        "transition": {
+          "file": "POITrustTransitions/epoch-transition.json",
+          "pointer": ""
+        },
+        "acceptedAt": "2026-11-01T00:16:21.000Z",
+        "sequence": 0
+      },
+      "reason": "The next epoch must start from the exact deterministic genesis and final checkpoint",
+      "changes": [
+        "/transition/file"
+      ],
+      "documentChanges": [
+        "/epochChange/genesis",
+        "/signatures"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "trustTransition-out-of-order",
+      "kind": "trustTransition",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "policy-transition.json, its sequence 0, applied as the second transition.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "operator": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/operator"
+      },
+      "transition": {
+        "file": "POITrustTransitions/policy-transition.json",
+        "pointer": ""
+      },
+      "acceptedAt": "2026-11-01T00:16:21.000Z",
+      "sequence": 1,
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/anchor"
+          },
+          "keyStatement": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/operator/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "operator": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator"
+        },
+        "transition": {
+          "file": "POITrustTransitions/policy-transition.json",
+          "pointer": ""
+        },
+        "acceptedAt": "2026-11-01T00:16:21.000Z",
+        "sequence": 0
+      },
+      "reason": "Transition is expired, out of order or not accepted within its signed interval",
+      "changes": [
+        "/sequence"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "trustTransition-accepted-before-signed",
+      "kind": "trustTransition",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "policy-transition.json, accepted a second before it was signed.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "operator": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/operator"
+      },
+      "transition": {
+        "file": "POITrustTransitions/policy-transition.json",
+        "pointer": ""
+      },
+      "acceptedAt": "2026-11-01T00:15:44.000Z",
+      "sequence": 0,
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/anchor"
+          },
+          "keyStatement": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/operator/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "operator": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator"
+        },
+        "transition": {
+          "file": "POITrustTransitions/policy-transition.json",
+          "pointer": ""
+        },
+        "acceptedAt": "2026-11-01T00:16:21.000Z",
+        "sequence": 0
+      },
+      "reason": "Transition is expired, out of order or not accepted within its signed interval",
+      "changes": [
+        "/acceptedAt"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "chargingDocumentKeys-price-only-key",
+      "kind": "chargingDocumentKeys",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/AuthorizedChargingDocumentKeys.cs",
+      "description": "live-price-only-key.json: a genuine station proof gives DE*POI one key, for price statements only. Its control is the proof of live-wrong-cpo.json, whose key is for charge transparency records as well. WWCP_POI3 words it \"charge transparency records\", WWCP_POI.TS \"charging transparency records\".",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POITrustTransitions/live-price-only-key.json",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "operatorId": "DE*POI",
+        "at": "2026-11-01T00:04:50.000Z"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/anchor"
+          },
+          "keyStatement": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/operator/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "proof": {
+          "file": "POITrustTransitions/live-wrong-cpo.json",
+          "pointer": "/poiEvidence/chargingStationProof"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "operatorId": "DE*POI",
+          "at": "2026-11-01T00:04:50.000Z"
+        }
+      },
+      "reason": "The proven CPO supplies no valid keys authorized for",
+      "changes": [
+        "/proof/file"
+      ],
+      "documentChanges": [
+        "/roamingNetwork/chargingStationOperators/0/signingKeys/0/usages",
+        "/commitId",
+        "/attestations"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "chargingDocumentKeys-foreign-cpo",
+      "kind": "chargingDocumentKeys",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/AuthorizedChargingDocumentKeys.cs",
+      "description": "live-wrong-cpo.json: the document names FOREIGN-CPO as its CPO, the proof DE*POI as the operator of the EVSE.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POITrustTransitions/live-wrong-cpo.json",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "operatorId": "FOREIGN-CPO",
+        "at": "2026-11-01T00:04:50.000Z"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/anchor"
+          },
+          "keyStatement": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/operator/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "proof": {
+          "file": "POITrustTransitions/live-wrong-cpo.json",
+          "pointer": "/poiEvidence/chargingStationProof"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "operatorId": "DE*POI",
+          "at": "2026-11-01T00:04:50.000Z"
+        }
+      },
+      "reason": "The live document CPO is not the operator of the proven EVSE",
+      "changes": [
+        "/request/operatorId"
+      ]
+    },
+    {
+      "expected": "refused",
+      "id": "chargingDocumentKeys-after-verification",
+      "kind": "chargingDocumentKeys",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/AuthorizedChargingDocumentKeys.cs",
+      "description": "The keys of DE*POI of the proof of vectors.json, at a time after the verification.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/baseProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "operatorId": "DE*POI",
+        "at": "2026-11-01T00:16:22.000Z"
+      },
+      "control": {
+        "trust": {
+          "anchor": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/anchor"
+          },
+          "keyStatement": {
+            "file": "POITrustTransitions/vectors.json",
+            "pointer": "/operator/keyStatement"
+          },
+          "at": "2026-11-01T00:16:21.000Z",
+          "context": "current"
+        },
+        "proof": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/baseProof"
+        },
+        "request": {
+          "evseId": "DE*POI*E1*1",
+          "operatorId": "DE*POI",
+          "at": "2026-11-01T00:05:01.000Z"
+        }
+      },
+      "reason": "Invalid charging-document evaluation time",
+      "changes": [
+        "/request/at"
+      ]
+    },
+    {
+      "expected": "accepted",
+      "id": "chargingDocumentKeys-key-transition",
+      "kind": "chargingDocumentKeys",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/AuthorizedChargingDocumentKeys.cs",
+      "description": "live-key-transition.json: the station proof gives DE*POI a second key, attested by the RNO: both keys are authorized.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POITrustTransitions/live-key-transition.json",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "operatorId": "DE*POI",
+        "at": "2026-11-01T00:06:00.000Z"
+      },
+      "result": {
+        "chargingStationId": "DE*POI*S1",
+        "keys": [
+          {
+            "id": "d423a82879e62cfb33fc10d72b218b28b5656053233a9cd125952bd32053d393",
+            "algorithm": "EdDSA-Ed25519"
+          },
+          {
+            "id": "ca141f48ded2a46f17c3f2185f20c11cf12a21db9179eb49aef1fb62ff5e0e5b",
+            "algorithm": "EdDSA-Ed25519"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "chargingDocumentKeys-key-change-without-poi",
+      "kind": "chargingDocumentKeys",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/AuthorizedChargingDocumentKeys.cs",
+      "description": "live-key-change-without-poi.json: the document names a second key of DE*POI the station proof does not give: only the key of the proof is authorized.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POITrustTransitions/live-key-change-without-poi.json",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "operatorId": "DE*POI",
+        "at": "2026-11-01T00:06:00.000Z"
+      },
+      "result": {
+        "chargingStationId": "DE*POI*S1",
+        "keys": [
+          {
+            "id": "d423a82879e62cfb33fc10d72b218b28b5656053233a9cd125952bd32053d393",
+            "algorithm": "EdDSA-Ed25519"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publicationReceipt-a",
+      "kind": "publicationReceipt",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "The receipt of organization A of session-before-start.chargy (Ed25519). Its digest: the SHA-256 of its canonical JSON, its signature included.",
+      "receipt": {
+        "file": "POIPublication/session-before-start.chargy",
+        "pointer": "/poiEvidence/priceEvidence/publicationReceipts/0"
+      },
+      "result": {
+        "digest": "6c5b663d8b207dc3fbd0d0db0fd575c433001e37e0cf66f91a0a82cedc6dd69b"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publicationReceipt-b",
+      "kind": "publicationReceipt",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "The receipt of organization B of session-before-start.chargy (ML-DSA-65). Its digest: the SHA-256 of its canonical JSON, its signature included.",
+      "receipt": {
+        "file": "POIPublication/session-before-start.chargy",
+        "pointer": "/poiEvidence/priceEvidence/publicationReceipts/1"
+      },
+      "result": {
+        "digest": "f0ffd405e0352373fbf649bd7c67b1e354e88260b62ea1d5f1696bc2b1a72082"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "publicationReceipt-private-source",
+      "kind": "publicationReceipt",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "private-source.chargy: the receipt of organization B names https://127.0.0.1/private as its source, no public DNS host name - refused as read, before its signature is looked at.",
+      "receipt": {
+        "file": "POIPublication/private-source.chargy",
+        "pointer": "/poiEvidence/priceEvidence/publicationReceipts/1"
+      },
+      "control": {
+        "receipt": {
+          "file": "POIPublication/session-before-start.chargy",
+          "pointer": "/poiEvidence/priceEvidence/publicationReceipts/1"
+        }
+      },
+      "reason": "Publication sources require a public DNS hostname",
+      "changes": [
+        "/receipt/file"
+      ],
+      "documentChanges": [
+        "/publicSourceURL"
+      ]
     }
   ]
 }
