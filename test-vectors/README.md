@@ -19,6 +19,7 @@ with `node:crypto` alone mismatches. `--check` is the drift guard of CI. The fil
 | `poi-refusals.json` | the frozen run; SPECIFICATION.md | `vectors`: a document of the run with a JSON patch applied, checked at another time, against another trust anchor or checkpoint, or a text: each must be refused. |
 | `poi-histories.json` | SPECIFICATION.md sections 4, 5, 8.5, 10 and 11; histories the generator signs | `histories`: small histories of the roaming network `rn1` of section 6, made and signed by the generator, their documents as JSON text. `replays`: a history taken step by step, `accepted`, or its last step `refused`, with its `control`. `anchoredSnapshots`: a history started from a snapshot of another server, of the head or of a checkpoint, only anchored in the trust anchor at `at` (10.5, Anchored), with its `control`. |
 | `poi-qidigital.json` | example A14 of WWCP_POI and `WWCP_POI3/RoamingNetwork/QIDigital`; the frozen run | `vectors`: the QI-Digital documents example A14 published - two digital certificates of conformity, a declaration of conformity, a calibration certificate - each checked as example A14 checks it, against QA (`verify`), against a certificate it names (`certificate`) or covering a meter (`cover`), `accepted` or `refused` with its `control`. |
+| `poi-verifier.json` | the README of WWCP_POI.TS 0.2.0 (experimental) and `WWCP_POI3/Verifier` of WWCP_POI; `runs/chargy-fc513cd`, the fixtures of ChargyWebApp | `vectors`: the verifier extensions of WWCP_POI.TS 0.2.0, which WWCP_POI3 has as well, each a `kind` of check with its inputs as documents of the fixtures and what both give of it (`result`, normalized), `accepted`, or `refused` with its `control`. |
 
 ## The frozen run
 
@@ -65,6 +66,22 @@ the identifications of checkpoints and commits, the root of every proof of a sta
 a price statement in a checkpoint, the identification of a meter key, the digest of the start document an agreement
 binds, the statement, its SHA-256 and the tariff a receipt binds, the policy identity and the key statement a trust
 transition continues. What does not hold is exactly what the READMEs name broken; anything else stops the generator.
+
+A vector of `poi-verifier.json` names a `kind`, the check, and its inputs; a document is `file` (relative to the run)
+and `pointer`, read on into a string, which is a JSON document of its own (a fixture keeps signed decimals so). `trust`
+is the local trust a verification starts from: the QR code of a trust anchor (`anchor`), a key statement
+(`keyStatement`), every identity key of the anchor trusted, at `at`, as a context of now (`current`) or of a key
+statement saved before (`historical`). `result` is what both implementations give, normalized - identifications, the
+words of the verdicts, counts:
+
+| `kind` | Check | `result` |
+|---|---|---|
+| `meterKey` | the key of the meter of an EVSE a station proof gives (`proof`, `request`: EVSE, serial number, key format, a key by its identification) | the station, meter and serial number, `keyId`, `keyIdScheme`, `canonicalKeyId` (the COSE thumbprint), `association` |
+| `historicalMeterEvidence` | the keys of a meter at the signed times of its readings (`evidence`, `request` with `measurementTimes`, `policy`: trusted witnesses of checkpoints, how many required) | `bindings` (meter, key, association), the `publications` of each version, `independentTime` |
+| `sessionPrice` | a price bound to a session (`evidence`, `request`: EVSE, serial number, `chargingStarted`, the SHA-256 of the start document; `policy`: a `publicationPolicy` of witnesses the verifier accepted) | the verdicts `signatures`, `agreement`, `applicability`, `publication`, `publicationBeforeStart`, `customerConsent`, `witnessedBy`, the `selected` statement (digest, algorithm, energy price as written), the `organizations` that witnessed it |
+| `trustTransition` | a transition (`transition`) of the operator `operator`, accepted at `acceptedAt` as `sequence` | `requiredConsensus`, how many holders signed of the old and of the next quorum, the policy identity of the next anchor, the epoch |
+| `chargingDocumentKeys` | the keys a CPO signs its documents with, of a station proof (`request`: EVSE, operator, `at`) | the station, the keys (identification, algorithm) |
+| `trustPolicyId`, `keyStatementDigest`, `offerHashes` | calculated alone: the policy identity of a trust anchor, the digest of a key statement, what a receipt binds of a statement and a tariff | the value, which the generator calculates as well |
 
 ## Common fields
 

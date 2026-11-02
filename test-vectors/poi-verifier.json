@@ -1,0 +1,2853 @@
+{
+  "specification": "WWCP_POI.TS 0.2.0 (README, experimental) and WWCP_POI3/Verifier of WWCP_POI; documents of test-vectors/runs/chargy-fc513cd",
+  "description": "The verifier extensions of WWCP_POI.TS 0.2.0, which WWCP_POI3 has as well: no part of SPECIFICATION.md but the usages chargeTransparencyRecords and witnessPublications. Each vector names a check (\"kind\"), its inputs as documents of the run (a file and a JSON pointer, read on into a string, which is a JSON document of its own) and what both implementations give of it (\"result\", normalized), or that it is refused. \"trust\" is a trust anchor and a key statement, every identity key of the anchor trusted, current or historical, at a time.",
+  "run": "runs/chargy-fc513cd",
+  "vectors": [
+    {
+      "expected": "accepted",
+      "id": "meterKey-session",
+      "kind": "meterKey",
+      "basis": "libs/WWCP_POI.TS/README.md, Meter-key association (experimental); WWCP_POI3/Verifier/VerifiedMeterKeyBinding.cs",
+      "description": "The key of the meter of DE*POI*E1*1 its station proof gives, at the time the session was generated.",
+      "trust": {
+        "anchor": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POISession/completed-session-with-evse-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POISession/completed-session-with-evse-proof.chargy",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyFormat": "spki-der"
+      },
+      "result": {
+        "evseId": "DE*POI*E1*1",
+        "chargingStationId": "DE*POI*S1",
+        "meterId": "DE*POI*M1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+        "keyIdScheme": "sha256-spki",
+        "canonicalKeyId": "6a6bd5873a23a0eeb02d986504b6705df8584533e0135da9df52f790276efee7",
+        "association": "current-snapshot"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "meterKey-container-key-conflict",
+      "kind": "meterKey",
+      "basis": "libs/WWCP_POI.TS/README.md, Meter-key association (experimental); WWCP_POI3/Verifier/VerifiedMeterKeyBinding.cs",
+      "description": "Container key differs; signatures pass with the proven EVSE key; conflict stays visible, including after export/reimport: the proof gives the same key; the key of the container is no input of the binding.",
+      "trust": {
+        "anchor": {
+          "file": "POISession/container-key-conflict.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POISession/container-key-conflict.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POISession/container-key-conflict.chargy",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyFormat": "spki-der"
+      },
+      "result": {
+        "evseId": "DE*POI*E1*1",
+        "chargingStationId": "DE*POI*S1",
+        "meterId": "DE*POI*M1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+        "keyIdScheme": "sha256-spki",
+        "canonicalKeyId": "6a6bd5873a23a0eeb02d986504b6705df8584533e0135da9df52f790276efee7",
+        "association": "current-snapshot"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "meterKey-foreign-key",
+      "kind": "meterKey",
+      "basis": "libs/WWCP_POI.TS/README.md, Meter-key association (experimental); WWCP_POI3/Verifier/VerifiedMeterKeyBinding.cs",
+      "description": "Valid attested station associates another key; original reading signatures fail with it: the binding is of the key the proof gives; that the readings do not verify with it is the app's check.",
+      "trust": {
+        "anchor": {
+          "file": "POISession/foreign-meter-key-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POISession/foreign-meter-key-proof.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POISession/foreign-meter-key-proof.chargy",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyFormat": "spki-der"
+      },
+      "result": {
+        "evseId": "DE*POI*E1*1",
+        "chargingStationId": "DE*POI*S1",
+        "meterId": "DE*POI*M1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyId": "2d5bee2b13118410c5ff9d6ddc0eee2e03ab978fa1bc838aee3655eb7095b9f1",
+        "keyIdScheme": "sha256-spki",
+        "canonicalKeyId": "411dc51358650fd7033168227d50fc7fbff528ddf915e12e061d10e7b98f5fcf",
+        "association": "current-snapshot"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "meterKey-tampered-end-reading",
+      "kind": "meterKey",
+      "basis": "libs/WWCP_POI.TS/README.md, Meter-key association (experimental); WWCP_POI3/Verifier/VerifiedMeterKeyBinding.cs",
+      "description": "End reading changed without signing again; static proof still passes but measurement signature fails: the binding is of the proof alone.",
+      "trust": {
+        "anchor": {
+          "file": "POISession/tampered-end-reading.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POISession/tampered-end-reading.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POISession/tampered-end-reading.chargy",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyFormat": "spki-der"
+      },
+      "result": {
+        "evseId": "DE*POI*E1*1",
+        "chargingStationId": "DE*POI*S1",
+        "meterId": "DE*POI*M1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+        "keyIdScheme": "sha256-spki",
+        "canonicalKeyId": "6a6bd5873a23a0eeb02d986504b6705df8584533e0135da9df52f790276efee7",
+        "association": "current-snapshot"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "meterKey-ambiguous-by-id",
+      "kind": "meterKey",
+      "basis": "libs/WWCP_POI.TS/README.md, Meter-key association (experimental); WWCP_POI3/Verifier/VerifiedMeterKeyBinding.cs",
+      "description": "Valid proof lists two candidates; no automatic trial selection: asked for one by its identification, that one is bound.",
+      "trust": {
+        "anchor": {
+          "file": "POISession/ambiguous-meter-keys.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POISession/ambiguous-meter-keys.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POISession/ambiguous-meter-keys.chargy",
+        "pointer": "/poiEvidence/chargingStationProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyFormat": "spki-der",
+        "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c"
+      },
+      "result": {
+        "evseId": "DE*POI*E1*1",
+        "chargingStationId": "DE*POI*S1",
+        "meterId": "DE*POI*M1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+        "keyIdScheme": "sha256-spki",
+        "canonicalKeyId": "6a6bd5873a23a0eeb02d986504b6705df8584533e0135da9df52f790276efee7",
+        "association": "current-snapshot"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "historical-archived",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "Original signatures and RNO assignment at signed times pass; commit inclusion passes; independent witness/time pending.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "evidence": {
+        "file": "POIHistory/archived-session.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "result": {
+        "bindings": [
+          {
+            "meterId": "DE*POI*M1",
+            "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+            "association": "historical-attestation"
+          },
+          {
+            "meterId": "DE*POI*M1",
+            "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+            "association": "historical-attestation"
+          }
+        ],
+        "publications": [
+          "rno-checkpoint"
+        ],
+        "independentTime": "not-proven"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "historical-archived-witnessed",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "The same, with the witness of trusted-witnesses.json trusted and one witness required: the checkpoint is witnessed.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "evidence": {
+        "file": "POIHistory/archived-session.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "policy": {
+        "witnesses": {
+          "file": "POIHistory/trusted-witnesses.json",
+          "pointer": ""
+        },
+        "requiredWitnesses": 1
+      },
+      "result": {
+        "bindings": [
+          {
+            "meterId": "DE*POI*M1",
+            "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+            "association": "historical-attestation"
+          },
+          {
+            "meterId": "DE*POI*M1",
+            "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+            "association": "historical-attestation"
+          }
+        ],
+        "publications": [
+          "witnessed-checkpoint"
+        ],
+        "independentTime": "not-proven"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "historical-archived-saved-statement",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "The same, from a historical trust context of the key statement the proof of that time gives, expired today.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/archived-session.chargy",
+          "pointer": "/poiEvidence/historicalEvidence/versions/0/chargingStationProof/roamingNetwork/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIHistory/archived-session.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "result": {
+        "bindings": [
+          {
+            "meterId": "DE*POI*M1",
+            "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+            "association": "historical-attestation"
+          },
+          {
+            "meterId": "DE*POI*M1",
+            "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+            "association": "historical-attestation"
+          }
+        ],
+        "publications": [
+          "rno-checkpoint"
+        ],
+        "independentTime": "not-proven"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "historical-expired-bootstrap",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "Expired bootstrap can be inspected/imported explicitly as a historical reference; current validity stays expired and each unknown key requires manual trust. No newly issued statement/server is needed: a historical trust context of it.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/expired-bootstrap-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/expired-bootstrap-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIHistory/expired-bootstrap-session.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "result": {
+        "bindings": [
+          {
+            "meterId": "DE*POI*M1",
+            "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+            "association": "historical-attestation"
+          },
+          {
+            "meterId": "DE*POI*M1",
+            "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+            "association": "historical-attestation"
+          }
+        ],
+        "publications": [
+          "rno-checkpoint"
+        ],
+        "independentTime": "not-proven"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "historical-missing-checkpoint",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "Assignment and signatures pass; inclusion remains pending.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/missing-checkpoint.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/missing-checkpoint.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "evidence": {
+        "file": "POIHistory/missing-checkpoint.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "result": {
+        "bindings": [
+          {
+            "meterId": "DE*POI*M1",
+            "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+            "association": "historical-attestation"
+          },
+          {
+            "meterId": "DE*POI*M1",
+            "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+            "association": "historical-attestation"
+          }
+        ],
+        "publications": [
+          "missing"
+        ],
+        "independentTime": "not-proven"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "historical-key-rotation",
+      "kind": "historicalMeterEvidence",
+      "basis": "libs/WWCP_POI.TS/README.md, Historical meter evidence (experimental); WWCP_POI3/Verifier/HistoricalMeterEvidence.cs",
+      "description": "Two non-overlapping RNO-attested assignments validate both original signatures with different keys; the container's single key conflicts with the second key; inclusion/succession history deliberately absent.",
+      "trust": {
+        "anchor": {
+          "file": "POIHistory/key-rotation.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIHistory/key-rotation.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "evidence": {
+        "file": "POIHistory/key-rotation.chargy",
+        "pointer": "/poiEvidence/historicalEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "measurementTimes": [
+          "2026-06-01T10:00:00.000Z",
+          "2026-06-01T10:30:00.000Z"
+        ],
+        "keyFormat": "spki-der"
+      },
+      "result": {
+        "bindings": [
+          {
+            "meterId": "DE*POI*M1",
+            "keyId": "0cfefc81f7537db1d2b85ae423bfa45835e664d6f4e77021f6adbc5b83c7e89c",
+            "association": "historical-attestation"
+          },
+          {
+            "meterId": "DE*POI*M1",
+            "keyId": "2d5bee2b13118410c5ff9d6ddc0eee2e03ab978fa1bc838aee3655eb7095b9f1",
+            "association": "historical-attestation"
+          }
+        ],
+        "publications": [
+          "missing",
+          "missing"
+        ],
+        "independentTime": "not-proven"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-session-with-price",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Valid Ed25519 CPO assignment, original start, rate match and inclusion.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/session-with-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/session-with-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-pqc-price",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Same checks with genuine ML-DSA-65 CPO signatures.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/pqc-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/pqc-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/pqc-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "78ed1376177c1ff317844721dc31b01a54d30a0224ed87ad93892e5cd5b0c43a"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "b64d5e0eacd749ecfcaa1c787a2768537d6e8b1ee65e41fc916bff54807fee57",
+          "algorithm": "ML-DSA-65",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-decimal-price",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Signed `0.3500` retained exactly through parse/display/export.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/decimal-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/decimal-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/decimal-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "5ba543f098250f3ddf41d3caa976824a2265375c4740739e5411385f65976536"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "d4c9c5396af7c78dd5ef5c69ddf8eebf5742c2347345bc4c037289861dfccdd3",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.3500"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-empty-prices",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Missing price evidence.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/empty-prices.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/empty-prices.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/empty-prices.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "9f1cbb1513a4c5d564559a9e03fb1f3ec0f6f789db667cb09ece6bd902b5f016"
+      },
+      "result": {
+        "signatures": "missing",
+        "agreement": "missing",
+        "applicability": "missing",
+        "publication": "missing",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": null,
+        "organizations": null
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-missing-agreement",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Valid offer/inclusion, actual session assignment unproven.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/missing-agreement.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/missing-agreement.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/missing-agreement.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "6310c835fd7cc3160540ce5a0e5579c6b70b91ec38717aae4d2d461f3e006f84"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "missing",
+        "applicability": "unbound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": null
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-missing-publication",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Valid assignment, missing price inclusion.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/missing-publication.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/missing-publication.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/missing-publication.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "ad7628a26d3887d281dbb9252c3fcca0c8f60ff8086605d1a5ddae4b74a0571c"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "missing",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-invalid-signature",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Invalid CPO price signature.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/invalid-signature.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/invalid-signature.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/invalid-signature.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "4bee04e37d6c3c26cfa1d16d3e39f36ce728fca05488001becb19f1e15a9a647"
+      },
+      "result": {
+        "signatures": "invalid",
+        "agreement": "missing",
+        "applicability": "invalid",
+        "publication": "missing",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": null,
+        "organizations": null
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-wrong-evse",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Genuine price signature for another EVSE.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/wrong-evse.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/wrong-evse.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/wrong-evse.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "6b64b65fa398a27adb4e4ddde733fd65c215b416d6d51d767c575230f6728a0d"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "missing",
+        "applicability": "invalid",
+        "publication": "missing",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": null,
+        "organizations": null
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-expired-price",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Genuine price not active at start.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/expired-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/expired-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/expired-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "3571be3684005ee368e217b03b57cf534a3f1c6ae894bcdd85f81d9d810c1a5a"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "invalid",
+        "applicability": "missing",
+        "publication": "missing",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": null,
+        "organizations": null
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-unauthorized-key",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "RNO-authenticated CPO key without `priceStatements` usage.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/unauthorized-key.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/unauthorized-key.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/unauthorized-key.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "3a32b01ac1ef85b169ae7598053c3882266fd2552bb90d3535537ecaef3e169e"
+      },
+      "result": {
+        "signatures": "invalid",
+        "agreement": "missing",
+        "applicability": "invalid",
+        "publication": "missing",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": null,
+        "organizations": null
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-wrong-session",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Genuine CPO assignment to a different original-start digest.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/wrong-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/wrong-session.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/wrong-session.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "d43661b7c960c632c36bbd63313c8e515daba3352a5c805b293e39feba13a146"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "invalid",
+        "applicability": "invalid",
+        "publication": "missing",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": null,
+        "organizations": null
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-contract-mode",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Contract mode requires an additional profile.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/contract-mode.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/contract-mode.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/contract-mode.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "1803e53323b671c96129d0e40cbcf1a3643c4c003661f86249cd51948e145346"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "unsupported",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-variable-binding",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Variable binding requires an additional profile.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/variable-binding.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/variable-binding.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/variable-binding.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "5948dea7a389684505f9af95dd67d1d8536ffcc24801e1f6f300b2fa8429b8f4"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "unsupported",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-signed-rate-conflict",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Genuine 65-cent OCMF start conflicts with genuine 35-cent CPO price.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/signed-rate-conflict.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/signed-rate-conflict.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/signed-rate-conflict.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "360d9ae2894817eaf20548c31b52dbbd71ca055dd81f5c27e4addc31b1b6c832"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-tampered-publication",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Inclusion's embedded price signature is invalid.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/tampered-publication.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/tampered-publication.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/tampered-publication.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "c7d68ee1bfbb345ee00e740d6aa06deda9947fd2a77f9701c2ed17bfb5f756ba"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "invalid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-checkpoint-fork",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Genuine station/price checkpoints conflict at the same coordinate.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/checkpoint-fork.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/checkpoint-fork.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/checkpoint-fork.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "76d0ee50980218a3e84d9cffe2629333c8e550530a17ff38358f263ebb6317a7"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-split-price-chain",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Genuine conflicting price statements at one sequence.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/split-price-chain.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/split-price-chain.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/split-price-chain.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "23b69a9c4f611c157b8ba3639539fc4920693f24ddbff01b10af065edeefb2ea"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "missing",
+        "applicability": "invalid",
+        "publication": "missing",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": null,
+        "organizations": null
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-broken-price-chain",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Genuine price chain with an incorrect previous digest.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/broken-price-chain.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/broken-price-chain.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/broken-price-chain.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "860637f9047a09e7dd2861da5f3943e4e2bc72e4fc0a94d40f37bbb88d9eeb5b"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "missing",
+        "applicability": "invalid",
+        "publication": "missing",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": null,
+        "organizations": null
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-ambiguous-offers",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Pool and EVSE candidates without a signed selection.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/ambiguous-offers.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/ambiguous-offers.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/ambiguous-offers.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "b7e7e1ff135885abfafa523899be7b75c2eaf6fad0fe968901ba17441ec829c4"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "missing",
+        "applicability": "ambiguous",
+        "publication": "missing",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": null,
+        "organizations": null
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-conditional-price",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Conditional tariff elements are explicitly unsupported.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/conditional-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/conditional-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/conditional-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "c26429c2cbb06d4996d61296407a38566355da54ad1a923539c8a2fa57390d49"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "unsupported",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "3f9d97506d3ce7056baf626d221ffb726cb54328445eb94866696f8550f56def",
+          "algorithm": "Ed25519",
+          "energyPerKWh": null
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-session-before-start",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Receipts of organizations A and B, both before the signed start; no policy of witnesses accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/session-before-start.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/session-before-start.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/session-before-start.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-session-before-start-accepted",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "Receipts of organizations A and B, both before the signed start; witness-policy.json accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/session-before-start.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/session-before-start.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/session-before-start.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "policy": {
+        "publicationPolicy": {
+          "file": "POIPublication/witness-policy.json",
+          "pointer": ""
+        }
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "witnessed-before-signed-start",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": [
+          "Demo independent organization A",
+          "Demo independent organization B"
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-no-receipts",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "No receipts; no policy of witnesses accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/no-receipts.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/no-receipts.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/no-receipts.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-no-receipts-accepted",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "No receipts; witness-policy.json accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/no-receipts.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/no-receipts.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/no-receipts.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "policy": {
+        "publicationPolicy": {
+          "file": "POIPublication/witness-policy.json",
+          "pointer": ""
+        }
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-late-receipt",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "The receipt of organization B after the signed start; no policy of witnesses accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/late-receipt.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/late-receipt.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/late-receipt.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-late-receipt-accepted",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "The receipt of organization B after the signed start; witness-policy.json accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/late-receipt.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/late-receipt.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/late-receipt.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "policy": {
+        "publicationPolicy": {
+          "file": "POIPublication/witness-policy.json",
+          "pointer": ""
+        }
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": [
+          "Demo independent organization A"
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-clock-overlap",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "The receipt of organization B within its clock error of the signed start; no policy of witnesses accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/clock-overlap.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/clock-overlap.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/clock-overlap.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-clock-overlap-accepted",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "The receipt of organization B within its clock error of the signed start; witness-policy.json accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/clock-overlap.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/clock-overlap.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/clock-overlap.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "policy": {
+        "publicationPolicy": {
+          "file": "POIPublication/witness-policy.json",
+          "pointer": ""
+        }
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": [
+          "Demo independent organization A"
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-same-organization",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Both receipts of organization A, of its two keys: one organization; no policy of witnesses accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/same-organization.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/same-organization.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/same-organization.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-same-organization-accepted",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "Both receipts of organization A, of its two keys: one organization; witness-policy.json accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/same-organization.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/same-organization.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/same-organization.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "policy": {
+        "publicationPolicy": {
+          "file": "POIPublication/witness-policy.json",
+          "pointer": ""
+        }
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": [
+          "Demo independent organization A"
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-unknown-witness",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "A receipt of a witness the policy does not name; no policy of witnesses accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/unknown-witness.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/unknown-witness.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/unknown-witness.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-unknown-witness-accepted",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "A receipt of a witness the policy does not name; witness-policy.json accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/unknown-witness.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/unknown-witness.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/unknown-witness.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "policy": {
+        "publicationPolicy": {
+          "file": "POIPublication/witness-policy.json",
+          "pointer": ""
+        }
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": [
+          "Demo independent organization A"
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-wrong-price",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "A receipt of another price statement; no policy of witnesses accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/wrong-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/wrong-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/wrong-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-wrong-price-accepted",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "A receipt of another price statement; witness-policy.json accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/wrong-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/wrong-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/wrong-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "policy": {
+        "publicationPolicy": {
+          "file": "POIPublication/witness-policy.json",
+          "pointer": ""
+        }
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "invalid",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": [
+          "Demo independent organization A"
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-wrong-signed-price",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "A receipt binding another signed price statement; no policy of witnesses accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/wrong-signed-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/wrong-signed-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/wrong-signed-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-wrong-signed-price-accepted",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "A receipt binding another signed price statement; witness-policy.json accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/wrong-signed-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/wrong-signed-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/wrong-signed-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "policy": {
+        "publicationPolicy": {
+          "file": "POIPublication/witness-policy.json",
+          "pointer": ""
+        }
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "invalid",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": [
+          "Demo independent organization A"
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-wrong-tariff",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "A receipt binding another tariff; no policy of witnesses accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/wrong-tariff.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/wrong-tariff.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/wrong-tariff.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-wrong-tariff-accepted",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "A receipt binding another tariff; witness-policy.json accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/wrong-tariff.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/wrong-tariff.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/wrong-tariff.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "policy": {
+        "publicationPolicy": {
+          "file": "POIPublication/witness-policy.json",
+          "pointer": ""
+        }
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "invalid",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": [
+          "Demo independent organization A"
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-wrong-checkpoint",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "A receipt naming another checkpoint; no policy of witnesses accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/wrong-checkpoint.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/wrong-checkpoint.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/wrong-checkpoint.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-wrong-checkpoint-accepted",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "A receipt naming another checkpoint; witness-policy.json accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/wrong-checkpoint.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/wrong-checkpoint.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/wrong-checkpoint.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "policy": {
+        "publicationPolicy": {
+          "file": "POIPublication/witness-policy.json",
+          "pointer": ""
+        }
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "invalid",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": [
+          "Demo independent organization A"
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-tampered-receipt",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "A receipt whose source URL was changed after it was signed; no policy of witnesses accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/tampered-receipt.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/tampered-receipt.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/tampered-receipt.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-tampered-receipt-accepted",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "A receipt whose source URL was changed after it was signed; witness-policy.json accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/tampered-receipt.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/tampered-receipt.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/tampered-receipt.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "policy": {
+        "publicationPolicy": {
+          "file": "POIPublication/witness-policy.json",
+          "pointer": ""
+        }
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "invalid",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": [
+          "Demo independent organization A"
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-future-receipt",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "A receipt signed after the time of the verification; no policy of witnesses accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/future-receipt.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/future-receipt.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/future-receipt.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-future-receipt-accepted",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "A receipt signed after the time of the verification; witness-policy.json accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/future-receipt.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/future-receipt.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/future-receipt.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "policy": {
+        "publicationPolicy": {
+          "file": "POIPublication/witness-policy.json",
+          "pointer": ""
+        }
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "invalid",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": [
+          "Demo independent organization A"
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-private-source",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "A receipt of a private source URL, changed after it was signed; no policy of witnesses accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/private-source.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/private-source.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/private-source.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "invalid",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "publication-private-source-accepted",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "A receipt of a private source URL, changed after it was signed; witness-policy.json accepted.",
+      "trust": {
+        "anchor": {
+          "file": "POIPublication/private-source.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPublication/private-source.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPublication/private-source.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+      },
+      "policy": {
+        "publicationPolicy": {
+          "file": "POIPublication/witness-policy.json",
+          "pointer": ""
+        }
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "invalid",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": [
+          "Demo independent organization A"
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "trustTransition-policy",
+      "kind": "trustTransition",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "Old and new two-holder quorums sign a new anchor URL, identity keys, statement and certificates.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "operator": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/operator"
+      },
+      "transition": {
+        "file": "POITrustTransitions/policy-transition.json",
+        "pointer": ""
+      },
+      "acceptedAt": "2026-11-01T00:16:21.000Z",
+      "sequence": 0,
+      "result": {
+        "requiredConsensus": 2,
+        "signedByOld": 2,
+        "signedByNext": 2,
+        "policyId": "bc38a6480af8c44eb81b8b80f39cd76f87777f3da2f967df6bb6a91e0b37c700",
+        "epoch": 1
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "trustTransition-epoch",
+      "kind": "trustTransition",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "A transition opening epoch 2: the final checkpoint of epoch 1, the deterministic genesis of epoch 2 and its first checkpoint.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "operator": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/operator"
+      },
+      "transition": {
+        "file": "POITrustTransitions/epoch-transition.json",
+        "pointer": ""
+      },
+      "acceptedAt": "2026-11-01T00:16:21.000Z",
+      "sequence": 0,
+      "result": {
+        "requiredConsensus": 2,
+        "signedByOld": 2,
+        "signedByNext": 2,
+        "policyId": "c4ce17559f5bf995b414ca03428b20d2012d181defecd82cd87b946b16d697dd",
+        "epoch": 2
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "trustTransition-policy-of-vectors",
+      "kind": "trustTransition",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "The policy transition of vectors.json, which WWCP_POI.TS and WWCP_POI3 share.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "operator": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/operator"
+      },
+      "transition": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/policy"
+      },
+      "acceptedAt": "2026-11-01T00:16:21.000Z",
+      "sequence": 0,
+      "result": {
+        "requiredConsensus": 2,
+        "signedByOld": 2,
+        "signedByNext": 2,
+        "policyId": "bc38a6480af8c44eb81b8b80f39cd76f87777f3da2f967df6bb6a91e0b37c700",
+        "epoch": 1
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "trustTransition-epoch-of-vectors",
+      "kind": "trustTransition",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "The epoch transition of vectors.json, which WWCP_POI.TS and WWCP_POI3 share.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "operator": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/operator"
+      },
+      "transition": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/epoch"
+      },
+      "acceptedAt": "2026-11-01T00:16:21.000Z",
+      "sequence": 0,
+      "result": {
+        "requiredConsensus": 2,
+        "signedByOld": 2,
+        "signedByNext": 2,
+        "policyId": "c4ce17559f5bf995b414ca03428b20d2012d181defecd82cd87b946b16d697dd",
+        "epoch": 2
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "chargingDocumentKeys-base",
+      "kind": "chargingDocumentKeys",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/AuthorizedChargingDocumentKeys.cs",
+      "description": "The keys DE*POI may sign its charging documents with, of the proof of DE*POI*E1*1: its one Ed25519 key, as COSE names its algorithm.",
+      "trust": {
+        "anchor": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/anchor"
+        },
+        "keyStatement": {
+          "file": "POITrustTransitions/vectors.json",
+          "pointer": "/operator/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "current"
+      },
+      "proof": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/baseProof"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "operatorId": "DE*POI",
+        "at": "2026-11-01T00:05:01.000Z"
+      },
+      "result": {
+        "chargingStationId": "DE*POI*S1",
+        "keys": [
+          {
+            "id": "d423a82879e62cfb33fc10d72b218b28b5656053233a9cd125952bd32053d393",
+            "algorithm": "EdDSA-Ed25519"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "trustPolicyId-anchor",
+      "kind": "trustPolicyId",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "The trust anchor of vectors.json. Its policy identity: the SHA-256 of the canonical JSON of {network, holders, minConsensus, urls}.",
+      "trustAnchor": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/anchor"
+      },
+      "result": {
+        "policyId": "c4ce17559f5bf995b414ca03428b20d2012d181defecd82cd87b946b16d697dd"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "trustPolicyId-target",
+      "kind": "trustPolicyId",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "The trust anchor a transition of vectors.json delegates to. Its policy identity: the SHA-256 of the canonical JSON of {network, holders, minConsensus, urls}.",
+      "trustAnchor": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/targetAnchor"
+      },
+      "result": {
+        "policyId": "bc38a6480af8c44eb81b8b80f39cd76f87777f3da2f967df6bb6a91e0b37c700"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "keyStatementDigest-operator",
+      "kind": "keyStatementDigest",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "The key statement of the operator of vectors.json. Its digest: the SHA-256 of its content, with its @context, without its signatures.",
+      "keyStatement": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/operator/keyStatement"
+      },
+      "result": {
+        "digest": "f6ca6f926bf309ccb0a97982f28b788237f1cd669dc702805c3776365ff775d8"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "keyStatementDigest-target",
+      "kind": "keyStatementDigest",
+      "basis": "libs/WWCP_POI.TS/README.md, CPO envelope authority and compact trust succession (experimental); WWCP_POI3/Verifier/TrustTransition.cs",
+      "description": "The key statement of the operator a transition of vectors.json delegates to. Its digest: the SHA-256 of its content, with its @context, without its signatures.",
+      "keyStatement": {
+        "file": "POITrustTransitions/vectors.json",
+        "pointer": "/targetOperator/keyStatement"
+      },
+      "result": {
+        "digest": "035170fa6ba57fd65e2b80d3862180fc15f20ea4841575da1cd61f4647ebaa53"
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "offerHashes-session-before-start",
+      "kind": "offerHashes",
+      "basis": "libs/WWCP_POI.TS/README.md, Independent price publication receipts (experimental); WWCP_POI3/Verifier/PricePublication.cs",
+      "description": "What a receipt binds of an offer: the SHA-256 of the canonical JSON of the price statement as signed, its value included, and of the tariff selected.",
+      "priceStatement": {
+        "file": "POIPublication/session-before-start.chargy",
+        "pointer": "/poiEvidence/priceEvidence/priceStatements/0"
+      },
+      "tariff": {
+        "file": "POIPublication/session-before-start.chargy",
+        "pointer": "/poiEvidence/priceEvidence/chargingStationProof/roamingNetwork/chargingStationOperators/0/chargingTariffs/0"
+      },
+      "result": {
+        "priceStatementSHA256": "4a190459c23dda26260f5feff36bb1c7faf38558dab12fcb740060f924f4f33a",
+        "tariffSHA256": "3a7325951936e115d7d8a27f58f91284b4efb5d5539311f62c3659d9db15f207"
+      }
+    }
+  ]
+}

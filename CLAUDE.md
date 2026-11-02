@@ -39,6 +39,14 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   (ML-DSA-65, ES256, Ed25519) over its input as WWCP_POI3 writes it first. A document whose number text matters is
   given as `{ text }`: TS reads the vector files with `JSON.parse`, which would carry a patched 2^63 as
   9223372036854776000.
+- **The verifier extensions of WWCP_POI.TS 0.2.0** (`poi-verifier.json`, its section 9): meter keys, historical meter
+  evidence, session prices, receipts of witnesses, trust transitions, document keys of a CPO - experimental, no part of
+  SPECIFICATION.md but two usages; WWCP_POI3 has them in `WWCP_POI3/Verifier`. Their documents are the fixtures of
+  ChargyWebApp `fc513cd`, frozen in `test-vectors/runs/chargy-fc513cd` (made with WWCP_POI.TS itself, ECDSA not
+  deterministic). The generator checks every signature, root, inclusion and digest of them with `node:crypto` first;
+  what does not hold must be exactly `CHARGY_BROKEN`, the counterexamples their READMEs name. Seven of them are the
+  vector files WWCP_POI.TS and WWCP_POI3 share (`tests/vectors`, `WWCP_POI3_Tests/Vectors/TS`), checked byte for byte.
+  A vector's `result` is what both give, normalized by the adapters `Tests/.../VerifierTests.cs` and `test/verifier.ts`.
 - **What the implementations get wrong:** `docs/implementation-deviations.md`. Each deviation is in `DEVIATIONS` of the
   generator, marked on its vectors (`knownDeviations`, `deviation` anchor) and pinned: the harness of the deviating
   implementation expects the deviation, so a fix turns it red. Fixing one means: remove it from `DEVIATIONS`,
@@ -64,7 +72,8 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 513 passed (its 8 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped), TS 478
+Expected: C# 580 passed / 1 skipped (its 9 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped:
+`poi-verifier.json` until WWCP_POI.TS vendors it), TS 545
 passed / 20 skipped (7 signing: WWCP_POI.TS verifies only; 13 replays of `poi-histories.json` that WWCP_POI.TS leaves
 to WWCP_POI: references, provider groups, grid connection points). Skips are load-bearing, not noise.
 

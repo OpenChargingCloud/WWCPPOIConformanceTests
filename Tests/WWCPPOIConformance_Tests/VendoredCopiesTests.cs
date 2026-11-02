@@ -49,7 +49,8 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
             "poi-history.json",
             "poi-refusals.json",
             "poi-histories.json",
-            "poi-qidigital.json"
+            "poi-qidigital.json",
+            "poi-verifier.json"
         ];
 
         private static String VendoredDirectory

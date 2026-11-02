@@ -48,7 +48,7 @@ the QI-Digital documents of example A14 (`poi-qidigital.json`), was WWCP_POI3's 
 is fixed in WWCP_POI.TS `37b34f2`. D13, a key written otherwise than POI writes it, which WWCP_POI3 took and wrote
 again, was WWCP_POI3's, and is fixed in WWCP_POI `a425530`. D14, a conformity assessment body WWCP_POI3 refuses to
 read, was WWCP_POI.TS's, and is fixed in WWCP_POI.TS `4ff1fc2`. D15, a version written otherwise than the content holds
-it, which WWCP_POI3 took and wrote again, was WWCP_POI3's, and is fixed in WWCP_POI `3de830a` and `1de4dff`. Of the 491 vectors both implementations run 449 -
+it, which WWCP_POI3 took and wrote again, was WWCP_POI3's, and is fixed in WWCP_POI `3de830a` and `1de4dff`. Of the 558 vectors both implementations run 516 -
 the 7 requiring `signing` and the 13 of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's
 alone - and agree on every one of them
 (see
