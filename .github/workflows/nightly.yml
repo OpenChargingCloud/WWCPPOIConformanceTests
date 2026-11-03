@@ -36,14 +36,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Advance the specification and Styx to upstream HEADs
+      # WWCP_POI.TS for the vector files of the verifier extensions it shares with WWCP_POI3 (see ci.yml).
+      - name: Advance the specification, Styx and WWCP_POI.TS to upstream HEADs
         run: |
-          git submodule update --init --remote libs/WWCP_POI libs/Styx
+          git submodule update --init --remote libs/WWCP_POI libs/Styx libs/WWCP_POI.TS
           {
             echo '## Upstream HEADs under test'
             echo
             echo '```'
-            git submodule status libs/WWCP_POI libs/Styx
+            git submodule status libs/WWCP_POI libs/Styx libs/WWCP_POI.TS
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
