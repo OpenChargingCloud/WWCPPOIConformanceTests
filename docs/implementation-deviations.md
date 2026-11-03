@@ -1,7 +1,7 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `89c5fa3`, Hermod `aae6a79e`, Styx `f1057ea8`) and the TypeScript port (WWCP_POI.TS,
+(WWCP_POI3, `libs/WWCP_POI` at `6bd1bc1`, Hermod `aae6a79e`, Styx `f1057ea8`) and the TypeScript port (WWCP_POI.TS,
 `libs/WWCP_POI.TS` at `242fb29`) take or calculate different things.
 
 Each deviation is
@@ -52,7 +52,7 @@ read, was WWCP_POI.TS's, and is fixed in WWCP_POI.TS `4ff1fc2`. D15, a version w
 it, which WWCP_POI3 took and wrote again, was WWCP_POI3's, and is fixed in WWCP_POI `3de830a` and `1de4dff`. D16,
 found by the vectors of the verifier extensions (`poi-verifier.json`), was WWCP_POI.TS's: a price statement naming a
 charging tariff not as `{operatorId}*T{suffix}`, which SPECIFICATION.md says since WWCP_POI `89c5fa3`; it is fixed in
-WWCP_POI.TS `80afec7`. Of the 598 vectors both implementations run 556 -
+WWCP_POI.TS `80afec7`. Of the 611 vectors both implementations run 569 -
 the 7 requiring `signing` and the 13 of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's
 alone - and agree on every one of them
 (see
@@ -634,10 +634,16 @@ remove D16 from `DEVIATIONS` of the generator.
 price statement: " as `RoamingNetworkPriceStatement.TryParse` gives it - for `DE*POI*FOREIGN`, "The prices of a charging
 tariff need a valid 'chargingTariffId'!". Both give the vector's result.
 
-**Not covered:** by their code, both refuse more of the prices of a price statement since `80afec7`, in the same
-words: a property they do not read, a JSON-LD context other than their own, no elements, an element they do not read,
-a charging tariff named twice, a statement without a price status. No vector shows them yet: the vectors of
-`poi-verifier.json` take their documents from the fixtures as they are.
+Since `80afec7` both refuse more of the price status of a statement, in the same words, which SPECIFICATION.md 12.1
+says since WWCP_POI `6bd1bc1`: a property it does not hold, another JSON-LD context, its prices not an array, the prices
+of a tariff not an object, without elements, an element that is no object or has no price component, a tariff named
+twice, also in another spelling, a statement without a price status. The 13 `priceStatement-*` vectors of
+`poi-refusals.json` added with them show each, among them the tariff identification of D16 itself
+(`priceStatement-tariff-id-not-of-its-pattern`), patched from a price statement of the frozen run: no patch leaves its
+signature valid, so each names the words both refuse it in as it is read.
+
+**Not covered:** an element of the prices of a tariff naming a property it does not hold is taken by both, as an element
+of a charging tariff in a version is: the content holds only what its type defines (section 2), which no vector shows.
 
 
 ## What both do alike
@@ -664,8 +670,9 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 5 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 129 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
-  and trust anchors; among them a price statement naming its EVSE in another spelling, `DE*GEF*E11` for `DE*GEF*E1*1`,
+- the refusal of 142 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+  and trust anchors; among them a price statement whose price status is none, refused as it is read, in the same words
+  ([D16](#d16-tariff-id)), a price statement naming its EVSE in another spelling, `DE*GEF*E11` for `DE*GEF*E1*1`,
   and a checkpoint naming two statements of one EVSE and sequence, in two spellings or of two prices, a split view
   (12.1, 12.3; WWCP_POI `4680d99`, WWCP_POI.TS `6bcf7f5`), each refused by WWCP_POI3 as a history takes it and by
   WWCP_POI.TS as a client checks it, in the same words; a station proof naming another revision than its attestations

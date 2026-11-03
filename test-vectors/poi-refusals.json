@@ -3482,6 +3482,343 @@
     },
     {
       "expected": "refused",
+      "id": "priceStatement-without-price-status",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "Without its price status.",
+      "reason": "A price statement needs its price status!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/priceStatus"
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-prices-not-an-array",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "Its prices not an array, but the prices of DE*GEF*T_DC alone.",
+      "reason": "Invalid price status of the price statement: A price status must be a JSON object { prices: [ { chargingTariffId, elements }, … ] }!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/priceStatus/prices",
+            "value": {
+              "chargingTariffId": "DE*GEF*T_DC",
+              "elements": [
+                {
+                  "priceComponents": [
+                    {
+                      "type": "ENERGY",
+                      "price": 0.59,
+                      "stepSize": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-status-unknown-property",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "A price status naming a currency, which it does not hold.",
+      "reason": "Invalid price status of the price statement: Unknown property 'currency' of a price status!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/priceStatus/currency",
+            "value": "EUR"
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-status-context",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "A price status naming the JSON-LD context of the prices of a charging tariff.",
+      "reason": "Invalid price status of the price statement: The JSON-LD context of a price status must be 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/chargingPrices/v1'!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/priceStatus/@context",
+            "value": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/chargingTariffPrices/v1"
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-prices-not-an-object",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "The prices of DE*GEF*T_DC as its identification alone.",
+      "reason": "Invalid price status of the price statement: The prices of a charging tariff must be a JSON object { chargingTariffId, elements }!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/priceStatus/prices/0",
+            "value": "DE*GEF*T_DC"
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-prices-unknown-property",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "The prices of DE*GEF*T_DC naming a currency, which they do not hold.",
+      "reason": "Invalid price status of the price statement: Unknown property 'currency' of the prices of a charging tariff!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/priceStatus/prices/0/currency",
+            "value": "EUR"
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-prices-context",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "The prices of DE*GEF*T_DC naming the JSON-LD context of a price status.",
+      "reason": "Invalid price status of the price statement: The JSON-LD context of the prices of a charging tariff must be 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/chargingTariffPrices/v1'!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/priceStatus/prices/0/@context",
+            "value": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/chargingPrices/v1"
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-id-not-of-its-pattern",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "The prices of DE*GEF*T_DC naming it 'DE*GEF*DC', without the T of {operatorId}*T{suffix} (D16).",
+      "reason": "Invalid price status of the price statement: The prices of a charging tariff need a valid 'chargingTariffId'!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/priceStatus/prices/0/chargingTariffId",
+            "value": "DE*GEF*DC"
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-elements-empty",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "The prices of DE*GEF*T_DC without elements.",
+      "reason": "Invalid price status of the price statement: The prices of the charging tariff 'DE*GEF*T_DC' need their elements as a JSON array, at least one!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/priceStatus/prices/0/elements",
+            "value": []
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-element-not-an-object",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "An element of the prices of DE*GEF*T_DC that is a text.",
+      "reason": "Invalid price status of the price statement: A charging tariff element must be a JSON object!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/priceStatus/prices/0/elements/0",
+            "value": "ENERGY"
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-element-without-price-components",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "An element of the prices of DE*GEF*T_DC without price components.",
+      "reason": "Invalid price status of the price statement: A charging tariff element needs at least one price component!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/priceStatus/prices/0/elements/0/priceComponents",
+            "value": []
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-named-twice",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "The prices of DE*GEF*T_DC given twice.",
+      "reason": "Invalid price status of the price statement: A price status must name the charging tariff 'DE*GEF*T_DC' only once!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/priceStatus/prices/-",
+            "value": {
+              "chargingTariffId": "DE*GEF*T_DC",
+              "elements": [
+                {
+                  "priceComponents": [
+                    {
+                      "type": "ENERGY",
+                      "price": 0.59,
+                      "stepSize": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-named-twice-spelling",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "The prices of DE*GEF*T_DC given twice, the second time as DE*GEF*T_dc: one charging tariff.",
+      "reason": "Invalid price status of the price statement: A price status must name the charging tariff 'DE*GEF*T_dc' only once!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/priceStatus/prices/-",
+            "value": {
+              "chargingTariffId": "DE*GEF*T_dc",
+              "elements": [
+                {
+                  "priceComponents": [
+                    {
+                      "type": "ENERGY",
+                      "price": 0.59,
+                      "stepSize": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
       "id": "priceStatement-entity-spelling",
       "kind": "entityPriceStatement",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1",

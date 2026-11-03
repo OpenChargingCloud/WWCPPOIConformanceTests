@@ -20,13 +20,14 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `89c5fa3`, WWCP_POI.TS `242fb29`, Hermod `aae6a79e`,
-Styx `f1057ea8`):
+Both harnesses are green against the pinned submodules (WWCP_POI `6bd1bc1`, WWCP_POI.TS `242fb29`, Hermod `aae6a79e`,
+Styx `f1057ea8`) - but for the vendored copy of `poi-refusals.json`, which WWCP_POI.TS `242fb29` holds without the 13
+`priceStatement-*` vectors of the price status, until it refreshes it:
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 598 | 622 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 598 | 585 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
+| C# harness (NUnit), WWCP_POI3 | 611 | 635 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 611 | 598 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy,
 those of the verifier extensions since `242fb29`.

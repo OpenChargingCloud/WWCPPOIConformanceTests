@@ -2033,6 +2033,56 @@ function refusalVectors() {
     refuse({ id: 'priceStatement-sequence',    kind: 'priceStatement', basis: `${SPEC}, 12.1`, description: 'Another sequence.',                     document: patched('published/QA-checkpoint-4-priceStatements.json', '/0', [ { op: 'replace', path: '/sequence', value: 7 } ]), keysFrom: { file: 'published/QA-checkpoint-4-snapshot.json', pointer: '/roamingNetwork' } });
     refuse({ id: 'priceStatement-entity',      kind: 'priceStatement', basis: `${SPEC}, 12.1`, description: 'Another EVSE.',                         document: patched('published/QA-checkpoint-4-priceStatements.json', '/0', [ { op: 'replace', path: '/entityId', value: 'DE*GEF*E1*2' } ]), keysFrom: { file: 'published/QA-checkpoint-4-snapshot.json', pointer: '/roamingNetwork' } });
 
+    // ---- A price status is read before the signature is looked at (12.1): a statement whose price status is none is no
+    //      price statement. No patch here leaves the signature valid, so each vector names the words both refuse it in,
+    //      those of WWCP_POI3's ChargingPrices and ChargingTariffPrices, as WWCP_POI.TS reads it since 80afec7.
+    {
+        const STATEMENTS = 'published/QA-checkpoint-4-priceStatements.json';
+        const statement  = at(jsonRun(STATEMENTS), '/0');
+        const price      = statement.priceStatus.prices[0];
+        const P0         = '/priceStatus/prices/0';
+        if (Object.keys(statement.priceStatus).join() !== 'prices' || statement.priceStatus.prices.length !== 1 || Object.keys(price).join() !== 'chargingTariffId,elements' ||
+            price.chargingTariffId !== 'DE*GEF*T_DC' || price.elements.length !== 1 || price.elements[0].priceComponents.length !== 1)
+            fail(`${STATEMENTS}/0: no price status of the prices of DE*GEF*T_DC alone, of one element of one price component`);
+        quoted(SPEC, 'refused before its signature is looked at, and so is one without a price status or with one that is none:', 'that a statement without a price status, or with one that is none, is refused');
+        quoted(SPEC, 'a price status holds its `prices`, an array, and no other property;',                                       'what a price status holds');
+        quoted(SPEC, 'the prices of a charging tariff hold its `chargingTariffId` and its `elements`, and no other property;',     'what the prices of a charging tariff hold');
+        quoted(SPEC, 'suffix without case and `*`: `DE*GEF*T_dc` names `DE*GEF*T_DC`;',                                           'that a price status names each charging tariff once');
+        quoted(SPEC, 'the `elements` are at least one, each a JSON object read as those of a charging tariff, with at least one price', 'what the elements of the prices of a charging tariff are');
+        const PRICES_CONTEXT = quoted(SPEC, 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/chargingPrices/v1',       'the JSON-LD context of a price status');
+        const TARIFF_CONTEXT = quoted(SPEC, 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/chargingTariffPrices/v1', 'the JSON-LD context of the prices of a charging tariff');
+        const invalid = (error) => `Invalid price status of the price statement: ${error}`;
+        const status  = (id, description, reason, patch) =>
+            refuse({ id, kind: 'priceStatement', basis: `${SPEC}, 12.1, 1.1`, description, reason, document: patched(STATEMENTS, '/0', patch), keysFrom: { file: 'published/QA-checkpoint-4-snapshot.json', pointer: '/roamingNetwork' } });
+
+        status('priceStatement-without-price-status',      'Without its price status.',
+               'A price statement needs its price status!',                                                                 [ { op: 'remove',  path: '/priceStatus' } ]);
+        status('priceStatement-prices-not-an-array',       'Its prices not an array, but the prices of DE*GEF*T_DC alone.',
+               invalid('A price status must be a JSON object { prices: [ { chargingTariffId, elements }, … ] }!'),          [ { op: 'replace', path: '/priceStatus/prices', value: price } ]);
+        status('priceStatement-status-unknown-property',   'A price status naming a currency, which it does not hold.',
+               invalid("Unknown property 'currency' of a price status!"),                                                   [ { op: 'add',     path: '/priceStatus/currency', value: 'EUR' } ]);
+        status('priceStatement-status-context',            'A price status naming the JSON-LD context of the prices of a charging tariff.',
+               invalid(`The JSON-LD context of a price status must be '${PRICES_CONTEXT}'!`),                               [ { op: 'add',     path: '/priceStatus/@context', value: TARIFF_CONTEXT } ]);
+        status('priceStatement-tariff-prices-not-an-object', 'The prices of DE*GEF*T_DC as its identification alone.',
+               invalid('The prices of a charging tariff must be a JSON object { chargingTariffId, elements }!'),            [ { op: 'replace', path: P0, value: 'DE*GEF*T_DC' } ]);
+        status('priceStatement-tariff-prices-unknown-property', 'The prices of DE*GEF*T_DC naming a currency, which they do not hold.',
+               invalid("Unknown property 'currency' of the prices of a charging tariff!"),                                  [ { op: 'add',     path: `${P0}/currency`, value: 'EUR' } ]);
+        status('priceStatement-tariff-prices-context',     'The prices of DE*GEF*T_DC naming the JSON-LD context of a price status.',
+               invalid(`The JSON-LD context of the prices of a charging tariff must be '${TARIFF_CONTEXT}'!`),              [ { op: 'add',     path: `${P0}/@context`, value: PRICES_CONTEXT } ]);
+        status('priceStatement-tariff-id-not-of-its-pattern', "The prices of DE*GEF*T_DC naming it 'DE*GEF*DC', without the T of {operatorId}*T{suffix} (D16).",
+               invalid("The prices of a charging tariff need a valid 'chargingTariffId'!"),                                 [ { op: 'replace', path: `${P0}/chargingTariffId`, value: 'DE*GEF*DC' } ]);
+        status('priceStatement-tariff-elements-empty',     'The prices of DE*GEF*T_DC without elements.',
+               invalid("The prices of the charging tariff 'DE*GEF*T_DC' need their elements as a JSON array, at least one!"), [ { op: 'replace', path: `${P0}/elements`, value: [] } ]);
+        status('priceStatement-tariff-element-not-an-object', 'An element of the prices of DE*GEF*T_DC that is a text.',
+               invalid('A charging tariff element must be a JSON object!'),                                                 [ { op: 'replace', path: `${P0}/elements/0`, value: 'ENERGY' } ]);
+        status('priceStatement-tariff-element-without-price-components', 'An element of the prices of DE*GEF*T_DC without price components.',
+               invalid('A charging tariff element needs at least one price component!'),                                   [ { op: 'replace', path: `${P0}/elements/0/priceComponents`, value: [] } ]);
+        status('priceStatement-tariff-named-twice',        'The prices of DE*GEF*T_DC given twice.',
+               invalid("A price status must name the charging tariff 'DE*GEF*T_DC' only once!"),                            [ { op: 'add',     path: '/priceStatus/prices/-', value: price } ]);
+        status('priceStatement-tariff-named-twice-spelling', 'The prices of DE*GEF*T_DC given twice, the second time as DE*GEF*T_dc: one charging tariff.',
+               invalid("A price status must name the charging tariff 'DE*GEF*T_dc' only once!"),                            [ { op: 'add',     path: '/priceStatus/prices/-', value: { ...price, chargingTariffId: 'DE*GEF*T_dc' } } ]);
+    }
+
     // ---- A price statement names its entity as the roaming network does (12.1): identifications equal without "*",
     //      whitespace and case are one entity with one chain. The statement of the evidence of example A10, made against
     //      revision 13, checked as each implementation has it: taken by a history started from the snapshot of checkpoint
