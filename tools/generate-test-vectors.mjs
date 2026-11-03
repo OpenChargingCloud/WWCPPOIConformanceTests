@@ -71,6 +71,7 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
+    D16: { implementations: [ TYPESCRIPT ], anchor: 'd16-tariff-id' },
 };
 
 const deviation = (name) => {
@@ -1788,6 +1789,19 @@ function refusalVectors() {
              description: 'A signing key of DE*GEF names the usage zzz besides its own: a usage POI does not know.',
              reason: `The usage 'zzz' of the public key '${at(qa, `${keyAt}/@id`)}' is unknown`,
              document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, { op: 'add', path: `${keyAt}/usages/-`, value: 'zzz' } ]) });
+
+    // ---- Versions: a charging tariff named by no identification of a charging tariff, {operatorId}*T{suffix} (2): the
+    //      tariff DE*GEF*T_AC without its T, by itself and by the EVSE template naming it.
+    const tariffAt    = named(`${gefAt}/chargingTariffs/0`, 'DE*GEF*T_AC');
+    const templateAt  = named(`${gefAt}/EVSETemplates/0`,   'DE*GEF*ET_AC');
+    quoted(SPEC, 'identified as `ChargingTariff_Id`, `{operatorId}*T{suffix}` (`DE*GEF*T_AC`)', 'how a charging tariff is identified');
+    if (at(qa, `${templateAt}/chargingTariffId`) !== 'DE*GEF*T_AC')
+        fail(`QA.json: the EVSE template ${templateAt} names another charging tariff than DE*GEF*T_AC`);
+    refuse({ id: 'version-tariff-id-not-of-its-pattern', kind: 'version', basis: `${SPEC}, 2`,
+             description: "DE*GEF names its charging tariff DE*GEF*T_AC 'DE*GEF*AC', without the T of {operatorId}*T{suffix}, and so does its EVSE template DE*GEF*ET_AC.",
+             reason: "Invalid charging tariff identification 'DE*GEF*AC'!",
+             document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, { op: 'replace', path: `${tariffAt}/@id`, value: 'DE*GEF*AC' },
+                                                          { op: 'replace', path: `${templateAt}/chargingTariffId`, value: 'DE*GEF*AC' } ]) });
 
     // ---- Versions: a key as the content holds it (2, Written forms; 4.1): its timestamps UTC to the millisecond, its key
     //      the deterministic CBOR of its COSE key. The signing key of DE*GEF for price statements and tariffs with its
@@ -4026,15 +4040,16 @@ function verifierVectors() {
     const priceCase = (set, file, request = {}) =>
         ({ trust: bootstrapOf(`${set}/${file}`, provenance(set).evaluatedAt ?? provenance(set).now, 'historical'), evidence: ref(`${set}/${file}`, '/poiEvidence/priceEvidence'),
            request: { evseId: EVSE, meterSerialNumber: SERIAL, chargingStarted: provenance(set).chargingStarted, startDocumentSHA256: sha256(utf8(at(`${set}/${file}`, '/ocmfBegin'))), ...request } });
-    const priceVector = (id, set, file, description, verdicts, selected, { policy, organizations = selected === null ? null : [], request } = {}) => {
+    const priceVector = (id, set, file, description, verdicts, selected, { policy, organizations = selected === null ? null : [], request, specified, deviates } = {}) => {
         const [ signatures, agreement, applicability, publication, publicationBeforeStart ] = verdicts.split(' ');
         const evidence  = at(`${set}/${file}`, '/poiEvidence/priceEvidence');
         if (selected !== null && !(evidence.priceStatements ?? []).some(statement => sha256(utf8(canonical({ '@context': CONTEXTS.priceStatement, ...without(statement, 'value') }))) === selected.digest))
             fail(`${set}/${file}: the selected digest ${selected.digest} is of no statement of the evidence`);
-        accept({ id, kind: 'sessionPrice', basis: basis(policy === undefined ? 'Session-bound prices' : 'Independent price publication receipts', policy === undefined ? 'SessionPriceEvidence.cs' : 'PricePublication.cs'),
+        accept({ id, kind: 'sessionPrice', basis: specified ?? basis(policy === undefined ? 'Session-bound prices' : 'Independent price publication receipts', policy === undefined ? 'SessionPriceEvidence.cs' : 'PricePublication.cs'),
                  description, ...priceCase(set, file, request),
                  ...(policy === undefined ? {} : { policy }),
-                 result: { signatures, agreement, applicability, publication, publicationBeforeStart, customerConsent: 'not-proven', witnessedBy: [], selected, organizations } });
+                 result: { signatures, agreement, applicability, publication, publicationBeforeStart, customerConsent: 'not-proven', witnessedBy: [], selected, organizations },
+                 ...(deviates === undefined ? {} : deviation(deviates)) });
     };
     const ED      = (energyPerKWh = '0.35') => ({ digest: 'e3581482ba56a562f612a0f70fa08be468e32d74bed90072d6f4e55a746259ac', algorithm: 'Ed25519', energyPerKWh });
     const prices  = (name, verdicts, selected) => priceVector(`sessionPrice-${name}`, 'POIPrices', `${name}.chargy`, `${said('POIPrices', `${name}.chargy`)}.`, verdicts, selected);
@@ -4059,6 +4074,27 @@ function verifierVectors() {
     prices('broken-price-chain',    'valid missing invalid missing not-proven',        null);
     prices('ambiguous-offers',      'valid missing ambiguous missing not-proven',      null);
     prices('conditional-price',     'valid valid unsupported valid not-proven',        { digest: '3f9d97506d3ce7056baf626d221ffb726cb54328445eb94866696f8550f56def', algorithm: 'Ed25519', energyPerKWh: null });
+
+    // ---- A price naming no identification of a charging tariff (SPECIFICATION.md 2, 12.1): no price statement, refused
+    //      as read, before its signature is looked at, so that none of the evidence holds, as of an invalid signature.
+    //      What ChargyWebApp meant, a tariff outside the references of the EVSE, a tariff of the operator's pattern would
+    //      show. WWCP_POI.TS takes the statement, and refuses only that the price applies (D16).
+    {
+        const FOREIGN   = 'POIPrices/foreign-tariff.chargy';
+        const statement = at(FOREIGN, '/poiEvidence/priceEvidence/priceStatements/0');
+        const operator  = at(FOREIGN, '/poiEvidence/priceEvidence/chargingStationProof/roamingNetwork/chargingStationOperators/0');
+        const tariffIds = (operator.chargingTariffs ?? []).map(tariff => tariff['@id']);
+        const named     = statement.priceStatus.prices.map(price => price.chargingTariffId);
+        // As ChargingTariff_Id reads it: {operatorId}*T{suffix}.
+        const TARIFF_ID = /^[A-Za-z]{2}\*?[A-Za-z0-9]{3}\*?T[A-Za-z0-9_][A-Za-z0-9_*.$€-]{0,49}$/u;
+        if (statement.signer !== operator['@id'] || tariffIds.length === 0 || !tariffIds.every(id => TARIFF_ID.test(id)) || named.length !== 1 || TARIFF_ID.test(named[0]))
+            fail(`${FOREIGN}: no statement of ${operator['@id']}, whose tariffs ${tariffIds.join(', ')} are of the pattern, naming one price of a tariff that is not`);
+        quoted(SPEC, 'identified as `ChargingTariff_Id`, `{operatorId}*T{suffix}` (`DE*GEF*T_AC`)', 'how a charging tariff is identified');
+        quoted(SPEC, 'A statement naming another text is no price statement and is',                'that a price statement naming another text is refused');
+        priceVector('sessionPrice-foreign-tariff', 'POIPrices', 'foreign-tariff.chargy',
+                    `${said('POIPrices', 'foreign-tariff.chargy')}: its price names the charging tariff '${named[0]}', which is no identification of a charging tariff, {operatorId}*T{suffix}, as those of ${operator['@id']} are (${tariffIds.join(', ')}). It is no price statement, refused as read, before its signature is looked at: no statement of the evidence holds, as of an invalid signature.`,
+                    'invalid missing invalid missing not-proven', null, { specified: `${SPEC}, 2, 12.1`, deviates: 'D16' });
+    }
 
     // ---- Receipts of witnesses (PricePublicationVerification): without a policy of witnesses, no receipt counts; with
     //      witness-policy.json accepted, two organizations, receipts of organization A (two Ed25519 keys, counting once)

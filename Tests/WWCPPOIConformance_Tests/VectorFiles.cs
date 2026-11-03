@@ -84,6 +84,11 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 
         public static String RunDirectory      => Path.Combine(VectorsDirectory, History["run"]!.Value<String>()!.Replace('/', Path.DirectorySeparatorChar));
 
+        /// <summary>
+        /// The fixtures of ChargyWebApp the vectors of the verifier extensions take their documents from.
+        /// </summary>
+        public static String ChargyDirectory   => Path.Combine(VectorsDirectory, Verifier["run"]!.Value<String>()!.Replace('/', Path.DirectorySeparatorChar));
+
         #endregion
 
 

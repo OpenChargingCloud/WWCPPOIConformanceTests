@@ -1348,6 +1348,50 @@
     },
     {
       "expected": "accepted",
+      "id": "sessionPrice-foreign-tariff",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2, 12.1",
+      "description": "Genuine price naming a tariff outside this EVSE's references: its price names the charging tariff 'DE*POI*FOREIGN', which is no identification of a charging tariff, {operatorId}*T{suffix}, as those of DE*POI are (DE*POI*T1). It is no price statement, refused as read, before its signature is looked at: no statement of the evidence holds, as of an invalid signature.",
+      "trust": {
+        "anchor": {
+          "file": "POIPrices/foreign-tariff.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "file": "POIPrices/foreign-tariff.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "file": "POIPrices/foreign-tariff.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "a114953508ca1fe934537f3094cef5502ff07dddbcb385087194c997c322dfb9"
+      },
+      "result": {
+        "signatures": "invalid",
+        "agreement": "missing",
+        "applicability": "invalid",
+        "publication": "missing",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": null,
+        "organizations": null
+      },
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d16-tariff-id"
+    },
+    {
+      "expected": "accepted",
       "id": "publication-session-before-start",
       "kind": "sessionPrice",
       "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",

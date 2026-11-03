@@ -20,17 +20,20 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `89d2e02`, WWCP_POI.TS `64b4bc0`, Hermod `aae6a79e`,
-Styx `f1057ea8`):
+Both harnesses are green against the pinned submodules (WWCP_POI `01e82dd`, WWCP_POI.TS `813e1d7`, Hermod `aae6a79e`,
+Styx `f1057ea8`) - but for the vendored copy of `poi-refusals.json`, which WWCP_POI.TS `813e1d7` holds without
+`version-tariff-id-not-of-its-pattern`, until it refreshes it:
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 596 | 618 tests | 1: the vendored copy of `poi-verifier.json`, until WWCP_POI.TS vendors it |
-| TypeScript harness (vitest), WWCP_POI.TS | 596 | 583 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
+| C# harness (NUnit), WWCP_POI3 | 598 | 620 tests | 2: the vendored copies of `poi-verifier.json` and of the fixtures of ChargyWebApp, until WWCP_POI.TS vendors them |
+| TypeScript harness (vitest), WWCP_POI.TS | 598 | 585 tests | 20: 7 signing from the private seeds, which WWCP_POI.TS does not do; 13 replays of what WWCP_POI.TS leaves to WWCP_POI (the references a version holds, what a model rates among them, groups of e-mobility providers, grid connection points) |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy.
 
-The two implementations agree on every vector both run. The six deviations the vectors found first, where
+The two implementations agree on every vector both run but one: D16, open, where **WWCP_POI.TS takes a price statement
+naming a charging tariff not as `{operatorId}*T{suffix}`**, which WWCP_POI3 refuses, as SPECIFICATION.md says since
+WWCP_POI `01e82dd`; the harness of WWCP_POI.TS holds it to it. The six deviations the vectors found first, where
 **WWCP_POI3 took what WWCP_POI.TS refuses**, are fixed in WWCP_POI (D1 and D2 in `2c90847`, D3 in `be07037`, D4 and
 D5 in `6e469a0`, D6 in `65e658d`); D7, the other way round, where **WWCP_POI.TS took what WWCP_POI3 refuses**, in
 WWCP_POI.TS `b9c786e`; D8, found by the histories the generator signs, the other way round as well, in WWCP_POI.TS
@@ -62,10 +65,11 @@ Their vectors hold both implementations to it - see
 | D13 | ✅ WWCP_POI3 takes a key written otherwise than POI writes it, and writes it again: a `notAfter` with an offset, of a date only or `null`, a COSE key in CBOR that is not deterministic - with an offset and in CBOR that is not deterministic against the `eTags` of the version as published; WWCP_POI.TS refuses them: fixed in WWCP_POI `a425530` |
 | D14 | ✅ WWCP_POI.TS takes a conformity assessment body WWCP_POI3 refuses to read: a certificate under a legislation the body is not notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice: fixed in WWCP_POI.TS `4ff1fc2` |
 | D15 | ✅ WWCP_POI3 takes a version written otherwise than the content holds it, and writes it again: what the content orders out of its order, ordered texts untrimmed, a list given empty, a property `null`, an embedded object naming its JSON-LD context, a text in languages keyed otherwise, a timestamp with an offset, a property of a key or an EV Taler merchant POI does not read, a URL without its scheme (27 vectors `version-held-*`, 10 against the `eTags` of the version as published); WWCP_POI.TS refuses them since `5c534d4`: fixed in WWCP_POI `3de830a` and `1de4dff` |
+| D16 | WWCP_POI.TS takes a price statement naming a charging tariff not as `{operatorId}*T{suffix}` (`DE*POI*FOREIGN` of `foreign-tariff.chargy`), which WWCP_POI3 refuses as it reads it; in a version both refuse it since WWCP_POI.TS `813e1d7`: open |
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
 ([`docs/csharp-review.md`](docs/csharp-review.md)), and so does D11, finding 23, which WWCP_POI.TS shares; D1, D2, D7,
-D8, D9, D10, D12, D13, D14 and D15 are new. Which of its 23 findings the vectors
+D8, D9, D10, D12, D13, D14, D15 and D16 are new. Which of its 23 findings the vectors
 hold, and why the rest is out of their reach, is listed in [docs/implementation-deviations.md](docs/implementation-deviations.md).
 Findings 20 and 21, custom data held as given, also the custom data of an address, are fixed in Styx `06b592d3`; the
 vectors `spec-2-custom-data-*` hold both implementations to it (against Styx `91901a9`, WWCP_POI3 wrote other

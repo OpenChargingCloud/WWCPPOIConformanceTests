@@ -46,7 +46,8 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   deterministic). The generator checks every signature, root, inclusion and digest of them with `node:crypto` first;
   what does not hold must be exactly `CHARGY_BROKEN`, the counterexamples their READMEs name. Seven of them are the
   vector files WWCP_POI.TS and WWCP_POI3 share (`tests/vectors`, `WWCP_POI3_Tests/Vectors/TS`), checked byte for byte.
-  A vector's `result` is what both give, normalized by the adapters `Tests/.../VerifierTests.cs` and `test/verifier.ts`.
+  A vector's `result` is what both give, normalized by the adapters `Tests/.../VerifierTests.cs` and `test/verifier.ts`;
+  marked `knownDeviations`, what one gives and the other does not (D16, `sessionPrice-foreign-tariff`).
   A refusal's `changes` (pointers of the case) and `documentChanges` (prefixes of the document a counterexample swaps
   in) are calculated by the generator against its `control`, which stops on any claim that does not hold.
 - **What the implementations get wrong:** `docs/implementation-deviations.md`. Each deviation is in `DEVIATIONS` of the
@@ -74,8 +75,9 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 618 passed / 1 skipped (its 9 copy tests need the vendored `poi-*.json` of WWCP_POI.TS, or are skipped:
-`poi-verifier.json` until WWCP_POI.TS vendors it), TS 583
+Expected: C# 620 passed / 2 skipped (its copy tests need the vendored `poi-*.json` and runs of WWCP_POI.TS, or are
+skipped: `poi-verifier.json` and `chargy-fc513cd` until WWCP_POI.TS vendors them; `poi-refusals.json` fails until it
+refreshes its copy with `version-tariff-id-not-of-its-pattern`), TS 585
 passed / 20 skipped (7 signing: WWCP_POI.TS verifies only; 13 replays of `poi-histories.json` that WWCP_POI.TS leaves
 to WWCP_POI: references, provider groups, grid connection points). Skips are load-bearing, not noise.
 

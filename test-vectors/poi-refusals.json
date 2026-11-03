@@ -2103,6 +2103,34 @@
     },
     {
       "expected": "refused",
+      "id": "version-tariff-id-not-of-its-pattern",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "DE*GEF names its charging tariff DE*GEF*T_AC 'DE*GEF*AC', without the T of {operatorId}*T{suffix}, and so does its EVSE template DE*GEF*ET_AC.",
+      "reason": "Invalid charging tariff identification 'DE*GEF*AC'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/chargingStationOperators/0/chargingTariffs/0/@id",
+            "value": "DE*GEF*AC"
+          },
+          {
+            "op": "replace",
+            "path": "/chargingStationOperators/0/EVSETemplates/0/chargingTariffId",
+            "value": "DE*GEF*AC"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
       "id": "version-key-not-after-offset",
       "kind": "version",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 2, 4.1",

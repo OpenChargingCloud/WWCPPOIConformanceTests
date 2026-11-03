@@ -37,9 +37,6 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 
         #region Documents of the fixtures
 
-        private static String ChargyDirectory
-            => Path.Combine(VectorFiles.VectorsDirectory, "runs", "chargy-fc513cd");
-
         /// <summary>
         /// A document of the fixtures, read as POI reads JSON: a file and a JSON pointer (RFC 6901) into it. Where the
         /// pointer goes on into a string, the string is a JSON document of its own (a fixture keeps signed decimals so).
@@ -51,7 +48,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
                 throw new InvalidOperationException("The vector names no document!");
 
             var file   = reference["file"]!.Value<String>()!;
-            var value  = POIJSON.Read(File.ReadAllText(Path.Combine(ChargyDirectory, file.Replace('/', Path.DirectorySeparatorChar))));
+            var value  = POIJSON.Read(File.ReadAllText(Path.Combine(VectorFiles.ChargyDirectory, file.Replace('/', Path.DirectorySeparatorChar))));
 
             foreach (var token in (reference["pointer"]?.Value<String>() ?? "") is { Length: > 0 } pointer
                                       ? pointer[1..].Split('/').Select(token => token.Replace("~1", "/").Replace("~0", "~"))
@@ -263,9 +260,19 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 
             if (Vector["expected"]!.Value<String>() == "accepted")
             {
+
                 var result = Results(kind, Vector);
+
+                if (VectorFiles.Deviates(Vector))
+                {
+                    // Pinned: the known deviation still holds. Once it gives the result, remove the marker in the generator.
+                    Assert.That(JToken.DeepEquals(result, Vector["result"]), Is.False, "The known deviation is gone: remove the knownDeviations marker of the vector in tools/generate-test-vectors.mjs!");
+                    return;
+                }
+
                 Assert.That(JToken.DeepEquals(result, Vector["result"]), Is.True, $"WWCP_POI3 gives {result.ToString(Newtonsoft.Json.Formatting.None)}");
                 return;
+
             }
 
             if (Vector["control"] is not JObject control)
@@ -276,6 +283,13 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 
             // The control: the same check, of what the vector is about given otherwise, taken.
             Results(kind, control);
+
+            if (VectorFiles.Deviates(Vector))
+            {
+                // Pinned: the known deviation still holds. Once it is refused, remove the marker in the generator.
+                Assert.DoesNotThrow(() => Results(kind, Vector), "The known deviation is gone: remove the knownDeviations marker of the vector in tools/generate-test-vectors.mjs!");
+                return;
+            }
 
             var refusal = Assert.Throws<VerifierRefusal>(() => Results(kind, Vector));
             if (Vector["reason"]?.Value<String>() is String reason)

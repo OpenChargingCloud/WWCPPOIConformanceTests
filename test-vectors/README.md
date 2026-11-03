@@ -98,8 +98,9 @@ calculates both and stops where a vector claims otherwise, so a refusal cannot b
 - `source` / `basis`: where the specification (or Styx, an RFC) says so. `(proposed)` marks a rule the specification does
   not state yet, taken from a review finding.
 - `knownDeviations`: implementations known to do otherwise, by name - `wwcp-poi3` (C#), `wwcp-poi.ts` (TypeScript).
-  The harness of a named implementation holds it to its deviation (the opposite outcome), so that a fix turns it red;
-  `deviation` links the analysis in `docs/implementation-deviations.md`.
+  The harness of a named implementation holds it to its deviation (the opposite outcome: taken where the vector refuses,
+  refused where it takes, another result than its `result`), so that a fix turns it red; `deviation` links the analysis
+  in `docs/implementation-deviations.md`.
 - `notApplicable`: implementations the vector does not apply to; their harness skips it.
 - `requires`: capabilities an implementation needs to run the vector, e.g. `signing` (the C# implementation signs,
   the TypeScript port only verifies). A harness skips a vector requiring a capability it lacks, and fails on a

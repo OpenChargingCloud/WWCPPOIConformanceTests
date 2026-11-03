@@ -18,7 +18,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { results, verifier } from './verifier.ts';
-import { skipReason } from './vectors.ts';
+import { deviates, skipReason } from './vectors.ts';
 
 
 describe('poi-verifier.json: the verifier extensions of WWCP_POI.TS 0.2.0, of the fixtures of ChargyWebApp', () => {
@@ -28,8 +28,16 @@ describe('poi-verifier.json: the verifier extensions of WWCP_POI.TS 0.2.0, of th
         it.skipIf(skipReason(vector) !== undefined)(`${vector.id} (${vector.expected}): ${vector.description}`, () => {
 
             if (vector.expected === 'accepted') {
+
+                if (deviates(vector)) {
+                    // Pinned: the known deviation still holds. Once it gives the result, remove the marker in the generator.
+                    expect(results(vector.kind, vector), 'The known deviation is gone: remove the knownDeviations marker of the vector in tools/generate-test-vectors.mjs').not.toEqual(vector.result);
+                    return;
+                }
+
                 expect(results(vector.kind, vector)).toEqual(vector.result);
                 return;
+
             }
 
             if (vector.control === undefined)
@@ -37,6 +45,12 @@ describe('poi-verifier.json: the verifier extensions of WWCP_POI.TS 0.2.0, of th
 
             // The control: the same check, of what the vector is about given otherwise, taken.
             results(vector.kind, vector.control);
+
+            if (deviates(vector)) {
+                // Pinned: the known deviation still holds. Once it is refused, remove the marker in the generator.
+                results(vector.kind, vector);
+                return;
+            }
 
             // Refused for what the vector is about, where it names it.
             if (vector.reason === undefined)

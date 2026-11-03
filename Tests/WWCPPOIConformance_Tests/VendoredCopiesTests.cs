@@ -25,9 +25,9 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 {
 
     /// <summary>
-    /// WWCP_POI.TS carries a VENDORED COPY of the golden vector files and of the frozen run (tests/vectors/poi-*.json,
-    /// tests/vectors/csharp-33447ac), so that its own test suite (tests/conformance.test.ts) runs against the very same
-    /// bytes while staying self-contained.
+    /// WWCP_POI.TS carries a VENDORED COPY of the golden vector files and of the frozen runs (tests/vectors/poi-*.json,
+    /// tests/vectors/csharp-33447ac, tests/vectors/chargy-fc513cd), so that its own test suite
+    /// (tests/conformance.test.ts) runs against the very same bytes while staying self-contained.
     ///
     /// These tests fail when a vendored copy drifts from test-vectors/ of this repository. In CI that guards the pinned
     /// submodule; in the nightly run, which advances the submodules to their upstream HEADs, the upstream branch. Fix a
@@ -61,12 +61,37 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
         public void The_frozen_run_is_vendored_byte_for_byte()
         {
 
-            var run       = VectorFiles.RunDirectory;
-            var vendored  = Path.Combine(VendoredDirectory, Path.GetFileName(run));
+            var run = VectorFiles.RunDirectory;
 
-            if (!Directory.Exists(vendored))
+            if (!Directory.Exists(Path.Combine(VendoredDirectory, Path.GetFileName(run))))
                 Assert.Fail($"WWCP_POI.TS vendors no copy of {Path.GetFileName(run)}: is the submodule checked out?");
 
+            VendoredByteForByte(run);
+
+        }
+
+
+        [Test]
+        public void The_fixtures_of_ChargyWebApp_are_vendored_byte_for_byte()
+        {
+
+            var run = VectorFiles.ChargyDirectory;
+
+            if (!Directory.Exists(Path.Combine(VendoredDirectory, Path.GetFileName(run))))
+                Assert.Ignore($"This WWCP_POI.TS does not vendor {Path.GetFileName(run)}: its own suite does not run the vectors of the verifier extensions.");
+
+            VendoredByteForByte(run);
+
+        }
+
+
+        /// <summary>
+        /// Every file of the given run, and no other, in the copy WWCP_POI.TS vendors, byte for byte.
+        /// </summary>
+        private static void VendoredByteForByte(String run)
+        {
+
+            var vendored  = Path.Combine(VendoredDirectory, Path.GetFileName(run));
             var ours      = Directory.GetFiles(run,      "*", SearchOption.AllDirectories).Select(file => Path.GetRelativePath(run,      file)).Order(StringComparer.Ordinal).ToArray();
             var theirs    = Directory.GetFiles(vendored, "*", SearchOption.AllDirectories).Select(file => Path.GetRelativePath(vendored, file)).Order(StringComparer.Ordinal).ToArray();
 
