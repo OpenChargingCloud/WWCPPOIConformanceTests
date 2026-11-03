@@ -20,9 +20,8 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `6bd1bc1`, WWCP_POI.TS `242fb29`, Hermod `aae6a79e`,
-Styx `f1057ea8`) - but for the vendored copy of `poi-refusals.json`, which WWCP_POI.TS `242fb29` holds without the 13
-`priceStatement-*` vectors of the price status, until it refreshes it:
+Both harnesses are green against the pinned submodules (WWCP_POI `6bd1bc1`, WWCP_POI.TS `7c4d16e`, Hermod `aae6a79e`,
+Styx `f1057ea8`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
