@@ -30,8 +30,8 @@ QI-Digital documents of a meter (`published/EM-LAB-DCC-2026-0815.json`, `PTB-DE-
 `PTB-DE-26-QS-PTB-0042.json`, `SAALE-DoC-SM-3-2026-01.json`) and adds the calibration laboratory EM-LAB to QA, so that
 the head is revision 8 of epoch 2; `csharp-987fa26` had replaced `csharp-80e4ccc`, since `987fa26` gave models,
 stations, meters and certificates hardware revisions and firmware versions, and certificates for station and meter
-models with their components (docs/csharp-review.md, 16 and 17). WWCP_POI.TS keeps a vendored copy of it and of the `poi-*.json` for
-its own suite (`tests/conformance.test.ts`); `VendoredCopiesTests` of the C# harness fails when a copy drifts. Every
+models with their components (docs/csharp-review.md, 16 and 17). WWCP_POI.TS keeps a vendored copy of it, of
+`runs/chargy-fc513cd` and of the `poi-*.json` for its own suite (`tests/conformance.test.ts`); `VendoredCopiesTests` of the C# harness fails when a copy drifts. Every
 run of the examples makes new keys, so every digest of another run differs: this run is frozen, not regenerated.
 
 `poi-history.json` names `at`, a point in time at which its key statements, keys and the attestations of its station

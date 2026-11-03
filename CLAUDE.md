@@ -18,7 +18,8 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   versions, certificates for station and meter models with their components, `csharp-80e4ccc` before with new values
   given as the content holds them, `csharp-bc3b1bd` before with change sets identified by their content,
   `csharp-dbf39b0` before with the digests of price statements, `csharp-801bbce` before that).
-- **WWCP_POI.TS vendors everything** in `tests/vectors` (the run as `csharp-33447ac`, next to the `poi-*.json`) and runs
+- **WWCP_POI.TS vendors everything** in `tests/vectors` (the runs as `csharp-33447ac` and `chargy-fc513cd`, next to the
+  `poi-*.json`) and runs
   the golden vectors in its own suite, `tests/conformance.test.ts` with its loader `tests/conformance.ts`.
   `VendoredCopiesTests` fails on drift; `--mirror libs/WWCP_POI.TS/tests/vectors` refreshes the copy. A change of the
   vector FORMAT therefore touches three harnesses: the C# one and the TS one here, and `tests/conformance.ts` there.
@@ -75,9 +76,8 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 620 passed / 2 skipped (its copy tests need the vendored `poi-*.json` and runs of WWCP_POI.TS, or are
-skipped: `poi-verifier.json` and `chargy-fc513cd` until WWCP_POI.TS vendors them; `poi-refusals.json` fails until it
-refreshes its copy with `version-tariff-id-not-of-its-pattern`), TS 585
+Expected: C# 622 passed / 0 skipped (its 11 copy tests need the vendored `poi-*.json` and both runs of WWCP_POI.TS: a
+copy missing or drifted is red), TS 585
 passed / 20 skipped (7 signing: WWCP_POI.TS verifies only; 13 replays of `poi-histories.json` that WWCP_POI.TS leaves
 to WWCP_POI: references, provider groups, grid connection points). Skips are load-bearing, not noise.
 

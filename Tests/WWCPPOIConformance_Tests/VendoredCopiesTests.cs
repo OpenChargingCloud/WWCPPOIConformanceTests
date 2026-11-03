@@ -78,7 +78,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
             var run = VectorFiles.ChargyDirectory;
 
             if (!Directory.Exists(Path.Combine(VendoredDirectory, Path.GetFileName(run))))
-                Assert.Ignore($"This WWCP_POI.TS does not vendor {Path.GetFileName(run)}: its own suite does not run the vectors of the verifier extensions.");
+                Assert.Fail($"WWCP_POI.TS vendors no copy of {Path.GetFileName(run)}: is the submodule checked out?");
 
             VendoredByteForByte(run);
 
@@ -113,7 +113,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
             var vendored = Path.Combine(VendoredDirectory, FileName);
 
             if (!File.Exists(vendored))
-                Assert.Ignore($"This WWCP_POI.TS does not vendor {FileName}: its own suite does not run the golden vectors.");
+                Assert.Fail($"WWCP_POI.TS vendors no copy of {FileName}: is the submodule checked out?");
 
             Assert.That(File.ReadAllBytes(vendored), Is.EqualTo(File.ReadAllBytes(Path.Combine(VectorFiles.VectorsDirectory, FileName))));
 
