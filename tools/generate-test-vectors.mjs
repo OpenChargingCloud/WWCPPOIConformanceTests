@@ -71,7 +71,6 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
-    D16: { implementations: [ TYPESCRIPT ], anchor: 'd16-tariff-id' },
 };
 
 const deviation = (name) => {
@@ -4078,7 +4077,7 @@ function verifierVectors() {
     // ---- A price naming no identification of a charging tariff (SPECIFICATION.md 2, 12.1): no price statement, refused
     //      as read, before its signature is looked at, so that none of the evidence holds, as of an invalid signature.
     //      What ChargyWebApp meant, a tariff outside the references of the EVSE, a tariff of the operator's pattern would
-    //      show. WWCP_POI.TS takes the statement, and refuses only that the price applies (D16).
+    //      show. Both refuse it so since WWCP_POI.TS `80afec7` (D16, fixed).
     {
         const FOREIGN   = 'POIPrices/foreign-tariff.chargy';
         const statement = at(FOREIGN, '/poiEvidence/priceEvidence/priceStatements/0');
@@ -4093,7 +4092,7 @@ function verifierVectors() {
         quoted(SPEC, 'A statement naming another text is no price statement and is',                'that a price statement naming another text is refused');
         priceVector('sessionPrice-foreign-tariff', 'POIPrices', 'foreign-tariff.chargy',
                     `${said('POIPrices', 'foreign-tariff.chargy')}: its price names the charging tariff '${named[0]}', which is no identification of a charging tariff, {operatorId}*T{suffix}, as those of ${operator['@id']} are (${tariffIds.join(', ')}). It is no price statement, refused as read, before its signature is looked at: no statement of the evidence holds, as of an invalid signature.`,
-                    'invalid missing invalid missing not-proven', null, { specified: `${SPEC}, 2, 12.1`, deviates: 'D16' });
+                    'invalid missing invalid missing not-proven', null, { specified: `${SPEC}, 2, 12.1` });
     }
 
     // ---- Receipts of witnesses (PricePublicationVerification): without a policy of witnesses, no receipt counts; with

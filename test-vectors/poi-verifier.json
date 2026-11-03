@@ -1384,11 +1384,7 @@
         "witnessedBy": [],
         "selected": null,
         "organizations": null
-      },
-      "knownDeviations": [
-        "wwcp-poi.ts"
-      ],
-      "deviation": "docs/implementation-deviations.md#d16-tariff-id"
+      }
     },
     {
       "expected": "accepted",

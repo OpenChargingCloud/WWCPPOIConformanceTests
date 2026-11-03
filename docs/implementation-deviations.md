@@ -1,8 +1,8 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `01e82dd`, Hermod `aae6a79e`, Styx `f1057ea8`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `813e1d7`) take or calculate different things.
+(WWCP_POI3, `libs/WWCP_POI` at `89c5fa3`, Hermod `aae6a79e`, Styx `f1057ea8`) and the TypeScript port (WWCP_POI.TS,
+`libs/WWCP_POI.TS` at `ea4ec79`) take or calculate different things.
 
 Each deviation is
 
@@ -38,7 +38,7 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D13](#d13-written-forms) | ✅ A key written otherwise than POI writes it is taken and written again: a `notAfter` with an offset, of a date only or `null`, a COSE key in CBOR that is not deterministic - with an offset and in CBOR that is not deterministic against the `eTags` of the version as published: **fixed** in WWCP_POI `a425530` | WWCP_POI3 | `version-key-not-after-offset`, `version-key-not-after-date`, `version-key-not-after-null`, `version-key-cbor-not-deterministic` | medium (interop) | new |
 | [D14](#d14-body-malformed) | ✅ A conformity assessment body WWCP_POI3 refuses to read is taken: a certificate under a legislation it is not notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice: **fixed** in WWCP_POI.TS `4ff1fc2` | WWCP_POI.TS | `version-body-certificate-not-notified`, `version-body-number-three-digits`, `version-body-notified-for-empty`, `version-body-notified-for-twice` | low | - |
 | [D15](#d15-content-as-held) | ✅ A version written otherwise than the content holds it is taken, and written again: what the content orders out of its order, the texts of an ordered list untrimmed, a list given empty, a property given as `null`, an embedded object naming its JSON-LD context, a text in languages keyed otherwise, a timestamp with an offset, a property of a key or of an EV Taler merchant POI does not read, a URL without its scheme - 10 of them against the `eTags` of the version as published: **fixed** in WWCP_POI `3de830a` and `1de4dff` | WWCP_POI3 | the 27 `version-held-*` | medium (interop) | new |
-| [D16](#d16-tariff-id) | A price statement naming a charging tariff not as `{operatorId}*T{suffix}` is taken, which WWCP_POI3 refuses as it reads it: its signature counts as valid, the price only does not apply | WWCP_POI.TS | `sessionPrice-foreign-tariff` | low | new |
+| [D16](#d16-tariff-id) | ✅ A price statement naming a charging tariff not as `{operatorId}*T{suffix}` is taken, which WWCP_POI3 refuses as it reads it: its signature counts as valid, the price only does not apply: **fixed** in WWCP_POI.TS `80afec7` | WWCP_POI.TS | `sessionPrice-foreign-tariff` | low | new |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
 round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well, and so
@@ -50,11 +50,11 @@ is fixed in WWCP_POI.TS `37b34f2`. D13, a key written otherwise than POI writes 
 again, was WWCP_POI3's, and is fixed in WWCP_POI `a425530`. D14, a conformity assessment body WWCP_POI3 refuses to
 read, was WWCP_POI.TS's, and is fixed in WWCP_POI.TS `4ff1fc2`. D15, a version written otherwise than the content holds
 it, which WWCP_POI3 took and wrote again, was WWCP_POI3's, and is fixed in WWCP_POI `3de830a` and `1de4dff`. D16,
-found by the vectors of the verifier extensions (`poi-verifier.json`), is WWCP_POI.TS's and open: a price statement
-naming a charging tariff not as `{operatorId}*T{suffix}`, which SPECIFICATION.md says since WWCP_POI `01e82dd`. Of the
-598 vectors both implementations run 556 -
+found by the vectors of the verifier extensions (`poi-verifier.json`), was WWCP_POI.TS's: a price statement naming a
+charging tariff not as `{operatorId}*T{suffix}`, which SPECIFICATION.md says since WWCP_POI `89c5fa3`; it is fixed in
+WWCP_POI.TS `80afec7`. Of the 598 vectors both implementations run 556 -
 the 7 requiring `signing` and the 13 of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's
-alone - and agree on every one of them but `sessionPrice-foreign-tariff` (D16)
+alone - and agree on every one of them
 (see
 [What both do alike](#what-both-do-alike)).
 
@@ -592,30 +592,30 @@ which hold no country, e-mail address or duration. No vector here shows these ye
 
 
 <a id="d16-tariff-id"></a>
-## D16. A price statement naming a charging tariff not as `{operatorId}*T{suffix}` is taken
+## D16. ✅ A price statement naming a charging tariff not as `{operatorId}*T{suffix}` is taken
 
 **Vector:** `sessionPrice-foreign-tariff` (`poi-verifier.json`): `POIPrices/foreign-tariff.chargy` of ChargyWebApp
 `fc513cd`, "Genuine price naming a tariff outside this EVSE's references". Its price statement, signed by `DE*POI` with
 its key for price statements, names the charging tariff `DE*POI*FOREIGN`: no identification of a charging tariff,
 `{operatorId}*T{suffix}`, as the one of `DE*POI` in the proof is (`DE*POI*T1`). WWCP_POI3 refuses the statement as it
-reads it, so that none of the evidence holds; WWCP_POI.TS takes it, and refuses only that its price applies to the EVSE:
+reads it, so that none of the evidence holds; WWCP_POI.TS took it, and refused only that its price applies to the EVSE:
 
 | | `signatures` | `applicability` | `agreement`, `publication`, selected |
 |---|---|---|---|
 | WWCP_POI3, the vector | `invalid` | `invalid` | `missing`, `missing`, none |
-| WWCP_POI.TS | `valid` | `invalid` | `missing`, `missing`, none |
+| WWCP_POI.TS before `80afec7` | `valid` | `invalid` | `missing`, `missing`, none |
 
 **Where:** `POIPriceStatus` of WWCP_POI3 reads every `chargingTariffId` of the prices of a price statement as a
 `ChargingTariff_Id` ("The prices of a charging tariff need a valid 'chargingTariffId'!"), as it reads a tariff and every
 reference to one in a version; `SessionPriceEvidence` then counts the statement as invalid ("A price statement is
-invalid"). `PriceStatement.parse` of WWCP_POI.TS checks that it is a text. In a version, WWCP_POI.TS reads charging
+invalid"). `PriceStatement.parse` of WWCP_POI.TS checked that it is a text. In a version, WWCP_POI.TS reads charging
 tariffs as WWCP_POI3 does since `813e1d7`: both refuse a tariff named `DE*GEF*AC`, and the EVSE template naming it, in
 the same words (`version-tariff-id-not-of-its-pattern` of `poi-refusals.json`: "Invalid charging tariff identification
 'DE*GEF*AC'!").
 
 SPECIFICATION.md named the pattern for the templates and groups of charging tariffs only (9.1, 9.3), not for a tariff
 itself, and has a server take a price statement only when "every charging tariff it names is one of that operator"
-(12.2). On Achim's decision of 2026-11-03 the pattern holds wherever a charging tariff is named, and WWCP_POI `01e82dd`
+(12.2). On Achim's decision of 2026-11-03 the pattern holds wherever a charging tariff is named, and WWCP_POI `89c5fa3`
 says so: in section 2, "A charging tariff is identified as `ChargingTariff_Id`, `{operatorId}*T{suffix}`", also "of the
 prices of a price statement (12.1)", and in 12.1, "A statement naming another text is no price statement and is refused
 before its signature is looked at." The generator quotes both.
@@ -629,10 +629,15 @@ meant to show a tariff outside the references of the EVSE; a tariff of the patte
 `ChargingTariff_Id`, as `src/network/reading.ts` reads one in a version since `813e1d7`, in the words of WWCP_POI3; then
 remove D16 from `DEVIATIONS` of the generator.
 
-**Not covered:** by its code, `POIPriceStatus` of WWCP_POI3 refuses more of the prices of a price statement than
-WWCP_POI.TS checks: a property it does not read, a JSON-LD context other than its own, no elements, an element it
-does not read. No vector shows them yet: the vectors of `poi-verifier.json` take their documents from the fixtures as
-they are.
+**Fixed** in WWCP_POI.TS `80afec7`: `PriceStatement.parse` reads the price status as `ChargingPrices.TryParse` and
+`ChargingTariffPrices.TryParse` of WWCP_POI3 read it, in their words and order, under "Invalid price status of the
+price statement: " as `RoamingNetworkPriceStatement.TryParse` gives it - for `DE*POI*FOREIGN`, "The prices of a charging
+tariff need a valid 'chargingTariffId'!". Both give the vector's result.
+
+**Not covered:** by their code, both refuse more of the prices of a price statement since `80afec7`, in the same
+words: a property they do not read, a JSON-LD context other than their own, no elements, an element they do not read,
+a charging tariff named twice, a statement without a price status. No vector shows them yet: the vectors of
+`poi-verifier.json` take their documents from the fixtures as they are.
 
 
 ## What both do alike
@@ -744,17 +749,18 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   when it writes the signature input. And a calibration certificate of a charging station the generator signs, taken
   against QA giving EM-LAB its key, refused against QA without it, and against QA giving the station another serial
   number, or none ([D11](#d11-station-serial-number));
-- 105 of the 106 vectors of the verifier extensions of WWCP_POI.TS 0.2.0 (`poi-verifier.json`, experimental), of the
+- all 106 vectors of the verifier extensions of WWCP_POI.TS 0.2.0 (`poi-verifier.json`, experimental), of the
   fixtures of ChargyWebApp `fc513cd`, each normalized to what both give: the key of the meter of an EVSE a station
-  proof gives, historical meter evidence of archived and witnessed checkpoints, session prices verdict by verdict,
-  receipts of witnesses under the policy a verifier accepted, trust transitions, the keys a CPO signs charging
+  proof gives, historical meter evidence of archived and witnessed checkpoints, session prices verdict by verdict, also
+  of a price statement naming a charging tariff not as `{operatorId}*T{suffix}`, refused as read (WWCP_POI.TS since
+  `80afec7`, [D16](#d16-tariff-id)), receipts of witnesses under the policy a verifier accepted, trust transitions, the keys a CPO signs charging
   documents with, policy identities, key statement digests, offer hashes and the digests of receipts; and 32 refusals,
   each against its control, 31 in the words of the `reason` both name: a meter key asked for ambiguously, by an unknown
   identification or of another meter, serial number or EVSE, or read as a COSE key it is not, historical evidence of conflicting assignments, of another
   period, of a tampered checkpoint or without what the local policy requires, a price of another EVSE, started after
   the verification or before the key statement, a trust transition without a quorum, tampered, out of order or accepted
   before it was signed, keys of a CPO for prices only, of another CPO or after the verification, a receipt of a private
-  source. The one other is [D16](#d16-tariff-id).
+  source.
 
 
 ## Observations

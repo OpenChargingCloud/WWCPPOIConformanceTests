@@ -47,7 +47,7 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   what does not hold must be exactly `CHARGY_BROKEN`, the counterexamples their READMEs name. Seven of them are the
   vector files WWCP_POI.TS and WWCP_POI3 share (`tests/vectors`, `WWCP_POI3_Tests/Vectors/TS`), checked byte for byte.
   A vector's `result` is what both give, normalized by the adapters `Tests/.../VerifierTests.cs` and `test/verifier.ts`;
-  marked `knownDeviations`, what one gives and the other does not (D16, `sessionPrice-foreign-tariff`).
+  marked `knownDeviations`, what one gives and the other does not (D16 was one, fixed).
   A refusal's `changes` (pointers of the case) and `documentChanges` (prefixes of the document a counterexample swaps
   in) are calculated by the generator against its `control`, which stops on any claim that does not hold.
 - **What the implementations get wrong:** `docs/implementation-deviations.md`. Each deviation is in `DEVIATIONS` of the
