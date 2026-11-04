@@ -2,7 +2,7 @@
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
 (WWCP_POI3, `libs/WWCP_POI` at `d1c41ca`, Hermod `65d55f80`, Styx `fb3314be`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `6576063`) take or calculate different things.
+`libs/WWCP_POI.TS` at `9ee44a7`) take or calculate different things.
 
 Each deviation is
 
@@ -655,7 +655,7 @@ of a charging tariff in a version is: the content holds only what its type defin
 `Etc/GMT-1`, `US/Eastern`, `W. Europe Standard Time`, `europe/berlin`, `Europe/BERLIN`, `Europe/Atlantis` and
 `Mars/Olympus`, and QA with an entity of every kind WWCP_POI3 reads, its charging pool template `DE*GEF*PT_STD` in the
 time zone `CET`. WWCP_POI3 refuses each as it reads it, "The time zone 'CET' of the charging pool 'DE*GEF*P1' is no time
-zone of a region of the IANA time zone database this reader knows!"; WWCP_POI.TS `6576063` takes each.
+zone of a region of the IANA time zone database this reader knows!"; WWCP_POI.TS `9ee44a7` takes each.
 
 **Where:** SPECIFICATION.md 9.4 says since WWCP_POI `d1c41ca`, on Achim's decision of 2026-11-04 ([O5](#o5-time-zones)):
 "The `timeZone` of a charging pool or of a charging pool template is a time zone of the IANA time zone database of one

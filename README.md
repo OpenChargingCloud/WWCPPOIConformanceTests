@@ -20,9 +20,8 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `d1c41ca`, WWCP_POI.TS `6576063`, Hermod `65d55f80`,
-Styx `fb3314be`) - but for the vendored copy of `poi-refusals.json`, which WWCP_POI.TS `6576063` holds without the 10
-vectors of the time zones of charging pools, until it refreshes it:
+Both harnesses are green against the pinned submodules (WWCP_POI `d1c41ca`, WWCP_POI.TS `9ee44a7`, Hermod `65d55f80`,
+Styx `fb3314be`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
