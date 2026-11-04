@@ -122,7 +122,7 @@ A vector of `poi-refusals.json` names a `kind`, what is checked:
 |---|---|---|
 | `commit` | the commit is read: its `@id` the digest of its content, ETags in hex | |
 | `checkpoint` | the checkpoint is read: its `@id` the digest of its content | |
-| `version` | the roaming network is read as WWCP_POI3 reads it: the `eTags` it lists are those of its content, every entity and value as it reads them, as the content holds them, the references among them, no identification twice that is unique within the roaming network, no two offers of an operator overlapping (9.4), the public keys of energy meters as BouncyCastle makes them | |
+| `version` | the roaming network is read as WWCP_POI3 reads it: the `eTags` it lists are those of its content, every entity and value as it reads them, as the content holds them, the references among them, no identification twice that is unique within the roaming network, no two offers of an operator overlapping (9.4), the time zone of a charging pool or template one of a region of the IANA time zone database the reader knows (9.4), the public keys of energy meters as BouncyCastle makes them | |
 | `checkpointProof` | the commit proof verifies against the checkpoint | `checkpoint` |
 | `stationProof` | the station proof verifies against the trust anchor at `at` | `trustAnchor` (a file of the run), `at` |
 | `priceStatement` | the price statement verifies with the signing keys of its charging station operator | `keysFrom` (the version) |

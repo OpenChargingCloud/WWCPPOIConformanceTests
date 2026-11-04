@@ -71,6 +71,7 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
+    D17: { implementations: [ TYPESCRIPT ], anchor: 'd17-time-zones' },
 };
 
 const deviation = (name) => {
@@ -1731,6 +1732,31 @@ function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, po
     offering('version-offers-overlap-exceptional-closing', 'a 24/7 but for an exceptional closing from 1 to 2 November 2026, and b from 1 November 2026 to 2 November 2026, 00:00, both inclusive: the end of the closing',
              overlap('a', 'b'),                    [ offer('a', { openingTimes: { '24/7': true, exceptionalClosings: [ '2026-11-01T00:00:00.000Z -> 2026-11-02T00:00:00.000Z' ] } }),
                                                      offer('b', { notBefore: '2026-11-01T00:00:00.000Z', notAfter: '2026-11-02T00:00:00.000Z' }) ]);
+
+    // ---- The time zone of a charging pool or charging pool template (9.4): one of a region of the IANA time zone
+    //      database, as it writes it, which the reader knows - refused otherwise, not taken as UTC. Only names every
+    //      platform of both harnesses refuses alike: none a database of one knows and of another not, e.g.
+    //      America/Ciudad_Juarez, which .NET on Windows does not find. WWCP_POI.TS takes them all (D17).
+    quoted(SPEC, '**Time zones.** The `timeZone` of a charging pool or of a charging pool template is a time zone of the IANA', 'which time zones a charging pool names');
+    const zoned = (id, description, owner, timeZone, path, rich) =>
+        refuse({ id, kind: 'version', basis: OFFERS, ...deviation('D17'),
+                 description: rich === undefined ? `${description}.` : `${description}. (QA with an entity of every kind WWCP_POI3 reads)`,
+                 reason: `The time zone '${timeZone}' of ${owner} is no time zone of a region of the IANA time zone database this reader knows!`,
+                 document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, ...(rich ?? []), { op: 'add', path, value: timeZone } ]) });
+    const poolZoned = (id, description, timeZone) =>
+        zoned(id, `DE*GEF*P1 in the time zone ${timeZone}, ${description}`, "the charging pool 'DE*GEF*P1'", timeZone, `${pool1}/timeZone`);
+
+    poolZoned('version-time-zone-abbreviation',       'an abbreviation without a region, which .NET finds on Linux and not on Windows',   'CET');
+    poolZoned('version-time-zone-utc',                'without a region: a charging pool without a time zone is in UTC',                  'UTC');
+    poolZoned('version-time-zone-etc',                'of the area Etc of the database, no region of it',                                  'Etc/GMT-1');
+    poolZoned('version-time-zone-backward',           'an older name of the database outside its regions',                                 'US/Eastern');
+    poolZoned('version-time-zone-windows',            'the name of Windows for Europe/Berlin',                                             'W. Europe Standard Time');
+    poolZoned('version-time-zone-lower-case',         'Europe/Berlin in lower case, which .NET finds on Windows, as Europe/Berlin',         'europe/berlin');
+    poolZoned('version-time-zone-place-upper-case',   'Europe/Berlin with its place in upper case',                                        'Europe/BERLIN');
+    poolZoned('version-time-zone-unknown',            'of the region Europe, a place the database does not know',                          'Europe/Atlantis');
+    poolZoned('version-time-zone-region-unknown',     'of a region the database does not have',                                            'Mars/Olympus');
+    zoned('version-time-zone-template', 'The charging pool template DE*GEF*PT_STD in the time zone CET, an abbreviation without a region',
+          "the charging pool template 'DE*GEF*PT_STD'", 'CET', `${gefAt}/chargingPoolTemplates/0/timeZone`, richer());
 
     // ---- The public keys of energy meters: a DER encoded SubjectPublicKeyInfo of a key BouncyCastle makes, identified by
     //      its SHA-256, its certificates DER encoded, the first of the key, each one issued by the next one. Those of the

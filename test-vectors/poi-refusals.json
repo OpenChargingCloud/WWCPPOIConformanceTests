@@ -15406,6 +15406,564 @@
     },
     {
       "expected": "refused",
+      "id": "version-time-zone-abbreviation",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 9.4",
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d17-time-zones",
+      "description": "DE*GEF*P1 in the time zone CET, an abbreviation without a region, which .NET finds on Linux and not on Windows.",
+      "reason": "The time zone 'CET' of the charging pool 'DE*GEF*P1' is no time zone of a region of the IANA time zone database this reader knows!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/timeZone",
+            "value": "CET"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-time-zone-utc",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 9.4",
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d17-time-zones",
+      "description": "DE*GEF*P1 in the time zone UTC, without a region: a charging pool without a time zone is in UTC.",
+      "reason": "The time zone 'UTC' of the charging pool 'DE*GEF*P1' is no time zone of a region of the IANA time zone database this reader knows!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/timeZone",
+            "value": "UTC"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-time-zone-etc",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 9.4",
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d17-time-zones",
+      "description": "DE*GEF*P1 in the time zone Etc/GMT-1, of the area Etc of the database, no region of it.",
+      "reason": "The time zone 'Etc/GMT-1' of the charging pool 'DE*GEF*P1' is no time zone of a region of the IANA time zone database this reader knows!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/timeZone",
+            "value": "Etc/GMT-1"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-time-zone-backward",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 9.4",
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d17-time-zones",
+      "description": "DE*GEF*P1 in the time zone US/Eastern, an older name of the database outside its regions.",
+      "reason": "The time zone 'US/Eastern' of the charging pool 'DE*GEF*P1' is no time zone of a region of the IANA time zone database this reader knows!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/timeZone",
+            "value": "US/Eastern"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-time-zone-windows",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 9.4",
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d17-time-zones",
+      "description": "DE*GEF*P1 in the time zone W. Europe Standard Time, the name of Windows for Europe/Berlin.",
+      "reason": "The time zone 'W. Europe Standard Time' of the charging pool 'DE*GEF*P1' is no time zone of a region of the IANA time zone database this reader knows!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/timeZone",
+            "value": "W. Europe Standard Time"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-time-zone-lower-case",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 9.4",
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d17-time-zones",
+      "description": "DE*GEF*P1 in the time zone europe/berlin, Europe/Berlin in lower case, which .NET finds on Windows, as Europe/Berlin.",
+      "reason": "The time zone 'europe/berlin' of the charging pool 'DE*GEF*P1' is no time zone of a region of the IANA time zone database this reader knows!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/timeZone",
+            "value": "europe/berlin"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-time-zone-place-upper-case",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 9.4",
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d17-time-zones",
+      "description": "DE*GEF*P1 in the time zone Europe/BERLIN, Europe/Berlin with its place in upper case.",
+      "reason": "The time zone 'Europe/BERLIN' of the charging pool 'DE*GEF*P1' is no time zone of a region of the IANA time zone database this reader knows!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/timeZone",
+            "value": "Europe/BERLIN"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-time-zone-unknown",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 9.4",
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d17-time-zones",
+      "description": "DE*GEF*P1 in the time zone Europe/Atlantis, of the region Europe, a place the database does not know.",
+      "reason": "The time zone 'Europe/Atlantis' of the charging pool 'DE*GEF*P1' is no time zone of a region of the IANA time zone database this reader knows!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/timeZone",
+            "value": "Europe/Atlantis"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-time-zone-region-unknown",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 9.4",
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d17-time-zones",
+      "description": "DE*GEF*P1 in the time zone Mars/Olympus, of a region the database does not have.",
+      "reason": "The time zone 'Mars/Olympus' of the charging pool 'DE*GEF*P1' is no time zone of a region of the IANA time zone database this reader knows!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/timeZone",
+            "value": "Mars/Olympus"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-time-zone-template",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 9.4",
+      "knownDeviations": [
+        "wwcp-poi.ts"
+      ],
+      "deviation": "docs/implementation-deviations.md#d17-time-zones",
+      "description": "The charging pool template DE*GEF*PT_STD in the time zone CET, an abbreviation without a region. (QA with an entity of every kind WWCP_POI3 reads)",
+      "reason": "The time zone 'CET' of the charging pool template 'DE*GEF*PT_STD' is no time zone of a region of the IANA time zone database this reader knows!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPoolTemplates",
+            "value": [
+              {
+                "@id": "DE*GEF*PT_STD",
+                "name": {
+                  "en": "Standard"
+                },
+                "facilities": [
+                  "CAFE"
+                ],
+                "created": "2026-10-27T17:20:56.138Z",
+                "lastChange": "2026-10-27T17:20:56.138Z"
+              }
+            ]
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingTariffTemplates",
+            "value": [
+              {
+                "@id": "DE*GEF*TT_BASE",
+                "currency": "EUR",
+                "created": "2026-10-27T17:20:56.138Z",
+                "lastChange": "2026-10-27T17:20:56.138Z"
+              }
+            ]
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingTariffGroups",
+            "value": [
+              {
+                "@id": "DE*GEF*TG_ALL",
+                "name": {
+                  "en": "All"
+                },
+                "chargingTariffIds": [
+                  "DE*GEF*T_AC"
+                ],
+                "created": "2026-10-27T17:20:56.138Z",
+                "lastChange": "2026-10-27T17:20:56.138Z"
+              }
+            ]
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPoolGroups",
+            "value": [
+              {
+                "@id": "DE*GEF*PG_ALL",
+                "name": {
+                  "en": "All"
+                },
+                "chargingPoolIds": [
+                  "DE*GEF*P1"
+                ],
+                "created": "2026-10-27T17:20:56.138Z",
+                "lastChange": "2026-10-27T17:20:56.138Z"
+              }
+            ]
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingTariffOffers",
+            "value": [
+              {
+                "@id": "offer-1",
+                "name": {
+                  "en": "Ten off"
+                },
+                "discount": {
+                  "percent": 10,
+                  "dimensions": [
+                    "ENERGY"
+                  ]
+                },
+                "EVSEGroupIds": [
+                  "DE*GEF*EG_AC"
+                ],
+                "created": "2026-10-27T17:20:56.138Z",
+                "lastChange": "2026-10-27T17:20:56.138Z"
+              }
+            ]
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/brands",
+            "value": [
+              {
+                "@id": "GEF-Brand",
+                "name": {
+                  "en": "GEF"
+                }
+              }
+            ]
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/parkingSpaces",
+            "value": [
+              {
+                "@id": "gef-space-1",
+                "created": "2026-10-27T17:20:56.138Z",
+                "lastChange": "2026-10-27T17:20:56.138Z"
+              }
+            ]
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/gridConnectionPointId",
+            "value": "gcp-1"
+          },
+          {
+            "op": "add",
+            "path": "/eMobilityProviders",
+            "value": [
+              {
+                "@id": "DE-GDF",
+                "name": {
+                  "en": "GDF"
+                },
+                "EVSEGroups": [
+                  {
+                    "@id": "DE*GDF*EG_FAV",
+                    "name": {
+                      "en": "Favourites"
+                    },
+                    "EVSEIds": [
+                      "DE*GEF*E1*1"
+                    ],
+                    "created": "2026-10-27T17:20:56.138Z",
+                    "lastChange": "2026-10-27T17:20:56.138Z"
+                  }
+                ],
+                "chargingTariffOffers": [
+                  {
+                    "@id": "gdf-offer",
+                    "name": {
+                      "en": "Five off"
+                    },
+                    "discount": {
+                      "percent": 5
+                    },
+                    "EVSEGroupIds": [
+                      "DE*GDF*EG_FAV"
+                    ],
+                    "created": "2026-10-27T17:20:56.138Z",
+                    "lastChange": "2026-10-27T17:20:56.138Z"
+                  }
+                ],
+                "created": "2026-10-27T17:20:56.138Z",
+                "lastChange": "2026-10-27T17:20:56.138Z"
+              }
+            ]
+          },
+          {
+            "op": "add",
+            "path": "/gridOperators",
+            "value": [
+              {
+                "@id": "DE*NET",
+                "name": {
+                  "en": "Net"
+                },
+                "gridConnectionPoints": [
+                  {
+                    "@id": "gcp-1",
+                    "name": {
+                      "en": "Connection 1"
+                    },
+                    "voltageLevel": "LowVoltage",
+                    "maintainedBy": {
+                      "entityType": "ChargingStationOperator",
+                      "entityId": "DE*GEF"
+                    },
+                    "energyMeter": {
+                      "@id": "gcp-meter-1",
+                      "created": "2026-10-27T17:20:56.138Z",
+                      "lastChange": "2026-10-27T17:20:56.138Z"
+                    },
+                    "nominalVoltage": 400
+                  }
+                ],
+                "energyMeterGroups": [
+                  {
+                    "@id": "net-meters",
+                    "name": {
+                      "en": "Net meters"
+                    },
+                    "energyMeterIds": [
+                      "gcp-meter-1"
+                    ],
+                    "created": "2026-10-27T17:20:56.138Z",
+                    "lastChange": "2026-10-27T17:20:56.138Z"
+                  }
+                ],
+                "energyMeterTemplates": [
+                  {
+                    "@id": "net-meter-template",
+                    "name": {
+                      "en": "Grid meter"
+                    },
+                    "role": "grid",
+                    "created": "2026-10-27T17:20:56.138Z",
+                    "lastChange": "2026-10-27T17:20:56.138Z"
+                  }
+                ],
+                "created": "2026-10-27T17:20:56.138Z",
+                "lastChange": "2026-10-27T17:20:56.138Z"
+              }
+            ]
+          },
+          {
+            "op": "add",
+            "path": "/parkingOperators",
+            "value": [
+              {
+                "@id": "DE*PRK",
+                "name": {
+                  "en": "Parking"
+                },
+                "parkingGarages": [
+                  {
+                    "@id": "garage-1",
+                    "name": {
+                      "en": "Garage"
+                    },
+                    "chargingStationIds": [
+                      "DE*GEF*S1"
+                    ],
+                    "parkingProductIds": [
+                      "P1"
+                    ],
+                    "created": "2026-10-27T17:20:56.138Z",
+                    "lastChange": "2026-10-27T17:20:56.138Z"
+                  }
+                ],
+                "parkingSpaces": [
+                  {
+                    "@id": "space-1",
+                    "parkingGarageId": "garage-1",
+                    "parkingSensorIds": [
+                      "sensor-1"
+                    ],
+                    "length": 5,
+                    "width": 2.5,
+                    "created": "2026-10-27T17:20:56.138Z",
+                    "lastChange": "2026-10-27T17:20:56.138Z"
+                  }
+                ],
+                "parkingSensors": [
+                  {
+                    "@id": "sensor-1",
+                    "created": "2026-10-27T17:20:56.138Z",
+                    "lastChange": "2026-10-27T17:20:56.138Z"
+                  }
+                ],
+                "parkingSpaceTemplates": [
+                  {
+                    "@id": "space-template-1",
+                    "created": "2026-10-27T17:20:56.138Z",
+                    "lastChange": "2026-10-27T17:20:56.138Z"
+                  }
+                ],
+                "parkingSpaceGroups": [
+                  {
+                    "@id": "space-group-1",
+                    "parkingSpaceIds": [
+                      "space-1"
+                    ],
+                    "created": "2026-10-27T17:20:56.138Z",
+                    "lastChange": "2026-10-27T17:20:56.138Z"
+                  }
+                ],
+                "parkingProducts": [
+                  {
+                    "@id": "P1",
+                    "minDuration": 0,
+                    "stopParkingAfterTime": 3600
+                  }
+                ],
+                "created": "2026-10-27T17:20:56.138Z",
+                "lastChange": "2026-10-27T17:20:56.138Z"
+              }
+            ]
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPoolTemplates/0/timeZone",
+            "value": "CET"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
       "id": "version-meter-key-without-key",
       "kind": "version",
       "basis": "libs/WWCP_POI/docs/EnergyMeter.md",

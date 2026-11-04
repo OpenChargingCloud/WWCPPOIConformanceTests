@@ -1,7 +1,7 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `6bd1bc1`, Hermod `65d55f80`, Styx `fb3314be`) and the TypeScript port (WWCP_POI.TS,
+(WWCP_POI3, `libs/WWCP_POI` at `d1c41ca`, Hermod `65d55f80`, Styx `fb3314be`) and the TypeScript port (WWCP_POI.TS,
 `libs/WWCP_POI.TS` at `6576063`) take or calculate different things.
 
 Each deviation is
@@ -39,6 +39,7 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D14](#d14-body-malformed) | ✅ A conformity assessment body WWCP_POI3 refuses to read is taken: a certificate under a legislation it is not notified for, a `notifiedBodyNumber` not of four digits, a `notifiedFor` empty or given twice: **fixed** in WWCP_POI.TS `4ff1fc2` | WWCP_POI.TS | `version-body-certificate-not-notified`, `version-body-number-three-digits`, `version-body-notified-for-empty`, `version-body-notified-for-twice` | low | - |
 | [D15](#d15-content-as-held) | ✅ A version written otherwise than the content holds it is taken, and written again: what the content orders out of its order, the texts of an ordered list untrimmed, a list given empty, a property given as `null`, an embedded object naming its JSON-LD context, a text in languages keyed otherwise, a timestamp with an offset, a property of a key or of an EV Taler merchant POI does not read, a URL without its scheme - 10 of them against the `eTags` of the version as published: **fixed** in WWCP_POI `3de830a` and `1de4dff` | WWCP_POI3 | the 27 `version-held-*` | medium (interop) | new |
 | [D16](#d16-tariff-id) | ✅ A price statement naming a charging tariff not as `{operatorId}*T{suffix}` is taken, which WWCP_POI3 refuses as it reads it: its signature counts as valid, the price only does not apply: **fixed** in WWCP_POI.TS `80afec7` | WWCP_POI.TS | `sessionPrice-foreign-tariff` | low | new |
+| [D17](#d17-time-zones) | A charging pool or charging pool template naming a time zone that is none of a region of the IANA time zone database as it writes it, or one the platform does not know, is taken: in the time zone `Intl` or its table of Windows names finds, else in UTC | WWCP_POI.TS | the 10 `version-time-zone-*` | medium (interop) | new |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
 round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well, and so
@@ -52,9 +53,10 @@ read, was WWCP_POI.TS's, and is fixed in WWCP_POI.TS `4ff1fc2`. D15, a version w
 it, which WWCP_POI3 took and wrote again, was WWCP_POI3's, and is fixed in WWCP_POI `3de830a` and `1de4dff`. D16,
 found by the vectors of the verifier extensions (`poi-verifier.json`), was WWCP_POI.TS's: a price statement naming a
 charging tariff not as `{operatorId}*T{suffix}`, which SPECIFICATION.md says since WWCP_POI `89c5fa3`; it is fixed in
-WWCP_POI.TS `80afec7`. Of the 742 vectors both implementations run 700 -
+WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, is WWCP_POI.TS's, since SPECIFICATION.md names them
+(WWCP_POI `d1c41ca`, deciding [O5](#o5-time-zones)): open. Of the 752 vectors both implementations run 710 -
 the 7 requiring `signing` and the 13 of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's
-alone - and agree on every one of them
+alone - and agree on every one of them but the 10 of D17
 (see
 [What both do alike](#what-both-do-alike)).
 
@@ -646,6 +648,41 @@ signature valid, so each names the words both refuse it in as it is read.
 of a charging tariff in a version is: the content holds only what its type defines (section 2), which no vector shows.
 
 
+<a id="d17-time-zones"></a>
+## D17. A charging pool naming a time zone that is none of a region of the IANA time zone database is taken
+
+**Vectors:** the 10 `version-time-zone-*` of `poi-refusals.json`: QA with `DE*GEF*P1` in the time zone `CET`, `UTC`,
+`Etc/GMT-1`, `US/Eastern`, `W. Europe Standard Time`, `europe/berlin`, `Europe/BERLIN`, `Europe/Atlantis` and
+`Mars/Olympus`, and QA with an entity of every kind WWCP_POI3 reads, its charging pool template `DE*GEF*PT_STD` in the
+time zone `CET`. WWCP_POI3 refuses each as it reads it, "The time zone 'CET' of the charging pool 'DE*GEF*P1' is no time
+zone of a region of the IANA time zone database this reader knows!"; WWCP_POI.TS `6576063` takes each.
+
+**Where:** SPECIFICATION.md 9.4 says since WWCP_POI `d1c41ca`, on Achim's decision of 2026-11-04 ([O5](#o5-time-zones)):
+"The `timeZone` of a charging pool or of a charging pool template is a time zone of the IANA time zone database of one
+of its regions (`Africa`, `America`, … `Pacific`), as the database writes it", "No name of another system …, none
+without a region …, none in another case", and "A reader refuses a version a charging pool or template of which names
+another, or one its time zone database does not know, rather than taking it as UTC". WWCP_POI3 checks it in the
+constructors of `ChargingPool` and `ChargingPoolTemplate` (`POITimeZones.Known`): a name of a region,
+`TimeZoneInfo.TryFindSystemTimeZoneById` finding it with `HasIanaId`, and its `Id` the name as given - .NET with ICU
+finds `europe/berlin` on Windows as `Europe/Berlin`. `timeZoneNamed` of WWCP_POI.TS (`src/network/offers.ts`) finds a
+name as `Intl` does, without case, or a Windows name of its table (`timeZones.ts`), else UTC, and reading checks none.
+
+**Why it matters:** medium (interop). A version WWCP_POI3 refuses is valid to WWCP_POI.TS; and before, a time zone the
+platform did not know, e.g. `Europe/Berlin` under invariant globalization, made two offers overlapping in Berlin not
+overlap, and priced a session otherwise.
+
+**Fix:** refuse, where WWCP_POI.TS reads a charging pool and a charging pool template, a `timeZone` that is none of a
+region, as the database writes it, or one the platform does not know, in the words of WWCP_POI3; drop the Windows names
+of `timeZones.ts`. `Intl` takes a name without case and gives a link under another name (`Asia/Kolkata` as
+`Asia/Calcutta` in Node 26), so it can not tell the case; `Temporal` can (`new Temporal.ZonedDateTime(0n,
+name).timeZoneId`, `Europe/Berlin` for `europe/berlin`, `Asia/Kolkata` for `Asia/Kolkata`), but Node 22 and 24 have it
+not. Then remove D17 from `DEVIATIONS` of the generator.
+
+**Not covered:** a name the databases of the platforms of the harnesses know differently - `America/Ciudad_Juarez`
+(2022g) and `Antarctica/Troll`, which .NET on Windows does not find through the ICU of Windows, Node 26 does; and the
+rules of a time zone in databases of different age (SPECIFICATION.md 9.5, point 7).
+
+
 ## What both do alike
 
 Both implementations calculate, byte for byte, and take or refuse alike:
@@ -844,7 +881,7 @@ specification has to decide first.
 vector expects `refused` now, and both implementations refuse it when they read the attestations.
 
 <a id="o5-time-zones"></a>
-### O5. Whether offers overlap depends on the time zones of the platform
+### O5. ✅ Whether offers overlap depends on the time zones of the platform
 
 WWCP_POI3 compares the offers of an operator in the time zone of the EVSE's charging pool, as
 `TimeZoneInfo.TryFindSystemTimeZoneById` finds it, else in UTC (`ChargingStationOperator.Offers.cs`). What it finds is
@@ -857,8 +894,14 @@ does, and in the invariant culture, so that its words are those of every machine
 `VectorFiles.cs`). Open: whether SPECIFICATION.md names the time zones a reader knows, and what a version naming
 another one is.
 
+**Decided** in WWCP_POI `d1c41ca`, by Achim on 2026-11-04: SPECIFICATION.md 9.4 names them - a time zone of a region
+of the IANA time zone database, as the database writes it - and a reader refuses a version naming another, or one its
+database does not know, rather than taking it as UTC; how old its database is stays open (9.5, point 7). WWCP_POI3
+refuses them (`POITimeZones`), WWCP_POI.TS not yet ([D17](#d17-time-zones)). A server running WWCP_POI3 on Windows under
+invariant globalization refuses every version naming a time zone now, in place of comparing its offers in UTC.
+
 **Not covered** by the vectors of reading: a change set of an e-mobility provider making two of its offers overlap
-(`NewProviderOfferOverlap`), which needs a history signed anew; time zones by their Windows names and `CET`; a decimal
+(`NewProviderOfferOverlap`), which needs a history signed anew; a decimal
 with places in a `reason`, which WWCP_POI3 words in the culture of its machine; the `(Parameter '...')` .NET appends,
 which names a parameter of a constructor; and what WWCP_POI.TS lists as agreed differences of its probes against
 WWCP_POI3 at `89d2e02` (identifications of the network given as numbers, messages of the CBOR and COSE libraries, a
