@@ -43,7 +43,7 @@
  * Never edit the JSON files by hand: edit this script and run it again.
  */
 
-import { createHash, createHmac, createPrivateKey, createPublicKey, sign, verify } from 'node:crypto';
+import { createHash, createHmac, createPrivateKey, createPublicKey, sign, verify, X509Certificate } from 'node:crypto';
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -1310,6 +1310,485 @@ function at(document, pointer) {
     return value;
 }
 
+/**
+ * Versions read as WWCP_POI3 reads them, refused in the words both give: `RoamingNetwork.TryParse` and the TryParse of each
+ * entity, what the constructor of each refuses of what it read, the references the constructor of the network checks, the
+ * values it writes otherwise than given, the offers of an operator overlapping (9.4), the public keys of energy meters as
+ * BouncyCastle makes them. WWCP_POI.TS reads a version so since `813e1d7`, `2cbfe60` and `7c4d16e`, which it probed against
+ * WWCP_POI3 at `89d2e02`; these vectors are of its cases. QA of the run without its eTags, changed so that only what the
+ * vector is about is refused. Where QA has no entity of a kind, with those of a richer QA, as WWCP_POI.TS tests it
+ * (`tests/richNetwork.ts`): at DE*GEF a charging pool template, a charging tariff template, a tariff group, a pool group, an
+ * offer, a brand and a parking space, DE*GEF*P1 at a grid connection point, an e-mobility provider with a group and an
+ * offer, a grid operator with a grid connection point, a meter group and a meter template, a parking operator with a
+ * garage, a space, a sensor, a template, a group and a product. A reason leaves out the `(Parameter '...')` .NET appends to
+ * the message of an ArgumentException, which names a parameter of a constructor, not what is refused; and the vectors
+ * name no decimal with places in a reason, which WWCP_POI3 words in the culture of its machine.
+ */
+function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, pool2, tariffAt, templateAt, bsi, DOCS, HELD, ORDER }) {
+
+    const doc        = (name) => `${DOCS}/${name}.md`;
+    const RICH_AT    = '2026-10-27T17:20:56.138Z';
+    const meta       = { created: RICH_AT, lastChange: RICH_AT };
+    if (!(Date.parse(qa.created) <= Date.parse(RICH_AT) && Date.parse(RICH_AT) <= Date.parse(qa.lastChange)))
+        fail(`QA.json: ${RICH_AT}, when the richer QA adds its entities, is not within the life of the roaming network`);
+
+    const stationS1  = named(`${pool1}/chargingStations/0`, 'DE*GEF*S1');
+    const evseE11    = named(`${stationS1}/EVSEs/0`, 'DE*GEF*E1*1');
+    const evseE12    = named(`${stationS1}/EVSEs/1`, 'DE*GEF*E1*2');
+    const stAC       = named(`${gefAt}/chargingStationTemplates/0`, 'DE*GEF*ST_AC');
+    const emtAC      = named(`${gefAt}/energyMeterTemplates/0`, 'DE*GEF*EMT_AC');
+    const emtDC      = named(`${gefAt}/energyMeterTemplates/1`, 'DE*GEF*EMT_DC');
+    const groupAC    = named(`${gefAt}/EVSEGroups/0`, 'DE*GEF*EG_AC');
+    const gd         = named('/chargingStationManufacturers/0', 'GraphDefined');
+    const gdAC44     = named(`${gd}/chargingStationModels/0`, 'GD-AC44');
+    const kdm500     = named(`${named('/energyMeterManufacturers/0', 'KERNBERG')}/energyMeterModels/0`, 'KDM-500');
+    const tsm        = named('/transparencySoftwareManufacturers/0', 'GraphDefined');
+    const release    = named(`${tsm}/transparencySoftware/0`, 'chargy-1.5.0');
+    const component  = `${tariffAt}/elements/0/priceComponents/0`;
+    const meterKey   = `${evseE11}/energyMeter/publicKeys/0`;
+    const pools      = at(qa, `${gefAt}/chargingPools`).map((_, index) => `${gefAt}/chargingPools/${index}`);
+    const status     = at(qa, `${emtDC}/transparencySoftwareStatus/0`);
+
+    if (at(qa, `${stationS1}/EVSEs`).length !== 2 || 'maxPower' in at(qa, stationS1) || at(qa, `${templateAt}/chargingConnectors/0/format`) !== 'SOCKET' ||
+        'cableLength' in at(qa, `${templateAt}/chargingConnectors/0`) || 'vat' in at(qa, component) || at(qa, `${component}/type`) !== 'ENERGY' ||
+        at(qa, `${gdAC44}/hardwareRevisions`).join() !== '1.0' || at(qa, `${emtAC}/hardwareRevision`) !== '1.4' || at(qa, `${kdm500}/signatureMethods`).join() !== 'OCMF' ||
+        at(qa, `${evseE11}/maxPower`) !== 150000 || at(qa, `${emtAC}/role`) !== 'evse' || at(qa, `${tariffAt}/currency`) !== 'EUR')
+        fail('QA.json: DE*GEF and the parties of QA are no longer what the vectors of reading change');
+
+    const ofOperator = (error) => `The given JSON representation of a charging station operator is invalid: ${error}`;
+    const ofNetwork  = (error) => `The given JSON representation of a roaming network is invalid: ${error}`;
+    const holds      = (text)  => `the content holds it as '${text}'`;
+    const LEAVES     = 'the content leaves it out';
+    const notHeldAt  = (path, reason) => `'${path}' is not written as the content holds it: ${reason}!`;
+
+    // QA with an entity of every kind WWCP_POI3 reads that QA has none of, as the given change leaves them.
+    const richer = (change = () => undefined) => {
+        const parts = {
+            poolTemplates:    [ { '@id': 'DE*GEF*PT_STD', name: { en: 'Standard' }, facilities: [ 'CAFE' ], ...meta } ],
+            tariffTemplates:  [ { '@id': 'DE*GEF*TT_BASE', currency: 'EUR', ...meta } ],
+            tariffGroups:     [ { '@id': 'DE*GEF*TG_ALL', name: { en: 'All' }, chargingTariffIds: [ 'DE*GEF*T_AC' ], ...meta } ],
+            poolGroups:       [ { '@id': 'DE*GEF*PG_ALL', name: { en: 'All' }, chargingPoolIds: [ 'DE*GEF*P1' ], ...meta } ],
+            offers:           [ { '@id': 'offer-1', name: { en: 'Ten off' }, discount: { percent: 10, dimensions: [ 'ENERGY' ] }, EVSEGroupIds: [ 'DE*GEF*EG_AC' ], ...meta } ],
+            brands:           [ { '@id': 'GEF-Brand', name: { en: 'GEF' } } ],
+            parkingSpaces:    [ { '@id': 'gef-space-1', ...meta } ],
+            providers:        [ { '@id': 'DE-GDF', name: { en: 'GDF' },
+                                  EVSEGroups: [ { '@id': 'DE*GDF*EG_FAV', name: { en: 'Favourites' }, EVSEIds: [ 'DE*GEF*E1*1' ], ...meta } ],
+                                  chargingTariffOffers: [ { '@id': 'gdf-offer', name: { en: 'Five off' }, discount: { percent: 5 }, EVSEGroupIds: [ 'DE*GDF*EG_FAV' ], ...meta } ],
+                                  ...meta } ],
+            gridOperators:    [ { '@id': 'DE*NET', name: { en: 'Net' },
+                                  gridConnectionPoints: [ { '@id': 'gcp-1', name: { en: 'Connection 1' }, voltageLevel: 'LowVoltage',
+                                                            maintainedBy: { entityType: 'ChargingStationOperator', entityId: 'DE*GEF' },
+                                                            energyMeter: { '@id': 'gcp-meter-1', ...meta }, nominalVoltage: 400 } ],
+                                  energyMeterGroups: [ { '@id': 'net-meters', name: { en: 'Net meters' }, energyMeterIds: [ 'gcp-meter-1' ], ...meta } ],
+                                  energyMeterTemplates: [ { '@id': 'net-meter-template', name: { en: 'Grid meter' }, role: 'grid', ...meta } ],
+                                  ...meta } ],
+            parkingOperators: [ { '@id': 'DE*PRK', name: { en: 'Parking' },
+                                  parkingGarages: [ { '@id': 'garage-1', name: { en: 'Garage' }, chargingStationIds: [ 'DE*GEF*S1' ], parkingProductIds: [ 'P1' ], ...meta } ],
+                                  parkingSpaces: [ { '@id': 'space-1', parkingGarageId: 'garage-1', parkingSensorIds: [ 'sensor-1' ], length: 5, width: 2.5, ...meta } ],
+                                  parkingSensors: [ { '@id': 'sensor-1', ...meta } ],
+                                  parkingSpaceTemplates: [ { '@id': 'space-template-1', ...meta } ],
+                                  parkingSpaceGroups: [ { '@id': 'space-group-1', parkingSpaceIds: [ 'space-1' ], ...meta } ],
+                                  parkingProducts: [ { '@id': 'P1', minDuration: 0, stopParkingAfterTime: 3600 } ],
+                                  ...meta } ],
+        };
+        change(parts);
+        return [ { op: 'add', path: `${gefAt}/chargingPoolTemplates`,   value: parts.poolTemplates },
+                 { op: 'add', path: `${gefAt}/chargingTariffTemplates`, value: parts.tariffTemplates },
+                 { op: 'add', path: `${gefAt}/chargingTariffGroups`,    value: parts.tariffGroups },
+                 { op: 'add', path: `${gefAt}/chargingPoolGroups`,      value: parts.poolGroups },
+                 { op: 'add', path: `${gefAt}/chargingTariffOffers`,    value: parts.offers },
+                 { op: 'add', path: `${gefAt}/brands`,                  value: parts.brands },
+                 { op: 'add', path: `${gefAt}/parkingSpaces`,           value: parts.parkingSpaces },
+                 { op: 'add', path: `${pool1}/gridConnectionPointId`,   value: 'gcp-1' },
+                 { op: 'add', path: '/eMobilityProviders',              value: parts.providers },
+                 { op: 'add', path: '/gridOperators',                   value: parts.gridOperators },
+                 { op: 'add', path: '/parkingOperators',                value: parts.parkingOperators } ];
+    };
+
+    const version = (id, basis, description, reason, patch, rich) =>
+        refuse({ id, kind: 'version', basis, description: rich === undefined ? description : `${description} (QA with an entity of every kind WWCP_POI3 reads)`, reason,
+                 document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, ...(rich ?? []), ...patch ]) });
+
+    // ---- Of the roaming network and its operator.
+    version('version-read-name-not-an-object',    doc('RoamingNetwork'), 'The name of the roaming network is the number 5, not a text in languages.',
+            "JSON property 'name' is not an object!",                                            [ { op: 'replace', path: '/name', value: 5 } ]);
+    version('version-read-created-missing',       doc('RoamingNetwork'), 'The roaming network without the timestamp of its creation.',
+            `The creation timestamp 'created' of '${qa['@id']}' is missing!`,                    [ { op: 'remove', path: '/created' } ]);
+    version('version-read-created-number',        doc('RoamingNetwork'), 'The roaming network created at the number 5.',
+            "Invalid creation timestamp '5'!",                                                   [ { op: 'replace', path: '/created', value: 5 } ]);
+    version('version-read-data-license-unknown',  doc('RoamingNetwork'), 'The roaming network names the data license XYZ by its identification alone, which is no well-known one.',
+            "The data license 'XYZ' is not well-known, so it must be given completely!",         [ { op: 'add', path: '/dataLicenseIds', value: [ 'XYZ' ] } ]);
+    version('version-read-network-signing-keys',  doc('RoamingNetwork'), 'The roaming network names signing keys, as null: it has none of its own.',
+            "A roaming network has no keys of its own: they are the keys of its operator, 'operator'!", [ { op: 'add', path: '/signingKeys', value: null } ]);
+    version('version-read-operator-homepage',     doc('RoamingNetworkOperator'), 'The operator of the roaming network names the homepage https://x_y.org, of a host name with an underscore.',
+            "Invalid homepage 'https://x_y.org'!",                                               [ { op: 'add', path: '/operator/homepage', value: 'https://x_y.org' } ]);
+
+    // ---- Of the charging station operator, its pools, stations, EVSEs, connectors and energy meters.
+    version('version-read-pools-not-an-array',    doc('ChargingStationOperator'), 'DE*GEF names its charging pools as the text x.',
+            'The charging pools must be a JSON array!',                                         [ { op: 'replace', path: `${gefAt}/chargingPools`, value: 'x' } ]);
+    version('version-read-logo-without-url',      doc('ChargingStationOperator'), 'DE*GEF names a logo without its URL.',
+            'A logo requires an URI!',                                                           [ { op: 'add', path: `${gefAt}/logos`, value: [ {} ] } ]);
+    version('version-read-latitude',              doc('ChargingPool'), 'DE*GEF*P1 lies at the latitude 91.',
+            "Invalid geo location: Invalid 'latitude' value!",                                   [ { op: 'replace', path: `${pool1}/geoLocation/lat`, value: 91 } ]);
+    version('version-read-address-without-street', doc('ChargingPool'), 'DE*GEF*P1 names an address without its street.',
+            "Invalid address: Missing property 'street'!",                                       [ { op: 'add', path: `${pool1}/address`, value: { postalCode: '07745', city: { en: 'Jena' }, country: 'DE' } } ]);
+    version('version-read-opening-times-reversed', doc('ChargingPool'), 'DE*GEF*P1 is open on Mondays from 20:00 to 08:00, a period ending before it begins.',
+            "Invalid opening times: Invalid opening times: The end period '08:00h' must be after the start period '20:00h'!",
+            [ { op: 'add', path: `${pool1}/openingTimes`, value: { regularOpenings: [ { monday: [ { begin: '20:00', end: '08:00' } ] } ] } } ]);
+    version('version-read-image-without-type',    doc('ChargingPool'), 'DE*GEF*P1 names an image without its type.',
+            `Invalid images '{"url":"https://example.org/p.png","category":"photo"}': Missing JSON property 'type'!`,
+            [ { op: 'add', path: `${pool1}/images`, value: [ { url: 'https://example.org/p.png', category: 'photo' } ] } ]);
+    version('version-read-authentication-mode-untrimmed', doc('ChargingPool'), "DE*GEF*P1 names the authentication mode ' RFID', with a space before it.",
+            `Invalid authentication mode '{"type":" RFID"}': Invalid authentication mode: The type of an authentication mode must be a text without surrounding whitespace!`,
+            [ { op: 'add', path: `${pool1}/authenticationModes`, value: [ { type: ' RFID' } ] } ]);
+    version('version-read-energy-mix-percentage', doc('ChargingPool'), 'DE*GEF*P1 names an energy mix of 160 % wind.',
+            'Invalid energy mix: energySources[0][1]: expected a percentage between 0 and 100!',
+            [ { op: 'add', path: `${pool1}/energyMix`, value: { energySources: [ [ 'Wind', '160 %' ] ], environmentalImpacts: [], supplierName: { en: 'S' }, productName: { en: 'P' } } } ]);
+    version('version-read-station-above-its-evses', doc('ChargingStation'), 'DE*GEF*S1 has a maximum power of 999999 W, its two EVSEs one of 1 W each.',
+            "The given JSON representation of a charging station is invalid: The maximum power of the charging station 'DE*GEF*S1', 999999 W, must not exceed the 2 W of all its EVSEs together!",
+            [ { op: 'add', path: `${stationS1}/maxPower`, value: 999999 }, { op: 'replace', path: `${evseE11}/maxPower`, value: 1 }, { op: 'replace', path: `${evseE12}/maxPower`, value: 1 } ]);
+    version('version-read-current-type',          doc('EVSE'), 'DE*GEF*E1*1 names the current type dc, in lower case.',
+            "Invalid current type 'dc'!",                                                        [ { op: 'replace', path: `${evseE11}/currentTypes`, value: [ 'dc' ] } ]);
+    version('version-read-energy-meter-not-an-object', doc('EVSE'), 'DE*GEF*E1*1 names its energy meter as the text x.',
+            'The energy meter must be a JSON object!',                                          [ { op: 'replace', path: `${evseE11}/energyMeter`, value: 'x' } ]);
+    version('version-read-connector-format',      doc('EVSETemplate'), 'The charging connector of DE*GEF*ET_AC is of the format socket, in lower case.',
+            "Invalid charging connector format 'socket'!",                                       [ { op: 'replace', path: `${templateAt}/chargingConnectors/0/format`, value: 'socket' } ]);
+    version('version-read-socket-with-cable',     doc('EVSETemplate'), 'The charging connector of DE*GEF*ET_AC, a socket, names a cable length of 2 m.',
+            "The charging connector '1' is a socket: it has no cable of its own!",               [ { op: 'add', path: `${templateAt}/chargingConnectors/0/cableLength`, value: 2 } ]);
+    version('version-read-meter-role',            doc('EnergyMeterTemplate'), 'DE*GEF*EMT_AC names its role as the number 5.',
+            "Invalid energy meter role '5'!",                                                    [ { op: 'replace', path: `${emtAC}/role`, value: 5 } ]);
+    version('version-read-legal-status',          doc('EnergyMeterTemplate'), `DE*GEF*EMT_DC names the legal status of its transparency software ${status.transparencySoftwareId} as the number 5.`,
+            `Invalid transparency software status '${JSON.stringify({ ...status, legalStatus: 5 })}': Invalid legal status '5'!`,
+            [ { op: 'replace', path: `${emtDC}/transparencySoftwareStatus/0/legalStatus`, value: 5 } ]);
+
+    // ---- Of identifications, as their types read them.
+    version('version-read-tariff-id-lowercase',   `${SPEC}, 2`, 'The charging tariff DE*GEF*T_AC identified in lower case, de*gef*t_ac.',
+            "Invalid 'charging tariff identification'!",                                         [ { op: 'replace', path: `${tariffAt}/@id`, value: 'de*gef*t_ac' } ]);
+    version('version-read-pool-without-id',       doc('ChargingPool'), 'DE*GEF*P1 without its identification.',
+            "Missing JSON property '@id'!",                                                      [ { op: 'remove', path: `${pool1}/@id` } ]);
+    version('version-read-group-member-id',       doc('EVSEGroup'), 'The EVSE group DE*GEF*EG_AC names its member DE*GEF*E2*1 in lower case, de*gef*e2*1.',
+            "Invalid member identification 'de*gef*e2*1'!",                                      [ { op: 'replace', path: `${groupAC}/EVSEIds`, value: [ 'de*gef*e2*1' ] } ]);
+    version('version-read-template-id',           doc('ChargingStation'), 'DE*GEF*S1 names its template DE*GEF*ST_DC in lower case, de*gef*st_dc.',
+            "Invalid template identification 'de*gef*st_dc'!",                                   [ { op: 'replace', path: `${stationS1}/templateIds`, value: [ 'de*gef*st_dc' ] } ]);
+    version('version-read-provider-id',           doc('EMobilityProvider'), 'The e-mobility provider identified as DE-GDFX, a provider identification of four characters.',
+            "Invalid 'e-mobility provider identification'!",                                     [], richer(parts => { parts.providers[0]['@id'] = 'DE-GDFX'; }));
+
+    // ---- Of charging tariffs, their elements, templates and offers.
+    version('version-read-tariff-currency',       doc('ChargingTariff'), 'DE*GEF*T_AC in the currency eur, in lower case.',
+            "The currency of the charging tariff 'DE*GEF*T_AC' must be an ISO 4217 code, not 'eur'!", [ { op: 'replace', path: `${tariffAt}/currency`, value: 'eur' } ]);
+    version('version-read-price-component-without-type', doc('ChargingTariff'), 'The price component of DE*GEF*T_AC without its type.',
+            'A price component needs its type!',                                                 [ { op: 'remove', path: `${component}/type` } ]);
+    version('version-read-price-component-without-price', doc('ChargingTariff'), 'The price component of DE*GEF*T_AC without its price.',
+            "Missing JSON property 'price'!",                                                    [ { op: 'remove', path: `${component}/price` } ]);
+    version('version-read-price-component-step-size-text', doc('ChargingTariff'), 'The price component of DE*GEF*T_AC of the step size x, a text.',
+            "Invalid value for 'step size'!",                                                    [ { op: 'replace', path: `${component}/stepSize`, value: 'x' } ]);
+    version('version-read-price-component-vat',   doc('ChargingTariff'), 'The price component of DE*GEF*T_AC with a VAT of 120 percent.',
+            'The VAT of a ENERGY price component must be between 0 and 100 percent!',          [ { op: 'add', path: `${component}/vat`, value: 120 } ]);
+    version('version-read-price-component-without-step-size', doc('ChargingTariff'), 'The price component of DE*GEF*T_AC, of energy, without its step size.',
+            'A ENERGY price component needs a positive step size!',                            [ { op: 'remove', path: `${component}/stepSize` } ]);
+    version('version-read-restriction-start-time', doc('ChargingTariff'), 'The element of DE*GEF*T_AC restricted to the start time 9:00, of one digit of its hour.',
+            "Invalid startTime '9:00', expected HH:mm!",                                         [ { op: 'add', path: `${tariffAt}/elements/0/restrictions`, value: { startTime: '9:00' } } ]);
+    version('version-read-restriction-power-reversed', doc('ChargingTariff'), 'The element of DE*GEF*T_AC restricted to a minimum power of 50 and a maximum power of 10.',
+            'Invalid charging tariff restrictions: The minimum power of a charging tariff restriction must not exceed its maximum!',
+            [ { op: 'add', path: `${tariffAt}/elements/0/restrictions`, value: { minPower: 50, maxPower: 10 } } ]);
+    version('version-read-offer-neither-price-nor-discount', doc('ChargingTariffOffer'), 'The offer offer-1 of DE*GEF without its discount, and without a price of its own.',
+            "The given JSON representation of a charging tariff offer is invalid: The charging tariff offer 'offer-1' must have exactly one of a price of its own and a discount!",
+            [], richer(parts => { delete parts.offers[0].discount; }));
+    version('version-read-offer-price-without-currency', doc('ChargingTariffOffer'), 'The offer offer-1 of DE*GEF with a price of its own, a charging tariff without its currency, instead of its discount.',
+            "The currency of the price of the charging tariff offer 'offer-1' must be an ISO 4217 code!",
+            [], richer(parts => { delete parts.offers[0].discount; parts.offers[0].chargingTariff = { elements: [ { priceComponents: [ { type: 'FLAT', price: 1 } ] } ] }; }));
+    version('version-read-discount-dimensions-empty', doc('ChargingTariffOffer'), 'The offer offer-1 of DE*GEF with a discount of 10 percent of no dimensions, an empty array.',
+            'The dimensions of a discount must not be empty: without them, it reduces all of them!',
+            [], richer(parts => { parts.offers[0].discount = { percent: 10, dimensions: [] }; }));
+
+    // ---- Of the parties: manufacturers and their models, releases, e-mobility providers, grid and parking operators.
+    version('version-read-manufacturer-homepage', doc('ChargingStationManufacturer'), 'GraphDefined, the manufacturer of charging stations, names its homepage as the number 5.',
+            "Invalid homepage '5'!",                                                             [ { op: 'replace', path: `${gd}/homepage`, value: 5 } ]);
+    version('version-read-model-evses-none',      doc('ChargingStationManufacturer'), 'The charging station model GD-AC44 of no EVSEs.',
+            "The given JSON representation of a charging station model is invalid: The number of EVSEs of the charging station model 'GD-AC44' must be at least one!",
+            [ { op: 'replace', path: `${gdAC44}/numberOfEVSEs`, value: 0 } ]);
+    version('version-read-meter-model-accuracy-class', doc('EnergyMeterManufacturer'), "The energy meter model KDM-500 of the accuracy class ' 0.5S', with a space before it.",
+            "The given JSON representation of an energy meter model is invalid: The accuracy class of the energy meter model 'KDM-500' must not be empty nor begin or end with whitespace!",
+            [ { op: 'replace', path: `${kdm500}/accuracyClass`, value: ' 0.5S' } ]);
+    version('version-read-cra-role',              doc('TransparencySoftwareManufacturer'), 'The manufacturer of the transparency software names its role under the Cyber Resilience Act as MANUFACTURER, in upper case.',
+            "The role 'MANUFACTURER' under the Cyber Resilience Act must be one of manufacturer, openSourceSoftwareSteward!",
+            [ { op: 'replace', path: `${tsm}/craRole`, value: 'MANUFACTURER' } ]);
+    version('version-read-release-without-name',  doc('TransparencySoftwareManufacturer'), 'The release chargy-1.5.0 without its name.',
+            'TransparencySoftware: name: expected a multi-language object.',                     [ { op: 'remove', path: `${release}/name` } ]);
+    version('version-read-release-repository-relative', doc('TransparencySoftwareManufacturer'), 'The release chargy-1.5.0 names its source code repository as github.com/x, without its scheme.',
+            'TransparencySoftware: sourceCodeRepository: expected an absolute URL.',             [ { op: 'replace', path: `${release}/sourceCodeRepository`, value: 'github.com/x' } ]);
+    version('version-read-provider-group-of-another', doc('EMobilityProvider'), 'DE-GDF has the EVSE group DE*XYZ*EG_FAV, of another provider.',
+            "The given JSON representation of an e-mobility provider is invalid: The group 'DE*XYZ*EG_FAV' does not belong to the e-mobility provider 'DE-GDF'!",
+            [], richer(parts => { parts.providers[0].EVSEGroups[0]['@id'] = 'DE*XYZ*EG_FAV'; parts.providers[0].chargingTariffOffers[0].EVSEGroupIds = [ 'DE*XYZ*EG_FAV' ]; }));
+    version('version-read-grid-connection-point-maintainer', doc('GridOperator'), 'The grid connection point gcp-1 of DE*NET maintained by DE*NET, a grid operator.',
+            "The given JSON representation of a grid connection point is invalid: The grid connection point 'gcp-1' can only be maintained by its grid operator, a charging station operator or a parking operator, not by the GridOperator 'DE*NET'!",
+            [], richer(parts => { parts.gridOperators[0].gridConnectionPoints[0].maintainedBy = { entityType: 'GridOperator', entityId: 'DE*NET' }; }));
+    version('version-read-meter-group-member-unknown', doc('GridOperator'), 'The energy meter group net-meters of DE*NET names the meter nope, which DE*NET does not have.',
+            "The given JSON representation of a grid operator is invalid: The member 'nope' of the group 'net-meters' is unknown at the grid operator 'DE*NET'!",
+            [], richer(parts => { parts.gridOperators[0].energyMeterGroups[0].energyMeterIds = [ 'nope' ]; }));
+    version('version-read-garage-product-unknown', doc('ParkingOperator'), 'The parking garage garage-1 of DE*PRK names the parking product p1, which DE*PRK has as P1 only.',
+            "The given JSON representation of a parking operator is invalid: The parking product 'p1' of the parking garage 'garage-1' is unknown at the parking operator 'DE*PRK'!",
+            [], richer(parts => { parts.parkingOperators[0].parkingGarages[0].parkingProductIds = [ 'p1' ]; }));
+    version('version-read-parking-space-length',  doc('ParkingSpace'), 'The parking space space-1 of DE*PRK of the length 0.',
+            "The given JSON representation of a parking space is invalid: The length of the parking space 'space-1' must be positive!",
+            [], richer(parts => { parts.parkingOperators[0].parkingSpaces[0].length = 0; }));
+    version('version-read-brand-without-name',    doc('Brand'), 'The brand GEF-Brand of DE*GEF without its name.',
+            "The brand 'GEF-Brand' needs its name!",                                            [], richer(parts => { delete parts.brands[0].name; }));
+
+    // ---- Of the constructor of a charging station operator: its templates, tariffs, groups and offers.
+    version('version-read-operator-tariff-unknown', doc('ChargingStationOperator'), 'DE*GEF without its charging tariffs, which its EVSE templates name.',
+            ofOperator("The charging tariff 'DE*GEF*T_AC' of the template 'DE*GEF*ET_AC' is unknown at the operator 'DE*GEF'!"), [ { op: 'remove', path: `${gefAt}/chargingTariffs` } ]);
+    version('version-read-operator-template-unknown', doc('ChargingStationOperator'), 'DE*GEF without its EVSE templates, which its EVSEs name.',
+            ofOperator("The template 'DE*GEF*ET_DC' of the EVSE 'DE*GEF*E1*1' is unknown at the operator 'DE*GEF'!"), [ { op: 'remove', path: `${gefAt}/EVSETemplates` } ]);
+    version('version-read-operator-group-member-unknown', doc('ChargingStationOperator'), 'DE*GEF without its charging pools, whose EVSEs its groups name.',
+            ofOperator("The member 'DE*GEF*E2*1' of the group 'DE*GEF*EG_AC' is unknown at the operator 'DE*GEF'!"), [ { op: 'remove', path: `${gefAt}/chargingPools` } ]);
+    version('version-read-tariff-without-currency', doc('ChargingTariff'), 'DE*GEF*T_AC without its currency, which no template gives it.',
+            ofOperator("The charging tariff 'DE*GEF*T_AC' has no currency, neither of its own nor of its templates!"), [ { op: 'remove', path: `${tariffAt}/currency` } ]);
+    version('version-read-tariff-min-above-template-max', doc('ChargingTariffTemplate'), 'DE*GEF*T_AC of the minimum price 5, of its template DE*GEF*TT_BASE of the maximum price 2.',
+            ofOperator("The charging tariff 'DE*GEF*T_AC' with the properties of its templates 'DE*GEF*TT_BASE' is invalid: The minimum price of the charging tariff 'DE*GEF*T_AC' must not exceed its maximum price!"),
+            [ { op: 'add', path: `${tariffAt}/templateIds`, value: [ 'DE*GEF*TT_BASE' ] }, { op: 'add', path: `${tariffAt}/minPrice`, value: { excludingVAT: 5 } } ],
+            richer(parts => { parts.tariffTemplates[0].maxPrice = { excludingVAT: 2 }; }));
+    version('version-read-offer-group-unknown',   doc('ChargingTariffOffer'), 'The offer offer-1 of DE*GEF for the EVSE group DE*GEF*EG_NONE, which DE*GEF does not have.',
+            ofOperator("The EVSE group 'DE*GEF*EG_NONE' of the charging tariff offer 'offer-1' is unknown at the operator 'DE*GEF'!"),
+            [], richer(parts => { parts.offers[0].EVSEGroupIds = [ 'DE*GEF*EG_NONE' ]; }));
+    version('version-read-pool-group-of-another', doc('ChargingPoolGroup'), 'DE*GEF has the charging pool group DE*XYZ*PG_ALL, of another operator.',
+            ofOperator("The group 'DE*XYZ*PG_ALL' does not belong to the operator 'DE*GEF'!"),  [], richer(parts => { parts.poolGroups[0]['@id'] = 'DE*XYZ*PG_ALL'; }));
+    version('version-read-operator-parking-space-in-garage', doc('ParkingSpace'), 'The parking space gef-space-1 of DE*GEF in the parking garage garage-1: only a parking space of a parking operator is in one.',
+            ofOperator("The parking space 'gef-space-1' of the operator 'DE*GEF' can be in no parking garage, and have no parking sensors or parking products: only those of a parking operator can!"),
+            [], richer(parts => { parts.parkingSpaces[0].parkingGarageId = 'garage-1'; }));
+    version('version-read-tariff-twice',          doc('ChargingTariff'), 'DE*GEF has DE*GEF*T_AC also as DE*GEF*T_A*C, the same identification but for a *.',
+            ofOperator("The charging tariff 'DE*GEF*T_A*C' of the operator 'DE*GEF' must not be given twice!"),
+            [ { op: 'add', path: `${gefAt}/chargingTariffs/-`, value: { ...at(qa, tariffAt), '@id': 'DE*GEF*T_A*C' } } ]);
+
+    // ---- References the constructor of the roaming network checks.
+    const REFS = doc('RoamingNetwork');
+    version('version-ref-manufacturer-unknown',   REFS, 'The roaming network without its manufacturers of charging stations, which the station templates of DE*GEF name.',
+            ofNetwork("The manufacturer 'GraphDefined' of the charging station template 'DE*GEF*ST_AC' is unknown in the roaming network!"), [ { op: 'remove', path: '/chargingStationManufacturers' } ]);
+    version('version-ref-hardware-revision-without-model', REFS, 'The charging station template DE*GEF*ST_AC without its model, its hardware revision named.',
+            ofNetwork("The hardware revision '1.0' of the charging station 'DE*GEF*S2' is named without its model!"), [ { op: 'remove', path: `${stAC}/modelId` } ]);
+    version('version-ref-hardware-revision-of-no-model', REFS, 'The charging station model GD-AC44 without its hardware revisions, of which DE*GEF*ST_AC names 1.0.',
+            ofNetwork("The hardware revision '1.0' of the charging station template 'DE*GEF*ST_AC' is no hardware revision of its model 'GD-AC44' of 'GraphDefined'!"), [ { op: 'remove', path: `${gdAC44}/hardwareRevisions` } ]);
+    version('version-ref-evse-above-its-model',   REFS, 'DE*GEF*E1*1 of a maximum power of 999999 kW, its model GD-DC300 of 300 kW.',
+            ofNetwork("The maximum power of the EVSE 'DE*GEF*E1*1', 999999 kW, is above the one of the model 'GD-DC300' of 'GraphDefined' of its charging station 'DE*GEF*S1', 300 kW!"),
+            [ { op: 'replace', path: `${evseE11}/maxPower`, value: 999999000 } ]);
+    version('version-ref-meter-template-model-without-manufacturer', REFS, 'The energy meter template DE*GEF*EMT_AC names its model SM-3 without its manufacturer.',
+            ofNetwork("The energy meter template 'DE*GEF*EMT_AC' names the model 'SM-3' without its manufacturer!"), [ { op: 'remove', path: `${emtAC}/manufacturerId` } ]);
+    version('version-ref-meter-hardware-revision-without-model', REFS, 'The energy meter template DE*GEF*EMT_AC without its model, its hardware revision named.',
+            ofNetwork("The energy meter 'DE*GEF*M2*1' names the hardware revision '1.4' without its model!"), [ { op: 'remove', path: `${emtAC}/modelId` } ]);
+    version('version-ref-meter-manufacturer-unknown', REFS, 'The roaming network without its manufacturers of energy meters, which a certificate names.',
+            ofNetwork("The manufacturer 'KERNBERG' of the certificate 'PTB-2026-0017' is unknown in the roaming network!"), [ { op: 'remove', path: '/energyMeterManufacturers' } ]);
+    version('version-ref-release-unknown',        REFS, 'The roaming network without its manufacturers of transparency software, whose release a certificate names.',
+            ofNetwork("The transparency software release 'chargy-1.5.0' of the certificate 'PTB-2026-0017' is unknown in the roaming network!"), [ { op: 'remove', path: '/transparencySoftwareManufacturers' } ]);
+    version('version-ref-certificate-unknown',    REFS, 'The roaming network without its conformity assessment bodies, whose certificate DE*GEF*ST_DC names.',
+            ofNetwork("The certificate 'PTB-2026-0042' of the charging station template 'DE*GEF*ST_DC' is unknown in the roaming network!"), [ { op: 'remove', path: '/conformityAssessmentBodies' } ]);
+    version('version-ref-meter-not-of-the-certificate', REFS, 'The energy meter of DE*GEF*E1*1 without its template, so of no model the certificate of its station was issued with.',
+            ofNetwork("The energy meter 'DE*GEF*M1*1' of the charging station 'DE*GEF*S1' is none of the energy meters the certificate 'PTB-2026-0042' was issued with!"), [ { op: 'remove', path: `${evseE11}/energyMeter/templateIds` } ]);
+    version('version-ref-meter-with-station-certificate', REFS, 'The energy meter template DE*GEF*EMT_AC names the certificate PTB-2026-0042, of a charging station model.',
+            ofNetwork("The certificate 'PTB-2026-0042' of the energy meter 'DE*GEF*M2*1' is for the charging station model 'GD-DC300' of 'GraphDefined', not for a model of energy meters!"),
+            [ { op: 'add', path: `${emtAC}/certificateIds`, value: [ 'PTB-2026-0042' ] } ]);
+    version('version-ref-meter-signature-method', REFS, 'The energy meter template DE*GEF*EMT_AC names the signature method EDL40, which its model SM-3 does not have.',
+            ofNetwork("The energy meter 'DE*GEF*M2*1' signs with 'EDL40', no signature method of its model 'SM-3' of 'SAALE'!"), [ { op: 'replace', path: `${emtAC}/signatureMethods`, value: [ 'EDL40' ] } ]);
+    version('version-ref-grid-connection-point-unknown', REFS, 'DE*GEF*P1 at the grid connection point gcp-9, which no grid operator has.',
+            ofNetwork("The grid connection point 'gcp-9' of the charging pool 'DE*GEF*P1' is unknown in the roaming network!"),
+            [ { op: 'add', path: `${pool1}/gridConnectionPointId`, value: 'gcp-9' } ], richer());
+    version('version-ref-parking-space-unknown',  REFS, 'DE*GEF*S1 at the parking space space-9, which no party has.',
+            ofNetwork("The parking space 'space-9' of the charging station 'DE*GEF*S1' is unknown in the roaming network!"),
+            [ { op: 'add', path: `${stationS1}/parkingSpaceIds`, value: [ 'space-9' ] } ], richer());
+    version('version-ref-garage-station-unknown', REFS, 'The parking garage garage-1 of DE*PRK names the charging station DE*GEF*S9, which DE*GEF does not have.',
+            ofNetwork("The charging station 'DE*GEF*S9' of the parking garage 'garage-1' is unknown in the roaming network!"),
+            [], richer(parts => { parts.parkingOperators[0].parkingGarages[0].chargingStationIds = [ 'DE*GEF*S9' ]; }));
+    version('version-ref-maintainer-unknown',     REFS, 'The grid connection point gcp-1 maintained by the charging station operator DE*XYZ, which the roaming network does not have.',
+            ofNetwork("The maintainer of the grid connection point 'gcp-1', the ChargingStationOperator 'DE*XYZ', is unknown in the roaming network!"),
+            [], richer(parts => { parts.gridOperators[0].gridConnectionPoints[0].maintainedBy = { entityType: 'ChargingStationOperator', entityId: 'DE*XYZ' }; }));
+    version('version-ref-provider-twice',         REFS, 'The e-mobility provider DE-GDF given twice, the second time as DE*GDF.',
+            ofNetwork("The e-mobility provider 'DE*GDF' must not be given twice!"),
+            [], richer(parts => { parts.providers.push({ '@id': 'DE*GDF', name: { en: 'GDF2' }, created: qa.created, lastChange: qa.created }); }));
+    const identityKey = at(qa, `${gd}/identityKeys/0`);
+    version('version-ref-key-of-two-parties',     REFS, 'DE-GDF names the identity key of GraphDefined, the manufacturer of charging stations, as its own.',
+            ofNetwork(`The key '${identityKey['@id']}' of the ChargingStationManufacturer 'GraphDefined' is a key of the EMobilityProvider 'DE-GDF' as well: a key belongs to one party only!`),
+            [], richer(parts => { parts.providers[0].identityKeys = [ identityKey ]; }));
+
+    // ---- Values WWCP_POI3 writes otherwise than given (2, Written forms), in the words of `notHeld`.
+    version('version-held-last-change-missing',   HELD, 'DE*GEF*P2 without its lastChange, which WWCP_POI3 writes of its own: the timestamp of its creation.',
+            notHeld(`${pool2}/lastChange`, holds(JSON.stringify(at(qa, `${pool2}/created`)))), [ { op: 'remove', path: `${pool2}/lastChange` } ]);
+    version('version-held-party-name-missing',    HELD, 'GraphDefined, the manufacturer of charging stations, without its name, which WWCP_POI3 makes up of its own.',
+            notHeld(`${gd}/name`, holds(`{"en":"Charging Station Manufacturer 'GraphDefined'"}`)), [ { op: 'remove', path: `${gd}/name` } ]);
+    version('version-held-name-empty',            HELD, 'DE*GEF*P1 names its name as a text in no language, which WWCP_POI3 leaves out.',
+            notHeld(`${pool1}/name`, LEAVES),                                                    [ { op: 'replace', path: `${pool1}/name`, value: {} } ]);
+    version('version-held-license-urls-missing',  HELD, 'The open source license of chargy-1.5.0 without its URLs, which WWCP_POI3 writes also empty.',
+            notHeld(`${release}/openSourceLicenses/0/URLs`, holds('[]')),                       [ { op: 'remove', path: `${release}/openSourceLicenses/0/URLs` } ]);
+    version('version-held-id-number',             HELD, 'BSI identified by the number 5, which WWCP_POI3 writes as a text.',
+            notHeld(`${bsi}/@id`, holds('"5"')),                                                 [ { op: 'replace', path: `${bsi}/@id`, value: 5 } ]);
+    version('version-held-connector-type-number', HELD, 'The charging connector of DE*GEF*ET_AC of the type 5, which WWCP_POI3 writes as a text.',
+            notHeld(`${templateAt}/chargingConnectors/0/type`, holds('"5"')),                   [ { op: 'replace', path: `${templateAt}/chargingConnectors/0/type`, value: 5 } ]);
+    version('version-held-property-unknown',      HELD, 'DE*GEF*P2 names the property colour, which WWCP_POI3 does not write.',
+            notHeld(`${pool2}/colour`, LEAVES),                                                  [ { op: 'add', path: `${pool2}/colour`, value: 'green' } ]);
+    version('version-held-key-statement-property', HELD, 'The key statement of the operator of the roaming network names the property x, which WWCP_POI3 does not write.',
+            notHeld('/operator/keyStatement/x', LEAVES),                                         [ { op: 'add', path: '/operator/keyStatement/x', value: 1 } ]);
+    version('version-held-data-license-of-a-view', HELD, 'DE*GEF*P2 names the data license ODbL by its identification alone, as a view does: a version names it completely.',
+            notHeld(`${pool2}/dataLicenseIds`, LEAVES),                                          [ { op: 'add', path: `${pool2}/dataLicenseIds`, value: [ 'ODbL' ] } ]);
+    version('version-held-release-property',      HELD, 'The release chargy-1.5.0 names the property x, which a release does not have.',
+            "TransparencySoftware: Unknown property 'x'.",                                       [ { op: 'add', path: `${release}/x`, value: 1 } ]);
+    version('version-held-operator-id-lowercase', HELD, 'DE*GEF identified in lower case, de*gef, which WWCP_POI3 writes in upper case.',
+            notHeld(`${gefAt}/@id`, holds('"DE*GEF"')),                                          [ { op: 'replace', path: `${gefAt}/@id`, value: 'de*gef' } ]);
+    version('version-held-homepage-without-scheme', HELD, 'GraphDefined names its homepage without its scheme, which WWCP_POI3 writes with https://.',
+            notHeld(`${gd}/homepage`, holds(JSON.stringify(at(qa, `${gd}/homepage`)))),        [ { op: 'replace', path: `${gd}/homepage`, value: at(qa, `${gd}/homepage`).replace('https://', '') } ]);
+    version('version-held-meter-role-upper-case', HELD, 'DE*GEF*EMT_AC names its role as EVSE, in upper case, which WWCP_POI3 writes as evse.',
+            notHeld(`${emtAC}/role`, holds('"evse"')),                                          [ { op: 'replace', path: `${emtAC}/role`, value: 'EVSE' } ]);
+    version('version-held-signature-method-lower-case', HELD, 'The energy meter model KDM-500 names its signature method as ocmf, in lower case, which WWCP_POI3 writes as OCMF.',
+            notHeld(`${kdm500}/signatureMethods/0`, holds('"OCMF"')),                           [ { op: 'replace', path: `${kdm500}/signatureMethods`, value: [ 'ocmf' ] } ]);
+    version('version-held-currency-untrimmed',    HELD, "DE*GEF*T_AC in the currency 'EUR ', with a space after it, which WWCP_POI3 writes trimmed.",
+            notHeld(`${tariffAt}/currency`, holds('"EUR"')),                                    [ { op: 'replace', path: `${tariffAt}/currency`, value: 'EUR ' } ]);
+    version('version-held-provider-without-name', HELD, 'The e-mobility provider DE-GDF without its name, which WWCP_POI3 makes up of its own.',
+            notHeld('/eMobilityProviders/0/name', holds(`{"en":"E-Mobility Provider 'DE-GDF'"}`)),
+            [ { op: 'add', path: '/eMobilityProviders', value: [ { '@id': 'DE-GDF', created: qa.created, lastChange: qa.created } ] } ]);
+
+    // A number, a boolean or a text given as another JSON type WWCP_POI3 reads, which it writes as its own.
+    version('version-held-max-power-text',        HELD, "DE*GEF*E1*1 names its maximum power as the text ' 150000 ', which WWCP_POI3 reads and writes as the number 150000.",
+            notHeld(`${evseE11}/maxPower`, holds('150000')),                                    [ { op: 'replace', path: `${evseE11}/maxPower`, value: ' 150000 ' } ]);
+    version('version-held-nominal-voltage-text',  HELD, 'The grid connection point gcp-1 names its nominal voltage as the text 400, which WWCP_POI3 writes as a number.',
+            notHeld('/gridOperators/0/gridConnectionPoints/0/nominalVoltage', holds('400')),
+            [], richer(parts => { parts.gridOperators[0].gridConnectionPoints[0].nominalVoltage = '400'; }));
+    version('version-held-boolean-text',          HELD, 'DE*GEF*P1 names whether it can be charged at when closed as the text TRUE, which WWCP_POI3 writes as true.',
+            notHeld(`${pool1}/chargingWhenClosed`, holds('true')),                              [ { op: 'add', path: `${pool1}/chargingWhenClosed`, value: 'TRUE' } ]);
+    version('version-held-boolean-number',        HELD, 'The charging connector of DE*GEF*ET_AC names whether it is lockable as the number 0, which WWCP_POI3 writes as false.',
+            notHeld(`${templateAt}/chargingConnectors/0/lockable`, holds('false')),             [ { op: 'add', path: `${templateAt}/chargingConnectors/0/lockable`, value: 0 } ]);
+    version('version-held-text-number',           HELD, 'The roaming network names its data source as the number 5, which WWCP_POI3 writes as a text.',
+            notHeld('/dataSource', holds('"5"')),                                                [ { op: 'add', path: '/dataSource', value: 5 } ]);
+    version('version-held-image-height-text',     HELD, 'DE*GEF*P1 names an image of the height +5, a text, which WWCP_POI3 writes as the number 5.',
+            notHeld(`${pool1}/images/0/height`, holds('5')),
+            [ { op: 'add', path: `${pool1}/images`, value: [ { url: 'https://example.com/a.png', category: 'photo', type: 'image/png', height: '+5' } ] } ]);
+    version('version-held-duration-text',         HELD, 'DE*GEF*E1*1 names its maximum reservation duration as the text 600.0, which WWCP_POI3 writes as the number 600.',
+            notHeld(`${evseE11}/maxReservationDuration`, holds('600')),                         [ { op: 'add', path: `${evseE11}/maxReservationDuration`, value: '600.0' } ]);
+
+    // Opening times as Styx writes them: 24/7 always, hours of two digits, periods UTC.
+    const openingAt = `${dottedOf(pool1)}.openingTimes`;
+    const opening   = (id, description, reason, openingTimes) =>
+        version(id, HELD, `DE*GEF*P1 is open ${description}.`, reason, [ { op: 'add', path: `${pool1}/openingTimes`, value: openingTimes } ]);
+    const monday    = (begin) => [ { monday: [ { begin, end: '20:00' } ] } ];
+    opening('version-held-opening-times-without-24-7', 'on Mondays from 08:00 to 20:00, not saying whether it is open 24/7, which Styx writes always',
+            notHeldAt(`${openingAt}.24/7`, holds('false')),                                     { regularOpenings: monday('08:00') });
+    opening('version-held-opening-times-empty',   'by regular openings given as an empty array, 24/7, which Styx leaves out',
+            notHeldAt(`${openingAt}.regularOpenings`, 'a list without elements is left out'),  { '24/7': true, regularOpenings: [] });
+    opening('version-held-opening-hour-one-digit', 'on Mondays from 8:00, of one digit of its hour, which Styx writes as 08:00',
+            notHeldAt(`${openingAt}.regularOpenings[0].monday[0].begin`, holds('"08:00"')),    { '24/7': false, regularOpenings: monday('8:00') });
+    opening('version-held-closing-offset',        '24/7 but for an exceptional closing beginning at a time with the offset +01:00, which Styx writes UTC',
+            notHeldAt(`${openingAt}.exceptionalClosings[0]`, holds('"2026-12-23T23:00:00.000Z -> 2026-12-25T00:00:00.000Z"')),
+            { '24/7': true, exceptionalClosings: [ '2026-12-24T00:00:00+01:00 -> 2026-12-25T00:00:00.000Z' ] });
+
+    // NUTS codes in upper case and their ordinal order; an address with its country by its alpha-3 code.
+    version('version-held-nuts-lower-case',       HELD, 'DE*GEF*P1 names the NUTS code de1, in lower case, which WWCP_POI3 writes in upper case.',
+            notHeld(`${pool1}/nutsCodes/0`, holds('"DE1"')),                                    [ { op: 'add', path: `${pool1}/nutsCodes`, value: [ 'de1' ] } ]);
+    version('version-held-nuts-out-of-order',     HELD, 'DE*GEF*P1 names the NUTS codes DE1 and AT1, in this order, not their ordinal one.',
+            notHeld(`${pool1}/nutsCodes`, ORDER),                                                [ { op: 'add', path: `${pool1}/nutsCodes`, value: [ 'DE1', 'AT1' ] } ]);
+    const address   = (id, description, reason, more) =>
+        version(id, HELD, `DE*GEF*P1 has an address ${description}.`, reason,
+                [ { op: 'add', path: `${pool1}/address`, value: { street: 'Main', postalCode: '07745', city: { en: 'Jena' }, country: 'DEU', ...more } } ]);
+    address('version-held-country-alpha-2',       'in the country DE, by its alpha-2 code, which Styx writes by its alpha-3 code DEU',
+            notHeld(`${pool1}/address/country`, holds('"DEU"')),                                { country: 'DE' });
+    address('version-read-country-unknown',       'in the country XYZ, which is none',
+            "Invalid address: Invalid 'country'!",                                               { country: 'XYZ' });
+    address('version-held-street-untrimmed',      "of the street ' Main ', with spaces around it, which Styx writes trimmed",
+            notHeld(`${pool1}/address/street`, holds('"Main"')),                                { street: ' Main ' });
+    address('version-held-official-language-upper-case', 'of the official language DE, in upper case, which Styx writes in lower case',
+            notHeld(`${pool1}/address/officialLanguages/0`, holds('"de"')),                     { officialLanguages: [ 'DE' ] });
+    address('version-held-address-property-unknown', 'naming the property x, which Styx does not write',
+            notHeld(`${pool1}/address/x`, LEAVES),                                               { x: 1 });
+
+    // ---- Charging tariff offers of an operator must not overlap (9.4): covering one EVSE, for some of the same sessions,
+    //      at some of the same times in the time zone of the EVSE's charging pool.
+    const OFFERS   = `${SPEC}, 9.4`;
+    quoted(SPEC, '**No overlap.** Two offers of one owner overlap where they cover the same EVSE, for sessions both apply', 'when two offers of one owner overlap');
+    const WHERE    = [ 'EVSEGroupIds', 'chargingStationGroupIds', 'chargingPoolGroupIds', 'chargingStationOperatorIds' ];
+    const offer    = (id, more = {}) => ({ '@id': id, name: { en: id }, discount: { percent: 10 }, ...(WHERE.some(property => property in more) ? {} : { EVSEGroupIds: [ 'DE*GEF*EG_AC' ] }), ...more, ...meta });
+    const weekly   = (day, begin, end) => ({ '24/7': false, regularOpenings: [ { [day]: [ { begin, end } ] } ] });
+    const overlap  = (first, second, evse = 'DE*GEF*E2*1') =>
+        ofOperator(`The charging tariff offers '${first}' and '${second}' of the operator 'DE*GEF' overlap at the EVSE '${evse}': they must not cover the same EVSE for the same sessions at the same times!`);
+    const offering = (id, description, reason, offers, timeZone) =>
+        version(id, OFFERS, `DE*GEF offers ${description}.`, reason,
+                timeZone === undefined ? [] : pools.map(pool => ({ op: 'add', path: `${pool}/timeZone`, value: timeZone })), richer(parts => { parts.offers = offers; }));
+
+    offering('version-offers-overlap',            'a and b, both of a discount of 10 percent at its AC EVSEs, at all times',
+             overlap('a', 'b'),                    [ offer('a'), offer('b') ]);
+    offering('version-offers-overlap-by-operator', 'a at its DC EVSEs and b at all of its EVSEs, by the operator: they overlap at the first DC EVSE in the ordinal order',
+             overlap('a', 'b', 'DE*GEF*E1*1'),    [ offer('a', { EVSEGroupIds: [ 'DE*GEF*EG_DC' ] }), offer('b', { chargingStationOperatorIds: [ 'DE*GEF' ] }) ]);
+    offering('version-offers-overlap-by-pool-group', 'a at its AC EVSEs and b at the charging pools of the group DE*GEF*PG_ALL, DE*GEF*P1 with its AC EVSEs among them',
+             overlap('a', 'b'),                    [ offer('a'), offer('b', { chargingPoolGroupIds: [ 'DE*GEF*PG_ALL' ] }) ]);
+    offering('version-offers-overlap-ordinal',    'z, B and a at its AC EVSEs: the first pair in the ordinal order of the offers is B and a',
+             overlap('B', 'a'),                    [ offer('z'), offer('B'), offer('a') ]);
+    offering('version-offers-overlap-sessions',   'a for ad hoc sessions and b for all sessions',
+             overlap('a', 'b'),                    [ offer('a', { sessions: 'adHoc' }), offer('b') ]);
+    offering('version-offers-overlap-providers',  'a for contracts of DE-ABC and DE-GDF and b for contracts of DE*GDF, the same provider in another spelling',
+             overlap('a', 'b'),                    [ offer('a', { sessions: 'contract', eMobilityProviderIds: [ 'DE-ABC', 'DE-GDF' ] }), offer('b', { sessions: 'contract', eMobilityProviderIds: [ 'DE*GDF' ] }) ]);
+    offering('version-offers-overlap-validity',   'a until 2026-11-01T00:00:00.000Z and b from it: both inclusive',
+             overlap('a', 'b'),                    [ offer('a', { notAfter: '2026-11-01T00:00:00.000Z' }), offer('b', { notBefore: '2026-11-01T00:00:00.000Z' }) ]);
+    offering('version-offers-overlap-opening-times', 'a on Mondays from 08:00 to 12:00 and b from 11:59 to 13:00',
+             overlap('a', 'b'),                    [ offer('a', { openingTimes: weekly('monday', '08:00', '12:00') }), offer('b', { openingTimes: weekly('monday', '11:59', '13:00') }) ]);
+    offering('version-offers-overlap-time-zone',  'a on Monday, 2 November 2026, from 06:00 to 06:59:59.999 UTC and b on Mondays from 07:30 to 09:00, its charging pools in the time zone Europe/Berlin, where a is from 07:00 to 08:00',
+             overlap('a', 'b'),                    [ offer('a', { notBefore: '2026-11-02T06:00:00.000Z', notAfter: '2026-11-02T06:59:59.999Z' }), offer('b', { openingTimes: weekly('monday', '07:30', '09:00') }) ], 'Europe/Berlin');
+    offering('version-offers-overlap-daylight-saving', 'a on 29 March 2026 from 01:00 to 01:10 UTC, 03:00 to 03:10 in Berlin, and b on Sundays from 02:15 to 03:05, its charging pools in the time zone Europe/Berlin, which skips 02:00 to 03:00 that day: a local time it skips is the first one after it',
+             overlap('a', 'b'),                    [ offer('a', { notBefore: '2026-03-29T01:00:00.000Z', notAfter: '2026-03-29T01:10:00.000Z' }), offer('b', { openingTimes: weekly('sunday', '02:15', '03:05') }) ], 'Europe/Berlin');
+    offering('version-offers-overlap-exceptional-closing', 'a 24/7 but for an exceptional closing from 1 to 2 November 2026, and b from 1 November 2026 to 2 November 2026, 00:00, both inclusive: the end of the closing',
+             overlap('a', 'b'),                    [ offer('a', { openingTimes: { '24/7': true, exceptionalClosings: [ '2026-11-01T00:00:00.000Z -> 2026-11-02T00:00:00.000Z' ] } }),
+                                                     offer('b', { notBefore: '2026-11-01T00:00:00.000Z', notAfter: '2026-11-02T00:00:00.000Z' }) ]);
+
+    // ---- The public keys of energy meters: a DER encoded SubjectPublicKeyInfo of a key BouncyCastle makes, identified by
+    //      its SHA-256, its certificates DER encoded, the first of the key, each one issued by the next one. Those of the
+    //      tests of WWCP_POI.TS, made by BouncyCastle 2.7.0, checked here with node:crypto.
+    const KEYS     = doc('EnergyMeter');
+    const KEYS_TS  = 'libs/WWCP_POI.TS/tests/measurementPublicKey.test.ts';
+    quoted(SPEC, '`publicKeys` (`{@id, key, certificateChain?}`, the DER encoded SubjectPublicKeyInfo, identified by its', 'how an energy meter names its public keys');
+    const SPKI     = 'A measurement public key must be a SubjectPublicKeyInfo: ';
+    const b64      = (bytes) => Buffer.from(bytes).toString('base64');
+    const fromTS   = (name, base64) => quoted(KEYS_TS, `${name}'${base64}'`, `the ${name.trim() || 'certificate'} of BouncyCastle`) && Buffer.from(base64, 'base64');
+    const qaKey    = Buffer.from(at(qa, `${meterKey}/key`), 'base64');
+    const rsa      = fromTS('rsa:     ', 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm6wivJCf0zESTY9v9RIe97vL+cyGGPzSPxxQ6OQsbS58/cxDAH/8rLKgjXuol7mETODYO9wXqd72amyRIofXglW7cYaThXvhsPwY3svY7kXHHh0hW9qmrFN39blcNrlgUl2dS9G2TjIo7OMU6t2OpMaOE0LR9F3wNAOkvfVFRNuMFezvxJSfXyvQ/f8wVLbXBINxhXgr8sC7Gen5ksbjEQ5aAJ9b8UaLCPFDZ3A0cM4tgUDD7A7Wib4qqUgx47Lq2PjtyaodifCgcILDfnSo8iKma1+wxx5JPkuWDW67py37/qaxPcyPXag+Qy8hAfVHKs8DsBJMJAwD+v0/aIOhswIDAQAB');
+    const meter    = fromTS('meter:   ', 'MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEg6ro/u9xb4/gjYr7/C2UYyJGq41tJLNNZwBkRF4dNJYioh6GCHFgl7N8kRkTalPircRJ53dn2G94kUnDzaLN3w==');
+    const chain    = [ fromTS('    ', 'MIIBNDCBu6ADAgECAgMBwv0wCgYIKoZIzj0EAwMwFDESMBAGA1UEAwwJQXV0aG9yaXR5MB4XDTI2MTEwMjAwMDAwMFoXDTMxMTEwMzAwMDAwMFowEjEQMA4GA1UEAwwHbWV0ZXItMTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABIOq6P7vcW+P4I2K+/wtlGMiRquNbSSzTWcAZEReHTSWIqIehghxYJezfJEZE2pT4q3ESed3Z9hveJFJw82izd8wCgYIKoZIzj0EAwMDaAAwZQIwRayE1ArFO1XjIkXbGlWt8XoZFm4yeE1djLDxMJ+qWyf6pnjCgj16uSLpmFkh8FV1AjEA4qhgtAWHB8bsZ+mSKEYKcvNqbrV6CBUzV9B/BXYEKwAQblblmmk/gO3CG44Eknp+'),
+                       fromTS('    ', 'MIIBaTCB76ADAgECAgMHif8wCgYIKoZIzj0EAwMwFDESMBAGA1UEAwwJQXV0aG9yaXR5MB4XDTI2MTEwMjAwMDAwMFoXDTMxMTEwMzAwMDAwMFowFDESMBAGA1UEAwwJQXV0aG9yaXR5MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAErUe8U7o8VAfguQLI6SKb4yM9ZsFI6nfgpaUh3EiCUuPnYO0nxiSGWNey5yPycxHC78fPauLIh9MXwtlv3aJFg/a9DCO326dHEOLgX2RiMn/ckygkR/3sti3Jp8ZvRnBpoxMwETAPBgNVHRMBAf8EBTADAQH/MAoGCCqGSM49BAMDA2kAMGYCMQCN+WzAHTqV5iSkLydyxBlsn0hruh2VY7gfsdeFj57d5oLIrOkAolBvD9qJsKAtpqoCMQDYMQYa7Bb/DKFyNgrQFFOghaXJGBqoL0Ek5gQfYFWlx1B+6hsvL1rYkmeYGzYDHDk=') ];
+
+    // The keys as node:crypto reads them, the chain issued as it says: the meter key's certificate by the authority.
+    const [ certificate, authority ] = chain.map(der => new X509Certificate(der));
+    const spkiOf   = (key) => createPublicKey({ key, format: 'der', type: 'spki' }).export({ format: 'der', type: 'spki' });
+    if (sha256(qaKey) !== at(qa, `${meterKey}/@id`) || qaKey.length !== 91 || qaKey[26] !== 0x04 || !spkiOf(qaKey).equals(qaKey))
+        fail(`QA.json: the public key of the energy meter of DE*GEF*E1*1 is no uncompressed P-256 key identified by its SHA-256`);
+    if (!spkiOf(rsa).equals(rsa) || !rsa.subarray(-5).equals(Buffer.from([ 0x02, 0x03, 0x01, 0x00, 0x01 ])))
+        fail(`${KEYS_TS}: the RSA key is no key of the exponent 65537`);
+    if (!certificate.publicKey.export({ format: 'der', type: 'spki' }).equals(meter) || !certificate.checkIssued(authority) || !certificate.verify(authority.publicKey) || !authority.verify(authority.publicKey))
+        fail(`${KEYS_TS}: the certificate of the meter key is not of it, or not issued by the authority`);
+
+    const meterKeyOf = (id, description, reason, key, more = {}) =>
+        version(id, KEYS, `The public key of the energy meter of DE*GEF*E1*1 ${description}.`, reason,
+                [ { op: 'replace', path: meterKey, value: { '@id': sha256(key), key: b64(key), ...more } } ]);
+    const changed    = (key, change) => { const copy = Buffer.from(key); change(copy); return copy; };
+
+    version('version-meter-key-without-key',      KEYS, 'The public key of the energy meter of DE*GEF*E1*1 without its key.',
+            'A measurement public key needs its identification and its key!',                  [ { op: 'remove', path: `${meterKey}/key` } ]);
+    version('version-meter-key-id-not-its-digest', KEYS, 'The public key of the energy meter of DE*GEF*E1*1 identified by its SHA-256 in upper case.',
+            `The identification '${sha256(qaKey).toUpperCase()}' of a measurement public key is not the SHA-256 '${sha256(qaKey)}' of its key!`,
+            [ { op: 'replace', path: `${meterKey}/@id`, value: sha256(qaKey).toUpperCase() } ]);
+    meterKeyOf('version-meter-key-point-not-on-curve', 'its last octet changed, identified anew: a point not on the curve P-256',
+               `${SPKI}Invalid point coordinates`,                                            changed(qaKey, key => { key[90] ^= 1; }));
+    meterKeyOf('version-meter-key-point-encoding', 'its point of the encoding 5, identified anew: neither compressed, uncompressed nor hybrid',
+               `${SPKI}Invalid point encoding 5`,                                             changed(qaKey, key => { key[26] = 5; }));
+    meterKeyOf('version-meter-key-not-der',        'of the length of its outer SEQUENCE in the long form, 0x81 0x59, identified anew: BER, not DER',
+               'A measurement public key must be DER encoded!',                              Buffer.concat([ Buffer.from([ 0x30, 0x81 ]), qaKey.subarray(1) ]));
+    meterKeyOf('version-meter-key-rsa-exponent-even', 'an RSA key of the exponent 65536, identified by its SHA-256',
+               `${SPKI}RSA publicExponent is even`,                                          changed(rsa, key => { key[key.length - 1] = 0; }));
+    meterKeyOf('version-meter-key-ed25519-small-order', 'an Ed25519 key of the point (0, 1), of the order 1, identified by its SHA-256',
+               `${SPKI}invalid public key`,                                                  Buffer.concat([ Buffer.from('302a300506032b6570032100', 'hex'), Buffer.from([ 1 ]), Buffer.alloc(31) ]));
+    meterKeyOf('version-meter-key-certificate-not-of-the-key', 'with the certificate chain of another key',
+               'The first certificate of a measurement public key must be the one of the key!', qaKey, { certificateChain: chain.map(b64) });
+    meterKeyOf('version-meter-key-certificate-not-issued', 'the key of a certificate, with its certificate twice: the first not issued by the second',
+               'The certificate 1 of a measurement public key is not issued by the certificate 2!', meter, { certificateChain: [ b64(chain[0]), b64(chain[0]) ] });
+    meterKeyOf('version-meter-key-certificate-not-der', 'the key of a certificate, with its certificate followed by a zero octet, and its issuer',
+               'The certificate 1 of a measurement public key must be DER encoded!', meter, { certificateChain: [ b64(Buffer.concat([ chain[0], Buffer.from([ 0 ]) ])), b64(chain[1]) ] });
+
+}
+
+/** A JSON pointer as the dotted path WWCP_POI names it in its words, `chargingStationOperators[0].chargingPools[1]`. */
+const dottedOf = (pointer) => pointer.split('/').slice(1).reduce((path, token) => /^\d+$/.test(token) ? `${path}[${token}]` : path === '' ? token : `${path}.${token}`, '');
+
 function refusalVectors() {
 
     const vectors = [];
@@ -1998,6 +2477,8 @@ function refusalVectors() {
     heldMerchant('version-held-evtaler-exchange-currency-untrimmed', `the currency of its exchange with a space before it, ' ${exchange.currency}'`,
                  ofExchange(`The currency ' ${exchange.currency}' of the exchange '${exchange.masterPublicKey}' is written as '${exchange.currency}'!`),
                  { exchanges: [ { ...exchange, currency: ` ${exchange.currency}` } ] });
+
+    readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, pool2, tariffAt, templateAt, bsi, DOCS, HELD, ORDER });
 
     // ---- Checkpoint proofs (10.4).
     const proof4 = jsonRun('published/QA-proof-revision-4.json');

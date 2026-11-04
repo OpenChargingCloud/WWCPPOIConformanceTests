@@ -52,14 +52,14 @@ read, was WWCP_POI.TS's, and is fixed in WWCP_POI.TS `4ff1fc2`. D15, a version w
 it, which WWCP_POI3 took and wrote again, was WWCP_POI3's, and is fixed in WWCP_POI `3de830a` and `1de4dff`. D16,
 found by the vectors of the verifier extensions (`poi-verifier.json`), was WWCP_POI.TS's: a price statement naming a
 charging tariff not as `{operatorId}*T{suffix}`, which SPECIFICATION.md says since WWCP_POI `89c5fa3`; it is fixed in
-WWCP_POI.TS `80afec7`. Of the 611 vectors both implementations run 569 -
+WWCP_POI.TS `80afec7`. Of the 742 vectors both implementations run 700 -
 the 7 requiring `signing` and the 13 of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's
 alone - and agree on every one of them
 (see
 [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
-[O1](#o1-internal-reader) to [O4](#o4-no-valid-until).
+[O1](#o1-internal-reader) to [O5](#o5-time-zones).
 
 
 <a id="d1-lenient-json"></a>
@@ -670,7 +670,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 5 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 142 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+- the refusal of 273 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors; among them a price statement whose price status is none, refused as it is read, in the same words
   ([D16](#d16-tariff-id)), a price statement naming its EVSE in another spelling, `DE*GEF*E11` for `DE*GEF*E1*1`,
   and a checkpoint naming two statements of one EVSE and sequence, in two spellings or of two prices, a split view
@@ -706,7 +706,22 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   languages keyed otherwise, a timestamp with an offset, a property a key or an EV Taler merchant does not have, a URL
   without its scheme (WWCP_POI since `3de830a` and `1de4dff`, WWCP_POI.TS since `5c534d4`, D15), and a version naming
   a charging tariff by no identification of a charging tariff, `{operatorId}*T{suffix}` (WWCP_POI.TS since `813e1d7`,
-  [D16](#d16-tariff-id));
+  [D16](#d16-tariff-id)); and 131 versions read as WWCP_POI3 reads them, as WWCP_POI.TS does since `813e1d7`, `2cbfe60`
+  and `7c4d16e` (`version-read-*`, `version-ref-*`, `version-held-*` of those, `version-offers-*`, `version-meter-key-*`),
+  refused in the same words: JSON types, missing properties and values of the network, its operator and its parties,
+  of pools, stations, EVSEs, connectors, meters and their templates, of identifications, tariffs, offers and discounts,
+  and what the constructor of an operator, a model, a provider, a grid or a parking operator refuses of what it read;
+  the references the constructor of the network checks - a manufacturer, a model, a hardware revision, a release, a
+  certificate, a grid connection point, a parking space, a station or a maintainer it does not have, an EVSE above its
+  model, a meter naming the certificate of a station model or a signature method its model does not have, a provider
+  twice, a key of two parties -; values written otherwise than the content holds them - a `lastChange` or a name
+  WWCP_POI3 makes up, a number, a boolean or a text given as another JSON type, a duration, opening times, NUTS codes,
+  an address and its country -; two offers of an operator overlapping at an EVSE (9.4), by a group, the operator or a
+  group of pools, for sessions or providers both apply to, at the end of one and the beginning of the other, by their
+  opening times, in the time zone `Europe/Berlin` and across its change to daylight saving time ([O5](#o5-time-zones));
+  and public keys of energy meters BouncyCastle does not make - not DER, a point not on its curve or of another
+  encoding, an RSA key of an even exponent, an Ed25519 point of small order - or with certificates not of the key, not
+  issued by the next one, or not DER;
 - all 25 trust vectors: a valid proof, expired attestations, attestations of the future (D3), one holder only
   (also twice), a key that may not sign for the party, a signing key expired before it attested and one that ended
   after it attested, a key certified by another holder's identity key, an uncertified key, other identity keys pinned,
@@ -827,6 +842,27 @@ specification has to decide first.
 
 **Decided** in WWCP_POI `be07037`: SPECIFICATION.md 8.5 requires `validUntil`, at most 24 hours after `signedAt`. The
 vector expects `refused` now, and both implementations refuse it when they read the attestations.
+
+<a id="o5-time-zones"></a>
+### O5. Whether offers overlap depends on the time zones of the platform
+
+WWCP_POI3 compares the offers of an operator in the time zone of the EVSE's charging pool, as
+`TimeZoneInfo.TryFindSystemTimeZoneById` finds it, else in UTC (`ChargingStationOperator.Offers.cs`). What it finds is
+the platform's: under invariant globalization .NET on Windows finds no IANA name, so that `Europe/Berlin` is UTC there,
+and two offers overlapping in Berlin do not - `version-offers-overlap-time-zone` and `-daylight-saving` were taken by the
+C# harness, which ran with `InvariantGlobalization` until then; and .NET on Linux finds `CET`, on Windows it does not
+(WWCP_POI.TS `7c4d16e`, which finds an IANA or a Windows name as `TimeZoneInfo` does with ICU, `timeZones.ts`). A
+version may so be valid on one server and invalid on another. The C# harness runs WWCP_POI3 with ICU now, as a server
+does, and in the invariant culture, so that its words are those of every machine (`Directory.Build.props`,
+`VectorFiles.cs`). Open: whether SPECIFICATION.md names the time zones a reader knows, and what a version naming
+another one is.
+
+**Not covered** by the vectors of reading: a change set of an e-mobility provider making two of its offers overlap
+(`NewProviderOfferOverlap`), which needs a history signed anew; time zones by their Windows names and `CET`; a decimal
+with places in a `reason`, which WWCP_POI3 words in the culture of its machine; the `(Parameter '...')` .NET appends,
+which names a parameter of a constructor; and what WWCP_POI.TS lists as agreed differences of its probes against
+WWCP_POI3 at `89d2e02` (identifications of the network given as numbers, messages of the CBOR and COSE libraries, a
+number with an exponent).
 
 
 ## The findings of csharp-review and their vectors

@@ -17,7 +17,10 @@
     <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
 
     <NeutralLanguage>en</NeutralLanguage>
-    <InvariantGlobalization>true</InvariantGlobalization>
+    <!-- With ICU, as a server runs WWCP_POI3: under invariant globalization .NET finds no time zone by its IANA name on
+         Windows, and WWCP_POI3 takes the offers of a charging pool in Europe/Berlin as UTC (SPECIFICATION.md 9.4). The
+         harness runs in the invariant culture all the same (VectorFiles.cs), its messages alike on every machine. -->
+    <InvariantGlobalization>false</InvariantGlobalization>
 
     <Company>GraphDefined GmbH</Company>
     <Authors>GraphDefined GmbH</Authors>

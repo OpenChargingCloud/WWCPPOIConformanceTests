@@ -76,8 +76,9 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 635 passed / 0 skipped (its 11 copy tests need the vendored `poi-*.json` and both runs of WWCP_POI.TS: a
-copy missing or drifted is red), TS 598 passed / 20 skipped (7 signing: WWCP_POI.TS verifies only; 13 replays of `poi-histories.json` that WWCP_POI.TS leaves
+Expected: C# 766 passed / 0 skipped (its 11 copy tests need the vendored `poi-*.json` and both runs of WWCP_POI.TS: a
+copy missing or drifted is red; `poi-refusals.json` is, until WWCP_POI.TS refreshes its copy with the 131 vectors of a
+version read as WWCP_POI3 reads it), TS 729 passed / 20 skipped (7 signing: WWCP_POI.TS verifies only; 13 replays of `poi-histories.json` that WWCP_POI.TS leaves
 to WWCP_POI: references, provider groups, grid connection points). Skips are load-bearing, not noise.
 
 ## Ground rules
@@ -92,6 +93,9 @@ to WWCP_POI: references, provider groups, grid connection points). Skips are loa
   statement instead of before the attestation) proves nothing - look at the error message both give, and where both
   word it alike, name it in the vector's `reason`, which both harnesses check.
 - `libs/Directory.Build.props` shields the submodules from this repository's build settings - keep it.
+- The C# harness runs WWCP_POI3 with ICU, in the invariant culture (`Directory.Build.props`, `VectorFiles.cs`): under
+  invariant globalization .NET on Windows finds no time zone by its IANA name, and offers in `Europe/Berlin` would be
+  compared in UTC (O5 of `docs/implementation-deviations.md`).
 - CI gates the pinned submodules; `nightly.yml` advances all four to upstream HEADs (`branch = master` in
   `.gitmodules`) and runs the C# examples of WWCP_POI master against WWCP_POI.TS (informational).
 - Commands handed to the user are Windows PowerShell 5.1: no `&&`, Windows paths, tool directory flags

@@ -23,6 +23,11 @@ using NUnit.Framework;
 
 #endregion
 
+// Every test in the invariant culture: WWCP_POI3 words a decimal in the culture of its machine, and runs here with ICU
+// (Directory.Build.props), so that it finds a time zone by its IANA name on every platform.
+[assembly: SetCulture("")]
+[assembly: SetUICulture("")]
+
 namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 {
 
