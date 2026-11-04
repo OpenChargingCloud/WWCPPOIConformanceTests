@@ -71,7 +71,6 @@ const TYPESCRIPT   = 'wwcp-poi.ts';
  * marker is removed here.
  */
 const DEVIATIONS = {
-    D17: { implementations: [ TYPESCRIPT ], anchor: 'd17-time-zones' },
 };
 
 const deviation = (name) => {
@@ -1736,10 +1735,10 @@ function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, po
     // ---- The time zone of a charging pool or charging pool template (9.4): one of a region of the IANA time zone
     //      database, as it writes it, which the reader knows - refused otherwise, not taken as UTC. Only names every
     //      platform of both harnesses refuses alike: none a database of one knows and of another not, e.g.
-    //      America/Ciudad_Juarez, which .NET on Windows does not find. WWCP_POI.TS takes them all (D17).
+    //      America/Ciudad_Juarez, which .NET on Windows does not find. WWCP_POI.TS took them all before `9cc620a` (D17, fixed).
     quoted(SPEC, '**Time zones.** The `timeZone` of a charging pool or of a charging pool template is a time zone of the IANA', 'which time zones a charging pool names');
     const zoned = (id, description, owner, timeZone, path, rich) =>
-        refuse({ id, kind: 'version', basis: OFFERS, ...deviation('D17'),
+        refuse({ id, kind: 'version', basis: OFFERS,
                  description: rich === undefined ? `${description}.` : `${description}. (QA with an entity of every kind WWCP_POI3 reads)`,
                  reason: `The time zone '${timeZone}' of ${owner} is no time zone of a region of the IANA time zone database this reader knows!`,
                  document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, ...(rich ?? []), { op: 'add', path, value: timeZone } ]) });
