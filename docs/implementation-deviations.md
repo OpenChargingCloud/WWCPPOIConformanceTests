@@ -1,7 +1,7 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `045e180`, Hermod `65d55f80`, Styx `fb3314be`) and the TypeScript port (WWCP_POI.TS,
+(WWCP_POI3, `libs/WWCP_POI` at `12e993a`, Hermod `65d55f80`, Styx `fb3314be`) and the TypeScript port (WWCP_POI.TS,
 `libs/WWCP_POI.TS` at `192cc17`) take or calculate different things.
 
 Each deviation is
@@ -851,7 +851,8 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   refusal with its control, the document refused but for what it is about, taken in its place: who signs in place of a
   party without keys and with which usages (csharp-review 13), who states a certificate (15), releases and certificates
   identified under their owners, the prefix in another case too (S36), lastChange of what embeds
-  a changed EVSE (8), old values, also `150000.0` for `150000`, and rebases with and without them (12), a signing key
+  a changed EVSE (8), old values, also `150000.0` for `150000`, and rebases with and without them (12), stamped with the lastChange of the
+  head they were created before, no lastChange going back (S5), a signing key
   expired before the `createdAt`, also besides a valid one of its owner (D8), and one removed in the version before (3,
   in a linear history), new values with a
   JSON-LD context, out of their order or with a timestamp not to the millisecond (10), a withdrawal together with what

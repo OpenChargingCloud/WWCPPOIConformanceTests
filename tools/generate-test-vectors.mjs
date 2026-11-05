@@ -2277,7 +2277,7 @@ function refusalVectors() {
     quoted(OPERATOR, 'Its name as drivers see it, mandatory',                                                                       'that an exchange names its name');
     quoted(OPERATOR, 'a charging pool or charging pool template of the operator naming `EVTaler` needs `evTaler`',                'that a pool naming EVTaler needs the merchant');
     quoted(POOL,     'a pool\nnaming it needs the `evTaler` merchant of its [operator]',                                            'that a pool naming EVTaler needs the merchant');
-    quoted(OPERATOR, '`payments` (its `evTaler` merchant) and `party` (its other own properties, rotating its signing keys); everything without. In their ordinal order; unknown ones are refused.',
+    quoted(OPERATOR, '`payments` (its `evTaler` merchant and its settlement statements of EV Taler sessions) and `party` (its other own properties, rotating its signing keys); everything without. In their ordinal order; unknown ones are refused.',
            'that the usages of a signing key are those POI knows');
 
     withMerchant('version-evtaler-pool-without-merchant', `${POOL}, ${OPERATOR}`,
@@ -3067,10 +3067,16 @@ function placeOf(content, change) {
 
 }
 
-/** The content a change set leads to. */
+/**
+ * The content a change set leads to. What it changes and adds is stamped with its createdAt, but no lastChange goes back:
+ * a change set created before the lastChange of the roaming network of the version it is applied to - one rebased onto a
+ * later head - is stamped with that lastChange (POI3-ISSUES.md S5; WWCP_POI `12e993a`), the created of what it adds
+ * without one too.
+ */
 function applied(before, changes, createdAt) {
 
     const content = copyOf(before);
+    const stamp   = typeof before.lastChange === 'string' && before.lastChange > createdAt ? before.lastChange : createdAt;
 
     for (const change of changes) {
 
@@ -3081,8 +3087,8 @@ function applied(before, changes, createdAt) {
             case 'Add': {
                 const entity = copyOf(change.newValue);
                 if (place.timestamps) {
-                    entity.created    ??= createdAt;
-                    entity.lastChange   = createdAt;
+                    entity.created    ??= stamp;
+                    entity.lastChange   = stamp;
                 }
                 place.holder[place.property] = [ ...(place.holder[place.property] ?? []), entity ].sort((left, right) => left['@id'] < right['@id'] ? -1 : 1);
                 break;
@@ -3101,7 +3107,7 @@ function applied(before, changes, createdAt) {
                 else
                     delete place.entity[change.propertyName];
                 if (place.timestamps)
-                    place.entity.lastChange = createdAt;
+                    place.entity.lastChange = stamp;
                 break;
 
             default:
@@ -3110,11 +3116,11 @@ function applied(before, changes, createdAt) {
         }
 
         for (const embedding of place.embedding)
-            embedding.lastChange = createdAt;
+            embedding.lastChange = stamp;
 
     }
 
-    content.lastChange = createdAt;
+    content.lastChange = stamp;
 
     return content;
 
@@ -3644,6 +3650,7 @@ function signedHistories() {
 
     // Rebased (4): prepared for the version before the BSI stated its certificate itself, and made again for the head,
     // naming the change set it was prepared from; only its old values tell what a change set committed meanwhile changed.
+    // Created at 6.5, before the head of 7, it is stamped 7 (4, Timestamps; POI3-ISSUES.md S5, WWCP_POI `12e993a`).
     {
         const rebased = (what, changes) => {
             const original = parties.prepare({ createdAt: minute(6.5), description: what, changes, signers: [], before: parties.contentAt(6) }).commit.changeSet;
@@ -3653,12 +3660,12 @@ function signedHistories() {
             return again;
         };
         const evse = { '@id': 'DE*GEF*E1*2', maxPower: 150000, created: minute(6.5), lastChange: minute(6.5) };
-        P.then('rebased-with-old-values', 'A change set prepared for the version before, made again for the head and naming the one it was prepared from: its change gives the old value it finds.', `${B('4, Rebased')}; csharp-review 12`,
+        P.then('rebased-with-old-values', 'A change set prepared for the version before, made again for the head and naming the one it was prepared from: its change gives the old value it finds. Created before the lastChange of the head, it is stamped with that one: no lastChange goes back (S5).', `${B('4, Rebased; Timestamps')}; csharp-review 12`,
                'commit-8-rebased', rebased('DE*GEF*E1*1 at 300 kW, rebased', [ update('EVSE', 'DE*GEF*E1*1', 'maxPower', 150000, 300000) ]));
-        P.refused('rebased-without-old-value', 'A change set prepared for the version before, made again for the head and naming the one it was prepared from: its change gives no old value, so a change committed meanwhile may have been overwritten.', `${B('4, Rebased')}; csharp-review 12`,
+        P.refused('rebased-without-old-value', 'A change set prepared for the version before, made again for the head and naming the one it was prepared from: its change gives no old value, so a change committed meanwhile may have been overwritten. Created before the lastChange of the head, it is stamped with that one: no lastChange goes back (S5).', `${B('4, Rebased; Timestamps')}; csharp-review 12`,
                   'commit-8-rebased-without-old-value', rebased('DE*GEF*E1*1 at 300 kW, rebased without its old value', [ update('EVSE', 'DE*GEF*E1*1', 'maxPower', undefined, 300000) ]), 'commit-8-rebased',
                   { reason: 'which was rebased, has no old value' });
-        P.then('rebased-add', 'A change set prepared for the version before, made again for the head and naming the one it was prepared from: an Add gives no old value.', `${B('4, Rebased')}; csharp-review 12`,
+        P.then('rebased-add', 'A change set prepared for the version before, made again for the head and naming the one it was prepared from: an Add gives no old value. Created before the lastChange of the head, it is stamped with that one: no lastChange goes back (S5).', `${B('4, Rebased; Timestamps')}; csharp-review 12`,
                'commit-8-rebased-add', rebased('DE*GEF*E1*2, rebased', [ add('EVSE', evse, [ 'ChargingStation', 'DE*GEF*S1' ]) ]));
     }
 
