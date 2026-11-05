@@ -20,9 +20,8 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `5a72313`, WWCP_POI.TS `09eb91d`, Hermod `65d55f80`,
-Styx `fb3314be`) - but for the vendored copy of `poi-histories.json` in WWCP_POI.TS, which it refreshes with the 14
-replays of the entities a party embeds:
+Both harnesses are green against the pinned submodules (WWCP_POI `5a72313`, WWCP_POI.TS `64579a5`, Hermod `65d55f80`,
+Styx `fb3314be`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
