@@ -20,10 +20,8 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `5a72313`, WWCP_POI.TS `9cc620a`, Hermod `65d55f80`,
-Styx `fb3314be`) - but for the 8 vectors of D18 and of the elements of a price status (SPECIFICATION.md 12.1 since
-WWCP_POI `5a72313`), which WWCP_POI.TS does not refuse yet, and its vendored copies of `poi-refusals.json` and
-`poi-verifier.json`, which it refreshes with them:
+Both harnesses are green against the pinned submodules (WWCP_POI `5a72313`, WWCP_POI.TS `ce88620`, Hermod `65d55f80`,
+Styx `fb3314be`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
@@ -33,7 +31,7 @@ WWCP_POI `5a72313`), which WWCP_POI.TS does not refuse yet, and its vendored cop
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy,
 those of the verifier extensions since `242fb29`.
 
-The two implementations agree on every vector both run, but for the 8 of D18 and 12.1, open. The six deviations the vectors found first, where
+The two implementations agree on every vector both run. The six deviations the vectors found first, where
 **WWCP_POI3 took what WWCP_POI.TS refuses**, are fixed in WWCP_POI (D1 and D2 in `2c90847`, D3 in `be07037`, D4 and
 D5 in `6e469a0`, D6 in `65e658d`); D7, the other way round, where **WWCP_POI.TS took what WWCP_POI3 refuses**, in
 WWCP_POI.TS `b9c786e`; D8, found by the histories the generator signs, the other way round as well, in WWCP_POI.TS
@@ -48,7 +46,8 @@ WWCP_POI `3de830a` and `1de4dff`. D16, found by the vectors of the verifier exte
 charging tariff not as `{operatorId}*T{suffix}`, as SPECIFICATION.md says since WWCP_POI `89c5fa3`, WWCP_POI.TS's, in
 WWCP_POI.TS `80afec7`. D17, a charging pool naming a time zone that is none of a region of the IANA time zone database,
 which SPECIFICATION.md names since WWCP_POI `d1c41ca`, WWCP_POI.TS's, in WWCP_POI.TS `9cc620a`. D18, restrictions of a
-tariff element naming a property their type does not define, WWCP_POI.TS's, is open.
+tariff element naming a property their type does not define, WWCP_POI.TS's, in WWCP_POI.TS `ce88620`, with the
+elements of a price status written as a charging tariff holds them (SPECIFICATION.md 12.1 since WWCP_POI `5a72313`).
 Their vectors hold both implementations to it - see
 **[docs/implementation-deviations.md](docs/implementation-deviations.md)**:
 
@@ -71,7 +70,7 @@ Their vectors hold both implementations to it - see
 | D15 | ✅ WWCP_POI3 takes a version written otherwise than the content holds it, and writes it again: what the content orders out of its order, ordered texts untrimmed, a list given empty, a property `null`, an embedded object naming its JSON-LD context, a text in languages keyed otherwise, a timestamp with an offset, a property of a key or an EV Taler merchant POI does not read, a URL without its scheme (27 vectors `version-held-*`, 10 against the `eTags` of the version as published); WWCP_POI.TS refuses them since `5c534d4`: fixed in WWCP_POI `3de830a` and `1de4dff` |
 | D16 | ✅ WWCP_POI.TS takes a price statement naming a charging tariff not as `{operatorId}*T{suffix}` (`DE*POI*FOREIGN` of `foreign-tariff.chargy`), which WWCP_POI3 refuses as it reads it; in a version both refuse it since WWCP_POI.TS `813e1d7`: fixed in WWCP_POI.TS `80afec7` |
 | D17 | ✅ WWCP_POI.TS takes a charging pool or template naming a time zone that is none of a region of the IANA time zone database as it writes it (`CET`, `UTC`, `W. Europe Standard Time`, `europe/berlin` …), or one the platform does not know, which WWCP_POI3 refuses as SPECIFICATION.md 9.4 says since WWCP_POI `d1c41ca` (10 vectors `version-time-zone-*`): fixed in WWCP_POI.TS `9cc620a` |
-| D18 | WWCP_POI.TS takes a version whose restrictions of a tariff element name a property their type does not define (`maxStateOfCharge`), which WWCP_POI3 refuses as SPECIFICATION.md 2 says (`version-held-restriction-unknown`): open |
+| D18 | ✅ WWCP_POI.TS takes a version whose restrictions of a tariff element name a property their type does not define (`maxStateOfCharge`), which WWCP_POI3 refuses as SPECIFICATION.md 2 says (`version-held-restriction-unknown`): fixed in WWCP_POI.TS `ce88620` |
 
 D3 to D6 confirm, now with data, findings of the review WWCP_POI.TS made of the C# implementation
 ([`docs/csharp-review.md`](docs/csharp-review.md)), and so does D11, finding 23, which WWCP_POI.TS shares; D1, D2, D7,

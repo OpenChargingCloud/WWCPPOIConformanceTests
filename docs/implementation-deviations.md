@@ -2,7 +2,7 @@
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
 (WWCP_POI3, `libs/WWCP_POI` at `5a72313`, Hermod `65d55f80`, Styx `fb3314be`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `9cc620a`) take or calculate different things.
+`libs/WWCP_POI.TS` at `ce88620`) take or calculate different things.
 
 Each deviation is
 
@@ -40,7 +40,7 @@ as *csharp-review N*), it says so. Findings there that read the code only are no
 | [D15](#d15-content-as-held) | ✅ A version written otherwise than the content holds it is taken, and written again: what the content orders out of its order, the texts of an ordered list untrimmed, a list given empty, a property given as `null`, an embedded object naming its JSON-LD context, a text in languages keyed otherwise, a timestamp with an offset, a property of a key or of an EV Taler merchant POI does not read, a URL without its scheme - 10 of them against the `eTags` of the version as published: **fixed** in WWCP_POI `3de830a` and `1de4dff` | WWCP_POI3 | the 27 `version-held-*` | medium (interop) | new |
 | [D16](#d16-tariff-id) | ✅ A price statement naming a charging tariff not as `{operatorId}*T{suffix}` is taken, which WWCP_POI3 refuses as it reads it: its signature counts as valid, the price only does not apply: **fixed** in WWCP_POI.TS `80afec7` | WWCP_POI.TS | `sessionPrice-foreign-tariff` | low | new |
 | [D17](#d17-time-zones) | ✅ A charging pool or charging pool template naming a time zone that is none of a region of the IANA time zone database as it writes it, or one the platform does not know, is taken: in the time zone `Intl` or its table of Windows names finds, else in UTC: **fixed** in WWCP_POI.TS `9cc620a` | WWCP_POI.TS | the 10 `version-time-zone-*` | medium (interop) | new |
-| [D18](#d18-restrictions) | A version whose restrictions of a tariff element name a property their type does not define (`maxStateOfCharge`) is taken: WWCP_POI.TS compares the properties of an element and of its price components with those it writes, not of its restrictions | WWCP_POI.TS | `version-held-restriction-unknown` | medium (interop) | new |
+| [D18](#d18-restrictions) | ✅ A version whose restrictions of a tariff element name a property their type does not define (`maxStateOfCharge`) is taken: WWCP_POI.TS compared the properties of an element and of its price components with those it writes, not of its restrictions: **fixed** in WWCP_POI.TS `ce88620` | WWCP_POI.TS | `version-held-restriction-unknown` | medium (interop) | new |
 
 In D1 to D6 WWCP_POI.TS refused what the vector says is to be refused, and WWCP_POI3 took it; in D7 it was the other way
 round. D8, found by the histories the generator signs (`poi-histories.json`), was the other way round as well, and so
@@ -56,14 +56,12 @@ found by the vectors of the verifier extensions (`poi-verifier.json`), was WWCP_
 charging tariff not as `{operatorId}*T{suffix}`, which SPECIFICATION.md says since WWCP_POI `89c5fa3`; it is fixed in
 WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, was WWCP_POI.TS's, since SPECIFICATION.md names them
 (WWCP_POI `d1c41ca`, deciding [O5](#o5-time-zones)), and is fixed in WWCP_POI.TS `9cc620a`. D18, found by probing the
-elements of a price status, is WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
-define, which SPECIFICATION.md 2 refuses: open. Of the 759 vectors both implementations run 717 - the 7 requiring
+elements of a price status, was WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
+define, which SPECIFICATION.md 2 refuses; it is fixed in WWCP_POI.TS `ce88620`, with the elements of a price status
+written as a charging tariff holds them, which SPECIFICATION.md 12.1 says since WWCP_POI `5a72313`
+([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Of the 759 vectors both implementations run 717 - the 7 requiring
 `signing` and the 13 of `poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI are WWCP_POI3's alone - and agree on
-every one of them but 8, open: the one of D18, and the 7 of the elements of a price status written otherwise than a
-charging tariff holds them, which SPECIFICATION.md 12.1 refuses since WWCP_POI `5a72313`
-([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`")
-(see
-[What both do alike](#what-both-do-alike)).
+every one of them (see [What both do alike](#what-both-do-alike)).
 
 Observations that are no deviation between the two, but worth knowing, follow at the end:
 [O1](#o1-internal-reader) to [O5](#o5-time-zones).
@@ -662,8 +660,9 @@ it, and two readers priced one session differently. The 6 `priceStatement-*` add
 `-tariff-element-restriction-number-text`, `-tariff-element-days-out-of-order`, `-tariff-element-context`), patched as
 the 13 before; and `sessionPrice-conditional-price` of ChargyWebApp, its element restricted by `max_kwh`, the name of
 OCPI for POI's `maxEnergy`, is no price statement now: none of its evidence holds, as of `sessionPrice-foreign-tariff`.
-WWCP_POI.TS takes the 6 as it reads them and gives the former result of the 7th: open, to be fixed with
-[D18](#d18-restrictions).
+WWCP_POI.TS took the 6 as it read them and gave the former result of the 7th before `ce88620`, which refuses them in
+the same words, under "Invalid price status of the price statement: " (`tariffPrices` of `src/proofs/priceStatement.ts`
+with `notWritten` of the written form), with [D18](#d18-restrictions).
 
 **Not covered:** that a verifier marks a conditional element `unsupported` - what `conditional-price.chargy` meant, a
 fixture restricted by `maxEnergy` would show.
@@ -721,12 +720,12 @@ point 7).
 
 
 <a id="d18-restrictions"></a>
-## D18. A version whose restrictions of a tariff element name a property their type does not define is taken
+## D18. ✅ A version whose restrictions of a tariff element name a property their type does not define is taken
 
 **Vector:** `version-held-restriction-unknown` of `poi-refusals.json`: QA with the element of `DE*GEF*T_AC` restricted
 from 08:00 and to a state of charge of at most 80 %, `maxStateOfCharge`, a restriction no charging tariff has. WWCP_POI3
 refuses it as it reads it, "'chargingStationOperators[0].chargingTariffs[0].elements[0].restrictions.maxStateOfCharge'
-is not written as the content holds it: the content leaves it out!"; WWCP_POI.TS `9cc620a` takes it.
+is not written as the content holds it: the content leaves it out!"; WWCP_POI.TS took it before `ce88620`.
 
 **Where:** SPECIFICATION.md 2: "an entity and a value hold only the properties their type defines", and a reader
 refuses a version written otherwise, e.g. with "a property its type does not define". `notWrittenAsHeld` of
@@ -741,9 +740,15 @@ the tariff without the restriction it does not know.
 
 **Fix:** the properties of restrictions in `writtenForm.ts`, as `ChargingTariffRestrictions` writes them: `startTime`,
 `endTime`, `startDate`, `endDate`, `minEnergy`, `maxEnergy`, `minCurrent`, `maxCurrent`, `minPower`, `maxPower`,
-`minDuration`, `maxDuration`, `daysOfWeek`, `reservation`. It is not pinned in `DEVIATIONS` of the generator: it is to
-be fixed with the elements of a price status (12.1), whose vectors a patched statement shows refused only, never taken,
-so that a marker of WWCP_POI.TS could not hold them.
+`minDuration`, `maxDuration`, `daysOfWeek`, `reservation`. It was not pinned in `DEVIATIONS` of the generator: it was
+to be fixed with the elements of a price status (12.1), whose vectors a patched statement shows refused only, never
+taken, so that a marker of WWCP_POI.TS could not hold them.
+
+**Fixed** in WWCP_POI.TS `ce88620`: the written form of `src/network/writtenForm.ts` knows the restrictions of an
+element, `startTime` to `reservation`, as `ChargingTariffRestrictions` writes them; and `tariffPrices` of
+`src/proofs/priceStatement.ts` compares the elements of the prices of a tariff in a price statement with it, as WWCP_POI3
+`5a72313` does (12.1). Both refuse the vector, and the 6 of the elements of a price status, in the same words;
+`sessionPrice-conditional-price` gives the same result in both.
 
 
 ## What both do alike
@@ -770,7 +775,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 5 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 273 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+- the refusal of 290 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors; among them a price statement whose price status is none, refused as it is read, in the same words
   ([D16](#d16-tariff-id)), a price statement naming its EVSE in another spelling, `DE*GEF*E11` for `DE*GEF*E1*1`,
   and a checkpoint naming two statements of one EVSE and sequence, in two spellings or of two prices, a split view
@@ -806,8 +811,10 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   languages keyed otherwise, a timestamp with an offset, a property a key or an EV Taler merchant does not have, a URL
   without its scheme (WWCP_POI since `3de830a` and `1de4dff`, WWCP_POI.TS since `5c534d4`, D15), and a version naming
   a charging tariff by no identification of a charging tariff, `{operatorId}*T{suffix}` (WWCP_POI.TS since `813e1d7`,
-  [D16](#d16-tariff-id)); and 141 versions read as WWCP_POI3 reads them, as WWCP_POI.TS does since `813e1d7`, `2cbfe60`,
-  `7c4d16e` and `9cc620a` (`version-read-*`, `version-ref-*`, `version-held-*` of those, `version-offers-*`,
+  [D16](#d16-tariff-id)), and the elements of the prices of a tariff in a price statement written otherwise than a
+  charging tariff holds them, refused before the signature (12.1; WWCP_POI `5a72313`, WWCP_POI.TS `ce88620`); and 142
+  versions read as WWCP_POI3 reads them, as WWCP_POI.TS does since `813e1d7`, `2cbfe60`, `7c4d16e`, `9cc620a` and
+  `ce88620` (`version-read-*`, `version-ref-*`, `version-held-*` of those, `version-offers-*`,
   `version-meter-key-*`, `version-time-zone-*`),
   refused in the same words: JSON types, missing properties and values of the network, its operator and its parties,
   of pools, stations, EVSEs, connectors, meters and their templates, of identifications, tariffs, offers and discounts,
