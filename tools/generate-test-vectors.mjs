@@ -22,7 +22,7 @@
  *   - libs/Styx/Styx/Illias/JSON/README.md, section 4, and the escaping table of
  *     libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs: canonical JSON and deterministic CBOR;
  *   - libs/WWCP_POI/SPECIFICATION.md, sections 1 and 6: the examples of the specification, and section 2: custom data;
- *   - test-vectors/runs/<run>/: what one run of the C# examples A1 to A14 of WWCP_POI published, frozen;
+ *   - test-vectors/runs/<run>/: what one run of the C# examples A1 to A15 of WWCP_POI published, frozen;
  *   - test-vectors/runs/chargy-<commit>/: the fixtures of ChargyWebApp of the verifier extensions of WWCP_POI.TS 0.2.0,
  *     frozen; libs/WWCP_POI/WWCP_POI3/Verifier for their inputs (section 9);
  *   - and what it makes and signs itself, deterministically: the station proofs of section 4 (poi-trust.json) and the
@@ -51,11 +51,11 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT         = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT          = join(ROOT, 'test-vectors');
-const RUN          = 'csharp-33447ac';
+const RUN          = 'csharp-045e180';
 const RUN_DIR      = join(OUT, 'runs', RUN);
 
 /** A point in time while the key statements, the keys and the attestations of the frozen run are valid. */
-const AT           = '2026-10-27T17:23:00.000Z';
+const AT           = '2026-11-05T19:46:00.000Z';
 
 const STYX_README  = 'libs/Styx/Styx/Illias/JSON/README.md';
 const STYX_TESTS   = 'libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs';
@@ -1264,7 +1264,13 @@ function historyVectors() {
     // The whole history, commit by commit (examples A4 to A13): epoch 1 from its genesis with every checkpoint, the
     // genesis of epoch 2 every server makes from the final checkpoint, epoch 2 up to the head QA.json is.
     const epoch1 = [ 'published/QA-commits-since-genesis.json', 'published/QA-commits-since-checkpoint-2.json', 'published/QA-commits-since-checkpoint-4.json', 'published/QA-commits-since-checkpoint-5.json' ];
-    const head   = jsonRun('published/QA-commit.json');
+    // The head of epoch 2: the last commit MakeProofs gave, revision 11 since example A15 - QA.json and QA-commit.json are
+    // the head examples A13 and A14 left, revision 8, one of the commits before it.
+    const toHead = jsonRun('proofs/QA-epoch-2-commits-to-head.json');
+    const head   = toHead.at(-1);
+    const shown  = jsonRun('published/QA-commit.json');
+    if (!toHead.some(commit => commit['@id'] === shown['@id'] && commit.revision === shown.revision))
+        fail('proofs/QA-epoch-2-commits-to-head.json: QA-commit.json is none of its commits');
     const replays = [ {
         id:           'replay-QA-both-epochs',
         description:  'The history of QA from its genesis: every commit of epoch 1 with its change set applied and its owners checked, the checkpoints 0 to 6 (6 the final one), the genesis of epoch 2, and every commit of epoch 2 with its checkpoint 0, up to the head.',
@@ -1280,7 +1286,7 @@ function historyVectors() {
             { op: 'startNextEpoch',  genesisCommitId: jsonRun('published/QA-epoch-2-genesis.json').commit['@id'] },
             { op: 'append',          file: 'proofs/QA-epoch-2-commits-to-head.json' },
             { op: 'takeCheckpoint',  file: 'published/QA-epoch-2-checkpoint-0.json' },
-            { op: 'expectHead',      epoch: 2, revision: head.revision, commitId: head['@id'], eTags: head.eTags.map((eTag, index) => etagText(eTag, `QA-commit.json/eTags/${index}`)) },
+            { op: 'expectHead',      epoch: 2, revision: head.revision, commitId: head['@id'], eTags: head.eTags.map((eTag, index) => etagText(eTag, `QA-epoch-2-commits-to-head.json/${toHead.length - 1}/eTags/${index}`)) },
         ],
     } ];
 
@@ -1288,7 +1294,7 @@ function historyVectors() {
         ids(list, `history (${name})`);
 
     return vectorFile(
-        `WWCP POI 3 (libs/WWCP_POI), as its C# examples A1 to A14 published it in one run: test-vectors/runs/${RUN}`,
+        `WWCP POI 3 (libs/WWCP_POI), as its C# examples A1 to A15 published it in one run: test-vectors/runs/${RUN}`,
         'What a roaming network, its servers, its witnesses and a driver\'s app published, public data only, frozen as the reference implementation wrote it. Each entry names a document of the run (file and JSON pointer) and what an implementation must calculate of it, or that it must accept it.',
         { run: `runs/${RUN}`, at: AT, versions, commits, checkpoints, checkpointProofs, priceStatements, trustAnchors, stationProofs, replays });
 
@@ -1327,7 +1333,7 @@ function at(document, pointer) {
 function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, pool2, tariffAt, templateAt, bsi, DOCS, HELD, ORDER }) {
 
     const doc        = (name) => `${DOCS}/${name}.md`;
-    const RICH_AT    = '2026-10-27T17:20:56.138Z';
+    const RICH_AT    = '2026-11-05T19:43:46.188Z';
     const meta       = { created: RICH_AT, lastChange: RICH_AT };
     if (!(Date.parse(qa.created) <= Date.parse(RICH_AT) && Date.parse(RICH_AT) <= Date.parse(qa.lastChange)))
         fail(`QA.json: ${RICH_AT}, when the richer QA adds its entities, is not within the life of the roaming network`);
@@ -1343,7 +1349,7 @@ function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, po
     const gdAC44     = named(`${gd}/chargingStationModels/0`, 'GD-AC44');
     const kdm500     = named(`${named('/energyMeterManufacturers/0', 'KERNBERG')}/energyMeterModels/0`, 'KDM-500');
     const tsm        = named('/transparencySoftwareManufacturers/0', 'GraphDefined');
-    const release    = named(`${tsm}/transparencySoftware/0`, 'chargy-1.5.0');
+    const release    = named(`${tsm}/transparencySoftware/0`, 'GraphDefined:chargy-1.5.0');
     const component  = `${tariffAt}/elements/0/priceComponents/0`;
     const meterKey   = `${evseE11}/energyMeter/publicKeys/0`;
     const pools      = at(qa, `${gefAt}/chargingPools`).map((_, index) => `${gefAt}/chargingPools/${index}`);
@@ -1513,9 +1519,9 @@ function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, po
     version('version-read-cra-role',              doc('TransparencySoftwareManufacturer'), 'The manufacturer of the transparency software names its role under the Cyber Resilience Act as MANUFACTURER, in upper case.',
             "The role 'MANUFACTURER' under the Cyber Resilience Act must be one of manufacturer, openSourceSoftwareSteward!",
             [ { op: 'replace', path: `${tsm}/craRole`, value: 'MANUFACTURER' } ]);
-    version('version-read-release-without-name',  doc('TransparencySoftwareManufacturer'), 'The release chargy-1.5.0 without its name.',
+    version('version-read-release-without-name',  doc('TransparencySoftwareManufacturer'), 'The release GraphDefined:chargy-1.5.0 without its name.',
             'TransparencySoftware: name: expected a multi-language object.',                     [ { op: 'remove', path: `${release}/name` } ]);
-    version('version-read-release-repository-relative', doc('TransparencySoftwareManufacturer'), 'The release chargy-1.5.0 names its source code repository as github.com/x, without its scheme.',
+    version('version-read-release-repository-relative', doc('TransparencySoftwareManufacturer'), 'The release GraphDefined:chargy-1.5.0 names its source code repository as github.com/x, without its scheme.',
             'TransparencySoftware: sourceCodeRepository: expected an absolute URL.',             [ { op: 'replace', path: `${release}/sourceCodeRepository`, value: 'github.com/x' } ]);
     version('version-read-provider-group-of-another', doc('EMobilityProvider'), 'DE-GDF has the EVSE group DE*XYZ*EG_FAV, of another provider.',
             "The given JSON representation of an e-mobility provider is invalid: The group 'DE*XYZ*EG_FAV' does not belong to the e-mobility provider 'DE-GDF'!",
@@ -1576,16 +1582,16 @@ function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, po
     version('version-ref-meter-hardware-revision-without-model', REFS, 'The energy meter template DE*GEF*EMT_AC without its model, its hardware revision named.',
             ofNetwork("The energy meter 'DE*GEF*M2*1' names the hardware revision '1.4' without its model!"), [ { op: 'remove', path: `${emtAC}/modelId` } ]);
     version('version-ref-meter-manufacturer-unknown', REFS, 'The roaming network without its manufacturers of energy meters, which a certificate names.',
-            ofNetwork("The manufacturer 'KERNBERG' of the certificate 'PTB-2026-0017' is unknown in the roaming network!"), [ { op: 'remove', path: '/energyMeterManufacturers' } ]);
+            ofNetwork("The manufacturer 'KERNBERG' of the certificate 'PTB:2026-0017' is unknown in the roaming network!"), [ { op: 'remove', path: '/energyMeterManufacturers' } ]);
     version('version-ref-release-unknown',        REFS, 'The roaming network without its manufacturers of transparency software, whose release a certificate names.',
-            ofNetwork("The transparency software release 'chargy-1.5.0' of the certificate 'PTB-2026-0017' is unknown in the roaming network!"), [ { op: 'remove', path: '/transparencySoftwareManufacturers' } ]);
+            ofNetwork("The transparency software release 'GraphDefined:chargy-1.5.0' of the certificate 'PTB:2026-0017' is unknown in the roaming network!"), [ { op: 'remove', path: '/transparencySoftwareManufacturers' } ]);
     version('version-ref-certificate-unknown',    REFS, 'The roaming network without its conformity assessment bodies, whose certificate DE*GEF*ST_DC names.',
-            ofNetwork("The certificate 'PTB-2026-0042' of the charging station template 'DE*GEF*ST_DC' is unknown in the roaming network!"), [ { op: 'remove', path: '/conformityAssessmentBodies' } ]);
+            ofNetwork("The certificate 'PTB:2026-0042' of the charging station template 'DE*GEF*ST_DC' is unknown in the roaming network!"), [ { op: 'remove', path: '/conformityAssessmentBodies' } ]);
     version('version-ref-meter-not-of-the-certificate', REFS, 'The energy meter of DE*GEF*E1*1 without its template, so of no model the certificate of its station was issued with.',
-            ofNetwork("The energy meter 'DE*GEF*M1*1' of the charging station 'DE*GEF*S1' is none of the energy meters the certificate 'PTB-2026-0042' was issued with!"), [ { op: 'remove', path: `${evseE11}/energyMeter/templateIds` } ]);
-    version('version-ref-meter-with-station-certificate', REFS, 'The energy meter template DE*GEF*EMT_AC names the certificate PTB-2026-0042, of a charging station model.',
-            ofNetwork("The certificate 'PTB-2026-0042' of the energy meter 'DE*GEF*M2*1' is for the charging station model 'GD-DC300' of 'GraphDefined', not for a model of energy meters!"),
-            [ { op: 'add', path: `${emtAC}/certificateIds`, value: [ 'PTB-2026-0042' ] } ]);
+            ofNetwork("The energy meter 'DE*GEF*M1*1' of the charging station 'DE*GEF*S1' is none of the energy meters the certificate 'PTB:2026-0042' was issued with!"), [ { op: 'remove', path: `${evseE11}/energyMeter/templateIds` } ]);
+    version('version-ref-meter-with-station-certificate', REFS, 'The energy meter template DE*GEF*EMT_AC names the certificate PTB:2026-0042, of a charging station model.',
+            ofNetwork("The certificate 'PTB:2026-0042' of the energy meter 'DE*GEF*M2*1' is for the charging station model 'GD-DC300' of 'GraphDefined', not for a model of energy meters!"),
+            [ { op: 'add', path: `${emtAC}/certificateIds`, value: [ 'PTB:2026-0042' ] } ]);
     version('version-ref-meter-signature-method', REFS, 'The energy meter template DE*GEF*EMT_AC names the signature method EDL40, which its model SM-3 does not have.',
             ofNetwork("The energy meter 'DE*GEF*M2*1' signs with 'EDL40', no signature method of its model 'SM-3' of 'SAALE'!"), [ { op: 'replace', path: `${emtAC}/signatureMethods`, value: [ 'EDL40' ] } ]);
     version('version-ref-grid-connection-point-unknown', REFS, 'DE*GEF*P1 at the grid connection point gcp-9, which no grid operator has.',
@@ -1615,7 +1621,7 @@ function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, po
             notHeld(`${gd}/name`, holds(`{"en":"Charging Station Manufacturer 'GraphDefined'"}`)), [ { op: 'remove', path: `${gd}/name` } ]);
     version('version-held-name-empty',            HELD, 'DE*GEF*P1 names its name as a text in no language, which WWCP_POI3 leaves out.',
             notHeld(`${pool1}/name`, LEAVES),                                                    [ { op: 'replace', path: `${pool1}/name`, value: {} } ]);
-    version('version-held-license-urls-missing',  HELD, 'The open source license of chargy-1.5.0 without its URLs, which WWCP_POI3 writes also empty.',
+    version('version-held-license-urls-missing',  HELD, 'The open source license of GraphDefined:chargy-1.5.0 without its URLs, which WWCP_POI3 writes also empty.',
             notHeld(`${release}/openSourceLicenses/0/URLs`, holds('[]')),                       [ { op: 'remove', path: `${release}/openSourceLicenses/0/URLs` } ]);
     version('version-held-id-number',             HELD, 'BSI identified by the number 5, which WWCP_POI3 writes as a text.',
             notHeld(`${bsi}/@id`, holds('"5"')),                                                 [ { op: 'replace', path: `${bsi}/@id`, value: 5 } ]);
@@ -1629,7 +1635,7 @@ function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, po
             notHeld('/operator/keyStatement/x', LEAVES),                                         [ { op: 'add', path: '/operator/keyStatement/x', value: 1 } ]);
     version('version-held-data-license-of-a-view', HELD, 'DE*GEF*P2 names the data license ODbL by its identification alone, as a view does: a version names it completely.',
             notHeld(`${pool2}/dataLicenseIds`, LEAVES),                                          [ { op: 'add', path: `${pool2}/dataLicenseIds`, value: [ 'ODbL' ] } ]);
-    version('version-held-release-property',      HELD, 'The release chargy-1.5.0 names the property x, which a release does not have.',
+    version('version-held-release-property',      HELD, 'The release GraphDefined:chargy-1.5.0 names the property x, which a release does not have.',
             "TransparencySoftware: Unknown property 'x'.",                                       [ { op: 'add', path: `${release}/x`, value: 1 } ]);
     version('version-held-operator-id-lowercase', HELD, 'DE*GEF identified in lower case, de*gef, which WWCP_POI3 writes in upper case.',
             notHeld(`${gefAt}/@id`, holds('"DE*GEF"')),                                          [ { op: 'replace', path: `${gefAt}/@id`, value: 'de*gef' } ]);
@@ -1921,8 +1927,13 @@ function refusalVectors() {
     has(gef.EVSEGroups,           'DE*GEF*EG_AC');
     has(gef.energyMeterTemplates, 'DE*GEF*EMT_AC');
     has(gef.chargingPools.flatMap(pool => pool.chargingStations).flatMap(station => station.EVSEs).map(evse => evse.energyMeter).filter(Boolean), 'DE*GEF*M1*1');
-    has([ release ],                         'chargy-1.5.0');
-    has(ptb.certificates,                     'PTB-2026-0042');
+    has([ release ],                         'GraphDefined:chargy-1.5.0');
+    const TSM_GD    = `/transparencySoftwareManufacturers/${qa.transparencySoftwareManufacturers.findIndex(manufacturer => manufacturer['@id'] === 'GraphDefined')}`;
+    const CAB_PTB   = `/conformityAssessmentBodies/${qa.conformityAssessmentBodies.findIndex(body => body['@id'] === 'PTB')}`;
+    const ptb0042of = (id) => ({ ...ptb.certificates.find(certificate => certificate['@id'] === 'PTB:2026-0042'), '@id': id });
+    if (at(qa, `${TSM_GD}/transparencySoftware/0/@id`) !== 'GraphDefined:chargy-1.5.0' || at(qa, `${CAB_PTB}/@id`) !== 'PTB')
+        fail('QA.json: the release of GraphDefined or the PTB is not where the vectors patch them');
+    has(ptb.certificates,                     'PTB:2026-0042');
 
     twice('version-twice-group',                 `${SPEC}, 9.3`,
           'The e-mobility provider DE-GEF, of the prefix of the charging station operator DE*GEF, has an EVSE group of the identification of one of the operator, its suffix in lowercase.',
@@ -1945,16 +1956,51 @@ function refusalVectors() {
           "The energy meter template 'de*gef*emt_ac' must not be given twice in the roaming network",
           [ { op: 'add', path: '/gridOperators', value: [ { '@id': 'DE*NET', energyMeterTemplates: [ { '@id': 'de*gef*emt_ac', created, lastChange: created } ], created, lastChange: created } ] } ]);
 
+    // Since a release is identified under its manufacturer and a certificate under its body (S36), only the same owner can
+    // name one twice: GraphDefined its release, the PTB its certificate, the second time in another case - which its own
+    // releases or certificates refuse, so that no two owners are ever compared (DuplicateTransparencySoftware and
+    // DuplicateConformityCertificate of WWCP_POI3 no longer refuse a version first).
     twice('version-twice-release',               'libs/WWCP_POI/docs/TransparencySoftwareManufacturer.md',
-          'Another transparency software manufacturer has a release of the identification of the one of GraphDefined, in uppercase.',
-          "The transparency software release 'CHARGY-1.5.0' of the manufacturer 'OpenChargingCloud' is one of the manufacturer 'GraphDefined' already",
-          [ { op: 'add', path: '/transparencySoftwareManufacturers/-', value: { '@id': 'OpenChargingCloud', name: { en: 'Open Charging Cloud' }, transparencySoftware: [ { ...release, '@id': 'CHARGY-1.5.0' } ], created, lastChange: created } } ]);
+          'GraphDefined has its release a second time, its identification in uppercase: refused by the releases of the manufacturer, before those of the roaming network.',
+          "The transparency software release 'GRAPHDEFINED:CHARGY-1.5.0' of the transparency software manufacturer 'GraphDefined' must not be given twice!",
+          [ { op: 'add', path: `${TSM_GD}/transparencySoftware/-`, value: { ...release, '@id': 'GRAPHDEFINED:CHARGY-1.5.0' } } ]);
 
     twice('version-twice-certificate',           'libs/WWCP_POI/docs/ConformityAssessmentBody.md',
-          'Another conformity assessment body has a certificate of the identification of the one of PTB, in lowercase.',
-          "The certificate 'ptb-2026-0042' of the conformity assessment body 'VDE' is one of the conformity assessment body 'PTB' already",
-          [ { op: 'add', path: '/conformityAssessmentBodies/-', value: { '@id': 'VDE', name: { de: 'VDE Prüf- und Zertifizierungsinstitut' }, notifiedFor: [ 'MID' ],
-                                                                        certificates: [ { ...ptb.certificates.find(certificate => certificate['@id'] === 'PTB-2026-0042'), '@id': 'ptb-2026-0042' } ], created, lastChange: created } } ]);
+          'The PTB has its certificate PTB:2026-0042 a second time, its identification in lowercase: refused by the certificates of the body, before those of the roaming network.',
+          "The certificate 'ptb:2026-0042' of the conformity assessment body 'PTB' must not be given twice!",
+          [ { op: 'add', path: `${CAB_PTB}/certificates/-`, value: ptb0042of('ptb:2026-0042') } ]);
+
+    // ---- Versions: a release identified under its manufacturer, a certificate under the body issuing it - its owner's
+    //      identification, a colon and a name of its own without one, the prefix compared without case (S36). A version
+    //      holding one identified otherwise is refused, before any duplicate: what another owner gives the identification
+    //      of one too.
+    const S36       = `${SPEC}, 4.1, How releases and certificates are identified`;
+    const notUnder  = (kind, id, owner) => kind === 'release'
+                          ? `The transparency software release '${id}' of the manufacturer '${owner}' is not identified as one of it: by '${owner}:' and a name without a colon!`
+                          : `The certificate '${id}' of the conformity assessment body '${owner}' is not identified as one of it: by '${owner}:' and a name without a colon!`;
+    const ofOCC     = (releases) => [ { op: 'add', path: '/transparencySoftwareManufacturers/-', value: { '@id': 'OpenChargingCloud', name: { en: 'Open Charging Cloud' }, transparencySoftware: releases, created, lastChange: created } } ];
+    const ofVDE     = (certificates) => [ { op: 'add', path: '/conformityAssessmentBodies/-', value: { '@id': 'VDE', name: { de: 'VDE Prüf- und Zertifizierungsinstitut' }, notifiedFor: [ 'MID' ], certificates, created, lastChange: created } } ];
+
+    twice('version-release-not-under-its-manufacturer', S36,
+          'OpenChargingCloud has a release identified without its manufacturer: CHARGY-1.5.0, the identification of the release of GraphDefined before S36, in uppercase.',
+          notUnder('release', 'CHARGY-1.5.0', 'OpenChargingCloud'), ofOCC([ { ...release, '@id': 'CHARGY-1.5.0' } ]));
+    twice('version-release-under-another-manufacturer', S36,
+          'OpenChargingCloud has a release of the identification of the one of GraphDefined, in uppercase: under another manufacturer.',
+          notUnder('release', 'GRAPHDEFINED:CHARGY-1.5.0', 'OpenChargingCloud'), ofOCC([ { ...release, '@id': 'GRAPHDEFINED:CHARGY-1.5.0' } ]));
+    twice('version-release-name-with-a-colon',   S36,
+          'GraphDefined has a second release whose name has a colon: GraphDefined:chargy:2.0.',
+          notUnder('release', 'GraphDefined:chargy:2.0', 'GraphDefined'),
+          [ { op: 'add', path: `${TSM_GD}/transparencySoftware/-`, value: { ...release, '@id': 'GraphDefined:chargy:2.0', version: '2.0' } } ]);
+    twice('version-release-without-a-name',      S36,
+          'GraphDefined has a second release of its identification and a colon alone: GraphDefined:.',
+          notUnder('release', 'GraphDefined:', 'GraphDefined'),
+          [ { op: 'add', path: `${TSM_GD}/transparencySoftware/-`, value: { ...release, '@id': 'GraphDefined:', version: '2.0' } } ]);
+    twice('version-certificate-not-under-its-body', S36,
+          'The VDE has a certificate identified without its body: ptb-2026-0042, the identification of the certificate of the PTB before S36, in lowercase.',
+          notUnder('certificate', 'ptb-2026-0042', 'VDE'), ofVDE([ ptb0042of('ptb-2026-0042') ]));
+    twice('version-certificate-under-another-body', S36,
+          'The VDE has a certificate of the identification of the one of the PTB, in lowercase: under another body.',
+          notUnder('certificate', 'ptb:2026-0042', 'VDE'), ofVDE([ ptb0042of('ptb:2026-0042') ]));
 
     // ---- Versions: hardware revisions, firmware versions and serial numbers taken as given, not trimmed, not empty and
     //      neither beginning nor ending with whitespace as Char.IsWhiteSpace tells it (HardwareRevision, FirmwareVersion
@@ -1969,8 +2015,8 @@ function refusalVectors() {
     const dcMeter   = named('/chargingStationOperators/0/energyMeterTemplates/1',            'DE*GEF*EMT_DC');
     const dc300     = named('/chargingStationManufacturers/0/chargingStationModels/1',       'GD-DC300');
     const kdm500    = named('/energyMeterManufacturers/0/energyMeterModels/0',               'KDM-500');
-    const ptb0017   = named('/conformityAssessmentBodies/2/certificates/0',                  'PTB-2026-0017');
-    const ptb0042   = named('/conformityAssessmentBodies/2/certificates/1',                  'PTB-2026-0042');
+    const ptb0017   = named('/conformityAssessmentBodies/2/certificates/0',                  'PTB:2026-0017');
+    const ptb0042   = named('/conformityAssessmentBodies/2/certificates/1',                  'PTB:2026-0042');
     const withText  = twice;
 
     quoted(`${DOCS}/ChargingStation.md`,             'taken as given, not trimmed and compared ordinally, case included; not empty and neither beginning nor ending with whitespace.', 'that a serial number is taken as given');
@@ -2010,22 +2056,22 @@ function refusalVectors() {
              [ { op: 'add', path: `${dc300}/firmwareVersions/-`, value: '2.4.0' } ]);
 
     withText('version-text-certificate-hardware-revision',  `${DOCS}/ConformityAssessmentBody.md, ${DOCS}/EnergyMeterManufacturer.md`,
-             'The certificate PTB-2026-0017 names a further hardware revision with a space before it: it names hardware revisions of its model, none of which begins with whitespace.',
+             'The certificate PTB:2026-0017 names a further hardware revision with a space before it: it names hardware revisions of its model, none of which begins with whitespace.',
              "hardwareRevisions[1]: Invalid text representation of a hardware revision: ' 2.1'!",
              [ { op: 'add', path: `${ptb0017}/hardwareRevisions/-`, value: ' 2.1' } ]);
 
     withText('version-text-certificate-energy-meter',       `${DOCS}/ConformityAssessmentBody.md, ${DOCS}/EnergyMeterManufacturer.md`,
-             'The energy meter the certificate PTB-2026-0042 was issued with names its firmware version followed by a no-break space (U+00A0).',
+             'The energy meter the certificate PTB:2026-0042 was issued with names its firmware version followed by a no-break space (U+00A0).',
              "energyMeters[0]: firmwareVersions[0]: Invalid text representation of a firmware version: '3.2 '!",
              [ { op: 'replace', path: `${ptb0042}/energyMeters/0/firmwareVersions/0`, value: '3.2 ' } ]);
 
     withText('version-text-certificate-twice',              `${DOCS}/ConformityAssessmentBody.md`,
-             'The certificate PTB-2026-0017 names the hardware revision 2.1 twice.',
-             "A hardware revision of the certificate 'PTB-2026-0017' must not be given twice!",
+             'The certificate PTB:2026-0017 names the hardware revision 2.1 twice.',
+             "A hardware revision of the certificate 'PTB:2026-0017' must not be given twice!",
              [ { op: 'add', path: `${ptb0017}/hardwareRevisions/-`, value: '2.1' } ]);
 
     withText('version-text-certificate-energy-meter-twice', `${DOCS}/ConformityAssessmentBody.md`,
-             'The energy meter the certificate PTB-2026-0042 was issued with names the hardware revision 2.1 twice.',
+             'The energy meter the certificate PTB:2026-0042 was issued with names the hardware revision 2.1 twice.',
              "A hardware revision of the certified energy meter model 'KDM-500' of 'KERNBERG' must not be given twice!",
              [ { op: 'add', path: `${ptb0042}/energyMeters/0/hardwareRevisions/-`, value: '2.1' } ]);
 
@@ -2035,7 +2081,7 @@ function refusalVectors() {
     //      notAfter; at least one release, none twice, none both verified and compatible (compared without case, as
     //      releases are); energy meters of a charging station model only, each model once (without case, as models are).
     //      The head of the run with one certificate changed, without its eTags, as above; the refusal names it (`reason`)
-    //      in the words of WWCP_POI. PTB-2026-0017 is for the energy meter model KDM-500, PTB-2026-0042 for the charging
+    //      in the words of WWCP_POI. PTB:2026-0017 is for the energy meter model KDM-500, PTB:2026-0042 for the charging
     //      station model GD-DC300, issued with KDM-500.
     const CERTIFICATES = `${DOCS}/ConformityAssessmentBody.md`;
     const malformed    = (id, description, reason, patch) =>
@@ -2055,83 +2101,83 @@ function refusalVectors() {
            'which energy meters a certificate names');
 
     malformed('version-certificate-model-none',
-              'The certificate PTB-2026-0017 names no model: its energyMeterManufacturerId and energyMeterModel removed.',
-              "The certificate 'PTB-2026-0017' must be for either a charging station model or an energy meter model!",
+              'The certificate PTB:2026-0017 names no model: its energyMeterManufacturerId and energyMeterModel removed.',
+              "The certificate 'PTB:2026-0017' must be for either a charging station model or an energy meter model!",
               [ { op: 'remove', path: `${ptb0017}/energyMeterManufacturerId` }, { op: 'remove', path: `${ptb0017}/energyMeterModel` } ]);
 
     malformed('version-certificate-model-both',
-              'The certificate PTB-2026-0017 for the energy meter model KDM-500 of KERNBERG names the charging station model GD-DC300 of GraphDefined as well.',
-              "The certificate 'PTB-2026-0017' must be for either a charging station model or an energy meter model!",
+              'The certificate PTB:2026-0017 for the energy meter model KDM-500 of KERNBERG names the charging station model GD-DC300 of GraphDefined as well.',
+              "The certificate 'PTB:2026-0017' must be for either a charging station model or an energy meter model!",
               [ { op: 'add', path: `${ptb0017}/chargingStationManufacturerId`, value: 'GraphDefined' }, { op: 'add', path: `${ptb0017}/chargingStationModel`, value: 'GD-DC300' } ]);
 
     malformed('version-certificate-model-without-manufacturer',
-              'The certificate PTB-2026-0042 names the charging station model GD-DC300 without its manufacturer.',
-              "The certificate 'PTB-2026-0042' must name the charging station model it is for with its manufacturer!",
+              'The certificate PTB:2026-0042 names the charging station model GD-DC300 without its manufacturer.',
+              "The certificate 'PTB:2026-0042' must name the charging station model it is for with its manufacturer!",
               [ { op: 'remove', path: `${ptb0042}/chargingStationManufacturerId` } ]);
 
     malformed('version-certificate-manufacturer-without-model',
-              'The certificate PTB-2026-0017 names the energy meter manufacturer KERNBERG without its model.',
-              "The certificate 'PTB-2026-0017' must name the energy meter model it is for with its manufacturer!",
+              'The certificate PTB:2026-0017 names the energy meter manufacturer KERNBERG without its model.',
+              "The certificate 'PTB:2026-0017' must name the energy meter model it is for with its manufacturer!",
               [ { op: 'remove', path: `${ptb0017}/energyMeterModel` } ]);
 
     malformed('version-certificate-hardware-revisions-none',
-              'The certificate PTB-2026-0017 names no hardware revision: an empty array.',
-              "The certificate 'PTB-2026-0017' must name at least one hardware revision of its model!",
+              'The certificate PTB:2026-0017 names no hardware revision: an empty array.',
+              "The certificate 'PTB:2026-0017' must name at least one hardware revision of its model!",
               [ { op: 'replace', path: `${ptb0017}/hardwareRevisions`, value: [] } ]);
 
     malformed('version-certificate-firmware-versions-none',
-              'The certificate PTB-2026-0042 names no firmware version: none given.',
-              "The certificate 'PTB-2026-0042' must name at least one firmware version of its model!",
+              'The certificate PTB:2026-0042 names no firmware version: none given.',
+              "The certificate 'PTB:2026-0042' must name at least one firmware version of its model!",
               [ { op: 'remove', path: `${ptb0042}/firmwareVersions` } ]);
 
     // Without a slash before it: .NET on Linux takes "/certificates/…" as an absolute URI, of a file.
     malformed('version-certificate-document-url-relative',
-              'The certificate PTB-2026-0017 names its documentURL as a relative reference, a path without scheme and host.',
+              'The certificate PTB:2026-0017 names its documentURL as a relative reference, a path without scheme and host.',
               'documentURL: expected an absolute URL.',
               [ { op: 'replace', path: `${ptb0017}/documentURL`, value: 'certificates/PTB-2026-0017.pdf' } ]);
 
     malformed('version-certificate-legislation-empty',
-              'The certificate PTB-2026-0042 names a legislation of a space alone.',
+              'The certificate PTB:2026-0042 names a legislation of a space alone.',
               'A legislation must not be empty.',
               [ { op: 'replace', path: `${ptb0042}/legislation`, value: ' ' } ]);
 
     malformed('version-certificate-validity-reversed',
-              'The certificate PTB-2026-0017 ends a millisecond before it begins: its notAfter before its notBefore.',
+              'The certificate PTB:2026-0017 ends a millisecond before it begins: its notAfter before its notBefore.',
               'notBefore must not exceed notAfter.',
               [ { op: 'replace', path: `${ptb0017}/notAfter`, value: new Date(Date.parse(at(qa, `${ptb0017}/notBefore`)) - 1).toISOString() } ]);
 
     malformed('version-certificate-release-none',
-              'The certificate PTB-2026-0017 names no transparency software release, neither verified nor compatible.',
+              'The certificate PTB:2026-0017 names no transparency software release, neither verified nor compatible.',
               'A document must identify at least one software release.',
               [ { op: 'replace', path: `${ptb0017}/verifiedTransparencySoftwareIds`, value: [] } ]);
 
     malformed('version-certificate-release-twice',
-              'The certificate PTB-2026-0042 names its verified release chargy-1.5.0 twice.',
+              'The certificate PTB:2026-0042 names its verified release GraphDefined:chargy-1.5.0 twice.',
               'Empty or duplicate TransparencySoftware reference.',
-              [ { op: 'add', path: `${ptb0042}/verifiedTransparencySoftwareIds/-`, value: 'chargy-1.5.0' } ]);
+              [ { op: 'add', path: `${ptb0042}/verifiedTransparencySoftwareIds/-`, value: 'GraphDefined:chargy-1.5.0' } ]);
 
     malformed('version-certificate-release-both',
-              'The certificate PTB-2026-0042 names its verified release chargy-1.5.0 as compatible as well, in uppercase: releases are compared without case.',
+              'The certificate PTB:2026-0042 names its verified release GraphDefined:chargy-1.5.0 as compatible as well, in uppercase: releases are compared without case.',
               'A release cannot be both verified and merely compatible in the same document.',
-              [ { op: 'add', path: `${ptb0042}/compatibleTransparencySoftwareIds/-`, value: 'CHARGY-1.5.0' } ]);
+              [ { op: 'add', path: `${ptb0042}/compatibleTransparencySoftwareIds/-`, value: 'GRAPHDEFINED:CHARGY-1.5.0' } ]);
 
     malformed('version-certificate-energy-meters-of-meter-model',
-              'The certificate PTB-2026-0017 for the energy meter model KDM-500 names that model as an energy meter it was issued with: only a certificate of a charging station model names energy meters.',
-              "The certificate 'PTB-2026-0017' of an energy meter model names no energy meters!",
+              'The certificate PTB:2026-0017 for the energy meter model KDM-500 names that model as an energy meter it was issued with: only a certificate of a charging station model names energy meters.',
+              "The certificate 'PTB:2026-0017' of an energy meter model names no energy meters!",
               [ { op: 'add', path: `${ptb0017}/energyMeters`, value: [ { manufacturerId: 'KERNBERG', modelId: 'KDM-500', hardwareRevisions: [ '2.1' ], firmwareVersions: [ '3.2' ] } ] } ]);
 
     malformed('version-certificate-energy-meter-twice',
-              'The certificate PTB-2026-0042 names the energy meter model KDM-500 of KERNBERG twice, the second time in lowercase: models are compared without case.',
-              "The energy meter model 'KDM-500' of 'KERNBERG' must not be given twice in the certificate 'PTB-2026-0042'!",
+              'The certificate PTB:2026-0042 names the energy meter model KDM-500 of KERNBERG twice, the second time in lowercase: models are compared without case.',
+              "The energy meter model 'KDM-500' of 'KERNBERG' must not be given twice in the certificate 'PTB:2026-0042'!",
               [ { op: 'add', path: `${ptb0042}/energyMeters/-`, value: { manufacturerId: 'KERNBERG', modelId: 'kdm-500', hardwareRevisions: [ '2.1' ], firmwareVersions: [ '3.2' ] } } ]);
 
     malformed('version-certificate-energy-meter-hardware-revisions-none',
-              'The energy meter the certificate PTB-2026-0042 was issued with names no hardware revision: an empty array.',
+              'The energy meter the certificate PTB:2026-0042 was issued with names no hardware revision: an empty array.',
               "The certified energy meter model 'KDM-500' of 'KERNBERG' must name at least one hardware revision!",
               [ { op: 'replace', path: `${ptb0042}/energyMeters/0/hardwareRevisions`, value: [] } ]);
 
     malformed('version-certificate-energy-meter-firmware-versions-none',
-              'The energy meter the certificate PTB-2026-0042 was issued with names no firmware version: none given.',
+              'The energy meter the certificate PTB:2026-0042 was issued with names no firmware version: none given.',
               "The certified energy meter model 'KDM-500' of 'KERNBERG' must name at least one firmware version!",
               [ { op: 'remove', path: `${ptb0042}/energyMeters/0/firmwareVersions` } ]);
 
@@ -2144,7 +2190,7 @@ function refusalVectors() {
                               refuse({ id, kind: 'version', basis: CERTIFICATES, description, reason,
                                        document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, ...patch ]) });
     if (JSON.stringify(at(qa, `${ptbAt}/notifiedFor`)) !== '["MID"]' || at(qa, `${ptbAt}/notifiedBodyNumber`) !== '0102' || at(qa, `${ptb0042}/legislation`) !== 'MID')
-        fail('QA.json: PTB is no longer notified for MID alone as 0102, or PTB-2026-0042 not issued under MID');
+        fail('QA.json: PTB is no longer notified for MID alone as 0102, or PTB:2026-0042 not issued under MID');
 
     quoted(CERTIFICATES, 'Its number as a notified body: four digits, e.g. `0102`',                     'that a notified body number is four digits');
     quoted(CERTIFICATES, 'The legislations it is a notified body for, each once',                           'that a body is notified for each legislation once');
@@ -2152,8 +2198,8 @@ function refusalVectors() {
            'that a legislation is a nonempty text');
 
     bodyMalformed('version-body-certificate-not-notified',
-              'The certificate PTB-2026-0042 is issued under the legislation CRA, for which its body, notified for MID, is no notified body.',
-              "The certificate 'PTB-2026-0042' is issued under the legislation 'CRA', which the conformity assessment body 'PTB' is not notified for!",
+              'The certificate PTB:2026-0042 is issued under the legislation CRA, for which its body, notified for MID, is no notified body.',
+              "The certificate 'PTB:2026-0042' is issued under the legislation 'CRA', which the conformity assessment body 'PTB' is not notified for!",
               [ { op: 'replace', path: `${ptb0042}/legislation`, value: 'CRA' } ]);
 
     bodyMalformed('version-body-number-three-digits',
@@ -3395,30 +3441,49 @@ function signedHistories() {
     P.accepted('parties-added', 'The roaming network operator adds ten parties, a conformity assessment body and a grid operator without keys among them, signed by two holders of its quorum and, proving their possession, by each new identity key.', B('4.1'));
 
     // ---- The models of the manufacturers, each in the hardware revisions and firmware versions it has (csharp-review 16).
-    parties.take('commit-2', parties.prepare({
+    const commit2 = (release = {}) => parties.prepare({
         createdAt:    minute(2),
         description:  'The models of GraphDefined, Winzerla and KERNBERG, and Chargy 1.5.0 of OpenChargingCloud',
         changes:      [ add('ChargingStationModel', { '@id': 'GD-DC300', name: { en: 'GraphDefined DC 300' }, hardwareRevisions: [ '1.0', '1.1' ], firmwareVersions: [ '2.4.0', '2.5.0' ], maxPower: 300000 }, [ 'ChargingStationManufacturer', 'GraphDefined' ]),
                         add('ChargingStationModel', { '@id': 'W-AC11',   name: { en: 'Winzerla AC 11' },      hardwareRevisions: [ 'A' ],          firmwareVersions: [ '1.0' ],            maxPower: 11000 },  [ 'ChargingStationManufacturer', 'Winzerla' ]),
                         add('ChargingStationModel', { '@id': 'W-AC22',   name: { en: 'Winzerla AC 22' },      hardwareRevisions: [ 'A' ],          firmwareVersions: [ '1.0' ],            maxPower: 22000 },  [ 'ChargingStationManufacturer', 'Winzerla' ]),
                         add('EnergyMeterModel',     { '@id': 'KDM-500',  name: { en: 'Kernberg DC meter 500 A' }, hardwareRevisions: [ '2.1' ],   firmwareVersions: [ '3.2', '3.3' ],     maxCurrent: 500 },  [ 'EnergyMeterManufacturer', 'KERNBERG' ]),
-                        add('TransparencySoftware', { '@id': 'chargy-1.5.0', name: { en: 'Chargy Transparency Software' }, version: '1.5.0',
+                        add('TransparencySoftware', { '@id': 'OpenChargingCloud:chargy-1.5.0', ...release, name: { en: 'Chargy Transparency Software' }, version: '1.5.0',
                                                       openSourceLicenses: [ { '@id': 'AGPL-3.0', description: { en: 'GNU Affero General Public License version 3' }, URLs: [ 'https://www.gnu.org/licenses/agpl-3.0.html' ] } ] },
                                                     [ 'TransparencySoftwareManufacturer', 'OpenChargingCloud' ]) ],
         signers:      [ gdModels, wzModels, kdmModels, occSoftware ],
-    }));
+    });
+
+    // A release is identified under its manufacturer, a certificate under the body issuing it: its owner's identification,
+    // a colon and a name of its own without one, the prefix compared without case (POI3-ISSUES.md S36). WWCP_POI3 refuses
+    // a change set holding one identified otherwise since `045e180`.
+    const S36B     = B('4.1, How releases and certificates are identified');
+    const notUnder = (kind, id, owner) => kind === 'release'
+                         ? `The transparency software release '${id}' of the manufacturer '${owner}' is not identified as one of it: by '${owner}:' and a name without a colon!`
+                         : `The certificate '${id}' of the conformity assessment body '${owner}' is not identified as one of it: by '${owner}:' and a name without a colon!`;
+    const commit2Taken = commit2();
+    parties.keep('commit-2', commit2Taken);
+    P.refused('release-not-under-its-manufacturer', 'OpenChargingCloud adds its release identified without it: chargy-1.5.0.', S36B,
+              'commit-2-release-alone', commit2({ '@id': 'chargy-1.5.0' }), 'commit-2',
+              { reason: notUnder('release', 'chargy-1.5.0', 'OpenChargingCloud') });
+    P.refused('release-under-another-manufacturer', 'OpenChargingCloud adds its release identified under GraphDefined: GraphDefined:chargy-1.5.0, which the meters, stations and certificates of GraphDefined would name.', S36B,
+              'commit-2-release-of-another', commit2({ '@id': 'GraphDefined:chargy-1.5.0' }), 'commit-2',
+              { reason: notUnder('release', 'GraphDefined:chargy-1.5.0', 'OpenChargingCloud') });
+    P.then('release-under-its-manufacturer-in-another-case', 'OpenChargingCloud adds its release identified under it in lowercase, openchargingcloud:chargy-1.5.0: the prefix is compared without case.', S36B,
+           'commit-2-release-lowercase', commit2({ '@id': 'openchargingcloud:chargy-1.5.0' }));
+    parties.take('commit-2', commit2Taken);
 
     // ---- Certificates of the PTB: one of a model of charging stations, naming the meter it was issued with, one of a
     //      model of energy meters, each for hardware revisions and firmware versions of its model (csharp-review 16, 17).
-    const certificateOfPTB = { '@id': 'PTB-2026-0042', legislation: 'MID', chargingStationManufacturerId: 'GraphDefined', chargingStationModel: 'GD-DC300', hardwareRevisions: [ '1.0' ], firmwareVersions: [ '2.5.0' ],
+    const certificateOfPTB = { '@id': 'PTB:2026-0042', legislation: 'MID', chargingStationManufacturerId: 'GraphDefined', chargingStationModel: 'GD-DC300', hardwareRevisions: [ '1.0' ], firmwareVersions: [ '2.5.0' ],
                                energyMeters: [ { manufacturerId: 'KERNBERG', modelId: 'KDM-500', hardwareRevisions: [ '2.1' ], firmwareVersions: [ '3.2' ] } ],
-                               verifiedTransparencySoftwareIds: [ 'chargy-1.5.0' ], compatibleTransparencySoftwareIds: [], notBefore: minute(3), notAfter: '2036-10-18T08:03:00.000Z' };
-    const meterCertificate = { '@id': 'PTB-2026-0017', legislation: 'MID', energyMeterManufacturerId: 'KERNBERG', energyMeterModel: 'KDM-500', hardwareRevisions: [ '2.1' ], firmwareVersions: [ '3.2' ],
-                               verifiedTransparencySoftwareIds: [ 'chargy-1.5.0' ], compatibleTransparencySoftwareIds: [], notBefore: minute(3), notAfter: '2036-10-18T08:03:00.000Z' };
+                               verifiedTransparencySoftwareIds: [ 'OpenChargingCloud:chargy-1.5.0' ], compatibleTransparencySoftwareIds: [], notBefore: minute(3), notAfter: '2036-10-18T08:03:00.000Z' };
+    const meterCertificate = { '@id': 'PTB:2026-0017', legislation: 'MID', energyMeterManufacturerId: 'KERNBERG', energyMeterModel: 'KDM-500', hardwareRevisions: [ '2.1' ], firmwareVersions: [ '3.2' ],
+                               verifiedTransparencySoftwareIds: [ 'OpenChargingCloud:chargy-1.5.0' ], compatibleTransparencySoftwareIds: [], notBefore: minute(3), notAfter: '2036-10-18T08:03:00.000Z' };
 
     parties.take('commit-3', parties.prepare({
         createdAt:    minute(3),
-        description:  'PTB-2026-0042 for the GD-DC300 with the KDM-500, PTB-2026-0017 for the KDM-500',
+        description:  'PTB:2026-0042 for the GD-DC300 with the KDM-500, PTB:2026-0017 for the KDM-500',
         changes:      [ add('ConformityCertificate', certificateOfPTB, [ 'ConformityAssessmentBody', 'PTB' ]), add('ConformityCertificate', meterCertificate, [ 'ConformityAssessmentBody', 'PTB' ]) ],
         signers:      [ ptbCertificates ],
     }));
@@ -3427,8 +3492,8 @@ function signedHistories() {
 
     // ---- A charging pool of DE*GEF: a station of the GD-DC300 naming its certificate, its meter its own; a station of
     //      Winzerla; an EVSE group.
-    const meter   = (more = {}) => defined({ '@id': 'DE*GEF*M1*1', manufacturerId: 'KERNBERG', modelId: 'KDM-500', hardwareRevision: '2.1', firmwareVersion: '3.2', certificateIds: [ 'PTB-2026-0017' ], created: minute(4), lastChange: minute(4), ...more });
-    const station = (more = {}, meterMore = {}) => defined({ '@id': 'DE*GEF*S1', manufacturerId: 'GraphDefined', modelId: 'GD-DC300', hardwareRevision: '1.0', firmwareVersion: '2.5.0', certificateIds: [ 'PTB-2026-0042' ],
+    const meter   = (more = {}) => defined({ '@id': 'DE*GEF*M1*1', manufacturerId: 'KERNBERG', modelId: 'KDM-500', hardwareRevision: '2.1', firmwareVersion: '3.2', certificateIds: [ 'PTB:2026-0017' ], created: minute(4), lastChange: minute(4), ...more });
+    const station = (more = {}, meterMore = {}) => defined({ '@id': 'DE*GEF*S1', manufacturerId: 'GraphDefined', modelId: 'GD-DC300', hardwareRevision: '1.0', firmwareVersion: '2.5.0', certificateIds: [ 'PTB:2026-0042' ],
                                                              EVSEs: [ { '@id': 'DE*GEF*E1*1', maxPower: 150000, energyMeter: meter(meterMore), created: minute(4), lastChange: minute(4) } ], created: minute(4), lastChange: minute(4), ...more });
     const winzerla = { '@id': 'DE*GEF*S2', manufacturerId: 'Winzerla', modelId: 'W-AC22', hardwareRevision: 'A', firmwareVersion: '1.0',
                        EVSEs: [ { '@id': 'DE*GEF*E2*1', maxPower: 22000, created: minute(4), lastChange: minute(4) } ], created: minute(4), lastChange: minute(4) };
@@ -3453,26 +3518,26 @@ function signedHistories() {
               'commit-4-revision', poolOf('A station of the GD-DC300 in the hardware revision 1.1', { hardwareRevision: '1.1' }), 'commit-4',
               { reason: "does not cover its hardware revision '1.1'" });
     P.refused('station-certificate-of-a-meter', 'A charging station naming the certificate of a model of energy meters.', `${B('4.1')}; csharp-review 17`,
-              'commit-4-station-certificate', poolOf('A station naming PTB-2026-0017', { certificateIds: [ 'PTB-2026-0017' ] }), 'commit-4',
+              'commit-4-station-certificate', poolOf('A station naming PTB:2026-0017', { certificateIds: [ 'PTB:2026-0017' ] }), 'commit-4',
               { reason: 'not for a model of charging stations' });
     P.refused('meter-certificate-of-a-station', 'An energy meter naming the certificate of a model of charging stations.', `${B('4.1')}; csharp-review 17`,
-              'commit-4-meter-certificate', poolOf('A meter naming PTB-2026-0042', {}, { certificateIds: [ 'PTB-2026-0042' ] }), 'commit-4',
+              'commit-4-meter-certificate', poolOf('A meter naming PTB:2026-0042', {}, { certificateIds: [ 'PTB:2026-0042' ] }), 'commit-4',
               { reason: 'not for a model of energy meters' });
     P.refused('meter-not-of-the-certificate', 'An energy meter in a firmware version of its model, in a charging station whose certificate names its meters in another one.', `${B('4.1')}; csharp-review 17`,
               'commit-4-meter-firmware', poolOf('A meter in the firmware 3.3', {}, { firmwareVersion: '3.3', certificateIds: undefined }), 'commit-4-meter-firmware-control',
-              { reason: "is none of the energy meters the certificate 'PTB-2026-0042' was issued with" });
+              { reason: "is none of the energy meters the certificate 'PTB:2026-0042' was issued with" });
     parties.keep('commit-4-meter-firmware-control', poolOf('A meter in the firmware 3.2, naming no certificate', {}, { certificateIds: undefined }));
 
     parties.take('commit-4', commit4);
     P.accepted('parties-station-and-meter', 'A charging station names its model, hardware revision, firmware version and certificate, its energy meter those of its own.', `${B('4.1')}; csharp-review 16, 17`);
 
     // ---- The roaming network operator states a certificate in place of a body without signing keys (csharp-review 13, 15).
-    const certificateOfBSI = (more = {}) => defined({ '@id': 'BSI-2026-0001', chargingStationManufacturerId: 'GraphDefined', chargingStationModel: 'GD-DC300', hardwareRevisions: [ '1.0' ], firmwareVersions: [ '2.5.0' ],
-                                                      verifiedTransparencySoftwareIds: [ 'chargy-1.5.0' ], compatibleTransparencySoftwareIds: [], notBefore: minute(5), notAfter: '2031-10-18T08:05:00.000Z',
+    const certificateOfBSI = (more = {}) => defined({ '@id': 'BSI:2026-0001', chargingStationManufacturerId: 'GraphDefined', chargingStationModel: 'GD-DC300', hardwareRevisions: [ '1.0' ], firmwareVersions: [ '2.5.0' ],
+                                                      verifiedTransparencySoftwareIds: [ 'OpenChargingCloud:chargy-1.5.0' ], compatibleTransparencySoftwareIds: [], notBefore: minute(5), notAfter: '2031-10-18T08:05:00.000Z',
                                                       statedBy: 'roamingNetworkOperator', ...more });
     const certificateBy = (signers, more) => parties.prepare({
         createdAt:    minute(5),
-        description:  'BSI-2026-0001, stated by the roaming network operator in place of the BSI',
+        description:  'BSI:2026-0001, stated by the roaming network operator in place of the BSI',
         changes:      [ add('ConformityCertificate', certificateOfBSI(more), [ 'ConformityAssessmentBody', 'BSI' ]) ],
         signers,
     });
@@ -3480,26 +3545,39 @@ function signedHistories() {
     const commit5 = certificateBy([ alphaParty, betaParty ]);
     parties.keep('commit-5', commit5);
 
+    P.then('certificates-of-two-bodies-numbered-alike', 'The roaming network operator adds the certificate BSI:2026-0042 of the BSI in its place, numbered as PTB:2026-0042 of the PTB: two bodies numbering their certificates alike both have them.', S36B,
+           'commit-5-numbered-alike', certificateBy([ alphaParty, betaParty ], { '@id': 'BSI:2026-0042' }));
     P.then('rno-states-certificate-with-keys-for-certificates', 'The roaming network operator adds a certificate of a body without signing keys in its place, signed by two holders with signing keys certified for certificates alone.', `${B('4.1')}; csharp-review 13`,
            'commit-5-certificates', certificateBy([ alphaCertificates, betaCertificates ]));
     P.refused('rno-states-certificate-with-keys-for-tariffs', 'The roaming network operator adds a certificate of a body without signing keys in its place, signed by two holders with signing keys certified for tariffs alone: a key of the roaming network operator signs in place of a party what it may sign, or the party.', `${B('4.1')}; csharp-review 13`,
-              'commit-5-tariffs', certificateBy([ alphaTariffs, betaTariffs ]), 'commit-5', { reason: "Change 0: Add of the ConformityCertificate 'BSI-2026-0001' needs" });
+              'commit-5-tariffs', certificateBy([ alphaTariffs, betaTariffs ]), 'commit-5', { reason: "Change 0: Add of the ConformityCertificate 'BSI:2026-0001' needs" });
     P.refused('rno-states-certificate-one-holder', 'The roaming network operator adds a certificate of a body without signing keys in its place, signed by one holder of its quorum of two.', `${B('4.1')}; csharp-review 13`,
-              'commit-5-one-holder', certificateBy([ alphaParty ]), 'commit-5', { reason: "Change 0: Add of the ConformityCertificate 'BSI-2026-0001' needs" });
+              'commit-5-one-holder', certificateBy([ alphaParty ]), 'commit-5', { reason: "Change 0: Add of the ConformityCertificate 'BSI:2026-0001' needs" });
     P.refused('rno-states-certificate-unsaid', 'The roaming network operator adds a certificate of a body without signing keys in its place, without saying so in its statedBy.', `${B('4.1, Who states a certificate')}; csharp-review 15`,
               'commit-5-unsaid', certificateBy([ alphaParty, betaParty ], { statedBy: undefined }), 'commit-5',
-              { reason: "The certificate 'BSI-2026-0001' of the conformity assessment body 'BSI' without signing keys is stated by the roaming network operator in its place: its statedBy is 'roamingNetworkOperator'!" });
+              { reason: "The certificate 'BSI:2026-0001' of the conformity assessment body 'BSI' without signing keys is stated by the roaming network operator in its place: its statedBy is 'roamingNetworkOperator'!" });
 
     parties.take('commit-5', commit5);
     P.accepted('rno-states-certificate', 'The roaming network operator adds a certificate of a body without signing keys in its place, signed by two holders with signing keys for the party, and says so in its statedBy.', `${B('4.1')}; csharp-review 13, 15`);
 
     {
-        const byPTB = (more) => parties.prepare({ createdAt: minute(5.5), description: 'PTB-2026-0099', signers: [ ptbCertificates ],
-                                                  changes: [ add('ConformityCertificate', { ...meterCertificate, '@id': 'PTB-2026-0099', ...more }, [ 'ConformityAssessmentBody', 'PTB' ]) ] });
+        const byPTB = (more) => parties.prepare({ createdAt: minute(5.5), description: 'PTB:2026-0099', signers: [ ptbCertificates ],
+                                                  changes: [ add('ConformityCertificate', { ...meterCertificate, '@id': 'PTB:2026-0099', ...more }, [ 'ConformityAssessmentBody', 'PTB' ]) ] });
         parties.keep('commit-6-ptb', byPTB({}));
         P.refused('body-certificate-said-by-rno', 'A body with signing keys adds a certificate whose statedBy names the roaming network operator.', `${B('4.1, Who states a certificate')}; csharp-review 15`,
                   'commit-6-ptb-stated', byPTB({ statedBy: 'roamingNetworkOperator' }), 'commit-6-ptb',
-                  { reason: "The certificate 'PTB-2026-0099' of the conformity assessment body 'PTB' is stated by the body itself, with its keys: it names no statedBy!" });
+                  { reason: "The certificate 'PTB:2026-0099' of the conformity assessment body 'PTB' is stated by the body itself, with its keys: it names no statedBy!" });
+        P.refused('certificate-not-under-its-body', 'The PTB adds a certificate identified without it: 2026-0099, its number.', S36B,
+                  'commit-6-ptb-number-alone', byPTB({ '@id': '2026-0099' }), 'commit-6-ptb',
+                  { reason: notUnder('certificate', '2026-0099', 'PTB') });
+        P.refused('certificate-under-another-body', 'The PTB adds a certificate identified under the BSI: BSI:2026-0099.', S36B,
+                  'commit-6-ptb-of-another', byPTB({ '@id': 'BSI:2026-0099' }), 'commit-6-ptb',
+                  { reason: notUnder('certificate', 'BSI:2026-0099', 'PTB') });
+        P.refused('certificate-name-with-a-colon', 'The PTB adds a certificate whose name has a colon: PTB:2026:0099.', S36B,
+                  'commit-6-ptb-two-colons', byPTB({ '@id': 'PTB:2026:0099' }), 'commit-6-ptb',
+                  { reason: notUnder('certificate', 'PTB:2026:0099', 'PTB') });
+        P.then('certificate-under-its-body-in-another-case', 'The PTB adds a certificate identified under it in lowercase, ptb:2026-0099: the prefix is compared without case.', S36B,
+               'commit-6-ptb-lowercase', byPTB({ '@id': 'ptb:2026-0099' }));
     }
 
     // ---- The BSI gets keys, by the roaming network operator recovering them; a certificate the roaming network operator
@@ -3513,12 +3591,12 @@ function signedHistories() {
     }));
 
     const byBSI = (changes, description) => parties.prepare({ createdAt: minute(7), description, changes, signers: [ bsiCertificates ] });
-    const commit7 = byBSI([ unset('ConformityCertificate', 'BSI-2026-0001', 'statedBy', 'roamingNetworkOperator', [ 'ConformityAssessmentBody', 'BSI' ]) ], 'The BSI states BSI-2026-0001 itself');
+    const commit7 = byBSI([ unset('ConformityCertificate', 'BSI:2026-0001', 'statedBy', 'roamingNetworkOperator', [ 'ConformityAssessmentBody', 'BSI' ]) ], 'The BSI states BSI:2026-0001 itself');
     parties.keep('commit-7', commit7);
 
     P.refused('body-changes-certificate-said-by-rno', 'A body that got its signing keys since changes a certificate the roaming network operator stated in its place, its statedBy kept.', `${B('4.1, Who states a certificate')}; csharp-review 15`,
-              'commit-7-kept', byBSI([ update('ConformityCertificate', 'BSI-2026-0001', 'notAfter', '2031-10-18T08:05:00.000Z', '2030-10-18T08:05:00.000Z', [ 'ConformityAssessmentBody', 'BSI' ]) ], 'The BSI shortens BSI-2026-0001'), 'commit-7',
-              { reason: "The certificate 'BSI-2026-0001' of the conformity assessment body 'BSI' is stated by the body itself, with its keys: it names no statedBy!" });
+              'commit-7-kept', byBSI([ update('ConformityCertificate', 'BSI:2026-0001', 'notAfter', '2031-10-18T08:05:00.000Z', '2030-10-18T08:05:00.000Z', [ 'ConformityAssessmentBody', 'BSI' ]) ], 'The BSI shortens BSI:2026-0001'), 'commit-7',
+              { reason: "The certificate 'BSI:2026-0001' of the conformity assessment body 'BSI' is stated by the body itself, with its keys: it names no statedBy!" });
 
     parties.take('commit-7', commit7);
     P.accepted('body-states-certificate-itself', 'A body that got its signing keys since states a certificate the roaming network operator stated in its place itself, removing its statedBy.', `${B('4.1, Who states a certificate')}; csharp-review 15`);
@@ -4135,8 +4213,9 @@ function qiDigitalVectors() {
     const saale   = named(qa, '/energyMeterManufacturers/1', 'SAALE', QA);
     const sm3     = named(qa, `${saale}/energyMeterModels/0`, 'SM-3', QA);
     const acMeter = named(qa, '/chargingStationOperators/0/energyMeterTemplates/0', 'DE*GEF*EMT_AC', QA);
-    const labKey  = named(qa, `${emLab}/signingKeys/0`, documents[DCC].signature.keyId, QA);
-    const ddocKey = named(qa, `${saale}/signingKeys/1`, documents[DDOC].signature.keyId, QA);
+    const keyOf_  = (party, keyId) => `${party}/signingKeys/${at(qa, `${party}/signingKeys`).findIndex(key => key['@id'] === keyId)}`;
+    const labKey  = named(qa, keyOf_(emLab, documents[DCC].signature.keyId),  documents[DCC].signature.keyId,  QA);
+    const ddocKey = named(qa, keyOf_(saale, documents[DDOC].signature.keyId), documents[DDOC].signature.keyId, QA);
     const imax    = '/measurementResults/0/results/3';
 
     if (at(documents[DCC], `${imax}/name/en`) !== 'Imax' || at(documents[DCC], `${imax}/quantities/1/refType`) !== 'basic_measurementError')
@@ -4197,7 +4276,7 @@ function qiDigitalVectors() {
 
     refuse('qid-calibration-unknown-property',   'verify', DCC,  'A property a calibration certificate does not have: unsigned, it would travel with a signed document.', "Unknown property 'x' of a digital calibration certificate!", { document: [ { op: 'add', path: '/x', value: 1 } ] });
     refuse('qid-calibration-context',            'verify', DCC,  'Another JSON-LD context, which names another kind or version of document.', 'The JSON-LD context of a digital calibration certificate must be', { document: [ { op: 'replace', path: '/@context', value: 'https://open.charging.cloud/contexts/wwcp/qiDigital/digitalCalibrationCertificate/v2' } ] });
-    refuse('qid-calibration-timestamp',          'verify', DCC,  'The end of the calibration written with an offset, the same instant: a timestamp of a QI-Digital document is written as it is signed, in UTC with milliseconds.', 'must be written as yyyy-MM-ddTHH:mm:ss.fffZ!', { document: [ { op: 'replace', path: '/endPerformanceDate', value: '2026-10-27T18:20:56.787+02:00' } ] });
+    refuse('qid-calibration-timestamp',          'verify', DCC,  'The end of the calibration written with an offset, the same instant: a timestamp of a QI-Digital document is written as it is signed, in UTC with milliseconds.', 'must be written as yyyy-MM-ddTHH:mm:ss.fffZ!', { document: [ { op: 'replace', path: '/endPerformanceDate', value: '2026-11-05T20:43:46.678+02:00' } ] });
     refuse('qid-type-examination-not-notified',  'verify', B,    'The EU-type examination certificate issued under the RED, for which QA does not notify the PTB: the body is checked before the signature, which no longer verifies.', "is not notified for the RED", { document: [ { op: 'replace', path: '/legislation', value: { name: 'RED', act: 'Directive 2014/53/EU' } } ] });
     refuse('qid-calibration-coverage-factor',    'verify', DCC,  'The error at Imax with a coverage factor and probability, but without the expanded uncertainty they are of.', 'is one of an expanded uncertainty', { document: [ { op: 'remove', path: `${imax}/quantities/1/expandedUncertainty` } ] });
     refuse('qid-calibration-location-lower-case', 'verify', DCC, 'The performance location written "customer", not as it is named: a name is read as it is written, without case only where it is compared.', "Invalid performance location 'customer'!", { document: [ { op: 'replace', path: '/performanceLocation', value: 'customer' } ] });
@@ -4212,13 +4291,13 @@ function qiDigitalVectors() {
     refuse('qid-calibration-meter-updated',      'verify', DCC,  'QA with the meter of DE*GEF*E2*1 on the firmware 1.0.8 since, a version of the SM-3 as well: a meter changed since is no longer the one calibrated.', "runs the firmware version '1.0.8', not '1.0.7'!", { network: [ { op: 'replace', path: `${sm3}/firmwareVersions`, value: [ '1.0.7', '1.0.8' ] }, { op: 'replace', path: `${acMeter}/firmwareVersion`, value: '1.0.8' } ] });
     refuse('qid-calibration-without-laboratory', 'verify', DCC,  'QA without EM-LAB: the laboratory of a calibration certificate is a conformity assessment body of the roaming network.', "The calibration laboratory 'EM-LAB' of the digital calibration certificate 'DCC-2026-0815' is no conformity assessment body of the roaming network 'QA'!", { network: [ { op: 'remove', path: emLab } ] });
     refuse('qid-calibration-key-for-party',      'verify', DCC,  'QA with the key EM-LAB signed with for its own properties only: a calibration certificate is signed by a key that may sign certificates.', "may not sign 'certificates', only 'party'", { network: [ { op: 'replace', path: `${labKey}/usages`, value: [ 'party' ] } ] });
-    refuse('qid-calibration-key-ended-before',   'verify', DCC,  'QA with the key EM-LAB signed with ended before it signed.', ", when the digital calibration certificate 'DCC-2026-0815' was signed!", { network: [ { op: 'replace', path: `${labKey}/notAfter`, value: '2026-10-27T17:20:57.000Z' } ] });
+    refuse('qid-calibration-key-ended-before',   'verify', DCC,  'QA with the key EM-LAB signed with ended before it signed.', ", when the digital calibration certificate 'DCC-2026-0815' was signed!", { network: [ { op: 'replace', path: `${labKey}/notAfter`, value: '2026-11-05T19:43:46.800Z' } ] });
     refuse('qid-declaration-key-of-no-manufacturer', 'verify', DDOC, 'QA without the key SAALE signed with for its models: a declaration is signed by a key of the manufacturer of its model.', "is no signing key of the energy meter manufacturer 'SAALE'", { network: [ { op: 'remove', path: ddocKey } ] });
 
     // ---- Refused: at another time.
 
-    refuse('qid-quality-system-expired',         'verify', D,    'After the approval of the quality system ended (validUntil, three years).', "'DE-26-QS-PTB-0042' is not valid at 2029-10-28T00:00:00.000Z!", { at: '2029-10-28T00:00:00.000Z' });
-    refuse('qid-calibration-key-ended',          'verify', DCC,  'After the key EM-LAB signed with ended (notAfter, a year): the key is valid when it signed and when the certificate is checked.', "of the calibration laboratory 'EM-LAB' is not valid at 2027-10-28T00:00:00.000Z!", { at: '2027-10-28T00:00:00.000Z' });
+    refuse('qid-quality-system-expired',         'verify', D,    'After the approval of the quality system ended (validUntil, three years).', "'DE-26-QS-PTB-0042' is not valid at 2029-11-06T00:00:00.000Z!", { at: '2029-11-06T00:00:00.000Z' });
+    refuse('qid-calibration-key-ended',          'verify', DCC,  'After the key EM-LAB signed with ended (notAfter, a year): the key is valid when it signed and when the certificate is checked.', "of the calibration laboratory 'EM-LAB' is not valid at 2027-11-06T00:00:00.000Z!", { at: '2027-11-06T00:00:00.000Z' });
 
     // ---- Refused: the declaration against a certificate it does not name as it is. No signature is looked at here, the
     //      certificate's own check tells whether it is valid.
@@ -4272,7 +4351,7 @@ function qiDigitalVectors() {
     const item      = { type: 'ChargingStation', id: station['@id'], manufacturerId: template.manufacturerId, modelId: template.modelId, serialNumber: SERIAL,
                         hardwareRevision: template.hardwareRevision, firmwareVersion: template.firmwareVersion };
     const raw       = parseRaw(readRun(DCC));
-    const unsigned  = { signedAt: '2026-10-27T17:21:00.000Z', algorithm: labCerts.algorithm, keyId: labCerts.id };
+    const unsigned  = { signedAt: '2026-11-05T19:44:00.000Z', algorithm: labCerts.algorithm, keyId: labCerts.id };
     const signature = { ...unsigned, value: labCerts.sign(canonical({ ...raw, '@id': 'DCC-2026-0816', item, signature: unsigned })) };
 
     if (verifiesWith(signature.algorithm, labCerts.json.key, canonical({ ...raw, '@id': 'DCC-2026-0816', item, signature: unsigned }), signature.value) !== true)

@@ -20,13 +20,15 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `5a72313`, WWCP_POI.TS `a886d90`, Hermod `65d55f80`,
-Styx `fb3314be`):
+Both harnesses are green against the pinned submodules (WWCP_POI `045e180`, WWCP_POI.TS `a886d90`, Hermod `65d55f80`,
+Styx `fb3314be`) - but for what WWCP_POI.TS takes with S36, releases and certificates identified under their owners: the
+vendored copies of the run `csharp-045e180` and of four vector files, and in the TypeScript harness the 11 refusals of
+S36:
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 775 | 800 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 775 | 775 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
+| C# harness (NUnit), WWCP_POI3 | 793 | 818 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 793 | 793 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy,
 those of the verifier extensions since `242fb29`.

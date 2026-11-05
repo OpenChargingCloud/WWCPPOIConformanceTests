@@ -1,7 +1,7 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `5a72313`, Hermod `65d55f80`, Styx `fb3314be`) and the TypeScript port (WWCP_POI.TS,
+(WWCP_POI3, `libs/WWCP_POI` at `045e180`, Hermod `65d55f80`, Styx `fb3314be`) and the TypeScript port (WWCP_POI.TS,
 `libs/WWCP_POI.TS` at `a886d90`) take or calculate different things.
 
 Each deviation is
@@ -59,7 +59,7 @@ WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, was WWCP_POI.TS's,
 elements of a price status, was WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
 define, which SPECIFICATION.md 2 refuses; it is fixed in WWCP_POI.TS `ce88620`, with the elements of a price status
 written as a charging tariff holds them, which SPECIFICATION.md 12.1 says since WWCP_POI `5a72313`
-([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 775 vectors - WWCP_POI3
+([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 793 vectors - WWCP_POI3
 alone signs the 7 signatures of section 6 again from their private seeds, which WWCP_POI.TS verifies only - and agree on
 every one of them (see [What both do alike](#what-both-do-alike)). Among them are the 13 replays of `poi-histories.json`
 WWCP_POI.TS left to WWCP_POI before: the references a version holds, which it checks since `813e1d7`, and the changes of
@@ -775,12 +775,12 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   `0.1000000000000000055511151231` as `0.1`, `1.50` as `1.5`, an integer of 39 digits as `1.2345678901234568E+38`,
   `"2026-10-26T07:00:00-05:00"` as `"2026-10-26T13:00:00.0000000+01:00"` in the time zone of the machine, dropped the
   custom data of the address, and its CBOR of a text that looks like a timestamp ended in an `InvalidCastException`;
-- of the frozen run of the C# examples: the ETags of 14 versions, the identifications of 51 commits and 8 checkpoints,
+- of the frozen run of the C# examples: the ETags of 14 versions, the identifications of 55 commits and 8 checkpoints,
   6 commit proofs against their checkpoints, the digests and chains of 8 price statements, 2 trust anchors and their QR
-  codes, 5 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
+  codes, 6 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 290 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+- the refusal of 296 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors; among them a price statement whose price status is none, refused as it is read, in the same words
   ([D16](#d16-tariff-id)), a price statement naming its EVSE in another spelling, `DE*GEF*E11` for `DE*GEF*E1*1`,
   and a checkpoint naming two statements of one EVSE and sequence, in two spellings or of two prices, a split view
@@ -846,10 +846,11 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   ([O4](#o4-no-valid-until)), valid for a day, and valid longer; and the holders of a quorum as the trust anchor names
   them (csharp-review 1), two identity keys of Alpha one holder, a key statement naming one of them as Beta's, and a key
   the statement does not name counted for the holder the trust anchor names;
-- all 67 replays of `poi-histories.json`: histories the generator made and signed
+- all 75 replays of `poi-histories.json`: histories the generator made and signed
   with keys whose seeds it gives (the Ed25519 keys of section 6, and Ed25519, Ed448 and ES256 keys of its own), every
   refusal with its control, the document refused but for what it is about, taken in its place: who signs in place of a
-  party without keys and with which usages (csharp-review 13), who states a certificate (15), lastChange of what embeds
+  party without keys and with which usages (csharp-review 13), who states a certificate (15), releases and certificates
+  identified under their owners, the prefix in another case too (S36), lastChange of what embeds
   a changed EVSE (8), old values, also `150000.0` for `150000`, and rebases with and without them (12), a signing key
   expired before the `createdAt`, also besides a valid one of its owner (D8), and one removed in the version before (3,
   in a linear history), new values with a

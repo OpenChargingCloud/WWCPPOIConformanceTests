@@ -26,7 +26,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 
     /// <summary>
     /// WWCP_POI.TS carries a VENDORED COPY of the golden vector files, of the frozen runs and of the documents the
-    /// generator makes (tests/vectors/poi-*.json, tests/vectors/csharp-33447ac, tests/vectors/chargy-fc513cd,
+    /// generator makes (tests/vectors/poi-*.json, tests/vectors/csharp-045e180, tests/vectors/chargy-fc513cd,
     /// tests/vectors/chargy), so that its own test suite (tests/conformance.test.ts) runs against the very same bytes
     /// while staying self-contained.
     ///
