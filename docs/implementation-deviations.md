@@ -59,7 +59,7 @@ WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, was WWCP_POI.TS's,
 elements of a price status, was WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
 define, which SPECIFICATION.md 2 refuses; it is fixed in WWCP_POI.TS `ce88620`, with the elements of a price status
 written as a charging tariff holds them, which SPECIFICATION.md 12.1 says since WWCP_POI `5a72313`
-([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 759 vectors - WWCP_POI3
+([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 773 vectors - WWCP_POI3
 alone signs the 7 signatures of section 6 again from their private seeds, which WWCP_POI.TS verifies only - and agree on
 every one of them (see [What both do alike](#what-both-do-alike)). Among them are the 13 replays of `poi-histories.json`
 WWCP_POI.TS left to WWCP_POI before: the references a version holds, which it checks since `813e1d7`, and the changes of
@@ -843,7 +843,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   ([O4](#o4-no-valid-until)), valid for a day, and valid longer; and the holders of a quorum as the trust anchor names
   them (csharp-review 1), two identity keys of Alpha one holder, a key statement naming one of them as Beta's, and a key
   the statement does not name counted for the holder the trust anchor names;
-- all 53 replays of `poi-histories.json`: histories the generator made and signed
+- all 67 replays of `poi-histories.json`: histories the generator made and signed
   with keys whose seeds it gives (the Ed25519 keys of section 6, and Ed25519, Ed448 and ES256 keys of its own), every
   refusal with its control, the document refused but for what it is about, taken in its place: who signs in place of a
   party without keys and with which usages (csharp-review 13), who states a certificate (15), lastChange of what embeds
@@ -866,7 +866,15 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   power of its model, a model lowered below an EVSE naming it, a meter signing with a method its model does not name
   (19) -, and the changes of a group of an e-mobility provider and of a grid connection point, which it applies since
   `1946013` - a provider renaming, after it removed its group, the operator's group of the same identification (9), and
-  a grid connection point the roaming network operator adds in place of a grid operator without keys (13);
+  a grid connection point the roaming network operator adds in place of a grid operator without keys (13). And the
+  entities a party embeds, which WWCP_POI.TS applies since `1946013` (4.1): a charging tariff offer of a charging station
+  operator signed for tariffs, not for infrastructure, and none covering an EVSE another one covers for the same
+  sessions at the same times (9.4); the EVSE group, the charging tariff offer, the charging station group and the
+  charging pool group of an e-mobility provider, signed by it, not by the operator of its prefix; a grid connection
+  point the roaming network operator hands on in place of a grid operator without keys to a charging station operator,
+  in one change set with a change of it, the change after the handing on its new maintainer's, the one before still the
+  grid operator's (9); the parking garage, space and product of a parking operator, the product without timestamps, and
+  the parking space of a charging station operator, each signed by its own party only;
 - all 48 vectors of the QI-Digital documents of example A14 (`poi-qidigital.json`): the two certificates of
   conformity of the PTB, the declaration of conformity of SAALE and the calibration certificate of EM-LAB, each verified
   against QA at the time of the run, signed with ML-DSA-65 and ES256; the declaration against both certificates it names,
@@ -1007,7 +1015,7 @@ refusal with its control. Every vector below holds both implementations: the 13 
 | 6 | A subject attestation verifies a whole proof | `trust-subject`, `trust-role` ([D4](#d4-subject-attestation), [D5](#d5-attestation-role)) | |
 | 7 | Attestations without `validUntil`, keys checked at a self-chosen `signedAt` | `stationProof-before-signed`, `trust-future` ([D3](#d3-future-attestation)), `trust-no-valid-until`, `trust-a-day`, `trust-too-long`, `trust-key-ended` | |
 | 8 | `lastChange` of what embeds a changed entity | `lastChange-and-old-value`, `lastChange-of-what-embeds-it` (as section 4 said before WWCP_POI `8e6a1fa`, refused); the replay of the run, `replay-QA-both-epochs` | |
-| 9 | A provider's change of an operator's group, by a stale owner record | `owner-of-what-was-removed` | Energy meter templates and groups: there a stale record reaches only changes that applying refuses, in both, so no vector tells the owner rule from it. A grid connection point handed on within a change set: no replay holds it yet. |
+| 9 | A provider's change of an operator's group, by a stale owner record | `owner-of-what-was-removed`; a grid connection point handed on within a change set, `grid-connection-point-handed-on`, `grid-connection-point-handed-on-unsigned-by-its-maintainer`, `grid-connection-point-named-then-handed-on` | Energy meter templates and groups: there a stale record reaches only changes that applying refuses, in both, so no vector tells the owner rule from it. |
 | 10 | What a signed change set says is not what the content holds | `new-value-context`, `new-value-keys-out-of-order`, `new-value-timestamp`; the replay of the run takes the values of its change sets as the content holds them | The written forms WWCP_POI.TS can not tell without the types of the values (an identification in another case, a country, a URL without its scheme, …) end in other afterETags there: refused as well, but for that. |
 | 11 | Epoch 1 checkpoints name their epoch | `checkpoint-epoch` (`poi-refusals.json`); every checkpoint of the run and of `history-epochs` | |
 | 12 | A change without `oldValue` is not checked at all | `old-value-other`, `old-value-decimal` (`150000.0` for `150000`), `old-value-none`, `rebased-with-old-values`, `rebased-without-old-value`, `rebased-add`; `changeSet-rebased-without-old-value` (`poi-refusals.json`) | The rebase itself (`TryRebase`) is a server's. |

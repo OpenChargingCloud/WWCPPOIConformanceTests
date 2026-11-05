@@ -2934,6 +2934,22 @@ const PARTY_CHILDREN = {
     GridConnectionPoint:    [ 'GridOperator',                'gridConnectionPoints' ],
 };
 
+/**
+ * Entities a party embeds, by their type: the types of the parties embedding them, the array of a party holding them,
+ * whether they have timestamps (4, Timestamps: a parking product has none). The groups of e-mobility providers alone: a
+ * group of a charging station operator is not made here but an EVSE group.
+ */
+const EMBEDDED = {
+    ChargingTariffOffer:   [ [ 'ChargingStationOperator', 'EMobilityProvider' ], 'chargingTariffOffers',   true ],
+    ChargingStationGroup:  [ [ 'EMobilityProvider' ],                            'chargingStationGroups',  true ],
+    ChargingPoolGroup:     [ [ 'EMobilityProvider' ],                            'chargingPoolGroups',     true ],
+    ParkingGarage:         [ [ 'ParkingOperator' ],                              'parkingGarages',         true ],
+    ParkingSpace:          [ [ 'ParkingOperator', 'ChargingStationOperator' ],   'parkingSpaces',          true ],
+    ParkingSensor:         [ [ 'ParkingOperator' ],                              'parkingSensors',         true ],
+    ParkingSpaceGroup:     [ [ 'ParkingOperator' ],                              'parkingSpaceGroups',     true ],
+    ParkingProduct:        [ [ 'ParkingOperator' ],                              'parkingProducts',        false ],
+};
+
 /** A copy of JSON as this script holds it, its numbers as written. */
 const copyOf = (value) => Array.isArray(value)                              ? value.map(copyOf)
                         : value !== null && typeof value === 'object'       ? (value[RAW] !== undefined ? { [RAW]: value[RAW] } : Object.fromEntries(Object.entries(value).map(([ key, item ]) => [ key, copyOf(item) ])))
@@ -2960,6 +2976,14 @@ function placeOf(content, change) {
         const party = parentId !== undefined ? byId(content[PARTY_ARRAYS[partyType]], parentId)
                                              : (content[PARTY_ARRAYS[partyType]] ?? []).find(candidate => byId(candidate[property], id) !== undefined);
         return { holder: party, property, entity: byId(party?.[property], id), embedding: [ party ], timestamps: false };
+    }
+
+    // An entity a party embeds: of the party an Add names as its parent, else of the one holding it.
+    if (EMBEDDED[type] !== undefined) {
+        const [ partyTypes, property, timestamps ] = EMBEDDED[type];
+        const party = kind === 'Add' ? (partyTypes.includes(parentType) ? byId(content[PARTY_ARRAYS[parentType]], parentId) : undefined)
+                                     : partyTypes.flatMap(partyType => content[PARTY_ARRAYS[partyType]] ?? []).find(candidate => byId(candidate[property], id) !== undefined);
+        return { holder: party ?? fail(`section 7: no party of the ${type} ${id}`), property, entity: byId(party[property], id), embedding: [ party ], timestamps };
     }
 
     // A group of an e-mobility provider while one has it, else of the charging station operator its identification names,
@@ -3716,6 +3740,106 @@ function signedHistories() {
               'evtaler-removed-merchant', leavingTaler('DE*GEF names no EV Taler merchant', [ merchantRemoved ], [ gefPayments ]), 'evtaler-removed', noMerchant);
     P.then('evtaler-removed-with-the-pool', 'One change set removes the EV Taler merchant of a charging station operator first, then the payment option EVTaler of its charging pool: checked after its last change.', EV_TALER_BASIS,
            'evtaler-removed-merchant-first', leavingTaler('DE*GEF names no EV Taler merchant, Jena Paradies no payment option', [ merchantRemoved, poolNamesNone ], [ gefPayments, gefRenewed ]));
+
+    // ---- The entities a party embeds (4.1), as WWCP_POI3 applies them and WWCP_POI.TS since `1946013`: charging tariff
+    //      offers, signed by a key that may sign tariffs; the groups and offers of an e-mobility provider, its own; a grid
+    //      connection point handed on within a change set, the changes after it its new maintainer's (csharp-review 9);
+    //      the parking data of a parking operator and the parking spaces of a charging station operator, each its own.
+    S('| `tariffs` | charging tariffs, their templates and groups, charging tariff offers |', 'that a charging tariff offer is signed for tariffs');
+    S('| templates, groups and charging tariff offers | the party embedding them (the parent of an `Add`)', 'who owns the groups and offers a party embeds');
+    S('| parking garages, spaces, sensors and products | their parking operator (the parent of an `Add`) |', 'who owns parking data');
+    S('a grid connection point an earlier change handed\non by its new maintainer', 'who owns a grid connection point handed on within a change set');
+    S('| `maintainedBy` of a grid connection point | its grid operator, its maintainer, or an identity key of the RNO |', 'who changes the maintainer of a grid connection point');
+
+    const gefTariffs        = keyOf('Ed25519', seedOf('DE*GEF, tariffs'),         { notAfter: NOT_AFTER, usages: [ 'tariffs' ] });
+    const prkIdentity       = keyOf('Ed25519', seedOf('DE*PRK, identity'));
+    const prkInfrastructure = keyOf('Ed25519', seedOf('DE*PRK, infrastructure'),  { notAfter: NOT_AFTER, usages: [ 'infrastructure' ] });
+
+    parties.take('embedded-setup', parties.prepare({
+        createdAt:    minute(16),
+        description:  'DE*GEF adds a signing key for tariffs, an EVSE and the EVSE group Second of it; the parking operator DE*PRK; connection-1 of DE*NET, by the roaming network operator in its place',
+        changes:      [ update('ChargingStationOperator', 'DE*GEF', 'signingKeys', found(parties, 'ChargingStationOperator', 'DE*GEF', 'signingKeys'), inOrder([ gefRenewed, gefParty, gefPayments, gefTariffs ])),
+                        add('EVSE', { '@id': 'DE*GEF*E1*2', maxPower: 150000 }, [ 'ChargingStation', 'DE*GEF*S1' ]),
+                        add('EVSEGroup', { '@id': 'DE*GEF*EG_2', name: { en: 'Second' }, EVSEIds: [ 'DE*GEF*E1*2' ] }),
+                        add('ParkingOperator', party('DE*PRK', { de: 'Parken in Jena' }, [ prkIdentity ], [ prkInfrastructure ])),
+                        add('GridConnectionPoint', { '@id': 'connection-1' }, [ 'GridOperator', 'DE*NET' ]) ],
+        signers:      [ gefParty, gefRenewed, alphaParty, betaParty, prkIdentity ],
+    }));
+
+    // Charging tariff offers of a charging station operator: signed for tariffs, and no two covering one EVSE for the same
+    // sessions at the same times (9.4).
+    const offering      = (createdAt, description, changes, signers) => parties.prepare({ createdAt, description, changes, signers });
+    const highwayOffer  = add('ChargingTariffOffer', { '@id': 'gef-highway', name: { en: 'Highway, ten off' }, discount: { percent: 10 }, EVSEGroupIds: [ 'DE*GEF*EG_HW' ] },
+                              [ 'ChargingStationOperator', 'DE*GEF' ]);
+    const offerHighway  = () => offering(minute(17), 'DE*GEF offers ten off at the EVSE group Highway', [ highwayOffer ], [ gefTariffs ]);
+
+    parties.keep('offer-highway', offerHighway());
+    P.refused('offer-signed-for-infrastructure', 'A charging station operator adds a charging tariff offer, signed by its signing key for infrastructure alone: an offer needs a key that may sign tariffs.', B('4.1'),
+              'offer-highway-infrastructure', offering(minute(17), 'DE*GEF offers ten off at the EVSE group Highway', [ highwayOffer ], [ gefRenewed ]), 'offer-highway',
+              { reason: "needs a signature by a signing key of the ChargingStationOperator 'DE*GEF' that may sign 'tariffs'!" });
+
+    parties.take('offer-highway', offerHighway());
+    P.accepted('offer-added', 'A charging station operator adds a charging tariff offer at an EVSE group of its own, signed by its signing key for tariffs.', `${B('4.1; 9.4')}`);
+
+    const fiveOff = (EVSEGroupIds) => add('ChargingTariffOffer', { '@id': 'gef-five', name: { en: 'Five off' }, discount: { percent: 5 }, EVSEGroupIds }, [ 'ChargingStationOperator', 'DE*GEF' ]);
+    parties.keep('offer-second', offering(minute(18), 'DE*GEF offers five off at the EVSE group Second', [ fiveOff([ 'DE*GEF*EG_2' ]) ], [ gefTariffs ]));
+    P.refused('offer-overlapping', 'A charging station operator adds a charging tariff offer covering an EVSE another offer of it covers, for the same sessions at the same times.', B('9.4'),
+              'offer-five-at-highway', offering(minute(18), 'DE*GEF offers five off at the EVSE group Highway', [ fiveOff([ 'DE*GEF*EG_HW' ]) ], [ gefTariffs ]), 'offer-second',
+              { reason: "of the operator 'DE*GEF' overlap at the EVSE 'DE*GEF*E1*1'" });
+
+    // The groups and offers of an e-mobility provider: its own, not of the charging station operator of its prefix.
+    const ofTheProvider     = { reason: "needs a signature by a signing key of the EMobilityProvider 'DE-GEF'!" };
+    const favourites        = add('EVSEGroup', { '@id': 'DE*GEF*EG_FAV', name: { en: 'Favourites' }, EVSEIds: [ 'DE*GEF*E1*1' ] }, [ 'EMobilityProvider', 'DE-GEF' ]);
+    const favouritesOffer   = add('ChargingTariffOffer', { '@id': 'emp-favourites', name: { en: 'Favourites, five off' }, discount: { percent: 5 }, EVSEGroupIds: [ 'DE*GEF*EG_FAV' ] },
+                                  [ 'EMobilityProvider', 'DE-GEF' ]);
+    P.then('offer-of-a-provider', 'An e-mobility provider adds an EVSE group of its own and a charging tariff offer at it, signed by its signing key.', B('4.1; 9.3; 9.4'),
+           'offer-provider', offering(minute(18), 'DE-GEF adds its EVSE group Favourites and five off at it', [ favourites, favouritesOffer ], [ empSigning ]));
+    P.refused('offer-of-a-provider-signed-by-the-operator', 'The EVSE group and the charging tariff offer of an e-mobility provider, signed by the signing keys for infrastructure and tariffs of the charging station operator of its prefix: what a provider embeds is its own.', B('4.1; 9.3'),
+              'offer-provider-by-operator', offering(minute(18), 'DE-GEF adds its EVSE group Favourites and five off at it', [ favourites, favouritesOffer ], [ gefRenewed, gefTariffs ]), 'offer-provider',
+              ofTheProvider);
+
+    const providerGroups    = [ add('ChargingStationGroup', { '@id': 'DE*GEF*SG_FAV', name: { en: 'Favourite stations' }, chargingStationIds: [ 'DE*GEF*S1' ] }, [ 'EMobilityProvider', 'DE-GEF' ]),
+                                add('ChargingPoolGroup',    { '@id': 'DE*GEF*PG_FAV', name: { en: 'Favourite pools' },    chargingPoolIds:    [ 'DE*GEF*P1' ] }, [ 'EMobilityProvider', 'DE-GEF' ]) ];
+    P.then('groups-of-a-provider', 'An e-mobility provider adds a charging station group and a charging pool group of its own, signed by its signing key.', B('4.1; 9.3'),
+           'groups-provider', offering(minute(18), 'DE-GEF adds its groups Favourite stations and Favourite pools', providerGroups, [ empSigning ]));
+    P.refused('groups-of-a-provider-signed-by-the-operator', 'The charging station group and charging pool group of an e-mobility provider, signed by the signing key for infrastructure of the charging station operator of its prefix.', B('4.1; 9.3'),
+              'groups-provider-by-operator', offering(minute(18), 'DE-GEF adds its groups Favourite stations and Favourite pools', providerGroups, [ gefRenewed ]), 'groups-provider',
+              ofTheProvider);
+
+    // A grid connection point of a grid operator without keys, handed on to a charging station operator: by the roaming
+    // network operator in place of the grid operator; a change of it after the handing on, in the same change set, is
+    // the new maintainer's, one before it still the grid operator's (csharp-review 9, 13).
+    const handedOn  = update('GridConnectionPoint', 'connection-1', 'maintainedBy', found(parties, 'GridConnectionPoint', 'connection-1', 'maintainedBy'),
+                             { entityType: 'ChargingStationOperator', entityId: 'DE*GEF' });
+    const named     = update('GridConnectionPoint', 'connection-1', 'name', found(parties, 'GridConnectionPoint', 'connection-1', 'name'), { en: 'Jena Paradies' });
+    const pointed   = (description, changes, signers) => parties.prepare({ createdAt: minute(19), description, changes, signers });
+    const POINT_BASIS = `${B('4.1, Within a change set')}; csharp-review 9, 13`;
+
+    P.then('grid-connection-point-handed-on', 'The roaming network operator, in place of a grid operator without keys, hands a grid connection point on to a charging station operator, which names it in the same change set: the change after the handing on is the new maintainer\'s.', POINT_BASIS,
+           'point-handed-on', pointed('DE*NET hands connection-1 on to DE*GEF, which names it', [ handedOn, named ], [ alphaParty, betaParty, gefRenewed ]));
+    P.refused('grid-connection-point-handed-on-unsigned-by-its-maintainer', 'The roaming network operator hands a grid connection point of a grid operator without keys on to a charging station operator and names it, in one change set it alone signs: the name, changed after the handing on, is the new maintainer\'s.', POINT_BASIS,
+              'point-handed-on-by-rno', pointed('DE*NET hands connection-1 on to DE*GEF and names it', [ handedOn, named ], [ alphaParty, betaParty ]), 'point-handed-on',
+              { reason: "Change 1: UpdateProperty of the GridConnectionPoint 'connection-1' ('name') needs a signature by a signing key of the ChargingStationOperator 'DE*GEF'!" });
+    P.then('grid-connection-point-named-then-handed-on', 'The roaming network operator names a grid connection point of a grid operator without keys, then hands it on to a charging station operator, in one change set it alone signs: the change before the handing on is still the grid operator\'s.', POINT_BASIS,
+           'point-named-first', pointed('DE*NET names connection-1, then hands it on to DE*GEF', [ named, handedOn ], [ alphaParty, betaParty ]));
+
+    // Parking data: a parking operator's own, and a parking space of a charging station operator its own.
+    const parking   = (description, changes, signers) => parties.prepare({ createdAt: minute(20), description, changes, signers });
+    const garage    = [ add('ParkingGarage',  { '@id': 'garage-1', name: { de: 'Parkhaus Paradies' } }, [ 'ParkingOperator', 'DE*PRK' ]),
+                        add('ParkingSpace',   { '@id': 'space-1', parkingGarageId: 'garage-1' },         [ 'ParkingOperator', 'DE*PRK' ]),
+                        add('ParkingProduct', { '@id': 'P1', minDuration: 0 },                           [ 'ParkingOperator', 'DE*PRK' ]) ];
+    const gefSpace  = [ add('ParkingSpace', { '@id': 'gef-space-1' }, [ 'ChargingStationOperator', 'DE*GEF' ]) ];
+
+    P.then('parking-data-added', 'A parking operator adds a parking garage, a parking space in it and a parking product, signed by its signing key for infrastructure; the parking product has no timestamps.', B('4; 4.1'),
+           'parking-added', parking('DE*PRK adds the garage Parkhaus Paradies, a space in it and the product P1', garage, [ prkInfrastructure ]));
+    P.refused('parking-data-signed-by-another-party', 'The parking garage, space and product of a parking operator, signed by the signing key for infrastructure of a charging station operator.', B('4.1'),
+              'parking-added-by-gef', parking('DE*PRK adds the garage Parkhaus Paradies, a space in it and the product P1', garage, [ gefRenewed ]), 'parking-added',
+              { reason: "needs a signature by a signing key of the ParkingOperator 'DE*PRK'!" });
+    P.then('parking-space-of-an-operator', 'A charging station operator adds a parking space of its own, signed by its signing key for infrastructure.', B('4.1'),
+           'gef-space', parking('DE*GEF adds the parking space gef-space-1', gefSpace, [ gefRenewed ]));
+    P.refused('parking-space-of-an-operator-signed-by-a-parking-operator', 'The parking space of a charging station operator, signed by the signing key for infrastructure of a parking operator.', B('4.1'),
+              'gef-space-by-prk', parking('DE*GEF adds the parking space gef-space-1', gefSpace, [ prkInfrastructure ]), 'gef-space',
+              { reason: "needs a signature by a signing key of the ChargingStationOperator 'DE*GEF'!" });
 
 
     // =================================================================================================================

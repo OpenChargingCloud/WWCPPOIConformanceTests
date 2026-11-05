@@ -69,7 +69,23 @@
         "evtaler-pool-first": "{\"@id\":\"f7541812358aca19ec51f287b57b6af16f3a36844b009cef0c7db16ae906e052\",\"changeSet\":{\"@id\":\"4feaad2184f8ae4a7676c3a4467088632e3c4b99f096f20383079d01eb31a91c\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"345fef6a0487dea2f34fcb52ecc8bc214b353137913f43dac79e65e314c66a37\"],[\"cbor\",\"sha256\",\"hex\",\"86e780e2300b96e1de4cb7721fa6804a31ac152984873c1f2d2f2481a608201a\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"30da6bb43f7b29a531eea30f07b2007c6b9ed7f57f65399d1a62a7cd979a93c1\"],[\"cbor\",\"sha256\",\"hex\",\"399bd88ed8251cd7bed40c66e0b4c8279d829484670ef2e48f839b5904d7dab9\"]],\"changes\":[{\"entityId\":\"DE*GEF*P1\",\"entityType\":\"ChargingPool\",\"kind\":\"UpdateProperty\",\"newValue\":[\"EVTaler\"],\"oldValue\":null,\"propertyName\":\"paymentOptions\"},{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"exchanges\":[{\"baseURL\":\"https://exchange.example.eu/\",\"currency\":\"EUR\",\"masterPublicKey\":\"F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0\",\"name\":{\"en\":\"Example Exchange\"}}],\"merchantBaseURL\":\"https://taler.gef.example/instances/de-gef/\",\"merchantPublicKey\":\"ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G\"},\"oldValue\":null,\"propertyName\":\"evTaler\"}],\"createdAt\":\"2026-10-18T08:14:00.000Z\",\"description\":{\"en\":\"Jena Paradies names the payment option EVTaler, DE*GEF its EV Taler merchant\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"h2P9QXkBTrzaNeXFQRakGsJ7iyKHlPTdeqgg11yZUOIC/C5Qf0nSF0rqQcFePAXuAroiMgbTgQRbdDc2gDeRDg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"9cf0d0b95292e202b5c930b3ec1f2879c5182ef47828725f8196e054ec68a8c6\",\"value\":\"ZKNMxECmgayTwlwW6LCGG/JokSZzHM9NRZOJIKhbixQ+P7VdHWvc5k2G3VER5jysHPksuu7xyvEQDHJrdJVZDQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"345fef6a0487dea2f34fcb52ecc8bc214b353137913f43dac79e65e314c66a37\"],[\"cbor\",\"sha256\",\"hex\",\"86e780e2300b96e1de4cb7721fa6804a31ac152984873c1f2d2f2481a608201a\"],[\"effectiveTree\",\"sha256\",\"hex\",\"5fb36fd2ba24cc8fff1d165c9047ca8c9f9c965a377162b594bc1a930e1f5407\"]],\"parentIds\":[\"c4159c6c7f80ada1a955dc27b4c136091acb15f8b172de503cda02259aa6daf5\"],\"revision\":12,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:14:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"Ys7/OmonSis4r++E701GmSNyr6GptwwR+OD586SxAIyK19ijf9c8edzPDdOFU9GuqiFQvCGOx5gpthI/Csd/Bw==\"}]}",
         "evtaler-removed": "{\"@id\":\"58a2cd29568b3921e1817d87dfd1498ef5cc67efb7b5d3df8d5729ae92659359\",\"changeSet\":{\"@id\":\"33073cb3bd98faf6b72d82fbf5b2a3c69bad1da5baa062f67b64011c0adee14d\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"65ba67419217d8131ea48b36fbd3a93b9cfedfc2267fef694ddda6f457375551\"],[\"cbor\",\"sha256\",\"hex\",\"621fc1692bb5d9b198b0259d42b02048e3ec3981cf0e7b6a7a59f62df9668e9e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"345fef6a0487dea2f34fcb52ecc8bc214b353137913f43dac79e65e314c66a37\"],[\"cbor\",\"sha256\",\"hex\",\"86e780e2300b96e1de4cb7721fa6804a31ac152984873c1f2d2f2481a608201a\"]],\"changes\":[{\"entityId\":\"DE*GEF*P1\",\"entityType\":\"ChargingPool\",\"kind\":\"RemoveProperty\",\"oldValue\":[\"EVTaler\"],\"propertyName\":\"paymentOptions\"},{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"RemoveProperty\",\"oldValue\":{\"exchanges\":[{\"baseURL\":\"https://exchange.example.eu/\",\"currency\":\"EUR\",\"masterPublicKey\":\"F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0\",\"name\":{\"en\":\"Example Exchange\"}}],\"merchantBaseURL\":\"https://taler.gef.example/instances/de-gef/\",\"merchantPublicKey\":\"ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G\"},\"propertyName\":\"evTaler\"}],\"createdAt\":\"2026-10-18T08:15:00.000Z\",\"description\":{\"en\":\"Jena Paradies names no payment option, DE*GEF no EV Taler merchant\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"fr26OiS9mzOv3o1y3cPgNoE1ALQF5w4u2SZTFPE6XLAVQxN4cgqOqA9V+ftQYHTStZVbgloyCbcrimN0JGHDBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"9cf0d0b95292e202b5c930b3ec1f2879c5182ef47828725f8196e054ec68a8c6\",\"value\":\"TBpYXk7Mile9BR/j+9UN3Y/WJoeQ29LtzuFl88B1SRqcTAA1uOeRFHmO2T829EOFPezHznpsx6GEbAxupri1BQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"65ba67419217d8131ea48b36fbd3a93b9cfedfc2267fef694ddda6f457375551\"],[\"cbor\",\"sha256\",\"hex\",\"621fc1692bb5d9b198b0259d42b02048e3ec3981cf0e7b6a7a59f62df9668e9e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"b0db34303ee6c0f926e588917ddf077789c1a033df9266fd25098e2ddb4a71d2\"]],\"parentIds\":[\"047d9674985b01b570b82271a3b2ec97dcd6d982479dfde280705667f0fadb0e\"],\"revision\":13,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:15:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"LSO3FXQO6jMm9oBZlSD3sTkHMojqys292jkL09kcrkhWL0m3OGUiSQUaiTKsBllmQvvUPraA6qKTqfqTrJ0zBQ==\"}]}",
         "evtaler-removed-merchant": "{\"@id\":\"29056d745eb3eebdd953293c0a7107cd60dfdd227bd9af6d27b97122e4b79756\",\"changeSet\":{\"@id\":\"35d9ec4f427c589e25d8d4ed150460da760401385790cf5a31c659bf72518bcd\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"ba5855c1c787581825a3d48fee25b2706db8f7d5081179866d3215114b52007a\"],[\"cbor\",\"sha256\",\"hex\",\"8e04495e47d4416ced480b88be315e32f89919fe2eb4c4c3acef9e4b150496a1\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"345fef6a0487dea2f34fcb52ecc8bc214b353137913f43dac79e65e314c66a37\"],[\"cbor\",\"sha256\",\"hex\",\"86e780e2300b96e1de4cb7721fa6804a31ac152984873c1f2d2f2481a608201a\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"RemoveProperty\",\"oldValue\":{\"exchanges\":[{\"baseURL\":\"https://exchange.example.eu/\",\"currency\":\"EUR\",\"masterPublicKey\":\"F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0\",\"name\":{\"en\":\"Example Exchange\"}}],\"merchantBaseURL\":\"https://taler.gef.example/instances/de-gef/\",\"merchantPublicKey\":\"ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G\"},\"propertyName\":\"evTaler\"}],\"createdAt\":\"2026-10-18T08:15:00.000Z\",\"description\":{\"en\":\"DE*GEF names no EV Taler merchant\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"9cf0d0b95292e202b5c930b3ec1f2879c5182ef47828725f8196e054ec68a8c6\",\"value\":\"cn2eHUvOTnlmnba8dA8QkcM8Zye3RMkHD8S79vi5vzBYIZSiTdS3mGH42CAePjlQIuSmI8rKI6PiNIZ8dGSzBg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"ba5855c1c787581825a3d48fee25b2706db8f7d5081179866d3215114b52007a\"],[\"cbor\",\"sha256\",\"hex\",\"8e04495e47d4416ced480b88be315e32f89919fe2eb4c4c3acef9e4b150496a1\"],[\"effectiveTree\",\"sha256\",\"hex\",\"376f4ae571edc87d0555bd3bcf76f358ed51839c6f4b6e9021fd6b8bb377727c\"]],\"parentIds\":[\"047d9674985b01b570b82271a3b2ec97dcd6d982479dfde280705667f0fadb0e\"],\"revision\":13,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:15:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"CRCRZ9Fr2+CLVFaN8SFSzQAGQ0EdFx/dJ7i0iastxorxprK5u6cxfik3KG21wQ2M5ru9syQiwrg5caMIJCj8Dg==\"}]}",
-        "evtaler-removed-merchant-first": "{\"@id\":\"17be98e0c571f9a772347dd6fd9909ad89e1a8c07036384efb8a1583c113b8fb\",\"changeSet\":{\"@id\":\"97a86b1fb86f198d17219bbbe2aea42b527e8f280973a6a4bf3e315a09534eb1\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"65ba67419217d8131ea48b36fbd3a93b9cfedfc2267fef694ddda6f457375551\"],[\"cbor\",\"sha256\",\"hex\",\"621fc1692bb5d9b198b0259d42b02048e3ec3981cf0e7b6a7a59f62df9668e9e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"345fef6a0487dea2f34fcb52ecc8bc214b353137913f43dac79e65e314c66a37\"],[\"cbor\",\"sha256\",\"hex\",\"86e780e2300b96e1de4cb7721fa6804a31ac152984873c1f2d2f2481a608201a\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"RemoveProperty\",\"oldValue\":{\"exchanges\":[{\"baseURL\":\"https://exchange.example.eu/\",\"currency\":\"EUR\",\"masterPublicKey\":\"F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0\",\"name\":{\"en\":\"Example Exchange\"}}],\"merchantBaseURL\":\"https://taler.gef.example/instances/de-gef/\",\"merchantPublicKey\":\"ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G\"},\"propertyName\":\"evTaler\"},{\"entityId\":\"DE*GEF*P1\",\"entityType\":\"ChargingPool\",\"kind\":\"RemoveProperty\",\"oldValue\":[\"EVTaler\"],\"propertyName\":\"paymentOptions\"}],\"createdAt\":\"2026-10-18T08:15:00.000Z\",\"description\":{\"en\":\"DE*GEF names no EV Taler merchant, Jena Paradies no payment option\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"9cf0d0b95292e202b5c930b3ec1f2879c5182ef47828725f8196e054ec68a8c6\",\"value\":\"sfgzMLe0K8NakeUKPm6vSn8Dtj3df8exSHCHV/VlVZ1Zbs4xcSMd7PhUdfUILQPNnFjKjs36tYFlRHEY07m4BA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"nl+9KzV+HaOYpc95Jor8wBIp9qblFWA0Ii48sVeWtGH9rZyrdGV0uWgh6Z0BKa30j+kB/zQ9shviMXR4RgOeDA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"65ba67419217d8131ea48b36fbd3a93b9cfedfc2267fef694ddda6f457375551\"],[\"cbor\",\"sha256\",\"hex\",\"621fc1692bb5d9b198b0259d42b02048e3ec3981cf0e7b6a7a59f62df9668e9e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"b0db34303ee6c0f926e588917ddf077789c1a033df9266fd25098e2ddb4a71d2\"]],\"parentIds\":[\"047d9674985b01b570b82271a3b2ec97dcd6d982479dfde280705667f0fadb0e\"],\"revision\":13,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:15:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"x6b/yJXibLQhHDbAdKDjJfXcFY3irYTpzARZY4jiwd879e/5ysO3yhOupb6RGjyTtxGDtSBq8VhAawbTJcn2CA==\"}]}"
+        "evtaler-removed-merchant-first": "{\"@id\":\"17be98e0c571f9a772347dd6fd9909ad89e1a8c07036384efb8a1583c113b8fb\",\"changeSet\":{\"@id\":\"97a86b1fb86f198d17219bbbe2aea42b527e8f280973a6a4bf3e315a09534eb1\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"65ba67419217d8131ea48b36fbd3a93b9cfedfc2267fef694ddda6f457375551\"],[\"cbor\",\"sha256\",\"hex\",\"621fc1692bb5d9b198b0259d42b02048e3ec3981cf0e7b6a7a59f62df9668e9e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"345fef6a0487dea2f34fcb52ecc8bc214b353137913f43dac79e65e314c66a37\"],[\"cbor\",\"sha256\",\"hex\",\"86e780e2300b96e1de4cb7721fa6804a31ac152984873c1f2d2f2481a608201a\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"RemoveProperty\",\"oldValue\":{\"exchanges\":[{\"baseURL\":\"https://exchange.example.eu/\",\"currency\":\"EUR\",\"masterPublicKey\":\"F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0\",\"name\":{\"en\":\"Example Exchange\"}}],\"merchantBaseURL\":\"https://taler.gef.example/instances/de-gef/\",\"merchantPublicKey\":\"ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G\"},\"propertyName\":\"evTaler\"},{\"entityId\":\"DE*GEF*P1\",\"entityType\":\"ChargingPool\",\"kind\":\"RemoveProperty\",\"oldValue\":[\"EVTaler\"],\"propertyName\":\"paymentOptions\"}],\"createdAt\":\"2026-10-18T08:15:00.000Z\",\"description\":{\"en\":\"DE*GEF names no EV Taler merchant, Jena Paradies no payment option\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"9cf0d0b95292e202b5c930b3ec1f2879c5182ef47828725f8196e054ec68a8c6\",\"value\":\"sfgzMLe0K8NakeUKPm6vSn8Dtj3df8exSHCHV/VlVZ1Zbs4xcSMd7PhUdfUILQPNnFjKjs36tYFlRHEY07m4BA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"nl+9KzV+HaOYpc95Jor8wBIp9qblFWA0Ii48sVeWtGH9rZyrdGV0uWgh6Z0BKa30j+kB/zQ9shviMXR4RgOeDA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"65ba67419217d8131ea48b36fbd3a93b9cfedfc2267fef694ddda6f457375551\"],[\"cbor\",\"sha256\",\"hex\",\"621fc1692bb5d9b198b0259d42b02048e3ec3981cf0e7b6a7a59f62df9668e9e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"b0db34303ee6c0f926e588917ddf077789c1a033df9266fd25098e2ddb4a71d2\"]],\"parentIds\":[\"047d9674985b01b570b82271a3b2ec97dcd6d982479dfde280705667f0fadb0e\"],\"revision\":13,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:15:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"x6b/yJXibLQhHDbAdKDjJfXcFY3irYTpzARZY4jiwd879e/5ysO3yhOupb6RGjyTtxGDtSBq8VhAawbTJcn2CA==\"}]}",
+        "embedded-setup": "{\"@id\":\"64dd5e9205b9cb649fcc240c3f0d6660a939e8df872f577ebb43d5f98cd6cd4e\",\"changeSet\":{\"@id\":\"10082f1120caad5b2fc8d02e25d9ca3f4f1cd2c9c38ec9fa701c23d5a26b9cbe\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"8414f634fc0d8198a21e968617311a0eda2e54e8f8d8e43c682d4addf3e00248\"],[\"cbor\",\"sha256\",\"hex\",\"673ecd806d1ae4d972fe07caffb2cc6748084948cc2bdf09aa298a34429bd7b5\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"345fef6a0487dea2f34fcb52ecc8bc214b353137913f43dac79e65e314c66a37\"],[\"cbor\",\"sha256\",\"hex\",\"86e780e2300b96e1de4cb7721fa6804a31ac152984873c1f2d2f2481a608201a\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"295ef94f7efde369b92862bc347de258c1aa9165934e6cbccdf7a83c6ecf0303\",\"key\":\"owEBIAYhWCBO2ULoaXMjS4G6KVfmUm8UFYL96fKckzFTcrWENHa4tg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"tariffs\"]},{\"@id\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"key\":\"owEBIAYhWCCvNCT++wWK1J4k8ouo/R1OpRhF1HCT9Cwnnhgqh92qPg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},{\"@id\":\"9cf0d0b95292e202b5c930b3ec1f2879c5182ef47828725f8196e054ec68a8c6\",\"key\":\"owEBIAYhWCDxdh3Ux+scKJbJcprCDc2bDkFLLI1YIrqLrwA0DHWKuA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"payments\"]},{\"@id\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"key\":\"owEBIAYhWCAJ4NHtxsgBzBV4RkKxGHU90crMOaxfTlRmg5SdbsjkPw==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"infrastructure\"]}],\"oldValue\":[{\"@id\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"key\":\"owEBIAYhWCCvNCT++wWK1J4k8ouo/R1OpRhF1HCT9Cwnnhgqh92qPg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},{\"@id\":\"9cf0d0b95292e202b5c930b3ec1f2879c5182ef47828725f8196e054ec68a8c6\",\"key\":\"owEBIAYhWCDxdh3Ux+scKJbJcprCDc2bDkFLLI1YIrqLrwA0DHWKuA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"payments\"]},{\"@id\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"key\":\"owEBIAYhWCAJ4NHtxsgBzBV4RkKxGHU90crMOaxfTlRmg5SdbsjkPw==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"infrastructure\"]}],\"propertyName\":\"signingKeys\"},{\"entityId\":\"DE*GEF*E1*2\",\"entityType\":\"EVSE\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*E1*2\",\"maxPower\":150000},\"parentEntityId\":\"DE*GEF*S1\",\"parentEntityType\":\"ChargingStation\"},{\"entityId\":\"DE*GEF*EG_2\",\"entityType\":\"EVSEGroup\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*EG_2\",\"EVSEIds\":[\"DE*GEF*E1*2\"],\"name\":{\"en\":\"Second\"}}},{\"entityId\":\"DE*PRK\",\"entityType\":\"ParkingOperator\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*PRK\",\"identityKeys\":[{\"@id\":\"4c8fcbe6f9e9ec3a996a26a08dbc4bd12759bff2fa51042fe5e23e4517564baa\",\"key\":\"owEBIAYhWCDBqphTKfwsn4jIh57P5DiX+cgL/jU97U5pouU7rimI7w==\"}],\"name\":{\"de\":\"Parken in Jena\"},\"signingKeys\":[{\"@id\":\"c71548fbf74859f67b8ec601eeb8712e91d4d575ea0e30eaa612808987394dce\",\"key\":\"owEBIAYhWCDmT+SqVOFUFkL1+CJlIjnO7wIWGAY1xUEdBpKiryDpVA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"infrastructure\"]}]}},{\"entityId\":\"connection-1\",\"entityType\":\"GridConnectionPoint\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"connection-1\"},\"parentEntityId\":\"DE*NET\",\"parentEntityType\":\"GridOperator\"}],\"createdAt\":\"2026-10-18T08:16:00.000Z\",\"description\":{\"en\":\"DE*GEF adds a signing key for tariffs, an EVSE and the EVSE group Second of it; the parking operator DE*PRK; connection-1 of DE*NET, by the roaming network operator in its place\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"JP+yOAHk7IoUQd9taDJsI3Ay3lm/Np9RqxYYdJXBy+xxokeNsaQtocn55D7sMRz+bKC3kGeWjcnEtwmrbFn6CA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"Du+ebr99ooqsReG5s1QXy2OWsygctnnxGWj/YJsqFS3TLP75r0wK3eU2VbkfFQgFn+qnh654SJodn1en3OT+BA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"21ulUFOfC5aecV2o2rrmTkhDTnIsaZQyiQDJCYHLCYkEcVtpxSGzK9KJFo4DMBMZe1F8yvi4inI/7lq+qPS8AA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"b+udDEbIt9xArjTlBQB567noyyJ5XO8VmzlLmLi9H58S2PU3GwU8ER/54nH+Bys+nScU9pN/3fsnKjLabUReCg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"4c8fcbe6f9e9ec3a996a26a08dbc4bd12759bff2fa51042fe5e23e4517564baa\",\"value\":\"p/JnzOMHfWN5/CND3tBZq9W3IR8eBSBI9BA4Dre3E6mrpIvKtC9jAgx748OfGs3zoIEjHG3YWdNIDvig1AoiDQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"8414f634fc0d8198a21e968617311a0eda2e54e8f8d8e43c682d4addf3e00248\"],[\"cbor\",\"sha256\",\"hex\",\"673ecd806d1ae4d972fe07caffb2cc6748084948cc2bdf09aa298a34429bd7b5\"],[\"effectiveTree\",\"sha256\",\"hex\",\"a4c89286e8e87dba025f9f026999f63551bbb34b0401ee6cc54eddc1d27d835c\"]],\"parentIds\":[\"047d9674985b01b570b82271a3b2ec97dcd6d982479dfde280705667f0fadb0e\"],\"revision\":13,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:16:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"uhI0w2jAuJyNICdtGhZr5jAOENmcgefN3o4Xda6XTXOqSDJEt/LuWzr8HLuHWW1sjnoS48/7h39dN/XLPyw6Bg==\"}]}",
+        "offer-highway": "{\"@id\":\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\",\"changeSet\":{\"@id\":\"ac2e8ce468038ef84ae60f5dac0206a3858fd9e13c27e446bebba7385a4f7e4a\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"8414f634fc0d8198a21e968617311a0eda2e54e8f8d8e43c682d4addf3e00248\"],[\"cbor\",\"sha256\",\"hex\",\"673ecd806d1ae4d972fe07caffb2cc6748084948cc2bdf09aa298a34429bd7b5\"]],\"changes\":[{\"entityId\":\"gef-highway\",\"entityType\":\"ChargingTariffOffer\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"gef-highway\",\"EVSEGroupIds\":[\"DE*GEF*EG_HW\"],\"discount\":{\"percent\":10},\"name\":{\"en\":\"Highway, ten off\"}},\"parentEntityId\":\"DE*GEF\",\"parentEntityType\":\"ChargingStationOperator\"}],\"createdAt\":\"2026-10-18T08:17:00.000Z\",\"description\":{\"en\":\"DE*GEF offers ten off at the EVSE group Highway\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"295ef94f7efde369b92862bc347de258c1aa9165934e6cbccdf7a83c6ecf0303\",\"value\":\"3B95LJYEhybAjWF5QqeTjmnK7PjVZ380nFoizi9zl6Y8QSnqD1ghVHGxM4U3haBWBILhGQTw6dAPowI4dD6FBA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"ca3f7c067ac39cfb197c71e95a104f67bf7a036afb1371300155927eb10439d2\"]],\"parentIds\":[\"64dd5e9205b9cb649fcc240c3f0d6660a939e8df872f577ebb43d5f98cd6cd4e\"],\"revision\":14,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:17:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"gYlFtlZXRbyYZVZ6MDlUrmEWvfW0aO4nymD6K3aaanUz80kzdQlG5VHWTMUFzPgN0JBO9JXd5qEs6YG99FLbDw==\"}]}",
+        "offer-highway-infrastructure": "{\"@id\":\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\",\"changeSet\":{\"@id\":\"ac2e8ce468038ef84ae60f5dac0206a3858fd9e13c27e446bebba7385a4f7e4a\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"8414f634fc0d8198a21e968617311a0eda2e54e8f8d8e43c682d4addf3e00248\"],[\"cbor\",\"sha256\",\"hex\",\"673ecd806d1ae4d972fe07caffb2cc6748084948cc2bdf09aa298a34429bd7b5\"]],\"changes\":[{\"entityId\":\"gef-highway\",\"entityType\":\"ChargingTariffOffer\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"gef-highway\",\"EVSEGroupIds\":[\"DE*GEF*EG_HW\"],\"discount\":{\"percent\":10},\"name\":{\"en\":\"Highway, ten off\"}},\"parentEntityId\":\"DE*GEF\",\"parentEntityType\":\"ChargingStationOperator\"}],\"createdAt\":\"2026-10-18T08:17:00.000Z\",\"description\":{\"en\":\"DE*GEF offers ten off at the EVSE group Highway\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"Ham+sqaVvoQAJVsSb7aXHnuahDhjO8Db+3u1J/gbn4P6ZJVX39+HN5TpIuY5UmggLK6pPFxxeBaDlCp4mLAECA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"ca3f7c067ac39cfb197c71e95a104f67bf7a036afb1371300155927eb10439d2\"]],\"parentIds\":[\"64dd5e9205b9cb649fcc240c3f0d6660a939e8df872f577ebb43d5f98cd6cd4e\"],\"revision\":14,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:17:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"rB2zpa+Uo5BB0Ez5xD0We+o+lNqxkMdXJaKb+ZhAvDTWkWjzp2QcHEKWICLljWK6yoZKtF9on1cg/sRPOVL1AA==\"}]}",
+        "offer-second": "{\"@id\":\"5e26fa4cc5b2b14d54d43b2f06048d96daf674b1ad96d2813a6f0bd88f20d539\",\"changeSet\":{\"@id\":\"2754fe301294af4eddefb41a96aa44e86e2e6f1b2749d49c610c1cb2356645f3\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"e6d093cf2cc6da97cc7be98f05c8d914eb48ea0b73378481c783f29c30d73c56\"],[\"cbor\",\"sha256\",\"hex\",\"92e4c8b8ccf63e30f869cff80d4a48e31585cb69f3923ede3f309b5690eea3a9\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"changes\":[{\"entityId\":\"gef-five\",\"entityType\":\"ChargingTariffOffer\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"gef-five\",\"EVSEGroupIds\":[\"DE*GEF*EG_2\"],\"discount\":{\"percent\":5},\"name\":{\"en\":\"Five off\"}},\"parentEntityId\":\"DE*GEF\",\"parentEntityType\":\"ChargingStationOperator\"}],\"createdAt\":\"2026-10-18T08:18:00.000Z\",\"description\":{\"en\":\"DE*GEF offers five off at the EVSE group Second\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"295ef94f7efde369b92862bc347de258c1aa9165934e6cbccdf7a83c6ecf0303\",\"value\":\"ID4W2I/TAE/YniezfcBZPZHvNHr+ctd1ZQoHz41Nh/sTYw5ut8zi5HVCYd4kWVkrwrW721j7wldH/t/p9xZvCQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"e6d093cf2cc6da97cc7be98f05c8d914eb48ea0b73378481c783f29c30d73c56\"],[\"cbor\",\"sha256\",\"hex\",\"92e4c8b8ccf63e30f869cff80d4a48e31585cb69f3923ede3f309b5690eea3a9\"],[\"effectiveTree\",\"sha256\",\"hex\",\"7f902b1b6d6c87a373d4a48c6f381fe0ccccf24fbbf11efcf3ffc6b965d73aa7\"]],\"parentIds\":[\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:18:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"ebVSdoUR0aSDfM1KxVTVrdz07mAOip3/UtufvPCc8YhIVIh1xXNEOqutabjkLaDh6hBY0c5Ee1FMNH9OkzTmBQ==\"}]}",
+        "offer-five-at-highway": "{\"@id\":\"a6ed0de71601b30d4f4bd7816eba131f6f7744024d83f2104762b864fa61e3a9\",\"changeSet\":{\"@id\":\"6363c383e5fc68f190350f3a4b52d20bf56b46a8bf5b0351e1c2fbc99cb6322a\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"e959dd2d21f5b28d3aa2a3e17844e2c5813e6b19e0afac69217fe2c47b8a5ff0\"],[\"cbor\",\"sha256\",\"hex\",\"a6e7737042451f61e6d9fc0a8ee59fe7c91a82f94c14b93c3e6d4a726c76fe8d\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"changes\":[{\"entityId\":\"gef-five\",\"entityType\":\"ChargingTariffOffer\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"gef-five\",\"EVSEGroupIds\":[\"DE*GEF*EG_HW\"],\"discount\":{\"percent\":5},\"name\":{\"en\":\"Five off\"}},\"parentEntityId\":\"DE*GEF\",\"parentEntityType\":\"ChargingStationOperator\"}],\"createdAt\":\"2026-10-18T08:18:00.000Z\",\"description\":{\"en\":\"DE*GEF offers five off at the EVSE group Highway\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"295ef94f7efde369b92862bc347de258c1aa9165934e6cbccdf7a83c6ecf0303\",\"value\":\"a71RKVYr0iBtzNVjPTMStkybOsuyx20MVC+GSejRWQ6D1BEgs/n4PKmQCqMfG2z6AZE2hzWlIZrdioIeQZ5mAQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"e959dd2d21f5b28d3aa2a3e17844e2c5813e6b19e0afac69217fe2c47b8a5ff0\"],[\"cbor\",\"sha256\",\"hex\",\"a6e7737042451f61e6d9fc0a8ee59fe7c91a82f94c14b93c3e6d4a726c76fe8d\"],[\"effectiveTree\",\"sha256\",\"hex\",\"dc9b5a2a3f3656a20f2d32277811884545ecca2fee8b7b52f1a93bcdffad168f\"]],\"parentIds\":[\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:18:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"9qLJyPQAcPbZJNjCPXbmLx2osCokrpcc8HNMvooSB+Z4UVO0g3Rs5vTwRTJaBP3WRBRoPyCQLQi+3A+tMFfXAA==\"}]}",
+        "offer-provider": "{\"@id\":\"af49b2f0c0287fda27a7f8fc570fe8df9758a001d60c1e6327243c11740defcb\",\"changeSet\":{\"@id\":\"53b109b3eb9183bf9e9e1fbc43c46cf91d2ecf330fb0933d508f9b32c93eb716\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"b07fb0da05843e7af72efe780f6566f0bbcfff2d0de04a9bdeccbaa25727fb4e\"],[\"cbor\",\"sha256\",\"hex\",\"e010b1c888392b32785ddd9842dd4561acb9890b99b03e882b0928665085ac8b\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"changes\":[{\"entityId\":\"DE*GEF*EG_FAV\",\"entityType\":\"EVSEGroup\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*EG_FAV\",\"EVSEIds\":[\"DE*GEF*E1*1\"],\"name\":{\"en\":\"Favourites\"}},\"parentEntityId\":\"DE-GEF\",\"parentEntityType\":\"EMobilityProvider\"},{\"entityId\":\"emp-favourites\",\"entityType\":\"ChargingTariffOffer\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"emp-favourites\",\"EVSEGroupIds\":[\"DE*GEF*EG_FAV\"],\"discount\":{\"percent\":5},\"name\":{\"en\":\"Favourites, five off\"}},\"parentEntityId\":\"DE-GEF\",\"parentEntityType\":\"EMobilityProvider\"}],\"createdAt\":\"2026-10-18T08:18:00.000Z\",\"description\":{\"en\":\"DE-GEF adds its EVSE group Favourites and five off at it\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1e3976ee68569525ac4976c37529eabbb5cb400f693a423b50f60e84e44d2fa1\",\"value\":\"ZcB8tmyogYUYYUp4aauJP5uedCzprQPsLQzKGT0TrO6LS6TaJLQyAAt/Tk+rA36iwhb2rIJqYaizDvIOzHceBA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"b07fb0da05843e7af72efe780f6566f0bbcfff2d0de04a9bdeccbaa25727fb4e\"],[\"cbor\",\"sha256\",\"hex\",\"e010b1c888392b32785ddd9842dd4561acb9890b99b03e882b0928665085ac8b\"],[\"effectiveTree\",\"sha256\",\"hex\",\"54446c863711d516ef22c22a52b0f052f7be6c3c3f7ca9ed5f9436c5167ab07e\"]],\"parentIds\":[\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:18:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"vc/7JHuCjRTVkv9Ht+Kqpj4m6GVE34k7ZBbZe58ZATjrO06j5pU4IEW6azdFgZlkVXgVGkTvNFgla+CRc9piBQ==\"}]}",
+        "offer-provider-by-operator": "{\"@id\":\"af49b2f0c0287fda27a7f8fc570fe8df9758a001d60c1e6327243c11740defcb\",\"changeSet\":{\"@id\":\"53b109b3eb9183bf9e9e1fbc43c46cf91d2ecf330fb0933d508f9b32c93eb716\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"b07fb0da05843e7af72efe780f6566f0bbcfff2d0de04a9bdeccbaa25727fb4e\"],[\"cbor\",\"sha256\",\"hex\",\"e010b1c888392b32785ddd9842dd4561acb9890b99b03e882b0928665085ac8b\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"changes\":[{\"entityId\":\"DE*GEF*EG_FAV\",\"entityType\":\"EVSEGroup\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*EG_FAV\",\"EVSEIds\":[\"DE*GEF*E1*1\"],\"name\":{\"en\":\"Favourites\"}},\"parentEntityId\":\"DE-GEF\",\"parentEntityType\":\"EMobilityProvider\"},{\"entityId\":\"emp-favourites\",\"entityType\":\"ChargingTariffOffer\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"emp-favourites\",\"EVSEGroupIds\":[\"DE*GEF*EG_FAV\"],\"discount\":{\"percent\":5},\"name\":{\"en\":\"Favourites, five off\"}},\"parentEntityId\":\"DE-GEF\",\"parentEntityType\":\"EMobilityProvider\"}],\"createdAt\":\"2026-10-18T08:18:00.000Z\",\"description\":{\"en\":\"DE-GEF adds its EVSE group Favourites and five off at it\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"s4cPRdZJENcj0VT6jW+n0xphFmst9uNi4diIPJvLx6ATrF6H+N1EH8APzcylwWzwE0xUxSZF8XYDqkHofwNNDA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"295ef94f7efde369b92862bc347de258c1aa9165934e6cbccdf7a83c6ecf0303\",\"value\":\"UuiHxZX3+flZj59Liq1c1cgjPocD5hgAmsuD1C29aHY3ldMMTBDTAJVLnz/eAvWNP99fV3eWJm4Pu1eUHluWCA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"b07fb0da05843e7af72efe780f6566f0bbcfff2d0de04a9bdeccbaa25727fb4e\"],[\"cbor\",\"sha256\",\"hex\",\"e010b1c888392b32785ddd9842dd4561acb9890b99b03e882b0928665085ac8b\"],[\"effectiveTree\",\"sha256\",\"hex\",\"54446c863711d516ef22c22a52b0f052f7be6c3c3f7ca9ed5f9436c5167ab07e\"]],\"parentIds\":[\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:18:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"HqZXAOaU1uTACAZHwDjT75H5pDMvQ7wqSPtYwwna7X2LkkeIhRkTdmBaeECLgGd7ZM41dQqs/DbouYLw5IEaBw==\"}]}",
+        "groups-provider": "{\"@id\":\"d74351a4952374973add17ddfcadb28ad92db6d5d6771794507dc8c05d8cb96f\",\"changeSet\":{\"@id\":\"8b9cb7ea2981712b511abed9a9aaa9267a256e1f06779b153ce15ee96e99a5f5\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"f69ae2d2e920bb04a82392e9edf6ae82b823a31428e5123965782296b7b55833\"],[\"cbor\",\"sha256\",\"hex\",\"3016e2e49a94543ea77ddef37c52d46cd8686a84d431de7dddf74c286cc7163c\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"changes\":[{\"entityId\":\"DE*GEF*SG_FAV\",\"entityType\":\"ChargingStationGroup\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*SG_FAV\",\"chargingStationIds\":[\"DE*GEF*S1\"],\"name\":{\"en\":\"Favourite stations\"}},\"parentEntityId\":\"DE-GEF\",\"parentEntityType\":\"EMobilityProvider\"},{\"entityId\":\"DE*GEF*PG_FAV\",\"entityType\":\"ChargingPoolGroup\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*PG_FAV\",\"chargingPoolIds\":[\"DE*GEF*P1\"],\"name\":{\"en\":\"Favourite pools\"}},\"parentEntityId\":\"DE-GEF\",\"parentEntityType\":\"EMobilityProvider\"}],\"createdAt\":\"2026-10-18T08:18:00.000Z\",\"description\":{\"en\":\"DE-GEF adds its groups Favourite stations and Favourite pools\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1e3976ee68569525ac4976c37529eabbb5cb400f693a423b50f60e84e44d2fa1\",\"value\":\"2i479JkqGc0nVt4nZbqqVtS+wyHKEjcXF9LAW0B1T3zlfV+meD2nJyjk5Jwv2CU3SdnUkgLRJKoGfHcYyXo3CQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"f69ae2d2e920bb04a82392e9edf6ae82b823a31428e5123965782296b7b55833\"],[\"cbor\",\"sha256\",\"hex\",\"3016e2e49a94543ea77ddef37c52d46cd8686a84d431de7dddf74c286cc7163c\"],[\"effectiveTree\",\"sha256\",\"hex\",\"83e870988ff9b44bd340cc2eaf910e21a88553b25a3c0d9b6e089ddc95e96936\"]],\"parentIds\":[\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:18:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"hRf76A6SMFz/HE0EsiSGZJ5Yjc5cRlYku4PVrhshd5oOhVjajXGFa1EkjsqCR8RHRRtYji6UBZe+0Cq/3rLLAA==\"}]}",
+        "groups-provider-by-operator": "{\"@id\":\"d74351a4952374973add17ddfcadb28ad92db6d5d6771794507dc8c05d8cb96f\",\"changeSet\":{\"@id\":\"8b9cb7ea2981712b511abed9a9aaa9267a256e1f06779b153ce15ee96e99a5f5\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"f69ae2d2e920bb04a82392e9edf6ae82b823a31428e5123965782296b7b55833\"],[\"cbor\",\"sha256\",\"hex\",\"3016e2e49a94543ea77ddef37c52d46cd8686a84d431de7dddf74c286cc7163c\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"changes\":[{\"entityId\":\"DE*GEF*SG_FAV\",\"entityType\":\"ChargingStationGroup\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*SG_FAV\",\"chargingStationIds\":[\"DE*GEF*S1\"],\"name\":{\"en\":\"Favourite stations\"}},\"parentEntityId\":\"DE-GEF\",\"parentEntityType\":\"EMobilityProvider\"},{\"entityId\":\"DE*GEF*PG_FAV\",\"entityType\":\"ChargingPoolGroup\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*PG_FAV\",\"chargingPoolIds\":[\"DE*GEF*P1\"],\"name\":{\"en\":\"Favourite pools\"}},\"parentEntityId\":\"DE-GEF\",\"parentEntityType\":\"EMobilityProvider\"}],\"createdAt\":\"2026-10-18T08:18:00.000Z\",\"description\":{\"en\":\"DE-GEF adds its groups Favourite stations and Favourite pools\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"3WA1UQmKxNXOrsQ/ASwdGei7keQWT0ioOEQZaDForkHuiEXZ9SM7oi98DB5typpiLcDSSkwUsavB5HvJgHxBAA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"f69ae2d2e920bb04a82392e9edf6ae82b823a31428e5123965782296b7b55833\"],[\"cbor\",\"sha256\",\"hex\",\"3016e2e49a94543ea77ddef37c52d46cd8686a84d431de7dddf74c286cc7163c\"],[\"effectiveTree\",\"sha256\",\"hex\",\"83e870988ff9b44bd340cc2eaf910e21a88553b25a3c0d9b6e089ddc95e96936\"]],\"parentIds\":[\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:18:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"2sopIZ4g+N9EMY7ynMnP/fJWPN9EIWEwuNZ/p2PWKS1/dqy0rRUVtHQr2f6JjdwmTuTnKBN8h6t6RIw0M2KvDg==\"}]}",
+        "point-handed-on": "{\"@id\":\"66bf59519a5814f3681c6a74515ced4c503856c5ff04d31698c323321c15bc12\",\"changeSet\":{\"@id\":\"dc229d27ba3443424f68b5ee7a01c9a8222e40700d865a215d3200734a475369\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"66e5987cf9af85773831c2cb8b3104c29bc3ff8b0c1f5e6029b194f74de64935\"],[\"cbor\",\"sha256\",\"hex\",\"d9b1c41201c047fb4f19aa093968cddf0a50f10deaaf0271f5449c8cb6d39097\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"changes\":[{\"entityId\":\"connection-1\",\"entityType\":\"GridConnectionPoint\",\"kind\":\"UpdateProperty\",\"newValue\":{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\"},\"oldValue\":null,\"propertyName\":\"maintainedBy\"},{\"entityId\":\"connection-1\",\"entityType\":\"GridConnectionPoint\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"Jena Paradies\"},\"oldValue\":null,\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:19:00.000Z\",\"description\":{\"en\":\"DE*NET hands connection-1 on to DE*GEF, which names it\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"3yDu2b68cH7ns7PpUT1L/5E2erZbQUqjEhE+Db1zB39sa8WcOyz1jb9JItH5y0AV+vFO1GoJ+lIweZbB+lImAQ==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"g/IyMTVXm8wOZ4rViorRU5hBqax2y1nqTCVsHnCt8lodOhkeSF5VOw2bgBJv7hW1dEFHjTrl3MdQ22yHgaKmAQ==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"Sdsdh2bHT23vz4WDO+q1ofKnqRrR1ASxUtnWd5ibiFOIdSC9HiyQ3eraT3spbst+4/33scd1LQWrmUelH/5AAA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"66e5987cf9af85773831c2cb8b3104c29bc3ff8b0c1f5e6029b194f74de64935\"],[\"cbor\",\"sha256\",\"hex\",\"d9b1c41201c047fb4f19aa093968cddf0a50f10deaaf0271f5449c8cb6d39097\"],[\"effectiveTree\",\"sha256\",\"hex\",\"f2ea1f537f53690d36d5b9adab85fa0f322d75a0869dfc8b9063558093875e83\"]],\"parentIds\":[\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:19:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"t056cQwBI2h+qkWMyKOz1OnSX658b/vKOPgQqen03uQ5W9YkgPDLYmZ/PXcByyBaWq5P+emFeswffebkTylkDg==\"}]}",
+        "point-handed-on-by-rno": "{\"@id\":\"6197b9561a026152069f3da9e03c315a63c8e9cf3790d4ba63f7602ed88c7787\",\"changeSet\":{\"@id\":\"e74b96a863e13d58333449976f054fc6fd3a02958fca0e38b34b39ee15e7d8a6\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"66e5987cf9af85773831c2cb8b3104c29bc3ff8b0c1f5e6029b194f74de64935\"],[\"cbor\",\"sha256\",\"hex\",\"d9b1c41201c047fb4f19aa093968cddf0a50f10deaaf0271f5449c8cb6d39097\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"changes\":[{\"entityId\":\"connection-1\",\"entityType\":\"GridConnectionPoint\",\"kind\":\"UpdateProperty\",\"newValue\":{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\"},\"oldValue\":null,\"propertyName\":\"maintainedBy\"},{\"entityId\":\"connection-1\",\"entityType\":\"GridConnectionPoint\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"Jena Paradies\"},\"oldValue\":null,\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:19:00.000Z\",\"description\":{\"en\":\"DE*NET hands connection-1 on to DE*GEF and names it\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"O4//geKXgSQ08CXzxtxuMdk/vXTOR88D9XGC6UrkwLIzKsVhTJ/cXIV3S8R8TlJe/w6czQKRfPzycs4DDWeSCg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"sqPlNMxg6n/IZr4z4UCu3Wh2BU0TYVL+Sxf7VxjPqsW0bYqhIAjCkKLmtyYhvAGr27M07ReruJyOYiLfC0s+Cg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"66e5987cf9af85773831c2cb8b3104c29bc3ff8b0c1f5e6029b194f74de64935\"],[\"cbor\",\"sha256\",\"hex\",\"d9b1c41201c047fb4f19aa093968cddf0a50f10deaaf0271f5449c8cb6d39097\"],[\"effectiveTree\",\"sha256\",\"hex\",\"f2ea1f537f53690d36d5b9adab85fa0f322d75a0869dfc8b9063558093875e83\"]],\"parentIds\":[\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:19:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"UWiU9lKuUt5Iyt3kpZz4P/ayAu+91LJz79ud8HKjW3o6jPMwq1+D4p48jC/Zbp7Rwi0+1fQiP2hIb3FfWWd0CA==\"}]}",
+        "point-named-first": "{\"@id\":\"d003252421c9774eb66c9e27ec7355e1eee1f1fa0a557c7222f2d5d480b277f6\",\"changeSet\":{\"@id\":\"0e0874228a39a0426bf095b9353fcc73e4e57746f978b63c58f1a4586d1e6c07\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"66e5987cf9af85773831c2cb8b3104c29bc3ff8b0c1f5e6029b194f74de64935\"],[\"cbor\",\"sha256\",\"hex\",\"d9b1c41201c047fb4f19aa093968cddf0a50f10deaaf0271f5449c8cb6d39097\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"changes\":[{\"entityId\":\"connection-1\",\"entityType\":\"GridConnectionPoint\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"Jena Paradies\"},\"oldValue\":null,\"propertyName\":\"name\"},{\"entityId\":\"connection-1\",\"entityType\":\"GridConnectionPoint\",\"kind\":\"UpdateProperty\",\"newValue\":{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\"},\"oldValue\":null,\"propertyName\":\"maintainedBy\"}],\"createdAt\":\"2026-10-18T08:19:00.000Z\",\"description\":{\"en\":\"DE*NET names connection-1, then hands it on to DE*GEF\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"Cxnq5pHkXKjr1wNOlSjHajOl6VNmUqn6b7z+sqoIGlpSqdruxBZLHW7L3fmNlEO2L5qMq0TIKoCAORbosvdqCQ==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"7phFQlt0e0XspJaY1a1lgdKVi2r80R3pz15CiKrPX5Gu+aTyZXlSJaZ2jheq2vrVo4Vn8gCnrmSa2dRZD/oRAQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"66e5987cf9af85773831c2cb8b3104c29bc3ff8b0c1f5e6029b194f74de64935\"],[\"cbor\",\"sha256\",\"hex\",\"d9b1c41201c047fb4f19aa093968cddf0a50f10deaaf0271f5449c8cb6d39097\"],[\"effectiveTree\",\"sha256\",\"hex\",\"f2ea1f537f53690d36d5b9adab85fa0f322d75a0869dfc8b9063558093875e83\"]],\"parentIds\":[\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:19:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"6s9Pc5gtMX2RUFEKr3bmbapyfZVJMQ7UjRcoOBX0ScwGmMxEgx3XvaYwgUKoTKM7AEBjpDsaIneQGa2/F4tLCg==\"}]}",
+        "parking-added": "{\"@id\":\"326e0f96bea15adb9910f55d88efcfa63ba13f231fdd81744a52f4070b590e26\",\"changeSet\":{\"@id\":\"17b5379d42076f8d1a15c00b145cbe1f336f91620cf49dcca605bc02db01f256\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a9b940fdeea2349debb190d8f90c8d6f4dcef766c398aaff816df752555f4891\"],[\"cbor\",\"sha256\",\"hex\",\"e445f1e1f4abcf7d964658fe4e504853548577f00fa0fdd00f046dfecf9ef18d\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"changes\":[{\"entityId\":\"garage-1\",\"entityType\":\"ParkingGarage\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"garage-1\",\"name\":{\"de\":\"Parkhaus Paradies\"}},\"parentEntityId\":\"DE*PRK\",\"parentEntityType\":\"ParkingOperator\"},{\"entityId\":\"space-1\",\"entityType\":\"ParkingSpace\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"space-1\",\"parkingGarageId\":\"garage-1\"},\"parentEntityId\":\"DE*PRK\",\"parentEntityType\":\"ParkingOperator\"},{\"entityId\":\"P1\",\"entityType\":\"ParkingProduct\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"P1\",\"minDuration\":0},\"parentEntityId\":\"DE*PRK\",\"parentEntityType\":\"ParkingOperator\"}],\"createdAt\":\"2026-10-18T08:20:00.000Z\",\"description\":{\"en\":\"DE*PRK adds the garage Parkhaus Paradies, a space in it and the product P1\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"c71548fbf74859f67b8ec601eeb8712e91d4d575ea0e30eaa612808987394dce\",\"value\":\"hv/ViUPHXHAs5GkoiwkFtiR3N5S5BFTXokLNvUKU6gpjcFPbbA7tfWF1YZfpHVwxU8I4QJxtBnXBm3/+wN15Ag==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a9b940fdeea2349debb190d8f90c8d6f4dcef766c398aaff816df752555f4891\"],[\"cbor\",\"sha256\",\"hex\",\"e445f1e1f4abcf7d964658fe4e504853548577f00fa0fdd00f046dfecf9ef18d\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4fb50c10ea75c1aa28911b4c7e2721e1358d48bbd213a7b32aec739e4249f566\"]],\"parentIds\":[\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:20:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"c9Me7aT+s0Pc34enXj5GV1aKebIFghZynZhGwN+t+cdqd74PykfbKXagYk2tyBgUX3ykCbhTSiAXAeBwZMjBDw==\"}]}",
+        "parking-added-by-gef": "{\"@id\":\"326e0f96bea15adb9910f55d88efcfa63ba13f231fdd81744a52f4070b590e26\",\"changeSet\":{\"@id\":\"17b5379d42076f8d1a15c00b145cbe1f336f91620cf49dcca605bc02db01f256\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a9b940fdeea2349debb190d8f90c8d6f4dcef766c398aaff816df752555f4891\"],[\"cbor\",\"sha256\",\"hex\",\"e445f1e1f4abcf7d964658fe4e504853548577f00fa0fdd00f046dfecf9ef18d\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"changes\":[{\"entityId\":\"garage-1\",\"entityType\":\"ParkingGarage\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"garage-1\",\"name\":{\"de\":\"Parkhaus Paradies\"}},\"parentEntityId\":\"DE*PRK\",\"parentEntityType\":\"ParkingOperator\"},{\"entityId\":\"space-1\",\"entityType\":\"ParkingSpace\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"space-1\",\"parkingGarageId\":\"garage-1\"},\"parentEntityId\":\"DE*PRK\",\"parentEntityType\":\"ParkingOperator\"},{\"entityId\":\"P1\",\"entityType\":\"ParkingProduct\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"P1\",\"minDuration\":0},\"parentEntityId\":\"DE*PRK\",\"parentEntityType\":\"ParkingOperator\"}],\"createdAt\":\"2026-10-18T08:20:00.000Z\",\"description\":{\"en\":\"DE*PRK adds the garage Parkhaus Paradies, a space in it and the product P1\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"KcHR7BrFI9TvA7ynen+IFgWeikGHyMBx7jHxFeG2+ZpsdOm4A3CUwGXPqR4aIm59nNhAsY4qvMVXOKH82btrCg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a9b940fdeea2349debb190d8f90c8d6f4dcef766c398aaff816df752555f4891\"],[\"cbor\",\"sha256\",\"hex\",\"e445f1e1f4abcf7d964658fe4e504853548577f00fa0fdd00f046dfecf9ef18d\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4fb50c10ea75c1aa28911b4c7e2721e1358d48bbd213a7b32aec739e4249f566\"]],\"parentIds\":[\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:20:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"2tIt64vamy/bE9EDwbtH4qDzsswkNEaLkFM+3Zz/iwS8ym+0WQrqNYptMKjs2NlExaL/6P8zlldd8X8nKcNBAw==\"}]}",
+        "gef-space": "{\"@id\":\"2842bd128684a18b65999187c04f1fb71de17b41c219e13664b7fc1ed42ed74a\",\"changeSet\":{\"@id\":\"08491237e0b7d83f058429b5409dd0136b67ca4d95304b72d16c6fac5210a244\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"15ace9a113e5fd8630fb26a08809bfe17ad4bb123a7ddf69082af5884a9fb26b\"],[\"cbor\",\"sha256\",\"hex\",\"ef88bb5868e23f89f2f8ef0663e76ef1a01d4ab94bc6068146f58df20158cd2c\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"changes\":[{\"entityId\":\"gef-space-1\",\"entityType\":\"ParkingSpace\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"gef-space-1\"},\"parentEntityId\":\"DE*GEF\",\"parentEntityType\":\"ChargingStationOperator\"}],\"createdAt\":\"2026-10-18T08:20:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the parking space gef-space-1\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"mw5mk1sWfG3NFEAaFYp50MD8t/99fIpyOVISY3uMtkZ1m2Qk40zj0Zov+2qcmPHtVs0C2SffvhnOPY4ssxDXBw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"15ace9a113e5fd8630fb26a08809bfe17ad4bb123a7ddf69082af5884a9fb26b\"],[\"cbor\",\"sha256\",\"hex\",\"ef88bb5868e23f89f2f8ef0663e76ef1a01d4ab94bc6068146f58df20158cd2c\"],[\"effectiveTree\",\"sha256\",\"hex\",\"b4c95fe76b3ac049ad8f0ad4dc614cc4ec78aaff72a3830d23ef31524c8bd91a\"]],\"parentIds\":[\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:20:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"00RkSPM3HI+EmbFldNnls2kzEE9pu+xMH32VtgXAd5QBqfi1xjUlAbNiBoEzsBrci4MtSs9FoXdox/sgLbAGBA==\"}]}",
+        "gef-space-by-prk": "{\"@id\":\"2842bd128684a18b65999187c04f1fb71de17b41c219e13664b7fc1ed42ed74a\",\"changeSet\":{\"@id\":\"08491237e0b7d83f058429b5409dd0136b67ca4d95304b72d16c6fac5210a244\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"15ace9a113e5fd8630fb26a08809bfe17ad4bb123a7ddf69082af5884a9fb26b\"],[\"cbor\",\"sha256\",\"hex\",\"ef88bb5868e23f89f2f8ef0663e76ef1a01d4ab94bc6068146f58df20158cd2c\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068\"],[\"cbor\",\"sha256\",\"hex\",\"8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f\"]],\"changes\":[{\"entityId\":\"gef-space-1\",\"entityType\":\"ParkingSpace\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"gef-space-1\"},\"parentEntityId\":\"DE*GEF\",\"parentEntityType\":\"ChargingStationOperator\"}],\"createdAt\":\"2026-10-18T08:20:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the parking space gef-space-1\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"c71548fbf74859f67b8ec601eeb8712e91d4d575ea0e30eaa612808987394dce\",\"value\":\"R4yiLCCO45E8Ckh0kK7KjEC7iUOpj+dxK3G51HJrVDz8yOEdPhYPj90ycoCsRjS/lhOenZ2+tSRsfGcC7xUTBQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"15ace9a113e5fd8630fb26a08809bfe17ad4bb123a7ddf69082af5884a9fb26b\"],[\"cbor\",\"sha256\",\"hex\",\"ef88bb5868e23f89f2f8ef0663e76ef1a01d4ab94bc6068146f58df20158cd2c\"],[\"effectiveTree\",\"sha256\",\"hex\",\"b4c95fe76b3ac049ad8f0ad4dc614cc4ec78aaff72a3830d23ef31524c8bd91a\"]],\"parentIds\":[\"5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:20:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"O3gMEd6qD2L4s618tr5gfer0EJyZT4gft7tYeFjwZoIcBhR3+pblznlX3lcS0V102GhSTpOH+5SISFzUz8POBQ==\"}]}"
       }
     },
     {
@@ -2605,6 +2621,1125 @@
           ]
         }
       ]
+    },
+    {
+      "id": "offer-signed-for-infrastructure",
+      "description": "A charging station operator adds a charging tariff offer, signed by its signing key for infrastructure alone: an offer needs a key that may sign tariffs.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway-infrastructure"
+        }
+      ],
+      "control": "offer-highway",
+      "reason": "needs a signature by a signing key of the ChargingStationOperator 'DE*GEF' that may sign 'tariffs'!"
+    },
+    {
+      "id": "offer-added",
+      "description": "A charging station operator adds a charging tariff offer at an EVSE group of its own, signed by its signing key for tariffs.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; 9.4",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 14,
+          "commitId": "5c69fabb08c080d5fb7cdf6e4aed8da3fd00770eec5469af9b8e29d22a4d9d19",
+          "eTags": [
+            "json:sha256:hex:0b68099fe26dd8a2545505b935b44a1c598ed738ef19598af63f1d253e237068",
+            "cbor:sha256:hex:8c4b2ed68e5c8aa23551c4a5525ea04f71cc7aa4ae0dbd625b0bc8a2fcfc2e8f",
+            "effectiveTree:sha256:hex:ca3f7c067ac39cfb197c71e95a104f67bf7a036afb1371300155927eb10439d2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "offer-overlapping",
+      "description": "A charging station operator adds a charging tariff offer covering an EVSE another offer of it covers, for the same sessions at the same times.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 9.4",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "offer-five-at-highway"
+        }
+      ],
+      "control": "offer-second",
+      "reason": "of the operator 'DE*GEF' overlap at the EVSE 'DE*GEF*E1*1'"
+    },
+    {
+      "id": "offer-of-a-provider",
+      "description": "An e-mobility provider adds an EVSE group of its own and a charging tariff offer at it, signed by its signing key.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; 9.3; 9.4",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "offer-provider"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 15,
+          "commitId": "af49b2f0c0287fda27a7f8fc570fe8df9758a001d60c1e6327243c11740defcb",
+          "eTags": [
+            "json:sha256:hex:b07fb0da05843e7af72efe780f6566f0bbcfff2d0de04a9bdeccbaa25727fb4e",
+            "cbor:sha256:hex:e010b1c888392b32785ddd9842dd4561acb9890b99b03e882b0928665085ac8b",
+            "effectiveTree:sha256:hex:54446c863711d516ef22c22a52b0f052f7be6c3c3f7ca9ed5f9436c5167ab07e"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "offer-of-a-provider-signed-by-the-operator",
+      "description": "The EVSE group and the charging tariff offer of an e-mobility provider, signed by the signing keys for infrastructure and tariffs of the charging station operator of its prefix: what a provider embeds is its own.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; 9.3",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "offer-provider-by-operator"
+        }
+      ],
+      "control": "offer-provider",
+      "reason": "needs a signature by a signing key of the EMobilityProvider 'DE-GEF'!"
+    },
+    {
+      "id": "groups-of-a-provider",
+      "description": "An e-mobility provider adds a charging station group and a charging pool group of its own, signed by its signing key.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; 9.3",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "groups-provider"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 15,
+          "commitId": "d74351a4952374973add17ddfcadb28ad92db6d5d6771794507dc8c05d8cb96f",
+          "eTags": [
+            "json:sha256:hex:f69ae2d2e920bb04a82392e9edf6ae82b823a31428e5123965782296b7b55833",
+            "cbor:sha256:hex:3016e2e49a94543ea77ddef37c52d46cd8686a84d431de7dddf74c286cc7163c",
+            "effectiveTree:sha256:hex:83e870988ff9b44bd340cc2eaf910e21a88553b25a3c0d9b6e089ddc95e96936"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "groups-of-a-provider-signed-by-the-operator",
+      "description": "The charging station group and charging pool group of an e-mobility provider, signed by the signing key for infrastructure of the charging station operator of its prefix.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; 9.3",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "groups-provider-by-operator"
+        }
+      ],
+      "control": "groups-provider",
+      "reason": "needs a signature by a signing key of the EMobilityProvider 'DE-GEF'!"
+    },
+    {
+      "id": "grid-connection-point-handed-on",
+      "description": "The roaming network operator, in place of a grid operator without keys, hands a grid connection point on to a charging station operator, which names it in the same change set: the change after the handing on is the new maintainer's.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Within a change set; csharp-review 9, 13",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "point-handed-on"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 15,
+          "commitId": "66bf59519a5814f3681c6a74515ced4c503856c5ff04d31698c323321c15bc12",
+          "eTags": [
+            "json:sha256:hex:66e5987cf9af85773831c2cb8b3104c29bc3ff8b0c1f5e6029b194f74de64935",
+            "cbor:sha256:hex:d9b1c41201c047fb4f19aa093968cddf0a50f10deaaf0271f5449c8cb6d39097",
+            "effectiveTree:sha256:hex:f2ea1f537f53690d36d5b9adab85fa0f322d75a0869dfc8b9063558093875e83"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grid-connection-point-handed-on-unsigned-by-its-maintainer",
+      "description": "The roaming network operator hands a grid connection point of a grid operator without keys on to a charging station operator and names it, in one change set it alone signs: the name, changed after the handing on, is the new maintainer's.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Within a change set; csharp-review 9, 13",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "point-handed-on-by-rno"
+        }
+      ],
+      "control": "point-handed-on",
+      "reason": "Change 1: UpdateProperty of the GridConnectionPoint 'connection-1' ('name') needs a signature by a signing key of the ChargingStationOperator 'DE*GEF'!"
+    },
+    {
+      "id": "grid-connection-point-named-then-handed-on",
+      "description": "The roaming network operator names a grid connection point of a grid operator without keys, then hands it on to a charging station operator, in one change set it alone signs: the change before the handing on is still the grid operator's.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Within a change set; csharp-review 9, 13",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "point-named-first"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 15,
+          "commitId": "d003252421c9774eb66c9e27ec7355e1eee1f1fa0a557c7222f2d5d480b277f6",
+          "eTags": [
+            "json:sha256:hex:66e5987cf9af85773831c2cb8b3104c29bc3ff8b0c1f5e6029b194f74de64935",
+            "cbor:sha256:hex:d9b1c41201c047fb4f19aa093968cddf0a50f10deaaf0271f5449c8cb6d39097",
+            "effectiveTree:sha256:hex:f2ea1f537f53690d36d5b9adab85fa0f322d75a0869dfc8b9063558093875e83"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "parking-data-added",
+      "description": "A parking operator adds a parking garage, a parking space in it and a parking product, signed by its signing key for infrastructure; the parking product has no timestamps.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; 4.1",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "parking-added"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 15,
+          "commitId": "326e0f96bea15adb9910f55d88efcfa63ba13f231fdd81744a52f4070b590e26",
+          "eTags": [
+            "json:sha256:hex:a9b940fdeea2349debb190d8f90c8d6f4dcef766c398aaff816df752555f4891",
+            "cbor:sha256:hex:e445f1e1f4abcf7d964658fe4e504853548577f00fa0fdd00f046dfecf9ef18d",
+            "effectiveTree:sha256:hex:4fb50c10ea75c1aa28911b4c7e2721e1358d48bbd213a7b32aec739e4249f566"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "parking-data-signed-by-another-party",
+      "description": "The parking garage, space and product of a parking operator, signed by the signing key for infrastructure of a charging station operator.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "parking-added-by-gef"
+        }
+      ],
+      "control": "parking-added",
+      "reason": "needs a signature by a signing key of the ParkingOperator 'DE*PRK'!"
+    },
+    {
+      "id": "parking-space-of-an-operator",
+      "description": "A charging station operator adds a parking space of its own, signed by its signing key for infrastructure.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "gef-space"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 15,
+          "commitId": "2842bd128684a18b65999187c04f1fb71de17b41c219e13664b7fc1ed42ed74a",
+          "eTags": [
+            "json:sha256:hex:15ace9a113e5fd8630fb26a08809bfe17ad4bb123a7ddf69082af5884a9fb26b",
+            "cbor:sha256:hex:ef88bb5868e23f89f2f8ef0663e76ef1a01d4ab94bc6068146f58df20158cd2c",
+            "effectiveTree:sha256:hex:b4c95fe76b3ac049ad8f0ad4dc614cc4ec78aaff72a3830d23ef31524c8bd91a"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "parking-space-of-an-operator-signed-by-a-parking-operator",
+      "description": "The parking space of a charging station operator, signed by the signing key for infrastructure of a parking operator.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "gef-space-by-prk"
+        }
+      ],
+      "control": "gef-space",
+      "reason": "needs a signature by a signing key of the ChargingStationOperator 'DE*GEF'!"
     },
     {
       "id": "epoch-first-checkpoint-algorithms-of-either",

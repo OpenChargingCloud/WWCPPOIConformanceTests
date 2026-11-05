@@ -21,12 +21,13 @@ written down and pinned.
 ## Status
 
 Both harnesses are green against the pinned submodules (WWCP_POI `5a72313`, WWCP_POI.TS `09eb91d`, Hermod `65d55f80`,
-Styx `fb3314be`):
+Styx `fb3314be`) - but for the vendored copy of `poi-histories.json` in WWCP_POI.TS, which it refreshes with the 14
+replays of the entities a party embeds:
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 759 | 783 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 759 | 759 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
+| C# harness (NUnit), WWCP_POI3 | 773 | 797 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 773 | 773 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy,
 those of the verifier extensions since `242fb29`.
