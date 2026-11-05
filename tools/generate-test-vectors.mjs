@@ -1623,6 +1623,8 @@ function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, po
             notHeld(`${templateAt}/chargingConnectors/0/type`, holds('"5"')),                   [ { op: 'replace', path: `${templateAt}/chargingConnectors/0/type`, value: 5 } ]);
     version('version-held-property-unknown',      HELD, 'DE*GEF*P2 names the property colour, which WWCP_POI3 does not write.',
             notHeld(`${pool2}/colour`, LEAVES),                                                  [ { op: 'add', path: `${pool2}/colour`, value: 'green' } ]);
+    version('version-held-restriction-unknown',   HELD, 'The element of DE*GEF*T_AC from 08:00 and to a state of charge of at most 80 %, maxStateOfCharge, a restriction no charging tariff has: a reader not knowing it would price every session from 08:00 so (D18).',
+            notHeld(`${tariffAt}/elements/0/restrictions/maxStateOfCharge`, LEAVES),            [ { op: 'add', path: `${tariffAt}/elements/0/restrictions`, value: { startTime: '08:00', maxStateOfCharge: 80 } } ]);
     version('version-held-key-statement-property', HELD, 'The key statement of the operator of the roaming network names the property x, which WWCP_POI3 does not write.',
             notHeld('/operator/keyStatement/x', LEAVES),                                         [ { op: 'add', path: '/operator/keyStatement/x', value: 1 } ]);
     version('version-held-data-license-of-a-view', HELD, 'DE*GEF*P2 names the data license ODbL by its identification alone, as a view does: a version names it completely.',
@@ -2583,6 +2585,25 @@ function refusalVectors() {
                invalid('A charging tariff element must be a JSON object!'),                                                 [ { op: 'replace', path: `${P0}/elements/0`, value: 'ENERGY' } ]);
         status('priceStatement-tariff-element-without-price-components', 'An element of the prices of DE*GEF*T_DC without price components.',
                invalid('A charging tariff element needs at least one price component!'),                                   [ { op: 'replace', path: `${P0}/elements/0/priceComponents`, value: [] } ]);
+
+        // The elements written as a charging tariff holds them, as a version holds those of a tariff (12.1, 2), in the
+        // words of WWCP_POI3's written form (FirstNotWritten).
+        quoted(SPEC, 'the `elements` are written as a charging tariff holds them (section 2, "Written forms"), as a version holds the', 'that the elements of a price status are written as a charging tariff holds them');
+        const ELEMENT_CONTEXT = quoted('libs/WWCP_POI/WWCP_POI3/RoamingNetwork/ChargingTariff/ChargingTariffElement.cs', 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/chargingTariffElement/v1', 'the JSON-LD context of a charging tariff element');
+        const E0      = `${P0}/elements/0`;
+        const written = (path, reason) => invalid(`'${path}' of the prices of the charging tariff 'DE*GEF*T_DC' is not written as a charging tariff holds it: ${reason}!`);
+        status('priceStatement-tariff-element-restriction-unknown', 'An element of the prices of DE*GEF*T_DC from 08:00 and to a state of charge of at most 80 %, maxStateOfCharge, a restriction no charging tariff has: a reader not knowing it would price every session from 08:00 so.',
+               written('elements[0].restrictions.maxStateOfCharge', 'the content leaves it out'),                          [ { op: 'add',     path: `${E0}/restrictions`, value: { startTime: '08:00', maxStateOfCharge: 80 } } ]);
+        status('priceStatement-tariff-element-property-unknown', 'An element of the prices of DE*GEF*T_DC naming the property x, which an element of a charging tariff does not have.',
+               written('elements[0].x', 'the content leaves it out'),                                                      [ { op: 'add',     path: `${E0}/x`, value: 1 } ]);
+        status('priceStatement-tariff-price-component-property-unknown', 'A price component of the prices of DE*GEF*T_DC naming the property x, which a price component does not have.',
+               written('elements[0].priceComponents[0].x', 'the content leaves it out'),                                   [ { op: 'add',     path: `${E0}/priceComponents/0/x`, value: 1 } ]);
+        status('priceStatement-tariff-element-restriction-number-text', 'An element of the prices of DE*GEF*T_DC from a power of 11, given as the text "11", which a charging tariff holds as a number.',
+               written('elements[0].restrictions.minPower', "the content holds it as '11'"),                               [ { op: 'add',     path: `${E0}/restrictions`, value: { minPower: '11' } } ]);
+        status('priceStatement-tariff-element-days-out-of-order', 'An element of the prices of DE*GEF*T_DC on Tuesdays and Mondays, in this order, which a charging tariff holds Monday first.',
+               written('elements[0].restrictions.daysOfWeek', 'its elements are in the order the content holds them in'), [ { op: 'add',     path: `${E0}/restrictions`, value: { daysOfWeek: [ 'TUESDAY', 'MONDAY' ] } } ]);
+        status('priceStatement-tariff-element-context', 'An element of the prices of DE*GEF*T_DC naming the JSON-LD context of a charging tariff element, which an embedded element does not.',
+               written('elements[0]', 'embedded, an object names no JSON-LD context'),                                     [ { op: 'add',     path: `${E0}/@context`, value: ELEMENT_CONTEXT } ]);
         status('priceStatement-tariff-named-twice',        'The prices of DE*GEF*T_DC given twice.',
                invalid("A price status must name the charging tariff 'DE*GEF*T_DC' only once!"),                            [ { op: 'add',     path: '/priceStatus/prices/-', value: price } ]);
         status('priceStatement-tariff-named-twice-spelling', 'The prices of DE*GEF*T_DC given twice, the second time as DE*GEF*T_dc: one charging tariff.',
@@ -4628,7 +4649,25 @@ function verifierVectors() {
     prices('split-price-chain',     'valid missing invalid missing not-proven',        null);
     prices('broken-price-chain',    'valid missing invalid missing not-proven',        null);
     prices('ambiguous-offers',      'valid missing ambiguous missing not-proven',      null);
-    prices('conditional-price',     'valid valid unsupported valid not-proven',        { digest: '3f9d97506d3ce7056baf626d221ffb726cb54328445eb94866696f8550f56def', algorithm: 'Ed25519', energyPerKWh: null });
+
+    // ---- A price restricted by a restriction POI does not define (SPECIFICATION.md 2, 12.1): its elements are not written
+    //      as a charging tariff holds them, so no price statement, refused as read, before its signature is looked at, as
+    //      of an invalid signature. ChargyWebApp restricts it by max_kwh, the name of OCPI; what it meant, a conditional
+    //      element, a restriction of POI would show, e.g. maxEnergy.
+    {
+        const CONDITIONAL  = 'POIPrices/conditional-price.chargy';
+        const RESTRICTIONS = 'libs/WWCP_POI/WWCP_POI3/RoamingNetwork/ChargingTariff/ChargingTariffRestrictions.cs';
+        const defined      = [ ...source(RESTRICTIONS).matchAll(/public const String\s+\w+\s*=\s*"([A-Za-z@]+)";/gu) ].map(match => match[1]);
+        const statement    = at(CONDITIONAL, '/poiEvidence/priceEvidence/priceStatements/0');
+        const restrictions = statement.priceStatus.prices.flatMap(price => price.elements).flatMap(element => element.restrictions === undefined ? [] : [ element.restrictions ]);
+        const undefinedOf  = restrictions.flatMap(restriction => Object.keys(restriction)).filter(name => !defined.includes(name));
+        if (!defined.includes('maxEnergy') || restrictions.length !== 1 || undefinedOf.join() !== 'max_kwh')
+            fail(`${CONDITIONAL}: no price statement of one element restricted by max_kwh alone, which ${RESTRICTIONS} does not define`);
+        quoted(SPEC, 'the `elements` are written as a charging tariff holds them (section 2, "Written forms"), as a version holds the', 'that the elements of a price status are written as a charging tariff holds them');
+        priceVector('sessionPrice-conditional-price', 'POIPrices', 'conditional-price.chargy',
+                    `${said('POIPrices', 'conditional-price.chargy')}: its element is restricted by max_kwh, which POI does not define (OCPI's name of its maxEnergy), so that its elements are not written as a charging tariff holds them. It is no price statement, refused as read, before its signature is looked at: no statement of the evidence holds, as of an invalid signature.`,
+                    'invalid missing invalid missing not-proven', null, { specified: `${SPEC}, 2, 12.1` });
+    }
 
     // ---- A price naming no identification of a charging tariff (SPECIFICATION.md 2, 12.1): no price statement, refused
     //      as read, before its signature is looked at, so that none of the evidence holds, as of an invalid signature.

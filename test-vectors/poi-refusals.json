@@ -10793,6 +10793,32 @@
     },
     {
       "expected": "refused",
+      "id": "version-held-restriction-unknown",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "The element of DE*GEF*T_AC from 08:00 and to a state of charge of at most 80 %, maxStateOfCharge, a restriction no charging tariff has: a reader not knowing it would price every session from 08:00 so (D18).",
+      "reason": "'chargingStationOperators[0].chargingTariffs[0].elements[0].restrictions.maxStateOfCharge' is not written as the content holds it: the content leaves it out!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingTariffs/0/elements/0/restrictions",
+            "value": {
+              "startTime": "08:00",
+              "maxStateOfCharge": 80
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
       "id": "version-held-key-statement-property",
       "kind": "version",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
@@ -16807,6 +16833,154 @@
             "op": "replace",
             "path": "/priceStatus/prices/0/elements/0/priceComponents",
             "value": []
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-element-restriction-unknown",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "An element of the prices of DE*GEF*T_DC from 08:00 and to a state of charge of at most 80 %, maxStateOfCharge, a restriction no charging tariff has: a reader not knowing it would price every session from 08:00 so.",
+      "reason": "Invalid price status of the price statement: 'elements[0].restrictions.maxStateOfCharge' of the prices of the charging tariff 'DE*GEF*T_DC' is not written as a charging tariff holds it: the content leaves it out!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/priceStatus/prices/0/elements/0/restrictions",
+            "value": {
+              "startTime": "08:00",
+              "maxStateOfCharge": 80
+            }
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-element-property-unknown",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "An element of the prices of DE*GEF*T_DC naming the property x, which an element of a charging tariff does not have.",
+      "reason": "Invalid price status of the price statement: 'elements[0].x' of the prices of the charging tariff 'DE*GEF*T_DC' is not written as a charging tariff holds it: the content leaves it out!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/priceStatus/prices/0/elements/0/x",
+            "value": 1
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-price-component-property-unknown",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "A price component of the prices of DE*GEF*T_DC naming the property x, which a price component does not have.",
+      "reason": "Invalid price status of the price statement: 'elements[0].priceComponents[0].x' of the prices of the charging tariff 'DE*GEF*T_DC' is not written as a charging tariff holds it: the content leaves it out!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/priceStatus/prices/0/elements/0/priceComponents/0/x",
+            "value": 1
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-element-restriction-number-text",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "An element of the prices of DE*GEF*T_DC from a power of 11, given as the text \"11\", which a charging tariff holds as a number.",
+      "reason": "Invalid price status of the price statement: 'elements[0].restrictions.minPower' of the prices of the charging tariff 'DE*GEF*T_DC' is not written as a charging tariff holds it: the content holds it as '11'!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/priceStatus/prices/0/elements/0/restrictions",
+            "value": {
+              "minPower": "11"
+            }
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-element-days-out-of-order",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "An element of the prices of DE*GEF*T_DC on Tuesdays and Mondays, in this order, which a charging tariff holds Monday first.",
+      "reason": "Invalid price status of the price statement: 'elements[0].restrictions.daysOfWeek' of the prices of the charging tariff 'DE*GEF*T_DC' is not written as a charging tariff holds it: its elements are in the order the content holds them in!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/priceStatus/prices/0/elements/0/restrictions",
+            "value": {
+              "daysOfWeek": [
+                "TUESDAY",
+                "MONDAY"
+              ]
+            }
+          }
+        ]
+      },
+      "keysFrom": {
+        "file": "published/QA-checkpoint-4-snapshot.json",
+        "pointer": "/roamingNetwork"
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "priceStatement-tariff-element-context",
+      "kind": "priceStatement",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1, 1.1",
+      "description": "An element of the prices of DE*GEF*T_DC naming the JSON-LD context of a charging tariff element, which an embedded element does not.",
+      "reason": "Invalid price status of the price statement: 'elements[0]' of the prices of the charging tariff 'DE*GEF*T_DC' is not written as a charging tariff holds it: embedded, an object names no JSON-LD context!",
+      "document": {
+        "file": "published/QA-checkpoint-4-priceStatements.json",
+        "pointer": "/0",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/priceStatus/prices/0/elements/0/@context",
+            "value": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/chargingTariffElement/v1"
           }
         ]
       },
