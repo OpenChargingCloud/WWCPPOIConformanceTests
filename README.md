@@ -20,9 +20,8 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `12e993a`, WWCP_POI.TS `192cc17`, Hermod `65d55f80`,
-Styx `fb3314be`) - but for what WWCP_POI.TS takes with S5, no lastChange going back: its vendored `poi-histories.json`,
-and in the TypeScript harness the 3 rebased replays:
+Both harnesses are green against the pinned submodules (WWCP_POI `12e993a`, WWCP_POI.TS `1f117cd`, Hermod `65d55f80`,
+Styx `fb3314be`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
