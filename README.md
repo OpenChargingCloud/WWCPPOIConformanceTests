@@ -20,10 +20,8 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `045e180`, WWCP_POI.TS `a886d90`, Hermod `65d55f80`,
-Styx `fb3314be`) - but for what WWCP_POI.TS takes with S36, releases and certificates identified under their owners: the
-vendored copies of the run `csharp-045e180` and of four vector files, and in the TypeScript harness the 11 refusals of
-S36:
+Both harnesses are green against the pinned submodules (WWCP_POI `045e180`, WWCP_POI.TS `192cc17`, Hermod `65d55f80`,
+Styx `fb3314be`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
