@@ -3420,23 +3420,23 @@ function signedHistories() {
     parties.keep('commit-4', commit4);
 
     // What the version names, it holds (4.1): models, hardware revisions and firmware versions of the models, certificates
-    // of their kind and model. WWCP_POI.TS leaves the references a version holds to WWCP_POI.
-    const references = { notApplicable: [ TYPESCRIPT ] };
+    // of their kind and model. WWCP_POI.TS checks the references a version holds since `813e1d7`; it left them to WWCP_POI
+    // before.
     P.refused('station-firmware-of-no-model', 'A charging station naming a firmware version its model does not have.', `${B('4.1')}; csharp-review 16`,
               'commit-4-firmware', poolOf('A station of the GD-DC300 in the firmware 2.6.0', { firmwareVersion: '2.6.0' }), 'commit-4',
-              { ...references, reason: "is no firmware version of its model 'GD-DC300'" });
+              { reason: "is no firmware version of its model 'GD-DC300'" });
     P.refused('station-revision-not-certified', 'A charging station of a hardware revision of its model the certificate it names does not cover.', `${B('4.1')}; csharp-review 16`,
               'commit-4-revision', poolOf('A station of the GD-DC300 in the hardware revision 1.1', { hardwareRevision: '1.1' }), 'commit-4',
-              { ...references, reason: "does not cover its hardware revision '1.1'" });
+              { reason: "does not cover its hardware revision '1.1'" });
     P.refused('station-certificate-of-a-meter', 'A charging station naming the certificate of a model of energy meters.', `${B('4.1')}; csharp-review 17`,
               'commit-4-station-certificate', poolOf('A station naming PTB-2026-0017', { certificateIds: [ 'PTB-2026-0017' ] }), 'commit-4',
-              { ...references, reason: 'not for a model of charging stations' });
+              { reason: 'not for a model of charging stations' });
     P.refused('meter-certificate-of-a-station', 'An energy meter naming the certificate of a model of charging stations.', `${B('4.1')}; csharp-review 17`,
               'commit-4-meter-certificate', poolOf('A meter naming PTB-2026-0042', {}, { certificateIds: [ 'PTB-2026-0042' ] }), 'commit-4',
-              { ...references, reason: 'not for a model of energy meters' });
+              { reason: 'not for a model of energy meters' });
     P.refused('meter-not-of-the-certificate', 'An energy meter in a firmware version of its model, in a charging station whose certificate names its meters in another one.', `${B('4.1')}; csharp-review 17`,
               'commit-4-meter-firmware', poolOf('A meter in the firmware 3.3', {}, { firmwareVersion: '3.3', certificateIds: undefined }), 'commit-4-meter-firmware-control',
-              { ...references, reason: "is none of the energy meters the certificate 'PTB-2026-0042' was issued with" });
+              { reason: "is none of the energy meters the certificate 'PTB-2026-0042' was issued with" });
     parties.keep('commit-4-meter-firmware-control', poolOf('A meter in the firmware 3.2, naming no certificate', {}, { certificateIds: undefined }));
 
     parties.take('commit-4', commit4);
@@ -3576,10 +3576,10 @@ function signedHistories() {
 
     P.refused('withdrawn-while-named-party', 'The roaming network operator removes a charging station manufacturer whose model a charging station of another party names.', `${B('4.1, What another party names')}; csharp-review 18`,
               'commit-9-named', leaving('Winzerla leaves', [ winzerlaRemoved ], [ alphaParty, betaParty ]), 'commit-9',
-              { ...references, reason: "The manufacturer 'Winzerla' of the charging station 'DE*GEF*S2' is unknown in the roaming network: the change set withdraws it while it is still named" });
+              { reason: "The manufacturer 'Winzerla' of the charging station 'DE*GEF*S2' is unknown in the roaming network: the change set withdraws it while it is still named" });
     P.refused('withdrawn-while-named-model', 'A charging station manufacturer withdraws a model a charging station of another party names.', `${B('4.1, What another party names')}; csharp-review 18`,
               'commit-9-model', leaving('Winzerla withdraws the W-AC22', [ modelRemoved('W-AC22') ], [ wzModels ]), 'commit-9-model-control',
-              { ...references, reason: "The model 'W-AC22' of the charging station 'DE*GEF*S2' is unknown at its manufacturer 'Winzerla': the change set withdraws it while it is still named" });
+              { reason: "The model 'W-AC22' of the charging station 'DE*GEF*S2' is unknown at its manufacturer 'Winzerla': the change set withdraws it while it is still named" });
 
     parties.take('commit-9', commit9);
     P.accepted('withdrawn-with-what-names-it', 'The roaming network operator removes a charging station manufacturer together with the charging station of another party naming its model, in one change set both sign.', `${B('4.1, What another party names')}; csharp-review 18`);
@@ -3606,14 +3606,14 @@ function signedHistories() {
     //      no model lowered below one naming it, no energy meter signing with a method its model does not name.
     P.refused('evse-above-its-model', 'An EVSE raised above the maxPower of the model of its charging station.', `${B('4.1, What a model rates')}; csharp-review 19`,
               'commit-11-above-model', evseChange(gefRenewed, 350000), 'commit-11-renewed',
-              { ...references, reason: "The maximum power of the EVSE 'DE*GEF*E1*1', 350 kW, is above the one of the model 'GD-DC300' of 'GraphDefined' of its charging station 'DE*GEF*S1', 300 kW!" });
+              { reason: "The maximum power of the EVSE 'DE*GEF*E1*1', 350 kW, is above the one of the model 'GD-DC300' of 'GraphDefined' of its charging station 'DE*GEF*S1', 300 kW!" });
 
     const modelRated = (maxPower) => parties.prepare({ createdAt: minute(11), description: `The GD-DC300 at ${maxPower / 1000} kW`, signers: [ gdModels ],
                                                        changes: [ update('ChargingStationModel', 'GD-DC300', 'maxPower', 300000, maxPower, [ 'ChargingStationManufacturer', 'GraphDefined' ]) ] });
     parties.keep('commit-11-model', modelRated(350000));
     P.refused('model-below-what-names-it', 'A charging station manufacturer lowering the maxPower of its model below an EVSE of a charging station of another party naming it.', `${B('4.1, What a model rates')}; csharp-review 19`,
               'commit-11-model-lowered', modelRated(250000), 'commit-11-model',
-              { ...references, reason: "The maximum power of the EVSE 'DE*GEF*E1*1', 300 kW, is above the one of the model 'GD-DC300' of 'GraphDefined' of its charging station 'DE*GEF*S1', 250 kW!" });
+              { reason: "The maximum power of the EVSE 'DE*GEF*E1*1', 300 kW, is above the one of the model 'GD-DC300' of 'GraphDefined' of its charging station 'DE*GEF*S1', 250 kW!" });
 
     const meterSigning = (signatureMethod) => parties.prepare({
         createdAt:    minute(11),
@@ -3626,7 +3626,7 @@ function signedHistories() {
     parties.keep('commit-11-meter', meterSigning('OCMF'));
     P.refused('meter-signing-not-as-its-model', 'An energy meter signing with a signature method its model does not name, the model naming one.', `${B('4.1, What a model rates')}; csharp-review 19`,
               'commit-11-meter-method', meterSigning('EDL40'), 'commit-11-meter',
-              { ...references, reason: "The energy meter 'DE*GEF*M1*2' signs with 'EDL40', no signature method of its model 'KDM-500' of 'KERNBERG'!" });
+              { reason: "The energy meter 'DE*GEF*M1*2' signs with 'EDL40', no signature method of its model 'KDM-500' of 'KERNBERG'!" });
 
     // ---- What a change set gives is what the content holds (csharp-review 10): an EVSE added with a JSON-LD context, or
     //      with a timestamp not to the millisecond, is refused.
@@ -3643,7 +3643,8 @@ function signedHistories() {
     // ---- A change of a group is one of a provider's group while a provider has it, else one of the group of the operator its
     //      identification names (csharp-review 9): DE-GEF adds a group of the identification of one of DE*GEF, written as
     //      the content holds it, DE*GEF*EG_HW, renames it and removes it again; renamed after it removed it, the change is
-    //      one of the operator's group, which the provider does not own. WWCP_POI.TS applies no change of a provider's group.
+    //      one of the operator's group, which the provider does not own. WWCP_POI.TS applies a change of a provider's group
+    //      since `1946013`, none before.
     const providerGroup = (description, ...changes) => parties.prepare({ createdAt: minute(12), description, changes, signers: [ empSigning ] });
     const groupAdded    = add('EVSEGroup', { '@id': 'DE*GEF*EG_HW', name: { en: 'Highway' }, EVSEIds: [ 'DE*GEF*E1*1' ] }, [ 'EMobilityProvider', 'DE-GEF' ]);
     const groupRenamed  = update('EVSEGroup', 'DE*GEF*EG_HW', 'name', { en: 'Highway' }, { en: 'Autobahn' });
@@ -3652,17 +3653,17 @@ function signedHistories() {
     parties.keep('commit-12-provider', providerGroup('DE-GEF adds an EVSE group Highway, names it Autobahn and removes it', groupAdded, groupRenamed, groupRemoved({ en: 'Autobahn' })));
     P.refused('owner-of-what-was-removed', 'An e-mobility provider adds an EVSE group of the identification of one of the charging station operator of its prefix, removes it and then renames it, in one change set it alone signs: once its group is removed, the change is one of the group of the operator, which the provider does not own.', `${B('4.1, Within a change set; 9.3')}; csharp-review 9`,
               'commit-12-provider-removed', providerGroup('DE-GEF adds an EVSE group Highway, removes it and names it Autobahn', groupAdded, groupRemoved({ en: 'Highway' }), groupRenamed),
-              'commit-12-provider', { notApplicable: [ TYPESCRIPT ], reason: "needs a signature by a signing key of the ChargingStationOperator 'DE*GEF'" });
+              'commit-12-provider', { reason: "needs a signature by a signing key of the ChargingStationOperator 'DE*GEF'" });
 
     // ---- The roaming network operator adds a grid connection point in place of a grid operator without keys
-    //      (csharp-review 13). WWCP_POI.TS applies no change of a grid connection point.
+    //      (csharp-review 13). WWCP_POI.TS applies a change of a grid connection point since `1946013`, none before.
     const connection = (signers) => parties.prepare({ createdAt: minute(12), description: 'connection-1 of DE*NET, by the roaming network operator in its place', signers,
                                                       changes: [ add('GridConnectionPoint', { '@id': 'connection-1' }, [ 'GridOperator', 'DE*NET' ]) ] });
     P.then('rno-adds-grid-connection-point', 'The roaming network operator adds a grid connection point of a grid operator without keys in its place, signed by two holders with signing keys for the party.', `${B('4.1')}; csharp-review 13`,
-           'commit-12-connection', connection([ alphaParty, betaParty ]), { notApplicable: [ TYPESCRIPT ] });
+           'commit-12-connection', connection([ alphaParty, betaParty ]));
     P.refused('rno-adds-grid-connection-point-with-keys-for-tariffs', 'The roaming network operator adds a grid connection point of a grid operator without keys in its place, signed by two holders with signing keys for tariffs alone.', `${B('4.1')}; csharp-review 13`,
               'commit-12-connection-tariffs', connection([ alphaTariffs, betaTariffs ]), 'commit-12-connection',
-              { notApplicable: [ TYPESCRIPT ], reason: "Change 0: Add of the GridConnectionPoint 'connection-1' needs" });
+              { reason: "Change 0: Add of the GridConnectionPoint 'connection-1' needs" });
 
     // ---- EV Taler (concepts/EVTaler.md, phase 1): DE*GEF adds a signing key for payments; its merchant, the evTaler of
     //      the example of ChargingStationOperator.md, is signed by a key that may sign payments, not by one for the party,

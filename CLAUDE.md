@@ -77,9 +77,8 @@ The TS harness imports WWCP_POI.TS from source, so the implementation's own depe
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
 Expected: C# 783 passed / 0 skipped (its 11 copy tests need the vendored `poi-*.json` and both runs of WWCP_POI.TS: a
-copy missing or drifted is red), TS 746 passed / 20 skipped (7 signing: WWCP_POI.TS verifies only; 13 replays of
-`poi-histories.json` that WWCP_POI.TS leaves to WWCP_POI: references, provider groups, grid connection points). Skips
-are load-bearing, not noise.
+copy missing or drifted is red; `poi-histories.json` is, until WWCP_POI.TS refreshes it without the 13 `notApplicable`),
+TS 759 passed / 7 skipped (7 signing: WWCP_POI.TS verifies only). Skips are load-bearing, not noise.
 
 ## Ground rules
 

@@ -382,9 +382,10 @@ SPECIFICATION.md section 4.1 says so ("Within a change set"), and 9.3 that a pro
 share an identification within a change set. `ProviderGroupTests`, `EnergyMeterTemplateTests` and
 `GridConnectionPointTests` hold it.
 
-This port applies no change of a provider's group, nor of a grid connection point; its record of the energy meter
-templates and groups an earlier change added reaches only changes that applying refuses. It stays as it is.
-WWCPPOIConformanceTests holds WWCP_POI to the scenario of the provider's group (`owner-of-what-was-removed`).
+This port applied no change of a provider's group, nor of a grid connection point, before `1946013`, which applies
+them as WWCP_POI3 does; its record of the energy meter templates and groups an earlier change added reaches only changes
+that applying refuses. It stays as it is. WWCPPOIConformanceTests holds both implementations to the scenario of the
+provider's group (`owner-of-what-was-removed`).
 
 
 ## 10. ✅ What a signed change set says is not what the content holds
@@ -698,9 +699,9 @@ is one of them. A `transparencySoftwareStatus` names a release and its legal sta
 `certificateId`. The proof of a charging station gives the certificates the station and its meters name. In example A13
 the PTB certifies the GD-DC300 with the KDM-500 and Chargy as its components, and the KDM-500 with Chargy. This port
 gives the `certificates` of a verified station, each with `forThisModel`, and with the transparency software of a meter
-the certificates naming its release; the references a version holds it leaves to WWCP_POI, as it does those of 16.
-WWCPPOIConformanceTests holds WWCP_POI alone to them (`station-certificate-of-a-meter`, `meter-certificate-of-a-station`,
-`meter-not-of-the-certificate`).
+the certificates naming its release; the references a version holds it checks since `813e1d7`, as it does those of 16.
+WWCPPOIConformanceTests holds both implementations to them (`station-certificate-of-a-meter`,
+`meter-certificate-of-a-station`, `meter-not-of-the-certificate`).
 
 
 ## 18. ✅ What one party names blocks what another party withdraws
@@ -727,9 +728,9 @@ or a parking space, is not withdrawn while it names it, also not by the RNO; the
 change it in one change set both sign, so that the RNO removes a party another one still names only together with that
 party. A refusal for it says so: when the references a change set leaves were resolved by the version before it,
 `TryApplyChangeSet` adds that the change set withdraws what is still named, and how it is withdrawn.
-`ManufacturerModelTests` holds it. This port leaves the references a version holds to WWCP_POI, as it does those of 16
-and 17. WWCPPOIConformanceTests holds both implementations to a withdrawal together with what names it
-(`withdrawn-with-what-names-it`), and WWCP_POI alone to the refusal (`withdrawn-while-named-*`).
+`ManufacturerModelTests` holds it. This port checks the references a version holds since `813e1d7`, as it does those of
+16 and 17. WWCPPOIConformanceTests holds both implementations to a withdrawal together with what names it
+(`withdrawn-with-what-names-it`), and to the refusal (`withdrawn-while-named-*`).
 
 
 ## 19. ✅ Smaller points
@@ -788,8 +789,8 @@ and 17. WWCPPOIConformanceTests holds both implementations to a withdrawal toget
   set both sign. `ChargingStationModelComparer` and `EnergyMeterModelComparer` say what contradicts a model, a rule a
   method, to be extended where a field turns out to be a limit as well; the other data are compared with nothing:
   `currentTypes`, `connectorTypes`, `numberOfEVSEs`, `maxCurrent`, `accuracyClass`, `measurands`. The replays
-  `evse-above-its-model`, `model-below-what-names-it` and `meter-signing-not-as-its-model` hold WWCP_POI to it; this
-  port leaves it to WWCP_POI, with the references a version holds.
+  `evse-above-its-model`, `model-below-what-names-it` and `meter-signing-not-as-its-model` hold both implementations to
+  it; this port checks it since `813e1d7`, with the references a version holds.
 - ✅ **Keyless parties in section 4.1 (fixed in `65e658d`):** `SPECIFICATION.md:276` says a party is added with
   keys of each kind, "a grid operator also with none"; the code (`TryCheckPartyChange`) and the rest of section 4.1 allow
   a conformity assessment body without keys as well. Section 4.1 says so now.

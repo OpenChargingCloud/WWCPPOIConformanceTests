@@ -210,10 +210,7 @@
         }
       ],
       "control": "commit-4",
-      "reason": "is no firmware version of its model 'GD-DC300'",
-      "notApplicable": [
-        "wwcp-poi.ts"
-      ]
+      "reason": "is no firmware version of its model 'GD-DC300'"
     },
     {
       "id": "station-revision-not-certified",
@@ -245,10 +242,7 @@
         }
       ],
       "control": "commit-4",
-      "reason": "does not cover its hardware revision '1.1'",
-      "notApplicable": [
-        "wwcp-poi.ts"
-      ]
+      "reason": "does not cover its hardware revision '1.1'"
     },
     {
       "id": "station-certificate-of-a-meter",
@@ -280,10 +274,7 @@
         }
       ],
       "control": "commit-4",
-      "reason": "not for a model of charging stations",
-      "notApplicable": [
-        "wwcp-poi.ts"
-      ]
+      "reason": "not for a model of charging stations"
     },
     {
       "id": "meter-certificate-of-a-station",
@@ -315,10 +306,7 @@
         }
       ],
       "control": "commit-4",
-      "reason": "not for a model of energy meters",
-      "notApplicable": [
-        "wwcp-poi.ts"
-      ]
+      "reason": "not for a model of energy meters"
     },
     {
       "id": "meter-not-of-the-certificate",
@@ -350,10 +338,7 @@
         }
       ],
       "control": "commit-4-meter-firmware-control",
-      "reason": "is none of the energy meters the certificate 'PTB-2026-0042' was issued with",
-      "notApplicable": [
-        "wwcp-poi.ts"
-      ]
+      "reason": "is none of the energy meters the certificate 'PTB-2026-0042' was issued with"
     },
     {
       "id": "parties-station-and-meter",
@@ -1354,10 +1339,7 @@
         }
       ],
       "control": "commit-9",
-      "reason": "The manufacturer 'Winzerla' of the charging station 'DE*GEF*S2' is unknown in the roaming network: the change set withdraws it while it is still named",
-      "notApplicable": [
-        "wwcp-poi.ts"
-      ]
+      "reason": "The manufacturer 'Winzerla' of the charging station 'DE*GEF*S2' is unknown in the roaming network: the change set withdraws it while it is still named"
     },
     {
       "id": "withdrawn-while-named-model",
@@ -1409,10 +1391,7 @@
         }
       ],
       "control": "commit-9-model-control",
-      "reason": "The model 'W-AC22' of the charging station 'DE*GEF*S2' is unknown at its manufacturer 'Winzerla': the change set withdraws it while it is still named",
-      "notApplicable": [
-        "wwcp-poi.ts"
-      ]
+      "reason": "The model 'W-AC22' of the charging station 'DE*GEF*S2' is unknown at its manufacturer 'Winzerla': the change set withdraws it while it is still named"
     },
     {
       "id": "withdrawn-with-what-names-it",
@@ -1649,10 +1628,7 @@
         }
       ],
       "control": "commit-11-renewed",
-      "reason": "The maximum power of the EVSE 'DE*GEF*E1*1', 350 kW, is above the one of the model 'GD-DC300' of 'GraphDefined' of its charging station 'DE*GEF*S1', 300 kW!",
-      "notApplicable": [
-        "wwcp-poi.ts"
-      ]
+      "reason": "The maximum power of the EVSE 'DE*GEF*E1*1', 350 kW, is above the one of the model 'GD-DC300' of 'GraphDefined' of its charging station 'DE*GEF*S1', 300 kW!"
     },
     {
       "id": "model-below-what-names-it",
@@ -1712,10 +1688,7 @@
         }
       ],
       "control": "commit-11-model",
-      "reason": "The maximum power of the EVSE 'DE*GEF*E1*1', 300 kW, is above the one of the model 'GD-DC300' of 'GraphDefined' of its charging station 'DE*GEF*S1', 250 kW!",
-      "notApplicable": [
-        "wwcp-poi.ts"
-      ]
+      "reason": "The maximum power of the EVSE 'DE*GEF*E1*1', 300 kW, is above the one of the model 'GD-DC300' of 'GraphDefined' of its charging station 'DE*GEF*S1', 250 kW!"
     },
     {
       "id": "meter-signing-not-as-its-model",
@@ -1775,10 +1748,7 @@
         }
       ],
       "control": "commit-11-meter",
-      "reason": "The energy meter 'DE*GEF*M1*2' signs with 'EDL40', no signature method of its model 'KDM-500' of 'KERNBERG'!",
-      "notApplicable": [
-        "wwcp-poi.ts"
-      ]
+      "reason": "The energy meter 'DE*GEF*M1*2' signs with 'EDL40', no signature method of its model 'KDM-500' of 'KERNBERG'!"
     },
     {
       "id": "new-value-context",
@@ -1958,10 +1928,7 @@
         }
       ],
       "control": "commit-12-provider",
-      "reason": "needs a signature by a signing key of the ChargingStationOperator 'DE*GEF'",
-      "notApplicable": [
-        "wwcp-poi.ts"
-      ]
+      "reason": "needs a signature by a signing key of the ChargingStationOperator 'DE*GEF'"
     },
     {
       "id": "rno-adds-grid-connection-point",
@@ -2030,9 +1997,6 @@
             "effectiveTree:sha256:hex:23f31025f1d144e34e75483f04efdee67e89276ee8f48d90c0c9625ce2abacd2"
           ]
         }
-      ],
-      "notApplicable": [
-        "wwcp-poi.ts"
       ]
     },
     {
@@ -2093,10 +2057,7 @@
         }
       ],
       "control": "commit-12-connection",
-      "reason": "Change 0: Add of the GridConnectionPoint 'connection-1' needs",
-      "notApplicable": [
-        "wwcp-poi.ts"
-      ]
+      "reason": "Change 0: Add of the GridConnectionPoint 'connection-1' needs"
     },
     {
       "id": "evtaler-merchant-signed-for-party",
