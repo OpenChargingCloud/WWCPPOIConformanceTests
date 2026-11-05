@@ -40,6 +40,8 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
         /// <summary>
         /// A document of the fixtures, read as POI reads JSON: a file and a JSON pointer (RFC 6901) into it. Where the
         /// pointer goes on into a string, the string is a JSON document of its own (a fixture keeps signed decimals so).
+        /// A file of the documents the generator makes is named with their directory, "documents" (e.g. "chargy",
+        /// test-vectors/chargy); every other one is of the run of poi-verifier.json.
         /// </summary>
         internal static JToken ChargyDocument(JToken? Reference)
         {
@@ -47,8 +49,11 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
             if (Reference is not JObject reference)
                 throw new InvalidOperationException("The vector names no document!");
 
-            var file   = reference["file"]!.Value<String>()!;
-            var value  = POIJSON.Read(File.ReadAllText(Path.Combine(VectorFiles.ChargyDirectory, file.Replace('/', Path.DirectorySeparatorChar))));
+            var file       = reference["file"]!.Value<String>()!;
+            var directory  = reference["documents"]?.Value<String>() is String documents
+                                 ? Path.Combine(VectorFiles.VectorsDirectory, documents.Replace('/', Path.DirectorySeparatorChar))
+                                 : VectorFiles.ChargyDirectory;
+            var value      = POIJSON.Read(File.ReadAllText(Path.Combine(directory, file.Replace('/', Path.DirectorySeparatorChar))));
 
             foreach (var token in (reference["pointer"]?.Value<String>() ?? "") is { Length: > 0 } pointer
                                       ? pointer[1..].Split('/').Select(token => token.Replace("~1", "/").Replace("~0", "~"))

@@ -25,9 +25,10 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
 {
 
     /// <summary>
-    /// WWCP_POI.TS carries a VENDORED COPY of the golden vector files and of the frozen runs (tests/vectors/poi-*.json,
-    /// tests/vectors/csharp-33447ac, tests/vectors/chargy-fc513cd), so that its own test suite
-    /// (tests/conformance.test.ts) runs against the very same bytes while staying self-contained.
+    /// WWCP_POI.TS carries a VENDORED COPY of the golden vector files, of the frozen runs and of the documents the
+    /// generator makes (tests/vectors/poi-*.json, tests/vectors/csharp-33447ac, tests/vectors/chargy-fc513cd,
+    /// tests/vectors/chargy), so that its own test suite (tests/conformance.test.ts) runs against the very same bytes
+    /// while staying self-contained.
     ///
     /// These tests fail when a vendored copy drifts from test-vectors/ of this repository. In CI that guards the pinned
     /// submodule; in the nightly run, which advances the submodules to their upstream HEADs, the upstream branch. Fix a
@@ -81,6 +82,20 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
                 Assert.Fail($"WWCP_POI.TS vendors no copy of {Path.GetFileName(run)}: is the submodule checked out?");
 
             VendoredByteForByte(run);
+
+        }
+
+
+        [Test]
+        public void The_documents_the_generator_makes_are_vendored_byte_for_byte()
+        {
+
+            var documents = Path.Combine(VectorFiles.VectorsDirectory, "chargy");
+
+            if (!Directory.Exists(Path.Combine(VendoredDirectory, "chargy")))
+                Assert.Fail("WWCP_POI.TS vendors no copy of chargy, the documents the generator makes: is the submodule checked out?");
+
+            VendoredByteForByte(documents);
 
         }
 

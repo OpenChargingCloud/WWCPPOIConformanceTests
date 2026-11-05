@@ -59,7 +59,7 @@ WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, was WWCP_POI.TS's,
 elements of a price status, was WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
 define, which SPECIFICATION.md 2 refuses; it is fixed in WWCP_POI.TS `ce88620`, with the elements of a price status
 written as a charging tariff holds them, which SPECIFICATION.md 12.1 says since WWCP_POI `5a72313`
-([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 773 vectors - WWCP_POI3
+([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 775 vectors - WWCP_POI3
 alone signs the 7 signatures of section 6 again from their private seeds, which WWCP_POI.TS verifies only - and agree on
 every one of them (see [What both do alike](#what-both-do-alike)). Among them are the 13 replays of `poi-histories.json`
 WWCP_POI.TS left to WWCP_POI before: the references a version holds, which it checks since `813e1d7`, and the changes of
@@ -666,8 +666,11 @@ WWCP_POI.TS took the 6 as it read them and gave the former result of the 7th bef
 the same words, under "Invalid price status of the price statement: " (`tariffPrices` of `src/proofs/priceStatement.ts`
 with `notWritten` of the written form), with [D18](#d18-restrictions).
 
-**Not covered:** that a verifier marks a conditional element `unsupported` - what `conditional-price.chargy` meant, a
-fixture restricted by `maxEnergy` would show.
+What the two counterexamples of ChargyWebApp meant, the documents the generator makes show (`chargy/POIPrices`,
+since WWCPPOIConformanceTests made them, every signature deterministic): `sessionPrice-tariff-of-another-evse`, a
+price of `DE*POI*T2`, a tariff of the operator's pattern none of the references of the EVSE names - its signature holds,
+no price of it applies, none is selected -, and `sessionPrice-conditional-element`, an element restricted by
+`maxEnergy` - signed, agreed and published, its price selected, `unsupported`, without a rate. Both give each alike.
 
 
 <a id="d17-time-zones"></a>

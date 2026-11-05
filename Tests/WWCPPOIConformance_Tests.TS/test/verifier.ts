@@ -29,9 +29,10 @@ import type { Applicability } from './vectors.ts';
 
 /**
  * A document of the fixtures: a file of the run and a JSON pointer (RFC 6901) into it, "" for the whole file. Where the
- * pointer goes on into a string, the string is a JSON document of its own (a fixture keeps signed decimals so).
+ * pointer goes on into a string, the string is a JSON document of its own (a fixture keeps signed decimals so). A file of
+ * the documents the generator makes is named with their directory, `documents` (e.g. "chargy", test-vectors/chargy).
  */
-export interface ChargyRef { readonly file: string, readonly pointer: string }
+export interface ChargyRef { readonly documents?: string, readonly file: string, readonly pointer: string }
 
 /** The local trust a verification starts from: every identity key of the trust anchor, at a time. */
 export interface TrustCase {
@@ -106,10 +107,13 @@ const texts = new Map<string, string>();
 /** A document of the fixtures, read as POI reads JSON; a pointer into a string reads the string as JSON. */
 export function chargyDocument(ref: ChargyRef): JSONValue {
 
-    let text = texts.get(ref.file);
+    const where = ref.documents === undefined ? RUN : new URL(`../../../test-vectors/${ref.documents}/`, import.meta.url);
+    const key   = `${where.href}${ref.file}`;
+
+    let text = texts.get(key);
     if (text === undefined) {
-        text = readFileSync(new URL(ref.file, RUN), 'utf8');
-        texts.set(ref.file, text);
+        text = readFileSync(new URL(ref.file, where), 'utf8');
+        texts.set(key, text);
     }
 
     let value: JSONValue = parseJSON(text);

@@ -18,8 +18,8 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   versions, certificates for station and meter models with their components, `csharp-80e4ccc` before with new values
   given as the content holds them, `csharp-bc3b1bd` before with change sets identified by their content,
   `csharp-dbf39b0` before with the digests of price statements, `csharp-801bbce` before that).
-- **WWCP_POI.TS vendors everything** in `tests/vectors` (the runs as `csharp-33447ac` and `chargy-fc513cd`, next to the
-  `poi-*.json`) and runs
+- **WWCP_POI.TS vendors everything** in `tests/vectors` (the runs as `csharp-33447ac` and `chargy-fc513cd`, the
+  documents the generator makes as `chargy`, next to the `poi-*.json`) and runs
   the golden vectors in its own suite, `tests/conformance.test.ts` with its loader `tests/conformance.ts`.
   `VendoredCopiesTests` fails on drift; `--mirror libs/WWCP_POI.TS/tests/vectors` refreshes the copy. A change of the
   vector FORMAT therefore touches three harnesses: the C# one and the TS one here, and `tests/conformance.ts` there.
@@ -51,6 +51,11 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   marked `knownDeviations`, what one gives and the other does not (D16 was one, fixed).
   A refusal's `changes` (pointers of the case) and `documentChanges` (prefixes of the document a counterexample swaps
   in) are calculated by the generator against its `control`, which stops on any claim that does not hold.
+- **The documents the generator makes** (`test-vectors/chargy`, its section 9a): `POIPrices`, the price evidence of
+  sessions as ChargyWebApp made it, every signature deterministic (the meter ES256 of a seed of its own, RFC 6979),
+  each case anchored on its fixture first; GENERATED and drift guarded like the vector files, not frozen. A vector names
+  them with `documents: "chargy"` next to `file` and `pointer`. The aim: such documents are made here, the apps
+  (ChargyWebApp too) vendor them, instead of freezing what each app makes.
 - **What the implementations get wrong:** `docs/implementation-deviations.md`. Each deviation is in `DEVIATIONS` of the
   generator, marked on its vectors (`knownDeviations`, `deviation` anchor) and pinned: the harness of the deviating
   implementation expects the deviation, so a fix turns it red. Fixing one means: remove it from `DEVIATIONS`,
@@ -76,9 +81,10 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 797 passed / 0 skipped (its 11 copy tests need the vendored `poi-*.json` and both runs of WWCP_POI.TS: a
-copy missing or drifted is red), TS 773 passed / 7 skipped (7 signing: WWCP_POI.TS verifies only). Skips are
-load-bearing, not noise.
+Expected: C# 800 passed / 0 skipped (its 12 copy tests need the vendored `poi-*.json`, both runs and `chargy` of
+WWCP_POI.TS: a copy missing or drifted is red; `poi-verifier.json` and `chargy` are, until WWCP_POI.TS vendors the
+price documents made here), TS 775 passed / 7 skipped (7 signing: WWCP_POI.TS verifies only). Skips are load-bearing,
+not noise.
 
 ## Ground rules
 

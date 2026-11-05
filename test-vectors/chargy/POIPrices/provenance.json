@@ -1,0 +1,32 @@
+{
+  "generator": "WWCPPOIConformanceTests: tools/generate-test-vectors.mjs, section 9a",
+  "madeAs": "build-tools/generatePOIPriceExample.mjs of ChargyWebApp fc513cd made POIPrices, each case anchored on its fixture",
+  "evaluatedAt": "2026-11-01T00:16:21.000Z",
+  "chargingStarted": "2026-06-01T10:00:00.000Z",
+  "checkpointAt": "2026-06-02T10:00:00.000Z",
+  "evseId": "DE*POI*E1*1",
+  "keySeeds": "PUBLIC TEST KEYS ONLY: CPO Ed25519=161; RNO identities 41/43, historical keys 142/144, checkpoint 42/44, witness 151; the meter ES256 of the seed of \"CHARGY-POI-METER-001, the meter of the prices of a session\" (RFC 6979)",
+  "profile": "Experimental CPO confirmation bound to original start bytes; gross rates fixed at start, not customer consent or pre-start publication",
+  "files": {
+    "ambiguous-offers.chargy": "86c1f991f1b44114a26b43a9114f07a573673e8dff0fb49464bce699682cd0a2",
+    "broken-price-chain.chargy": "bbc62cc819ff212cf35b6b80421936d933845f2c256bc9437e10783bff2b4c77",
+    "checkpoint-fork.chargy": "64dcd9bbfe08a8ad81a97b1f85c8a07e4d459b668a8f74377b40996c7e03e915",
+    "conditional-price.chargy": "64fb605760596faec3583bf52cefd1ec428f03320aa61a26a2b38a06901f432e",
+    "contract-mode.chargy": "7cd4686ba9d146da4b38ac8b3c5dd497762eef513be48b0e5dc92aa0b7da2827",
+    "decimal-price.chargy": "fe18bcd9e3c638b58662bcb7576915e6002d79b730f572a49071e1442030438e",
+    "empty-prices.chargy": "3a23ede99a37b9b1eb3c620bb750365ee61bc4edba898c86c5b8afe4c4d96468",
+    "expired-price.chargy": "855744ced31e8c96654b1a29d867d1df888a8badb12a79118af4ed12e4d7e804",
+    "foreign-tariff.chargy": "54a65318edb50072fb3f1a621e964ec5f2189b9a4841d23b3790cc6103599126",
+    "invalid-signature.chargy": "db05795df050c4367152911caa60c5a3c44c28d3c474867e9278f630dd4034f4",
+    "missing-agreement.chargy": "ee4711c7551c29c70b260d627b669bf726bbb727536c16cf269ba0291d002350",
+    "missing-publication.chargy": "28d3bc96737e97316aca5e28909d597f2a1068895548cc555076e9a430faea5a",
+    "session-with-price.chargy": "8d8616c66ff53dcfb49b0100ed59e8d7c0b25a60f1e6551cc48f0c7affbe0626",
+    "signed-rate-conflict.chargy": "9c31c091e5ba332729634b326bab39c6fd4fa8ef66467e9ef8559422f571914b",
+    "split-price-chain.chargy": "a8293114241ae4858ed6b55ce690014db820133e3fa1a0ac0285a5c6d81f001b",
+    "tampered-publication.chargy": "aa2c94b27f46bba2274a095a32748b2ba295e14075bb029348ba426a14accdf9",
+    "unauthorized-key.chargy": "66154f999398d9924b5c56ab2fad1d9e5d1fa98dc1cfa396a710f21209891e2b",
+    "variable-binding.chargy": "8ccfeca67890d61fc2823508173db1b9f74df479f335274256eac56362faf05e",
+    "wrong-evse.chargy": "5038afaca3297b7dfc47bae9414685d2384d234d7265a91bb7a46c2c4c2792b8",
+    "wrong-session.chargy": "64fa41d0baa8eb5f0e2dc7478038290990482966b6bf8d821c668cafebfc973f"
+  }
+}

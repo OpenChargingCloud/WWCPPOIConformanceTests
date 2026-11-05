@@ -58,6 +58,19 @@ share, byte for byte: `history-session.json` is `POIHistory/archived-session.cha
 `POIPublication/vectors.json`, `trust-transitions.json` `POITrustTransitions/vectors.json`. Their `meter-session.json`
 is of an older run of ChargyWebApp (`97da24d`), not of this one.
 
+## The documents the generator makes (`chargy/`)
+
+`chargy/` holds documents of the verifier extensions the generator makes itself (its section 9a), GENERATED like the
+vector files and drift guarded by `--check`, never frozen: deterministic, they are the same bytes every time.
+`chargy/POIPrices/` are the cases of `POIPrices` of ChargyWebApp, made as its `build-tools/generatePOIPriceExample.mjs`
+made them, of the same public seeds, on `POIHistory/archived-session.chargy` of the run - but the readings of the meter
+are signed by an ES256 key of a seed of the generator (RFC 6979), not by the published test key, and two counterexamples
+show what their README says: `foreign-tariff.chargy` a tariff of the pattern `{operatorId}*T{suffix}` none of the
+references of the EVSE names (`DE*POI*T2`), `conditional-price.chargy` an element restricted by `maxEnergy`. Each case is
+anchored first: made with the readings of its fixture, it is that fixture, as canonical JSON. `pqc-price.chargy` is not
+made here (node:crypto signs ML-DSA-65 with randomness). Each set has its `README.md` and `provenance.json`, written by
+the generator. ChargyWebApp may vendor them, as WWCP_POI.TS does (`--mirror`).
+
 Before anything is taken of them, the generator checks with `node:crypto` alone what they claim (its section 9): the
 hashes of their provenance and that the shared copies are the same bytes; every signature over its input - key
 statements, certificates, attestations, checkpoints of the operator and of witnesses, price statements in Ed25519 and
@@ -68,7 +81,8 @@ binds, the statement, its SHA-256 and the tariff a receipt binds, the policy ide
 transition continues. What does not hold is exactly what the READMEs name broken; anything else stops the generator.
 
 A vector of `poi-verifier.json` names a `kind`, the check, and its inputs; a document is `file` (relative to the run)
-and `pointer`, read on into a string, which is a JSON document of its own (a fixture keeps signed decimals so). `trust`
+and `pointer`, read on into a string, which is a JSON document of its own (a fixture keeps signed decimals so); a
+document the generator makes names its directory as well, `documents` (`"chargy"`: `file` relative to `chargy/`). `trust`
 is the local trust a verification starts from: the QR code of a trust anchor (`anchor`), a key statement
 (`keyStatement`), every identity key of the anchor trusted, at `at`, as a context of now (`current`) or of a key
 statement saved before (`historical`). `result` is what both implementations give, normalized - identifications, the

@@ -44,7 +44,7 @@
  */
 
 import { createHash, createHmac, createPrivateKey, createPublicKey, sign, verify, X509Certificate } from 'node:crypto';
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -4652,16 +4652,323 @@ function coseThumbprintOfSPKI(spkiBase64) {
     return sha256(Buffer.concat([ Buffer.from('a401022001215820', 'hex'), spki.subarray(27, 59), Buffer.from('225820', 'hex'), spki.subarray(59) ]));
 }
 
+// =====================================================================================================================
+//  9a. Prices bound to a session, made here: chargy/POIPrices
+// =====================================================================================================================
+//
+// The documents of the prices of a session ChargyWebApp fc513cd made (build-tools/generatePOIPriceExample.mjs, POIPrices),
+// made here as it made them, of the same public seeds - the CPO's Ed25519 key 161, the attestation keys 142 and 144, the
+// checkpoint keys 42 and 44, the witness 151 -, on POIHistory/archived-session.chargy of the run: every signature
+// deterministic, so that the files are generated, not frozen, and drift guarded as the vector files are. Two things are
+// not as there: the readings of the meter are signed by a P-256 key of a seed of its own (RFC 6979), not by the published
+// test key whose ECDSA signatures differ every time, its key in the container and in the proof of the station with it;
+// and two counterexamples show what their README says, which their fixtures no longer do since SPECIFICATION.md says
+// otherwise - foreign-tariff a tariff of the pattern {operatorId}*T{suffix}, DE*POI*T2, conditional-price a restriction
+// POI defines, maxEnergy. ML-DSA-65 node:crypto signs with randomness: pqc-price stays the one of the run.
+//
+// Each case is made twice: once with the readings of its fixture and the key of its meter, which must give the fixture
+// itself, its JSON as canonical JSON (the anchor); then with the readings signed anew, which is the file written.
+
+const OWN_CHARGY      = 'chargy';
+const OWN_CHARGY_DIR  = join(OUT, OWN_CHARGY);
+
+/** JSON with its numbers as written: two spaces, LF, a final newline. */
+const serializeRaw = (value) => JSON.stringify(value, (_key, item) => item !== null && typeof item === 'object' && item[RAW] !== undefined ? `\u0000raw:${item[RAW]}\u0000` : item, 2)
+                                    .replace(/"\\u0000raw:([^"\\]*)\\u0000"/gu, '$1') + '\n';
+
+/** A signature r || s (Base64) as DER, in upper case hex, as OCMF gives it. */
+function derOfRaw(rawBase64) {
+    const raw     = Buffer.from(rawBase64, 'base64');
+    const integer = (bytes) => {
+        let value = bytes;
+        while (value.length > 1 && value[0] === 0 && value[1] < 0x80)
+            value = value.subarray(1);
+        if (value[0] >= 0x80)
+            value = Buffer.concat([ Buffer.of(0), value ]);
+        return Buffer.concat([ Buffer.of(0x02, value.length), value ]);
+    };
+    const body = Buffer.concat([ integer(raw.subarray(0, 32)), integer(raw.subarray(32)) ]);
+    return Buffer.concat([ Buffer.of(0x30, body.length), body ]).toString('hex').toUpperCase();
+}
+
+/** The SubjectPublicKeyInfo of an ES256 key of its COSE key (EC2, crv 1): the uncompressed point, in Base64. */
+function spkiOfES256(coseKey) {
+    const bytes = Buffer.from(coseKey, 'base64');
+    return Buffer.concat([ Buffer.from('3059301306072a8648ce3d020106082a8648ce3d030107034200' + '04', 'hex'), bytes.subarray(8, 40), bytes.subarray(43, 75) ]).toString('base64');
+}
+
+/** The price statements of a checkpoint in the order of its tree (12.3, RoamingNetworkPriceStatement.InOrder). */
+const statementsInOrder = (statements, digest) => [ ...statements ].sort((left, right) => {
+    const ordinal = (a, b) => a < b ? -1 : a > b ? 1 : 0;
+    return ordinal(left.entityType, right.entityType) || ordinal(left.entityId, right.entityId) || numberOf(left.sequence) - numberOf(right.sequence) || ordinal(digest(left), digest(right));
+});
+
+function ownPriceSessions() {
+
+    const SET         = 'POIPrices';
+    const original    = parseRaw(readChargy('POIHistory/archived-session.chargy'));
+    const provenance  = JSON.parse(readChargy(`${SET}/provenance.json`));
+    const START       = Date.parse(provenance.chargingStarted);
+    const iso         = (time) => new Date(time).toISOString();
+    const raw         = (text) => ({ [RAW]: text });
+
+    const NETWORK     = original.poiEvidence.roamingNetworkId;
+    const EVSE        = original.poiEvidence.EVSEId;
+    const CPO         = 'DE*POI';
+    const TARIFF      = 'DE*POI*T1';
+    const SERIAL      = 'CHARGY-POI-METER-001';
+    const base        = original.poiEvidence.historicalEvidence.versions[0];
+    const baseProof   = base.chargingStationProof;
+    const operatorOf  = base.checkpoints[0].operator;
+
+    const seedByte    = (byte) => Buffer.alloc(32, byte).toString('hex');
+    const ed          = (byte) => ed25519(seedByte(byte));
+    const digestOf    = (statement) => sha256(utf8(canonical({ '@context': CONTEXTS.priceStatement, ...without(statement, 'value') })));
+
+    // The CPO's signing key for price statements, Ed25519 of the seed 161, as the generator of ChargyWebApp names it.
+    const cpoKey = (usages = [ 'priceStatements' ]) => {
+        const key     = ed(161);
+        const coseKey = coseKeyOf(key.publicKey);
+        return { algorithm: 'Ed25519', sign: key.sign,
+                 json: { '@id': sha256(Buffer.from(coseKey, 'base64')), key: coseKey, usages, notBefore: '2026-01-01T00:00:00.000Z', notAfter: '2030-01-01T00:00:00.000Z' } };
+    };
+
+    // The meter: of a seed of its own, its readings signed with the nonces of RFC 6979.
+    const meter     = es256(seedOf('CHARGY-POI-METER-001, the meter of the prices of a session'));
+    const meterSPKI = spkiOfES256(meter.coseKey);
+
+    /** A reading of the meter, as the generator of ChargyWebApp signs it again: IT, ID and TT set, the rate given. */
+    const reading = (ocmf, rate) => {
+        const payload = JSON.parse(ocmf.substring(ocmf.indexOf('|') + 1, ocmf.lastIndexOf('|')));
+        payload.IT = 'NONE';
+        payload.ID = 'ADHOC-PRICE-DEMO';
+        payload.TT = `001;EUR;0;${rate};0;0`;
+        const text = JSON.stringify(payload);
+        return `OCMF|${text}|${JSON.stringify({ SA: 'ECDSA-secp256r1-SHA256', SE: 'hex', SD: derOfRaw(meter.sign(text)) })}`;
+    };
+
+    const price = (key, changes = {}) => {
+        const value = { '@context': CONTEXTS.priceStatement, roamingNetworkId: NETWORK, entityType: 'EVSE', entityId: EVSE,
+                        priceStatus: { prices: [ { chargingTariffId: TARIFF, elements: [ { priceComponents: [ { type: 'ENERGY', price: raw('0.35'), stepSize: 1 } ] } ] } ] },
+                        signedAt: iso(START - 300_000), validFrom: iso(START - 60_000), validUntil: iso(START + 300_000), sequence: 0, role: 'chargingStationOperator', signer: CPO,
+                        algorithm: key.algorithm, keyId: key.json['@id'], ...changes, value: 'placeholder' };
+        return { ...value, value: key.sign(canonical(without(value, 'value'))) };
+    };
+    const reprice = (statement, key, changes) => price(key, { ...statement, ...changes });
+
+    const agreementOf = (key, statement, begin, changes = {}) => {
+        const value = { '@context': EXTENSION_CONTEXTS.sessionPriceAgreement, roamingNetworkId: NETWORK, EVSEId: EVSE, meterSerialNumber: SERIAL, chargingStarted: iso(START),
+                        startDocumentSHA256: sha256(utf8(begin)), chargingMode: 'adhoc', chargingTariffId: TARIFF, priceStatementDigest: digestOf(statement),
+                        priceBinding: 'fixed-at-start', pricingProfile: 'chargy-gross-rates/v1', role: 'chargingStationOperator', signer: CPO, signedAt: iso(START + 60_000),
+                        algorithm: key.algorithm, keyId: key.json['@id'], ...changes };
+        return { ...value, value: key.sign(canonical(value)) };
+    };
+
+    /** The proof of the station with the key of the CPO, its commit, attestations and checkpoint, naming the statements. */
+    const publication = (key, statements, meterKey) => {
+
+        const proof    = copyOf(baseProof);
+        proof.roamingNetwork.chargingStationOperators[0].signingKeys = [ key.json ];
+        if (meterKey !== undefined)
+            for (const energyMeter of all(proof.roamingNetwork, value => value.serialNumber === SERIAL))
+                energyMeter.publicKeys = [ meterKey ];
+
+        const eTag     = [ 'effectiveTree', 'sha256', 'hex', rootOfProof(proof.roamingNetwork) ];
+        const eTags    = [ [ 'json', 'sha256', 'hex', sha256(utf8(canonical(proof.roamingNetwork))) ], [ 'cbor', 'sha256', 'hex', createHash('sha256').update(cborOf(proof.roamingNetwork)).digest('hex') ], eTag ];
+        const content  = { '@context': CONTEXTS.commit, roamingNetworkId: NETWORK, revision: 0, eTags };
+        const commit   = { '@id': commitIdOf(content, 'sha256'), ...content };
+        proof.commitId = commit['@id'];
+        proof.revision = 0;
+        proof.attestations = baseProof.attestations.map((item, index) => {
+            const value = { ...item, commitId: commit['@id'], revision: 0, eTag, value: 'placeholder' };
+            return { ...value, value: ed(index === 0 ? 142 : 144).sign(attestationSignatureInput(value)) };
+        });
+
+        const ordered  = statementsInOrder(statements, digestOf);
+        const at       = iso(START + 86_400_000);
+        const body     = { '@context': CONTEXTS.checkpoint, roamingNetworkId: NETWORK, epoch: 1, sequence: 0, commitId: commit['@id'], revision: 0, eTags,
+                           commits:         { '@merkleRoot': mth(hashOf('sha256'), [ commitLeafOf(commit) ]).toString('hex'), '@size': 1 },
+                           priceStatements: { '@merkleRoot': mth(hashOf('sha256'), ordered.map(statement => Buffer.from(digestOf(statement), 'hex'))).toString('hex'), '@size': ordered.length },
+                           createdAt: at };
+        const identified = { '@id': checkpointIdOf(body, 'sha256'), ...body };
+        const signatures = [ 42, 44, 151 ].map((seed, index) => {
+            const signature = { role: index < 2 ? 'roamingNetworkOperator' : 'witness', signer: index < 2 ? operatorOf['@id'] : 'CHARGY-DEMO-WITNESS', signedAt: at, algorithm: 'Ed25519',
+                                keyId: index < 2 ? operatorOf.signingKeyCertificates[index].signingKey['@id'] : base.checkpoints[0].checkpoint.signatures[2].keyId };
+            return { ...signature, value: ed(seed).sign(roleSignatureInput(CONTEXTS.checkpointSignature, signature, 'checkpoint', checkpointAsSigned(identified))) };
+        });
+        const checkpoint  = { ...identified, signatures };
+        const commitProof = { '@context': CONTEXT + 'checkpointProof/v1', checkpointId: checkpoint['@id'], leaf: { commitId: commit['@id'], eTags, revision: 0 },
+                              '@index': 0, '@size': 1, '@auditPath': [] };
+        return { proof, commitProof, checkpoints: [ { checkpoint, operator: copyOf(operatorOf) } ] };
+
+    };
+
+    /** A session with the price evidence of a case, its readings given (the anchor) or signed anew with the rate given. */
+    const made = ({ usages, statements: editStatements, agreement: editAgreement, missingAgreement = false, rate = '35', missingProof = false, tamperedProof = false, fork = false } = {},
+                  readings) => {
+
+        const key        = cpoKey(usages);
+        const begin      = readings?.begin ?? reading(original.ocmfBegin, rate);
+        const end        = readings?.end   ?? reading(original.ocmfEnd,   rate);
+        const meterKey   = readings === undefined ? { '@id': sha256(Buffer.from(meterSPKI, 'base64')), key: meterSPKI } : undefined;
+        const statements = editStatements === undefined ? [ price(key) ] : editStatements([ price(key) ], key);
+        const published  = publication(key, statements, meterKey);
+        const selected   = statements[0];
+        const checkpoint = published.checkpoints[0].checkpoint;
+
+        const priceProofs = statements.length === 1 ? [ { '@context': CONTEXT + 'priceStatementProof/v1', checkpointId: checkpoint['@id'], priceStatement: selected, '@index': 0, '@size': 1, '@auditPath': [] } ] : [];
+        if (tamperedProof)
+            priceProofs[0].priceStatement = { ...selected, value: selected.value.slice(0, -4) + 'AAAA' };
+
+        const evidence = { '@context': EXTENSION_CONTEXTS.sessionPriceEvidence, EVSEId: EVSE, chargingStationProof: published.proof, priceStatements: statements,
+                           ...(missingAgreement ? {} : { agreement: agreementOf(key, selected, begin, editAgreement) }),
+                           ...(missingProof     ? {} : { priceStatementProofs: priceProofs, checkpoints: published.checkpoints }) };
+        const history  = { ...copyOf(original.poiEvidence.historicalEvidence), versions: [ { chargingStationProof: published.proof, commitProof: published.commitProof, checkpoints: published.checkpoints } ] };
+
+        if (fork) {
+            const bare      = without(checkpoint, '@id', 'signatures', 'priceStatements');
+            const forked    = { '@id': checkpointIdOf(bare, 'sha256'), ...bare };
+            const signed    = checkpoint.signatures.filter(signature => signature.role === 'roamingNetworkOperator')
+                                                    .map((signature, index) => ({ ...signature, value: ed(index === 0 ? 42 : 44).sign(roleSignatureInput(CONTEXTS.checkpointSignature, signature, 'checkpoint', checkpointAsSigned(forked))) }));
+            history.versions[0].commitProof = { ...published.commitProof, checkpointId: forked['@id'] };
+            history.versions[0].checkpoints = [ { checkpoint: { ...forked, signatures: signed }, operator: copyOf(operatorOf) } ];
+        }
+
+        return { ...copyOf(original), ...(meterKey === undefined ? {} : { publicKey: meterSPKI }), ocmfBegin: begin, ocmfEnd: end,
+                 poiEvidence: { ...copyOf(original.poiEvidence), historicalEvidence: history, priceEvidence: evidence } };
+
+    };
+
+    const status   = (statement, edit) => { const priceStatus = copyOf(statement.priceStatus); edit(priceStatus.prices[0]); return { priceStatus }; };
+    const element  = (prices) => prices.elements[0];
+
+    // The cases of the generator of ChargyWebApp, by their file; `ownCase` where this one makes it otherwise.
+    const CASES = {
+        'session-with-price.chargy':    {},
+        'missing-agreement.chargy':     { missingAgreement: true },
+        'empty-prices.chargy':          { missingAgreement: true, missingProof: true, statements: () => [] },
+        'decimal-price.chargy':         { statements: (items, key) => [ reprice(items[0], key, status(items[0], prices => element(prices).priceComponents[0].price = raw('0.3500'))) ] },
+        'missing-publication.chargy':   { missingProof: true },
+        'invalid-signature.chargy':     { statements: items => [ { ...items[0], value: items[0].value.slice(0, -4) + 'AAAA' } ], missingAgreement: true, missingProof: true },
+        'wrong-evse.chargy':            { statements: (items, key) => [ reprice(items[0], key, { entityId: 'DE*POI*E9*1' }) ], missingProof: true },
+        'expired-price.chargy':         { statements: (items, key) => [ reprice(items[0], key, { validUntil: iso(START - 1) }) ] },
+        'foreign-tariff.chargy':        { statements: (items, key) => [ reprice(items[0], key, status(items[0], prices => prices.chargingTariffId = 'DE*POI*FOREIGN')) ],
+                                          ownCase:    (items, key) => [ reprice(items[0], key, status(items[0], prices => prices.chargingTariffId = 'DE*POI*T2')) ] },
+        'unauthorized-key.chargy':      { usages: [ 'infrastructure' ] },
+        'wrong-session.chargy':         { agreement: { startDocumentSHA256: 'ff'.repeat(32) } },
+        'contract-mode.chargy':         { agreement: { chargingMode: 'contract' } },
+        'variable-binding.chargy':      { agreement: { priceBinding: 'variable' } },
+        'signed-rate-conflict.chargy':  { rate: '65' },
+        'tampered-publication.chargy':  { tamperedProof: true },
+        'checkpoint-fork.chargy':       { fork: true },
+        'split-price-chain.chargy':     { missingProof: true, statements: (items, key) => [ ...items, reprice(items[0], key, status(items[0], prices => element(prices).priceComponents[0].price = raw('0.45'))) ] },
+        'broken-price-chain.chargy':    { missingProof: true, statements: (items, key) => [ ...items, reprice(items[0], key, { sequence: 1, previous: 'ff'.repeat(32), validFrom: iso(START - 1000) }) ] },
+        'ambiguous-offers.chargy':      { missingProof: true, missingAgreement: true, statements: (items, key) => [ ...items, reprice(items[0], key, { entityType: 'ChargingPool', entityId: 'DE*POI*P1' }) ] },
+        'conditional-price.chargy':     { statements: (items, key) => [ reprice(items[0], key, status(items[0], prices => element(prices).restrictions = { max_kwh: raw('5') })) ],
+                                          ownCase:    (items, key) => [ reprice(items[0], key, status(items[0], prices => element(prices).restrictions = { maxEnergy: raw('5') })) ] },
+    };
+
+    if (Object.keys(CASES).length + 1 !== Object.keys(provenance.files).length || !Object.keys(provenance.files).includes('pqc-price.chargy'))
+        fail(`chargy/${SET}: the cases are not those of ${SET} of the run, pqc-price.chargy aside`);
+
+    const documents = {};
+    for (const [ file, { ownCase, ...options } ] of Object.entries(CASES)) {
+        const fixture = parseRaw(readChargy(`${SET}/${file}`));
+        const remade  = canonical(made(options, { begin: fixture.ocmfBegin, end: fixture.ocmfEnd }));
+        if (remade !== canonical(fixture))
+            fail(`anchor: chargy/${SET}/${file} is not made as the generator of ChargyWebApp made it, of its readings: ${differences(parseRaw(remade), parseRaw(canonical(fixture))).slice(0, 5).join('; ')}`);
+        const own = made(ownCase === undefined ? options : { ...options, statements: ownCase });
+        for (const which of [ 'ocmfBegin', 'ocmfEnd' ]) {
+            const [ , payload, signature ] = /^OCMF\|(.*)\|(\{[^|]*\})$/su.exec(own[which]);
+            if (!verify('sha256', utf8(payload), { key: createPublicKey({ key: Buffer.from(meterSPKI, 'base64'), format: 'der', type: 'spki' }), dsaEncoding: 'der' }, Buffer.from(JSON.parse(signature).SD, 'hex')))
+                fail(`chargy/${SET}/${file}: node:crypto does not verify its ${which} with the key of its meter`);
+        }
+        documents[`${SET}/${file}`] = own;
+    }
+
+    return documents;
+
+}
+
+/** The documents made here (chargy/), by their file. */
+let OWN_DOCUMENTS;
+
+/** What the cases made here show, where it is not what the README of the run says. */
+const OWN_SAYS = {
+    'foreign-tariff.chargy':    'Genuine price naming a tariff outside this EVSE\'s references: DE*POI*T2, of the pattern {operatorId}*T{suffix}',
+    'conditional-price.chargy': 'Conditional tariff elements are explicitly unsupported: an element restricted by maxEnergy',
+};
+
+/** The files of chargy/ as text: each document, and the README and provenance of each set. */
+function ownChargyFiles() {
+
+    const files = {};
+    for (const [ file, document ] of Object.entries(OWN_DOCUMENTS))
+        files[`${OWN_CHARGY}/${file}`] = serializeRaw(document);
+
+    const SET  = 'POIPrices';
+    const run  = JSON.parse(readChargy(`${SET}/provenance.json`));
+    const said = (name) => OWN_SAYS[name] ?? (readChargy(`${SET}/README.md`).match(new RegExp(`^\\| \`${name.replaceAll('.', '\\.')}\` \\| (.+?) \\|$`, 'm')) ?? fail(`${SET}/README.md: no row of ${name}`))[1];
+    const made = Object.keys(files).filter(name => name.startsWith(`${OWN_CHARGY}/${SET}/`)).map(name => name.slice(`${OWN_CHARGY}/${SET}/`.length)).sort();
+
+    files[`${OWN_CHARGY}/${SET}/provenance.json`] = JSON.stringify({
+        generator:        'WWCPPOIConformanceTests: tools/generate-test-vectors.mjs, section 9a',
+        madeAs:           `build-tools/generatePOIPriceExample.mjs of ChargyWebApp ${CHARGY.split('-').pop()} made ${SET}, each case anchored on its fixture`,
+        evaluatedAt:      run.evaluatedAt,
+        chargingStarted:  run.chargingStarted,
+        checkpointAt:     run.checkpointAt,
+        evseId:           run.evseId,
+        keySeeds:         `PUBLIC TEST KEYS ONLY: CPO Ed25519=161; RNO identities 41/43, historical keys 142/144, checkpoint 42/44, witness 151; the meter ES256 of the seed of "CHARGY-POI-METER-001, the meter of the prices of a session" (RFC 6979)`,
+        profile:          run.profile,
+        files:            Object.fromEntries(made.map(name => [ name, sha256(utf8(files[`${OWN_CHARGY}/${SET}/${name}`])) ])),
+    }, null, 2) + '\n';
+
+    files[`${OWN_CHARGY}/${SET}/README.md`] = [
+        '# Session price evidence, made by WWCPPOIConformanceTests',
+        '',
+        'GENERATED by `tools/generate-test-vectors.mjs` (section 9a) - never edit, regenerate. Public test material only.',
+        '',
+        `The cases of \`${SET}\` of ChargyWebApp \`${CHARGY.split('-').pop()}\` (\`build-tools/generatePOIPriceExample.mjs\`), made as it made`,
+        'them, of the same public seeds, on `POIHistory/archived-session.chargy` of its fixtures - but every signature',
+        'deterministic: the readings of the meter are signed with a P-256 key of a seed of its own, with the nonces of RFC 6979,',
+        'not with the published test key, whose ECDSA signatures differ every time. Each case is anchored first: made with the',
+        'readings of its fixture, it is that fixture. `pqc-price.chargy` is not made here: node:crypto signs ML-DSA-65 with',
+        'randomness. What both WWCP_POI3 and WWCP_POI.TS give for each is in `poi-verifier.json` (`sessionPrice-*`).',
+        '',
+        `The fixed evaluation clock is **${run.evaluatedAt.replace('.000Z', 'Z')}**; charging starts at ${run.chargingStarted.replace('.000Z', 'Z')}.`,
+        '',
+        '| File | Expected scoped result |',
+        '| --- | --- |',
+        ...made.map(name => `| \`${name}\` | ${said(name)} |`),
+        '',
+    ].join('\n');
+
+    return files;
+
+}
+
+/** A document made here: a file and a JSON pointer into it. */
+function ownAt(file, pointer) {
+    let value = OWN_DOCUMENTS[file] ?? fail(`chargy/${file}: no document made here`);
+    for (const token of pointer === '' ? [] : pointer.slice(1).split('/').map(item => item.replaceAll('~1', '/').replaceAll('~0', '~')))
+        value = value?.[Array.isArray(value) ? Number(token) : token] ?? fail(`chargy/${file}: the pointer ${pointer} names nothing`);
+    return value;
+}
+
 function verifierVectors() {
 
     anchorTheChargyRun();
+    OWN_DOCUMENTS = ownPriceSessions();
 
     const TS_README  = 'libs/WWCP_POI.TS/README.md';
     const POI_README = 'libs/WWCP_POI/README.md';
     const vectors    = [];
     const accept     = (vector) => vectors.push({ expected: 'accepted', ...vector });
-    const ref        = (file, pointer = '') => ({ file, pointer });
-    const at         = (file, pointer) => chargyAt(file, pointer);
+    const frozenRef  = (file, pointer = '') => ({ file, pointer });
+    const frozenAt   = (file, pointer) => chargyAt(file, pointer);
+    // A document made here (chargy/) where one of the file is made here, else the one of the run.
+    const ref        = (file, pointer = '') => OWN_DOCUMENTS[file] === undefined ? frozenRef(file, pointer) : { documents: OWN_CHARGY, file, pointer };
+    const at         = (file, pointer) => OWN_DOCUMENTS[file] === undefined ? frozenAt(file, pointer) : ownAt(file, pointer);
     const provenance = (set) => JSON.parse(readChargy(`${set}/provenance.json`));
 
     // What both READMEs say of the extensions: experimental, made in WWCP_POI3 as WWCP_POI.TS verifies them.
@@ -4674,8 +4981,8 @@ function verifierVectors() {
 
     // The local trust of a verification: the trust anchor and key statement a fixture bootstraps with, every identity
     // key of the anchor trusted.
-    const bootstrapOf = (file, at, context = 'current', keyStatement = '/poiEvidence/bootstrap/keyStatement/keyStatement') =>
-        ({ anchor: ref(file, '/poiEvidence/bootstrap/trustAnchor'), keyStatement: ref(file, keyStatement), at, context });
+    const bootstrapOf = (file, at, context = 'current', keyStatement = '/poiEvidence/bootstrap/keyStatement/keyStatement', refOf = ref) =>
+        ({ anchor: refOf(file, '/poiEvidence/bootstrap/trustAnchor'), keyStatement: refOf(file, keyStatement), at, context });
 
     const EVSE    = provenance('POISession').evseId;
     const SERIAL  = provenance('POISession').meterSerial;
@@ -4738,16 +5045,18 @@ function verifierVectors() {
     //      selected statement is one of the evidence; the start document is the SHA-256 of the signed start reading.
     // Where a price is selected, the organizations that witnessed its publication before the start: none without a
     // policy of witnesses; where none is, nothing was looked at (null).
-    const priceCase = (set, file, request = {}) =>
-        ({ trust: bootstrapOf(`${set}/${file}`, provenance(set).evaluatedAt ?? provenance(set).now, 'historical'), evidence: ref(`${set}/${file}`, '/poiEvidence/priceEvidence'),
-           request: { evseId: EVSE, meterSerialNumber: SERIAL, chargingStarted: provenance(set).chargingStarted, startDocumentSHA256: sha256(utf8(at(`${set}/${file}`, '/ocmfBegin'))), ...request } });
-    const priceVector = (id, set, file, description, verdicts, selected, { policy, organizations = selected === null ? null : [], request, specified, deviates } = {}) => {
+    // Of the documents made here (chargy/POIPrices) where one is made, else of the run; `frozen`, of the run in any case.
+    const priceCase = (set, file, request = {}, frozen = false) =>
+        ({ trust: bootstrapOf(`${set}/${file}`, provenance(set).evaluatedAt ?? provenance(set).now, 'historical', undefined, frozen ? frozenRef : ref),
+           evidence: (frozen ? frozenRef : ref)(`${set}/${file}`, '/poiEvidence/priceEvidence'),
+           request: { evseId: EVSE, meterSerialNumber: SERIAL, chargingStarted: provenance(set).chargingStarted, startDocumentSHA256: sha256(utf8((frozen ? frozenAt : at)(`${set}/${file}`, '/ocmfBegin'))), ...request } });
+    const priceVector = (id, set, file, description, verdicts, selected, { policy, organizations = selected === null ? null : [], request, specified, deviates, frozen = false } = {}) => {
         const [ signatures, agreement, applicability, publication, publicationBeforeStart ] = verdicts.split(' ');
-        const evidence  = at(`${set}/${file}`, '/poiEvidence/priceEvidence');
+        const evidence  = (frozen ? frozenAt : at)(`${set}/${file}`, '/poiEvidence/priceEvidence');
         if (selected !== null && !(evidence.priceStatements ?? []).some(statement => sha256(utf8(canonical({ '@context': CONTEXTS.priceStatement, ...without(statement, 'value') }))) === selected.digest))
             fail(`${set}/${file}: the selected digest ${selected.digest} is of no statement of the evidence`);
         accept({ id, kind: 'sessionPrice', basis: specified ?? basis(policy === undefined ? 'Session-bound prices' : 'Independent price publication receipts', policy === undefined ? 'SessionPriceEvidence.cs' : 'PricePublication.cs'),
-                 description, ...priceCase(set, file, request),
+                 description, ...priceCase(set, file, request, frozen),
                  ...(policy === undefined ? {} : { policy }),
                  result: { signatures, agreement, applicability, publication, publicationBeforeStart, customerConsent: 'not-proven', witnessedBy: [], selected, organizations },
                  ...(deviates === undefined ? {} : deviation(deviates)) });
@@ -4783,7 +5092,7 @@ function verifierVectors() {
         const CONDITIONAL  = 'POIPrices/conditional-price.chargy';
         const RESTRICTIONS = 'libs/WWCP_POI/WWCP_POI3/RoamingNetwork/ChargingTariff/ChargingTariffRestrictions.cs';
         const defined      = [ ...source(RESTRICTIONS).matchAll(/public const String\s+\w+\s*=\s*"([A-Za-z@]+)";/gu) ].map(match => match[1]);
-        const statement    = at(CONDITIONAL, '/poiEvidence/priceEvidence/priceStatements/0');
+        const statement    = frozenAt(CONDITIONAL, '/poiEvidence/priceEvidence/priceStatements/0');
         const restrictions = statement.priceStatus.prices.flatMap(price => price.elements).flatMap(element => element.restrictions === undefined ? [] : [ element.restrictions ]);
         const undefinedOf  = restrictions.flatMap(restriction => Object.keys(restriction)).filter(name => !defined.includes(name));
         if (!defined.includes('maxEnergy') || restrictions.length !== 1 || undefinedOf.join() !== 'max_kwh')
@@ -4791,7 +5100,7 @@ function verifierVectors() {
         quoted(SPEC, 'the `elements` are written as a charging tariff holds them (section 2, "Written forms"), as a version holds the', 'that the elements of a price status are written as a charging tariff holds them');
         priceVector('sessionPrice-conditional-price', 'POIPrices', 'conditional-price.chargy',
                     `${said('POIPrices', 'conditional-price.chargy')}: its element is restricted by max_kwh, which POI does not define (OCPI's name of its maxEnergy), so that its elements are not written as a charging tariff holds them. It is no price statement, refused as read, before its signature is looked at: no statement of the evidence holds, as of an invalid signature.`,
-                    'invalid missing invalid missing not-proven', null, { specified: `${SPEC}, 2, 12.1` });
+                    'invalid missing invalid missing not-proven', null, { specified: `${SPEC}, 2, 12.1`, frozen: true });
     }
 
     // ---- A price naming no identification of a charging tariff (SPECIFICATION.md 2, 12.1): no price statement, refused
@@ -4800,8 +5109,8 @@ function verifierVectors() {
     //      show. Both refuse it so since WWCP_POI.TS `80afec7` (D16, fixed).
     {
         const FOREIGN   = 'POIPrices/foreign-tariff.chargy';
-        const statement = at(FOREIGN, '/poiEvidence/priceEvidence/priceStatements/0');
-        const operator  = at(FOREIGN, '/poiEvidence/priceEvidence/chargingStationProof/roamingNetwork/chargingStationOperators/0');
+        const statement = frozenAt(FOREIGN, '/poiEvidence/priceEvidence/priceStatements/0');
+        const operator  = frozenAt(FOREIGN, '/poiEvidence/priceEvidence/chargingStationProof/roamingNetwork/chargingStationOperators/0');
         const tariffIds = (operator.chargingTariffs ?? []).map(tariff => tariff['@id']);
         const named     = statement.priceStatus.prices.map(price => price.chargingTariffId);
         // As ChargingTariff_Id reads it: {operatorId}*T{suffix}.
@@ -4812,7 +5121,27 @@ function verifierVectors() {
         quoted(SPEC, 'A statement naming another text is no price statement and is',                'that a price statement naming another text is refused');
         priceVector('sessionPrice-foreign-tariff', 'POIPrices', 'foreign-tariff.chargy',
                     `${said('POIPrices', 'foreign-tariff.chargy')}: its price names the charging tariff '${named[0]}', which is no identification of a charging tariff, {operatorId}*T{suffix}, as those of ${operator['@id']} are (${tariffIds.join(', ')}). It is no price statement, refused as read, before its signature is looked at: no statement of the evidence holds, as of an invalid signature.`,
-                    'invalid missing invalid missing not-proven', null, { specified: `${SPEC}, 2, 12.1` });
+                    'invalid missing invalid missing not-proven', null, { specified: `${SPEC}, 2, 12.1`, frozen: true });
+    }
+
+    // ---- What the two counterexamples meant, made here (chargy/POIPrices): a price of a tariff of the operator's pattern
+    //      none of the references of the EVSE names, and an element restricted by a restriction POI defines.
+    {
+        const digestOf = (file) => sha256(utf8(canonical({ '@context': CONTEXTS.priceStatement, ...without(at(`POIPrices/${file}`, '/poiEvidence/priceEvidence/priceStatements/0'), 'value') })));
+        const evseOf   = at('POIPrices/foreign-tariff.chargy', '/poiEvidence/priceEvidence/chargingStationProof');
+        const named    = at('POIPrices/foreign-tariff.chargy', '/poiEvidence/priceEvidence/priceStatements/0').priceStatus.prices.map(price => price.chargingTariffId);
+        const ofEVSE   = all(evseOf, value => value['@id'] === EVSE).flatMap(evse => evse.chargingTariffIds ?? []);
+        if (named.join() !== 'DE*POI*T2' || ofEVSE.length === 0 || ofEVSE.includes('DE*POI*T2'))
+            fail(`chargy/POIPrices/foreign-tariff.chargy: no price of DE*POI*T2 alone, a tariff none of the references of ${EVSE} names (${ofEVSE.join(', ')})`);
+        priceVector('sessionPrice-tariff-of-another-evse', 'POIPrices', 'foreign-tariff.chargy',
+                    `${OWN_SAYS['foreign-tariff.chargy']}: the references of ${EVSE} name ${ofEVSE.join(', ')}. Its signature holds, but no price of it applies to the EVSE: none is selected, nor its agreement and publication looked at, as of a price of another EVSE.`,
+                    'valid missing invalid missing not-proven', null);
+        const restricted = at('POIPrices/conditional-price.chargy', '/poiEvidence/priceEvidence/priceStatements/0').priceStatus.prices[0].elements[0].restrictions;
+        if (canonical(restricted) !== '{"maxEnergy":5}')
+            fail('chargy/POIPrices/conditional-price.chargy: no element restricted by maxEnergy alone');
+        priceVector('sessionPrice-conditional-element', 'POIPrices', 'conditional-price.chargy',
+                    `${OWN_SAYS['conditional-price.chargy']}, a restriction POI defines. Signed, agreed and published, its price is selected, but its rate is not given: an element under a restriction is no rate a verifier applies to the session.`,
+                    'valid valid unsupported valid not-proven', { digest: digestOf('conditional-price.chargy'), algorithm: 'Ed25519', energyPerKWh: null });
     }
 
     // ---- Receipts of witnesses (PricePublicationVerification): without a policy of witnesses, no receipt counts; with
@@ -5131,12 +5460,17 @@ const outputs = {
     'poi-verifier.json':        verifierVectors(),
 };
 
+// The vector files, and the documents made here (chargy/), as text.
+const texts = {
+    ...Object.fromEntries(Object.entries(outputs).map(([ name, value ]) => [ name, serialize(value) ])),
+    ...ownChargyFiles(),
+};
+
 let drift = 0;
 
-for (const [ name, value ] of Object.entries(outputs)) {
+for (const [ name, text ] of Object.entries(texts)) {
 
     const path = join(OUT, name);
-    const text = serialize(value);
 
     if (checkOnly) {
         if (!existsSync(path) || readFileSync(path, 'utf8') !== text) {
@@ -5146,10 +5480,24 @@ for (const [ name, value ] of Object.entries(outputs)) {
         continue;
     }
 
-    mkdirSync(OUT, { recursive: true });
+    mkdirSync(dirname(path), { recursive: true });
     writeFileSync(path, text);
     console.log(`wrote test-vectors/${name}`);
 
+}
+
+// A document of chargy/ the generator no longer makes is no part of it.
+for (const file of existsSync(OWN_CHARGY_DIR) ? walk(OWN_CHARGY_DIR) : []) {
+    const name = relative(OUT, file).split(sep).join('/');
+    if (texts[name] !== undefined)
+        continue;
+    if (checkOnly) {
+        console.error(`${name}: the generator does not make it - regenerate (never add a file by hand)`);
+        drift++;
+        continue;
+    }
+    rmSync(file);
+    console.log(`removed test-vectors/${name}`);
 }
 
 if (checkOnly) {
@@ -5165,6 +5513,8 @@ for (const mirror of mirrors) {
         cpSync(join(OUT, name), join(target, name));
     cpSync(RUN_DIR, join(target, RUN), { recursive: true });
     cpSync(CHARGY_DIR, join(target, CHARGY), { recursive: true });
+    rmSync(join(target, OWN_CHARGY), { recursive: true, force: true });
+    cpSync(OWN_CHARGY_DIR, join(target, OWN_CHARGY), { recursive: true });
     console.log(`mirrored test-vectors to ${mirror}`);
 }
 

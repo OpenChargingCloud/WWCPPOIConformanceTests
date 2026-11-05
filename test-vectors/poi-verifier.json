@@ -510,10 +510,12 @@
       "description": "Valid Ed25519 CPO assignment, original start, rate match and inclusion.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -521,6 +523,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/session-with-price.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -528,7 +531,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -598,10 +601,12 @@
       "description": "Signed `0.3500` retained exactly through parse/display/export.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/decimal-price.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/decimal-price.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -609,6 +614,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/decimal-price.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -616,7 +622,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "5ba543f098250f3ddf41d3caa976824a2265375c4740739e5411385f65976536"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -642,10 +648,12 @@
       "description": "Missing price evidence.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/empty-prices.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/empty-prices.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -653,6 +661,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/empty-prices.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -660,7 +669,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "9f1cbb1513a4c5d564559a9e03fb1f3ec0f6f789db667cb09ece6bd902b5f016"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "missing",
@@ -682,10 +691,12 @@
       "description": "Valid offer/inclusion, actual session assignment unproven.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/missing-agreement.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/missing-agreement.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -693,6 +704,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/missing-agreement.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -700,7 +712,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "6310c835fd7cc3160540ce5a0e5579c6b70b91ec38717aae4d2d461f3e006f84"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -726,10 +738,12 @@
       "description": "Valid assignment, missing price inclusion.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/missing-publication.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/missing-publication.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -737,6 +751,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/missing-publication.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -744,7 +759,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "ad7628a26d3887d281dbb9252c3fcca0c8f60ff8086605d1a5ddae4b74a0571c"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -770,10 +785,12 @@
       "description": "Invalid CPO price signature.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/invalid-signature.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/invalid-signature.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -781,6 +798,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/invalid-signature.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -788,7 +806,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "4bee04e37d6c3c26cfa1d16d3e39f36ce728fca05488001becb19f1e15a9a647"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "invalid",
@@ -810,10 +828,12 @@
       "description": "Genuine price signature for another EVSE.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/wrong-evse.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/wrong-evse.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -821,6 +841,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/wrong-evse.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -828,7 +849,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "6b64b65fa398a27adb4e4ddde733fd65c215b416d6d51d767c575230f6728a0d"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -850,10 +871,12 @@
       "description": "Genuine price not active at start.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/expired-price.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/expired-price.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -861,6 +884,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/expired-price.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -868,7 +892,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "3571be3684005ee368e217b03b57cf534a3f1c6ae894bcdd85f81d9d810c1a5a"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -890,10 +914,12 @@
       "description": "RNO-authenticated CPO key without `priceStatements` usage.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/unauthorized-key.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/unauthorized-key.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -901,6 +927,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/unauthorized-key.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -908,7 +935,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "3a32b01ac1ef85b169ae7598053c3882266fd2552bb90d3535537ecaef3e169e"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "invalid",
@@ -930,10 +957,12 @@
       "description": "Genuine CPO assignment to a different original-start digest.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/wrong-session.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/wrong-session.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -941,6 +970,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/wrong-session.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -948,7 +978,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "d43661b7c960c632c36bbd63313c8e515daba3352a5c805b293e39feba13a146"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -970,10 +1000,12 @@
       "description": "Contract mode requires an additional profile.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/contract-mode.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/contract-mode.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -981,6 +1013,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/contract-mode.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -988,7 +1021,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "1803e53323b671c96129d0e40cbcf1a3643c4c003661f86249cd51948e145346"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -1014,10 +1047,12 @@
       "description": "Variable binding requires an additional profile.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/variable-binding.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/variable-binding.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -1025,6 +1060,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/variable-binding.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -1032,7 +1068,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "5948dea7a389684505f9af95dd67d1d8536ffcc24801e1f6f300b2fa8429b8f4"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -1058,10 +1094,12 @@
       "description": "Genuine 65-cent OCMF start conflicts with genuine 35-cent CPO price.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/signed-rate-conflict.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/signed-rate-conflict.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -1069,6 +1107,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/signed-rate-conflict.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -1076,7 +1115,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "360d9ae2894817eaf20548c31b52dbbd71ca055dd81f5c27e4addc31b1b6c832"
+        "startDocumentSHA256": "454b100c940d6484c566bb9080aa78352eea7cb3f8fdbc0d85edc9963e953cfe"
       },
       "result": {
         "signatures": "valid",
@@ -1102,10 +1141,12 @@
       "description": "Inclusion's embedded price signature is invalid.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/tampered-publication.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/tampered-publication.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -1113,6 +1154,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/tampered-publication.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -1120,7 +1162,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "c7d68ee1bfbb345ee00e740d6aa06deda9947fd2a77f9701c2ed17bfb5f756ba"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -1146,10 +1188,12 @@
       "description": "Genuine station/price checkpoints conflict at the same coordinate.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/checkpoint-fork.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/checkpoint-fork.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -1157,6 +1201,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/checkpoint-fork.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -1164,7 +1209,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "76d0ee50980218a3e84d9cffe2629333c8e550530a17ff38358f263ebb6317a7"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -1190,10 +1235,12 @@
       "description": "Genuine conflicting price statements at one sequence.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/split-price-chain.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/split-price-chain.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -1201,6 +1248,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/split-price-chain.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -1208,7 +1256,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "23b69a9c4f611c157b8ba3639539fc4920693f24ddbff01b10af065edeefb2ea"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -1230,10 +1278,12 @@
       "description": "Genuine price chain with an incorrect previous digest.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/broken-price-chain.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/broken-price-chain.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -1241,6 +1291,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/broken-price-chain.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -1248,7 +1299,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "860637f9047a09e7dd2861da5f3943e4e2bc72e4fc0a94d40f37bbb88d9eeb5b"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -1270,10 +1321,12 @@
       "description": "Pool and EVSE candidates without a signed selection.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/ambiguous-offers.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/ambiguous-offers.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -1281,6 +1334,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/ambiguous-offers.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -1288,7 +1342,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "b7e7e1ff135885abfafa523899be7b75c2eaf6fad0fe968901ba17441ec829c4"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -1380,6 +1434,96 @@
         "witnessedBy": [],
         "selected": null,
         "organizations": null
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-tariff-of-another-evse",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Genuine price naming a tariff outside this EVSE's references: DE*POI*T2, of the pattern {operatorId}*T{suffix}: the references of DE*POI*E1*1 name DE*POI*T1. Its signature holds, but no price of it applies to the EVSE: none is selected, nor its agreement and publication looked at, as of a price of another EVSE.",
+      "trust": {
+        "anchor": {
+          "documents": "chargy",
+          "file": "POIPrices/foreign-tariff.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "documents": "chargy",
+          "file": "POIPrices/foreign-tariff.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "documents": "chargy",
+        "file": "POIPrices/foreign-tariff.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "missing",
+        "applicability": "invalid",
+        "publication": "missing",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": null,
+        "organizations": null
+      }
+    },
+    {
+      "expected": "accepted",
+      "id": "sessionPrice-conditional-element",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",
+      "description": "Conditional tariff elements are explicitly unsupported: an element restricted by maxEnergy, a restriction POI defines. Signed, agreed and published, its price is selected, but its rate is not given: an element under a restriction is no rate a verifier applies to the session.",
+      "trust": {
+        "anchor": {
+          "documents": "chargy",
+          "file": "POIPrices/conditional-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "documents": "chargy",
+          "file": "POIPrices/conditional-price.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "documents": "chargy",
+        "file": "POIPrices/conditional-price.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "unsupported",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "d843e09db2ebd64b8bff423e5414cd4db7872f660d178de663dcad36aed29d5d",
+          "algorithm": "Ed25519",
+          "energyPerKWh": null
+        },
+        "organizations": []
       }
     },
     {
@@ -3951,10 +4095,12 @@
       "description": "The price of session-with-price.chargy, asked for another EVSE.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -3962,6 +4108,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/session-with-price.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -3969,15 +4116,17 @@
         "evseId": "DE*POI*E9*9",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "control": {
         "trust": {
           "anchor": {
+            "documents": "chargy",
             "file": "POIPrices/session-with-price.chargy",
             "pointer": "/poiEvidence/bootstrap/trustAnchor"
           },
           "keyStatement": {
+            "documents": "chargy",
             "file": "POIPrices/session-with-price.chargy",
             "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
           },
@@ -3985,6 +4134,7 @@
           "context": "historical"
         },
         "evidence": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/priceEvidence"
         },
@@ -3992,7 +4142,7 @@
           "evseId": "DE*POI*E1*1",
           "meterSerialNumber": "CHARGY-POI-METER-001",
           "chargingStarted": "2026-06-01T10:00:00.000Z",
-          "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+          "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
         }
       },
       "reason": "Price evidence belongs to another EVSE",
@@ -4008,10 +4158,12 @@
       "description": "The price of session-with-price.chargy, of a session started after the time of the verification.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -4019,6 +4171,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/session-with-price.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -4026,15 +4179,17 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-11-01T00:16:22.000Z",
-        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "control": {
         "trust": {
           "anchor": {
+            "documents": "chargy",
             "file": "POIPrices/session-with-price.chargy",
             "pointer": "/poiEvidence/bootstrap/trustAnchor"
           },
           "keyStatement": {
+            "documents": "chargy",
             "file": "POIPrices/session-with-price.chargy",
             "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
           },
@@ -4042,6 +4197,7 @@
           "context": "historical"
         },
         "evidence": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/priceEvidence"
         },
@@ -4049,7 +4205,7 @@
           "evseId": "DE*POI*E1*1",
           "meterSerialNumber": "CHARGY-POI-METER-001",
           "chargingStarted": "2026-06-01T10:00:00.000Z",
-          "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+          "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
         }
       },
       "reason": "Invalid original price context",
@@ -4065,10 +4221,12 @@
       "description": "The price of session-with-price.chargy, of a session started before the key statement its station proof gives was signed.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -4076,6 +4234,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/session-with-price.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -4083,15 +4242,17 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-05-01T10:00:00.000Z",
-        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "control": {
         "trust": {
           "anchor": {
+            "documents": "chargy",
             "file": "POIPrices/session-with-price.chargy",
             "pointer": "/poiEvidence/bootstrap/trustAnchor"
           },
           "keyStatement": {
+            "documents": "chargy",
             "file": "POIPrices/session-with-price.chargy",
             "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
           },
@@ -4099,6 +4260,7 @@
           "context": "historical"
         },
         "evidence": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/priceEvidence"
         },
@@ -4106,7 +4268,7 @@
           "evseId": "DE*POI*E1*1",
           "meterSerialNumber": "CHARGY-POI-METER-001",
           "chargingStarted": "2026-06-01T10:00:00.000Z",
-          "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+          "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
         }
       },
       "reason": "The key statement is not valid at 2026-05-01T10:00:00.000Z: it was signed at 2026-05-31T10:00:00.000Z and is valid until 2026-06-01T14:00:00.000Z!",
@@ -4122,10 +4284,12 @@
       "description": "The price of session-with-price.chargy, asked for a meter of another serial number: the agreement binds the meter, so neither it nor the price holds.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -4133,6 +4297,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/session-with-price.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -4140,7 +4305,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-002",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "06196188958daa6931e0a8c5c22703f950ac4cf190588d840560043c9289d985"
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
       },
       "result": {
         "signatures": "valid",
@@ -4162,10 +4327,12 @@
       "description": "The price of session-with-price.chargy, with the SHA-256 of its end reading as the start document: the agreement binds the start, so neither it nor the price holds.",
       "trust": {
         "anchor": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/bootstrap/trustAnchor"
         },
         "keyStatement": {
+          "documents": "chargy",
           "file": "POIPrices/session-with-price.chargy",
           "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
         },
@@ -4173,6 +4340,7 @@
         "context": "historical"
       },
       "evidence": {
+        "documents": "chargy",
         "file": "POIPrices/session-with-price.chargy",
         "pointer": "/poiEvidence/priceEvidence"
       },
@@ -4180,7 +4348,7 @@
         "evseId": "DE*POI*E1*1",
         "meterSerialNumber": "CHARGY-POI-METER-001",
         "chargingStarted": "2026-06-01T10:00:00.000Z",
-        "startDocumentSHA256": "21a509a1551c6b669b61441ee9ea987d2b18b12d7b59e0cce55c238ddfe23fca"
+        "startDocumentSHA256": "76016359aa52cbe5ca7cc4639f0472e348b374ee0b260320801cf25c69fdaea9"
       },
       "result": {
         "signatures": "valid",

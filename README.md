@@ -21,12 +21,13 @@ written down and pinned.
 ## Status
 
 Both harnesses are green against the pinned submodules (WWCP_POI `5a72313`, WWCP_POI.TS `64579a5`, Hermod `65d55f80`,
-Styx `fb3314be`):
+Styx `fb3314be`) - but for the vendored copies of `poi-verifier.json` and `chargy` in WWCP_POI.TS, which it refreshes
+with the price documents the generator makes:
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 773 | 797 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 773 | 773 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
+| C# harness (NUnit), WWCP_POI3 | 775 | 800 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 775 | 775 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy,
 those of the verifier extensions since `242fb29`.
@@ -87,6 +88,7 @@ decimals, integers and timestamps, and dropped the custom data of an address).
 | [`test-vectors/`](test-vectors/README.md) | **The golden vectors**, generated: canonical JSON and CBOR, encodings, the examples of SPECIFICATION.md section 6 and its content with custom data, signed trust scenarios, the documents of the frozen run with what to calculate of them, refusals, histories the generator signs, replayed step by step, the QI-Digital documents of example A14, checked as it checks them, and the verifier extensions of WWCP_POI.TS 0.2.0 (experimental). Their format is in the [README](test-vectors/README.md) there. |
 | `test-vectors/runs/csharp-33447ac/` | **The frozen run**: what the C# examples A1 to A14 of WWCP_POI `33447ac` published and MakeProofs made of the same history, public data only (WWCP_POI.TS keeps a vendored copy, next to its copy of the golden vectors). |
 | `test-vectors/runs/chargy-fc513cd/` | **The fixtures of ChargyWebApp** `fc513cd` of the verifier extensions - meter keys, historical meter evidence, session prices, receipts of witnesses, trust transitions -, frozen; the generator checks every signature, root and digest of them first (WWCP_POI.TS keeps a vendored copy). |
+| `test-vectors/chargy/` | **The documents the generator makes** of the verifier extensions, generated, not frozen: `POIPrices`, the price evidence of sessions as ChargyWebApp made it, every signature deterministic, each case anchored on its fixture, and the two counterexamples as their README means them. Apps vendor them (WWCP_POI.TS does), instead of freezing what each makes. |
 | [`tools/generate-test-vectors.mjs`](tools/generate-test-vectors.mjs) | The generator: Node, no dependencies. Takes every value verbatim from its source, re-derives the anchors with `node:crypto` alone (identifications, ETags of canonical JSON and deterministic CBOR, tree digests, thumbprints, signatures, the digests chaining price statements), signs the trust scenarios and the histories deterministically (Ed25519, Ed448, ES256 after RFC 6979), and refuses to write on any mismatch. |
 | `Tests/WWCPPOIConformance_Tests/` | The **C# harness** (NUnit): WWCP_POI3 against every vector file, plus `VendoredCopiesTests`. |
 | `Tests/WWCPPOIConformance_Tests.TS/` | The **TypeScript harness** (vitest): WWCP_POI.TS, imported from source, against every vector file. |
