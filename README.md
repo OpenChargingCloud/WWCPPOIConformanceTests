@@ -20,8 +20,8 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `12e993a`, WWCP_POI.TS `1f117cd`, Hermod `65d55f80`,
-Styx `fb3314be`):
+Both harnesses are green against the pinned submodules (WWCP_POI `f7b8643`, WWCP_POI.TS `aff148b`, Hermod `d906af2d`,
+Styx `7642de3d`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
@@ -104,7 +104,7 @@ decimals, integers and timestamps, and dropped the custom data of an address).
 | [`libs/Hermod`](https://github.com/Vanaheimr/Hermod) | Below WWCP_POI3 |
 | [`libs/Styx`](https://github.com/Vanaheimr/Styx) | Below Hermod: canonical JSON, deterministic CBOR, COSE - and its README, a source of vectors |
 
-Hermod and Styx are pinned at their masters of 2026-11-04, Hermod `65d55f80`, Styx `fb3314be`: at or after the
+Hermod and Styx are pinned at their masters of 2026-11-06, Hermod `d906af2d`, Styx `7642de3d`: at or after the
 commits the RoamingHubCLI pins together with WWCP_POI (`b9e20a0`, with WWCP_POI `0474733`: Hermod `b8d24be3`, Styx
 `5f09dd47`). WWCP_POI since
 `7862c86` needs a Hermod that checks the origin of a request (`HTTPRequest.AllowsOrigin`). Styx keeps custom data as
