@@ -59,7 +59,7 @@ WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, was WWCP_POI.TS's,
 elements of a price status, was WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
 define, which SPECIFICATION.md 2 refuses; it is fixed in WWCP_POI.TS `ce88620`, with the elements of a price status
 written as a charging tariff holds them, which SPECIFICATION.md 12.1 says since WWCP_POI `5a72313`
-([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 793 vectors - WWCP_POI3
+([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 806 vectors - WWCP_POI3
 alone signs the 7 signatures of section 6 again from their private seeds, which WWCP_POI.TS verifies only - and agree on
 every one of them (see [What both do alike](#what-both-do-alike)). Among them are the 13 replays of `poi-histories.json`
 WWCP_POI.TS left to WWCP_POI before: the references a version holds, which it checks since `813e1d7`, and the changes of
@@ -780,8 +780,10 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 6 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 296 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
-  and trust anchors; among them a price statement whose price status is none, refused as it is read, in the same words
+- the refusal of 304 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+  and trust anchors; among them signatures of commits and checkpoints read in their one form only - their own
+  properties alone, the signer a text, none of them empty, embedded without a JSON-LD context (5.4; WWCP_POI `b43ff1a`
+  and `7c6f91c`, WWCP_POI.TS `cb53bd4`), in the same words -, a price statement whose price status is none, refused as it is read, in the same words
   ([D16](#d16-tariff-id)), a price statement naming its EVSE in another spelling, `DE*GEF*E11` for `DE*GEF*E1*1`,
   and a checkpoint naming two statements of one EVSE and sequence, in two spellings or of two prices, a split view
   (12.1, 12.3; WWCP_POI `4680d99`, WWCP_POI.TS `6bcf7f5`), each refused by WWCP_POI3 as a history takes it and by
@@ -846,7 +848,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   ([O4](#o4-no-valid-until)), valid for a day, and valid longer; and the holders of a quorum as the trust anchor names
   them (csharp-review 1), two identity keys of Alpha one holder, a key statement naming one of them as Beta's, and a key
   the statement does not name counted for the holder the trust anchor names;
-- all 75 replays of `poi-histories.json`: histories the generator made and signed
+- all 76 replays of `poi-histories.json`: histories the generator made and signed
   with keys whose seeds it gives (the Ed25519 keys of section 6, and Ed25519, Ed448 and ES256 keys of its own), every
   refusal with its control, the document refused but for what it is about, taken in its place: who signs in place of a
   party without keys and with which usages (csharp-review 13), who states a certificate (15), releases and certificates
@@ -863,7 +865,8 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   in either order, both removed in one, the merchant first, but neither the pool naming it without the merchant nor the
   merchant removed while the pool names it (EV Taler, phase 1; WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), and three
   epochs, the first checkpoint of the third one signed with an algorithm of the second one only, and with one
-  of neither (14); where both word a refusal alike, `reason` names it. And the 13 WWCP_POI.TS left to WWCP_POI before,
+  of neither (14), and a history started from a snapshot of the genesis of the third one, its commit signed with an
+  algorithm of the first one only (WWCP_POI `b43ff1a`); where both word a refusal alike, `reason` names it. And the 13 WWCP_POI.TS left to WWCP_POI before,
   which held WWCP_POI3 alone (`notApplicable`): the references a version holds, which WWCP_POI.TS checks since
   `813e1d7` - a station in a firmware version its model does not have, of a hardware revision its certificate does not
   cover, a certificate of the other kind named by a station or a meter, a meter its station's certificate was not
@@ -880,6 +883,11 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   in one change set with a change of it, the change after the handing on its new maintainer's, the one before still the
   grid operator's (9); the parking garage, space and product of a parking operator, the product without timestamps, and
   the parking space of a charging station operator, each signed by its own party only;
+- all 24 anchored snapshots of `poi-histories.json`, a history started from another server only anchored in the trust
+  anchor (10.5): of the head, attested, and of a checkpoint, signed in the role of the roaming network operator, and
+  refused, each with its control, where they do not anchor it; among them, since WWCP_POI `399b7c8` and `f7b8643`, a
+  checkpoint signed besides its quorum by a signature that does not verify or by a witness the trust anchor does not
+  know, left out and refusing nothing (S39), and one signed by one key twice, at two times, counted once;
 - all 48 vectors of the QI-Digital documents of example A14 (`poi-qidigital.json`): the two certificates of
   conformity of the PTB, the declaration of conformity of SAALE and the calibration certificate of EM-LAB, each verified
   against QA at the time of the run, signed with ML-DSA-65 and ES256; the declaration against both certificates it names,

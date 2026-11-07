@@ -1854,6 +1854,32 @@ function refusalVectors() {
     refuse({ id: 'commit-etag-algorithm',     kind: 'commit', basis: `${SPEC}, 3.1`, description: 'An ETag of an algorithm POI does not know.',                                                            document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/eTags/0/1', value: 'sha1' } ]) });
     refuse({ id: 'commit-network',            kind: 'commit', basis: `${SPEC}, 5.1`, description: 'Another roaming network.',                                                                               document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/roamingNetworkId', value: 'QB' } ]) });
 
+    // ---- Signatures of commits and checkpoints (5.4): read in one form only, its own properties, the signer a text, none
+    //      of them empty, and embedded in a commit or checkpoint without a JSON-LD context (WWCP_POI b43ff1a, refused in the
+    //      words of WWCP_POI.TS since 7c6f91c). They are no part of what identifies a commit or checkpoint, so that only the
+    //      signature is refused.
+    quoted(SPEC, 'A reader MUST refuse a signature naming another property, whatever else it names being signed by nobody, a `signer`', 'the one form of a commit or checkpoint signature of 5.4');
+    const SIGNATURE_BASIS = `${SPEC}, 5.4`;
+    const signed0 = commit0.signatures?.[0] ?? fail('published/QA-genesis.json: its commit is not signed');
+    if (typeof signed0.signer !== 'string' || !/\.\d{3}Z$/.test(signed0.signedAt))
+        fail('published/QA-genesis.json: the first signature of its commit names no signer, or not its signedAt with milliseconds');
+
+    refuse({ id: 'commit-signature-other-property',  kind: 'commit', basis: SIGNATURE_BASIS, reason: "A signature of a commit must not name the property 'comment'!",
+             description: 'A signature of the genesis commit naming a property of its own besides those of a signature: whatever else it names is signed by nobody.',
+             document: patched('published/QA-genesis.json', '/commit', [ { op: 'add', path: '/signatures/0/comment', value: 'signed by nobody' } ]) });
+    refuse({ id: 'commit-signature-context',         kind: 'commit', basis: SIGNATURE_BASIS, reason: "A signature of a commit must not name the property '@context'!",
+             description: 'A signature of the genesis commit naming the JSON-LD context of commit signatures: embedded in a commit, a signature names none, though on its own it may.',
+             document: patched('published/QA-genesis.json', '/commit', [ { op: 'add', path: '/signatures/0/@context', value: CONTEXTS.commitSignature } ]) });
+    refuse({ id: 'commit-signature-signer-number',   kind: 'commit', basis: SIGNATURE_BASIS, reason: 'The signer of a signature of a commit must be a text!',
+             description: 'A signature of the genesis commit naming its signer as a number.',
+             document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/signatures/0/signer', value: 1 } ]) });
+    refuse({ id: 'commit-signature-role-blank',      kind: 'commit', basis: SIGNATURE_BASIS, reason: 'The role of a signature of a commit must not be empty!',
+             description: 'A signature of the genesis commit in the role " ": a role of nothing is refused when read, before anything counts it.',
+             document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/signatures/0/role', value: ' ' } ]) });
+    refuse({ id: 'commit-signature-signedAt-seconds', kind: 'commit', basis: SIGNATURE_BASIS, reason: 'The signedAt of a signature of a commit',
+             description: 'A signature of the genesis commit with its signedAt without milliseconds: it is signed as text, written as yyyy-MM-ddTHH:mm:ss.fffZ.',
+             document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/signatures/0/signedAt', value: signed0.signedAt.replace(/\.\d{3}Z$/, 'Z') } ]) });
+
     // ---- Change sets (4, 5.2): identified by their content, naming only what they were rebased from, with changes
     //      (csharp-review 4). The commit of each is identified anew, so that only its change set is refused.
     const contentId   = (changeSet) => sha256(utf8(canonical({ ...without(changeSet, '@id', 'signatures'), '@context': 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/changeSet/v3' })));
@@ -1905,6 +1931,20 @@ function refusalVectors() {
     refuse({ id: 'checkpoint-previous',       kind: 'checkpoint', basis: `${SPEC}, 10.1`, description: 'Another previous checkpoint.',                                                                 document: patched('published/QA-checkpoint-1.json', '', [ { op: 'replace', path: '/previousId', value: '0'.repeat(64) } ]) });
     refuse({ id: 'checkpoint-commits-root',   kind: 'checkpoint', basis: `${SPEC}, 10.1`, description: 'Another root of its commits.',                                                                 document: patched('published/QA-checkpoint-1.json', '', [ { op: 'replace', path: '/commits/@merkleRoot', value: '0'.repeat(64) } ]) });
     refuse({ id: 'checkpoint-epoch',          kind: 'checkpoint', basis: `${SPEC}, 10.1, 11`, description: 'A checkpoint of epoch 1 without "epoch": its @id is calculated with it (csharp-review 11).', document: patched('published/QA-checkpoint-1.json', '', [ { op: 'remove', path: '/epoch' } ]) });
+
+    // ---- Signatures of checkpoints (5.4, 10.2), as those of commits.
+    if (typeof jsonRun('published/QA-checkpoint-1.json').signatures?.[0]?.signer !== 'string')
+        fail('published/QA-checkpoint-1.json: its first signature names no signer');
+
+    refuse({ id: 'checkpoint-signature-other-property', kind: 'checkpoint', basis: `${SPEC}, 5.4, 10.2`, reason: "A signature of a checkpoint must not name the property 'comment'!",
+             description: 'A signature of the checkpoint naming a property of its own besides those of a signature: whatever else it names is signed by nobody.',
+             document: patched('published/QA-checkpoint-1.json', '', [ { op: 'add', path: '/signatures/0/comment', value: 'signed by nobody' } ]) });
+    refuse({ id: 'checkpoint-signature-context',        kind: 'checkpoint', basis: `${SPEC}, 5.4, 10.2`, reason: "A signature of a checkpoint must not name the property '@context'!",
+             description: 'A signature of the checkpoint naming the JSON-LD context of checkpoint signatures: embedded in a checkpoint, a signature names none.',
+             document: patched('published/QA-checkpoint-1.json', '', [ { op: 'add', path: '/signatures/0/@context', value: CONTEXTS.checkpointSignature } ]) });
+    refuse({ id: 'checkpoint-signature-signer-number',  kind: 'checkpoint', basis: `${SPEC}, 5.4, 10.2`, reason: 'The signer of a signature of a checkpoint must be a text!',
+             description: 'A signature of the checkpoint naming its signer as a number.',
+             document: patched('published/QA-checkpoint-1.json', '', [ { op: 'replace', path: '/signatures/0/signer', value: 1 } ]) });
 
     // ---- Versions (3.1): the eTags a roaming network lists are the ETags of its content.
     refuse({ id: 'version-name',              kind: 'version', basis: `${SPEC}, 3.1`, description: 'The name of the network changed, its eTags not: they no longer are those of its content.',   document: patched('published/QA-genesis.json', '/roamingNetwork', [ { op: 'replace', path: '/name/en', value: 'Quality Assurance!' } ]) });
@@ -3951,9 +3991,24 @@ function signedHistories() {
     epochs.takeCheckpoint('epoch-1-checkpoint-0', epochs.checkpoint({ createdAt: minute(2), signers: by(alphaParty, betaEd448), final: true, next: { epoch: 2, profiles: profiles('sha512', [ 'ES256', 'Ed25519' ]) } }));
     epochs.nextEpoch();
     epochs.takeCheckpoint('epoch-2-checkpoint-0', epochs.checkpoint({ createdAt: minute(3), signers: by(alphaParty, alphaES256), final: true, next: { epoch: 3, profiles: profiles('sha384', [ 'Ed25519' ]) } }));
-    epochs.nextEpoch();
+    const genesis3 = epochs.nextEpoch();
 
     const E = replaysOf(epochs);
+
+    // The commit of a snapshot is signed in algorithms of its epoch, as every commit taken later, anchored or not (WWCP_POI
+    // b43ff1a): a snapshot of the genesis of the third epoch, of Ed25519 alone, its commit signed with Ed448, which the
+    // first epoch took. Its signatures are no part of what identifies it, so that only the algorithm is refused.
+    const snapshotOfGenesis3 = (name, key) => {
+        const fields    = { role: 'roamingNetworkOperator', signer: leader.signer, signedAt: minute(3), algorithm: key.algorithm, keyId: key.id };
+        const signature = { ...fields, value: key.sign(roleSignatureInput(CONTEXTS.commitSignature, fields, 'commit', commitAsSigned(genesis3))) };
+        return epochs.keepDocument(name, { commit: { ...genesis3, signatures: [ signature ] }, roamingNetwork: epochs.head.content, epoch: { epoch: epochs.epoch.number, profiles: epochs.epoch.profiles } });
+    };
+    if (epochs.epoch.number !== 3 || epochs.epoch.profiles.signatureAlgorithms.join() !== 'Ed25519')
+        fail('history-epochs: the third epoch is not one of Ed25519 alone');
+
+    replay('epoch-snapshot-commit-algorithm-of-another-epoch', epochs, 'refused', 'A history started from a snapshot of the genesis of the third epoch, of Ed25519 alone, its commit signed with Ed448, which the first epoch took: the commit of a snapshot is signed in algorithms of its epoch, as every commit taken later. Signed with Ed25519, it is taken.', `${B('11.1')}; ${B('10.5')}`,
+           { steps: [ { op: 'fromSnapshot', document: snapshotOfGenesis3('epoch-3-snapshot-Ed448', betaEd448) } ], control: snapshotOfGenesis3('epoch-3-snapshot', alphaParty),
+             reason: `The signature algorithm 'Ed448' of a signature of the commit '${genesis3['@id']}' is not one of the epoch 3, Ed25519!` });
 
     // The first checkpoint of the third epoch: signed with the algorithms of either epoch, never with another one, though the
     // first epoch took it (csharp-review 14).
@@ -4118,6 +4173,42 @@ function signedHistories() {
                      { document: snapshots.checkpointKeyEnding, control: { at: minute(11) }, reason: 'of 1 holder sign the checkpoint' });
     anchoredSnapshot('anchored-checkpoint-other-network',   'checkpoint', 'refused',  'A trust anchor of another roaming network.', anchoredBasis,
                      { document: snapshots.checkpoint, trustAnchor: trustAnchorOf('rn2'), control: { trustAnchor: trustAnchorOf() }, reason: "The trust anchor is one of the roaming network 'rn2'!" });
+
+    // The signatures of a checkpoint that do not verify, or are not of a role the trust anchor requires, are left out and
+    // refuse nothing (S39, WWCP_POI 399b7c8): nobody blocks a checkpoint by adding a signature. A key signing it twice in
+    // one role, also at another time, counts once, and so does its holder (5.4, 10.2; WWCP_POI f7b8643).
+    quoted(SPEC, 'left out and refuses nothing: so nobody blocks a checkpoint by adding a signature', 'what a server takes of the signatures of a checkpoint, S39');
+    quoted(SPEC, 'a quorum counting each holder once', 'a signature twice of one key, 5.4');
+
+    const signatureOf0 = (key, { signedAt = minute(2), role = 'roamingNetworkOperator', signer = leader.signer } = {}) => {
+        const fields = { role, signer, signedAt, algorithm: key.algorithm, keyId: key.id };
+        return { ...fields, value: key.sign(roleSignatureInput(CONTEXTS.checkpointSignature, fields, 'checkpoint', checkpointAsSigned(checkpoint0))) };
+    };
+    const signedOnly = (...signatures) => ({ ...without(checkpoint0, 'signatures'), signatures });
+
+    anchor('the signatures of checkpoint-0 as signatureOf0 makes them', canonical([ signatureOf0(alphaParty), signatureOf0(betaParty) ]), canonical(checkpoint0.signatures));
+
+    const notItsOwn = { ...signatureOf0(alphaSecond), value: signatureOf0(alphaParty).value };
+    if (verifiesWith(alphaSecond.algorithm, alphaSecond.json.key, roleSignatureInput(CONTEXTS.checkpointSignature, notItsOwn, 'checkpoint', checkpointAsSigned(checkpoint0)), notItsOwn.value) === true)
+        fail('history-anchored: the signature of the second signing key of Alpha that is not its own verifies');
+
+    const witnessElsewhere = keyOf('Ed25519', seedOf('A witness another server trusts'));
+    const besides = {
+        invalid:       checkpointSnapshot('snapshot-of-checkpoint-0-invalid-signature-besides', signedOnly(signatureOf0(alphaParty), signatureOf0(betaParty), notItsOwn)),
+        witness:       checkpointSnapshot('snapshot-of-checkpoint-0-witness-besides',           signedOnly(signatureOf0(alphaParty), signatureOf0(betaParty), signatureOf0(witnessElsewhere, { role: 'witness', signer: 'witness.example' }))),
+        twice:         checkpointSnapshot('snapshot-of-checkpoint-0-one-key-twice',             signedOnly(signatureOf0(alphaParty), signatureOf0(alphaParty, { signedAt: minute(3) }))),
+        twiceBesides:  checkpointSnapshot('snapshot-of-checkpoint-0-one-key-twice-besides',     signedOnly(signatureOf0(alphaParty), signatureOf0(alphaParty, { signedAt: minute(3) }), signatureOf0(betaParty))),
+    };
+    const S39_BASIS = `${B('10.2')}; ${anchoredBasis}`;
+
+    anchoredSnapshot('anchored-checkpoint-invalid-signature-besides', 'checkpoint', 'accepted', 'A snapshot of the checkpoint of the head signed by Alpha and Beta in the role of the roaming network operator, and by the second signing key of Alpha with a value that is not its signature: a signature that does not verify is left out and refuses nothing (S39).', S39_BASIS,
+                     { document: besides.invalid });
+    anchoredSnapshot('anchored-checkpoint-witness-besides',           'checkpoint', 'accepted', 'A snapshot of the checkpoint of the head signed by Alpha and Beta in the role of the roaming network operator, and by a witness with a key the trust anchor does not know: a witness one server trusts and another one does not keeps no checkpoint from the other one (S39).', S39_BASIS,
+                     { document: besides.witness });
+    anchoredSnapshot('anchored-checkpoint-one-key-twice',             'checkpoint', 'refused',  'The checkpoint signed by the signing key of Alpha twice, at 08:02 and 08:03: a key signing twice in one role counts once, its holder once, where the trust anchor and the key statement take two.', `${B('5.4; 10.2')}; ${anchoredBasis}`,
+                     { document: besides.twice, control: toTheCheckpoint, reason: 'of 1 holder sign the checkpoint' });
+    anchoredSnapshot('anchored-checkpoint-one-key-twice-besides',     'checkpoint', 'accepted', 'The checkpoint signed by the signing key of Alpha twice, at 08:02 and 08:03, and by Beta: the second signature of a key in its role adds nothing, and refuses nothing.', `${B('5.4; 10.2')}; ${anchoredBasis}`,
+                     { document: besides.twiceBesides });
 
     // Every document a replay names is one of its history, and the control of a refusal another than the one refused.
     for (const vector of replays) {

@@ -171,6 +171,101 @@
     },
     {
       "expected": "refused",
+      "id": "commit-signature-other-property",
+      "kind": "commit",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.4",
+      "reason": "A signature of a commit must not name the property 'comment'!",
+      "description": "A signature of the genesis commit naming a property of its own besides those of a signature: whatever else it names is signed by nobody.",
+      "document": {
+        "file": "published/QA-genesis.json",
+        "pointer": "/commit",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/signatures/0/comment",
+            "value": "signed by nobody"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "commit-signature-context",
+      "kind": "commit",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.4",
+      "reason": "A signature of a commit must not name the property '@context'!",
+      "description": "A signature of the genesis commit naming the JSON-LD context of commit signatures: embedded in a commit, a signature names none, though on its own it may.",
+      "document": {
+        "file": "published/QA-genesis.json",
+        "pointer": "/commit",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/signatures/0/@context",
+            "value": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/commitSignature/v1"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "commit-signature-signer-number",
+      "kind": "commit",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.4",
+      "reason": "The signer of a signature of a commit must be a text!",
+      "description": "A signature of the genesis commit naming its signer as a number.",
+      "document": {
+        "file": "published/QA-genesis.json",
+        "pointer": "/commit",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/signatures/0/signer",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "commit-signature-role-blank",
+      "kind": "commit",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.4",
+      "reason": "The role of a signature of a commit must not be empty!",
+      "description": "A signature of the genesis commit in the role \" \": a role of nothing is refused when read, before anything counts it.",
+      "document": {
+        "file": "published/QA-genesis.json",
+        "pointer": "/commit",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/signatures/0/role",
+            "value": " "
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "commit-signature-signedAt-seconds",
+      "kind": "commit",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.4",
+      "reason": "The signedAt of a signature of a commit",
+      "description": "A signature of the genesis commit with its signedAt without milliseconds: it is signed as text, written as yyyy-MM-ddTHH:mm:ss.fffZ.",
+      "document": {
+        "file": "published/QA-genesis.json",
+        "pointer": "/commit",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/signatures/0/signedAt",
+            "value": "2026-11-05T19:43:28Z"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
       "id": "changeSet-id",
       "kind": "commit",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 4, 5.2",
@@ -450,6 +545,63 @@
           {
             "op": "remove",
             "path": "/epoch"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "checkpoint-signature-other-property",
+      "kind": "checkpoint",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.4, 10.2",
+      "reason": "A signature of a checkpoint must not name the property 'comment'!",
+      "description": "A signature of the checkpoint naming a property of its own besides those of a signature: whatever else it names is signed by nobody.",
+      "document": {
+        "file": "published/QA-checkpoint-1.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/signatures/0/comment",
+            "value": "signed by nobody"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "checkpoint-signature-context",
+      "kind": "checkpoint",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.4, 10.2",
+      "reason": "A signature of a checkpoint must not name the property '@context'!",
+      "description": "A signature of the checkpoint naming the JSON-LD context of checkpoint signatures: embedded in a checkpoint, a signature names none.",
+      "document": {
+        "file": "published/QA-checkpoint-1.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "add",
+            "path": "/signatures/0/@context",
+            "value": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/checkpointSignature/v1"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "checkpoint-signature-signer-number",
+      "kind": "checkpoint",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.4, 10.2",
+      "reason": "The signer of a signature of a checkpoint must be a text!",
+      "description": "A signature of the checkpoint naming its signer as a number.",
+      "document": {
+        "file": "published/QA-checkpoint-1.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/signatures/0/signer",
+            "value": 1
           }
         ]
       }
