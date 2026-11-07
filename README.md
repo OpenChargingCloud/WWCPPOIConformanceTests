@@ -20,9 +20,8 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `7c6f91c`, WWCP_POI.TS `a1a7710`, Hermod `c15cadfe`,
-Styx `7642de3d`) - but for the copies WWCP_POI.TS vendors of `poi-refusals.json` and `poi-histories.json`, until it
-takes those of the signature vectors:
+Both harnesses are green against the pinned submodules (WWCP_POI `7c6f91c`, WWCP_POI.TS `8900b2d`, Hermod `c15cadfe`,
+Styx `7642de3d`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
