@@ -822,6 +822,93 @@
     },
     {
       "expected": "refused",
+      "id": "version-twice-station-of-operator",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "DE*GEF has its charging station DE*GEF*S1 in DE*GEF*P1 and again in DE*GEF*P2, the second time without its EVSEs.",
+      "reason": "The charging station 'DE*GEF*S1' of the operator 'DE*GEF' must not be given twice!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/1/chargingStations/0",
+            "value": {
+              "@id": "DE*GEF*S1",
+              "templateIds": [
+                "DE*GEF*ST_DC"
+              ],
+              "created": "2026-11-05T19:43:31.952Z",
+              "lastChange": "2026-11-05T19:43:31.952Z"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-twice-evse-of-operator",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "DE*GEF has its EVSE DE*GEF*E1*1 in DE*GEF*S1 and again in DE*GEF*S2, the second time without its energy meter.",
+      "reason": "The EVSE 'DE*GEF*E1*1' of the operator 'DE*GEF' must not be given twice!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/chargingPools/0/chargingStations/1/EVSEs/0",
+            "value": {
+              "@id": "DE*GEF*E1*1",
+              "currentTypes": [
+                "DC"
+              ],
+              "maxPower": 150000,
+              "templateIds": [
+                "DE*GEF*ET_DC"
+              ],
+              "created": "2026-11-05T19:43:31.950Z",
+              "lastChange": "2026-11-05T19:43:31.950Z"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-twice-energy-meter-of-operator",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2",
+      "description": "The EVSE DE*GEF*E2*1 of DE*GEF has the energy meter DE*GEF*M1*1, which its EVSE DE*GEF*E1*1 has.",
+      "reason": "The energy meter 'DE*GEF*M1*1' of the operator 'DE*GEF' must not be given twice!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/chargingStationOperators/0/chargingPools/0/chargingStations/1/EVSEs/0/energyMeter/@id",
+            "value": "DE*GEF*M1*1"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
       "id": "version-twice-release",
       "kind": "version",
       "basis": "libs/WWCP_POI/docs/TransparencySoftwareManufacturer.md",
@@ -3802,7 +3889,7 @@
       "kind": "version",
       "basis": "libs/WWCP_POI/docs/ChargingPool.md",
       "description": "DE*GEF*P1 is open on Mondays from 20:00 to 08:00, a period ending before it begins.",
-      "reason": "Invalid opening times: Invalid opening times: The end period '08:00h' must be after the start period '20:00h'!",
+      "reason": "Invalid opening times: The end period '08:00h' must be after the start period '20:00h'!",
       "document": {
         "file": "published/QA.json",
         "pointer": "",
@@ -4592,7 +4679,7 @@
       "kind": "version",
       "basis": "libs/WWCP_POI/docs/ChargingTariff.md",
       "description": "The price component of DE*GEF*T_AC with a VAT of 120 percent.",
-      "reason": "The VAT of a ENERGY price component must be between 0 and 100 percent!",
+      "reason": "The VAT of an ENERGY price component must be between 0 and 100 percent!",
       "document": {
         "file": "published/QA.json",
         "pointer": "",
@@ -4615,7 +4702,7 @@
       "kind": "version",
       "basis": "libs/WWCP_POI/docs/ChargingTariff.md",
       "description": "The price component of DE*GEF*T_AC, of energy, without its step size.",
-      "reason": "A ENERGY price component needs a positive step size!",
+      "reason": "An ENERGY price component needs a positive step size!",
       "document": {
         "file": "published/QA.json",
         "pointer": "",
@@ -6047,7 +6134,7 @@
       "kind": "version",
       "basis": "libs/WWCP_POI/docs/GridOperator.md",
       "description": "The grid connection point gcp-1 of DE*NET maintained by DE*NET, a grid operator. (QA with an entity of every kind WWCP_POI3 reads)",
-      "reason": "The given JSON representation of a grid connection point is invalid: The grid connection point 'gcp-1' can only be maintained by its grid operator, a charging station operator or a parking operator, not by the GridOperator 'DE*NET'!",
+      "reason": "The given JSON representation of a grid connection point is invalid: Besides its grid operator, the grid connection point 'gcp-1' can only be maintained by a charging station operator or a parking operator, not by the GridOperator 'DE*NET'!",
       "document": {
         "file": "published/QA.json",
         "pointer": "",

@@ -1,8 +1,8 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `0602726`, Hermod `ce2f06b8`, Styx `398b6da6`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `4f4545a`, v0.3.0) take or calculate different things.
+(WWCP_POI3, `libs/WWCP_POI` at `74f1d8e`, Hermod `f7b00ef2`, Styx `21d00134`) and the TypeScript port (WWCP_POI.TS,
+`libs/WWCP_POI.TS` at `0b6baea`) take or calculate different things.
 
 Each deviation is
 
@@ -59,7 +59,7 @@ WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, was WWCP_POI.TS's,
 elements of a price status, was WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
 define, which SPECIFICATION.md 2 refuses; it is fixed in WWCP_POI.TS `ce88620`, with the elements of a price status
 written as a charging tariff holds them, which SPECIFICATION.md 12.1 says since WWCP_POI `5a72313`
-([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 806 vectors - WWCP_POI3
+([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 809 vectors - WWCP_POI3
 alone signs the 7 signatures of section 6 again from their private seeds, which WWCP_POI.TS verifies only - and agree on
 every one of them (see [What both do alike](#what-both-do-alike)). Among them are the 13 replays of `poi-histories.json`
 WWCP_POI.TS left to WWCP_POI before: the references a version holds, which it checks since `813e1d7`, and the changes of
@@ -780,10 +780,12 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 6 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 304 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+- the refusal of 307 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors; among them signatures of commits and checkpoints read in their one form only - their own
   properties alone, the signer a text, none of them empty, embedded without a JSON-LD context (5.4; WWCP_POI `b43ff1a`
-  and `7c6f91c`, WWCP_POI.TS `cb53bd4`), in the same words -, a price statement whose price status is none, refused as it is read, in the same words
+  and `7c6f91c`, WWCP_POI.TS `cb53bd4`), in the same words -, a charging station, EVSE or energy meter given twice by
+  its operator, which WWCP_POI3 took before WWCP_POI `e76e5d0`, keeping the first (WWCP_POI.TS refused it already; both
+  in the same words since `0b6baea`), a price statement whose price status is none, refused as it is read, in the same words
   ([D16](#d16-tariff-id)), a price statement naming its EVSE in another spelling, `DE*GEF*E11` for `DE*GEF*E1*1`,
   and a checkpoint naming two statements of one EVSE and sequence, in two spellings or of two prices, a split view
   (12.1, 12.3; WWCP_POI `4680d99`, WWCP_POI.TS `6bcf7f5`), each refused by WWCP_POI3 as a history takes it and by

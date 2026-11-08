@@ -1439,7 +1439,7 @@ function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, po
     version('version-read-address-without-street', doc('ChargingPool'), 'DE*GEF*P1 names an address without its street.',
             "Invalid address: Missing property 'street'!",                                       [ { op: 'add', path: `${pool1}/address`, value: { postalCode: '07745', city: { en: 'Jena' }, country: 'DE' } } ]);
     version('version-read-opening-times-reversed', doc('ChargingPool'), 'DE*GEF*P1 is open on Mondays from 20:00 to 08:00, a period ending before it begins.',
-            "Invalid opening times: Invalid opening times: The end period '08:00h' must be after the start period '20:00h'!",
+            "Invalid opening times: The end period '08:00h' must be after the start period '20:00h'!",
             [ { op: 'add', path: `${pool1}/openingTimes`, value: { regularOpenings: [ { monday: [ { begin: '20:00', end: '08:00' } ] } ] } } ]);
     version('version-read-image-without-type',    doc('ChargingPool'), 'DE*GEF*P1 names an image without its type.',
             `Invalid images '{"url":"https://example.org/p.png","category":"photo"}': Missing JSON property 'type'!`,
@@ -1489,9 +1489,9 @@ function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, po
     version('version-read-price-component-step-size-text', doc('ChargingTariff'), 'The price component of DE*GEF*T_AC of the step size x, a text.',
             "Invalid value for 'step size'!",                                                    [ { op: 'replace', path: `${component}/stepSize`, value: 'x' } ]);
     version('version-read-price-component-vat',   doc('ChargingTariff'), 'The price component of DE*GEF*T_AC with a VAT of 120 percent.',
-            'The VAT of a ENERGY price component must be between 0 and 100 percent!',          [ { op: 'add', path: `${component}/vat`, value: 120 } ]);
+            'The VAT of an ENERGY price component must be between 0 and 100 percent!',          [ { op: 'add', path: `${component}/vat`, value: 120 } ]);
     version('version-read-price-component-without-step-size', doc('ChargingTariff'), 'The price component of DE*GEF*T_AC, of energy, without its step size.',
-            'A ENERGY price component needs a positive step size!',                            [ { op: 'remove', path: `${component}/stepSize` } ]);
+            'An ENERGY price component needs a positive step size!',                            [ { op: 'remove', path: `${component}/stepSize` } ]);
     version('version-read-restriction-start-time', doc('ChargingTariff'), 'The element of DE*GEF*T_AC restricted to the start time 9:00, of one digit of its hour.',
             "Invalid startTime '9:00', expected HH:mm!",                                         [ { op: 'add', path: `${tariffAt}/elements/0/restrictions`, value: { startTime: '9:00' } } ]);
     version('version-read-restriction-power-reversed', doc('ChargingTariff'), 'The element of DE*GEF*T_AC restricted to a minimum power of 50 and a maximum power of 10.',
@@ -1527,7 +1527,7 @@ function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, po
             "The given JSON representation of an e-mobility provider is invalid: The group 'DE*XYZ*EG_FAV' does not belong to the e-mobility provider 'DE-GDF'!",
             [], richer(parts => { parts.providers[0].EVSEGroups[0]['@id'] = 'DE*XYZ*EG_FAV'; parts.providers[0].chargingTariffOffers[0].EVSEGroupIds = [ 'DE*XYZ*EG_FAV' ]; }));
     version('version-read-grid-connection-point-maintainer', doc('GridOperator'), 'The grid connection point gcp-1 of DE*NET maintained by DE*NET, a grid operator.',
-            "The given JSON representation of a grid connection point is invalid: The grid connection point 'gcp-1' can only be maintained by its grid operator, a charging station operator or a parking operator, not by the GridOperator 'DE*NET'!",
+            "The given JSON representation of a grid connection point is invalid: Besides its grid operator, the grid connection point 'gcp-1' can only be maintained by a charging station operator or a parking operator, not by the GridOperator 'DE*NET'!",
             [], richer(parts => { parts.gridOperators[0].gridConnectionPoints[0].maintainedBy = { entityType: 'GridOperator', entityId: 'DE*NET' }; }));
     version('version-read-meter-group-member-unknown', doc('GridOperator'), 'The energy meter group net-meters of DE*NET names the meter nope, which DE*NET does not have.',
             "The given JSON representation of a grid operator is invalid: The member 'nope' of the group 'net-meters' is unknown at the grid operator 'DE*NET'!",
@@ -1995,6 +1995,34 @@ function refusalVectors() {
           'The grid operator DE*NET has an energy meter template of the identification of one of DE*GEF, in lowercase.',
           "The energy meter template 'de*gef*emt_ac' must not be given twice in the roaming network",
           [ { op: 'add', path: '/gridOperators', value: [ { '@id': 'DE*NET', energyMeterTemplates: [ { '@id': 'de*gef*emt_ac', created, lastChange: created } ], created, lastChange: created } ] } ]);
+
+    // An operator indexes its charging stations, EVSEs and energy meters by their identifications and refuses one given
+    // twice (WWCP_POI e76e5d0, WWCP_POI.TS 0b6baea): before, WWCP_POI3 took a station in two pools of an operator, or an
+    // EVSE in two of its stations, and kept the first - and proofs, price statements and evidence name them by their
+    // identifications alone. Each copy is inserted in the ordinal order of its array (2), what it embeds left out, so
+    // only the one identification is given twice.
+    const GEF_AT    = `/chargingStationOperators/${qa.chargingStationOperators.indexOf(gef)}`;
+    const stationS1 = gef.chargingPools[0].chargingStations[0];
+    const evseE11   = stationS1.EVSEs[0];
+    if (gef.chargingPools[1]?.chargingStations?.[0]?.['@id'] !== 'DE*GEF*S3' || stationS1['@id'] !== 'DE*GEF*S1' || evseE11['@id'] !== 'DE*GEF*E1*1' ||
+        gef.chargingPools[0].chargingStations[1]?.EVSEs?.[0]?.energyMeter?.['@id'] !== 'DE*GEF*M2*1' || evseE11.energyMeter?.['@id'] !== 'DE*GEF*M1*1')
+        fail('QA.json: the stations, EVSEs and energy meters of DE*GEF are not where the vectors patch them');
+    const stripped  = (entity, ...properties) => Object.fromEntries(Object.entries(entity).filter(([ key ]) => !properties.includes(key)));
+
+    twice('version-twice-station-of-operator',   `${SPEC}, 2`,
+          'DE*GEF has its charging station DE*GEF*S1 in DE*GEF*P1 and again in DE*GEF*P2, the second time without its EVSEs.',
+          "The charging station 'DE*GEF*S1' of the operator 'DE*GEF' must not be given twice!",
+          [ { op: 'add', path: `${GEF_AT}/chargingPools/1/chargingStations/0`, value: stripped(stationS1, 'EVSEs') } ]);
+
+    twice('version-twice-evse-of-operator',      `${SPEC}, 2`,
+          'DE*GEF has its EVSE DE*GEF*E1*1 in DE*GEF*S1 and again in DE*GEF*S2, the second time without its energy meter.',
+          "The EVSE 'DE*GEF*E1*1' of the operator 'DE*GEF' must not be given twice!",
+          [ { op: 'add', path: `${GEF_AT}/chargingPools/0/chargingStations/1/EVSEs/0`, value: stripped(evseE11, 'energyMeter') } ]);
+
+    twice('version-twice-energy-meter-of-operator', `${SPEC}, 2`,
+          'The EVSE DE*GEF*E2*1 of DE*GEF has the energy meter DE*GEF*M1*1, which its EVSE DE*GEF*E1*1 has.',
+          "The energy meter 'DE*GEF*M1*1' of the operator 'DE*GEF' must not be given twice!",
+          [ { op: 'replace', path: `${GEF_AT}/chargingPools/0/chargingStations/1/EVSEs/0/energyMeter/@id`, value: 'DE*GEF*M1*1' } ]);
 
     // Since a release is identified under its manufacturer and a certificate under its body (S36), only the same owner can
     // name one twice: GraphDefined its release, the PTB its certificate, the second time in another case - which its own
