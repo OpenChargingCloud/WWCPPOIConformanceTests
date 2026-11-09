@@ -20,9 +20,8 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `74f1d8e`, WWCP_POI.TS `0b6baea`, Hermod `f7b00ef2`,
-Styx `21d00134`) - but for the copy WWCP_POI.TS vendors of `poi-refusals.json`, until it takes the refusals of a
-station, EVSE or energy meter given twice by its operator:
+Both harnesses are green against the pinned submodules (WWCP_POI `74f1d8e`, WWCP_POI.TS `989c98e`, Hermod `f7b00ef2`,
+Styx `21d00134`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
