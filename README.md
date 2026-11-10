@@ -20,9 +20,8 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `c4c3c5a`, WWCP_POI.TS `d2c369e`, Hermod `850cab3d`,
-Styx `21d00134`) - but for the copies WWCP_POI.TS vendors of the frozen run and of the vectors, until it takes the run
-`csharp-c4c3c5a` and the vectors made of it, of the web payment page, a flat fee, required roles and offers of a provider:
+Both harnesses are green against the pinned submodules (WWCP_POI `c4c3c5a`, WWCP_POI.TS `0685f9a`, Hermod `850cab3d`,
+Styx `21d00134`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
