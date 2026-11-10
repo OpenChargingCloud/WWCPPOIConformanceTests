@@ -7,7 +7,8 @@ them, of the same public seeds, on `POIHistory/archived-session.chargy` of its f
 deterministic: the readings of the meter are signed with a P-256 key of a seed of its own, with the nonces of RFC 6979,
 not with the published test key, whose ECDSA signatures differ every time. Each case is anchored first: made with the
 readings of its fixture, it is that fixture. `pqc-price.chargy` is not made here: node:crypto signs ML-DSA-65 with
-randomness. What both WWCP_POI3 and WWCP_POI.TS give for each is in `poi-verifier.json` (`sessionPrice-*`).
+randomness. `flat-fee.chargy` is of no fixture, made here alone. What both WWCP_POI3 and WWCP_POI.TS give for each is
+in `poi-verifier.json` (`sessionPrice-*`).
 
 The fixed evaluation clock is **2026-11-01T00:16:21Z**; charging starts at 2026-06-01T10:00:00Z.
 
@@ -21,6 +22,7 @@ The fixed evaluation clock is **2026-11-01T00:16:21Z**; charging starts at 2026-
 | `decimal-price.chargy` | Signed `0.3500` retained exactly through parse/display/export |
 | `empty-prices.chargy` | Missing price evidence |
 | `expired-price.chargy` | Genuine price not active at start |
+| `flat-fee.chargy` | A flat fee of 1.00 besides the energy price of 0.35 per kWh, the flat fee without a step size, as a FLAT price component has none: of the simple profile of gross rates, bound |
 | `foreign-tariff.chargy` | Genuine price naming a tariff outside this EVSE's references: DE*POI*T2, of the pattern {operatorId}*T{suffix} |
 | `invalid-signature.chargy` | Invalid CPO price signature |
 | `missing-agreement.chargy` | Valid offer/inclusion, actual session assignment unproven |

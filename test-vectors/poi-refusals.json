@@ -7,6 +7,7 @@
       "expected": "refused",
       "id": "commit-revision",
       "kind": "commit",
+      "reason": "is not the one of its content",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.1",
       "description": "The revision of the genesis commit changed: its @id is no longer the digest of its content.",
       "document": {
@@ -25,6 +26,7 @@
       "expected": "refused",
       "id": "commit-id",
       "kind": "commit",
+      "reason": "is not the one of its content",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.1",
       "description": "Another @id.",
       "document": {
@@ -43,6 +45,7 @@
       "expected": "refused",
       "id": "commit-id-uppercase",
       "kind": "commit",
+      "reason": "Missing or invalid commit identification!",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.1",
       "description": "The @id in uppercase hexadecimal digits: identifications are lowercase.",
       "document": {
@@ -61,6 +64,7 @@
       "expected": "refused",
       "id": "commit-etag-base64",
       "kind": "commit",
+      "reason": "must be written in hex, not in 'base64'",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 3.1",
       "description": "An ETag of a commit in base64: commits write ETags in hex, a reader refuses others.",
       "document": {
@@ -102,6 +106,7 @@
       "expected": "refused",
       "id": "commit-without-tree",
       "kind": "commit",
+      "reason": "commit requires the json, cbor and effectiveTree ETags of its version",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.1, 8.3",
       "description": "A commit without its effectiveTree ETag.",
       "document": {
@@ -119,6 +124,7 @@
       "expected": "refused",
       "id": "commit-context",
       "kind": "commit",
+      "reason": "must be 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3'!",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 1.1",
       "description": "Another JSON-LD context.",
       "document": {
@@ -155,6 +161,7 @@
       "expected": "refused",
       "id": "commit-network",
       "kind": "commit",
+      "reason": "is not the one of its content",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.1",
       "description": "Another roaming network.",
       "document": {
@@ -268,6 +275,7 @@
       "expected": "refused",
       "id": "changeSet-id",
       "kind": "commit",
+      "reason": "is not identified by its content",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 4, 5.2",
       "description": "The change set of a commit has the @id of another change set of the run, its commit identified anew: a change set is identified by its content, nobody names another one with its @id (csharp-review 4).",
       "document": {
@@ -291,6 +299,7 @@
       "expected": "refused",
       "id": "changeSet-rebasedFrom",
       "kind": "commit",
+      "reason": "not the change set it was rebased from with these ETags",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 4, 5.2",
       "description": "The change set of a commit names another change set of the run, with its ETags, as the one it was rebased from, identified anew by its content: it was not rebased from it (csharp-review 4).",
       "document": {
@@ -353,6 +362,7 @@
       "expected": "refused",
       "id": "changeSet-without-changes",
       "kind": "commit",
+      "reason": "has no changes: it would change nothing!",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 4, 5.2",
       "description": "The change set of a commit with one parent without changes, identified anew by its content: it would change nothing.",
       "document": {
@@ -381,6 +391,7 @@
       "expected": "refused",
       "id": "changeSet-merge-id",
       "kind": "commit",
+      "reason": "is identified as the change set of a merge, which only a merge commit has!",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 4, 5.2, 5.3",
       "description": "The change set of a commit with one parent named as the change set of a merge, which only a merge commit has.",
       "document": {
@@ -482,6 +493,7 @@
       "expected": "refused",
       "id": "checkpoint-sequence",
       "kind": "checkpoint",
+      "reason": "is not the one of its content",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 10.1",
       "description": "Another sequence.",
       "document": {
@@ -500,6 +512,7 @@
       "expected": "refused",
       "id": "checkpoint-previous",
       "kind": "checkpoint",
+      "reason": "is not the one of its content",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 10.1",
       "description": "Another previous checkpoint.",
       "document": {
@@ -518,6 +531,7 @@
       "expected": "refused",
       "id": "checkpoint-commits-root",
       "kind": "checkpoint",
+      "reason": "is not the one of its content",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 10.1",
       "description": "Another root of its commits.",
       "document": {
@@ -610,6 +624,7 @@
       "expected": "refused",
       "id": "version-name",
       "kind": "version",
+      "reason": "The ETags of the roaming network 'QA' do not match its content",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 3.1",
       "description": "The name of the network changed, its eTags not: they no longer are those of its content.",
       "document": {
@@ -628,6 +643,7 @@
       "expected": "refused",
       "id": "version-etag",
       "kind": "version",
+      "reason": "The ETags of the roaming network 'QA' do not match its content",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 3.1",
       "description": "One ETag it lists is another.",
       "document": {
@@ -651,6 +667,7 @@
       "expected": "refused",
       "id": "version-context",
       "kind": "version",
+      "reason": "The JSON-LD context of the roaming network 'QA' must be 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/v1'!",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 3.1",
       "description": "Another JSON-LD context.",
       "document": {
@@ -16744,6 +16761,7 @@
       "expected": "refused",
       "id": "checkpointProof-index",
       "kind": "checkpointProof",
+      "reason": "The proof does not lead to the commits of the checkpoint!",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 10.4",
       "description": "Another position of the commit in the checkpoint.",
       "document": {
@@ -16766,6 +16784,7 @@
       "expected": "refused",
       "id": "checkpointProof-path",
       "kind": "checkpointProof",
+      "reason": "The proof does not lead to the commits of the checkpoint!",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 10.4",
       "description": "Another node on the audit path.",
       "document": {
@@ -16788,6 +16807,7 @@
       "expected": "refused",
       "id": "checkpointProof-revision",
       "kind": "checkpointProof",
+      "reason": "The proof does not lead to the commits of the checkpoint!",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 10.4",
       "description": "Another revision in the leaf.",
       "document": {
@@ -16810,6 +16830,7 @@
       "expected": "refused",
       "id": "checkpointProof-other",
       "kind": "checkpointProof",
+      "reason": "The proof is for the checkpoint",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 10.4",
       "description": "The proof against another checkpoint.",
       "document": {
@@ -16835,7 +16856,8 @@
       },
       "trustAnchor": "published/QA-trustAnchor-mldsa.txt",
       "at": "2026-11-05T19:58:47.606Z",
-      "evseId": "DE*GEF*E1*1"
+      "evseId": "DE*GEF*E1*1",
+      "reason": "Valid attestations of trusted keys of 0 holders attest the root"
     },
     {
       "expected": "refused",
@@ -16850,7 +16872,8 @@
       },
       "trustAnchor": "published/QA-trustAnchor-mldsa.txt",
       "at": "2026-11-05T19:43:45.597Z",
-      "evseId": "DE*GEF*E1*1"
+      "evseId": "DE*GEF*E1*1",
+      "reason": "Valid attestations of trusted keys of 0 holders attest the root"
     },
     {
       "expected": "refused",
@@ -16865,7 +16888,8 @@
       },
       "trustAnchor": "published/QA-trustAnchor.txt",
       "at": "2026-11-05T19:46:00.000Z",
-      "evseId": "DE*GEF*E1*1"
+      "evseId": "DE*GEF*E1*1",
+      "reason": "The key statement is signed by trusted identity keys of 0 holders, not of 2!"
     },
     {
       "expected": "refused",
@@ -16886,7 +16910,8 @@
       },
       "trustAnchor": "published/QA-trustAnchor-mldsa.txt",
       "at": "2026-11-05T19:46:00.000Z",
-      "evseId": "DE*GEF*E1*1"
+      "evseId": "DE*GEF*E1*1",
+      "reason": "Valid attestations of trusted keys of 0 holders attest the root"
     },
     {
       "expected": "refused",
@@ -16932,7 +16957,8 @@
       },
       "trustAnchor": "published/QA-trustAnchor-mldsa.txt",
       "at": "2026-11-05T19:46:00.000Z",
-      "evseId": "DE*GEF*E1*1"
+      "evseId": "DE*GEF*E1*1",
+      "reason": "Valid attestations of trusted keys of 0 holders attest the root"
     },
     {
       "expected": "refused",
@@ -16953,7 +16979,8 @@
       },
       "trustAnchor": "published/QA-trustAnchor-mldsa.txt",
       "at": "2026-11-05T19:46:00.000Z",
-      "evseId": "DE*GEF*E1*1"
+      "evseId": "DE*GEF*E1*1",
+      "reason": "Valid attestations of trusted keys of 0 holders attest the root"
     },
     {
       "expected": "refused",
@@ -16974,7 +17001,8 @@
       },
       "trustAnchor": "published/QA-trustAnchor-mldsa.txt",
       "at": "2026-11-05T19:46:00.000Z",
-      "evseId": "DE*GEF*E1*1"
+      "evseId": "DE*GEF*E1*1",
+      "reason": "Valid attestations of trusted keys of 0 holders attest the root"
     },
     {
       "expected": "refused",
@@ -16995,7 +17023,8 @@
       },
       "trustAnchor": "published/QA-trustAnchor-mldsa.txt",
       "at": "2026-11-05T19:46:00.000Z",
-      "evseId": "DE*GEF*E1*1"
+      "evseId": "DE*GEF*E1*1",
+      "reason": "Valid attestations of trusted keys of 0 holders attest the root"
     },
     {
       "expected": "refused",
@@ -17035,12 +17064,14 @@
       },
       "trustAnchor": "published/QA-trustAnchor-mldsa.txt",
       "at": "2026-11-05T19:46:00.000Z",
-      "evseId": "DE*GEF*E1*1"
+      "evseId": "DE*GEF*E1*1",
+      "reason": "Valid attestations of trusted keys of 1 holder attest the root"
     },
     {
       "expected": "refused",
       "id": "priceStatement-price",
       "kind": "priceStatement",
+      "reason": "The signature of the price statement is invalid",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1",
       "description": "Another price, the signature not.",
       "document": {
@@ -17085,6 +17116,7 @@
       "expected": "refused",
       "id": "priceStatement-entity",
       "kind": "priceStatement",
+      "reason": "The signature of the price statement is invalid",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 12.1",
       "description": "Another EVSE.",
       "document": {
@@ -17787,6 +17819,7 @@
       "expected": "refused",
       "id": "trustAnchor-base45",
       "kind": "trustAnchor",
+      "reason": "The QR code of a trust anchor is not Base45",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 8.6",
       "description": "A character that is no Base45.",
       "text": "WWCP/TA-2:B7LJ683VCBaACVCC$C6REF6BZAB8UL.%89OV+AC*%N.MR5ONFGN7$7$XS+UIRBMQBA/+0*OCF6B/$MAJEMAIDKB.$U0Z7YO2UFNLC9JU8CKE5JIB87TCTQP2S15F6B%2PW%G 1N JR*.HLJJ-G36 6$G88UG7XUAYFPHH0ZEQ DXJLFVCBEC7%CYJCD/DIDAAEC-ED3EFFC8$QEVKE:.D  C6%E/VDOGGXF4MWEW9E0G7%:5I9E -DNPCGECD3D3/D+%5*VD$$E9:5D-98:54C8D68-3E7WEBAFB9FA9DIWENPEJ/5/3E1$C+%5 8D$KEZED:1DRPC34E.TCUPCG/DB$CLWE10684F98E0LEBECZEDV2D7$CK4F-KE/:56LE QEAC8NPC04E006$G66VCJQE*KEX9E EDG:DYJCK/D:K4+8DQ44S3EJ$D3/DM447$CK4F-KEN44:+CAWEDZCB$CBECP9E6$C$VDZEDSN8F/D1$C$QECOE"

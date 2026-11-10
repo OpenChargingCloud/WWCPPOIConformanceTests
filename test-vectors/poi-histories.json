@@ -93,7 +93,21 @@
         "parking-added": "{\"@id\":\"899b09769053ee433c4012808502a7eb6633dbbea4c5f477bce9027a95538c2d\",\"changeSet\":{\"@id\":\"049b3ca10d2dd1bc56e512e13663a9384b2028391112c21d39c1a7f97d25342c\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"172b4dea67c1fd59accc36d93be4a32f797554623739b22ff561fd1f7159e4d5\"],[\"cbor\",\"sha256\",\"hex\",\"e6d779da7a89666ecfa056cfd087f09d903ce8e7b30b7dfc9c0048ed8e0e05da\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"001af2a3d1c5a42a5cc1a46709d129b5743b008aba783e38968041d9aea5aacb\"],[\"cbor\",\"sha256\",\"hex\",\"da2175cb6c0d3d7cbcb4d50be8fad3d64c2eb5fb8a101207348ac4f7753cd7bc\"]],\"changes\":[{\"entityId\":\"garage-1\",\"entityType\":\"ParkingGarage\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"garage-1\",\"name\":{\"de\":\"Parkhaus Paradies\"}},\"parentEntityId\":\"DE*PRK\",\"parentEntityType\":\"ParkingOperator\"},{\"entityId\":\"space-1\",\"entityType\":\"ParkingSpace\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"space-1\",\"parkingGarageId\":\"garage-1\"},\"parentEntityId\":\"DE*PRK\",\"parentEntityType\":\"ParkingOperator\"},{\"entityId\":\"P1\",\"entityType\":\"ParkingProduct\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"P1\",\"minDuration\":0},\"parentEntityId\":\"DE*PRK\",\"parentEntityType\":\"ParkingOperator\"}],\"createdAt\":\"2026-10-18T08:20:00.000Z\",\"description\":{\"en\":\"DE*PRK adds the garage Parkhaus Paradies, a space in it and the product P1\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"c71548fbf74859f67b8ec601eeb8712e91d4d575ea0e30eaa612808987394dce\",\"value\":\"x2e6mZy/Waz6ox1ebIzslivn77IoPt7iv2rMmBadwd482CcFuKiUNmZ19KmOsbHBbaKQTKvQZ9HY/bJBWbzLBw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"172b4dea67c1fd59accc36d93be4a32f797554623739b22ff561fd1f7159e4d5\"],[\"cbor\",\"sha256\",\"hex\",\"e6d779da7a89666ecfa056cfd087f09d903ce8e7b30b7dfc9c0048ed8e0e05da\"],[\"effectiveTree\",\"sha256\",\"hex\",\"bffb8957052cc2eb34e39e274ada35461e41a17c31d468a0bd1e1a3fcc968aa7\"]],\"parentIds\":[\"bde4d7900aeca1cc38a915280266e0dd765b55845d20b79f1f4f6cad5e447429\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:20:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"HU1EENoU/p9kHGFIunUkoFt7dypM9rOP7C6owLiFVoJc0aFWNQetEXQaLk/1vYGVyy/+ITXHn1hB+EdbbWSwBA==\"}]}",
         "parking-added-by-gef": "{\"@id\":\"899b09769053ee433c4012808502a7eb6633dbbea4c5f477bce9027a95538c2d\",\"changeSet\":{\"@id\":\"049b3ca10d2dd1bc56e512e13663a9384b2028391112c21d39c1a7f97d25342c\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"172b4dea67c1fd59accc36d93be4a32f797554623739b22ff561fd1f7159e4d5\"],[\"cbor\",\"sha256\",\"hex\",\"e6d779da7a89666ecfa056cfd087f09d903ce8e7b30b7dfc9c0048ed8e0e05da\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"001af2a3d1c5a42a5cc1a46709d129b5743b008aba783e38968041d9aea5aacb\"],[\"cbor\",\"sha256\",\"hex\",\"da2175cb6c0d3d7cbcb4d50be8fad3d64c2eb5fb8a101207348ac4f7753cd7bc\"]],\"changes\":[{\"entityId\":\"garage-1\",\"entityType\":\"ParkingGarage\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"garage-1\",\"name\":{\"de\":\"Parkhaus Paradies\"}},\"parentEntityId\":\"DE*PRK\",\"parentEntityType\":\"ParkingOperator\"},{\"entityId\":\"space-1\",\"entityType\":\"ParkingSpace\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"space-1\",\"parkingGarageId\":\"garage-1\"},\"parentEntityId\":\"DE*PRK\",\"parentEntityType\":\"ParkingOperator\"},{\"entityId\":\"P1\",\"entityType\":\"ParkingProduct\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"P1\",\"minDuration\":0},\"parentEntityId\":\"DE*PRK\",\"parentEntityType\":\"ParkingOperator\"}],\"createdAt\":\"2026-10-18T08:20:00.000Z\",\"description\":{\"en\":\"DE*PRK adds the garage Parkhaus Paradies, a space in it and the product P1\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"Yi1VP7AQyiXxd/SODh9IIhd2QEQ6dqPz8iyVrFGhhLqZR7eiSNM1d9sg2AenhOPN9DJRQDOKRuZtp5UdtejmCw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"172b4dea67c1fd59accc36d93be4a32f797554623739b22ff561fd1f7159e4d5\"],[\"cbor\",\"sha256\",\"hex\",\"e6d779da7a89666ecfa056cfd087f09d903ce8e7b30b7dfc9c0048ed8e0e05da\"],[\"effectiveTree\",\"sha256\",\"hex\",\"bffb8957052cc2eb34e39e274ada35461e41a17c31d468a0bd1e1a3fcc968aa7\"]],\"parentIds\":[\"bde4d7900aeca1cc38a915280266e0dd765b55845d20b79f1f4f6cad5e447429\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:20:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"ANz+9KIHwL993QRPKYe7iTuLWf4VcB3ey867fqroLsX7oobELKJ9F6V6E0b4POum6XZuLrlDou3n/uGVe9mCBw==\"}]}",
         "gef-space": "{\"@id\":\"1ce063678c8ecfe20d95c0c1a49e2b49b99ac9d58d61c5ed88c42910941137c0\",\"changeSet\":{\"@id\":\"ef63bb0bad6519123c50409370fe3705d4b12f5fd9fc2c0d86f97fa4d7c7274f\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"4afeff511dfc823a8743870f760deea4f0d19688272e3baa6627514d3e35ea99\"],[\"cbor\",\"sha256\",\"hex\",\"e84d01799dfbfa80c8929be9711df764b231e644d9d2778c1d61ee7f1f3d1187\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"001af2a3d1c5a42a5cc1a46709d129b5743b008aba783e38968041d9aea5aacb\"],[\"cbor\",\"sha256\",\"hex\",\"da2175cb6c0d3d7cbcb4d50be8fad3d64c2eb5fb8a101207348ac4f7753cd7bc\"]],\"changes\":[{\"entityId\":\"gef-space-1\",\"entityType\":\"ParkingSpace\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"gef-space-1\"},\"parentEntityId\":\"DE*GEF\",\"parentEntityType\":\"ChargingStationOperator\"}],\"createdAt\":\"2026-10-18T08:20:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the parking space gef-space-1\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"af2qXa2iNm81Uwke7neGtK6TapDgM6So3CReTooJIhL1bOmH6ELUUDlmyexHKppTaAEjqmyjLn2+pP4kQ9qpDA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"4afeff511dfc823a8743870f760deea4f0d19688272e3baa6627514d3e35ea99\"],[\"cbor\",\"sha256\",\"hex\",\"e84d01799dfbfa80c8929be9711df764b231e644d9d2778c1d61ee7f1f3d1187\"],[\"effectiveTree\",\"sha256\",\"hex\",\"00983b4f861bdc3dbfc246e628d01d0dd8e6a69745426fe75f97c6a058e7f535\"]],\"parentIds\":[\"bde4d7900aeca1cc38a915280266e0dd765b55845d20b79f1f4f6cad5e447429\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:20:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"qLVjT0B9jMzeRIyIyOAMrSYpERsuN8otbBXU5Vkfc+sY0Xz76C7MiHOofBoIH2Dd8Pt+p386+cmhco7JpMm6Ag==\"}]}",
-        "gef-space-by-prk": "{\"@id\":\"1ce063678c8ecfe20d95c0c1a49e2b49b99ac9d58d61c5ed88c42910941137c0\",\"changeSet\":{\"@id\":\"ef63bb0bad6519123c50409370fe3705d4b12f5fd9fc2c0d86f97fa4d7c7274f\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"4afeff511dfc823a8743870f760deea4f0d19688272e3baa6627514d3e35ea99\"],[\"cbor\",\"sha256\",\"hex\",\"e84d01799dfbfa80c8929be9711df764b231e644d9d2778c1d61ee7f1f3d1187\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"001af2a3d1c5a42a5cc1a46709d129b5743b008aba783e38968041d9aea5aacb\"],[\"cbor\",\"sha256\",\"hex\",\"da2175cb6c0d3d7cbcb4d50be8fad3d64c2eb5fb8a101207348ac4f7753cd7bc\"]],\"changes\":[{\"entityId\":\"gef-space-1\",\"entityType\":\"ParkingSpace\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"gef-space-1\"},\"parentEntityId\":\"DE*GEF\",\"parentEntityType\":\"ChargingStationOperator\"}],\"createdAt\":\"2026-10-18T08:20:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the parking space gef-space-1\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"c71548fbf74859f67b8ec601eeb8712e91d4d575ea0e30eaa612808987394dce\",\"value\":\"KmHo4wbxIqafnv0pbcaGbrWb5Uzb4/La8OkyA/LPAHj8h9imIR5DPIoYEHUsmTJnlg1pc8mlkT2l5+/ShhvEAA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"4afeff511dfc823a8743870f760deea4f0d19688272e3baa6627514d3e35ea99\"],[\"cbor\",\"sha256\",\"hex\",\"e84d01799dfbfa80c8929be9711df764b231e644d9d2778c1d61ee7f1f3d1187\"],[\"effectiveTree\",\"sha256\",\"hex\",\"00983b4f861bdc3dbfc246e628d01d0dd8e6a69745426fe75f97c6a058e7f535\"]],\"parentIds\":[\"bde4d7900aeca1cc38a915280266e0dd765b55845d20b79f1f4f6cad5e447429\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:20:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"IbfAXApcwMN3Mbgd2F6zYnV0YKo2fPT0sW16EK7/3Rgtvp+QGEwRC+DZLNTGHi9kmszvlGYDkJTp2mQzjye6AQ==\"}]}"
+        "gef-space-by-prk": "{\"@id\":\"1ce063678c8ecfe20d95c0c1a49e2b49b99ac9d58d61c5ed88c42910941137c0\",\"changeSet\":{\"@id\":\"ef63bb0bad6519123c50409370fe3705d4b12f5fd9fc2c0d86f97fa4d7c7274f\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"4afeff511dfc823a8743870f760deea4f0d19688272e3baa6627514d3e35ea99\"],[\"cbor\",\"sha256\",\"hex\",\"e84d01799dfbfa80c8929be9711df764b231e644d9d2778c1d61ee7f1f3d1187\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"001af2a3d1c5a42a5cc1a46709d129b5743b008aba783e38968041d9aea5aacb\"],[\"cbor\",\"sha256\",\"hex\",\"da2175cb6c0d3d7cbcb4d50be8fad3d64c2eb5fb8a101207348ac4f7753cd7bc\"]],\"changes\":[{\"entityId\":\"gef-space-1\",\"entityType\":\"ParkingSpace\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"gef-space-1\"},\"parentEntityId\":\"DE*GEF\",\"parentEntityType\":\"ChargingStationOperator\"}],\"createdAt\":\"2026-10-18T08:20:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the parking space gef-space-1\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"c71548fbf74859f67b8ec601eeb8712e91d4d575ea0e30eaa612808987394dce\",\"value\":\"KmHo4wbxIqafnv0pbcaGbrWb5Uzb4/La8OkyA/LPAHj8h9imIR5DPIoYEHUsmTJnlg1pc8mlkT2l5+/ShhvEAA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"4afeff511dfc823a8743870f760deea4f0d19688272e3baa6627514d3e35ea99\"],[\"cbor\",\"sha256\",\"hex\",\"e84d01799dfbfa80c8929be9711df764b231e644d9d2778c1d61ee7f1f3d1187\"],[\"effectiveTree\",\"sha256\",\"hex\",\"00983b4f861bdc3dbfc246e628d01d0dd8e6a69745426fe75f97c6a058e7f535\"]],\"parentIds\":[\"bde4d7900aeca1cc38a915280266e0dd765b55845d20b79f1f4f6cad5e447429\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:20:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"IbfAXApcwMN3Mbgd2F6zYnV0YKo2fPT0sW16EK7/3Rgtvp+QGEwRC+DZLNTGHi9kmszvlGYDkJTp2mQzjye6AQ==\"}]}",
+        "web-payment-key": "{\"@id\":\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\",\"changeSet\":{\"@id\":\"b414801ffb2e290c3325f4522d8c90c3b438f93bcde8dde0aa47c5d5aa436a2b\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"001af2a3d1c5a42a5cc1a46709d129b5743b008aba783e38968041d9aea5aacb\"],[\"cbor\",\"sha256\",\"hex\",\"da2175cb6c0d3d7cbcb4d50be8fad3d64c2eb5fb8a101207348ac4f7753cd7bc\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"1f7bd7cd947beb51a571c42f5b41e6a38efbdf3947e8f3bdb582acb528a9552a\",\"key\":\"owEBIAYhWCA/vfPW5sSbnyODrM+lwb20X8KxCKVhWLe+UVKFSpScaQ==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"infrastructure\",\"payments\"]},{\"@id\":\"295ef94f7efde369b92862bc347de258c1aa9165934e6cbccdf7a83c6ecf0303\",\"key\":\"owEBIAYhWCBO2ULoaXMjS4G6KVfmUm8UFYL96fKckzFTcrWENHa4tg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"tariffs\"]},{\"@id\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"key\":\"owEBIAYhWCCvNCT++wWK1J4k8ouo/R1OpRhF1HCT9Cwnnhgqh92qPg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},{\"@id\":\"9cf0d0b95292e202b5c930b3ec1f2879c5182ef47828725f8196e054ec68a8c6\",\"key\":\"owEBIAYhWCDxdh3Ux+scKJbJcprCDc2bDkFLLI1YIrqLrwA0DHWKuA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"payments\"]},{\"@id\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"key\":\"owEBIAYhWCAJ4NHtxsgBzBV4RkKxGHU90crMOaxfTlRmg5SdbsjkPw==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"infrastructure\"]}],\"oldValue\":[{\"@id\":\"295ef94f7efde369b92862bc347de258c1aa9165934e6cbccdf7a83c6ecf0303\",\"key\":\"owEBIAYhWCBO2ULoaXMjS4G6KVfmUm8UFYL96fKckzFTcrWENHa4tg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"tariffs\"]},{\"@id\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"key\":\"owEBIAYhWCCvNCT++wWK1J4k8ouo/R1OpRhF1HCT9Cwnnhgqh92qPg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},{\"@id\":\"9cf0d0b95292e202b5c930b3ec1f2879c5182ef47828725f8196e054ec68a8c6\",\"key\":\"owEBIAYhWCDxdh3Ux+scKJbJcprCDc2bDkFLLI1YIrqLrwA0DHWKuA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"payments\"]},{\"@id\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"key\":\"owEBIAYhWCAJ4NHtxsgBzBV4RkKxGHU90crMOaxfTlRmg5SdbsjkPw==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"infrastructure\"]}],\"propertyName\":\"signingKeys\"}],\"createdAt\":\"2026-10-18T08:21:00.000Z\",\"description\":{\"en\":\"DE*GEF adds a signing key for infrastructure and payments\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"q3BsDB78BnKSLpgLdZd5q/Q+NCnjiYtRjKdkR7Y8th3a2megLpFPWO4IRSWquR9JAmMkL8Qcw3KKQqdQekLeDQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d6f32d04e8c500bcdd1bd568a820a941d9c1dd7215de37cf9b49436e35bd6120\"]],\"parentIds\":[\"bde4d7900aeca1cc38a915280266e0dd765b55845d20b79f1f4f6cad5e447429\"],\"revision\":15,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:21:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"+msCUJNhIAa2bal18cV1ELRp1ro54NAx7FPtAq0wDmuFiC13ZNBwbuaShjKv9l8CL/RgPjGx5kdY9XmZdQXQDQ==\"}]}",
+        "web-payment-operator": "{\"@id\":\"bfd5c6022b9327ab6c5a476a9ad1ae271deaef3443e73965812d8b7150c97fcd\",\"changeSet\":{\"@id\":\"25ae501822e009378f4c36a76f194eaf12ff6761200353aff439c44ee243ae51\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"713a3449721fbdf3e8d7a62d1851ff8ef5b8d235ea0d785b8d591324eac70ed8\"],[\"cbor\",\"sha256\",\"hex\",\"66637b26be7b4db0a0e2f3cbebe93ccb7a5526d680a87f419442d9039583b4e1\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":\"https://pay.gef.example/\",\"oldValue\":null,\"propertyName\":\"webPaymentURL\"}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF names its web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"9cf0d0b95292e202b5c930b3ec1f2879c5182ef47828725f8196e054ec68a8c6\",\"value\":\"jkJOI2MzXgcYnIHv+EKnZpG0f5Ey5wi9VJmJ6ALPF3Dx2gCX6RTkfZzGSw694M9j6ivalg5IoYxVg5dxjK1TAw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"713a3449721fbdf3e8d7a62d1851ff8ef5b8d235ea0d785b8d591324eac70ed8\"],[\"cbor\",\"sha256\",\"hex\",\"66637b26be7b4db0a0e2f3cbebe93ccb7a5526d680a87f419442d9039583b4e1\"],[\"effectiveTree\",\"sha256\",\"hex\",\"1dc9e1a683452afd1b6d46bd1e4531551ef0237c51f622d9c9e12c191b929057\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"dRA/2nprN0dashlCy7lymv0T1whKr+KSWOQCYQSkSxo6sQCaL3E0TlstDjCbbfRewKyvpoUs9LMOBDWaiC3LDw==\"}]}",
+        "web-payment-operator-infrastructure": "{\"@id\":\"bfd5c6022b9327ab6c5a476a9ad1ae271deaef3443e73965812d8b7150c97fcd\",\"changeSet\":{\"@id\":\"25ae501822e009378f4c36a76f194eaf12ff6761200353aff439c44ee243ae51\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"713a3449721fbdf3e8d7a62d1851ff8ef5b8d235ea0d785b8d591324eac70ed8\"],[\"cbor\",\"sha256\",\"hex\",\"66637b26be7b4db0a0e2f3cbebe93ccb7a5526d680a87f419442d9039583b4e1\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":\"https://pay.gef.example/\",\"oldValue\":null,\"propertyName\":\"webPaymentURL\"}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF names its web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"T5kxSeSel2Ji3G8t+ECRU7FlRmmi2Ev2DDZ8aJaVKtwpRLEYXa54BVzCr5ug3v5vi5lPYGHwVG3KYXQWjm+EDQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"713a3449721fbdf3e8d7a62d1851ff8ef5b8d235ea0d785b8d591324eac70ed8\"],[\"cbor\",\"sha256\",\"hex\",\"66637b26be7b4db0a0e2f3cbebe93ccb7a5526d680a87f419442d9039583b4e1\"],[\"effectiveTree\",\"sha256\",\"hex\",\"1dc9e1a683452afd1b6d46bd1e4531551ef0237c51f622d9c9e12c191b929057\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"x4/3ELe0rzgVZ6iJ2mrdGqBfAoPUoPWkIy5+staBt/B21jNWCmjP1J+/8t2iq/pfYk2kGHl+mAPt5ZMKobbMDg==\"}]}",
+        "web-payment-operator-party": "{\"@id\":\"bfd5c6022b9327ab6c5a476a9ad1ae271deaef3443e73965812d8b7150c97fcd\",\"changeSet\":{\"@id\":\"25ae501822e009378f4c36a76f194eaf12ff6761200353aff439c44ee243ae51\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"713a3449721fbdf3e8d7a62d1851ff8ef5b8d235ea0d785b8d591324eac70ed8\"],[\"cbor\",\"sha256\",\"hex\",\"66637b26be7b4db0a0e2f3cbebe93ccb7a5526d680a87f419442d9039583b4e1\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":\"https://pay.gef.example/\",\"oldValue\":null,\"propertyName\":\"webPaymentURL\"}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF names its web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"D8LTS/0EkEScCgEt6kKKMcNn+uH5ctFRgxYod1K+KjY+W5AWjnWVcToA0qr5iWGcE/3dlzSKNuu50ZaMVgLeCA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"713a3449721fbdf3e8d7a62d1851ff8ef5b8d235ea0d785b8d591324eac70ed8\"],[\"cbor\",\"sha256\",\"hex\",\"66637b26be7b4db0a0e2f3cbebe93ccb7a5526d680a87f419442d9039583b4e1\"],[\"effectiveTree\",\"sha256\",\"hex\",\"1dc9e1a683452afd1b6d46bd1e4531551ef0237c51f622d9c9e12c191b929057\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"HNGlwSDs/1OBZlrHMqv/6JnvXWjhohHeifBzgUzrpL8L4ZOx4wWl32wOA+f2/9ZgNMHKTjHIhXEA/OmCFZkSBA==\"}]}",
+        "web-payment-pool": "{\"@id\":\"2fd11a5227ffcd37a394123bf4294b0b4771a675c5ba2177893a646f727aaecd\",\"changeSet\":{\"@id\":\"5e747248c63e676b0842c1d8c3d61ec53865fb3dc08bc0c89fbd421060a4ea00\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"5fbed809c2611082d47a2baebfb02c0ce066d19e6492ea2a3e26268e49f4ae61\"],[\"cbor\",\"sha256\",\"hex\",\"48f777ee5211691664dcdeb865a1ecaf5278442b132120f42cfe965d3d55f289\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*P1\",\"entityType\":\"ChargingPool\",\"kind\":\"UpdateProperty\",\"newValue\":\"https://pay.gef.example/jena-paradies\",\"oldValue\":null,\"propertyName\":\"webPaymentURL\"}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF names, for DE*GEF*P1, web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"9cf0d0b95292e202b5c930b3ec1f2879c5182ef47828725f8196e054ec68a8c6\",\"value\":\"CVI002p3Ljh5QYFiZiFNFsxng79BlG+ksVmg1tYjuxZZvh7/HUmDHi8SJzWznV21h+Fqwd0dskWzJdGPKhRWCg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"5fbed809c2611082d47a2baebfb02c0ce066d19e6492ea2a3e26268e49f4ae61\"],[\"cbor\",\"sha256\",\"hex\",\"48f777ee5211691664dcdeb865a1ecaf5278442b132120f42cfe965d3d55f289\"],[\"effectiveTree\",\"sha256\",\"hex\",\"592fa7d04d8360e75062906541fadf4931808bfe62df4c074d13857b33ff9ff5\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"jsUFdIKMn+CYYINk7Kn2tHpho0wJgWQJm65z2h8CnE8x+DKw92+DsowmD18Rrnb4fBK1BLlp/e7MQp45uPw+AA==\"}]}",
+        "web-payment-pool-infrastructure": "{\"@id\":\"2fd11a5227ffcd37a394123bf4294b0b4771a675c5ba2177893a646f727aaecd\",\"changeSet\":{\"@id\":\"5e747248c63e676b0842c1d8c3d61ec53865fb3dc08bc0c89fbd421060a4ea00\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"5fbed809c2611082d47a2baebfb02c0ce066d19e6492ea2a3e26268e49f4ae61\"],[\"cbor\",\"sha256\",\"hex\",\"48f777ee5211691664dcdeb865a1ecaf5278442b132120f42cfe965d3d55f289\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*P1\",\"entityType\":\"ChargingPool\",\"kind\":\"UpdateProperty\",\"newValue\":\"https://pay.gef.example/jena-paradies\",\"oldValue\":null,\"propertyName\":\"webPaymentURL\"}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF names, for DE*GEF*P1, web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"AIyN7P++y5sHorN0KEZ0dZ7KyCGme0uOm0NcJnh4Bv0nzMQCRdKTAAt7TZaJsyyGLTHug+6jadf2wPTmLPJtDA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"5fbed809c2611082d47a2baebfb02c0ce066d19e6492ea2a3e26268e49f4ae61\"],[\"cbor\",\"sha256\",\"hex\",\"48f777ee5211691664dcdeb865a1ecaf5278442b132120f42cfe965d3d55f289\"],[\"effectiveTree\",\"sha256\",\"hex\",\"592fa7d04d8360e75062906541fadf4931808bfe62df4c074d13857b33ff9ff5\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"JPoP0PfAdHkcRI51JV7I7Cis4TCIMp1oNk68DK89vpeIx3wDOxE6aP+1Uz6/A5Ii715k9ttjLHNakKAj2euCDg==\"}]}",
+        "web-payment-station": "{\"@id\":\"324578938b297471857b87520ba51c8477647fb9da1a10cd96f10dd81cec1095\",\"changeSet\":{\"@id\":\"82c87d18ff137f27825cc0a1e87da4cbf2d26dccebd494f2f812d9582a5258ce\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"5a61c16d2cb59bfd45cca2b7fc26fdbe1258be042de3f82b61d2725f8663060b\"],[\"cbor\",\"sha256\",\"hex\",\"4ef36991c40d843e0edc289a42778e79fe906ed5528b4b61b6b521c32b8bebb6\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*S1\",\"entityType\":\"ChargingStation\",\"kind\":\"UpdateProperty\",\"newValue\":\"https://pay.gef.example/jena-paradies/s1\",\"oldValue\":null,\"propertyName\":\"webPaymentURL\"}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF names, for DE*GEF*S1, web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"9cf0d0b95292e202b5c930b3ec1f2879c5182ef47828725f8196e054ec68a8c6\",\"value\":\"f/y5M2SRTk06pTv2YUoqlRtZIAC9OkS7f/Fso5iMQugT8pVPt5IFJbbCb8d4DvVZdd1RQSUwMhkXdf+pIPaTAQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"5a61c16d2cb59bfd45cca2b7fc26fdbe1258be042de3f82b61d2725f8663060b\"],[\"cbor\",\"sha256\",\"hex\",\"4ef36991c40d843e0edc289a42778e79fe906ed5528b4b61b6b521c32b8bebb6\"],[\"effectiveTree\",\"sha256\",\"hex\",\"10168c67b4b7a819932b9270fff0a1d977b1d2cb4e7ff9aa47060b368a55c978\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"O3qVac46z3rv5SOCi2bV/23ZvgSwmBKOLRd6kynafqUHfGPnBu6DvDGgUa7QcJlsqfKCwvcWYJQP2C//UPeNBw==\"}]}",
+        "web-payment-station-infrastructure": "{\"@id\":\"324578938b297471857b87520ba51c8477647fb9da1a10cd96f10dd81cec1095\",\"changeSet\":{\"@id\":\"82c87d18ff137f27825cc0a1e87da4cbf2d26dccebd494f2f812d9582a5258ce\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"5a61c16d2cb59bfd45cca2b7fc26fdbe1258be042de3f82b61d2725f8663060b\"],[\"cbor\",\"sha256\",\"hex\",\"4ef36991c40d843e0edc289a42778e79fe906ed5528b4b61b6b521c32b8bebb6\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*S1\",\"entityType\":\"ChargingStation\",\"kind\":\"UpdateProperty\",\"newValue\":\"https://pay.gef.example/jena-paradies/s1\",\"oldValue\":null,\"propertyName\":\"webPaymentURL\"}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF names, for DE*GEF*S1, web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"S0U5/YehTw125DIKH96WhwxuC2VlFwmXjc0SGRSuTv7qoQp4Pm9d7sAUv5hGEPvAR3cPmDUkRGC6veMc7JG0BA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"5a61c16d2cb59bfd45cca2b7fc26fdbe1258be042de3f82b61d2725f8663060b\"],[\"cbor\",\"sha256\",\"hex\",\"4ef36991c40d843e0edc289a42778e79fe906ed5528b4b61b6b521c32b8bebb6\"],[\"effectiveTree\",\"sha256\",\"hex\",\"10168c67b4b7a819932b9270fff0a1d977b1d2cb4e7ff9aa47060b368a55c978\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"+cdPjkb0z4LcE/XR8l9TobngsYwpkKe1m5c+KrAymSvzYEz4eS13WmtifxywC/G45S2/P2kzFPVikE+f5WknDg==\"}]}",
+        "web-payment-station-added": "{\"@id\":\"b133f69ee821d55fae2f4790c51e67154a064a9071d278afba8fa29d884aa9dd\",\"changeSet\":{\"@id\":\"bdd9ced858eda91b54040639da47b0f07ce6c5d7d92bc276adf34bfd16ab1503\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"76780683e6dff72cbbfca9d1b15e1f81bec01d9ef0f025e6fb38f6bfe0d8e15f\"],[\"cbor\",\"sha256\",\"hex\",\"4bd8270a579f1c4bd9c71bec2c316943a918d00244bf150b9fc9826947c87937\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*S3\",\"entityType\":\"ChargingStation\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*S3\",\"EVSEs\":[{\"@id\":\"DE*GEF*E3*1\",\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"maxPower\":22000}],\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"webPaymentURL\":\"https://pay.gef.example/jena-paradies/s3\"},\"parentEntityId\":\"DE*GEF*P1\",\"parentEntityType\":\"ChargingPool\"}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the station DE*GEF*S3 with its web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1f7bd7cd947beb51a571c42f5b41e6a38efbdf3947e8f3bdb582acb528a9552a\",\"value\":\"PAkXZazGLzYt/sgitlDw2psNNUGUMseg+ZX8YxRVicABAh3EvMJDcttKTIwS6ASFBt4jFxQL3iEjTAfywepkAw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"76780683e6dff72cbbfca9d1b15e1f81bec01d9ef0f025e6fb38f6bfe0d8e15f\"],[\"cbor\",\"sha256\",\"hex\",\"4bd8270a579f1c4bd9c71bec2c316943a918d00244bf150b9fc9826947c87937\"],[\"effectiveTree\",\"sha256\",\"hex\",\"e2f239ea70a1cc1717cd9a0f015a1b6ba0ec02b2759b22c20919b21e911e256b\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"f3eLhKL977dpJh/WUoATTdQPAUmvtetxCNVVHIJrL8DjO/okOlP5Iip3n6lLg3QRMw8n9LwOQUVUiNcgVbaADw==\"}]}",
+        "web-payment-station-added-infrastructure": "{\"@id\":\"b133f69ee821d55fae2f4790c51e67154a064a9071d278afba8fa29d884aa9dd\",\"changeSet\":{\"@id\":\"bdd9ced858eda91b54040639da47b0f07ce6c5d7d92bc276adf34bfd16ab1503\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"76780683e6dff72cbbfca9d1b15e1f81bec01d9ef0f025e6fb38f6bfe0d8e15f\"],[\"cbor\",\"sha256\",\"hex\",\"4bd8270a579f1c4bd9c71bec2c316943a918d00244bf150b9fc9826947c87937\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*S3\",\"entityType\":\"ChargingStation\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*S3\",\"EVSEs\":[{\"@id\":\"DE*GEF*E3*1\",\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"maxPower\":22000}],\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"webPaymentURL\":\"https://pay.gef.example/jena-paradies/s3\"},\"parentEntityId\":\"DE*GEF*P1\",\"parentEntityType\":\"ChargingPool\"}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the station DE*GEF*S3 with its web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"LHddha/muWjKjCCaScGfcWKOird4rmHpC9stLwvO4WGncVhveVoeguG0E6njaTYRK8Wew42NQXWG7m219H4+Cw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"76780683e6dff72cbbfca9d1b15e1f81bec01d9ef0f025e6fb38f6bfe0d8e15f\"],[\"cbor\",\"sha256\",\"hex\",\"4bd8270a579f1c4bd9c71bec2c316943a918d00244bf150b9fc9826947c87937\"],[\"effectiveTree\",\"sha256\",\"hex\",\"e2f239ea70a1cc1717cd9a0f015a1b6ba0ec02b2759b22c20919b21e911e256b\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"WSZQIx+SYF0tcFk0X0LjZYRwqRQ3letgoT02u8dM8B67QH/6E/uZRSeRRyY4653dA7WMyFEqSYZAUpd/8YxMDQ==\"}]}",
+        "web-payment-station-added-two-keys": "{\"@id\":\"b133f69ee821d55fae2f4790c51e67154a064a9071d278afba8fa29d884aa9dd\",\"changeSet\":{\"@id\":\"bdd9ced858eda91b54040639da47b0f07ce6c5d7d92bc276adf34bfd16ab1503\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"76780683e6dff72cbbfca9d1b15e1f81bec01d9ef0f025e6fb38f6bfe0d8e15f\"],[\"cbor\",\"sha256\",\"hex\",\"4bd8270a579f1c4bd9c71bec2c316943a918d00244bf150b9fc9826947c87937\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*S3\",\"entityType\":\"ChargingStation\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*S3\",\"EVSEs\":[{\"@id\":\"DE*GEF*E3*1\",\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"maxPower\":22000}],\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"webPaymentURL\":\"https://pay.gef.example/jena-paradies/s3\"},\"parentEntityId\":\"DE*GEF*P1\",\"parentEntityType\":\"ChargingPool\"}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the station DE*GEF*S3 with its web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"LHddha/muWjKjCCaScGfcWKOird4rmHpC9stLwvO4WGncVhveVoeguG0E6njaTYRK8Wew42NQXWG7m219H4+Cw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"9cf0d0b95292e202b5c930b3ec1f2879c5182ef47828725f8196e054ec68a8c6\",\"value\":\"fi1gi7KcNWzGLX5pEwQqgPCbk7FuYHAZWtb5WWIt+qtIGZWnBDHmihhAqdrDZ0mdNilUMmnO+2VHEgeMOI82DA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"76780683e6dff72cbbfca9d1b15e1f81bec01d9ef0f025e6fb38f6bfe0d8e15f\"],[\"cbor\",\"sha256\",\"hex\",\"4bd8270a579f1c4bd9c71bec2c316943a918d00244bf150b9fc9826947c87937\"],[\"effectiveTree\",\"sha256\",\"hex\",\"e2f239ea70a1cc1717cd9a0f015a1b6ba0ec02b2759b22c20919b21e911e256b\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"ETC4fev93dE6KAEEg1M74HuumnjkjGeLdMEoCliB2j9PjRQmSPN/iN9apcGG3uBeRy+aXao4ExUpZbFQ76oOAA==\"}]}",
+        "web-payment-station-added-without": "{\"@id\":\"0cbe7cb1601334907df9d63116dce54c1c8925a2331b880570b181764f3390cf\",\"changeSet\":{\"@id\":\"850f993d9d77c0c317c835f9b4ce9c490bfb060e5272167c547b8fd64dd4ab57\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"126d826db7d293899df8732dba73480ef128e83d8c0dc763f4e25131ed520da2\"],[\"cbor\",\"sha256\",\"hex\",\"060c2a5ffb4b7333155b4ad89632651ea4fdf4e4128c8f9c6d35666aad34e488\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*S3\",\"entityType\":\"ChargingStation\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*S3\",\"EVSEs\":[{\"@id\":\"DE*GEF*E3*1\",\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"maxPower\":22000}],\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\"},\"parentEntityId\":\"DE*GEF*P1\",\"parentEntityType\":\"ChargingPool\"}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the station DE*GEF*S3\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"E88sB9nuQr2kh7HEVV8oQX0CWu7rW7BDBLzbZFEE/04jMWei6Sgz8q9KvD8hxWYG0mTjCwjZhe9iaj7jDM6QBA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"126d826db7d293899df8732dba73480ef128e83d8c0dc763f4e25131ed520da2\"],[\"cbor\",\"sha256\",\"hex\",\"060c2a5ffb4b7333155b4ad89632651ea4fdf4e4128c8f9c6d35666aad34e488\"],[\"effectiveTree\",\"sha256\",\"hex\",\"8b89dc63bcf19976622158359ec92b97645d14bfc9de4ea76e86cb5784aa4078\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"nLLGbcB6sk5lQ8SwaGAkFVnGKOJseE9VTdkB8xE3PdJH2OYLvkInRw7mSerYB8jBPMCf6T5UeWkv+v7xDQPEAg==\"}]}",
+        "web-payment-pool-added": "{\"@id\":\"d05e8c4348bfe2e85a8d7e5a959929df641de61a3fdf96189b10380ac1cec0f9\",\"changeSet\":{\"@id\":\"771164e83a0d80dd1f2845410a78fe6715bde20edccc7004af60309237bfded5\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a057fab607ca581adb15976312c4c5ecf90c1e5a47a00d6fc4e1b361d9e2f6de\"],[\"cbor\",\"sha256\",\"hex\",\"c909dfd6ca825fb8ededf3a32e3159dbfc9f9aeb2deab8a68ea7d5a82d425e9c\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*P2\",\"entityType\":\"ChargingPool\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*P2\",\"chargingStations\":[{\"@id\":\"DE*GEF*S4\",\"EVSEs\":[{\"@id\":\"DE*GEF*E4*1\",\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"maxPower\":22000}],\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"webPaymentURL\":\"https://pay.gef.example/jena-paradies/s3\"}],\"name\":{\"en\":\"Jena Lobeda\"}}}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the pool DE*GEF*P2, its station DE*GEF*S4 with its web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1f7bd7cd947beb51a571c42f5b41e6a38efbdf3947e8f3bdb582acb528a9552a\",\"value\":\"Kre+plK+bsNgV9LFKhQhj07kOUiAyZN6wAsUIyw9vroI8V4IbkmOMfHb03hCu3IaP8Vrw9FZpWfoC3AtHlbJBw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a057fab607ca581adb15976312c4c5ecf90c1e5a47a00d6fc4e1b361d9e2f6de\"],[\"cbor\",\"sha256\",\"hex\",\"c909dfd6ca825fb8ededf3a32e3159dbfc9f9aeb2deab8a68ea7d5a82d425e9c\"],[\"effectiveTree\",\"sha256\",\"hex\",\"b0b9408e982da1f569a223fb1484afdee37a7a4db0ab39edcb8043c4c496fdfe\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"eBXorQpJ2YJqg3zY2RhpJYipR0Y1ZuWRaks63Ah/PX9UTykaBKgIXyAa60KT7AEVnaA9lFdw9K9LjCdK7bhxBA==\"}]}",
+        "web-payment-pool-added-infrastructure": "{\"@id\":\"d05e8c4348bfe2e85a8d7e5a959929df641de61a3fdf96189b10380ac1cec0f9\",\"changeSet\":{\"@id\":\"771164e83a0d80dd1f2845410a78fe6715bde20edccc7004af60309237bfded5\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a057fab607ca581adb15976312c4c5ecf90c1e5a47a00d6fc4e1b361d9e2f6de\"],[\"cbor\",\"sha256\",\"hex\",\"c909dfd6ca825fb8ededf3a32e3159dbfc9f9aeb2deab8a68ea7d5a82d425e9c\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*P2\",\"entityType\":\"ChargingPool\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*P2\",\"chargingStations\":[{\"@id\":\"DE*GEF*S4\",\"EVSEs\":[{\"@id\":\"DE*GEF*E4*1\",\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"maxPower\":22000}],\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"webPaymentURL\":\"https://pay.gef.example/jena-paradies/s3\"}],\"name\":{\"en\":\"Jena Lobeda\"}}}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the pool DE*GEF*P2, its station DE*GEF*S4 with its web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"A/QvmoXa0cZRYUpymDLomAo+H0mnWDcKf587C4gfqgS5pzDML7n+YTQAL8fZVQhSx5DGcIUDY7SYJOvNZrQtBg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a057fab607ca581adb15976312c4c5ecf90c1e5a47a00d6fc4e1b361d9e2f6de\"],[\"cbor\",\"sha256\",\"hex\",\"c909dfd6ca825fb8ededf3a32e3159dbfc9f9aeb2deab8a68ea7d5a82d425e9c\"],[\"effectiveTree\",\"sha256\",\"hex\",\"b0b9408e982da1f569a223fb1484afdee37a7a4db0ab39edcb8043c4c496fdfe\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"N45Pr+eL5uEYVGz9cIxMBL8WQVCCdsLbPlW8o4mQ5M2OWRTwG+kommjiXql3MCbm8NDXIJzU7DFzbKXzRIc4CQ==\"}]}"
       }
     },
     {
@@ -4049,6 +4063,1100 @@
       ],
       "control": "gef-space",
       "reason": "needs a signature by a signing key of the ChargingStationOperator 'DE*GEF'!"
+    },
+    {
+      "id": "web-payment-operator-signed-for-payments",
+      "description": "A charging station operator names the web payment page of itself, signed by its signing key for payments.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; libs/WWCP_POI/docs/ChargingStationOperator.md, Web payment page",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-operator"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 16,
+          "commitId": "bfd5c6022b9327ab6c5a476a9ad1ae271deaef3443e73965812d8b7150c97fcd",
+          "eTags": [
+            "json:sha256:hex:713a3449721fbdf3e8d7a62d1851ff8ef5b8d235ea0d785b8d591324eac70ed8",
+            "cbor:sha256:hex:66637b26be7b4db0a0e2f3cbebe93ccb7a5526d680a87f419442d9039583b4e1",
+            "effectiveTree:sha256:hex:1dc9e1a683452afd1b6d46bd1e4531551ef0237c51f622d9c9e12c191b929057"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "web-payment-operator-signed-for-infrastructure",
+      "description": "A charging station operator names the web payment page of itself, signed by its signing key for infrastructure alone: whoever changes it redirects payments.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; libs/WWCP_POI/docs/ChargingStationOperator.md, Web payment page",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-operator-infrastructure"
+        }
+      ],
+      "control": "web-payment-operator",
+      "reason": "UpdateProperty of the ChargingStationOperator 'DE*GEF' ('webPaymentURL') needs a signature by a signing key of the ChargingStationOperator 'DE*GEF' that may sign 'payments'!"
+    },
+    {
+      "id": "web-payment-operator-signed-for-party",
+      "description": "A charging station operator names the web payment page of itself, signed by its signing key for party alone: whoever changes it redirects payments.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; libs/WWCP_POI/docs/ChargingStationOperator.md, Web payment page",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-operator-party"
+        }
+      ],
+      "control": "web-payment-operator",
+      "reason": "UpdateProperty of the ChargingStationOperator 'DE*GEF' ('webPaymentURL') needs a signature by a signing key of the ChargingStationOperator 'DE*GEF' that may sign 'payments'!"
+    },
+    {
+      "id": "web-payment-pool-signed-for-payments",
+      "description": "A charging station operator names the web payment page of its charging pool, signed by its signing key for payments.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; libs/WWCP_POI/docs/ChargingStationOperator.md, Web payment page",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-pool"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 16,
+          "commitId": "2fd11a5227ffcd37a394123bf4294b0b4771a675c5ba2177893a646f727aaecd",
+          "eTags": [
+            "json:sha256:hex:5fbed809c2611082d47a2baebfb02c0ce066d19e6492ea2a3e26268e49f4ae61",
+            "cbor:sha256:hex:48f777ee5211691664dcdeb865a1ecaf5278442b132120f42cfe965d3d55f289",
+            "effectiveTree:sha256:hex:592fa7d04d8360e75062906541fadf4931808bfe62df4c074d13857b33ff9ff5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "web-payment-pool-signed-for-infrastructure",
+      "description": "A charging station operator names the web payment page of its charging pool, signed by its signing key for infrastructure alone: whoever changes it redirects payments.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; libs/WWCP_POI/docs/ChargingStationOperator.md, Web payment page",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-pool-infrastructure"
+        }
+      ],
+      "control": "web-payment-pool",
+      "reason": "UpdateProperty of the ChargingPool 'DE*GEF*P1' ('webPaymentURL') needs a signature by a signing key of the ChargingStationOperator 'DE*GEF' that may sign 'payments'!"
+    },
+    {
+      "id": "web-payment-station-signed-for-payments",
+      "description": "A charging station operator names the web payment page of its charging station, signed by its signing key for payments.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; libs/WWCP_POI/docs/ChargingStationOperator.md, Web payment page",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-station"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 16,
+          "commitId": "324578938b297471857b87520ba51c8477647fb9da1a10cd96f10dd81cec1095",
+          "eTags": [
+            "json:sha256:hex:5a61c16d2cb59bfd45cca2b7fc26fdbe1258be042de3f82b61d2725f8663060b",
+            "cbor:sha256:hex:4ef36991c40d843e0edc289a42778e79fe906ed5528b4b61b6b521c32b8bebb6",
+            "effectiveTree:sha256:hex:10168c67b4b7a819932b9270fff0a1d977b1d2cb4e7ff9aa47060b368a55c978"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "web-payment-station-signed-for-infrastructure",
+      "description": "A charging station operator names the web payment page of its charging station, signed by its signing key for infrastructure alone: whoever changes it redirects payments.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; libs/WWCP_POI/docs/ChargingStationOperator.md, Web payment page",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-station-infrastructure"
+        }
+      ],
+      "control": "web-payment-station",
+      "reason": "UpdateProperty of the ChargingStation 'DE*GEF*S1' ('webPaymentURL') needs a signature by a signing key of the ChargingStationOperator 'DE*GEF' that may sign 'payments'!"
+    },
+    {
+      "id": "web-payment-station-added-with-it",
+      "description": "A charging station operator adds a charging station naming its web payment page, signed by its signing key for infrastructure and payments.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; libs/WWCP_POI/docs/ChargingStationOperator.md, Web payment page",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-station-added"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 16,
+          "commitId": "b133f69ee821d55fae2f4790c51e67154a064a9071d278afba8fa29d884aa9dd",
+          "eTags": [
+            "json:sha256:hex:76780683e6dff72cbbfca9d1b15e1f81bec01d9ef0f025e6fb38f6bfe0d8e15f",
+            "cbor:sha256:hex:4bd8270a579f1c4bd9c71bec2c316943a918d00244bf150b9fc9826947c87937",
+            "effectiveTree:sha256:hex:e2f239ea70a1cc1717cd9a0f015a1b6ba0ec02b2759b22c20919b21e911e256b"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "web-payment-station-added-with-it-signed-for-infrastructure",
+      "description": "A charging station operator adds a charging station naming its web payment page, signed by its signing key for infrastructure alone.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; libs/WWCP_POI/docs/ChargingStationOperator.md, Web payment page",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-station-added-infrastructure"
+        }
+      ],
+      "control": "web-payment-station-added",
+      "reason": "Add of the ChargingStation 'DE*GEF*S3' needs a signature by a signing key of the ChargingStationOperator 'DE*GEF' that may sign 'infrastructure' and 'payments'!"
+    },
+    {
+      "id": "web-payment-station-added-with-it-signed-by-two-keys",
+      "description": "A charging station operator adds a charging station naming its web payment page, signed by its signing key for infrastructure and by its signing key for payments: one key has to name both.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; libs/WWCP_POI/docs/ChargingStationOperator.md, Web payment page",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-station-added-two-keys"
+        }
+      ],
+      "control": "web-payment-station-added",
+      "reason": "Add of the ChargingStation 'DE*GEF*S3' needs a signature by a signing key of the ChargingStationOperator 'DE*GEF' that may sign 'infrastructure' and 'payments'!"
+    },
+    {
+      "id": "web-payment-station-added-without-it",
+      "description": "A charging station operator adds a charging station without a web payment page, signed by its signing key for infrastructure alone, as before.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; libs/WWCP_POI/docs/ChargingStationOperator.md, Web payment page",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-station-added-without"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 16,
+          "commitId": "0cbe7cb1601334907df9d63116dce54c1c8925a2331b880570b181764f3390cf",
+          "eTags": [
+            "json:sha256:hex:126d826db7d293899df8732dba73480ef128e83d8c0dc763f4e25131ed520da2",
+            "cbor:sha256:hex:060c2a5ffb4b7333155b4ad89632651ea4fdf4e4128c8f9c6d35666aad34e488",
+            "effectiveTree:sha256:hex:8b89dc63bcf19976622158359ec92b97645d14bfc9de4ea76e86cb5784aa4078"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "web-payment-pool-added-by-its-station",
+      "description": "A charging station operator adds a charging pool without a web payment page, but with a charging station naming one, signed by its signing key for infrastructure and payments.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; libs/WWCP_POI/docs/ChargingStationOperator.md, Web payment page",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-pool-added"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 16,
+          "commitId": "d05e8c4348bfe2e85a8d7e5a959929df641de61a3fdf96189b10380ac1cec0f9",
+          "eTags": [
+            "json:sha256:hex:a057fab607ca581adb15976312c4c5ecf90c1e5a47a00d6fc4e1b361d9e2f6de",
+            "cbor:sha256:hex:c909dfd6ca825fb8ededf3a32e3159dbfc9f9aeb2deab8a68ea7d5a82d425e9c",
+            "effectiveTree:sha256:hex:b0b9408e982da1f569a223fb1484afdee37a7a4db0ab39edcb8043c4c496fdfe"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "web-payment-pool-added-by-its-station-signed-for-infrastructure",
+      "description": "A charging station operator adds a charging pool without a web payment page, but with a charging station naming one, signed by its signing key for infrastructure alone: a pool by one of its stations as well.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; libs/WWCP_POI/docs/ChargingStationOperator.md, Web payment page",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-pool-added-infrastructure"
+        }
+      ],
+      "control": "web-payment-pool-added",
+      "reason": "Add of the ChargingPool 'DE*GEF*P2' needs a signature by a signing key of the ChargingStationOperator 'DE*GEF' that may sign 'infrastructure' and 'payments'!"
     },
     {
       "id": "epoch-snapshot-commit-algorithm-of-another-epoch",

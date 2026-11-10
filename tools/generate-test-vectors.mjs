@@ -1844,15 +1844,15 @@ function refusalVectors() {
     const hexToB64 = (hex) => Buffer.from(hex, 'hex').toString('base64');
 
     // ---- Commits (5.1, 3.1): their @id is the digest of their content.
-    refuse({ id: 'commit-revision',           kind: 'commit', basis: `${SPEC}, 5.1`, description: 'The revision of the genesis commit changed: its @id is no longer the digest of its content.',            document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/revision', value: 1 } ]) });
-    refuse({ id: 'commit-id',                 kind: 'commit', basis: `${SPEC}, 5.1`, description: 'Another @id.',                                                                                           document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/@id', value: '0'.repeat(64) } ]) });
-    refuse({ id: 'commit-id-uppercase',       kind: 'commit', basis: `${SPEC}, 5.1`, description: 'The @id in uppercase hexadecimal digits: identifications are lowercase.',                                 document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/@id', value: commit0['@id'].toUpperCase() } ]) });
-    refuse({ id: 'commit-etag-base64',        kind: 'commit', basis: `${SPEC}, 3.1`, description: 'An ETag of a commit in base64: commits write ETags in hex, a reader refuses others.',                    document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/eTags/0', value: [ 'json', 'sha256', 'base64', hexToB64(commit0.eTags[0][3]) ] } ]) });
+    refuse({ id: 'commit-revision',           kind: 'commit', reason: "is not the one of its content", basis: `${SPEC}, 5.1`, description: 'The revision of the genesis commit changed: its @id is no longer the digest of its content.',            document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/revision', value: 1 } ]) });
+    refuse({ id: 'commit-id',                 kind: 'commit', reason: "is not the one of its content", basis: `${SPEC}, 5.1`, description: 'Another @id.',                                                                                           document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/@id', value: '0'.repeat(64) } ]) });
+    refuse({ id: 'commit-id-uppercase',       kind: 'commit', reason: "Missing or invalid commit identification!", basis: `${SPEC}, 5.1`, description: 'The @id in uppercase hexadecimal digits: identifications are lowercase.',                                 document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/@id', value: commit0['@id'].toUpperCase() } ]) });
+    refuse({ id: 'commit-etag-base64',        kind: 'commit', reason: "must be written in hex, not in 'base64'", basis: `${SPEC}, 3.1`, description: 'An ETag of a commit in base64: commits write ETags in hex, a reader refuses others.',                    document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/eTags/0', value: [ 'json', 'sha256', 'base64', hexToB64(commit0.eTags[0][3]) ] } ]) });
     refuse({ id: 'commit-etag-uppercase',     kind: 'commit', basis: `${SPEC}, 3.1`, description: 'An ETag digest of a commit in uppercase hex.',                                                          document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/eTags/0/3', value: commit0.eTags[0][3].toUpperCase() } ]) });
-    refuse({ id: 'commit-without-tree',       kind: 'commit', basis: `${SPEC}, 5.1, 8.3`, description: 'A commit without its effectiveTree ETag.',                                                      document: patched('published/QA-genesis.json', '/commit', [ { op: 'remove', path: '/eTags/2' } ]) });
-    refuse({ id: 'commit-context',            kind: 'commit', basis: `${SPEC}, 1.1`, description: 'Another JSON-LD context.',                                                                               document: patched('published/QA-genesis.json', '/commit', [ { op: 'add', path: '/@context', value: 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v2' } ]) });
+    refuse({ id: 'commit-without-tree',       kind: 'commit', reason: "commit requires the json, cbor and effectiveTree ETags of its version", basis: `${SPEC}, 5.1, 8.3`, description: 'A commit without its effectiveTree ETag.',                                                      document: patched('published/QA-genesis.json', '/commit', [ { op: 'remove', path: '/eTags/2' } ]) });
+    refuse({ id: 'commit-context',            kind: 'commit', reason: "must be 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3'!", basis: `${SPEC}, 1.1`, description: 'Another JSON-LD context.',                                                                               document: patched('published/QA-genesis.json', '/commit', [ { op: 'add', path: '/@context', value: 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v2' } ]) });
     refuse({ id: 'commit-etag-algorithm',     kind: 'commit', basis: `${SPEC}, 3.1`, description: 'An ETag of an algorithm POI does not know.',                                                            document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/eTags/0/1', value: 'sha1' } ]) });
-    refuse({ id: 'commit-network',            kind: 'commit', basis: `${SPEC}, 5.1`, description: 'Another roaming network.',                                                                               document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/roamingNetworkId', value: 'QB' } ]) });
+    refuse({ id: 'commit-network',            kind: 'commit', reason: "is not the one of its content", basis: `${SPEC}, 5.1`, description: 'Another roaming network.',                                                                               document: patched('published/QA-genesis.json', '/commit', [ { op: 'replace', path: '/roamingNetworkId', value: 'QB' } ]) });
 
     // ---- Signatures of commits and checkpoints (5.4): read in one form only, its own properties, the signer a text, none
     //      of them empty, and embedded in a commit or checkpoint without a JSON-LD context (WWCP_POI b43ff1a, refused in the
@@ -1903,10 +1903,10 @@ function refusalVectors() {
                  { op: 'replace', path: '/@id',           value: commitIdOf({ ...commit, changeSet: { ...changeSet, '@id': id } }) } ];
     };
 
-    refuse({ id: 'changeSet-id',              kind: 'commit', basis: `${SPEC}, 4, 5.2`, description: 'The change set of a commit has the @id of another change set of the run, its commit identified anew: a change set is identified by its content, nobody names another one with its @id (csharp-review 4).', document: patched('published/QA-commit.json', '', changeSetPatch({}, otherN['@id'])) });
-    refuse({ id: 'changeSet-rebasedFrom',     kind: 'commit', basis: `${SPEC}, 4, 5.2`, description: 'The change set of a commit names another change set of the run, with its ETags, as the one it was rebased from, identified anew by its content: it was not rebased from it (csharp-review 4).', document: patched('published/QA-commit.json', '', changeSetPatch({ metadata: { rebasedFrom: [ { '@id': otherN['@id'], beforeETags: otherN.beforeETags, afterETags: otherN.afterETags } ] } })) });
-    refuse({ id: 'changeSet-without-changes', kind: 'commit', basis: `${SPEC}, 4, 5.2`, description: 'The change set of a commit with one parent without changes, identified anew by its content: it would change nothing.', document: patched('published/QA-commit.json', '', changeSetPatch({ changes: [] })) });
-    refuse({ id: 'changeSet-merge-id',        kind: 'commit', basis: `${SPEC}, 4, 5.2, 5.3`, description: 'The change set of a commit with one parent named as the change set of a merge, which only a merge commit has.', document: patched('published/QA-commit.json', '', changeSetPatch({}, 'merge-' + '0'.repeat(32))) });
+    refuse({ id: 'changeSet-id',              kind: 'commit', reason: "is not identified by its content", basis: `${SPEC}, 4, 5.2`, description: 'The change set of a commit has the @id of another change set of the run, its commit identified anew: a change set is identified by its content, nobody names another one with its @id (csharp-review 4).', document: patched('published/QA-commit.json', '', changeSetPatch({}, otherN['@id'])) });
+    refuse({ id: 'changeSet-rebasedFrom',     kind: 'commit', reason: "not the change set it was rebased from with these ETags", basis: `${SPEC}, 4, 5.2`, description: 'The change set of a commit names another change set of the run, with its ETags, as the one it was rebased from, identified anew by its content: it was not rebased from it (csharp-review 4).', document: patched('published/QA-commit.json', '', changeSetPatch({ metadata: { rebasedFrom: [ { '@id': otherN['@id'], beforeETags: otherN.beforeETags, afterETags: otherN.afterETags } ] } })) });
+    refuse({ id: 'changeSet-without-changes', kind: 'commit', reason: "has no changes: it would change nothing!", basis: `${SPEC}, 4, 5.2`, description: 'The change set of a commit with one parent without changes, identified anew by its content: it would change nothing.', document: patched('published/QA-commit.json', '', changeSetPatch({ changes: [] })) });
+    refuse({ id: 'changeSet-merge-id',        kind: 'commit', reason: "is identified as the change set of a merge, which only a merge commit has!", basis: `${SPEC}, 4, 5.2, 5.3`, description: 'The change set of a commit with one parent named as the change set of a merge, which only a merge commit has.', document: patched('published/QA-commit.json', '', changeSetPatch({}, 'merge-' + '0'.repeat(32))) });
 
     // Rebased with a change naming no old value: only old values tell that a change set committed meanwhile changed what it
     // changes, which the rebase would have overwritten (csharp-review 12). It names the change set it was rebased from
@@ -1927,9 +1927,9 @@ function refusalVectors() {
              document: patched('proofs/QA-epoch-2-commits-to-head.json', `/${changing}`, changeSetPatch({ changes: withoutOldValues, metadata: { rebasedFrom: [ { '@id': contentId(rebasedOriginal), beforeETags: otherN.beforeETags, afterETags: otherN.afterETags } ] } }, undefined, commitU)) });
 
     // ---- Checkpoints (10.1): their @id is the digest of their content.
-    refuse({ id: 'checkpoint-sequence',       kind: 'checkpoint', basis: `${SPEC}, 10.1`, description: 'Another sequence.',                                                                            document: patched('published/QA-checkpoint-1.json', '', [ { op: 'replace', path: '/sequence', value: 2 } ]) });
-    refuse({ id: 'checkpoint-previous',       kind: 'checkpoint', basis: `${SPEC}, 10.1`, description: 'Another previous checkpoint.',                                                                 document: patched('published/QA-checkpoint-1.json', '', [ { op: 'replace', path: '/previousId', value: '0'.repeat(64) } ]) });
-    refuse({ id: 'checkpoint-commits-root',   kind: 'checkpoint', basis: `${SPEC}, 10.1`, description: 'Another root of its commits.',                                                                 document: patched('published/QA-checkpoint-1.json', '', [ { op: 'replace', path: '/commits/@merkleRoot', value: '0'.repeat(64) } ]) });
+    refuse({ id: 'checkpoint-sequence',       kind: 'checkpoint', reason: "is not the one of its content", basis: `${SPEC}, 10.1`, description: 'Another sequence.',                                                                            document: patched('published/QA-checkpoint-1.json', '', [ { op: 'replace', path: '/sequence', value: 2 } ]) });
+    refuse({ id: 'checkpoint-previous',       kind: 'checkpoint', reason: "is not the one of its content", basis: `${SPEC}, 10.1`, description: 'Another previous checkpoint.',                                                                 document: patched('published/QA-checkpoint-1.json', '', [ { op: 'replace', path: '/previousId', value: '0'.repeat(64) } ]) });
+    refuse({ id: 'checkpoint-commits-root',   kind: 'checkpoint', reason: "is not the one of its content", basis: `${SPEC}, 10.1`, description: 'Another root of its commits.',                                                                 document: patched('published/QA-checkpoint-1.json', '', [ { op: 'replace', path: '/commits/@merkleRoot', value: '0'.repeat(64) } ]) });
     refuse({ id: 'checkpoint-epoch',          kind: 'checkpoint', basis: `${SPEC}, 10.1, 11`, description: 'A checkpoint of epoch 1 without "epoch": its @id is calculated with it (csharp-review 11).', document: patched('published/QA-checkpoint-1.json', '', [ { op: 'remove', path: '/epoch' } ]) });
 
     // ---- Signatures of checkpoints (5.4, 10.2), as those of commits.
@@ -1947,9 +1947,9 @@ function refusalVectors() {
              document: patched('published/QA-checkpoint-1.json', '', [ { op: 'replace', path: '/signatures/0/signer', value: 1 } ]) });
 
     // ---- Versions (3.1): the eTags a roaming network lists are the ETags of its content.
-    refuse({ id: 'version-name',              kind: 'version', basis: `${SPEC}, 3.1`, description: 'The name of the network changed, its eTags not: they no longer are those of its content.',   document: patched('published/QA-genesis.json', '/roamingNetwork', [ { op: 'replace', path: '/name/en', value: 'Quality Assurance!' } ]) });
-    refuse({ id: 'version-etag',              kind: 'version', basis: `${SPEC}, 3.1`, description: 'One ETag it lists is another.',                                                                 document: patched('published/QA-genesis.json', '/roamingNetwork', [ { op: 'replace', path: '/eTags/1', value: [ 'cbor', 'sha256', 'hex', '0'.repeat(64) ] } ]) });
-    refuse({ id: 'version-context',           kind: 'version', basis: `${SPEC}, 3.1`, description: 'Another JSON-LD context.',                                                                       document: patched('published/QA-genesis.json', '/roamingNetwork', [ { op: 'replace', path: '/@context', value: 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/v2' } ]) });
+    refuse({ id: 'version-name',              kind: 'version', reason: "The ETags of the roaming network 'QA' do not match its content", basis: `${SPEC}, 3.1`, description: 'The name of the network changed, its eTags not: they no longer are those of its content.',   document: patched('published/QA-genesis.json', '/roamingNetwork', [ { op: 'replace', path: '/name/en', value: 'Quality Assurance!' } ]) });
+    refuse({ id: 'version-etag',              kind: 'version', reason: "The ETags of the roaming network 'QA' do not match its content", basis: `${SPEC}, 3.1`, description: 'One ETag it lists is another.',                                                                 document: patched('published/QA-genesis.json', '/roamingNetwork', [ { op: 'replace', path: '/eTags/1', value: [ 'cbor', 'sha256', 'hex', '0'.repeat(64) ] } ]) });
+    refuse({ id: 'version-context',           kind: 'version', reason: "The JSON-LD context of the roaming network 'QA' must be 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/v1'!", basis: `${SPEC}, 3.1`, description: 'Another JSON-LD context.',                                                                       document: patched('published/QA-genesis.json', '/roamingNetwork', [ { op: 'replace', path: '/@context', value: 'https://open.charging.cloud/contexts/wwcp/roamingNetwork/v2' } ]) });
 
     // ---- Versions: identifications unique within the roaming network, not only within their party, compared without
     //      case (RoamingNetwork.cs, DuplicateGridConnectionPoint to DuplicateEnergyMeterTemplate). The head of the run with
@@ -2345,7 +2345,7 @@ function refusalVectors() {
     quoted(OPERATOR, 'Its name as drivers see it, mandatory',                                                                       'that an exchange names its name');
     quoted(OPERATOR, 'a charging pool or charging pool template of the operator naming `EVTaler` needs `evTaler`',                'that a pool naming EVTaler needs the merchant');
     quoted(POOL,     'a pool\nnaming it needs the `evTaler` merchant of its [operator]',                                            'that a pool naming EVTaler needs the merchant');
-    quoted(OPERATOR, '`payments` (its `evTaler` merchant and its settlement statements of EV Taler sessions) and `party` (its other own properties, rotating its signing keys); everything without. In their ordinal order; unknown ones are refused.',
+    quoted(OPERATOR, '`payments` (its `evTaler` merchant, the `webPaymentURL` of it, its pools, stations and their templates, and its settlement statements of EV Taler sessions) and `party` (its other own properties, rotating its signing keys); everything without. In their ordinal order; unknown ones are refused.',
            'that the usages of a signing key are those POI knows');
 
     withMerchant('version-evtaler-pool-without-merchant', `${POOL}, ${OPERATOR}`,
@@ -2623,10 +2623,10 @@ function refusalVectors() {
 
     // ---- Checkpoint proofs (10.4).
     const proof4 = jsonRun('published/QA-proof-revision-4.json');
-    refuse({ id: 'checkpointProof-index',     kind: 'checkpointProof', basis: `${SPEC}, 10.4`, description: 'Another position of the commit in the checkpoint.',                                  document: patched('published/QA-proof-revision-4.json', '', [ { op: 'replace', path: '/@index', value: proof4['@index'] === 0 ? 1 : 0 } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });
-    refuse({ id: 'checkpointProof-path',      kind: 'checkpointProof', basis: `${SPEC}, 10.4`, description: 'Another node on the audit path.',                                                     document: patched('published/QA-proof-revision-4.json', '', [ { op: 'replace', path: '/@auditPath/0', value: '0'.repeat(64) } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });
-    refuse({ id: 'checkpointProof-revision',  kind: 'checkpointProof', basis: `${SPEC}, 10.4`, description: 'Another revision in the leaf.',                                                        document: patched('published/QA-proof-revision-4.json', '', [ { op: 'replace', path: '/leaf/revision', value: proof4.leaf.revision + 1 } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });
-    refuse({ id: 'checkpointProof-other',     kind: 'checkpointProof', basis: `${SPEC}, 10.4`, description: 'The proof against another checkpoint.',                                               document: patched('published/QA-proof-revision-4.json', '', []), checkpoint: { file: 'published/QA-checkpoint-1.json', pointer: '' } });
+    refuse({ id: 'checkpointProof-index',     kind: 'checkpointProof', reason: "The proof does not lead to the commits of the checkpoint!", basis: `${SPEC}, 10.4`, description: 'Another position of the commit in the checkpoint.',                                  document: patched('published/QA-proof-revision-4.json', '', [ { op: 'replace', path: '/@index', value: proof4['@index'] === 0 ? 1 : 0 } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });
+    refuse({ id: 'checkpointProof-path',      kind: 'checkpointProof', reason: "The proof does not lead to the commits of the checkpoint!", basis: `${SPEC}, 10.4`, description: 'Another node on the audit path.',                                                     document: patched('published/QA-proof-revision-4.json', '', [ { op: 'replace', path: '/@auditPath/0', value: '0'.repeat(64) } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });
+    refuse({ id: 'checkpointProof-revision',  kind: 'checkpointProof', reason: "The proof does not lead to the commits of the checkpoint!", basis: `${SPEC}, 10.4`, description: 'Another revision in the leaf.',                                                        document: patched('published/QA-proof-revision-4.json', '', [ { op: 'replace', path: '/leaf/revision', value: proof4.leaf.revision + 1 } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });
+    refuse({ id: 'checkpointProof-other',     kind: 'checkpointProof', reason: "The proof is for the checkpoint", basis: `${SPEC}, 10.4`, description: 'The proof against another checkpoint.',                                               document: patched('published/QA-proof-revision-4.json', '', []), checkpoint: { file: 'published/QA-checkpoint-1.json', pointer: '' } });
 
     // ---- Station proofs (8.4, 8.5): the root, the attestations, their validity.
     const stationProof = 'published/QA-DE-GEF-E1-1-proof.json';
@@ -2639,21 +2639,21 @@ function refusalVectors() {
     const iso          = (ms) => new Date(ms).toISOString();
     const proofVector  = (id, description, patch, more = {}) => refuse({ id, kind: 'stationProof', basis: `${SPEC}, 8.4, 8.5`, description, document: patched(stationProof, '', patch), trustAnchor: 'published/QA-trustAnchor-mldsa.txt', at: AT, evseId: 'DE*GEF*E1*1', ...more });
 
-    proofVector('stationProof-expired',        'After every attestation ended (validUntil).',                                                        [], { at: iso(validUntil + 1000) });
-    proofVector('stationProof-before-signed',  'A second before every attestation was signed, the key statement and the certificates valid: an attestation of the future is no attestation now (csharp-review 7).', [], { at: iso(signedAt - 1000), basis: `${SPEC}, 8.5, Validity; csharp-review 7` });
-    proofVector('stationProof-other-anchor',   'Against the trust anchor of epoch 1, whose identity keys did not sign the key statement of epoch 2.', [], { trustAnchor: 'published/QA-trustAnchor.txt' });
-    proofVector('stationProof-entity',         'An EVSE the proof gives completely changed: the proof leads to another root.',                       [ { op: 'replace', path: pathOfEVSE(sp, 'DE*GEF*E1*1') + '/maxPower', value: 999999 } ]);
-    proofVector('stationProof-signature',      'The value of every attestation changed.',                                                            sp.attestations.map((attestation, index) => ({ op: 'replace', path: `/attestations/${index}/value`, value: attestation.value.slice(0, 8) + (attestation.value[8] === 'A' ? 'B' : 'A') + attestation.value.slice(9) })));
+    proofVector('stationProof-expired',        'After every attestation ended (validUntil).',                                                        [], { at: iso(validUntil + 1000), reason: "Valid attestations of trusted keys of 0 holders attest the root" });
+    proofVector('stationProof-before-signed',  'A second before every attestation was signed, the key statement and the certificates valid: an attestation of the future is no attestation now (csharp-review 7).', [], { at: iso(signedAt - 1000), basis: `${SPEC}, 8.5, Validity; csharp-review 7`, reason: "Valid attestations of trusted keys of 0 holders attest the root" });
+    proofVector('stationProof-other-anchor',   'Against the trust anchor of epoch 1, whose identity keys did not sign the key statement of epoch 2.', [], { trustAnchor: 'published/QA-trustAnchor.txt', reason: "The key statement is signed by trusted identity keys of 0 holders, not of 2!" });
+    proofVector('stationProof-entity',         'An EVSE the proof gives completely changed: the proof leads to another root.',                       [ { op: 'replace', path: pathOfEVSE(sp, 'DE*GEF*E1*1') + '/maxPower', value: 999999 } ], { reason: "Valid attestations of trusted keys of 0 holders attest the root" });
+    proofVector('stationProof-signature',      'The value of every attestation changed.',                                                            sp.attestations.map((attestation, index) => ({ op: 'replace', path: `/attestations/${index}/value`, value: attestation.value.slice(0, 8) + (attestation.value[8] === 'A' ? 'B' : 'A') + attestation.value.slice(9) })), { reason: "Valid attestations of trusted keys of 0 holders attest the root" });
     quoted(SPEC, 'An attestation counts for the proof only where it names the', 'that an attestation counts for the commit and revision it names only');
-    proofVector('stationProof-revision',       'Another revision than its attestations name, the commit the same.',                                   [ { op: 'replace', path: '/revision', value: sp.revision + 1 } ]);
-    proofVector('stationProof-commit',         'Another commit than its attestations name.',                                                          [ { op: 'replace', path: '/commitId', value: '0'.repeat(128) } ]);
-    proofVector('stationProof-no-attestations','Without attestations.',                                                                              [ { op: 'replace', path: '/attestations', value: [] } ]);
-    proofVector('stationProof-one-holder',     'With the attestation of one holder only, where the quorum takes more.',                             [ { op: 'replace', path: '/attestations', value: [ sp.attestations[0] ] } ]);
+    proofVector('stationProof-revision',       'Another revision than its attestations name, the commit the same.',                                   [ { op: 'replace', path: '/revision', value: sp.revision + 1 } ], { reason: "Valid attestations of trusted keys of 0 holders attest the root" });
+    proofVector('stationProof-commit',         'Another commit than its attestations name.',                                                          [ { op: 'replace', path: '/commitId', value: '0'.repeat(128) } ], { reason: "Valid attestations of trusted keys of 0 holders attest the root" });
+    proofVector('stationProof-no-attestations','Without attestations.',                                                                              [ { op: 'replace', path: '/attestations', value: [] } ], { reason: "Valid attestations of trusted keys of 0 holders attest the root" });
+    proofVector('stationProof-one-holder',     'With the attestation of one holder only, where the quorum takes more.',                             [ { op: 'replace', path: '/attestations', value: [ sp.attestations[0] ] } ], { reason: "Valid attestations of trusted keys of 1 holder attest the root" });
 
     // ---- Price statements (12.1): their signature covers what they say.
-    refuse({ id: 'priceStatement-price',       kind: 'priceStatement', basis: `${SPEC}, 12.1`, description: 'Another price, the signature not.',    document: patched('published/QA-checkpoint-4-priceStatements.json', '/0', [ { op: 'replace', path: '/priceStatus/prices/0/elements/0/priceComponents/0/price', value: 0.01 } ]), keysFrom: { file: 'published/QA-checkpoint-4-snapshot.json', pointer: '/roamingNetwork' } });
+    refuse({ id: 'priceStatement-price',       kind: 'priceStatement', reason: "The signature of the price statement is invalid", basis: `${SPEC}, 12.1`, description: 'Another price, the signature not.',    document: patched('published/QA-checkpoint-4-priceStatements.json', '/0', [ { op: 'replace', path: '/priceStatus/prices/0/elements/0/priceComponents/0/price', value: 0.01 } ]), keysFrom: { file: 'published/QA-checkpoint-4-snapshot.json', pointer: '/roamingNetwork' } });
     refuse({ id: 'priceStatement-sequence',    kind: 'priceStatement', basis: `${SPEC}, 12.1`, description: 'Another sequence.',                     document: patched('published/QA-checkpoint-4-priceStatements.json', '/0', [ { op: 'replace', path: '/sequence', value: 7 } ]), keysFrom: { file: 'published/QA-checkpoint-4-snapshot.json', pointer: '/roamingNetwork' } });
-    refuse({ id: 'priceStatement-entity',      kind: 'priceStatement', basis: `${SPEC}, 12.1`, description: 'Another EVSE.',                         document: patched('published/QA-checkpoint-4-priceStatements.json', '/0', [ { op: 'replace', path: '/entityId', value: 'DE*GEF*E1*2' } ]), keysFrom: { file: 'published/QA-checkpoint-4-snapshot.json', pointer: '/roamingNetwork' } });
+    refuse({ id: 'priceStatement-entity',      kind: 'priceStatement', reason: "The signature of the price statement is invalid", basis: `${SPEC}, 12.1`, description: 'Another EVSE.',                         document: patched('published/QA-checkpoint-4-priceStatements.json', '/0', [ { op: 'replace', path: '/entityId', value: 'DE*GEF*E1*2' } ]), keysFrom: { file: 'published/QA-checkpoint-4-snapshot.json', pointer: '/roamingNetwork' } });
 
     // ---- A price status is read before the signature is looked at (12.1): a statement whose price status is none is no
     //      price statement. No patch here leaves the signature valid, so each vector names the words both refuse it in,
@@ -2800,7 +2800,7 @@ function refusalVectors() {
     const qr = readRun('published/QA-trustAnchor.txt').trim();
     refuse({ id: 'trustAnchor-prefix',         kind: 'trustAnchor', basis: `${SPEC}, 8.6`, description: 'Another version of the QR code.',        text: qr.replace('WWCP/TA-2:', 'WWCP/TA-1:') });
     refuse({ id: 'trustAnchor-truncated',      kind: 'trustAnchor', basis: `${SPEC}, 8.6`, description: 'The QR code without its last characters.', text: qr.slice(0, -3) });
-    refuse({ id: 'trustAnchor-base45',         kind: 'trustAnchor', basis: `${SPEC}, 8.6`, description: 'A character that is no Base45.',           text: qr.slice(0, 20) + 'a' + qr.slice(21) });
+    refuse({ id: 'trustAnchor-base45',         kind: 'trustAnchor', reason: "The QR code of a trust anchor is not Base45", basis: `${SPEC}, 8.6`, description: 'A character that is no Base45.',           text: qr.slice(0, 20) + 'a' + qr.slice(21) });
 
     return vectorFile(
         `WWCP POI 3 SPECIFICATION.md (libs/WWCP_POI); documents of test-vectors/runs/${RUN}`,
@@ -3849,7 +3849,7 @@ function signedHistories() {
     //      needs it, checked after the last change of a change set, so that one change set adds both in either order and
     //      removes the merchant only with the last pool naming EVTaler.
     const EV_TALER_BASIS = `${B('4.1')}; ${EV_TALER_DOC}`;
-    S('a change of the `evTaler` of a charging station operator, an element change within it as well, the usage\n`payments`.', 'that a change of the merchant is signed for payments');
+    S('a change of the `evTaler` of a charging station operator, an element change within it as well, and of the\n`webPaymentURL`', 'that a change of the merchant is signed for payments');
     S('so the RNO\nsigns in place of a party without signing keys', 'that the roaming network operator signs in place of a party without signing keys');
     quoted(EV_TALER_DOC, 'checked\n  when the operator is made and after the last change of a change set, so that one change set may add both in either\n  order, and remove `evTaler` only with the last `EVTaler`.',
            'when a pool naming EVTaler is checked for the merchant');
@@ -3993,6 +3993,68 @@ function signedHistories() {
     P.refused('parking-space-of-an-operator-signed-by-a-parking-operator', 'The parking space of a charging station operator, signed by the signing key for infrastructure of a parking operator.', B('4.1'),
               'gef-space-by-prk', parking('DE*GEF adds the parking space gef-space-1', gefSpace, [ prkInfrastructure ]), 'gef-space',
               { reason: "needs a signature by a signing key of the ChargingStationOperator 'DE*GEF'!" });
+
+    // ---- The web payment page (WWCP_POI `848cc52`; ChargingStationOperator.md, Web payment page): whoever changes the
+    //      webPaymentURL of an operator, a pool or a station redirects payments, so a change of it is signed by a key
+    //      that may sign payments; adding a station with one, or a pool by one of its stations, by one key that may sign
+    //      infrastructure and payments both (POIKeyUsages.Of of WWCP_POI3, usagesOf of WWCP_POI.TS) - two keys naming one
+    //      each do not. The templates that may give one are not in these histories (their effective content).
+    S('and of the\n`webPaymentURL` of an operator, a pool, a station or their templates the usage `payments`.', 'that a change of the web payment page is signed for payments');
+    S('Adding a pool, a station or\ntheir templates with a `webPaymentURL`, a pool by one of its stations as well, needs a key that may sign both\n`infrastructure` and `payments`.', 'that adding one with a web payment page needs a key for infrastructure and payments');
+    quoted(EV_TALER_DOC, 'a change of it - of the operator, a pool, a station or their templates - is signed by a key that may sign `payments`,\nand adding a pool, a station or a template with one by a key that may sign both `infrastructure` and `payments`, a pool\nwith a station that has one as well.',
+           'who signs the web payment page');
+
+    const WEB_PAYMENT_BASIS = `${B('4.1')}; ${EV_TALER_DOC}, Web payment page`;
+    const gefBoth           = keyOf('Ed25519', seedOf('DE*GEF, infrastructure and payments'), { notAfter: NOT_AFTER, usages: [ 'infrastructure', 'payments' ] });
+    const PAGE              = 'https://pay.gef.example/';
+
+    parties.take('web-payment-key', parties.prepare({ createdAt: minute(21), description: 'DE*GEF adds a signing key for infrastructure and payments', signers: [ gefParty ],
+                                                     changes: [ update('ChargingStationOperator', 'DE*GEF', 'signingKeys', found(parties, 'ChargingStationOperator', 'DE*GEF', 'signingKeys'),
+                                                                       inOrder([ gefRenewed, gefParty, gefPayments, gefTariffs, gefBoth ])) ] }));
+
+    const paged      = (description, changes, signers) => parties.prepare({ createdAt: minute(22), description, changes, signers });
+    const pageOf     = (entityType, entityId, url) => update(entityType, entityId, 'webPaymentURL', found(parties, entityType, entityId, 'webPaymentURL'), url);
+    const pageNeeds  = (entityType, entityId, usages) =>
+        ({ reason: `UpdateProperty of the ${entityType} '${entityId}' ('webPaymentURL') needs a signature by a signing key of the ChargingStationOperator 'DE*GEF' that may sign ${usages}!` });
+    const addNeeds   = (entityType, entityId) =>
+        ({ reason: `Add of the ${entityType} '${entityId}' needs a signature by a signing key of the ChargingStationOperator 'DE*GEF' that may sign 'infrastructure' and 'payments'!` });
+
+    for (const [ entityType, entityId, what, url ] of [ [ 'ChargingStationOperator', 'DE*GEF',    'operator', PAGE ],
+                                                        [ 'ChargingPool',            'DE*GEF*P1', 'pool',     `${PAGE}jena-paradies` ],
+                                                        [ 'ChargingStation',         'DE*GEF*S1', 'station',  `${PAGE}jena-paradies/s1` ] ]) {
+        const named = `${entityType === 'ChargingStationOperator' ? 'DE*GEF names its' : `DE*GEF names, for ${entityId},`} web payment page`;
+        P.then(`web-payment-${what}-signed-for-payments`, `A charging station operator names the web payment page of ${what === 'operator' ? 'itself' : `its charging ${what}`}, signed by its signing key for payments.`, WEB_PAYMENT_BASIS,
+               `web-payment-${what}`, paged(named, [ pageOf(entityType, entityId, url) ], [ gefPayments ]));
+        for (const [ signer, key ] of [ [ 'infrastructure', gefRenewed ], ...(what === 'operator' ? [ [ 'party', gefParty ] ] : []) ])
+            P.refused(`web-payment-${what}-signed-for-${signer}`, `A charging station operator names the web payment page of ${what === 'operator' ? 'itself' : `its charging ${what}`}, signed by its signing key for ${signer} alone: whoever changes it redirects payments.`, WEB_PAYMENT_BASIS,
+                      `web-payment-${what}-${signer}`, paged(named, [ pageOf(entityType, entityId, url) ], [ key ]), `web-payment-${what}`, pageNeeds(entityType, entityId, "'payments'"));
+    }
+
+    // A station added with a web payment page, and a pool added without one, but with a station that has one; what they
+    // embed with its timestamps, as an Add gives them.
+    const stamped    = { created: minute(22), lastChange: minute(22) };
+    const stationS3  = (more = {}) => ({ '@id': 'DE*GEF*S3',
+                                         EVSEs: [ { '@id': 'DE*GEF*E3*1', maxPower: 22000, ...stamped } ], ...stamped, ...more });
+    const stationAdd = (more) => add('ChargingStation', stationS3(more), [ 'ChargingPool', 'DE*GEF*P1' ]);
+    const poolAdd    = (more) => add('ChargingPool', { '@id': 'DE*GEF*P2', name: { en: 'Jena Lobeda' }, chargingStations: [ { ...stationS3(more), '@id': 'DE*GEF*S4', EVSEs: [ { '@id': 'DE*GEF*E4*1', maxPower: 22000, ...stamped } ] } ] });
+    const withPage   = { webPaymentURL: `${PAGE}jena-paradies/s3` };
+
+    P.then('web-payment-station-added-with-it', 'A charging station operator adds a charging station naming its web payment page, signed by its signing key for infrastructure and payments.', WEB_PAYMENT_BASIS,
+           'web-payment-station-added', paged('DE*GEF adds the station DE*GEF*S3 with its web payment page', [ stationAdd(withPage) ], [ gefBoth ]));
+    P.refused('web-payment-station-added-with-it-signed-for-infrastructure', 'A charging station operator adds a charging station naming its web payment page, signed by its signing key for infrastructure alone.', WEB_PAYMENT_BASIS,
+              'web-payment-station-added-infrastructure', paged('DE*GEF adds the station DE*GEF*S3 with its web payment page', [ stationAdd(withPage) ], [ gefRenewed ]), 'web-payment-station-added',
+              addNeeds('ChargingStation', 'DE*GEF*S3'));
+    P.refused('web-payment-station-added-with-it-signed-by-two-keys', 'A charging station operator adds a charging station naming its web payment page, signed by its signing key for infrastructure and by its signing key for payments: one key has to name both.', WEB_PAYMENT_BASIS,
+              'web-payment-station-added-two-keys', paged('DE*GEF adds the station DE*GEF*S3 with its web payment page', [ stationAdd(withPage) ], [ gefRenewed, gefPayments ]), 'web-payment-station-added',
+              addNeeds('ChargingStation', 'DE*GEF*S3'));
+    P.then('web-payment-station-added-without-it', 'A charging station operator adds a charging station without a web payment page, signed by its signing key for infrastructure alone, as before.', WEB_PAYMENT_BASIS,
+           'web-payment-station-added-without', paged('DE*GEF adds the station DE*GEF*S3', [ stationAdd() ], [ gefRenewed ]));
+
+    P.then('web-payment-pool-added-by-its-station', 'A charging station operator adds a charging pool without a web payment page, but with a charging station naming one, signed by its signing key for infrastructure and payments.', WEB_PAYMENT_BASIS,
+           'web-payment-pool-added', paged('DE*GEF adds the pool DE*GEF*P2, its station DE*GEF*S4 with its web payment page', [ poolAdd(withPage) ], [ gefBoth ]));
+    P.refused('web-payment-pool-added-by-its-station-signed-for-infrastructure', 'A charging station operator adds a charging pool without a web payment page, but with a charging station naming one, signed by its signing key for infrastructure alone: a pool by one of its stations as well.', WEB_PAYMENT_BASIS,
+              'web-payment-pool-added-infrastructure', paged('DE*GEF adds the pool DE*GEF*P2, its station DE*GEF*S4 with its web payment page', [ poolAdd(withPage) ], [ gefRenewed ]), 'web-payment-pool-added',
+              addNeeds('ChargingPool', 'DE*GEF*P2'));
 
 
     // =================================================================================================================
@@ -5091,6 +5153,11 @@ function ownPriceSessions() {
         documents[`${SET}/${file}`] = own;
     }
 
+    // Made here alone, of no fixture: a flat fee besides the price of energy, the flat fee without a step size, as a FLAT
+    // price component has none - of the simple profile of gross rates since WWCP_POI `c4c3c5a` and WWCP_POI.TS `4ec2191`,
+    // which asked a flat fee for a step size before, so that its agreement was "unsupported".
+    documents[`${SET}/flat-fee.chargy`] = made({ statements: (items, key) => [ reprice(items[0], key, status(items[0], prices => element(prices).priceComponents.push({ type: 'FLAT', price: raw('1.00') }))) ] });
+
     return documents;
 
 }
@@ -5102,6 +5169,7 @@ let OWN_DOCUMENTS;
 const OWN_SAYS = {
     'foreign-tariff.chargy':    'Genuine price naming a tariff outside this EVSE\'s references: DE*POI*T2, of the pattern {operatorId}*T{suffix}',
     'conditional-price.chargy': 'Conditional tariff elements are explicitly unsupported: an element restricted by maxEnergy',
+    'flat-fee.chargy':          'A flat fee of 1.00 besides the energy price of 0.35 per kWh, the flat fee without a step size, as a FLAT price component has none: of the simple profile of gross rates, bound',
 };
 
 /** The files of chargy/ as text: each document, and the README and provenance of each set. */
@@ -5138,7 +5206,8 @@ function ownChargyFiles() {
         'deterministic: the readings of the meter are signed with a P-256 key of a seed of its own, with the nonces of RFC 6979,',
         'not with the published test key, whose ECDSA signatures differ every time. Each case is anchored first: made with the',
         'readings of its fixture, it is that fixture. `pqc-price.chargy` is not made here: node:crypto signs ML-DSA-65 with',
-        'randomness. What both WWCP_POI3 and WWCP_POI.TS give for each is in `poi-verifier.json` (`sessionPrice-*`).',
+        'randomness. `flat-fee.chargy` is of no fixture, made here alone. What both WWCP_POI3 and WWCP_POI.TS give for each is',
+        'in `poi-verifier.json` (`sessionPrice-*`).',
         '',
         `The fixed evaluation clock is **${run.evaluatedAt.replace('.000Z', 'Z')}**; charging starts at ${run.chargingStarted.replace('.000Z', 'Z')}.`,
         '',
@@ -5347,6 +5416,15 @@ function verifierVectors() {
         priceVector('sessionPrice-conditional-element', 'POIPrices', 'conditional-price.chargy',
                     `${OWN_SAYS['conditional-price.chargy']}, a restriction POI defines. Signed, agreed and published, its price is selected, but its rate is not given: an element under a restriction is no rate a verifier applies to the session.`,
                     'valid valid unsupported valid not-proven', { digest: digestOf('conditional-price.chargy'), algorithm: 'Ed25519', energyPerKWh: null });
+
+        // A flat fee without a step size besides the price of energy (WWCP_POI `c4c3c5a`, WWCP_POI.TS `4ec2191`).
+        const flat = at('POIPrices/flat-fee.chargy', '/poiEvidence/priceEvidence/priceStatements/0').priceStatus.prices[0].elements;
+        if (canonical(flat.map(item => item.priceComponents.map(component => [ component.type, 'stepSize' in component ]))) !== '[[["ENERGY",true],["FLAT",false]]]')
+            fail('chargy/POIPrices/flat-fee.chargy: no element of an energy price in a step size and a flat fee in none');
+        priceVector('sessionPrice-flat-fee', 'POIPrices', 'flat-fee.chargy',
+                    `${OWN_SAYS['flat-fee.chargy']}. A flat fee has no step size, so the profile asks none of it: signed, agreed and published, the price is bound, its rate of energy given.`,
+                    'valid valid bound valid not-proven', { digest: digestOf('flat-fee.chargy'), algorithm: 'Ed25519', energyPerKWh: '0.35' },
+                    { specified: `${basis('Session-bound prices', 'SessionPriceEvidence.cs')}; WWCP_POI c4c3c5a` });
     }
 
     // ---- Receipts of witnesses (PricePublicationVerification): without a policy of witnesses, no receipt counts; with

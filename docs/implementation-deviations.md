@@ -1,8 +1,8 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `74f1d8e`, Hermod `f7b00ef2`, Styx `21d00134`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `989c98e`) take or calculate different things.
+(WWCP_POI3, `libs/WWCP_POI` at `c4c3c5a`, Hermod `850cab3d`, Styx `21d00134`) and the TypeScript port (WWCP_POI.TS,
+`libs/WWCP_POI.TS` at `4ec2191`) take or calculate different things.
 
 Each deviation is
 
@@ -59,7 +59,7 @@ WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, was WWCP_POI.TS's,
 elements of a price status, was WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
 define, which SPECIFICATION.md 2 refuses; it is fixed in WWCP_POI.TS `ce88620`, with the elements of a price status
 written as a charging tariff holds them, which SPECIFICATION.md 12.1 says since WWCP_POI `5a72313`
-([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 809 vectors - WWCP_POI3
+([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 823 vectors - WWCP_POI3
 alone signs the 7 signatures of section 6 again from their private seeds, which WWCP_POI.TS verifies only - and agree on
 every one of them (see [What both do alike](#what-both-do-alike)). Among them are the 13 replays of `poi-histories.json`
 WWCP_POI.TS left to WWCP_POI before: the references a version holds, which it checks since `813e1d7`, and the changes of
@@ -781,7 +781,10 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
 - the refusal of 307 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
-  and trust anchors; among them signatures of commits and checkpoints read in their one form only - their own
+  and trust anchors, all but six in the words of the `reason` both name - `commit-etag-uppercase`,
+  `commit-etag-algorithm`, `checkpoint-epoch`, `priceStatement-sequence`, `trustAnchor-prefix` and
+  `trustAnchor-truncated` each implementation words its own way; among them signatures of commits and checkpoints
+  read in their one form only - their own
   properties alone, the signer a text, none of them empty, embedded without a JSON-LD context (5.4; WWCP_POI `b43ff1a`
   and `7c6f91c`, WWCP_POI.TS `cb53bd4`), in the same words -, a charging station, EVSE or energy meter given twice by
   its operator, which WWCP_POI3 took before WWCP_POI `e76e5d0`, keeping the first (WWCP_POI.TS refused it already; both
@@ -865,7 +868,11 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   infrastructure, nor by the roaming network operator in place of an operator with signing keys, and a charging pool
   naming the payment option `EVTaler` only with it, checked after the last change of a change set: both added in one,
   in either order, both removed in one, the merchant first, but neither the pool naming it without the merchant nor the
-  merchant removed while the pool names it (EV Taler, phase 1; WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), and three
+  merchant removed while the pool names it (EV Taler, phase 1; WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), the web
+  payment page of an operator, a pool and a station signed by a key for payments, not by one for infrastructure or for
+  the party, a station naming one, or a pool by one of its stations, added by one key for infrastructure and payments,
+  not by one for infrastructure alone nor by two keys naming one each (WWCP_POI `848cc52`, WWCP_POI.TS `081616c`),
+  and three
   epochs, the first checkpoint of the third one signed with an algorithm of the second one only, and with one
   of neither (14), and a history started from a snapshot of the genesis of the third one, its commit signed with an
   algorithm of the first one only (WWCP_POI `b43ff1a`); where both word a refusal alike, `reason` names it. And the 13 WWCP_POI.TS left to WWCP_POI before,
@@ -908,11 +915,13 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   when it writes the signature input. And a calibration certificate of a charging station the generator signs, taken
   against QA giving EM-LAB its key, refused against QA without it, and against QA giving the station another serial
   number, or none ([D11](#d11-station-serial-number));
-- all 106 vectors of the verifier extensions of WWCP_POI.TS 0.2.0 (`poi-verifier.json`, experimental), of the
+- all 109 vectors of the verifier extensions of WWCP_POI.TS 0.2.0 (`poi-verifier.json`, experimental), of the
   fixtures of ChargyWebApp `fc513cd`, each normalized to what both give: the key of the meter of an EVSE a station
   proof gives, historical meter evidence of archived and witnessed checkpoints, session prices verdict by verdict, also
   of a price statement naming a charging tariff not as `{operatorId}*T{suffix}`, refused as read (WWCP_POI.TS since
-  `80afec7`, [D16](#d16-tariff-id)), receipts of witnesses under the policy a verifier accepted, trust transitions, the keys a CPO signs charging
+  `80afec7`, [D16](#d16-tariff-id)), and of a flat fee without a step size besides a price of energy, bound (WWCP_POI
+  `c4c3c5a`, WWCP_POI.TS `4ec2191`; `chargy/POIPrices/flat-fee.chargy`, made here alone), receipts of witnesses
+  under the policy a verifier accepted, trust transitions, the keys a CPO signs charging
   documents with, policy identities, key statement digests, offer hashes and the digests of receipts; and 32 refusals,
   each against its control, 31 in the words of the `reason` both name: a meter key asked for ambiguously, by an unknown
   identification or of another meter, serial number or EVSE, or read as a COSE key it is not, historical evidence of conflicting assignments, of another

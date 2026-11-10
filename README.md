@@ -20,13 +20,14 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `74f1d8e`, WWCP_POI.TS `989c98e`, Hermod `f7b00ef2`,
-Styx `21d00134`):
+Both harnesses are green against the pinned submodules (WWCP_POI `c4c3c5a`, WWCP_POI.TS `4ec2191`, Hermod `850cab3d`,
+Styx `21d00134`) - but for the copies WWCP_POI.TS vendors of `poi-refusals.json`, `poi-histories.json`,
+`poi-verifier.json` and `chargy`, until it takes the vectors of the web payment page and of a flat fee:
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 809 | 834 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 809 | 809 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
+| C# harness (NUnit), WWCP_POI3 | 823 | 848 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 823 | 823 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy,
 those of the verifier extensions since `242fb29`.
@@ -104,7 +105,7 @@ decimals, integers and timestamps, and dropped the custom data of an address).
 | [`libs/Hermod`](https://github.com/Vanaheimr/Hermod) | Below WWCP_POI3 |
 | [`libs/Styx`](https://github.com/Vanaheimr/Styx) | Below Hermod: canonical JSON, deterministic CBOR, COSE - and its README, a source of vectors |
 
-Hermod and Styx are pinned at their masters of 2026-11-08, Hermod `f7b00ef2`, Styx `21d00134`: at or after the
+Hermod and Styx are pinned at their masters of 2026-11-10, Hermod `850cab3d`, Styx `21d00134`: at or after the
 commits the RoamingHubCLI pins together with WWCP_POI (`b9e20a0`, with WWCP_POI `0474733`: Hermod `b8d24be3`, Styx
 `5f09dd47`). WWCP_POI since
 `7862c86` needs a Hermod that checks the origin of a request (`HTTPRequest.AllowsOrigin`). Styx keeps custom data as

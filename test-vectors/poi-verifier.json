@@ -1528,6 +1528,53 @@
     },
     {
       "expected": "accepted",
+      "id": "sessionPrice-flat-fee",
+      "kind": "sessionPrice",
+      "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs; WWCP_POI c4c3c5a",
+      "description": "A flat fee of 1.00 besides the energy price of 0.35 per kWh, the flat fee without a step size, as a FLAT price component has none: of the simple profile of gross rates, bound. A flat fee has no step size, so the profile asks none of it: signed, agreed and published, the price is bound, its rate of energy given.",
+      "trust": {
+        "anchor": {
+          "documents": "chargy",
+          "file": "POIPrices/flat-fee.chargy",
+          "pointer": "/poiEvidence/bootstrap/trustAnchor"
+        },
+        "keyStatement": {
+          "documents": "chargy",
+          "file": "POIPrices/flat-fee.chargy",
+          "pointer": "/poiEvidence/bootstrap/keyStatement/keyStatement"
+        },
+        "at": "2026-11-01T00:16:21.000Z",
+        "context": "historical"
+      },
+      "evidence": {
+        "documents": "chargy",
+        "file": "POIPrices/flat-fee.chargy",
+        "pointer": "/poiEvidence/priceEvidence"
+      },
+      "request": {
+        "evseId": "DE*POI*E1*1",
+        "meterSerialNumber": "CHARGY-POI-METER-001",
+        "chargingStarted": "2026-06-01T10:00:00.000Z",
+        "startDocumentSHA256": "adf1ee0f84eae46cd6233a4580ed21b177e89e151564884b0590ea71daf8ae34"
+      },
+      "result": {
+        "signatures": "valid",
+        "agreement": "valid",
+        "applicability": "bound",
+        "publication": "valid",
+        "publicationBeforeStart": "not-proven",
+        "customerConsent": "not-proven",
+        "witnessedBy": [],
+        "selected": {
+          "digest": "2ae0e78e4a1f9a2905e20d579a4c090ebfa6c12b4e47989ced07d10e39371ae9",
+          "algorithm": "Ed25519",
+          "energyPerKWh": "0.35"
+        },
+        "organizations": []
+      }
+    },
+    {
+      "expected": "accepted",
       "id": "publication-session-before-start",
       "kind": "sessionPrice",
       "basis": "libs/WWCP_POI.TS/README.md, Session-bound prices (experimental); WWCP_POI3/Verifier/SessionPriceEvidence.cs",

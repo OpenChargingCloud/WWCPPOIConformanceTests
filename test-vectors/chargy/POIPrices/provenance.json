@@ -16,6 +16,7 @@
     "decimal-price.chargy": "fe18bcd9e3c638b58662bcb7576915e6002d79b730f572a49071e1442030438e",
     "empty-prices.chargy": "3a23ede99a37b9b1eb3c620bb750365ee61bc4edba898c86c5b8afe4c4d96468",
     "expired-price.chargy": "855744ced31e8c96654b1a29d867d1df888a8badb12a79118af4ed12e4d7e804",
+    "flat-fee.chargy": "6a5545a819488159fc1396338436120d4e1ee487f36b62017d94554d860738ae",
     "foreign-tariff.chargy": "54a65318edb50072fb3f1a621e964ec5f2189b9a4841d23b3790cc6103599126",
     "invalid-signature.chargy": "db05795df050c4367152911caa60c5a3c44c28d3c474867e9278f630dd4034f4",
     "missing-agreement.chargy": "ee4711c7551c29c70b260d627b669bf726bbb727536c16cf269ba0291d002350",
