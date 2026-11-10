@@ -30,7 +30,13 @@ const UNCHECKED: SnapshotOptions = { unanchored: true, verifyCommit: () => undef
  * Takes one step of a replay (poi-history.json, poi-histories.json), its document given by `documentOf`, and returns the
  * history after it: throws where the history refuses it, or where the head is not the one expected.
  */
-export function replayStep(current: History | undefined, step: ReplayStep, documentOf: (step: DocumentStep) => JSONValue): History {
+/** The roles every commit appended must be signed in, by a key the version it leads to lets sign in it (S24), if any. */
+export interface ReplayOptions {
+    readonly requiredSignatureRoles?: readonly string[];
+}
+
+
+export function replayStep(current: History | undefined, step: ReplayStep, documentOf: (step: DocumentStep) => JSONValue, options: ReplayOptions = {}): History {
 
     const now = (): History => {
         if (current === undefined)
@@ -41,7 +47,7 @@ export function replayStep(current: History | undefined, step: ReplayStep, docum
     switch (step.op) {
 
         case 'fromSnapshot':
-            return History.fromSnapshot(documentOf(step), UNCHECKED);
+            return History.fromSnapshot(documentOf(step), { ...UNCHECKED, ...(options.requiredSignatureRoles === undefined ? {} : { requiredSignatureRoles: options.requiredSignatureRoles }) });
 
         case 'append': {
             const commits = documentOf(step);
@@ -73,5 +79,5 @@ export function replayStep(current: History | undefined, step: ReplayStep, docum
 }
 
 /** Takes the steps of a replay one after the other: the history after the last one. */
-export const replay = (steps: readonly ReplayStep[], documentOf: (step: DocumentStep) => JSONValue): History | undefined =>
-    steps.reduce<History | undefined>((current, step) => replayStep(current, step, documentOf), undefined);
+export const replay = (steps: readonly ReplayStep[], documentOf: (step: DocumentStep) => JSONValue, options: ReplayOptions = {}): History | undefined =>
+    steps.reduce<History | undefined>((current, step) => replayStep(current, step, documentOf, options), undefined);

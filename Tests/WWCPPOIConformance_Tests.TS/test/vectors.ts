@@ -223,6 +223,8 @@ export interface HistoryReplayVector extends Applicability {
     /** Every one taken; of a refused replay every one but the last, which is refused. */
     readonly steps:        ReplayStep[];
     /** Of a refused replay: the document taken in place of the last one, refused but for what the replay is about. */
+    /** The roles every commit appended must be signed in, by a key the version it leads to lets sign in it (S24). */
+    readonly requiredSignatureRoles?: readonly string[];
     readonly control?:     string;
     /** What the refusal names, as both implementations word it. */
     readonly reason?:      string;

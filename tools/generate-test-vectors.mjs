@@ -3275,6 +3275,10 @@ function generatedHistory(id, description, genesis, leader) {
             return { commit: signCommit({ '@id': commitIdOf(commit, epoch.hash), ...commit }, [ { key: leader.key } ], createdAt), content: after };
         },
 
+        /** A prepared commit signed anew, by the given signers ({ key, role, signer }): the same commit, other signatures. */
+        resign: (prepared, signers) =>
+            ({ ...prepared, commit: signCommit(without(prepared.commit, 'signatures'), signers, prepared.commit.changeSet.createdAt) }),
+
         /** Keeps a document of the history under its name, e.g. a snapshot another server gives of it. */
         keepDocument: (name, document) => {
             const value = text(document);
@@ -4057,6 +4061,29 @@ function signedHistories() {
     P.refused('web-payment-pool-added-by-its-station-signed-for-infrastructure', 'A charging station operator adds a charging pool without a web payment page, but with a charging station naming one, signed by its signing key for infrastructure alone: a pool by one of its stations as well.', WEB_PAYMENT_BASIS,
               'web-payment-pool-added-infrastructure', paged('DE*GEF adds the pool DE*GEF*P2, its station DE*GEF*S4 with its web payment page', [ poolAdd(withPage) ], [ gefRenewed ]), 'web-payment-pool-added',
               addNeeds('ChargingPool', 'DE*GEF*P2'));
+
+    // ---- Required roles (POI3-ISSUES.md S24; WWCP_POI `12e993a`, RoamingNetworkCommitSignatureRoles.KeyMaySignIn, and
+    //      keyMaySignIn of WWCP_POI.TS): a history requiring commits to be signed in the role of the roaming network
+    //      operator counts a signature in it only by a signing key the version the commit leads to certifies for it - a
+    //      role is no more than what a signature says. Every commit of the history before is signed so; the next one, a
+    //      change of the name of DE*GEF, signed anew: by a key of DE*GEF naming DE*RNO as its signer, as a witness only,
+    //      or by both the key of DE*GEF and that of Alpha. The verifier checks no signature here, only who may sign in it.
+    S('A signature counts for a\nrequired role only by a key that may sign in it, as far as the version tells: in the role `roamingNetworkOperator` a\nsigning key certified for the RNO (8.6)','that a required role counts only by a key that may sign in it');
+    const ROLES      = { requiredSignatureRoles: [ 'roamingNetworkOperator' ] };
+    const ROLE_BASIS = `${B('5.4')}; POI3-ISSUES.md S24`;
+    const renaming   = parties.prepare({ createdAt: minute(23), description: 'DE*GEF renames itself', signers: [ gefParty ],
+                                         changes: [ update('ChargingStationOperator', 'DE*GEF', 'name', found(parties, 'ChargingStationOperator', 'DE*GEF', 'name'), { en: 'GraphDefined Charging' }) ] });
+
+    P.then('required-role-rno', 'With the role of the roaming network operator required, a commit signed in it by a signing key certified for the roaming network operator.', ROLE_BASIS,
+           'role-rno', renaming, ROLES);
+    P.refused('required-role-rno-by-a-key-of-a-party', 'With the role of the roaming network operator required, a commit signed in it, naming DE*RNO its signer, by a signing key of DE*GEF: no key the version certifies for the roaming network operator.', ROLE_BASIS,
+              'role-rno-by-gef', parties.resign(renaming, [ { key: gefParty } ]), 'role-rno',
+              { ...ROLES, reason: "is not signed in the role 'roamingNetworkOperator' by a key that may sign in it!" });
+    P.refused('required-role-missing', 'With the role of the roaming network operator required, a commit signed by the signing key of Alpha as a witness only.', ROLE_BASIS,
+              'role-witness', parties.resign(renaming, [ { key: alphaParty, role: 'witness' } ]), 'role-rno',
+              { ...ROLES, reason: "is not signed in the role 'roamingNetworkOperator'!" });
+    P.then('required-role-rno-besides-a-key-of-a-party', 'With the role of the roaming network operator required, a commit signed in it by a signing key of DE*GEF and by the signing key of Alpha: one key that may sign in it is enough.', ROLE_BASIS,
+           'role-rno-and-gef', parties.resign(renaming, [ { key: gefParty }, { key: alphaParty } ]), ROLES);
 
 
     // =================================================================================================================

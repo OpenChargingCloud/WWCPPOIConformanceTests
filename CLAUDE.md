@@ -83,9 +83,9 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 849 passed / 0 skipped (its 12 copy tests need the vendored `poi-*.json`, both runs and `chargy` of
+Expected: C# 853 passed / 0 skipped (its 12 copy tests need the vendored `poi-*.json`, both runs and `chargy` of
 WWCP_POI.TS: a copy missing or drifted is red; seven are, until WWCP_POI.TS vendors `csharp-c4c3c5a` and the vectors
-made of it, of the web payment page and of a flat fee), TS 824 passed / 7 skipped (7 signing: WWCP_POI.TS verifies
+made of it, of the web payment page, a flat fee and required roles), TS 828 passed / 7 skipped (7 signing: WWCP_POI.TS verifies
 only). Skips are load-bearing, not noise.
 
 ## Ground rules

@@ -33,9 +33,10 @@ describe('poi-histories.json: histories the generator signed, what they take and
             expect(vector.commitAndCheckpointSignatures).toBe('unchecked');
 
             const documentOf = (step: { document?: string }) => historyDocument(vector.history, step.document);
+            const options    = vector.requiredSignatureRoles === undefined ? {} : { requiredSignatureRoles: vector.requiredSignatureRoles };
 
             if (vector.expected === 'accepted') {
-                replay(vector.steps, documentOf);
+                replay(vector.steps, documentOf, options);
                 return;
             }
 
@@ -46,21 +47,21 @@ describe('poi-histories.json: histories the generator signed, what they take and
                 throw new Error(`The refusal ${vector.id} names no step to refuse, or no control`);
 
             // The control: in place of the refused document, the one refused but for what the replay is about is taken.
-            replay([ ...before, { ...last, document: vector.control } as ReplayStep ], documentOf);
+            replay([ ...before, { ...last, document: vector.control } as ReplayStep ], documentOf, options);
 
-            const current = replay(before, documentOf);
+            const current = replay(before, documentOf, options);
 
             if (deviates(vector)) {
                 // Pinned: the known deviation still holds. Once it is refused, remove the marker in the generator.
-                replayStep(current, last, documentOf);
+                replayStep(current, last, documentOf, options);
                 return;
             }
 
             // Refused for what the vector is about, where it names it.
             if (vector.reason === undefined)
-                expect(() => replayStep(current, last, documentOf)).toThrow();
+                expect(() => replayStep(current, last, documentOf, options)).toThrow();
             else
-                expect(() => replayStep(current, last, documentOf)).toThrow(vector.reason);
+                expect(() => replayStep(current, last, documentOf, options)).toThrow(vector.reason);
 
         });
 

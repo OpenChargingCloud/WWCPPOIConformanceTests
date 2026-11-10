@@ -174,7 +174,10 @@ first calculates of the frozen run and of RFC 6979, against what is written ther
   run: `fromSnapshot`, `append`, `takeCheckpoint` with `document`, `startNextEpoch` with the `genesisCommitId` every
   implementation makes of the final checkpoint, `expectHead`. Commit and checkpoint signatures are taken unchecked
   (`commitAndCheckpointSignatures`); the signatures of change sets are their owners' and checked, and the algorithms of
-  every signature are checked against the profiles of the epoch.
+  every signature are checked against the profiles of the epoch. `requiredSignatureRoles`, where given, are the roles
+  every commit of the replay must be signed in, by a key the version it leads to lets sign in it (SPECIFICATION.md 5.4,
+  POI3-ISSUES.md S24): `RequiredSignatureRoles` of `TryAppend` of WWCP_POI3, `requiredSignatureRoles` of the options of
+  a history of WWCP_POI.TS - a harness ignoring it takes what such a replay refuses.
 - `expected`: `accepted` takes every step. `refused` takes every step but the last, which it refuses; and takes
   `control` in place of the last one, a document of the history refused but for what the replay is about, so that the
   refusal is that document's doing. `reason`, where given, is a text the refusal names: as both implementations word

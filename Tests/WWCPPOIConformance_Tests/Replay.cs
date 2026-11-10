@@ -39,10 +39,13 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
         /// <param name="Step">The step.</param>
         /// <param name="DocumentOf">The document of a step that takes one.</param>
         /// <param name="Error">Why the step was refused, or the head is not the one expected.</param>
-        public static Boolean TryStep(ref RoamingNetworkHistory?  History,
-                                      JObject                     Step,
-                                      Func<JObject, JToken>       DocumentOf,
-                                      out String?                 Error)
+        /// <param name="RequiredSignatureRoles">The roles every commit appended must be signed in, by a key the version it
+        /// leads to lets sign in it (POI3-ISSUES.md S24), if any.</param>
+        public static Boolean TryStep(ref RoamingNetworkHistory?    History,
+                                      JObject                       Step,
+                                      Func<JObject, JToken>         DocumentOf,
+                                      out String?                   Error,
+                                      IReadOnlyCollection<String>?  RequiredSignatureRoles   = null)
         {
 
             String Text  (String Name) => Step[Name]!.Value<String>()!;
@@ -70,7 +73,7 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
                         if (!RoamingNetworkCommit.TryParse(json, out var commit, out Error))
                             return false;
 
-                        if (!History!.TryAppend(commit, out Error, VerifyCommitSignature: (_, _, _) => true))
+                        if (!History!.TryAppend(commit, out Error, VerifyCommitSignature: (_, _, _) => true, RequiredSignatureRoles: RequiredSignatureRoles))
                         {
                             Error = $"Revision {commit.Revision}: {Error}";
                             return false;

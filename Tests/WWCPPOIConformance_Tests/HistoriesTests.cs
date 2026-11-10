@@ -57,11 +57,13 @@ namespace cloud.charging.open.protocols.WWCP.POI.Conformance.tests
             var history    = (JObject) ((JArray) VectorFiles.Histories["histories"]!).Single(item => item["id"]!.Value<String>() == Vector["history"]!.Value<String>());
             var documents  = (JObject) history["documents"]!;
 
+            var roles      = Vector["requiredSignatureRoles"] is JArray ? VectorFiles.Strings(Vector, "requiredSignatureRoles") : null;
+
             History = null;
             Error   = null;
 
             foreach (var step in Steps)
-                if (!Replay.TryStep(ref History, step, step => POIJSON.Read(documents[step["document"]!.Value<String>()!]!.Value<String>()!), out Error))
+                if (!Replay.TryStep(ref History, step, step => POIJSON.Read(documents[step["document"]!.Value<String>()!]!.Value<String>()!), out Error, roles))
                 {
                     Error = $"{step["op"]} {step["document"]}: {Error}";
                     return false;

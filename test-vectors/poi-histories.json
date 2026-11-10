@@ -107,7 +107,11 @@
         "web-payment-station-added-two-keys": "{\"@id\":\"b133f69ee821d55fae2f4790c51e67154a064a9071d278afba8fa29d884aa9dd\",\"changeSet\":{\"@id\":\"bdd9ced858eda91b54040639da47b0f07ce6c5d7d92bc276adf34bfd16ab1503\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"76780683e6dff72cbbfca9d1b15e1f81bec01d9ef0f025e6fb38f6bfe0d8e15f\"],[\"cbor\",\"sha256\",\"hex\",\"4bd8270a579f1c4bd9c71bec2c316943a918d00244bf150b9fc9826947c87937\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*S3\",\"entityType\":\"ChargingStation\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*S3\",\"EVSEs\":[{\"@id\":\"DE*GEF*E3*1\",\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"maxPower\":22000}],\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"webPaymentURL\":\"https://pay.gef.example/jena-paradies/s3\"},\"parentEntityId\":\"DE*GEF*P1\",\"parentEntityType\":\"ChargingPool\"}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the station DE*GEF*S3 with its web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"LHddha/muWjKjCCaScGfcWKOird4rmHpC9stLwvO4WGncVhveVoeguG0E6njaTYRK8Wew42NQXWG7m219H4+Cw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"9cf0d0b95292e202b5c930b3ec1f2879c5182ef47828725f8196e054ec68a8c6\",\"value\":\"fi1gi7KcNWzGLX5pEwQqgPCbk7FuYHAZWtb5WWIt+qtIGZWnBDHmihhAqdrDZ0mdNilUMmnO+2VHEgeMOI82DA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"76780683e6dff72cbbfca9d1b15e1f81bec01d9ef0f025e6fb38f6bfe0d8e15f\"],[\"cbor\",\"sha256\",\"hex\",\"4bd8270a579f1c4bd9c71bec2c316943a918d00244bf150b9fc9826947c87937\"],[\"effectiveTree\",\"sha256\",\"hex\",\"e2f239ea70a1cc1717cd9a0f015a1b6ba0ec02b2759b22c20919b21e911e256b\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"ETC4fev93dE6KAEEg1M74HuumnjkjGeLdMEoCliB2j9PjRQmSPN/iN9apcGG3uBeRy+aXao4ExUpZbFQ76oOAA==\"}]}",
         "web-payment-station-added-without": "{\"@id\":\"0cbe7cb1601334907df9d63116dce54c1c8925a2331b880570b181764f3390cf\",\"changeSet\":{\"@id\":\"850f993d9d77c0c317c835f9b4ce9c490bfb060e5272167c547b8fd64dd4ab57\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"126d826db7d293899df8732dba73480ef128e83d8c0dc763f4e25131ed520da2\"],[\"cbor\",\"sha256\",\"hex\",\"060c2a5ffb4b7333155b4ad89632651ea4fdf4e4128c8f9c6d35666aad34e488\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*S3\",\"entityType\":\"ChargingStation\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*S3\",\"EVSEs\":[{\"@id\":\"DE*GEF*E3*1\",\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"maxPower\":22000}],\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\"},\"parentEntityId\":\"DE*GEF*P1\",\"parentEntityType\":\"ChargingPool\"}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the station DE*GEF*S3\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"E88sB9nuQr2kh7HEVV8oQX0CWu7rW7BDBLzbZFEE/04jMWei6Sgz8q9KvD8hxWYG0mTjCwjZhe9iaj7jDM6QBA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"126d826db7d293899df8732dba73480ef128e83d8c0dc763f4e25131ed520da2\"],[\"cbor\",\"sha256\",\"hex\",\"060c2a5ffb4b7333155b4ad89632651ea4fdf4e4128c8f9c6d35666aad34e488\"],[\"effectiveTree\",\"sha256\",\"hex\",\"8b89dc63bcf19976622158359ec92b97645d14bfc9de4ea76e86cb5784aa4078\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"nLLGbcB6sk5lQ8SwaGAkFVnGKOJseE9VTdkB8xE3PdJH2OYLvkInRw7mSerYB8jBPMCf6T5UeWkv+v7xDQPEAg==\"}]}",
         "web-payment-pool-added": "{\"@id\":\"d05e8c4348bfe2e85a8d7e5a959929df641de61a3fdf96189b10380ac1cec0f9\",\"changeSet\":{\"@id\":\"771164e83a0d80dd1f2845410a78fe6715bde20edccc7004af60309237bfded5\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a057fab607ca581adb15976312c4c5ecf90c1e5a47a00d6fc4e1b361d9e2f6de\"],[\"cbor\",\"sha256\",\"hex\",\"c909dfd6ca825fb8ededf3a32e3159dbfc9f9aeb2deab8a68ea7d5a82d425e9c\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*P2\",\"entityType\":\"ChargingPool\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*P2\",\"chargingStations\":[{\"@id\":\"DE*GEF*S4\",\"EVSEs\":[{\"@id\":\"DE*GEF*E4*1\",\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"maxPower\":22000}],\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"webPaymentURL\":\"https://pay.gef.example/jena-paradies/s3\"}],\"name\":{\"en\":\"Jena Lobeda\"}}}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the pool DE*GEF*P2, its station DE*GEF*S4 with its web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1f7bd7cd947beb51a571c42f5b41e6a38efbdf3947e8f3bdb582acb528a9552a\",\"value\":\"Kre+plK+bsNgV9LFKhQhj07kOUiAyZN6wAsUIyw9vroI8V4IbkmOMfHb03hCu3IaP8Vrw9FZpWfoC3AtHlbJBw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a057fab607ca581adb15976312c4c5ecf90c1e5a47a00d6fc4e1b361d9e2f6de\"],[\"cbor\",\"sha256\",\"hex\",\"c909dfd6ca825fb8ededf3a32e3159dbfc9f9aeb2deab8a68ea7d5a82d425e9c\"],[\"effectiveTree\",\"sha256\",\"hex\",\"b0b9408e982da1f569a223fb1484afdee37a7a4db0ab39edcb8043c4c496fdfe\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"eBXorQpJ2YJqg3zY2RhpJYipR0Y1ZuWRaks63Ah/PX9UTykaBKgIXyAa60KT7AEVnaA9lFdw9K9LjCdK7bhxBA==\"}]}",
-        "web-payment-pool-added-infrastructure": "{\"@id\":\"d05e8c4348bfe2e85a8d7e5a959929df641de61a3fdf96189b10380ac1cec0f9\",\"changeSet\":{\"@id\":\"771164e83a0d80dd1f2845410a78fe6715bde20edccc7004af60309237bfded5\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a057fab607ca581adb15976312c4c5ecf90c1e5a47a00d6fc4e1b361d9e2f6de\"],[\"cbor\",\"sha256\",\"hex\",\"c909dfd6ca825fb8ededf3a32e3159dbfc9f9aeb2deab8a68ea7d5a82d425e9c\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*P2\",\"entityType\":\"ChargingPool\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*P2\",\"chargingStations\":[{\"@id\":\"DE*GEF*S4\",\"EVSEs\":[{\"@id\":\"DE*GEF*E4*1\",\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"maxPower\":22000}],\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"webPaymentURL\":\"https://pay.gef.example/jena-paradies/s3\"}],\"name\":{\"en\":\"Jena Lobeda\"}}}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the pool DE*GEF*P2, its station DE*GEF*S4 with its web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"A/QvmoXa0cZRYUpymDLomAo+H0mnWDcKf587C4gfqgS5pzDML7n+YTQAL8fZVQhSx5DGcIUDY7SYJOvNZrQtBg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a057fab607ca581adb15976312c4c5ecf90c1e5a47a00d6fc4e1b361d9e2f6de\"],[\"cbor\",\"sha256\",\"hex\",\"c909dfd6ca825fb8ededf3a32e3159dbfc9f9aeb2deab8a68ea7d5a82d425e9c\"],[\"effectiveTree\",\"sha256\",\"hex\",\"b0b9408e982da1f569a223fb1484afdee37a7a4db0ab39edcb8043c4c496fdfe\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"N45Pr+eL5uEYVGz9cIxMBL8WQVCCdsLbPlW8o4mQ5M2OWRTwG+kommjiXql3MCbm8NDXIJzU7DFzbKXzRIc4CQ==\"}]}"
+        "web-payment-pool-added-infrastructure": "{\"@id\":\"d05e8c4348bfe2e85a8d7e5a959929df641de61a3fdf96189b10380ac1cec0f9\",\"changeSet\":{\"@id\":\"771164e83a0d80dd1f2845410a78fe6715bde20edccc7004af60309237bfded5\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a057fab607ca581adb15976312c4c5ecf90c1e5a47a00d6fc4e1b361d9e2f6de\"],[\"cbor\",\"sha256\",\"hex\",\"c909dfd6ca825fb8ededf3a32e3159dbfc9f9aeb2deab8a68ea7d5a82d425e9c\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF*P2\",\"entityType\":\"ChargingPool\",\"kind\":\"Add\",\"newValue\":{\"@id\":\"DE*GEF*P2\",\"chargingStations\":[{\"@id\":\"DE*GEF*S4\",\"EVSEs\":[{\"@id\":\"DE*GEF*E4*1\",\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"maxPower\":22000}],\"created\":\"2026-10-18T08:22:00.000Z\",\"lastChange\":\"2026-10-18T08:22:00.000Z\",\"webPaymentURL\":\"https://pay.gef.example/jena-paradies/s3\"}],\"name\":{\"en\":\"Jena Lobeda\"}}}],\"createdAt\":\"2026-10-18T08:22:00.000Z\",\"description\":{\"en\":\"DE*GEF adds the pool DE*GEF*P2, its station DE*GEF*S4 with its web payment page\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"A/QvmoXa0cZRYUpymDLomAo+H0mnWDcKf587C4gfqgS5pzDML7n+YTQAL8fZVQhSx5DGcIUDY7SYJOvNZrQtBg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a057fab607ca581adb15976312c4c5ecf90c1e5a47a00d6fc4e1b361d9e2f6de\"],[\"cbor\",\"sha256\",\"hex\",\"c909dfd6ca825fb8ededf3a32e3159dbfc9f9aeb2deab8a68ea7d5a82d425e9c\"],[\"effectiveTree\",\"sha256\",\"hex\",\"b0b9408e982da1f569a223fb1484afdee37a7a4db0ab39edcb8043c4c496fdfe\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:22:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"N45Pr+eL5uEYVGz9cIxMBL8WQVCCdsLbPlW8o4mQ5M2OWRTwG+kommjiXql3MCbm8NDXIJzU7DFzbKXzRIc4CQ==\"}]}",
+        "role-rno": "{\"@id\":\"3f028aa03cd54f919cdd86824751f0f1f841f12895e7e88de6a863d35bb35181\",\"changeSet\":{\"@id\":\"6978e4371111320cdd527b84b36d95c251b90b61fa03701d2e728cec4e67c077\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"49d8b9e7494badcf33c75fd1008a34207c07df3bb1596af91acd96da50642379\"],[\"cbor\",\"sha256\",\"hex\",\"b77e38452d25d11e557f43a75ca5712a6b67e37ba839d7c308968a4cf34c6f48\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined Charging\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:23:00.000Z\",\"description\":{\"en\":\"DE*GEF renames itself\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"9WOm4imR1F6fuoZqvjWb9mYopTuGWmaTuy92g3oO+BaQV8ka2qDI9A0FYAwOAC+FdnYnG6wIUZle4d+RGPvJDw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"49d8b9e7494badcf33c75fd1008a34207c07df3bb1596af91acd96da50642379\"],[\"cbor\",\"sha256\",\"hex\",\"b77e38452d25d11e557f43a75ca5712a6b67e37ba839d7c308968a4cf34c6f48\"],[\"effectiveTree\",\"sha256\",\"hex\",\"042e9ac5bee92fe079d66c9df125127a37e2ebc99c2e0fceb4d093dcee46da4d\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:23:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"0dNLlxNUzgSzU1vRjXM4zfHAp+nfanmLY5NnSc/lSmIC+cdZvl0uBLltWsXKZ5wgo5NBVLUKOTJNF7IPcuPzBA==\"}]}",
+        "role-rno-by-gef": "{\"@id\":\"3f028aa03cd54f919cdd86824751f0f1f841f12895e7e88de6a863d35bb35181\",\"changeSet\":{\"@id\":\"6978e4371111320cdd527b84b36d95c251b90b61fa03701d2e728cec4e67c077\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"49d8b9e7494badcf33c75fd1008a34207c07df3bb1596af91acd96da50642379\"],[\"cbor\",\"sha256\",\"hex\",\"b77e38452d25d11e557f43a75ca5712a6b67e37ba839d7c308968a4cf34c6f48\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined Charging\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:23:00.000Z\",\"description\":{\"en\":\"DE*GEF renames itself\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"9WOm4imR1F6fuoZqvjWb9mYopTuGWmaTuy92g3oO+BaQV8ka2qDI9A0FYAwOAC+FdnYnG6wIUZle4d+RGPvJDw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"49d8b9e7494badcf33c75fd1008a34207c07df3bb1596af91acd96da50642379\"],[\"cbor\",\"sha256\",\"hex\",\"b77e38452d25d11e557f43a75ca5712a6b67e37ba839d7c308968a4cf34c6f48\"],[\"effectiveTree\",\"sha256\",\"hex\",\"042e9ac5bee92fe079d66c9df125127a37e2ebc99c2e0fceb4d093dcee46da4d\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:23:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"+mX9cn5v+85oNUc3vHU9cMORHEgbx8enp0Pz4FZ+up2FbdiF+EOHBdD9vU3QmG8Q66bcoiaLz2R0vakCgDhiDQ==\"}]}",
+        "role-witness": "{\"@id\":\"3f028aa03cd54f919cdd86824751f0f1f841f12895e7e88de6a863d35bb35181\",\"changeSet\":{\"@id\":\"6978e4371111320cdd527b84b36d95c251b90b61fa03701d2e728cec4e67c077\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"49d8b9e7494badcf33c75fd1008a34207c07df3bb1596af91acd96da50642379\"],[\"cbor\",\"sha256\",\"hex\",\"b77e38452d25d11e557f43a75ca5712a6b67e37ba839d7c308968a4cf34c6f48\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined Charging\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:23:00.000Z\",\"description\":{\"en\":\"DE*GEF renames itself\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"9WOm4imR1F6fuoZqvjWb9mYopTuGWmaTuy92g3oO+BaQV8ka2qDI9A0FYAwOAC+FdnYnG6wIUZle4d+RGPvJDw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"49d8b9e7494badcf33c75fd1008a34207c07df3bb1596af91acd96da50642379\"],[\"cbor\",\"sha256\",\"hex\",\"b77e38452d25d11e557f43a75ca5712a6b67e37ba839d7c308968a4cf34c6f48\"],[\"effectiveTree\",\"sha256\",\"hex\",\"042e9ac5bee92fe079d66c9df125127a37e2ebc99c2e0fceb4d093dcee46da4d\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"witness\",\"signedAt\":\"2026-10-18T08:23:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"VRdxz5LI+oKGt/bquvECnOFcdkQUzzKg48LYf842vICo6blovfmfqbQQIFBmAJaTPa6E6vc07XP+GBhGSG/UBQ==\"}]}",
+        "role-rno-and-gef": "{\"@id\":\"3f028aa03cd54f919cdd86824751f0f1f841f12895e7e88de6a863d35bb35181\",\"changeSet\":{\"@id\":\"6978e4371111320cdd527b84b36d95c251b90b61fa03701d2e728cec4e67c077\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"49d8b9e7494badcf33c75fd1008a34207c07df3bb1596af91acd96da50642379\"],[\"cbor\",\"sha256\",\"hex\",\"b77e38452d25d11e557f43a75ca5712a6b67e37ba839d7c308968a4cf34c6f48\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined Charging\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:23:00.000Z\",\"description\":{\"en\":\"DE*GEF renames itself\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"9WOm4imR1F6fuoZqvjWb9mYopTuGWmaTuy92g3oO+BaQV8ka2qDI9A0FYAwOAC+FdnYnG6wIUZle4d+RGPvJDw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"49d8b9e7494badcf33c75fd1008a34207c07df3bb1596af91acd96da50642379\"],[\"cbor\",\"sha256\",\"hex\",\"b77e38452d25d11e557f43a75ca5712a6b67e37ba839d7c308968a4cf34c6f48\"],[\"effectiveTree\",\"sha256\",\"hex\",\"042e9ac5bee92fe079d66c9df125127a37e2ebc99c2e0fceb4d093dcee46da4d\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:23:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"+mX9cn5v+85oNUc3vHU9cMORHEgbx8enp0Pz4FZ+up2FbdiF+EOHBdD9vU3QmG8Q66bcoiaLz2R0vakCgDhiDQ==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:23:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"0dNLlxNUzgSzU1vRjXM4zfHAp+nfanmLY5NnSc/lSmIC+cdZvl0uBLltWsXKZ5wgo5NBVLUKOTJNF7IPcuPzBA==\"}]}"
       }
     },
     {
@@ -5157,6 +5161,356 @@
       ],
       "control": "web-payment-pool-added",
       "reason": "Add of the ChargingPool 'DE*GEF*P2' needs a signature by a signing key of the ChargingStationOperator 'DE*GEF' that may sign 'infrastructure' and 'payments'!"
+    },
+    {
+      "id": "required-role-rno",
+      "description": "With the role of the roaming network operator required, a commit signed in it by a signing key certified for the roaming network operator.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.4; POI3-ISSUES.md S24",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "role-rno"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 16,
+          "commitId": "3f028aa03cd54f919cdd86824751f0f1f841f12895e7e88de6a863d35bb35181",
+          "eTags": [
+            "json:sha256:hex:49d8b9e7494badcf33c75fd1008a34207c07df3bb1596af91acd96da50642379",
+            "cbor:sha256:hex:b77e38452d25d11e557f43a75ca5712a6b67e37ba839d7c308968a4cf34c6f48",
+            "effectiveTree:sha256:hex:042e9ac5bee92fe079d66c9df125127a37e2ebc99c2e0fceb4d093dcee46da4d"
+          ]
+        }
+      ],
+      "requiredSignatureRoles": [
+        "roamingNetworkOperator"
+      ]
+    },
+    {
+      "id": "required-role-rno-by-a-key-of-a-party",
+      "description": "With the role of the roaming network operator required, a commit signed in it, naming DE*RNO its signer, by a signing key of DE*GEF: no key the version certifies for the roaming network operator.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.4; POI3-ISSUES.md S24",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "role-rno-by-gef"
+        }
+      ],
+      "control": "role-rno",
+      "reason": "is not signed in the role 'roamingNetworkOperator' by a key that may sign in it!",
+      "requiredSignatureRoles": [
+        "roamingNetworkOperator"
+      ]
+    },
+    {
+      "id": "required-role-missing",
+      "description": "With the role of the roaming network operator required, a commit signed by the signing key of Alpha as a witness only.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.4; POI3-ISSUES.md S24",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "role-witness"
+        }
+      ],
+      "control": "role-rno",
+      "reason": "is not signed in the role 'roamingNetworkOperator'!",
+      "requiredSignatureRoles": [
+        "roamingNetworkOperator"
+      ]
+    },
+    {
+      "id": "required-role-rno-besides-a-key-of-a-party",
+      "description": "With the role of the roaming network operator required, a commit signed in it by a signing key of DE*GEF and by the signing key of Alpha: one key that may sign in it is enough.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 5.4; POI3-ISSUES.md S24",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "role-rno-and-gef"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 16,
+          "commitId": "3f028aa03cd54f919cdd86824751f0f1f841f12895e7e88de6a863d35bb35181",
+          "eTags": [
+            "json:sha256:hex:49d8b9e7494badcf33c75fd1008a34207c07df3bb1596af91acd96da50642379",
+            "cbor:sha256:hex:b77e38452d25d11e557f43a75ca5712a6b67e37ba839d7c308968a4cf34c6f48",
+            "effectiveTree:sha256:hex:042e9ac5bee92fe079d66c9df125127a37e2ebc99c2e0fceb4d093dcee46da4d"
+          ]
+        }
+      ],
+      "requiredSignatureRoles": [
+        "roamingNetworkOperator"
+      ]
     },
     {
       "id": "epoch-snapshot-commit-algorithm-of-another-epoch",
