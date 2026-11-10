@@ -221,8 +221,8 @@ another one. Both implementations refuse `trust-certificate-operator` and `trust
 <a id="d7-certificate-twice"></a>
 ## D7. ✅ A certificate may name a hardware revision or firmware version twice
 
-**Vectors:** `version-text-certificate-twice` (the certificate `PTB-2026-0017` names the hardware revision `2.1`
-twice) and `version-text-certificate-energy-meter-twice` (the energy meter `PTB-2026-0042` was issued with names it
+**Vectors:** `version-text-certificate-twice` (the certificate `PTB:2026-0017` names the hardware revision `2.1`
+twice) and `version-text-certificate-energy-meter-twice` (the energy meter `PTB:2026-0042` was issued with names it
 twice), `poi-refusals.json`: the head of the frozen run so changed, without its `eTags`.
 
 **Where:** WWCP_POI.TS `src/network/versionTexts.ts`, `invalidCertifiedVersion`: it refuses a hardware revision or
@@ -230,7 +230,7 @@ firmware version of a certificate, and of the energy meters it was issued with, 
 ending with whitespace, but takes one given twice ("A certificate may name one twice"), and `tests/versionTexts.test.ts`
 expects so. WWCP_POI3 takes them through `ModelVersions.Of`, as the versions of a model (`ConformityCertificate` and
 `CertifiedEnergyMeter` of WWCP_POI2), and refuses one given twice: "A hardware revision of the certificate
-'PTB-2026-0017' must not be given twice!". `docs/ConformityAssessmentBody.md` of WWCP_POI says "each once".
+'PTB:2026-0017' must not be given twice!". `docs/ConformityAssessmentBody.md` of WWCP_POI says "each once".
 
 **Why it matters:** low. Both calculate the same, as the content keeps these arrays as given (SPECIFICATION.md
 section 2); but WWCP_POI.TS takes a roaming network version that WWCP_POI refuses to read, and that no WWCP_POI server
@@ -283,27 +283,27 @@ SPECIFICATION.md 4.1 says it of a change set waiting only; the basis of the vect
 <a id="d9-certificate-malformed"></a>
 ## D9. ✅ A certificate WWCP_POI3 refuses to read is taken
 
-**Vectors:** the 16 `version-certificate-*` (`poi-refusals.json`): the head of the frozen run, without its `eTags`,
-with one of its two certificates changed - `PTB-2026-0017`, for the energy meter model `KDM-500` of `KERNBERG`, or
-`PTB-2026-0042`, for the charging station model `GD-DC300` of `GraphDefined`, issued with `KDM-500`. WWCP_POI3 refuses
+**Vectors:** 16 of the `version-certificate-*` (`poi-refusals.json`; the other two are S36's): the head of the frozen run, without its `eTags`,
+with one of its two certificates changed - `PTB:2026-0017`, for the energy meter model `KDM-500` of `KERNBERG`, or
+`PTB:2026-0042`, for the charging station model `GD-DC300` of `GraphDefined`, issued with `KDM-500`. WWCP_POI3 refuses
 each in the words its `reason` names:
 
 | Vector | The certificate | WWCP_POI3 |
 |---|---|---|
-| `version-certificate-model-none` | `PTB-2026-0017` names no model | "The certificate 'PTB-2026-0017' must be for either a charging station model or an energy meter model!" |
-| `version-certificate-model-both` | `PTB-2026-0017` names `GD-DC300` of `GraphDefined` as well | the same |
-| `version-certificate-model-without-manufacturer` | `PTB-2026-0042` names `GD-DC300` without its manufacturer | "… must name the charging station model it is for with its manufacturer!" |
-| `version-certificate-manufacturer-without-model` | `PTB-2026-0017` names `KERNBERG` without its model | "… must name the energy meter model it is for with its manufacturer!" |
-| `version-certificate-hardware-revisions-none` | `PTB-2026-0017` names `[]` | "… must name at least one hardware revision of its model!" |
-| `version-certificate-firmware-versions-none` | `PTB-2026-0042` names none | "… must name at least one firmware version of its model!" |
-| `version-certificate-document-url-relative` | `PTB-2026-0017` names `certificates/PTB-2026-0017.pdf` | "documentURL: expected an absolute URL." |
-| `version-certificate-legislation-empty` | `PTB-2026-0042` names `" "` | "A legislation must not be empty." |
-| `version-certificate-validity-reversed` | `PTB-2026-0017` ends a millisecond before it begins | "notBefore must not exceed notAfter." |
-| `version-certificate-release-none` | `PTB-2026-0017` names no release | "A document must identify at least one software release." |
-| `version-certificate-release-twice` | `PTB-2026-0042` names `chargy-1.5.0` verified twice | "Empty or duplicate TransparencySoftware reference." |
-| `version-certificate-release-both` | `PTB-2026-0042` names it compatible as well, as `CHARGY-1.5.0` | "A release cannot be both verified and merely compatible in the same document." |
-| `version-certificate-energy-meters-of-meter-model` | `PTB-2026-0017`, of an energy meter model, names `KDM-500` as an energy meter it was issued with | "The certificate 'PTB-2026-0017' of an energy meter model names no energy meters!" |
-| `version-certificate-energy-meter-twice` | `PTB-2026-0042` names `KDM-500` again, as `kdm-500` | "The energy meter model 'KDM-500' of 'KERNBERG' must not be given twice in the certificate 'PTB-2026-0042'!" |
+| `version-certificate-model-none` | `PTB:2026-0017` names no model | "The certificate 'PTB:2026-0017' must be for either a charging station model or an energy meter model!" |
+| `version-certificate-model-both` | `PTB:2026-0017` names `GD-DC300` of `GraphDefined` as well | the same |
+| `version-certificate-model-without-manufacturer` | `PTB:2026-0042` names `GD-DC300` without its manufacturer | "… must name the charging station model it is for with its manufacturer!" |
+| `version-certificate-manufacturer-without-model` | `PTB:2026-0017` names `KERNBERG` without its model | "… must name the energy meter model it is for with its manufacturer!" |
+| `version-certificate-hardware-revisions-none` | `PTB:2026-0017` names `[]` | "… must name at least one hardware revision of its model!" |
+| `version-certificate-firmware-versions-none` | `PTB:2026-0042` names none | "… must name at least one firmware version of its model!" |
+| `version-certificate-document-url-relative` | `PTB:2026-0017` names `certificates/PTB-2026-0017.pdf` | "documentURL: expected an absolute URL." |
+| `version-certificate-legislation-empty` | `PTB:2026-0042` names `" "` | "A legislation must not be empty." |
+| `version-certificate-validity-reversed` | `PTB:2026-0017` ends a millisecond before it begins | "notBefore must not exceed notAfter." |
+| `version-certificate-release-none` | `PTB:2026-0017` names no release | "A document must identify at least one software release." |
+| `version-certificate-release-twice` | `PTB:2026-0042` names `GraphDefined:chargy-1.5.0` verified twice | "Empty or duplicate TransparencySoftware reference." |
+| `version-certificate-release-both` | `PTB:2026-0042` names it compatible as well, as `GRAPHDEFINED:CHARGY-1.5.0` | "A release cannot be both verified and merely compatible in the same document." |
+| `version-certificate-energy-meters-of-meter-model` | `PTB:2026-0017`, of an energy meter model, names `KDM-500` as an energy meter it was issued with | "The certificate 'PTB:2026-0017' of an energy meter model names no energy meters!" |
+| `version-certificate-energy-meter-twice` | `PTB:2026-0042` names `KDM-500` again, as `kdm-500` | "The energy meter model 'KDM-500' of 'KERNBERG' must not be given twice in the certificate 'PTB:2026-0042'!" |
 | `version-certificate-energy-meter-hardware-revisions-none` | its energy meter names `[]` | "The certified energy meter model 'KDM-500' of 'KERNBERG' must name at least one hardware revision!" |
 | `version-certificate-energy-meter-firmware-versions-none` | its energy meter names none | "… must name at least one firmware version!" |
 
@@ -342,7 +342,7 @@ property of another JSON type, a timestamp without its offset is an error; WWCP_
 the properties of a certificate it reads since D9 - an unknown property also there. No vector holds it yet, as it is
 not of certificates alone. And WWCP_POI3 compares the releases of a certificate for being
 named twice ordinally (`References`), though without case for being both verified and compatible
-(`TransparencySoftware_Id`), as releases are compared: by its code, `chargy-1.5.0` and `CHARGY-1.5.0` both verified are
+(`TransparencySoftware_Id`), as releases are compared: by its code, `GraphDefined:chargy-1.5.0` and `GRAPHDEFINED:CHARGY-1.5.0` both verified are
 taken, against "not twice", and WWCP_POI.TS takes them as well, as WWCP_POI3 does. A refusal vector can not say it
 while both take it.
 
@@ -505,7 +505,7 @@ words its `reason` names; WWCP_POI.TS takes all four:
 
 | Vector | The body | WWCP_POI3 |
 |---|---|---|
-| `version-body-certificate-not-notified` | its certificate `PTB-2026-0042` is issued under `CRA` | "The certificate 'PTB-2026-0042' is issued under the legislation 'CRA', which the conformity assessment body 'PTB' is not notified for!" |
+| `version-body-certificate-not-notified` | its certificate `PTB:2026-0042` is issued under `CRA` | "The certificate 'PTB:2026-0042' is issued under the legislation 'CRA', which the conformity assessment body 'PTB' is not notified for!" |
 | `version-body-number-three-digits` | its `notifiedBodyNumber` is `102` | "The notified body number '102' of the conformity assessment body 'PTB' must be four digits!" |
 | `version-body-notified-for-empty` | its `notifiedFor` is `[ "", "MID" ]` | "A legislation the conformity assessment body 'PTB' is notified for must not be empty!" |
 | `version-body-notified-for-twice` | its `notifiedFor` is `[ "MID", "MID" ]` | "… must not be given twice!" |
