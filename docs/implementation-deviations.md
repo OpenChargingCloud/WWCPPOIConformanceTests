@@ -59,7 +59,7 @@ WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, was WWCP_POI.TS's,
 elements of a price status, was WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
 define, which SPECIFICATION.md 2 refuses; it is fixed in WWCP_POI.TS `ce88620`, with the elements of a price status
 written as a charging tariff holds them, which SPECIFICATION.md 12.1 says since WWCP_POI `5a72313`
-([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 828 vectors - WWCP_POI3
+([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 829 vectors - WWCP_POI3
 alone signs the 7 signatures of section 6 again from their private seeds, which WWCP_POI.TS verifies only - and agree on
 every one of them (see [What both do alike](#what-both-do-alike)). Among them are the 13 replays of `poi-histories.json`
 WWCP_POI.TS left to WWCP_POI before: the references a version holds, which it checks since `813e1d7`, and the changes of
@@ -872,6 +872,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   payment page of an operator, a pool and a station signed by a key for payments, not by one for infrastructure or for
   the party, a station naming one, or a pool by one of its stations, added by one key for infrastructure and payments,
   not by one for infrastructure alone nor by two keys naming one each (WWCP_POI `848cc52`, WWCP_POI.TS `081616c`),
+  two offers of an e-mobility provider added at once, overlapping at its EVSE (9.4, `NewProviderOfferOverlap`),
   with the role of the roaming network operator required, a commit signed in it only by a key the version certifies
   for it, not by a key of a party naming DE*RNO its signer nor by one signing as a witness (S24; WWCP_POI `12e993a`),
   and three

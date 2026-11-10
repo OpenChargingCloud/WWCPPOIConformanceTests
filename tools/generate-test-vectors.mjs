@@ -3957,6 +3957,15 @@ function signedHistories() {
               'offer-provider-by-operator', offering(minute(18), 'DE-GEF adds its EVSE group Favourites and five off at it', [ favourites, favouritesOffer ], [ gefRenewed, gefTariffs ]), 'offer-provider',
               ofTheProvider);
 
+    // Two offers of an e-mobility provider no more than two of an operator cover one EVSE for the same sessions at the
+    // same times (9.4; NewProviderOfferOverlap of WWCP_POI3, providerOverlaps of WWCP_POI.TS), in the words both give -
+    // but for which of the two offers each names first.
+    const favouritesTen     = add('ChargingTariffOffer', { '@id': 'emp-favourites-ten', name: { en: 'Favourites, ten off' }, discount: { percent: 10 }, EVSEGroupIds: [ 'DE*GEF*EG_FAV' ] },
+                                  [ 'EMobilityProvider', 'DE-GEF' ]);
+    P.refused('offer-of-a-provider-overlapping', 'An e-mobility provider adds an EVSE group of its own and two charging tariff offers at it, five and ten off, signed by its signing key: both cover its EVSE for the same sessions at the same times.', B('9.4'),
+              'offer-provider-overlapping', offering(minute(18), 'DE-GEF adds its EVSE group Favourites, five and ten off at it', [ favourites, favouritesOffer, favouritesTen ], [ empSigning ]), 'offer-provider',
+              { reason: "of the e-mobility provider 'DE-GEF' must not overlap: they cover the EVSE 'DE*GEF*E1*1' for the same sessions at the same times!" });
+
     const providerGroups    = [ add('ChargingStationGroup', { '@id': 'DE*GEF*SG_FAV', name: { en: 'Favourite stations' }, chargingStationIds: [ 'DE*GEF*S1' ] }, [ 'EMobilityProvider', 'DE-GEF' ]),
                                 add('ChargingPoolGroup',    { '@id': 'DE*GEF*PG_FAV', name: { en: 'Favourite pools' },    chargingPoolIds:    [ 'DE*GEF*P1' ] }, [ 'EMobilityProvider', 'DE-GEF' ]) ];
     P.then('groups-of-a-provider', 'An e-mobility provider adds a charging station group and a charging pool group of its own, signed by its signing key.', B('4.1; 9.3'),
