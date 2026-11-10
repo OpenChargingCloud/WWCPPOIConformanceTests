@@ -1,7 +1,7 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `c4c3c5a`, Hermod `850cab3d`, Styx `21d00134`) and the TypeScript port (WWCP_POI.TS,
+(WWCP_POI3, `libs/WWCP_POI` at `b414296`, Hermod `850cab3d`, Styx `21d00134`) and the TypeScript port (WWCP_POI.TS,
 `libs/WWCP_POI.TS` at `0685f9a`) take or calculate different things.
 
 Each deviation is
@@ -59,7 +59,7 @@ WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, was WWCP_POI.TS's,
 elements of a price status, was WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
 define, which SPECIFICATION.md 2 refuses; it is fixed in WWCP_POI.TS `ce88620`, with the elements of a price status
 written as a charging tariff holds them, which SPECIFICATION.md 12.1 says since WWCP_POI `5a72313`
-([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 829 vectors - WWCP_POI3
+([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 832 vectors - WWCP_POI3
 alone signs the 7 signatures of section 6 again from their private seeds, which WWCP_POI.TS verifies only - and agree on
 every one of them (see [What both do alike](#what-both-do-alike)). Among them are the 13 replays of `poi-histories.json`
 WWCP_POI.TS left to WWCP_POI before: the references a version holds, which it checks since `813e1d7`, and the changes of
@@ -918,12 +918,15 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   when it writes the signature input. And a calibration certificate of a charging station the generator signs, taken
   against QA giving EM-LAB its key, refused against QA without it, and against QA giving the station another serial
   number, or none ([D11](#d11-station-serial-number));
-- all 109 vectors of the verifier extensions of WWCP_POI.TS 0.2.0 (`poi-verifier.json`, experimental), of the
+- all 112 vectors of the verifier extensions of WWCP_POI.TS 0.2.0 (`poi-verifier.json`, experimental), of the
   fixtures of ChargyWebApp `fc513cd`, each normalized to what both give: the key of the meter of an EVSE a station
   proof gives, historical meter evidence of archived and witnessed checkpoints, session prices verdict by verdict, also
   of a price statement naming a charging tariff not as `{operatorId}*T{suffix}`, refused as read (WWCP_POI.TS since
   `80afec7`, [D16](#d16-tariff-id)), and of a flat fee without a step size besides a price of energy, bound (WWCP_POI
-  `c4c3c5a`, WWCP_POI.TS `4ec2191`; `chargy/POIPrices/flat-fee.chargy`, made here alone), receipts of witnesses
+  `c4c3c5a`, WWCP_POI.TS `4ec2191`; `chargy/POIPrices/flat-fee.chargy`, made here alone), and of a session started
+  through an e-mobility provider of the profile of contracts (`chargy-contract-gross-rates/v1`), bound, a session paid
+  ad hoc or of another charging mode of it unsupported (WWCP_POI `b414296`, WWCP_POI.TS `f8b3992`; made here alone),
+  receipts of witnesses
   under the policy a verifier accepted, trust transitions, the keys a CPO signs charging
   documents with, policy identities, key statement digests, offer hashes and the digests of receipts; and 32 refusals,
   each against its control, 31 in the words of the `reason` both name: a meter key asked for ambiguously, by an unknown

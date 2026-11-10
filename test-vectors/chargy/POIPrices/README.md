@@ -7,18 +7,21 @@ them, of the same public seeds, on `POIHistory/archived-session.chargy` of its f
 deterministic: the readings of the meter are signed with a P-256 key of a seed of its own, with the nonces of RFC 6979,
 not with the published test key, whose ECDSA signatures differ every time. Each case is anchored first: made with the
 readings of its fixture, it is that fixture. `pqc-price.chargy` is not made here: node:crypto signs ML-DSA-65 with
-randomness. `flat-fee.chargy` is of no fixture, made here alone. What both WWCP_POI3 and WWCP_POI.TS give for each is
+randomness. `flat-fee.chargy`, `contract-profile.chargy`, `adhoc-contract-profile.chargy` and
+`subscription-mode.chargy` are of no fixture, made here alone. What both WWCP_POI3 and WWCP_POI.TS give for each is
 in `poi-verifier.json` (`sessionPrice-*`).
 
 The fixed evaluation clock is **2026-11-01T00:16:21Z**; charging starts at 2026-06-01T10:00:00Z.
 
 | File | Expected scoped result |
 | --- | --- |
+| `adhoc-contract-profile.chargy` | A session paid ad hoc (adhoc) of the profile of contracts (chargy-contract-gross-rates/v1), not the one of its charging mode: unsupported |
 | `ambiguous-offers.chargy` | Pool and EVSE candidates without a signed selection |
 | `broken-price-chain.chargy` | Genuine price chain with an incorrect previous digest |
 | `checkpoint-fork.chargy` | Genuine station/price checkpoints conflict at the same coordinate |
 | `conditional-price.chargy` | Conditional tariff elements are explicitly unsupported: an element restricted by maxEnergy |
 | `contract-mode.chargy` | Contract mode requires an additional profile |
+| `contract-profile.chargy` | A session started through an e-mobility provider (contract) of the profile of contracts (chargy-contract-gross-rates/v1): the price the CPO charges the provider, bound |
 | `decimal-price.chargy` | Signed `0.3500` retained exactly through parse/display/export |
 | `empty-prices.chargy` | Missing price evidence |
 | `expired-price.chargy` | Genuine price not active at start |
@@ -30,6 +33,7 @@ The fixed evaluation clock is **2026-11-01T00:16:21Z**; charging starts at 2026-
 | `session-with-price.chargy` | Valid Ed25519 CPO assignment, original start, rate match and inclusion |
 | `signed-rate-conflict.chargy` | Genuine 65-cent OCMF start conflicts with genuine 35-cent CPO price |
 | `split-price-chain.chargy` | Genuine conflicting price statements at one sequence |
+| `subscription-mode.chargy` | A session of another charging mode (subscription) of the profile of contracts (chargy-contract-gross-rates/v1): no profile is the one of it, unsupported |
 | `tampered-publication.chargy` | Inclusion's embedded price signature is invalid |
 | `unauthorized-key.chargy` | RNO-authenticated CPO key without `priceStatements` usage |
 | `variable-binding.chargy` | Variable binding requires an additional profile |

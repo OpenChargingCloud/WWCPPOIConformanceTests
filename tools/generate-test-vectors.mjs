@@ -5196,9 +5196,19 @@ function ownPriceSessions() {
     // which asked a flat fee for a step size before, so that its agreement was "unsupported".
     documents[`${SET}/flat-fee.chargy`] = made({ statements: (items, key) => [ reprice(items[0], key, status(items[0], prices => element(prices).priceComponents.push({ type: 'FLAT', price: raw('1.00') }))) ] });
 
+    // Made here alone, of no fixture: the profile of contracts (WWCP_POI `b414296`, WWCP_POI.TS `f8b3992`) - the agreement
+    // of session-with-price.chargy, signed again by the CPO, of a session started through an e-mobility provider of the
+    // profile of contracts, of one paid ad hoc of it, and of another charging mode of it.
+    documents[`${SET}/contract-profile.chargy`]       = made({ agreement: { chargingMode: 'contract',     pricingProfile: CONTRACT_PROFILE } });
+    documents[`${SET}/adhoc-contract-profile.chargy`] = made({ agreement: { chargingMode: 'adhoc',        pricingProfile: CONTRACT_PROFILE } });
+    documents[`${SET}/subscription-mode.chargy`]      = made({ agreement: { chargingMode: 'subscription', pricingProfile: CONTRACT_PROFILE } });
+
     return documents;
 
 }
+
+/** The profile of gross rates of a session started through an e-mobility provider (WWCP_POI `b414296`). */
+const CONTRACT_PROFILE = 'chargy-contract-gross-rates/v1';
 
 /** The documents made here (chargy/), by their file. */
 let OWN_DOCUMENTS;
@@ -5208,6 +5218,9 @@ const OWN_SAYS = {
     'foreign-tariff.chargy':    'Genuine price naming a tariff outside this EVSE\'s references: DE*POI*T2, of the pattern {operatorId}*T{suffix}',
     'conditional-price.chargy': 'Conditional tariff elements are explicitly unsupported: an element restricted by maxEnergy',
     'flat-fee.chargy':          'A flat fee of 1.00 besides the energy price of 0.35 per kWh, the flat fee without a step size, as a FLAT price component has none: of the simple profile of gross rates, bound',
+    'contract-profile.chargy':  `A session started through an e-mobility provider (contract) of the profile of contracts (${CONTRACT_PROFILE}): the price the CPO charges the provider, bound`,
+    'adhoc-contract-profile.chargy': `A session paid ad hoc (adhoc) of the profile of contracts (${CONTRACT_PROFILE}), not the one of its charging mode: unsupported`,
+    'subscription-mode.chargy': `A session of another charging mode (subscription) of the profile of contracts (${CONTRACT_PROFILE}): no profile is the one of it, unsupported`,
 };
 
 /** The files of chargy/ as text: each document, and the README and provenance of each set. */
@@ -5244,7 +5257,8 @@ function ownChargyFiles() {
         'deterministic: the readings of the meter are signed with a P-256 key of a seed of its own, with the nonces of RFC 6979,',
         'not with the published test key, whose ECDSA signatures differ every time. Each case is anchored first: made with the',
         'readings of its fixture, it is that fixture. `pqc-price.chargy` is not made here: node:crypto signs ML-DSA-65 with',
-        'randomness. `flat-fee.chargy` is of no fixture, made here alone. What both WWCP_POI3 and WWCP_POI.TS give for each is',
+        'randomness. `flat-fee.chargy`, `contract-profile.chargy`, `adhoc-contract-profile.chargy` and',
+        '`subscription-mode.chargy` are of no fixture, made here alone. What both WWCP_POI3 and WWCP_POI.TS give for each is',
         'in `poi-verifier.json` (`sessionPrice-*`).',
         '',
         `The fixed evaluation clock is **${run.evaluatedAt.replace('.000Z', 'Z')}**; charging starts at ${run.chargingStarted.replace('.000Z', 'Z')}.`,
@@ -5463,6 +5477,25 @@ function verifierVectors() {
                     `${OWN_SAYS['flat-fee.chargy']}. A flat fee has no step size, so the profile asks none of it: signed, agreed and published, the price is bound, its rate of energy given.`,
                     'valid valid bound valid not-proven', { digest: digestOf('flat-fee.chargy'), algorithm: 'Ed25519', energyPerKWh: '0.35' },
                     { specified: `${basis('Session-bound prices', 'SessionPriceEvidence.cs')}; WWCP_POI c4c3c5a` });
+
+        // The profile of contracts (WWCP_POI `b414296`, WWCP_POI.TS `f8b3992`): an agreement is bound where its profile
+        // is the one of its charging mode - the simple one of `adhoc`, that of contracts of `contract` -, unsupported of any
+        // other; the rates are given of either profile. contract-mode.chargy, `contract` of the simple profile, stays
+        // unsupported (above).
+        quoted(TS_README,  'The profile of contracts, `chargy-contract-gross-rates/v1`, fixes the same rates of a session started', 'the profile of contracts');
+        quoted(POI_README, '(`adhoc`), of the profile of contracts (`chargy-contract-gross-rates/v1`) of the same rates one started through an', 'the profile of contracts');
+        const contract = `${basis('Session-bound prices', 'SessionPriceEvidence.cs')}; WWCP_POI b414296`;
+        for (const [ name, applicability, why ] of [
+            [ 'contract-profile',       'bound',       'Its profile is the one of its charging mode: signed, agreed and published, the price is bound, its rate of energy given.' ],
+            [ 'adhoc-contract-profile', 'unsupported', 'Its profile is not the one of its charging mode, the simple one: the price is selected and its rate given, but not bound.' ],
+            [ 'subscription-mode',      'unsupported', 'Neither profile is one of its charging mode: the price is selected and its rate given, but not bound.' ],
+        ]) {
+            const agreement = at(`POIPrices/${name}.chargy`, '/poiEvidence/priceEvidence/agreement');
+            if (agreement.pricingProfile !== CONTRACT_PROFILE)
+                fail(`chargy/POIPrices/${name}.chargy: its agreement is not of the profile of contracts`);
+            priceVector(`sessionPrice-${name}`, 'POIPrices', `${name}.chargy`, `${OWN_SAYS[`${name}.chargy`]}. ${why}`,
+                        `valid valid ${applicability} valid not-proven`, ED(), { specified: contract });
+        }
     }
 
     // ---- Receipts of witnesses (PricePublicationVerification): without a policy of witnesses, no receipt counts; with

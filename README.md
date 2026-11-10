@@ -20,13 +20,14 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `c4c3c5a`, WWCP_POI.TS `0685f9a`, Hermod `850cab3d`,
-Styx `21d00134`):
+Both harnesses are green against the pinned submodules (WWCP_POI `b414296`, WWCP_POI.TS `0685f9a`, Hermod `850cab3d`,
+Styx `21d00134`) - but for the copies WWCP_POI.TS vendors of `poi-verifier.json` and `chargy`, until it takes the
+vectors of the profile of contracts:
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 829 | 854 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 829 | 829 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
+| C# harness (NUnit), WWCP_POI3 | 832 | 857 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 832 | 832 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy,
 those of the verifier extensions since `242fb29`.
