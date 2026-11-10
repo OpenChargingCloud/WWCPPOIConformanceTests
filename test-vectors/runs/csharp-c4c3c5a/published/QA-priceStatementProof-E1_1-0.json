@@ -1,0 +1,43 @@
+{
+  "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/priceStatementProof/v1",
+  "checkpointId": "9b3b0161fbae583dbd0662a8922bcd02513ac4a1163f5131641331b3af23e669",
+  "priceStatement": {
+    "roamingNetworkId": "QA",
+    "entityType": "EVSE",
+    "entityId": "DE*GEF*E1*1",
+    "priceStatus": {
+      "prices": [
+        {
+          "chargingTariffId": "DE*GEF*T_DC",
+          "elements": [
+            {
+              "priceComponents": [
+                {
+                  "type": "ENERGY",
+                  "price": 0.59,
+                  "stepSize": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "validFrom": "2026-11-10T05:53:03.101Z",
+    "validUntil": "2026-11-10T06:53:03.101Z",
+    "sequence": 0,
+    "after": "2e09e93e8213a91a25a847f5680b7d97dc0d61684870ba8e53690165a8e13154",
+    "role": "chargingStationOperator",
+    "signer": "DE*GEF",
+    "signedAt": "2026-11-10T05:53:03.101Z",
+    "algorithm": "ES256",
+    "keyId": "b2d92515efb37b6e4323fb11b8a8c0b5654175392a95fe47ca35b577eba56564",
+    "value": "b0oML4yuSxZX0saqgC759KlUCeVrR2aLvNieI5Q8AsFg4CCXSkmmvW+J2qIz70sf0guFRAhrW1Ub6mBV6IlR7g=="
+  },
+  "@index": 0,
+  "@size": 3,
+  "@auditPath": [
+    "1f3ae41e0a63be13b916a7783573f591cc1bef31ee60d7bf6b2550569afb8b42",
+    "70ac765805d4d1feb95bc274743f779fa04c44b2da22771da590d14b4a361b03"
+  ]
+}

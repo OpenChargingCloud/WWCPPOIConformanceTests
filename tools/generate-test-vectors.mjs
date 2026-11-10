@@ -22,7 +22,7 @@
  *   - libs/Styx/Styx/Illias/JSON/README.md, section 4, and the escaping table of
  *     libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs: canonical JSON and deterministic CBOR;
  *   - libs/WWCP_POI/SPECIFICATION.md, sections 1 and 6: the examples of the specification, and section 2: custom data;
- *   - test-vectors/runs/<run>/: what one run of the C# examples A1 to A15 of WWCP_POI published, frozen;
+ *   - test-vectors/runs/<run>/: what one run of the C# examples A1 to A16 of WWCP_POI published, frozen;
  *   - test-vectors/runs/chargy-<commit>/: the fixtures of ChargyWebApp of the verifier extensions of WWCP_POI.TS 0.2.0,
  *     frozen; libs/WWCP_POI/WWCP_POI3/Verifier for their inputs (section 9);
  *   - and what it makes and signs itself, deterministically: the station proofs of section 4 (poi-trust.json) and the
@@ -51,11 +51,11 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT         = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT          = join(ROOT, 'test-vectors');
-const RUN          = 'csharp-045e180';
+const RUN          = 'csharp-c4c3c5a';
 const RUN_DIR      = join(OUT, 'runs', RUN);
 
 /** A point in time while the key statements, the keys and the attestations of the frozen run are valid. */
-const AT           = '2026-11-05T19:46:00.000Z';
+const AT           = '2026-11-10T05:54:00.000Z';
 
 const STYX_README  = 'libs/Styx/Styx/Illias/JSON/README.md';
 const STYX_TESTS   = 'libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs';
@@ -1194,7 +1194,9 @@ function historyVectors() {
         if (/^QA-(epoch-2-)?checkpoint-\d+\.json$/.test(name))
             addCheckpoint(file, '', json);
 
-        if (name.startsWith('evidence-'))
+        // The evidence of a charging session the app gets; that of an EV Taler session (example A16) gives its station
+        // proof and no checkpoints.
+        if (name.startsWith('evidence-') && !name.endsWith('-evTaler.json'))
             json.checkpoints.forEach((checkpoint, index) => addCheckpoint(file, `/checkpoints/${index}`, checkpoint));
 
     }
@@ -1294,7 +1296,7 @@ function historyVectors() {
         ids(list, `history (${name})`);
 
     return vectorFile(
-        `WWCP POI 3 (libs/WWCP_POI), as its C# examples A1 to A15 published it in one run: test-vectors/runs/${RUN}`,
+        `WWCP POI 3 (libs/WWCP_POI), as its C# examples A1 to A16 published it in one run: test-vectors/runs/${RUN}`,
         'What a roaming network, its servers, its witnesses and a driver\'s app published, public data only, frozen as the reference implementation wrote it. Each entry names a document of the run (file and JSON pointer) and what an implementation must calculate of it, or that it must accept it.',
         { run: `runs/${RUN}`, at: AT, versions, commits, checkpoints, checkpointProofs, priceStatements, trustAnchors, stationProofs, replays });
 
@@ -1333,7 +1335,7 @@ function at(document, pointer) {
 function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, pool2, tariffAt, templateAt, bsi, DOCS, HELD, ORDER }) {
 
     const doc        = (name) => `${DOCS}/${name}.md`;
-    const RICH_AT    = '2026-11-05T19:43:46.188Z';
+    const RICH_AT    = '2026-11-10T05:53:07.929Z';
     const meta       = { created: RICH_AT, lastChange: RICH_AT };
     if (!(Date.parse(qa.created) <= Date.parse(RICH_AT) && Date.parse(RICH_AT) <= Date.parse(qa.lastChange)))
         fail(`QA.json: ${RICH_AT}, when the richer QA adds its entities, is not within the life of the roaming network`);
@@ -4479,13 +4481,13 @@ function qiDigitalVectors() {
     refuse('qid-calibration-meter-updated',      'verify', DCC,  'QA with the meter of DE*GEF*E2*1 on the firmware 1.0.8 since, a version of the SM-3 as well: a meter changed since is no longer the one calibrated.', "runs the firmware version '1.0.8', not '1.0.7'!", { network: [ { op: 'replace', path: `${sm3}/firmwareVersions`, value: [ '1.0.7', '1.0.8' ] }, { op: 'replace', path: `${acMeter}/firmwareVersion`, value: '1.0.8' } ] });
     refuse('qid-calibration-without-laboratory', 'verify', DCC,  'QA without EM-LAB: the laboratory of a calibration certificate is a conformity assessment body of the roaming network.', "The calibration laboratory 'EM-LAB' of the digital calibration certificate 'DCC-2026-0815' is no conformity assessment body of the roaming network 'QA'!", { network: [ { op: 'remove', path: emLab } ] });
     refuse('qid-calibration-key-for-party',      'verify', DCC,  'QA with the key EM-LAB signed with for its own properties only: a calibration certificate is signed by a key that may sign certificates.', "may not sign 'certificates', only 'party'", { network: [ { op: 'replace', path: `${labKey}/usages`, value: [ 'party' ] } ] });
-    refuse('qid-calibration-key-ended-before',   'verify', DCC,  'QA with the key EM-LAB signed with ended before it signed.', ", when the digital calibration certificate 'DCC-2026-0815' was signed!", { network: [ { op: 'replace', path: `${labKey}/notAfter`, value: '2026-11-05T19:43:46.800Z' } ] });
+    refuse('qid-calibration-key-ended-before',   'verify', DCC,  'QA with the key EM-LAB signed with ended before it signed.', ", when the digital calibration certificate 'DCC-2026-0815' was signed!", { network: [ { op: 'replace', path: `${labKey}/notAfter`, value: '2026-11-10T05:53:08.467Z' } ] });
     refuse('qid-declaration-key-of-no-manufacturer', 'verify', DDOC, 'QA without the key SAALE signed with for its models: a declaration is signed by a key of the manufacturer of its model.', "is no signing key of the energy meter manufacturer 'SAALE'", { network: [ { op: 'remove', path: ddocKey } ] });
 
     // ---- Refused: at another time.
 
-    refuse('qid-quality-system-expired',         'verify', D,    'After the approval of the quality system ended (validUntil, three years).', "'DE-26-QS-PTB-0042' is not valid at 2029-11-06T00:00:00.000Z!", { at: '2029-11-06T00:00:00.000Z' });
-    refuse('qid-calibration-key-ended',          'verify', DCC,  'After the key EM-LAB signed with ended (notAfter, a year): the key is valid when it signed and when the certificate is checked.', "of the calibration laboratory 'EM-LAB' is not valid at 2027-11-06T00:00:00.000Z!", { at: '2027-11-06T00:00:00.000Z' });
+    refuse('qid-quality-system-expired',         'verify', D,    'After the approval of the quality system ended (validUntil, three years).', "'DE-26-QS-PTB-0042' is not valid at 2029-11-11T00:00:00.000Z!", { at: '2029-11-11T00:00:00.000Z' });
+    refuse('qid-calibration-key-ended',          'verify', DCC,  'After the key EM-LAB signed with ended (notAfter, a year): the key is valid when it signed and when the certificate is checked.', "of the calibration laboratory 'EM-LAB' is not valid at 2027-11-11T00:00:00.000Z!", { at: '2027-11-11T00:00:00.000Z' });
 
     // ---- Refused: the declaration against a certificate it does not name as it is. No signature is looked at here, the
     //      certificate's own check tells whether it is valid.
@@ -4539,7 +4541,7 @@ function qiDigitalVectors() {
     const item      = { type: 'ChargingStation', id: station['@id'], manufacturerId: template.manufacturerId, modelId: template.modelId, serialNumber: SERIAL,
                         hardwareRevision: template.hardwareRevision, firmwareVersion: template.firmwareVersion };
     const raw       = parseRaw(readRun(DCC));
-    const unsigned  = { signedAt: '2026-11-05T19:44:00.000Z', algorithm: labCerts.algorithm, keyId: labCerts.id };
+    const unsigned  = { signedAt: '2026-11-10T05:53:30.000Z', algorithm: labCerts.algorithm, keyId: labCerts.id };
     const signature = { ...unsigned, value: labCerts.sign(canonical({ ...raw, '@id': 'DCC-2026-0816', item, signature: unsigned })) };
 
     if (verifiesWith(signature.algorithm, labCerts.json.key, canonical({ ...raw, '@id': 'DCC-2026-0816', item, signature: unsigned }), signature.value) !== true)

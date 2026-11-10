@@ -1,0 +1,1402 @@
+{
+  "timestamp": "2026-11-10T05:53:04.036Z",
+  "commit": {
+    "@id": "a05d771ba8c0b6a9fa724ebdf3c49a77078f50aac9c2f2fa462bdf582e118723",
+    "roamingNetworkId": "QA",
+    "revision": 12,
+    "eTags": [
+      [
+        "json",
+        "sha256",
+        "hex",
+        "01d5316894d91804e98aef2c74d17c5dbf9ad3f7556284e62bb8cd090be03aff"
+      ],
+      [
+        "cbor",
+        "sha256",
+        "hex",
+        "3180b5de8b5cead15c82b4d11e717dea8a0d2d50fc6c87f56a6ab6afb6614cc5"
+      ],
+      [
+        "effectiveTree",
+        "sha256",
+        "hex",
+        "2e85f8fcbc094e3270c1e4b4a4b13a17eb6c094b40e6274f261fab2c1fd2d905"
+      ]
+    ],
+    "parentIds": [
+      "3ef378b31b9d6dd18e1b98082fc37fd23cacfd07b3099d8ee35b61ce5b2def4e"
+    ],
+    "changeSet": {
+      "@id": "d112dbeaef025c8f55bedb046735463aa05424e264955c30a70016ee1b332933",
+      "roamingNetworkId": "QA",
+      "createdAt": "2026-11-10T05:53:03.015Z",
+      "description": {
+        "en": "The EVSE templates name the tariffs"
+      },
+      "signatures": [
+        {
+          "algorithm": "ES256",
+          "keyId": "f85b442e685345453d8f383d5706331e4b82f56015220fde087b2917cf5cfa9c",
+          "value": "bKqbuFo10EtCm35lUF+AQ8xW3cmO9tfim/Vf+37chimrqJ5U0dKFlk4YbMZXvun6Vx5HfJdv8Qdf7bxLJBvxyg=="
+        }
+      ],
+      "changes": [
+        {
+          "kind": "UpdateProperty",
+          "entityType": "EVSETemplate",
+          "entityId": "DE*GEF*ET_AC",
+          "propertyName": "chargingTariffId",
+          "oldValue": null,
+          "newValue": "DE*GEF*T_AC"
+        },
+        {
+          "kind": "UpdateProperty",
+          "entityType": "EVSETemplate",
+          "entityId": "DE*GEF*ET_DC",
+          "propertyName": "chargingTariffId",
+          "oldValue": null,
+          "newValue": "DE*GEF*T_DC"
+        }
+      ],
+      "beforeETags": [
+        [
+          "json",
+          "sha256",
+          "hex",
+          "6c19171cb7afc9d270394040e761323f0b4800d98c6fff3bade0472d584b295b"
+        ],
+        [
+          "cbor",
+          "sha256",
+          "hex",
+          "3db443e0a90faacc65e8daebb8d5c91326d407f74ad5ed54a579900d3c53bfa8"
+        ]
+      ],
+      "afterETags": [
+        [
+          "json",
+          "sha256",
+          "hex",
+          "01d5316894d91804e98aef2c74d17c5dbf9ad3f7556284e62bb8cd090be03aff"
+        ],
+        [
+          "cbor",
+          "sha256",
+          "hex",
+          "3180b5de8b5cead15c82b4d11e717dea8a0d2d50fc6c87f56a6ab6afb6614cc5"
+        ]
+      ]
+    },
+    "signatures": [
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-10T05:53:03.074Z",
+        "algorithm": "ES256",
+        "keyId": "1f4c125b0d1fe3a60274787b399bd2d0f2ebcade9ad552acdde008389c8a65c8",
+        "value": "aQC2OL21zyitmG+SBEtuJTV9S4nwKWq8JxDD8mKxv9HtGLVXV/x47nU18qDbxrXNops504u5bO6+WHtnXvJe4w=="
+      },
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-10T05:53:03.077Z",
+        "algorithm": "ES256",
+        "keyId": "9ce2a7d2fb0cfa3be5c1ecc4391e4d5e0a984cb53ac93255b60f8ef86617b777",
+        "value": "A5EsdontErK0DQ7tPJ0yzLlEpeRD86JbTfjc2E2evWnAyeJFvhUL+VZjsDV8eyA0KQoQZf8zFtK97brmJ0hC2Q=="
+      },
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-10T05:53:03.080Z",
+        "algorithm": "ES256",
+        "keyId": "2dda2fffcdfbfafaaa7e0245cb008488ad5e910b3f5a7f00a27d8a3df4cde2dc",
+        "value": "zrlCAZrOqpGKJCbK1AxgsgW/3UKtm3ODqKmkd9BzY0Hr5yRj1Tmh6sAFVgQgffcy+hcYaxsp7+o701a5cwzm6Q=="
+      }
+    ]
+  },
+  "roamingNetwork": {
+    "@id": "QA",
+    "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/v1",
+    "name": {
+      "en": "Quality Assurance"
+    },
+    "description": {
+      "en": "The roaming network of the examples"
+    },
+    "operator": {
+      "@id": "OCC",
+      "name": {
+        "en": "Open Charging Cloud"
+      },
+      "minConsensus": 2,
+      "keyStatement": {
+        "roamingNetworkId": "QA",
+        "roamingNetworkOperatorId": "OCC",
+        "identityKeys": [
+          {
+            "@id": "827c5f6ea4cbcd1fbe8fd4609801ee109411d2b685b23f4541dbe9d5030b24fc",
+            "key": "owEBIAchWDn1OEDzZrxv0Y4m5LOxgxG6bmYtU+LdYQCljqTIowmB6Mn0Y5zAQYUtfxUMmIFN/ERCyjK8ufDFoYA=",
+            "holder": "BetaOrg"
+          },
+          {
+            "@id": "909a01645680f4af6e5d547a3f821208bf2294e80f70aefd904a339f6f7172db",
+            "key": "owEHAzgwIFkHoLBfE1zhsYo3pQiJ2tf7IgbsxRgcQW2176+R1TOgea2VWZItBjgRTalCfbxZdn944+Y2ReinNcfyHxyHUC9AW6C0gEKiDI9LUs/L50ReWIYJwhLjV1JuXpSXSuO9xjKzxaEvTrux7Veh9+UWXv9mpsVyo/BN9oVjju1gq0i/01v46MFOLjwx1aMm9Vm0jANPXETlzLHCboBLGWdq7YcWSeBzPvAIgmal/Q3JMCx/2tyYvGIPKMN0EpWHJRo5B+/wd6DHK491qv+GBbfDxrPe9pQ8+5+4WuL0OFHGxVOPA73O+p4M+q0DwU6PdBxBM7oyrwOUuzIT9ZrC9O7VQGhSRQYhmNXmgmAKA+1sPl9N5PXJwk7/wTO3A/YvpNa3DMfzZBYb4UDVTGJPNBNa1rtFh0Ob5ZmFB3yqajlehHDk9veHbv7Ab/YD5kcFKUNJRMRVgDhLu88n9MyPo1/IJ+0j3QsmRaS6RlZXBfxy98DyRibnnIhe98xDBSXbFzun2WGiwyKZXwbkkD/4CjONtbDNqSGvUYIUAfo1y4hGb94BNg2PWIRp74CbqpRLQTDC0wP9Evd4sh8ud0xrIbhz9DVpiCiBeLaBREy58Srw8dSPlVXrCVpznaHj7e9uVCEnBYfnhsgdnHoIGyniUHHfNFSKcYRdbHTsL3VDrMvyQZWpsbKdochF09cTP+9Ol/QxJcvjHriHoHzY3fVP4FlSKHUNZ5IehWZDAuP79pCBBvdjYNQpHxguT4R42Gl41CZE3ymZJu6eYmEmVMzaLnxBVlgeltDV/I/149K/zkKmn2x//W/QSXYX2OQbR/l3BDP5jfDxVjSUSdOGlEo1QQde04I35P/gWacWixommnkReBsaISRzdKXS5Y8uHfOIJN74yVGAZyKQIIpYgq0mCHd1UY8CRUapAMJui1TBKl0lSm6bQlhqEryOxyQclJGCWMbTTEkDjOeAmYpyUNueGO/Nki6OcWxXUfYpajl7hd73tr5mQ1hBjEvdYkT4JeDGCD7kktWncpLpBiqL1ii5edx10mcw5Qu4Dvw+PGd6Nm2mfSU+GXgLM+wqNUmooQHQkEWWfDg+nLqDMn4morV4xDXO+bwWSLBWKyPL4FiV/L+bL7lERwwU/5PaE4vATSPlS1VWcffNc+lZBMxjFIDiZAPOZgeHfXlhDI6Wmdkyg9FuTvz73b9L+2jXtS4eBMGeXnVQq27/0BZbOl8UmfxccO6YvjEbr2Z2+dyZAvhNZxCadvisuCJk25Z2+s8Nmpx1dKyL+DgqhMf8kFbElD38DD/EfBbbmIVVwnSDHPSNd0mMsAADrXe+aAWsyqPvtdVTjHfhDXPoZfalKNWZbParKtboDxG0JXYMPO+5RGynyJ1As1MBldyYCqXV6mBIWw0fmokfvnTYewIBvS75xm2cVbeyo5KnZtJWhIwRsSRkZpgg3+YuTAZG6/q0VEV85FFZrvZPXyxENSRfz6DI1ZMgYn35/jhxPaSBdJ8xIqo3rChfQev6lTtmeIDsyGLGTfz8+KJ8XBlFHVyceU8vJrGmr+zOpXF6jkjhQ8k+A1nH32PvduA0kbLJ9k+EgSRKk3Jb5Cc77CpctclBAWxmXRW4//QiPcowayv6Wiz2899nlmCYkntjdeWZU9HzCtXN3ewdp15bRc1n56JYPBZ17biUB79OU4/9sBmck2BiWyfCXmjoJDZDey9uVOeVwhhIAoau5fm4oQJ7V6maCizT6OezWRTiON6CP3+06sTYQ8ktkm8j7oZKICARJO+d5jWY1PR+Vew9LDk33VwYWcbgVogYRHyVoYV/uIFDJlyO/1GyBUPw8WmMeIkOR4bYT+FFGcYX6V1O6ENf3E4zdAxxXbtQvcKG87PK5DO5nV7uAxQY9X67fx/D+ibqcMIgnM+h8fbVDV3Pr8uS0+u1iGenF3e4dqW12WrtVxsS4HJG3bzEUaLX4/sCrBxcjwgGO1HVEo7rgHlpTfsYp8FsT+xd83PIn0rMxv2ok7xEuqkEGZiZhPs+bWhbJEaduwduG0dS/6iZYBpeeCME+y0icZXXOkThO1b8ON38C9ZLMahHFM5SED3HUJVV3I1BCxzJX3kZwfGiR0J5D6fsFDeuU0rXlOAp3vjkRoRzkF06yE5G88SmGj2d3IRmmoNn1ZD5C87aX7rqAwfdbLeEXadpMvAs6uAPf2FREqfGTpQ7a0zPHEl8ws4ujVi6BUbUKnj0eBDpT24X8NL7CQhLP/SADrDf0GLAq5v8vDOYnN4izvJPLAS1/oaQHq2+Zro93i+XHUiqoHUpTj+u2KlPkrJIOMzJIAqyz44uUgaf5vusc/jWmNE9sLNuWu7mk95vwTIM+YYBLRpolVTEFa7yEouTu9gqknQKrwcWf6zvpawXdUpFuDpTuvKkccItk80VyP3II7YpTQPxL9pAV0/c8C2qvD//S8lcDfZBkecNE0nFBUPaZtEm2sBlQZOK+2Zb7IEIpOsqbj7rdPnMec9csbgZ6nzyHa4tFtECv/ufD+B6FSjXmwWbMd5whHPo8c9B9eBaW9fCgoSZQh4xSwKGSN7RMrMyT27PIXHGT8dv+lr2aqiFc7bYZKFx3duyCSgM",
+            "holder": "GammaOrg"
+          },
+          {
+            "@id": "a366a4c67cb84992d9d781a9f39f80b07a09fd4fb7ac5aeb8ee9139979e294cb",
+            "key": "pAECIAMhWEIA54cwbo87GA8A9bGXicT34ApJPuwLSitzX2ykD3FkKFkxuJOSL6Vhyh0yDtGjRURQo3d/yRfpzPRisdfvRf1GvhEiWEIB2qhP6R706E52swxPsxTT+fxFdlXhueghfaxpyofm9b7AoPoWVf3g03YmAK8B5za9Cp0rjyOefaEh2f0BaOiGPNw=",
+            "holder": "AlphaOrg"
+          }
+        ],
+        "minConsensus": 2,
+        "signedAt": "2026-11-10T05:52:51.145Z",
+        "validUntil": "2027-11-10T05:52:51.145Z",
+        "signatures": [
+          {
+            "algorithm": "ES512",
+            "keyId": "a366a4c67cb84992d9d781a9f39f80b07a09fd4fb7ac5aeb8ee9139979e294cb",
+            "value": "AXz0FF1nG2J+mcOiQEw9dGH3ecc2KWJJqW3BiOIyca2qtunOUqkpwmGRZrMBcdCIp1KYfPdpO53rmhPXR2IwrtKdACuOPZxsDdhJ7Wf0WcjsWW8LPrM/MKdBpi3kommYvhKCLA6ml1BRf9l8f5mBPvI6QXrVsgvAYtsZD0Lsz4EtP/+j"
+          },
+          {
+            "algorithm": "Ed448",
+            "keyId": "827c5f6ea4cbcd1fbe8fd4609801ee109411d2b685b23f4541dbe9d5030b24fc",
+            "value": "5mk0UWHsEbr3mDjgq8rGUHnDqj/eHagb0OeGme0qzuaKaNM/Zjy6Z2IsL8QvjGP5ZuLx4Kxel7OA/uYluN2yaQ+zZV9MvPYW8VnApUowTEnr/Lu3oT1/2Ktz6f6TwFTgNPTWtHKVM8CdyYs6Xy4HVhAA"
+          }
+        ]
+      },
+      "signingKeyCertificates": [
+        {
+          "roamingNetworkOperatorId": "OCC",
+          "signingKey": {
+            "@id": "1f4c125b0d1fe3a60274787b399bd2d0f2ebcade9ad552acdde008389c8a65c8",
+            "key": "pAECIAEhWCDb0YltGE//Y6UDiKrtidz8xj6N9L/5zZrbpCHKAfNfJyJYIMJQEHPLkIIVfHad+bMJ6bm5rbMYwiI9Nbe+/xmQ5ppx",
+            "notAfter": "2027-11-10T05:52:51.145Z",
+            "holder": "AlphaOrg",
+            "usages": [
+              "party"
+            ]
+          },
+          "signedAt": "2026-11-10T05:52:51.145Z",
+          "algorithm": "ES512",
+          "keyId": "a366a4c67cb84992d9d781a9f39f80b07a09fd4fb7ac5aeb8ee9139979e294cb",
+          "value": "Adb9XdFbKgYJ0GwjqxyFDkz4bvVNhHcIGzh92Nqn6DU/rYp0t/HCj+bUicW5EeeDjzoR0iig7levF4iJmnzlnQPnARhUlBWhMIayuuCgq9r8lNm5G2mmvRD7sPNclDIeHzIOTPdFdBTvdP/9VpOhBF5aHVoTNoOkqvurZk8K2QfCEYK8"
+        },
+        {
+          "roamingNetworkOperatorId": "OCC",
+          "signingKey": {
+            "@id": "2dda2fffcdfbfafaaa7e0245cb008488ad5e910b3f5a7f00a27d8a3df4cde2dc",
+            "key": "pAECIAEhWCBSRNHMgxZIBioM0tODrKeneeOinJuY+DrqwADdZCYzuCJYIFxLaFIdyxpMJMR6EVrKFQGki9vCmCQDcohhn065EFxS",
+            "notAfter": "2027-11-10T05:52:51.145Z",
+            "holder": "GammaOrg",
+            "usages": [
+              "party"
+            ]
+          },
+          "signedAt": "2026-11-10T05:52:51.145Z",
+          "algorithm": "ML-DSA-65",
+          "keyId": "909a01645680f4af6e5d547a3f821208bf2294e80f70aefd904a339f6f7172db",
+          "value": "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"
+        },
+        {
+          "roamingNetworkOperatorId": "OCC",
+          "signingKey": {
+            "@id": "9ce2a7d2fb0cfa3be5c1ecc4391e4d5e0a984cb53ac93255b60f8ef86617b777",
+            "key": "pAECIAEhWCDcnfD74ases35R9QwJ5oQ99ja0dHaPx9b4FDdV7YJcJSJYIBfvd64DktLznikV/fLJwtSFD9c0Iy+IwdcolZRtFhdt",
+            "notAfter": "2027-11-10T05:52:51.145Z",
+            "holder": "BetaOrg",
+            "usages": [
+              "party"
+            ]
+          },
+          "signedAt": "2026-11-10T05:52:51.145Z",
+          "algorithm": "Ed448",
+          "keyId": "827c5f6ea4cbcd1fbe8fd4609801ee109411d2b685b23f4541dbe9d5030b24fc",
+          "value": "kPKFLAgAN6s82BiUpoTbqa+J539Z0HM6kgmRKA7BXBRx4zB9wQfujmY1Afo+sj+Bom7/0AlX6NsAfLQubnUH588GyLvxKnX/Gyuop+4DAeTCtg0eW6xGmz0XTjZwnAPLUwVrVHKvVSimHe96ghQKnS0A"
+        }
+      ],
+      "identityKeys": [
+        {
+          "@id": "827c5f6ea4cbcd1fbe8fd4609801ee109411d2b685b23f4541dbe9d5030b24fc",
+          "key": "owEBIAchWDn1OEDzZrxv0Y4m5LOxgxG6bmYtU+LdYQCljqTIowmB6Mn0Y5zAQYUtfxUMmIFN/ERCyjK8ufDFoYA=",
+          "holder": "BetaOrg"
+        },
+        {
+          "@id": "909a01645680f4af6e5d547a3f821208bf2294e80f70aefd904a339f6f7172db",
+          "key": "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",
+          "holder": "GammaOrg"
+        },
+        {
+          "@id": "a366a4c67cb84992d9d781a9f39f80b07a09fd4fb7ac5aeb8ee9139979e294cb",
+          "key": "pAECIAMhWEIA54cwbo87GA8A9bGXicT34ApJPuwLSitzX2ykD3FkKFkxuJOSL6Vhyh0yDtGjRURQo3d/yRfpzPRisdfvRf1GvhEiWEIB2qhP6R706E52swxPsxTT+fxFdlXhueghfaxpyofm9b7AoPoWVf3g03YmAK8B5za9Cp0rjyOefaEh2f0BaOiGPNw=",
+          "holder": "AlphaOrg"
+        }
+      ],
+      "created": "2026-11-10T05:52:51.385Z",
+      "lastChange": "2026-11-10T05:52:51.385Z"
+    },
+    "chargingStationOperators": [
+      {
+        "@id": "DE*GEF",
+        "name": {
+          "en": "GraphDefined Charging Solutions"
+        },
+        "description": {
+          "en": "GraphDefined the first Charging Station Operator on the Open Charging Cloud"
+        },
+        "chargingTariffs": [
+          {
+            "@id": "DE*GEF*T_AC",
+            "name": {
+              "en": "AC charging"
+            },
+            "currency": "EUR",
+            "elements": [
+              {
+                "priceComponents": [
+                  {
+                    "type": "ENERGY",
+                    "price": 0.49,
+                    "stepSize": 1
+                  }
+                ]
+              }
+            ],
+            "created": "2026-11-10T05:53:02.907Z",
+            "lastChange": "2026-11-10T05:53:02.939Z"
+          },
+          {
+            "@id": "DE*GEF*T_DC",
+            "name": {
+              "en": "DC charging"
+            },
+            "currency": "EUR",
+            "elements": [
+              {
+                "priceComponents": [
+                  {
+                    "type": "ENERGY",
+                    "price": 0.69,
+                    "stepSize": 1
+                  }
+                ]
+              }
+            ],
+            "created": "2026-11-10T05:53:02.939Z",
+            "lastChange": "2026-11-10T05:53:02.939Z"
+          }
+        ],
+        "chargingPools": [
+          {
+            "@id": "DE*GEF*P1",
+            "name": {
+              "en": "Jena Paradies"
+            },
+            "geoLocation": {
+              "lat": 50.9271,
+              "lng": 11.5892
+            },
+            "chargingStations": [
+              {
+                "@id": "DE*GEF*S1",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E1*1",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "maxPower": 150000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M1*1",
+                      "serialNumber": "DCM-2026-001-1",
+                      "publicKeys": [
+                        {
+                          "@id": "60fbe31c3c7dea08f56922b6bc6180ba461b1aaf8bf68a8e07a545a79c1f380a",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEbm4eqnaNVr53yWHFybfKB12UZBI/OGy3Ho376Q429MXg+0mDX8v3T3dMATc6s94JJ8a1xw76iXfhTwHwrxwUSQ=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ],
+                      "created": "2026-11-10T05:52:54.204Z",
+                      "lastChange": "2026-11-10T05:52:54.204Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ],
+                    "created": "2026-11-10T05:52:54.204Z",
+                    "lastChange": "2026-11-10T05:52:54.204Z"
+                  },
+                  {
+                    "@id": "DE*GEF*E1*2",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "maxPower": 150000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M1*2",
+                      "serialNumber": "DCM-2026-001-2",
+                      "publicKeys": [
+                        {
+                          "@id": "5a4e7c63cc5ee03045b0313b7576aefcce0a29d53eb2f35fe9a92a5c66822752",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEYJZfaYrLvNUDntSCpGJIudLudjSW2O34FELRN+y3X1hOX9zU1IMa6KDU9r9nzHhOeaenqCSj+KW7M//H3jJNBw=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ],
+                      "created": "2026-11-10T05:52:54.206Z",
+                      "lastChange": "2026-11-10T05:52:54.206Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ],
+                    "created": "2026-11-10T05:52:54.207Z",
+                    "lastChange": "2026-11-10T05:52:54.207Z"
+                  }
+                ],
+                "templateIds": [
+                  "DE*GEF*ST_DC"
+                ],
+                "created": "2026-11-10T05:52:54.207Z",
+                "lastChange": "2026-11-10T05:52:54.207Z"
+              },
+              {
+                "@id": "DE*GEF*S2",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E2*1",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "maxPower": 22000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M2*1",
+                      "serialNumber": "ACM-2026-002-1",
+                      "publicKeys": [
+                        {
+                          "@id": "48147175de23a06da1485316a8807c0d5f5a5fea1950ea0e316b396dce6c2c79",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE2MV5AGrltLKYBL3X7N0slBDwMWhXLysfcCW8137s1WUxSlbaf2HTWFPIjUC/raQsMg5u7Gt1xvbmr4rckZDq7g=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ],
+                      "created": "2026-11-10T05:52:54.208Z",
+                      "lastChange": "2026-11-10T05:52:54.208Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ],
+                    "created": "2026-11-10T05:52:54.209Z",
+                    "lastChange": "2026-11-10T05:52:54.209Z"
+                  },
+                  {
+                    "@id": "DE*GEF*E2*2",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "maxPower": 22000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M2*2",
+                      "serialNumber": "ACM-2026-002-2",
+                      "publicKeys": [
+                        {
+                          "@id": "8932a308b8253b2226592e3112388082248583a45e4605a72ddee2a081afff7b",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE9kBrsP9Kbtz/JEjswgnLBXwjjpv6sdt5e6B/gj8upsj4xy7I2nedtXVfBeSmVpOWgUVa9U1OIPScAnFxQ3GEkQ=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ],
+                      "created": "2026-11-10T05:52:54.210Z",
+                      "lastChange": "2026-11-10T05:52:54.210Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ],
+                    "created": "2026-11-10T05:52:54.210Z",
+                    "lastChange": "2026-11-10T05:52:54.210Z"
+                  }
+                ],
+                "templateIds": [
+                  "DE*GEF*ST_AC"
+                ],
+                "created": "2026-11-10T05:52:54.210Z",
+                "lastChange": "2026-11-10T05:52:54.210Z"
+              }
+            ],
+            "created": "2026-11-10T05:52:54.210Z",
+            "lastChange": "2026-11-10T05:52:54.211Z"
+          },
+          {
+            "@id": "DE*GEF*P2",
+            "name": {
+              "en": "Jena Nord"
+            },
+            "geoLocation": {
+              "lat": 50.9447,
+              "lng": 11.5867
+            },
+            "chargingStations": [
+              {
+                "@id": "DE*GEF*S3",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E3*1",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "maxPower": 150000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M3*1",
+                      "serialNumber": "DCM-2026-003-1",
+                      "publicKeys": [
+                        {
+                          "@id": "17821dfb593002bcba5bf8e2d601aef74188f225fd200bbae5ca08b35114db2b",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE5LJGXkbo4CpI3ileM6IdyO2e97LQI1X2oOqKzQDIXOkup6fCNhGFe0Xl0pgSyLBtXg8a/D73sjMjlDzyVJCPbA=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ],
+                      "created": "2026-11-10T05:52:54.290Z",
+                      "lastChange": "2026-11-10T05:52:54.290Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ],
+                    "created": "2026-11-10T05:52:54.291Z",
+                    "lastChange": "2026-11-10T05:52:54.291Z"
+                  },
+                  {
+                    "@id": "DE*GEF*E3*2",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "maxPower": 150000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M3*2",
+                      "serialNumber": "DCM-2026-003-2",
+                      "publicKeys": [
+                        {
+                          "@id": "aee089c142eea7cdb0153b572d8e9c724d99c1ffd128e197a6505ad3efce906f",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEfQB/77NnuM5ar1rpiM/a5dknBLlFMtCKiFaQ/BRYBbEDQ0pZtuM8r3SSYsgnE1vDPbEzntcAXEXhjQ1Smhs9gg=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ],
+                      "created": "2026-11-10T05:52:54.293Z",
+                      "lastChange": "2026-11-10T05:52:54.293Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ],
+                    "created": "2026-11-10T05:52:54.293Z",
+                    "lastChange": "2026-11-10T05:52:54.293Z"
+                  }
+                ],
+                "templateIds": [
+                  "DE*GEF*ST_DC"
+                ],
+                "created": "2026-11-10T05:52:54.293Z",
+                "lastChange": "2026-11-10T05:52:54.293Z"
+              },
+              {
+                "@id": "DE*GEF*S4",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E4*1",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "maxPower": 22000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M4*1",
+                      "serialNumber": "ACM-2026-004-1",
+                      "publicKeys": [
+                        {
+                          "@id": "abbd5bf56af864892b4f02ae62ffcd268d86d38c1a23b898f58ef650e5a7ec89",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAETyJjfeJ7sOusTZlPgaJ0fiQ+4SxoAO+ztXG5Fj76eeMDb5eRjIykkec9K8J+yUsgJvyzgD4k3Q3ym23QsBAyZg=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ],
+                      "created": "2026-11-10T05:52:54.295Z",
+                      "lastChange": "2026-11-10T05:52:54.295Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ],
+                    "created": "2026-11-10T05:52:54.295Z",
+                    "lastChange": "2026-11-10T05:52:54.295Z"
+                  },
+                  {
+                    "@id": "DE*GEF*E4*2",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "maxPower": 22000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M4*2",
+                      "serialNumber": "ACM-2026-004-2",
+                      "publicKeys": [
+                        {
+                          "@id": "acaeb7c164d19e671f098ebed12f4eabff35dacd5310446017b9839b3e5698d9",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAExNfvhU03E8nlda+jPVWOYyjKo1iFyx58mNdYd65+plX6splgTSwMCygqpOoQhTeF8+4TDCRzNkyp0a0yMuUqfA=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ],
+                      "created": "2026-11-10T05:52:54.297Z",
+                      "lastChange": "2026-11-10T05:52:54.297Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ],
+                    "created": "2026-11-10T05:52:54.297Z",
+                    "lastChange": "2026-11-10T05:52:54.297Z"
+                  }
+                ],
+                "templateIds": [
+                  "DE*GEF*ST_AC"
+                ],
+                "created": "2026-11-10T05:52:54.297Z",
+                "lastChange": "2026-11-10T05:52:54.297Z"
+              }
+            ],
+            "created": "2026-11-10T05:52:54.298Z",
+            "lastChange": "2026-11-10T05:52:54.298Z"
+          },
+          {
+            "@id": "DE*GEF*P3",
+            "name": {
+              "en": "Jena Lobeda"
+            },
+            "geoLocation": {
+              "lat": 50.8858,
+              "lng": 11.6157
+            },
+            "chargingStations": [
+              {
+                "@id": "DE*GEF*S5",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E5*1",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "maxPower": 150000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M5*1",
+                      "serialNumber": "DCM-2026-005-1",
+                      "publicKeys": [
+                        {
+                          "@id": "e65b2f7391dfe018aa8124cf382b6620f2e83e4ef601911fe95fcb6ff895a73d",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEjfLrPgAvqtaetPv7z1UVTJ9Tx9LNkDZQl9Cr2vBBQRfuIvv3E//K1MGRHIPWHumLa6KE4C3ICZaPBhSCBtVjCQ=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ],
+                      "created": "2026-11-10T05:52:54.781Z",
+                      "lastChange": "2026-11-10T05:52:54.781Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ],
+                    "created": "2026-11-10T05:52:54.781Z",
+                    "lastChange": "2026-11-10T05:52:54.781Z"
+                  },
+                  {
+                    "@id": "DE*GEF*E5*2",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "maxPower": 150000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M5*2",
+                      "serialNumber": "DCM-2026-005-2",
+                      "publicKeys": [
+                        {
+                          "@id": "9822ca96d3ffdf552b5a1a45fd685fac07b0cd112a5459a7020507df8987e7ca",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEb1e9Oa8yQNUm02LuwGkwmj6anqOp1bnJsqgGsCD0CnA+ZZARbt/9ySYehHe183QNM6tPSRf7vAhyHfECP9VZDw=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ],
+                      "created": "2026-11-10T05:52:54.783Z",
+                      "lastChange": "2026-11-10T05:52:54.783Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ],
+                    "created": "2026-11-10T05:52:54.783Z",
+                    "lastChange": "2026-11-10T05:52:54.783Z"
+                  }
+                ],
+                "templateIds": [
+                  "DE*GEF*ST_DC"
+                ],
+                "created": "2026-11-10T05:52:54.783Z",
+                "lastChange": "2026-11-10T05:52:54.783Z"
+              },
+              {
+                "@id": "DE*GEF*S6",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E6*1",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "maxPower": 11000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M6*1",
+                      "serialNumber": "ACM-2026-006-1",
+                      "publicKeys": [
+                        {
+                          "@id": "201c0e55b496d888e5f1ad28c51dd78f878c33b2c297cd4b98fcf8d6bde70086",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEx8UNglp9IhKjcEwqbnVfb1Bk5EtUwqVZZTcQ95n4ZMumky9F1JLZ1RPh5csGJek1//l8LPQrxMu3QGGu4JEFTQ=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ],
+                      "created": "2026-11-10T05:52:54.785Z",
+                      "lastChange": "2026-11-10T05:52:54.785Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ],
+                    "created": "2026-11-10T05:52:54.786Z",
+                    "lastChange": "2026-11-10T05:52:55.571Z"
+                  },
+                  {
+                    "@id": "DE*GEF*E6*2",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "maxPower": 11000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M6*2",
+                      "serialNumber": "ACM-2026-006-2",
+                      "publicKeys": [
+                        {
+                          "@id": "0921409002c148a9d37af8fdeb925a70ebfef0d5dbb6d39f9466c7295d988ac6",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEqpzbHEz3sCWYsQz+YSVPvytNxXTmr73EDBzoBHVydtpLOhlRm6GH4nSiiupEMH4l4CojyIGRJiZZciVgRybSNQ=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ],
+                      "created": "2026-11-10T05:52:54.788Z",
+                      "lastChange": "2026-11-10T05:52:54.788Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ],
+                    "created": "2026-11-10T05:52:54.788Z",
+                    "lastChange": "2026-11-10T05:52:55.571Z"
+                  }
+                ],
+                "maxPower": 22000,
+                "templateIds": [
+                  "DE*GEF*ST_AC"
+                ],
+                "created": "2026-11-10T05:52:54.788Z",
+                "lastChange": "2026-11-10T05:52:55.571Z"
+              }
+            ],
+            "created": "2026-11-10T05:52:54.789Z",
+            "lastChange": "2026-11-10T05:52:55.571Z"
+          },
+          {
+            "@id": "DE*GEF*P4",
+            "name": {
+              "en": "Jena Winzerla"
+            },
+            "geoLocation": {
+              "lat": 50.9105,
+              "lng": 11.5555
+            },
+            "chargingStations": [
+              {
+                "@id": "DE*GEF*S7",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E7*1",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "maxPower": 150000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M7*1",
+                      "serialNumber": "DCM-2026-007-1",
+                      "publicKeys": [
+                        {
+                          "@id": "bc4f361a97d8b157b7f0a10a5b7ec8163ca5c2272ee6fb2c23c273ecf5774ff8",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAElJfSQYWFjMU/DbTQFB31NL83c8CLVzBW9KwOZpNxaHvzwJwaCWAjJ1hobywqQhZb6EmjTC2u31C0yjnv3Mea6Q=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ],
+                      "created": "2026-11-10T05:52:54.873Z",
+                      "lastChange": "2026-11-10T05:52:54.873Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ],
+                    "created": "2026-11-10T05:52:54.874Z",
+                    "lastChange": "2026-11-10T05:52:54.874Z"
+                  },
+                  {
+                    "@id": "DE*GEF*E7*2",
+                    "currentTypes": [
+                      "DC"
+                    ],
+                    "maxPower": 150000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M7*2",
+                      "serialNumber": "DCM-2026-007-2",
+                      "publicKeys": [
+                        {
+                          "@id": "5c2f522918590777f64fa7b5258d97edfaec4de59c73f1875e509e1ae84c480d",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE7tytIMTxxIGU4O1itqPgYvf7B4RBWMB4hrjJuRjcAgVnIx1JhqE6z9OZq0MMWLixLRUA8zX6r1IyKqy37PpSXA=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_DC"
+                      ],
+                      "created": "2026-11-10T05:52:54.876Z",
+                      "lastChange": "2026-11-10T05:52:54.876Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_DC"
+                    ],
+                    "created": "2026-11-10T05:52:54.876Z",
+                    "lastChange": "2026-11-10T05:52:54.876Z"
+                  }
+                ],
+                "templateIds": [
+                  "DE*GEF*ST_DC"
+                ],
+                "created": "2026-11-10T05:52:54.876Z",
+                "lastChange": "2026-11-10T05:52:54.876Z"
+              },
+              {
+                "@id": "DE*GEF*S8",
+                "EVSEs": [
+                  {
+                    "@id": "DE*GEF*E8*1",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "maxPower": 11000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M8*1",
+                      "serialNumber": "ACM-2026-008-1",
+                      "publicKeys": [
+                        {
+                          "@id": "3b9c90647f634c1f621568dc6aab767e6097876c6d42b470f9540cca3797025f",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEvhlZHKT0/enYob7XVlv5Va2UjT05NmGzoT09ibzkJSLBlVL1KjLbtXnmlMzxlBsjp76QJs5bEi+lrh+yZg7Dgg=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ],
+                      "created": "2026-11-10T05:52:54.878Z",
+                      "lastChange": "2026-11-10T05:52:54.878Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ],
+                    "created": "2026-11-10T05:52:54.878Z",
+                    "lastChange": "2026-11-10T05:52:55.571Z"
+                  },
+                  {
+                    "@id": "DE*GEF*E8*2",
+                    "currentTypes": [
+                      "AC_ThreePhases"
+                    ],
+                    "maxPower": 11000,
+                    "energyMeter": {
+                      "@id": "DE*GEF*M8*2",
+                      "serialNumber": "ACM-2026-008-2",
+                      "publicKeys": [
+                        {
+                          "@id": "d9bd3781de732e1b85768440af13367b9a117b8e7dcb696905051e90b12baf46",
+                          "key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEGttHScJ1+7JvDjxoupM1xbwUX1vgvg2Gr2C8pnc2dd3rZ3Gh1ih+nMP0N3jpC9dY9uszaHcZYyH1z65PCR/8vw=="
+                        }
+                      ],
+                      "templateIds": [
+                        "DE*GEF*EMT_AC"
+                      ],
+                      "created": "2026-11-10T05:52:54.880Z",
+                      "lastChange": "2026-11-10T05:52:54.880Z"
+                    },
+                    "templateIds": [
+                      "DE*GEF*ET_AC"
+                    ],
+                    "created": "2026-11-10T05:52:54.880Z",
+                    "lastChange": "2026-11-10T05:52:55.571Z"
+                  }
+                ],
+                "maxPower": 22000,
+                "templateIds": [
+                  "DE*GEF*ST_AC"
+                ],
+                "created": "2026-11-10T05:52:54.881Z",
+                "lastChange": "2026-11-10T05:52:55.571Z"
+              }
+            ],
+            "created": "2026-11-10T05:52:54.881Z",
+            "lastChange": "2026-11-10T05:52:55.571Z"
+          }
+        ],
+        "EVSETemplates": [
+          {
+            "@id": "DE*GEF*ET_AC",
+            "name": {
+              "en": "AC EVSE"
+            },
+            "chargingTariffId": "DE*GEF*T_AC",
+            "chargingConnectors": [
+              {
+                "@id": "1",
+                "type": "IEC_62196_T2",
+                "format": "SOCKET"
+              }
+            ],
+            "created": "2026-11-10T05:52:53.520Z",
+            "lastChange": "2026-11-10T05:53:03.015Z"
+          },
+          {
+            "@id": "DE*GEF*ET_DC",
+            "name": {
+              "en": "DC EVSE"
+            },
+            "chargingTariffId": "DE*GEF*T_DC",
+            "chargingConnectors": [
+              {
+                "@id": "1",
+                "type": "IEC_62196_T2_COMBO",
+                "format": "CABLE"
+              }
+            ],
+            "created": "2026-11-10T05:52:53.510Z",
+            "lastChange": "2026-11-10T05:53:03.015Z"
+          }
+        ],
+        "chargingStationTemplates": [
+          {
+            "@id": "DE*GEF*ST_AC",
+            "name": {
+              "en": "AC charging station"
+            },
+            "manufacturerId": "GraphDefined",
+            "modelId": "GD-AC44",
+            "hardwareRevision": "1.0",
+            "firmwareVersion": "1.8.2",
+            "maxPower": 44000,
+            "created": "2026-11-10T05:52:53.503Z",
+            "lastChange": "2026-11-10T05:52:53.524Z"
+          },
+          {
+            "@id": "DE*GEF*ST_DC",
+            "name": {
+              "en": "DC charging station"
+            },
+            "manufacturerId": "GraphDefined",
+            "modelId": "GD-DC300",
+            "hardwareRevision": "1.0",
+            "firmwareVersion": "2.5.0",
+            "maxPower": 300000,
+            "created": "2026-11-10T05:52:53.484Z",
+            "lastChange": "2026-11-10T05:52:53.524Z"
+          }
+        ],
+        "energyMeterTemplates": [
+          {
+            "@id": "DE*GEF*EMT_AC",
+            "name": {
+              "en": "AC energy meter"
+            },
+            "role": "evse",
+            "manufacturerId": "SAALE",
+            "modelId": "SM-3",
+            "hardwareRevision": "1.4",
+            "firmwareVersion": "1.0.7",
+            "signatureMethods": [
+              "OCMF"
+            ],
+            "created": "2026-11-10T05:52:53.523Z",
+            "lastChange": "2026-11-10T05:52:53.524Z"
+          },
+          {
+            "@id": "DE*GEF*EMT_DC",
+            "name": {
+              "en": "DC energy meter"
+            },
+            "role": "evse",
+            "manufacturerId": "KERNBERG",
+            "modelId": "KDM-500",
+            "hardwareRevision": "2.1",
+            "firmwareVersion": "3.2",
+            "signatureMethods": [
+              "OCMF"
+            ],
+            "created": "2026-11-10T05:52:53.521Z",
+            "lastChange": "2026-11-10T05:52:53.524Z"
+          }
+        ],
+        "EVSEGroups": [
+          {
+            "@id": "DE*GEF*EG_AC",
+            "name": {
+              "en": "AC EVSEs"
+            },
+            "EVSEIds": [
+              "DE*GEF*E2*1",
+              "DE*GEF*E2*2",
+              "DE*GEF*E4*1",
+              "DE*GEF*E4*2"
+            ],
+            "created": "2026-11-10T05:52:54.502Z",
+            "lastChange": "2026-11-10T05:52:54.502Z"
+          },
+          {
+            "@id": "DE*GEF*EG_DC",
+            "name": {
+              "en": "DC EVSEs"
+            },
+            "EVSEIds": [
+              "DE*GEF*E1*1",
+              "DE*GEF*E1*2",
+              "DE*GEF*E3*1",
+              "DE*GEF*E3*2"
+            ],
+            "created": "2026-11-10T05:52:54.469Z",
+            "lastChange": "2026-11-10T05:52:54.502Z"
+          }
+        ],
+        "chargingStationGroups": [
+          {
+            "@id": "DE*GEF*SG_AC",
+            "name": {
+              "en": "AC charging stations"
+            },
+            "chargingStationIds": [
+              "DE*GEF*S2",
+              "DE*GEF*S4"
+            ],
+            "created": "2026-11-10T05:52:54.404Z",
+            "lastChange": "2026-11-10T05:52:54.404Z"
+          },
+          {
+            "@id": "DE*GEF*SG_DC",
+            "name": {
+              "en": "DC charging stations"
+            },
+            "chargingStationIds": [
+              "DE*GEF*S1",
+              "DE*GEF*S3"
+            ],
+            "created": "2026-11-10T05:52:54.370Z",
+            "lastChange": "2026-11-10T05:52:54.404Z"
+          }
+        ],
+        "signingKeys": [
+          {
+            "@id": "b2d92515efb37b6e4323fb11b8a8c0b5654175392a95fe47ca35b577eba56564",
+            "key": "pAECIAEhWCCr/oEfLzZoc8LPynNemyTxoAKGBa/C3Hzz12GQGczB6yJYICZ/MX4C1cpquXSRXCb01tFxMcYFESryKB+L99+Xpm66",
+            "notAfter": "2027-11-10T05:52:52.061Z",
+            "usages": [
+              "priceStatements",
+              "tariffs"
+            ]
+          },
+          {
+            "@id": "e04301269977cef645bae8c0296538b54ac1529edc293e32ecf40df5da99e250",
+            "key": "pAECIAEhWCAGZB7I3fLV0qdFISUCuxzFhPpVz76XhrnHxcccYm9EDCJYIITIAxC9ZJCZOvoL+/Ee/gfYOVSB11lwFa3HUn41gn6q",
+            "notAfter": "2027-11-10T05:52:52.061Z",
+            "usages": [
+              "party"
+            ]
+          },
+          {
+            "@id": "f85b442e685345453d8f383d5706331e4b82f56015220fde087b2917cf5cfa9c",
+            "key": "pAECIAEhWCBA32ajlHGOEwV+xi20lC16uxIwDG86emEf8fM0LQCtRyJYIPBTBSmXhY8jruOVUBQIleFbeRfPGgDrcLhEyt3OKoko",
+            "notAfter": "2027-11-10T05:52:52.061Z",
+            "usages": [
+              "infrastructure"
+            ]
+          }
+        ],
+        "identityKeys": [
+          {
+            "@id": "39cf5fde752c83e1ba18456997222aa711e1adb7f23f8b43306eabfeec77ace1",
+            "key": "pAECIAMhWEIBih3QcB53GNHzT1vv9bKhOZYi1TChZypZjFFU4INzGsYyYb8cZkuBQaggNu0fHTbOvMKCi3Hq+9RZpILuQ76GI3QiWEIBVWLvJY7qorbAOJ1zNbxMBcjR5ouioxpHVJ6LXL6LG1KCszMjj6d8t9j889Lx1+jdPdNJi00YoKLwN1wFy4nYxn0="
+          },
+          {
+            "@id": "9048c8c50acfd782f6e2e2b56bef656035f8638daed435c754e36535869faa1d",
+            "key": "owEBIAchWDkURAeqFORKjhdjLuVeUAljuI4bUGhY/XN9JwwwOCxnLFMa9joBsPC+v+TAYUHlBYeuP1Ewlkw9a4A="
+          }
+        ],
+        "created": "2026-11-10T05:52:52.230Z",
+        "lastChange": "2026-11-10T05:53:03.015Z"
+      }
+    ],
+    "chargingStationManufacturers": [
+      {
+        "@id": "GraphDefined",
+        "name": {
+          "en": "GraphDefined Charging Stations"
+        },
+        "homepage": "https://stations.graphdefined.example",
+        "chargingStationModels": [
+          {
+            "@id": "GD-AC44",
+            "name": {
+              "en": "GraphDefined AC 44"
+            },
+            "hardwareRevisions": [
+              "1.0"
+            ],
+            "firmwareVersions": [
+              "1.8.2"
+            ],
+            "datasheetURL": "https://stations.graphdefined.example/gd-ac44/datasheet.pdf",
+            "maxPower": 44000,
+            "currentTypes": [
+              "AC_ThreePhases"
+            ],
+            "connectorTypes": [
+              "IEC_62196_T2"
+            ],
+            "numberOfEVSEs": 2
+          },
+          {
+            "@id": "GD-DC300",
+            "name": {
+              "en": "GraphDefined DC 300"
+            },
+            "hardwareRevisions": [
+              "1.0",
+              "1.1"
+            ],
+            "firmwareVersions": [
+              "2.4.0",
+              "2.5.0"
+            ],
+            "datasheetURL": "https://stations.graphdefined.example/gd-dc300/datasheet.pdf",
+            "maxPower": 300000,
+            "currentTypes": [
+              "DC"
+            ],
+            "connectorTypes": [
+              "IEC_62196_T2_COMBO"
+            ],
+            "numberOfEVSEs": 2
+          }
+        ],
+        "signingKeys": [
+          {
+            "@id": "4330a97afb26adf97404137fae31193e9491e2a371bfa016b0e8dd6958359f10",
+            "key": "pAECIAEhWCAqS/tVtPPiDwb5StbcloQ/F3OeJa/DlUz+bE90T1XgGyJYILyc5InXCZSlHoYyqWtOAw9fnwoKHkzfo/h7buHJSfP7",
+            "notAfter": "2027-11-10T05:52:52.061Z",
+            "usages": [
+              "models"
+            ]
+          },
+          {
+            "@id": "86348caee39f458e11efdd922eacea3995b39cafac9fc90b6a4dc77fca9b8ca5",
+            "key": "pAECIAEhWCDuIDtvzqps9WD0JoXmYqOOmxmgGPErFiQ0tnNKEBNGhyJYIB0BcniybtcthbbYSbk/qz1c40NSiemPCre0TYLXIM/m",
+            "notAfter": "2027-11-10T05:52:52.061Z",
+            "usages": [
+              "party"
+            ]
+          }
+        ],
+        "identityKeys": [
+          {
+            "@id": "b5099a2f8562bde39d2687c62a66e48b852b301b6f4f55f688f89aaae3649cb3",
+            "key": "pAECIAMhWEIAOfFu3SbxKVwqk7sVlk+kCmgtGv40RyMc76c3iB+cDru1a/Z7qlsT0eg6eFzc4j0syQ+SJsfsROayzlI/BGSKwpMiWEIBQkl22unTNata8PcEyu4PMDDocMTnpPCtq+VPRge0y6rYvbrXCGASzrK6g6pRGmz4dEm423M9R/iQ5x7FXiii6t8="
+          }
+        ],
+        "created": "2026-11-10T05:52:52.552Z",
+        "lastChange": "2026-11-10T05:52:53.205Z"
+      }
+    ],
+    "energyMeterManufacturers": [
+      {
+        "@id": "KERNBERG",
+        "name": {
+          "en": "Kernberg DC Metering"
+        },
+        "description": {
+          "en": "Calibrated DC energy meters"
+        },
+        "homepage": "https://kernberg-metering.example",
+        "energyMeterModels": [
+          {
+            "@id": "KDM-500",
+            "name": {
+              "en": "Kernberg DC meter 500 A"
+            },
+            "hardwareRevisions": [
+              "2.1"
+            ],
+            "firmwareVersions": [
+              "3.2"
+            ],
+            "currentTypes": [
+              "DC"
+            ],
+            "maxCurrent": 500,
+            "accuracyClass": "B",
+            "measurands": [
+              "1-0:1.8.0",
+              "1-0:2.8.0"
+            ],
+            "signatureMethods": [
+              "OCMF"
+            ]
+          }
+        ],
+        "signingKeys": [
+          {
+            "@id": "b111798c6417d815f690bf450018d88d279fc286e90cffd0f422be1337a20e0b",
+            "key": "pAECIAEhWCD5TBcTV7la4zDQU5klDJ50eEY0eBeg1QIA4xfwIxtViyJYIPzN+7Opgw/Op4bxAEvfDxceJvTXsbFe887aNsds0dtb",
+            "notAfter": "2027-11-10T05:52:52.061Z",
+            "usages": [
+              "party"
+            ]
+          },
+          {
+            "@id": "cf4980811d384f6937b0cbfd1d886667f3f849109d2011f1387f2c81174c65a1",
+            "key": "pAECIAEhWCAlZe5clmDrtcSB3GuK8wBrkl7wwiU2OcCJyEW5kcUQPSJYIE1kxqpfN4FH0SGANs3yW/XoMBxahemFd56NpENMnAIY",
+            "notAfter": "2027-11-10T05:52:52.061Z",
+            "usages": [
+              "models"
+            ]
+          }
+        ],
+        "identityKeys": [
+          {
+            "@id": "e2a6ea52ded6f9bbf2ddd7cc3cc20dd60b3af41c1c357be247f07987fd832d7e",
+            "key": "pAECIAMhWEIBjAGTFkzpyM/YrekyblP0dSg22nouQfQeMlU5ND71fKNO/6T/Io5KtYQQ7y3E1Pfq3gR9lZxOp+hRlyVolXeVwWAiWEIBPUjjP87LQ1kZOZocVckkwUck/oFJW/WDOg17tHvV9ZJFLCoisxm5/RvaUTz+B5u9aGij70f8mbSzKdqU5lSEVOc="
+          }
+        ],
+        "created": "2026-11-10T05:52:52.704Z",
+        "lastChange": "2026-11-10T05:52:53.205Z"
+      },
+      {
+        "@id": "SAALE",
+        "name": {
+          "en": "Saale Metering"
+        },
+        "description": {
+          "en": "Calibrated AC energy meters"
+        },
+        "homepage": "https://saale-metering.example",
+        "energyMeterModels": [
+          {
+            "@id": "SM-3",
+            "name": {
+              "en": "Saale three-phase meter"
+            },
+            "hardwareRevisions": [
+              "1.4"
+            ],
+            "firmwareVersions": [
+              "1.0.7"
+            ],
+            "currentTypes": [
+              "AC_ThreePhases"
+            ],
+            "maxCurrent": 63,
+            "accuracyClass": "B",
+            "measurands": [
+              "1-0:1.8.0"
+            ],
+            "signatureMethods": [
+              "OCMF"
+            ]
+          }
+        ],
+        "signingKeys": [
+          {
+            "@id": "4873e9e891de9554422378b3b7f8b6ae3ae7afa11464b74a9856dbb6471777e9",
+            "key": "pAECIAEhWCC4Uz2hnJmbZR7QEMcuamN37owESrARSC4+KfFeLWnhhSJYII773YCuJCjRkir+AXRVSIKm1Sv7Brj4CJgCIKSQyhV/",
+            "notAfter": "2027-11-10T05:52:52.061Z",
+            "usages": [
+              "party"
+            ]
+          },
+          {
+            "@id": "fe1ca59e64b3a41408dab411e35e41d4b92d7450046dcbb493cca313ade5a5f4",
+            "key": "pAECIAEhWCCprsvR4CSfqqz0CKZuhKGwDhcuCBzqVUPsgu0l+Dpm9CJYIEY6d33pMOua2l0XM7FMB2pxwLOf/9eCfq4r2t803s+a",
+            "notAfter": "2027-11-10T05:52:52.061Z",
+            "usages": [
+              "models"
+            ]
+          }
+        ],
+        "identityKeys": [
+          {
+            "@id": "9f2a5f4c37c2c802a61016cc8d6625dc5252d88957cb14171ad3fe8ace4eaeea",
+            "key": "pAECIAMhWEIADpCf7frRmkpStP/qtz2NV/R/Ig7d0h02glgpBGn4NSVt2Ir80Z+ghde7IXK0+kIBEl+oGV6cZnQv3aj79AkmgpkiWEIAuFbl1dzXBamE5r7mKmnSGVN5Y6hWGzk6dcNau+D3K5pjrvCcwrKxHf7YYHdIXOyCNSYQEcWuO5HbFYTC4+vR0B4="
+          }
+        ],
+        "created": "2026-11-10T05:52:52.630Z",
+        "lastChange": "2026-11-10T05:52:53.205Z"
+      }
+    ],
+    "created": "2026-11-10T05:52:51.451Z",
+    "lastChange": "2026-11-10T05:53:03.015Z",
+    "eTags": [
+      [
+        "json",
+        "sha256",
+        "base64",
+        "AdUxaJTZGATpiu8sdNF8Xb+a0/dVYoTmK7jNCQvgOv8="
+      ],
+      [
+        "cbor",
+        "sha256",
+        "base64",
+        "MYC13otc6tFcgrTRHnF96ooNLVD8bIf1amq2r7ZhTMU="
+      ],
+      [
+        "effectiveTree",
+        "sha256",
+        "base64",
+        "LoX4/LwJTjJwweS0pLE6F+tsCUtA5idPJh+rLB/S2QU="
+      ]
+    ]
+  },
+  "effectiveLastChanges": [
+    {
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E1*1",
+      "lastChange": "2026-11-10T05:53:03.015Z"
+    },
+    {
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E1*2",
+      "lastChange": "2026-11-10T05:53:03.015Z"
+    },
+    {
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E3*1",
+      "lastChange": "2026-11-10T05:53:03.015Z"
+    },
+    {
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E3*2",
+      "lastChange": "2026-11-10T05:53:03.015Z"
+    },
+    {
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E5*1",
+      "lastChange": "2026-11-10T05:53:03.015Z"
+    },
+    {
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E5*2",
+      "lastChange": "2026-11-10T05:53:03.015Z"
+    },
+    {
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E7*1",
+      "lastChange": "2026-11-10T05:53:03.015Z"
+    },
+    {
+      "entityType": "EVSE",
+      "entityId": "DE*GEF*E7*2",
+      "lastChange": "2026-11-10T05:53:03.015Z"
+    }
+  ],
+  "checkpoint": {
+    "@id": "2e09e93e8213a91a25a847f5680b7d97dc0d61684870ba8e53690165a8e13154",
+    "roamingNetworkId": "QA",
+    "epoch": 1,
+    "sequence": 3,
+    "previousId": "2a74f739c38cd1ab3a43b8861153aae88fbdcb4971410fe6cbd3109bdbc3a02d",
+    "commitId": "a05d771ba8c0b6a9fa724ebdf3c49a77078f50aac9c2f2fa462bdf582e118723",
+    "revision": 12,
+    "eTags": [
+      [
+        "json",
+        "sha256",
+        "hex",
+        "01d5316894d91804e98aef2c74d17c5dbf9ad3f7556284e62bb8cd090be03aff"
+      ],
+      [
+        "cbor",
+        "sha256",
+        "hex",
+        "3180b5de8b5cead15c82b4d11e717dea8a0d2d50fc6c87f56a6ab6afb6614cc5"
+      ],
+      [
+        "effectiveTree",
+        "sha256",
+        "hex",
+        "2e85f8fcbc094e3270c1e4b4a4b13a17eb6c094b40e6274f261fab2c1fd2d905"
+      ]
+    ],
+    "commits": {
+      "@merkleRoot": "851afac0607ae306b68c42bb6856d2e3a42bdcbda7c1b6aa58df7bfe0944cff9",
+      "@size": 2
+    },
+    "createdAt": "2026-11-10T05:53:03.085Z",
+    "signatures": [
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-10T05:53:03.085Z",
+        "algorithm": "ES256",
+        "keyId": "1f4c125b0d1fe3a60274787b399bd2d0f2ebcade9ad552acdde008389c8a65c8",
+        "value": "laTMwxGyw2Y81TC5qKBPdE+T92YZlLAgqFsjogU3eucMuaQavx/Ig5Zh0plcHVO6zzgq1lzvJVCJIm8gdfrL3A=="
+      },
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-10T05:53:03.088Z",
+        "algorithm": "ES256",
+        "keyId": "9ce2a7d2fb0cfa3be5c1ecc4391e4d5e0a984cb53ac93255b60f8ef86617b777",
+        "value": "IyIIq40+OqPfAYlRCkbh1Ve8vuVbv+9ysCxhpUltY30kjMU5LkRC8dAZaDIDj2duyxPtMOuF0hk238Jsf1rGxQ=="
+      },
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-10T05:53:03.091Z",
+        "algorithm": "ES256",
+        "keyId": "2dda2fffcdfbfafaaa7e0245cb008488ad5e910b3f5a7f00a27d8a3df4cde2dc",
+        "value": "0ZI7i9W7to8lCDZ9CWsV570YF3/AP1CSAPPJMe6QEma+677J2qJx64gLj2yQOuP3SS5gmaJwDMKoXPoqUKJulw=="
+      },
+      {
+        "role": "witness",
+        "signer": "calibration.example",
+        "signedAt": "2026-11-10T05:53:03.790Z",
+        "algorithm": "Ed25519",
+        "keyId": "9df73b40e06d050259b3fa28365d80b6f72f0e30977db98e1a69b1dfc0d30c91",
+        "value": "Ih2w/1Wh+ZwSks5vhEaRu3DYFAOird918EUa+fbKp30GqIuO9NFyWx4YUodJzqI8z7jx5t0lMF6sGNYWir/wCQ=="
+      },
+      {
+        "role": "witness",
+        "signer": "association.example",
+        "signedAt": "2026-11-10T05:53:03.979Z",
+        "algorithm": "ES384",
+        "keyId": "61caa7cc867743e139e2cfd45c045f0863bd583557a09919863547fa14a12065",
+        "value": "k2sgYxHUM85jNMMsNizycdX4MLdOtQIxN+Yp+EEFZMJ7GtBnmeWHVG6hxiTZZuZgAm3AOi3xbwAd4YRG7VZVgb6ApgdlO2/yUhA/DOo3yiRB64047+oJfhF39xrUtmhz"
+      }
+    ]
+  }
+}

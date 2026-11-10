@@ -15,7 +15,7 @@ with `node:crypto` alone mismatches. `--check` is the drift guard of CI. The fil
 | `poi-encodings.json` | RFC 4648, RFC 9285 | `base64`/`base64Invalid`: canonical Base64 as POI reads keys and signature values; `base45`/`base45Invalid`: Base45, as the QR code of a trust anchor holds its CBOR. |
 | `poi-specification.json` | SPECIFICATION.md section 6, every value verbatim; section 2 for custom data | `contents` (content, ETags; also the content of section 6 with custom data, held as given, its ETags calculated by the generator), `skeletons` (skeleton, digest), `commits` (commit, content, identification), `keys` (COSE key, thumbprint), `signatures` (input, value, key, private seed) and `invalidSignatures`, `priceStatements` (statement, digest), `trustAnchors` (JSON, QR code). |
 | `poi-trust.json` | SPECIFICATION.md sections 8.4 to 8.6 | `stationProofs`: proofs of the example network of section 6, its operator holding the quorum of section 6, signed with its Ed25519 keys: trust anchor and proof (JSON text), the time `at`, the `root` the proof leads to, and `expected` `accepted` or `refused`. |
-| `poi-history.json` | `runs/csharp-045e180`, the frozen run | Documents of the run and what an implementation must calculate of them: `versions` (ETags), `commits`, `checkpoints` (identifications and fields), `checkpointProofs`, `priceStatements` (digests, chains), `trustAnchors`, `stationProofs` (root, verified against the trust anchor at `at`), `replays` (the history commit by commit). |
+| `poi-history.json` | `runs/csharp-c4c3c5a`, the frozen run | Documents of the run and what an implementation must calculate of them: `versions` (ETags), `commits`, `checkpoints` (identifications and fields), `checkpointProofs`, `priceStatements` (digests, chains), `trustAnchors`, `stationProofs` (root, verified against the trust anchor at `at`), `replays` (the history commit by commit). |
 | `poi-refusals.json` | the frozen run; SPECIFICATION.md | `vectors`: a document of the run with a JSON patch applied, checked at another time, against another trust anchor or checkpoint, or a text: each must be refused. |
 | `poi-histories.json` | SPECIFICATION.md sections 4, 5, 8.5, 10 and 11; histories the generator signs | `histories`: small histories of the roaming network `rn1` of section 6, made and signed by the generator, their documents as JSON text. `replays`: a history taken step by step, `accepted`, or its last step `refused`, with its `control`. `anchoredSnapshots`: a history started from a snapshot of another server, of the head or of a checkpoint, only anchored in the trust anchor at `at` (10.5, Anchored), with its `control`. |
 | `poi-qidigital.json` | example A14 of WWCP_POI and `WWCP_POI3/RoamingNetwork/QIDigital`; the frozen run | `vectors`: the QI-Digital documents example A14 published - two digital certificates of conformity, a declaration of conformity, a calibration certificate - each checked as example A14 checks it, against QA (`verify`), against a certificate it names (`certificate`) or covering a meter (`cover`), `accepted` or `refused` with its `control`. |
@@ -23,9 +23,12 @@ with `node:crypto` alone mismatches. `--check` is the drift guard of CI. The fil
 
 ## The frozen run
 
-`runs/csharp-045e180/` is what one run of the C# examples A1 to A15 of WWCP_POI at commit `045e180` published (public
+`runs/csharp-c4c3c5a/` is what one run of the C# examples A1 to A16 of WWCP_POI at commit `c4c3c5a` published (public
 data only; its console output is `csharp-output.log`), and in `proofs/`, what `proofs/MakeProofs.cs.txt` made of the
-same history with the C# implementation, at `at`. It replaces `csharp-33447ac`, since `045e180` identifies a
+same history with the C# implementation, at `at`. It replaces `csharp-045e180`, since example A16 charges a session
+of DE*GEF*E1*1 by EV Taler in two steps (`driver/evidence-DE_GEF_E1_1-evTaler.json`: its station proof, no
+checkpoints, and a price statement, whose digest `poi-history.json` calculates); the head of epoch 2 stays revision
+11. `csharp-045e180` had replaced `csharp-33447ac`, since `045e180` identifies a
 transparency software release under its manufacturer and a certificate under the body issuing it
 (`GraphDefined:chargy-1.5.0`, `PTB:2026-0017`, `PTB:2026-0042`; POI3-ISSUES.md S36), which a version of
 `csharp-33447ac` is refused for, and example A15 gives DE*GEF its EV Taler merchant
