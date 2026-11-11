@@ -117,7 +117,11 @@
         "evtaler-offers-infrastructure": "{\"@id\":\"558b651a968d0d995401289cc4b54434d3755e8d338a643036b204dcd8717eac\",\"changeSet\":{\"@id\":\"97b29c87816e8e27d1cab02e95530ae1d54b35de91719b0d2898f9b635f8ffe7\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"41031728fb6a9b57fb2b95d52cd1de6158c773b618ffb7bd83f3340c1ebbe06c\"],[\"cbor\",\"sha256\",\"hex\",\"371abe362637e5291048708b3fdee6589953acf211815186479d4498dd5966c6\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"exchanges\":[{\"baseURL\":\"https://exchange.example.eu/\",\"currency\":\"EUR\",\"masterPublicKey\":\"F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0\",\"name\":{\"en\":\"Example Exchange\"}}],\"merchantBaseURL\":\"https://taler.gef.example/instances/de-gef/\",\"merchantPublicKey\":\"ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G\",\"offersURL\":\"https://poi.gef.example/RNs/QA/\"},\"oldValue\":{\"exchanges\":[{\"baseURL\":\"https://exchange.example.eu/\",\"currency\":\"EUR\",\"masterPublicKey\":\"F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0\",\"name\":{\"en\":\"Example Exchange\"}}],\"merchantBaseURL\":\"https://taler.gef.example/instances/de-gef/\",\"merchantPublicKey\":\"ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G\"},\"propertyName\":\"evTaler\"}],\"createdAt\":\"2026-10-18T08:24:00.000Z\",\"description\":{\"en\":\"DE*GEF names its EV Taler merchant, where drivers ask for offers\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"e194729a0a40c8209a84e21f92fd6fda9445acd825fd87f743be3abe7a7b57bd\",\"value\":\"gFiYKh3H3Eg3AZ9CYYymb4Cv0F2ts17a470Cg52OBRhI3To7FfyOzCQ8QFcIUpsL1BX8Q73WpMkAD7tDm66ABQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"41031728fb6a9b57fb2b95d52cd1de6158c773b618ffb7bd83f3340c1ebbe06c\"],[\"cbor\",\"sha256\",\"hex\",\"371abe362637e5291048708b3fdee6589953acf211815186479d4498dd5966c6\"],[\"effectiveTree\",\"sha256\",\"hex\",\"5ed22c4bc8063c81b939e730762f064b22caf14dacad429462735b9667d9e53e\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:24:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"atfPuTIYtHhuq0W6Brmo9WVetSwtaLsJN1hZ9FN9UkQNCN6ZQmtHNoKAWEw5blpum79pn9Eq0CPgk/sSYEL0AQ==\"}]}",
         "preconditions-held": "{\"@id\":\"d54e023c7d79432f38055884548be58bca8c112c98de2363fc33aa72a7669035\",\"changeSet\":{\"@id\":\"cec4e2895dbc19bc5b62c1371312bad2a5d14df27ac93cabbceeebe0465c4b3b\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"preconditions\":[{\"eTag\":[\"json\",\"sha256\",\"hex\",\"cea4f6dff15242c01e0bf2af951c09019d6db32fbf3c1a3515c4bf51b3f69849\"],\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\"},{\"eTag\":[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\"}],\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"AI4PwSKDh3trmRfmvH4mCH009PN0pnEzzrbvPlgNjml8CWJ7YHUqT0SRwpFTNyJXcVu1KF+9vrJxqRQOb44WCQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d65cf393d62f796fb1c94afcfaa4719913f1c968736aaedc51b5da284a1e527b\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"Jdtsgon5eWkUUYEJ74aYQBeaTdrtSn4pxPRgRDS6hj3IsdfNq8NUlr8CS5pskHJtGHdXuKnYa+dB7a8zd2/mDA==\"}]}",
         "precondition-changed": "{\"@id\":\"c7b57ba6f726cd70d81bd8670f72d4d8318769868a4910452eaa0a5b1009e66f\",\"changeSet\":{\"@id\":\"c66f42d8af21eb89b7f96cdeee366084ed356d72dbf9f6708a039e762506d4a0\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"preconditions\":[{\"eTag\":[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\"}],\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"I7nsc5jYiRq1nfAtlC1hlGb9ngwmWPNYhX7yCr3x2Sm4fFiQsQSUOGmCsfDJ5tXVRq6AAsnJ6KJlb9VCXH9yCA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d65cf393d62f796fb1c94afcfaa4719913f1c968736aaedc51b5da284a1e527b\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"bf79kJpDojKHRmvfLTl8b7nLtjZV0gBJavo8YFvUD3Zrifg9l/bpqtEfrlcw2VyPgHTuv6Mbx6mJgKFlL7kwAw==\"}]}",
-        "precondition-no-entity": "{\"@id\":\"53f0164c74d11ca34e2919a18734147a113c540e81222d2539df3fb270162e1e\",\"changeSet\":{\"@id\":\"1dbd2fe7af2a2d9b49bd4a8c71067fec01e858ffe20c75ef67992c65ea628e47\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"preconditions\":[{\"eTag\":[\"json\",\"sha256\",\"hex\",\"cea4f6dff15242c01e0bf2af951c09019d6db32fbf3c1a3515c4bf51b3f69849\"],\"entityId\":\"DE*XYZ\",\"entityType\":\"ChargingStationOperator\"}],\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"j98ARD5li+/KJB65ofW7UNd/h8T+bn08RgLrNfCKVPdEnNKxGi35STfnWMLagYCCe8lmoqgmUwkWK8tVMLBABw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d65cf393d62f796fb1c94afcfaa4719913f1c968736aaedc51b5da284a1e527b\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"Sx25tkuj4TzbvX1XtVe912x193/3k4eIz7UZ/NOm0vIFRIv0pT8FDog6Azfy/FkJbtTRHfLoNgOA8DCw6MH0AQ==\"}]}"
+        "precondition-no-entity": "{\"@id\":\"53f0164c74d11ca34e2919a18734147a113c540e81222d2539df3fb270162e1e\",\"changeSet\":{\"@id\":\"1dbd2fe7af2a2d9b49bd4a8c71067fec01e858ffe20c75ef67992c65ea628e47\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"preconditions\":[{\"eTag\":[\"json\",\"sha256\",\"hex\",\"cea4f6dff15242c01e0bf2af951c09019d6db32fbf3c1a3515c4bf51b3f69849\"],\"entityId\":\"DE*XYZ\",\"entityType\":\"ChargingStationOperator\"}],\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"j98ARD5li+/KJB65ofW7UNd/h8T+bn08RgLrNfCKVPdEnNKxGi35STfnWMLagYCCe8lmoqgmUwkWK8tVMLBABw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d65cf393d62f796fb1c94afcfaa4719913f1c968736aaedc51b5da284a1e527b\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"Sx25tkuj4TzbvX1XtVe912x193/3k4eIz7UZ/NOm0vIFRIv0pT8FDog6Azfy/FkJbtTRHfLoNgOA8DCw6MH0AQ==\"}]}",
+        "precondition-untrimmed": "{\"@id\":\"b4adbff9d77e9da64ee78c904ae0ac02d089db011e3c991e530a0143fbadea8d\",\"changeSet\":{\"@id\":\"02e5e7a27863999e9c937d1c7095a39809b9475eb265b73f20ca434f9906f946\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"preconditions\":[{\"eTag\":[\"json\",\"sha256\",\"hex\",\"cea4f6dff15242c01e0bf2af951c09019d6db32fbf3c1a3515c4bf51b3f69849\"],\"entityId\":\" DE*GEF \",\"entityType\":\"ChargingStationOperator\"}],\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"0wkp0pWrSPz1f3S3QvDwvJzOAvD8nGNmNLbSOs7wKn/ZrWnF1JqLAqW/HMWquZtcbG4sOnpyBe6wNI59aoodCw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d65cf393d62f796fb1c94afcfaa4719913f1c968736aaedc51b5da284a1e527b\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"0OObY4VHTvz/pL7mf+RL4+9toNl0p8Vk+eOlQzrIQleZ858M2wwnk4g+W1xGSc+vw/VhR6wDOe66gAo+GMDkCg==\"}]}",
+        "precondition-as-given": "{\"@id\":\"1e87828f4c819bb699eefeb36c8ec7aa8845b39dc4084130dd40e195809b7427\",\"changeSet\":{\"@id\":\"f43048f09c9fb9768af1896b8b1459c35c63a11cd5dc44eb9fe1e971cec31464\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"preconditions\":[{\"eTag\":[\"json\",\"sha256\",\"hex\",\"cea4f6dff15242c01e0bf2af951c09019d6db32fbf3c1a3515c4bf51b3f69849\"],\"entityId\":\" DE*GEF \",\"entityType\":\"ChargingStationOperator\"}],\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"sCp0ttpa/8GOX2CcB1vzD0FAgAVD4Sp6M8vZ3g59XYt5IcVsSGpz+nV+5/JGI8cLtjtQOiJc/TBf3XDExlDzAA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d65cf393d62f796fb1c94afcfaa4719913f1c968736aaedc51b5da284a1e527b\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"2FKDJ9njhR5wPktnTKI2L4ffoTnvaUEB2z0QoKC7Tmtu5Uiqu9oEJZnCYuwBFu7K+i0G2zR7knBWJ9yLoC6MBg==\"}]}",
+        "preconditions-empty": "{\"@id\":\"1f274a015385f617fc89feae450c293ac8e9ca74cdb1e568e09feb697141b57e\",\"changeSet\":{\"@id\":\"f5f3fb24208151f5c8f18d82a065d6cae7eeab703f3be451617f18d125e3562d\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"preconditions\":[],\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"jEBng2utCKH3zygB2MGFGHA8iMy5ViTxTczlHcCVtYTZap1jrbh+j98vx+gUe2u/N2/ZxGUkGgQ9WcVksDOqBA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d65cf393d62f796fb1c94afcfaa4719913f1c968736aaedc51b5da284a1e527b\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"efquW+EY5NuhFbpsrC/hDY1a0X9p+dfhuUdqRopA756cRt7D9g4FcjUuFivJIdRxcmAAMPLeu58JIzJcapy9Dw==\"}]}",
+        "metadata-empty": "{\"@id\":\"1f274a015385f617fc89feae450c293ac8e9ca74cdb1e568e09feb697141b57e\",\"changeSet\":{\"@id\":\"f5f3fb24208151f5c8f18d82a065d6cae7eeab703f3be451617f18d125e3562d\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"9f2dc0dc27586f9f6e4b94da3d53ef0691a15173a31684ca6f64c07df64eaa65\"],[\"cbor\",\"sha256\",\"hex\",\"765cf5fe1cd373ce8444062589744caa43e4dac85e363e738bfb3abce9c21fbb\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"metadata\":{},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"jEBng2utCKH3zygB2MGFGHA8iMy5ViTxTczlHcCVtYTZap1jrbh+j98vx+gUe2u/N2/ZxGUkGgQ9WcVksDOqBA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e\"],[\"cbor\",\"sha256\",\"hex\",\"fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d65cf393d62f796fb1c94afcfaa4719913f1c968736aaedc51b5da284a1e527b\"]],\"parentIds\":[\"8fb34cb0346c2bbe2dbf41a548d6118fe825ecaeab56a294ea2157459102435e\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"efquW+EY5NuhFbpsrC/hDY1a0X9p+dfhuUdqRopA756cRt7D9g4FcjUuFivJIdRxcmAAMPLeu58JIzJcapy9Dw==\"}]}"
       }
     },
     {
@@ -6011,6 +6015,353 @@
       ],
       "control": "preconditions-held",
       "reason": "The change set does not fit this version of the roaming network: Precondition 0: the ChargingStationOperator 'DE*XYZ' does not exist!"
+    },
+    {
+      "id": "precondition-untrimmed",
+      "description": "A change set naming DE*GEF in its precondition with a space before and after it, it and its commit identified and signed as WWCP_POI3 writes it again: trimmed.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkPrecondition.TryParse and RoamingNetworkCommit.TryParse, as it writes a change set again; WWCP_POI.TS 791219c",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "precondition-untrimmed"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 16,
+          "commitId": "b4adbff9d77e9da64ee78c904ae0ac02d089db011e3c991e530a0143fbadea8d",
+          "eTags": [
+            "json:sha256:hex:a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e",
+            "cbor:sha256:hex:fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f",
+            "effectiveTree:sha256:hex:d65cf393d62f796fb1c94afcfaa4719913f1c968736aaedc51b5da284a1e527b"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "precondition-untrimmed-identified-as-given",
+      "description": "A change set naming DE*GEF in its precondition with a space before and after it, identified and signed as given, its commit as WWCP_POI3 writes it again: WWCP_POI3 identifies the change set as it writes it again, trimmed.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkPrecondition.TryParse and RoamingNetworkCommit.TryParse, as it writes a change set again; WWCP_POI.TS 791219c",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "precondition-as-given"
+        }
+      ],
+      "control": "precondition-untrimmed",
+      "reason": "is not identified by its content"
+    },
+    {
+      "id": "preconditions-none-given",
+      "description": "A change set naming no precondition in an empty array, it and its commit identified and signed as WWCP_POI3 writes it again: without preconditions, written only when there are any.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkPrecondition.TryParse and RoamingNetworkCommit.TryParse, as it writes a change set again; WWCP_POI.TS 791219c",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "preconditions-empty"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 16,
+          "commitId": "1f274a015385f617fc89feae450c293ac8e9ca74cdb1e568e09feb697141b57e",
+          "eTags": [
+            "json:sha256:hex:a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e",
+            "cbor:sha256:hex:fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f",
+            "effectiveTree:sha256:hex:d65cf393d62f796fb1c94afcfaa4719913f1c968736aaedc51b5da284a1e527b"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "metadata-nothing-given",
+      "description": "A change set with metadata holding nothing, it and its commit identified and signed as WWCP_POI3 writes it again: without metadata.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkPrecondition.TryParse and RoamingNetworkCommit.TryParse, as it writes a change set again; WWCP_POI.TS 791219c",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "metadata-empty"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 16,
+          "commitId": "1f274a015385f617fc89feae450c293ac8e9ca74cdb1e568e09feb697141b57e",
+          "eTags": [
+            "json:sha256:hex:a69cb34f43115b566209fb0a9a128a11ebe95911a63dbeaef6eb06e422079a4e",
+            "cbor:sha256:hex:fde465b6e1a8e7b39df06b96a2aa2315600783fb037ed52e9a377513074f9b0f",
+            "effectiveTree:sha256:hex:d65cf393d62f796fb1c94afcfaa4719913f1c968736aaedc51b5da284a1e527b"
+          ]
+        }
+      ]
     },
     {
       "id": "epoch-snapshot-commit-algorithm-of-another-epoch",

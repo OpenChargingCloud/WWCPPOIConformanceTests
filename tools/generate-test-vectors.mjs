@@ -3282,17 +3282,28 @@ function generatedHistory(id, description, genesis, leader) {
          * A commit of a change set made for the head, or for the content `before`: its changes, signed by the given keys,
          * leading to what they lead to, or to `content` where given.
          */
-        prepare: ({ createdAt, description: what, changes, signers, metadata, preconditions, content, before = head.content }) => {
+        // `preconditions` as written; `given`, the change set as the commit gives it, of the one written - identified and
+        // signed as written, the change set and the commit, as WWCP_POI3 writes it again; `identifiedAsGiven`, the change
+        // set identified and signed as given instead, the commit still as written.
+        prepare: ({ createdAt, description: what, changes, signers, metadata, preconditions, given, identifiedAsGiven = false, content, before = head.content }) => {
             const after      = checkEffective(content ?? applied(before, changes, createdAt));
             const changeSet  = { roamingNetworkId: genesis['@id'], createdAt, description: { en: what }, ...(metadata === undefined ? {} : { metadata }), changes,
                                  ...(preconditions === undefined ? {} : { preconditions }),
                                  beforeETags: eTagsOf(before).slice(0, 2), afterETags: eTagsOf(after).slice(0, 2) };
-            const changeSetId = changeSetIdOf(changeSet);
+            const identified = identifiedAsGiven ? given(changeSet) : changeSet;
+            const changeSetId = changeSetIdOf(identified);
+            const signedAs   = { '@id': changeSetId, ...identified };
             const signed     = { '@id': changeSetId, ...changeSet };
             const commit     = { roamingNetworkId: genesis['@id'], revision: head.commit.revision + 1, eTags: eTagsOf(after), ...(epoch.number > 1 ? { epoch: epoch.number } : {}),
                                  parentIds: [ head.commit['@id'] ],
-                                 changeSet: { ...signed, signatures: signers.map(key => ({ algorithm: key.algorithm, keyId: key.id, value: key.sign(changeSetSignatureInput(signed, { algorithm: key.algorithm, keyId: key.id })) })) } };
-            return { commit: signCommit({ '@id': commitIdOf(commit, epoch.hash), ...commit }, [ { key: leader.key } ], createdAt), content: after };
+                                 changeSet: { ...signed, signatures: signers.map(key => ({ algorithm: key.algorithm, keyId: key.id, value: key.sign(changeSetSignatureInput(signedAs, { algorithm: key.algorithm, keyId: key.id })) })) } };
+            const written    = signCommit({ '@id': commitIdOf(commit, epoch.hash), ...commit }, [ { key: leader.key } ], createdAt);
+            if (given === undefined)
+                return { commit: written, content: after };
+            const asGiven    = { ...given(without(written.changeSet, '@id', 'signatures')), '@id': written.changeSet['@id'], signatures: written.changeSet.signatures };
+            if (canonical(asGiven) === canonical(written.changeSet))
+                fail(`${id}: the change set '${what}' is given as written`);
+            return { commit: { ...written, changeSet: asGiven }, content: after };
         },
 
         /** A prepared commit signed anew, by the given signers ({ key, role, signer }): the same commit, other signatures. */
@@ -4126,14 +4137,18 @@ function signedHistories() {
               'evtaler-offers-infrastructure', offersAt([ gefRenewed ]), 'evtaler-offers', forPayments);
 
     // ---- Preconditions (4): the ETag an entity must still have, over the canonical JSON of its representation as the
-    //      roaming network embeds it, refused where it changed or where no entity has it. Each change set renames
-    //      DE*GEF, signed by its key for the party.
+    //      roaming network embeds it, refused where it changed or where no entity has it; and a change set as WWCP_POI3
+    //      writes it again, it and its commit identified and signed so (RoamingNetworkPrecondition.TryParse,
+    //      ParseMandatoryText, RoamingNetworkCommit.TryParse; WWCP_POI.TS since `791219c`): the texts of a precondition
+    //      trimmed, none written where there are none, no metadata holding nothing. Each change set renames DE*GEF,
+    //      signed by its key for the party.
     S('**Preconditions** (optional, written only when there are any, signed with the change set): the ETag an\nentity MUST still have for the change set to apply',
       'what a precondition is');
     S('The ETag of an\nentity is the one of its representation as the roaming network embeds it, with everything it embeds: over\nits canonical JSON (section 1)',
       'over what the ETag of an entity is');
     S('A change set whose preconditions\ndo not all hold in the version it is applied to MUST be refused', 'that a change set whose preconditions do not hold is refused');
     const PRE_BASIS   = B('4');
+    const WRITTEN     = `${B('4')}; WWCP_POI3 RoamingNetworkPrecondition.TryParse and RoamingNetworkCommit.TryParse, as it writes a change set again; WWCP_POI.TS 791219c`;
     const gefNow      = parties.head.content.chargingStationOperators.find(operator => operator['@id'] === 'DE*GEF') ?? fail('history-parties: no DE*GEF');
     const gefETag     = [ 'json', 'sha256', 'hex', sha256(utf8(canonical(gefNow))) ];
     const networkETag = eTagsOf(parties.head.content)[0];
@@ -4150,6 +4165,17 @@ function signedHistories() {
     P.refused('precondition-of-no-entity', 'A change set naming as its precondition the ETag of the charging station operator DE*XYZ, which rn1 does not have.', PRE_BASIS,
               'precondition-no-entity', naming('GraphDefined', { preconditions: [ pre('ChargingStationOperator', 'DE*XYZ', gefETag) ] }), 'preconditions-held',
               { reason: `${NOT_FIT}Precondition 0: the ChargingStationOperator 'DE*XYZ' does not exist!` });
+
+    const untrimmed = (changeSet) => ({ ...changeSet, preconditions: changeSet.preconditions.map(item => ({ ...item, entityId: ` ${item.entityId} ` })) });
+    P.then('precondition-untrimmed', 'A change set naming DE*GEF in its precondition with a space before and after it, it and its commit identified and signed as WWCP_POI3 writes it again: trimmed.', WRITTEN,
+           'precondition-untrimmed', naming('GraphDefined', { preconditions: [ pre('ChargingStationOperator', 'DE*GEF', gefETag) ], given: untrimmed }));
+    P.refused('precondition-untrimmed-identified-as-given', 'A change set naming DE*GEF in its precondition with a space before and after it, identified and signed as given, its commit as WWCP_POI3 writes it again: WWCP_POI3 identifies the change set as it writes it again, trimmed.', WRITTEN,
+              'precondition-as-given', naming('GraphDefined', { preconditions: [ pre('ChargingStationOperator', 'DE*GEF', gefETag) ], given: untrimmed, identifiedAsGiven: true }), 'precondition-untrimmed',
+              { reason: 'is not identified by its content' });
+    P.then('preconditions-none-given', 'A change set naming no precondition in an empty array, it and its commit identified and signed as WWCP_POI3 writes it again: without preconditions, written only when there are any.', WRITTEN,
+           'preconditions-empty', naming('GraphDefined', { given: (changeSet) => ({ ...changeSet, preconditions: [] }) }));
+    P.then('metadata-nothing-given', 'A change set with metadata holding nothing, it and its commit identified and signed as WWCP_POI3 writes it again: without metadata.', WRITTEN,
+           'metadata-empty', naming('GraphDefined', { given: (changeSet) => ({ ...changeSet, metadata: {} }) }));
 
 
     // =================================================================================================================

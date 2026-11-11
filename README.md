@@ -20,14 +20,14 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `62390ca`, WWCP_POI.TS `e56f9dd`, Hermod `850cab3d`,
-Styx `21d00134`) - but for the copies WWCP_POI.TS vendors of `poi-refusals.json` and `poi-histories.json`, until it
-takes the vectors of the offers URL and of preconditions:
+Both harnesses are green against the pinned submodules (WWCP_POI `62390ca`, WWCP_POI.TS `89d1b35`, Hermod `850cab3d`,
+Styx `21d00134`) - but for the copy WWCP_POI.TS vendors of `poi-histories.json`, until it takes the vectors of change
+sets written again:
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 843 | 868 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 843 | 843 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
+| C# harness (NUnit), WWCP_POI3 | 847 | 872 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 847 | 847 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy,
 those of the verifier extensions since `242fb29`.
