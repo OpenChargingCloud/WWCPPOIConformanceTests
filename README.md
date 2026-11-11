@@ -20,9 +20,8 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `62390ca`, WWCP_POI.TS `89d1b35`, Hermod `850cab3d`,
-Styx `21d00134`) - but for the copy WWCP_POI.TS vendors of `poi-histories.json`, until it takes the vectors of change
-sets written again:
+Both harnesses are green against the pinned submodules (WWCP_POI `62390ca`, WWCP_POI.TS `c284b21`, Hermod `850cab3d`,
+Styx `21d00134`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|

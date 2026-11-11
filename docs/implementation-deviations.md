@@ -2,7 +2,7 @@
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
 (WWCP_POI3, `libs/WWCP_POI` at `62390ca`, Hermod `850cab3d`, Styx `21d00134`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `89d1b35`) take or calculate different things.
+`libs/WWCP_POI.TS` at `c284b21`) take or calculate different things.
 
 Each deviation is
 
