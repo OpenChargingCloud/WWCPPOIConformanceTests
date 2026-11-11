@@ -2340,6 +2340,154 @@
     },
     {
       "expected": "refused",
+      "id": "version-evtaler-offers-url-http",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, where drivers ask for offers at http://poi.gef.example/RNs/QA/, with http instead of https.",
+      "reason": "The offers URL 'http://poi.gef.example/RNs/QA/' must be an HTTPS URL!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ],
+              "offersURL": "http://poi.gef.example/RNs/QA/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-offers-url-user",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, where drivers ask for offers at https://gef@poi.gef.example/RNs/QA/, naming a user.",
+      "reason": "The offers URL 'https://gef@poi.gef.example/RNs/QA/' must not name a user!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ],
+              "offersURL": "https://gef@poi.gef.example/RNs/QA/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-offers-url-query",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, where drivers ask for offers at https://poi.gef.example/RNs/QA/?evse=DE*GEF*E1*1, with a query.",
+      "reason": "The offers URL 'https://poi.gef.example/RNs/QA/?evse=DE*GEF*E1*1' must have neither a query nor a fragment!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ],
+              "offersURL": "https://poi.gef.example/RNs/QA/?evse=DE*GEF*E1*1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-evtaler-offers-url-no-slash",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, where drivers ask for offers at https://poi.gef.example/RNs/QA, not ending in '/'.",
+      "reason": "The offers URL 'https://poi.gef.example/RNs/QA' must end with '/'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ],
+              "offersURL": "https://poi.gef.example/RNs/QA"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
       "id": "version-evtaler-merchant-key-lowercase",
       "kind": "version",
       "basis": "libs/WWCP_POI/docs/ChargingStationOperator.md",
@@ -3584,6 +3732,80 @@
                   }
                 }
               ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-evtaler-offers-url-no-scheme",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, where drivers ask for offers without its scheme, poi.gef.example/RNs/QA/.",
+      "reason": "The offers URL 'poi.gef.example/RNs/QA/' is written as 'https://poi.gef.example/RNs/QA/'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ],
+              "offersURL": "poi.gef.example/RNs/QA/"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-held-evtaler-offers-url-untrimmed",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; libs/WWCP_POI/docs/ChargingStationOperator.md",
+      "description": "DE*GEF names the EV Taler merchant of the example, where drivers ask for offers with a space before and after it.",
+      "reason": "The offers URL ' https://poi.gef.example/RNs/QA/ ' is written as 'https://poi.gef.example/RNs/QA/'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/chargingStationOperators/0/evTaler",
+            "value": {
+              "merchantBaseURL": "https://taler.gef.example/instances/de-gef/",
+              "merchantPublicKey": "ESMBKNR5CMZPAYH9AD0QNKCPYSJSE0EN5MH4FMPKN683R63HMD3G",
+              "exchanges": [
+                {
+                  "masterPublicKey": "F80MFRG8HVH6R9CQ47KRFQSJP3T6DBJ4K1D9B703RJY3Z39TBMJ0",
+                  "baseURL": "https://exchange.example.eu/",
+                  "currency": "EUR",
+                  "name": {
+                    "en": "Example Exchange"
+                  }
+                }
+              ],
+              "offersURL": " https://poi.gef.example/RNs/QA/ "
             }
           }
         ]

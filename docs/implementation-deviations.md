@@ -1,8 +1,8 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `b414296`, Hermod `850cab3d`, Styx `21d00134`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `0685f9a`) take or calculate different things.
+(WWCP_POI3, `libs/WWCP_POI` at `62390ca`, Hermod `850cab3d`, Styx `21d00134`) and the TypeScript port (WWCP_POI.TS,
+`libs/WWCP_POI.TS` at `e56f9dd`) take or calculate different things.
 
 Each deviation is
 
@@ -59,7 +59,7 @@ WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, was WWCP_POI.TS's,
 elements of a price status, was WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
 define, which SPECIFICATION.md 2 refuses; it is fixed in WWCP_POI.TS `ce88620`, with the elements of a price status
 written as a charging tariff holds them, which SPECIFICATION.md 12.1 says since WWCP_POI `5a72313`
-([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 832 vectors - WWCP_POI3
+([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 843 vectors - WWCP_POI3
 alone signs the 7 signatures of section 6 again from their private seeds, which WWCP_POI.TS verifies only - and agree on
 every one of them (see [What both do alike](#what-both-do-alike)). Among them are the 13 replays of `poi-histories.json`
 WWCP_POI.TS left to WWCP_POI before: the references a version holds, which it checks since `813e1d7`, and the changes of
@@ -555,7 +555,7 @@ words of where it reads them -; WWCP_POI3 takes all 27, the 10 with the `eTags` 
 | a text in languages keyed otherwise | `name-language-upper-case` (`EN`), `name-language-unknown` (`xx`), `name-language-not-a-text` (`"de": 5`), all three with the `eTags`, `description-language-number` (`10`), `evtaler-exchange-name-language` | "a text in languages names each language as Styx writes it, in lower case, with a text" |
 | a timestamp with an offset | `created-offset` (the same instant, `+02:00`, with the `eTags`) | "a timestamp is UTC to the millisecond, yyyy-MM-ddTHH:mm:ss.fffZ" |
 | a property POI does not read | `key-property-unread`, `evtaler-property-unread`, `evtaler-exchange-property-unread` | "The public key '…' must not name the property 'x'!", "The EV Taler merchant must not name …", "The exchange '…' must not name …" |
-| a URL without its scheme or untrimmed, a currency untrimmed | `evtaler-merchant-url-no-scheme`, `evtaler-merchant-url-untrimmed`, `evtaler-exchange-url-no-scheme`, `evtaler-exchange-currency-untrimmed` | "The merchant base URL '…' is written as '…'!", "The base URL '…' of the exchange '…' is written as '…'!", "The currency '…' of the exchange '…' is written as '…'!" |
+| a URL without its scheme or untrimmed, a currency untrimmed | `evtaler-merchant-url-no-scheme`, `evtaler-merchant-url-untrimmed`, `evtaler-offers-url-no-scheme`, `evtaler-offers-url-untrimmed` (WWCP_POI `62390ca`), `evtaler-exchange-url-no-scheme`, `evtaler-exchange-currency-untrimmed` | "The merchant base URL '…' is written as '…'!", "The offers URL '…' is written as '…'!", "The base URL '…' of the exchange '…' is written as '…'!", "The currency '…' of the exchange '…' is written as '…'!" |
 
 **Where:** WWCP_POI3 reads a version into its entities (`RoamingNetwork.TryParse`) and writes it again in its own
 form - ordered, trimmed, without what is empty or `null` and without the context of what is embedded, a text in
@@ -587,7 +587,7 @@ naming a property a key does not have, an EV Taler merchant or exchange naming o
 otherwise, are refused before, where they are read (`POIPartyKeys`, `EVTalerMerchant`, `1de4dff`), in the words of
 WWCP_POI.TS as well - against `3de830a` alone, these seven vectors were refused in the generic words. SPECIFICATION.md
 2, Written forms, says that a reader MUST refuse a version written otherwise; `VersionWrittenFormTests` holds it. Both
-refuse all 27 vectors for what they are about.
+refuse all 27 vectors for what they are about, and the two of the offers URL since WWCP_POI `62390ca`.
 
 **Not covered:** WWCP_POI3 compares all of the content. WWCP_POI.TS, since `fb0562f`, walks a version as WWCP_POI3
 `3de830a` writes it again (`notWritten`, after `FirstNotWritten`), in its words: also data licenses given by their
@@ -780,7 +780,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 6 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 307 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+- the refusal of 313 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors, all but six in the words of the `reason` both name - `commit-etag-uppercase`,
   `commit-etag-algorithm`, `checkpoint-epoch`, `priceStatement-sequence`, `trustAnchor-prefix` and
   `trustAnchor-truncated` each implementation words its own way; among them signatures of commits and checkpoints
@@ -808,7 +808,8 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   one of its versions, a relative `documentURL`, an empty legislation, ending before it begins, a release twice or both
   verified and compatible, compared without case, energy meters of an energy meter model, one model twice, compared
   without case (WWCP_POI.TS since `1f0d9c7`, D9), and versions naming an EV Taler merchant of a charging station
-  operator WWCP_POI does not read - its base URL not HTTPS, naming a user, with a query or not ending in `/`, its
+  operator WWCP_POI does not read - its base URL not HTTPS, naming a user, with a query or not ending in `/`, and so
+  the URL where drivers ask for offers (EV Taler, phase 3; WWCP_POI `62390ca`, WWCP_POI.TS `a7e8775`), its
   public key in lower case or with its last 4 bits set, no exchange or one twice; of an exchange its base URL not
   HTTPS, its master public key in lower case, the currency `XXX` or no name - and a charging pool naming the payment
   option `EVTaler` while its operator names no merchant (EV Taler, phase 1; WWCP_POI `ec3dace`, WWCP_POI.TS
@@ -875,6 +876,9 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   two offers of an e-mobility provider added at once, overlapping at its EVSE (9.4, `NewProviderOfferOverlap`),
   with the role of the roaming network operator required, a commit signed in it only by a key the version certifies
   for it, not by a key of a party naming DE*RNO its signer nor by one signing as a witness (S24; WWCP_POI `12e993a`),
+  the EV Taler merchant named with the URL where drivers ask for offers, signed by a key for payments, not by one for
+  infrastructure (WWCP_POI `62390ca`), preconditions of a change set holding, the ETag of an entity over the canonical
+  JSON of its representation as the roaming network embeds it, and refused where the entity changed or none has it (4),
   and three
   epochs, the first checkpoint of the third one signed with an algorithm of the second one only, and with one
   of neither (14), and a history started from a snapshot of the genesis of the third one, its commit signed with an

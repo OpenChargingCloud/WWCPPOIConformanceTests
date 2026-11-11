@@ -2364,6 +2364,20 @@ function refusalVectors() {
     merchantURL('version-evtaler-merchant-url-query',    'with a query',               `${evTaler.merchantBaseURL}?instance=de-gef`,                               'have neither a query nor a fragment!');
     merchantURL('version-evtaler-merchant-url-no-slash', "not ending in '/'",          evTaler.merchantBaseURL.replace(/\/$/, ''),                                "end with '/'!");
 
+    // Where drivers ask for offers (EV Taler, phase 3; WWCP_POI `62390ca`, WWCP_POI.TS `a7e8775`): optional, a base URL
+    // as the merchant base URL.
+    quoted(OPERATOR, '| `offersURL` | URL | Optional: where drivers ask for offers, the POI_API base of the roaming network at the server that makes them for the operator, e.g. `https://poi.gef.example/RNs/QA/`; HTTPS, as `merchantBaseURL`.',
+           'what the offers URL is');
+    const OFFERS_URL = 'https://poi.gef.example/RNs/QA/';
+    const offersURL  = (id, description, url, reason) =>
+        withMerchant(id, OPERATOR, `DE*GEF names the EV Taler merchant of the example, where drivers ask for offers at ${url}, ${description}.`,
+                     `The offers URL '${url}' must ${reason}`, merchant({ offersURL: url }));
+
+    offersURL('version-evtaler-offers-url-http',     'with http instead of https', OFFERS_URL.replace('https://', 'http://'),      'be an HTTPS URL!');
+    offersURL('version-evtaler-offers-url-user',     'naming a user',              OFFERS_URL.replace('https://', 'https://gef@'), 'not name a user!');
+    offersURL('version-evtaler-offers-url-query',    'with a query',               `${OFFERS_URL}?evse=DE*GEF*E1*1`,               'have neither a query nor a fragment!');
+    offersURL('version-evtaler-offers-url-no-slash', "not ending in '/'",          OFFERS_URL.replace(/\/$/, ''),                  "end with '/'!");
+
     withMerchant('version-evtaler-merchant-key-lowercase', OPERATOR,
                  'DE*GEF names the EV Taler merchant of the example, its merchant public key in lower case: the same key, but not as GNU Taler writes it.',
                  `An EV Taler merchant needs its merchant public key, as GNU Taler writes it, not '${evTaler.merchantPublicKey.toLowerCase()}'!`,
@@ -2614,6 +2628,11 @@ function refusalVectors() {
                  `The merchant base URL '${noScheme}' is written as '${evTaler.merchantBaseURL}'!`, { merchantBaseURL: noScheme });
     heldMerchant('version-held-evtaler-merchant-url-untrimmed', 'its merchant base URL with a space before and after it',
                  `The merchant base URL ' ${evTaler.merchantBaseURL} ' is written as '${evTaler.merchantBaseURL}'!`, { merchantBaseURL: ` ${evTaler.merchantBaseURL} ` });
+    const offersNoScheme = OFFERS_URL.replace('https://', '');
+    heldMerchant('version-held-evtaler-offers-url-no-scheme', `where drivers ask for offers without its scheme, ${offersNoScheme}`,
+                 `The offers URL '${offersNoScheme}' is written as '${OFFERS_URL}'!`, { offersURL: offersNoScheme });
+    heldMerchant('version-held-evtaler-offers-url-untrimmed', 'where drivers ask for offers with a space before and after it',
+                 `The offers URL ' ${OFFERS_URL} ' is written as '${OFFERS_URL}'!`, { offersURL: ` ${OFFERS_URL} ` });
     heldMerchant('version-held-evtaler-exchange-url-no-scheme', `the base URL of its exchange without its scheme, ${exchange.baseURL.replace('https://', '')}`,
                  ofExchange(`The base URL '${exchange.baseURL.replace('https://', '')}' of the exchange '${exchange.masterPublicKey}' is written as '${exchange.baseURL}'!`),
                  { exchanges: [ { ...exchange, baseURL: exchange.baseURL.replace('https://', '') } ] });
@@ -3263,9 +3282,10 @@ function generatedHistory(id, description, genesis, leader) {
          * A commit of a change set made for the head, or for the content `before`: its changes, signed by the given keys,
          * leading to what they lead to, or to `content` where given.
          */
-        prepare: ({ createdAt, description: what, changes, signers, metadata, content, before = head.content }) => {
+        prepare: ({ createdAt, description: what, changes, signers, metadata, preconditions, content, before = head.content }) => {
             const after      = checkEffective(content ?? applied(before, changes, createdAt));
             const changeSet  = { roamingNetworkId: genesis['@id'], createdAt, description: { en: what }, ...(metadata === undefined ? {} : { metadata }), changes,
+                                 ...(preconditions === undefined ? {} : { preconditions }),
                                  beforeETags: eTagsOf(before).slice(0, 2), afterETags: eTagsOf(after).slice(0, 2) };
             const changeSetId = changeSetIdOf(changeSet);
             const signed     = { '@id': changeSetId, ...changeSet };
@@ -4093,6 +4113,43 @@ function signedHistories() {
               { ...ROLES, reason: "is not signed in the role 'roamingNetworkOperator'!" });
     P.then('required-role-rno-besides-a-key-of-a-party', 'With the role of the roaming network operator required, a commit signed in it by a signing key of DE*GEF and by the signing key of Alpha: one key that may sign in it is enough.', ROLE_BASIS,
            'role-rno-and-gef', parties.resign(renaming, [ { key: gefParty }, { key: alphaParty } ]), ROLES);
+
+    // ---- Where drivers ask for offers (EV Taler, phase 3; WWCP_POI `62390ca`, WWCP_POI.TS `a7e8775`): the EV Taler
+    //      merchant of DE*GEF named again with its offersURL, signed by its key for payments as every change of evTaler,
+    //      not by its key for infrastructure.
+    const OFFERS_URL = 'https://poi.gef.example/RNs/QA/';
+    const offersAt   = (signers) => parties.prepare({ createdAt: minute(24), description: 'DE*GEF names its EV Taler merchant, where drivers ask for offers', signers,
+                                                      changes: [ update('ChargingStationOperator', 'DE*GEF', 'evTaler', found(parties, 'ChargingStationOperator', 'DE*GEF', 'evTaler'), { ...merchant, offersURL: OFFERS_URL }) ] });
+    P.then('evtaler-merchant-offers-url', 'A charging station operator names its EV Taler merchant with the URL where drivers ask for offers, signed by its signing key for payments.', EV_TALER_BASIS,
+           'evtaler-offers', offersAt([ gefPayments ]));
+    P.refused('evtaler-merchant-offers-url-signed-for-infrastructure', 'A charging station operator names its EV Taler merchant with the URL where drivers ask for offers, signed by its signing key for infrastructure alone.', EV_TALER_BASIS,
+              'evtaler-offers-infrastructure', offersAt([ gefRenewed ]), 'evtaler-offers', forPayments);
+
+    // ---- Preconditions (4): the ETag an entity must still have, over the canonical JSON of its representation as the
+    //      roaming network embeds it, refused where it changed or where no entity has it. Each change set renames
+    //      DE*GEF, signed by its key for the party.
+    S('**Preconditions** (optional, written only when there are any, signed with the change set): the ETag an\nentity MUST still have for the change set to apply',
+      'what a precondition is');
+    S('The ETag of an\nentity is the one of its representation as the roaming network embeds it, with everything it embeds: over\nits canonical JSON (section 1)',
+      'over what the ETag of an entity is');
+    S('A change set whose preconditions\ndo not all hold in the version it is applied to MUST be refused', 'that a change set whose preconditions do not hold is refused');
+    const PRE_BASIS   = B('4');
+    const gefNow      = parties.head.content.chargingStationOperators.find(operator => operator['@id'] === 'DE*GEF') ?? fail('history-parties: no DE*GEF');
+    const gefETag     = [ 'json', 'sha256', 'hex', sha256(utf8(canonical(gefNow))) ];
+    const networkETag = eTagsOf(parties.head.content)[0];
+    const pre         = (entityType, entityId, eTag) => ({ entityType, entityId, eTag });
+    const naming      = (name, more = {}) => parties.prepare({ createdAt: minute(25), description: `DE*GEF names itself ${name}`, signers: [ gefParty ],
+                                                               changes: [ update('ChargingStationOperator', 'DE*GEF', 'name', found(parties, 'ChargingStationOperator', 'DE*GEF', 'name'), { en: name }) ], ...more });
+    const NOT_FIT     = 'The change set does not fit this version of the roaming network: ';
+
+    P.then('precondition-held', 'A change set naming the ETags DE*GEF and the roaming network rn1 still have as its preconditions, over the canonical JSON of each as rn1 embeds it.', PRE_BASIS,
+           'preconditions-held', naming('GraphDefined', { preconditions: [ pre('ChargingStationOperator', 'DE*GEF', gefETag), pre('RoamingNetwork', 'rn1', networkETag) ] }));
+    P.refused('precondition-changed', 'A change set naming as the ETag DE*GEF must still have the one of the roaming network rn1.', PRE_BASIS,
+              'precondition-changed', naming('GraphDefined', { preconditions: [ pre('ChargingStationOperator', 'DE*GEF', networkETag) ] }), 'preconditions-held',
+              { reason: `${NOT_FIT}Precondition 0: the ChargingStationOperator 'DE*GEF' changed, it no longer has the ETag ${networkETag.join(':')}!` });
+    P.refused('precondition-of-no-entity', 'A change set naming as its precondition the ETag of the charging station operator DE*XYZ, which rn1 does not have.', PRE_BASIS,
+              'precondition-no-entity', naming('GraphDefined', { preconditions: [ pre('ChargingStationOperator', 'DE*XYZ', gefETag) ] }), 'preconditions-held',
+              { reason: `${NOT_FIT}Precondition 0: the ChargingStationOperator 'DE*XYZ' does not exist!` });
 
 
     // =================================================================================================================
