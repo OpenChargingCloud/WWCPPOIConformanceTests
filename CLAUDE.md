@@ -11,16 +11,18 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   rerun it, never the JSON. It takes every value verbatim from its source (drift guard), re-derives the anchors with
   `node:crypto` and refuses to write on a mismatch; `--check` is the CI guard. The format is in
   `test-vectors/README.md`.
-- **The frozen run** `test-vectors/runs/csharp-c4c3c5a/` is what the C# examples A1 to A16 and MakeProofs of WWCP_POI
-  `c4c3c5a` published. Every run of the examples makes new keys: it is frozen, not regenerated - replaced only when the
-  specification or the examples change what a run publishes (`c4c3c5a`: example A16, an EV Taler session in two steps,
-  its evidence `driver/evidence-DE_GEF_E1_1-evTaler.json`; `csharp-045e180` before with releases and certificates
+- **The frozen run** `test-vectors/runs/csharp-76d3653/` is what the C# examples A1 to A16 and MakeProofs of WWCP_POI
+  `76d3653` published. Every run of the examples makes new keys: it is frozen, not regenerated - replaced only when the
+  specification or the examples change what a run publishes (`76d3653`: a pool naming the payment option `EVTaler`
+  names the authentication mode `SecureDynamicQRCode`, Jena Paradies in revision 11 of epoch 2; `csharp-c4c3c5a`
+  before with example A16, an EV Taler session in two steps, its evidence
+  `driver/evidence-DE_GEF_E1_1-evTaler.json`; `csharp-045e180` before with releases and certificates
   identified under their owners, S36, and example A15, the EV Taler merchant of DE*GEF; `csharp-33447ac` before with
   example A14, the QI-Digital documents of a meter, and the calibration laboratory EM-LAB in QA, `csharp-987fa26` before with hardware revisions and firmware
   versions, certificates for station and meter models with their components, `csharp-80e4ccc` before with new values
   given as the content holds them, `csharp-bc3b1bd` before with change sets identified by their content,
   `csharp-dbf39b0` before with the digests of price statements, `csharp-801bbce` before that).
-- **WWCP_POI.TS vendors everything** in `tests/vectors` (the runs as `csharp-c4c3c5a` and `chargy-fc513cd`, the
+- **WWCP_POI.TS vendors everything** in `tests/vectors` (the runs as `csharp-76d3653` and `chargy-fc513cd`, the
   documents the generator makes as `chargy`, next to the `poi-*.json`) and runs
   the golden vectors in its own suite, `tests/conformance.test.ts` with its loader `tests/conformance.ts`.
   `VendoredCopiesTests` fails on drift; `--mirror libs/WWCP_POI.TS/tests/vectors` refreshes the copy. A change of the
@@ -83,9 +85,11 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 872 passed / 0 skipped (its 12 copy tests need the vendored `poi-*.json`, both runs and `chargy` of
-WWCP_POI.TS: a copy missing or drifted is red), TS 847 passed / 7 skipped (7 signing: WWCP_POI.TS verifies only). Skips
-are load-bearing, not noise.
+Expected: C# 881 passed / 0 skipped (its 12 copy tests need the vendored `poi-*.json`, both runs and `chargy` of
+WWCP_POI.TS: a copy missing or drifted is red; five are, until WWCP_POI.TS vendors `csharp-76d3653` and the vectors
+made of it), TS 856 passed / 7 skipped (7 signing: WWCP_POI.TS verifies only; until WWCP_POI.TS takes the authentication
+mode `SecureDynamicQRCode`, 8 of them fail). Skips are load-bearing, not noise. The C# harness needs the .NET 11 SDK:
+WWCP_POI builds for `net11.0` since `50f772a`.
 
 ## Ground rules
 

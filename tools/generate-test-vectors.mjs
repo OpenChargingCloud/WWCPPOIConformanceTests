@@ -51,11 +51,11 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT         = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT          = join(ROOT, 'test-vectors');
-const RUN          = 'csharp-c4c3c5a';
+const RUN          = 'csharp-76d3653';
 const RUN_DIR      = join(OUT, 'runs', RUN);
 
 /** A point in time while the key statements, the keys and the attestations of the frozen run are valid. */
-const AT           = '2026-11-10T05:54:00.000Z';
+const AT           = '2026-11-12T21:55:00.000Z';
 
 const STYX_README  = 'libs/Styx/Styx/Illias/JSON/README.md';
 const STYX_TESTS   = 'libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs';
@@ -1335,7 +1335,7 @@ function at(document, pointer) {
 function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, pool2, tariffAt, templateAt, bsi, DOCS, HELD, ORDER }) {
 
     const doc        = (name) => `${DOCS}/${name}.md`;
-    const RICH_AT    = '2026-11-10T05:53:07.929Z';
+    const RICH_AT    = '2026-11-12T21:54:38.880Z';
     const meta       = { created: RICH_AT, lastChange: RICH_AT };
     if (!(Date.parse(qa.created) <= Date.parse(RICH_AT) && Date.parse(RICH_AT) <= Date.parse(qa.lastChange)))
         fail(`QA.json: ${RICH_AT}, when the richer QA adds its entities, is not within the life of the roaming network`);
@@ -2364,6 +2364,25 @@ function refusalVectors() {
     merchantURL('version-evtaler-merchant-url-query',    'with a query',               `${evTaler.merchantBaseURL}?instance=de-gef`,                               'have neither a query nor a fragment!');
     merchantURL('version-evtaler-merchant-url-no-slash', "not ending in '/'",          evTaler.merchantBaseURL.replace(/\/$/, ''),                                "end with '/'!");
 
+    // The authentication mode SecureDynamicQRCode (WWCP_POI `76d3653`, decision D8): its channels, at least one, of BLE,
+    // Display and NFC, each once; no other type names channels.
+    const POOL_DOC  = 'libs/WWCP_POI/docs/ChargingPool.md';
+    quoted(POOL_DOC, '| `channels` | array of texts | Mandatory for `SecureDynamicQRCode`, refused for other types: how its stations give the URL of the code, `BLE`, `Display`, `NFC`; ordinal order, each once. |',
+           'what the channels of a secure dynamic QR code are');
+    const qrModes   = (modes) => [ { op: 'add', path: `${pool1}/authenticationModes`, value: modes } ];
+    const qrRefused = (id, description, reason, modes) =>
+        withMerchant(id, POOL_DOC, `The charging pool DE*GEF*P1 names ${description}.`, reason, qrModes(modes));
+    qrRefused('version-qr-code-without-channels', 'the authentication mode SecureDynamicQRCode without its channels',
+              "The authentication mode 'SecureDynamicQRCode' needs the channels its URL is given over: BLE, Display, NFC!", [ { type: 'SecureDynamicQRCode' } ]);
+    qrRefused('version-qr-code-channels-none', 'the authentication mode SecureDynamicQRCode with no channel, an empty array',
+              "The authentication mode 'SecureDynamicQRCode' needs the channels its URL is given over: BLE, Display, NFC!", [ { type: 'SecureDynamicQRCode', channels: [] } ]);
+    qrRefused('version-qr-code-channel-unknown', 'the authentication mode SecureDynamicQRCode given over the channel QR, which is none of BLE, Display and NFC',
+              "Invalid channel of the secure dynamic QR code 'QR'!", [ { type: 'SecureDynamicQRCode', channels: [ 'QR' ] } ]);
+    qrRefused('version-qr-code-channel-twice', 'the authentication mode SecureDynamicQRCode given over its display twice',
+              'A channel of the secure dynamic QR code must not be given twice!', [ { type: 'SecureDynamicQRCode', channels: [ 'Display', 'Display' ] } ]);
+    qrRefused('version-qr-code-channels-of-rfid', 'the authentication mode RFID with a channel, which only SecureDynamicQRCode names',
+              "Only SecureDynamicQRCode names channels, not 'RFID'!", [ { type: 'RFID', channels: [ 'Display' ] } ]);
+
     // Where drivers ask for offers (EV Taler, phase 3; WWCP_POI `62390ca`, WWCP_POI.TS `a7e8775`): optional, a base URL
     // as the merchant base URL.
     quoted(OPERATOR, '| `offersURL` | URL | Optional: where drivers ask for offers, the POI_API base of the roaming network at the server that makes them for the operator, e.g. `https://poi.gef.example/RNs/QA/`; HTTPS, as `merchantBaseURL`.',
@@ -2636,6 +2655,9 @@ function refusalVectors() {
     heldMerchant('version-held-evtaler-exchange-url-no-scheme', `the base URL of its exchange without its scheme, ${exchange.baseURL.replace('https://', '')}`,
                  ofExchange(`The base URL '${exchange.baseURL.replace('https://', '')}' of the exchange '${exchange.masterPublicKey}' is written as '${exchange.baseURL}'!`),
                  { exchanges: [ { ...exchange, baseURL: exchange.baseURL.replace('https://', '') } ] });
+    asHeld('version-held-qr-code-channels-out-of-order', `${HELD}; libs/WWCP_POI/docs/ChargingPool.md`,
+           'The charging pool DE*GEF*P1 names the authentication mode SecureDynamicQRCode given over NFC and BLE: not in the ordinal order of the names of its channels.',
+           notHeld(`${pool1}/authenticationModes/0/channels`, ORDER), false, [ { op: 'add', path: `${pool1}/authenticationModes`, value: [ { type: 'SecureDynamicQRCode', channels: [ 'NFC', 'BLE' ] } ] } ]);
     heldMerchant('version-held-evtaler-exchange-currency-untrimmed', `the currency of its exchange with a space before it, ' ${exchange.currency}'`,
                  ofExchange(`The currency ' ${exchange.currency}' of the exchange '${exchange.masterPublicKey}' is written as '${exchange.currency}'!`),
                  { exchanges: [ { ...exchange, currency: ` ${exchange.currency}` } ] });
@@ -3884,8 +3906,14 @@ function signedHistories() {
     //      nor by the roaming network operator, which signs in place of a party without signing keys only (SignerOf of
     //      WWCP_POI3), not of DE*GEF; a charging pool naming the payment option EVTaler
     //      needs it, checked after the last change of a change set, so that one change set adds both in either order and
-    //      removes the merchant only with the last pool naming EVTaler.
+    //      removes the merchant only with the last pool naming EVTaler. Since WWCP_POI `76d3653` (decision D8, E1) a pool
+    //      naming EVTaler names the authentication mode SecureDynamicQRCode as well, checked after the last change of a
+    //      change set too: here on its display, in any order with the option, not removed while it names it.
     const EV_TALER_BASIS = `${B('4.1')}; ${EV_TALER_DOC}`;
+    const QR_BASIS       = `${B('4.1')}; libs/WWCP_POI/docs/ChargingPool.md, Authentication modes`;
+    quoted('libs/WWCP_POI/docs/ChargingPool.md', 'a pool naming it, as it is at\nruntime, also names the [authentication mode](#authentication-modes) `SecureDynamicQRCode`, its own or of a template,\nchecked as well after the last change of a change set',
+           'that a pool naming EVTaler names SecureDynamicQRCode');
+    const QR_CODE        = { type: 'SecureDynamicQRCode', channels: [ 'Display' ] };
     S('a change of the `evTaler` of a charging station operator, an element change within it as well, and of the\n`webPaymentURL`', 'that a change of the merchant is signed for payments');
     S('so the RNO\nsigns in place of a party without signing keys', 'that the roaming network operator signs in place of a party without signing keys');
     quoted(EV_TALER_DOC, 'checked\n  when the operator is made and after the last change of a change set, so that one change set may add both in either\n  order, and remove `evTaler` only with the last `EVTaler`.',
@@ -3899,6 +3927,7 @@ function signedHistories() {
 
     const merchantAdded  = update('ChargingStationOperator', 'DE*GEF', 'evTaler', found(parties, 'ChargingStationOperator', 'DE*GEF', 'evTaler'), merchant);
     const poolNamesIt    = update('ChargingPool', 'DE*GEF*P1', 'paymentOptions', found(parties, 'ChargingPool', 'DE*GEF*P1', 'paymentOptions'), [ 'EVTaler' ]);
+    const poolQR         = update('ChargingPool', 'DE*GEF*P1', 'authenticationModes', found(parties, 'ChargingPool', 'DE*GEF*P1', 'authenticationModes'), [ QR_CODE ]);
     const paying         = (description, changes, signers) => parties.prepare({ createdAt: minute(14), description, changes, signers });
 
     parties.keep('evtaler-merchant', paying('DE*GEF names its EV Taler merchant', [ merchantAdded ], [ gefPayments ]));
@@ -3911,19 +3940,30 @@ function signedHistories() {
               'evtaler-merchant-rno', paying('DE*GEF names its EV Taler merchant, by the roaming network operator', [ merchantAdded ], [ alphaParty, betaParty ]), 'evtaler-merchant',
               { reason: "needs a signature by a signing key of the ChargingStationOperator 'DE*GEF'!" });
 
-    parties.keep('evtaler-both', paying('DE*GEF names its EV Taler merchant, Jena Paradies the payment option EVTaler', [ merchantAdded, poolNamesIt ], [ gefPayments, gefRenewed ]));
+    parties.keep('evtaler-both', paying('DE*GEF names its EV Taler merchant, Jena Paradies the payment option EVTaler', [ merchantAdded, poolNamesIt, poolQR ], [ gefPayments, gefRenewed ]));
+    const noQR       = { reason: "The charging pool 'DE*GEF*P1' names the payment option 'EVTaler' without the authentication mode 'SecureDynamicQRCode': an EV Taler session names the one-time password its EVSE gives right then!" };
+    P.refused('evtaler-pool-without-qr-code', 'A charging station operator names its EV Taler merchant and a charging pool of it the payment option EVTaler, but not the authentication mode SecureDynamicQRCode.', QR_BASIS,
+              'evtaler-without-qr', paying('DE*GEF names its EV Taler merchant, Jena Paradies the payment option EVTaler', [ merchantAdded, poolNamesIt ], [ gefPayments, gefRenewed ]), 'evtaler-both', noQR);
+    P.then('evtaler-qr-code-first', 'One change set names the authentication mode SecureDynamicQRCode of a charging pool first, then the EV Taler merchant of its operator and the payment option EVTaler of the pool: checked after its last change.', QR_BASIS,
+           'evtaler-qr-first', paying('Jena Paradies names its secure dynamic QR code, DE*GEF its EV Taler merchant, Jena Paradies the payment option EVTaler', [ poolQR, merchantAdded, poolNamesIt ], [ gefRenewed, gefPayments ]));
     const noMerchant = { reason: "The charging pool 'DE*GEF*P1' names the payment option 'EVTaler', but its operator 'DE*GEF' has no EV Taler merchant!" };
     P.refused('evtaler-pool-without-merchant', 'A charging pool names the payment option EVTaler, its operator no EV Taler merchant.', EV_TALER_BASIS,
-              'evtaler-pool', paying('Jena Paradies names the payment option EVTaler', [ poolNamesIt ], [ gefRenewed ]), 'evtaler-both', noMerchant);
+              'evtaler-pool', paying('Jena Paradies names the payment option EVTaler', [ poolNamesIt, poolQR ], [ gefRenewed ]), 'evtaler-both', noMerchant);
     P.then('evtaler-pool-before-merchant', 'One change set names the payment option EVTaler of a charging pool first, then the EV Taler merchant of its operator: checked after its last change.', EV_TALER_BASIS,
-           'evtaler-pool-first', paying('Jena Paradies names the payment option EVTaler, DE*GEF its EV Taler merchant', [ poolNamesIt, merchantAdded ], [ gefRenewed, gefPayments ]));
+           'evtaler-pool-first', paying('Jena Paradies names the payment option EVTaler, DE*GEF its EV Taler merchant', [ poolNamesIt, poolQR, merchantAdded ], [ gefRenewed, gefPayments ]));
 
-    parties.take('evtaler-both', paying('DE*GEF names its EV Taler merchant, Jena Paradies the payment option EVTaler', [ merchantAdded, poolNamesIt ], [ gefPayments, gefRenewed ]));
+    parties.take('evtaler-both', paying('DE*GEF names its EV Taler merchant, Jena Paradies the payment option EVTaler', [ merchantAdded, poolNamesIt, poolQR ], [ gefPayments, gefRenewed ]));
     P.accepted('evtaler-merchant-and-pool', 'A charging station operator names its EV Taler merchant, signed by its key for payments, and a charging pool of it the payment option EVTaler, in one change set.', EV_TALER_BASIS);
 
     const merchantRemoved = unset('ChargingStationOperator', 'DE*GEF', 'evTaler', found(parties, 'ChargingStationOperator', 'DE*GEF', 'evTaler'));
     const poolNamesNone   = unset('ChargingPool', 'DE*GEF*P1', 'paymentOptions', found(parties, 'ChargingPool', 'DE*GEF*P1', 'paymentOptions'));
     const leavingTaler    = (description, changes, signers) => parties.prepare({ createdAt: minute(15), description, changes, signers });
+
+    const qrRemoved       = unset('ChargingPool', 'DE*GEF*P1', 'authenticationModes', found(parties, 'ChargingPool', 'DE*GEF*P1', 'authenticationModes'));
+    const qrOverBLE       = update('ChargingPool', 'DE*GEF*P1', 'authenticationModes', found(parties, 'ChargingPool', 'DE*GEF*P1', 'authenticationModes'), [ { ...QR_CODE, channels: [ 'BLE', 'Display' ] } ]);
+    parties.keep('evtaler-qr-over-ble', leavingTaler('Jena Paradies gives its secure dynamic QR code over BLE as well', [ qrOverBLE ], [ gefRenewed ]));
+    P.refused('evtaler-qr-code-removed-while-named', 'A charging pool naming the payment option EVTaler removes the authentication mode SecureDynamicQRCode.', QR_BASIS,
+              'evtaler-qr-removed', leavingTaler('Jena Paradies names no authentication mode', [ qrRemoved ], [ gefRenewed ]), 'evtaler-qr-over-ble', noQR);
 
     parties.keep('evtaler-removed', leavingTaler('Jena Paradies names no payment option, DE*GEF no EV Taler merchant', [ poolNamesNone, merchantRemoved ], [ gefRenewed, gefPayments ]));
     P.refused('evtaler-merchant-removed-while-named', 'A charging station operator removes its EV Taler merchant while a charging pool of it names the payment option EVTaler.', EV_TALER_BASIS,
@@ -4600,13 +4640,13 @@ function qiDigitalVectors() {
     refuse('qid-calibration-meter-updated',      'verify', DCC,  'QA with the meter of DE*GEF*E2*1 on the firmware 1.0.8 since, a version of the SM-3 as well: a meter changed since is no longer the one calibrated.', "runs the firmware version '1.0.8', not '1.0.7'!", { network: [ { op: 'replace', path: `${sm3}/firmwareVersions`, value: [ '1.0.7', '1.0.8' ] }, { op: 'replace', path: `${acMeter}/firmwareVersion`, value: '1.0.8' } ] });
     refuse('qid-calibration-without-laboratory', 'verify', DCC,  'QA without EM-LAB: the laboratory of a calibration certificate is a conformity assessment body of the roaming network.', "The calibration laboratory 'EM-LAB' of the digital calibration certificate 'DCC-2026-0815' is no conformity assessment body of the roaming network 'QA'!", { network: [ { op: 'remove', path: emLab } ] });
     refuse('qid-calibration-key-for-party',      'verify', DCC,  'QA with the key EM-LAB signed with for its own properties only: a calibration certificate is signed by a key that may sign certificates.', "may not sign 'certificates', only 'party'", { network: [ { op: 'replace', path: `${labKey}/usages`, value: [ 'party' ] } ] });
-    refuse('qid-calibration-key-ended-before',   'verify', DCC,  'QA with the key EM-LAB signed with ended before it signed.', ", when the digital calibration certificate 'DCC-2026-0815' was signed!", { network: [ { op: 'replace', path: `${labKey}/notAfter`, value: '2026-11-10T05:53:08.467Z' } ] });
+    refuse('qid-calibration-key-ended-before',   'verify', DCC,  'QA with the key EM-LAB signed with ended before it signed.', ", when the digital calibration certificate 'DCC-2026-0815' was signed!", { network: [ { op: 'replace', path: `${labKey}/notAfter`, value: '2026-11-12T21:54:39.816Z' } ] });
     refuse('qid-declaration-key-of-no-manufacturer', 'verify', DDOC, 'QA without the key SAALE signed with for its models: a declaration is signed by a key of the manufacturer of its model.', "is no signing key of the energy meter manufacturer 'SAALE'", { network: [ { op: 'remove', path: ddocKey } ] });
 
     // ---- Refused: at another time.
 
-    refuse('qid-quality-system-expired',         'verify', D,    'After the approval of the quality system ended (validUntil, three years).', "'DE-26-QS-PTB-0042' is not valid at 2029-11-11T00:00:00.000Z!", { at: '2029-11-11T00:00:00.000Z' });
-    refuse('qid-calibration-key-ended',          'verify', DCC,  'After the key EM-LAB signed with ended (notAfter, a year): the key is valid when it signed and when the certificate is checked.', "of the calibration laboratory 'EM-LAB' is not valid at 2027-11-11T00:00:00.000Z!", { at: '2027-11-11T00:00:00.000Z' });
+    refuse('qid-quality-system-expired',         'verify', D,    'After the approval of the quality system ended (validUntil, three years).', "'DE-26-QS-PTB-0042' is not valid at 2029-11-13T00:00:00.000Z!", { at: '2029-11-13T00:00:00.000Z' });
+    refuse('qid-calibration-key-ended',          'verify', DCC,  'After the key EM-LAB signed with ended (notAfter, a year): the key is valid when it signed and when the certificate is checked.', "of the calibration laboratory 'EM-LAB' is not valid at 2027-11-13T00:00:00.000Z!", { at: '2027-11-13T00:00:00.000Z' });
 
     // ---- Refused: the declaration against a certificate it does not name as it is. No signature is looked at here, the
     //      certificate's own check tells whether it is valid.
@@ -4660,7 +4700,7 @@ function qiDigitalVectors() {
     const item      = { type: 'ChargingStation', id: station['@id'], manufacturerId: template.manufacturerId, modelId: template.modelId, serialNumber: SERIAL,
                         hardwareRevision: template.hardwareRevision, firmwareVersion: template.firmwareVersion };
     const raw       = parseRaw(readRun(DCC));
-    const unsigned  = { signedAt: '2026-11-10T05:53:30.000Z', algorithm: labCerts.algorithm, keyId: labCerts.id };
+    const unsigned  = { signedAt: '2026-11-12T21:54:50.000Z', algorithm: labCerts.algorithm, keyId: labCerts.id };
     const signature = { ...unsigned, value: labCerts.sign(canonical({ ...raw, '@id': 'DCC-2026-0816', item, signature: unsigned })) };
 
     if (verifiesWith(signature.algorithm, labCerts.json.key, canonical({ ...raw, '@id': 'DCC-2026-0816', item, signature: unsigned }), signature.value) !== true)

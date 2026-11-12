@@ -1,7 +1,7 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `62390ca`, Hermod `850cab3d`, Styx `21d00134`) and the TypeScript port (WWCP_POI.TS,
+(WWCP_POI3, `libs/WWCP_POI` at `487cb65`, Hermod `c5ff091b`, Styx `a6b9f9fb`) and the TypeScript port (WWCP_POI.TS,
 `libs/WWCP_POI.TS` at `c284b21`) take or calculate different things.
 
 Each deviation is
@@ -59,7 +59,7 @@ WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, was WWCP_POI.TS's,
 elements of a price status, was WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
 define, which SPECIFICATION.md 2 refuses; it is fixed in WWCP_POI.TS `ce88620`, with the elements of a price status
 written as a charging tariff holds them, which SPECIFICATION.md 12.1 says since WWCP_POI `5a72313`
-([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 847 vectors - WWCP_POI3
+([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 856 vectors - WWCP_POI3
 alone signs the 7 signatures of section 6 again from their private seeds, which WWCP_POI.TS verifies only - and agree on
 every one of them (see [What both do alike](#what-both-do-alike)). Among them are the 13 replays of `poi-histories.json`
 WWCP_POI.TS left to WWCP_POI before: the references a version holds, which it checks since `813e1d7`, and the changes of
@@ -780,7 +780,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 6 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 313 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+- the refusal of 319 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors, all but six in the words of the `reason` both name - `commit-etag-uppercase`,
   `commit-etag-algorithm`, `checkpoint-epoch`, `priceStatement-sequence`, `trustAnchor-prefix` and
   `trustAnchor-truncated` each implementation words its own way; among them signatures of commits and checkpoints
@@ -813,7 +813,9 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   public key in lower case or with its last 4 bits set, no exchange or one twice; of an exchange its base URL not
   HTTPS, its master public key in lower case, the currency `XXX` or no name - and a charging pool naming the payment
   option `EVTaler` while its operator names no merchant (EV Taler, phase 1; WWCP_POI `ec3dace`, WWCP_POI.TS
-  `0aaf713`), refused in the same words, and a version naming a signing key of a usage POI does not know
+  `0aaf713`), refused in the same words, and a charging pool naming the authentication mode `SecureDynamicQRCode`
+  without its channels, with none, with the channel `QR` or `Display` twice, `RFID` naming a channel, and its
+  channels out of their ordinal order (WWCP_POI `76d3653`; WWCP_POI.TS not yet, which takes them), and a version naming a signing key of a usage POI does not know
   (WWCP_POI.TS since `37b34f2`, D12), and a version naming a key not written as POI writes it - its `notAfter` with
   an offset, of a date only or `null`, its key in CBOR that is not deterministic (WWCP_POI since `a425530`, D13), and a
   version naming a conformity assessment body WWCP_POI does not read - a certificate under a legislation it is not
@@ -869,7 +871,9 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   infrastructure, nor by the roaming network operator in place of an operator with signing keys, and a charging pool
   naming the payment option `EVTaler` only with it, checked after the last change of a change set: both added in one,
   in either order, both removed in one, the merchant first, but neither the pool naming it without the merchant nor the
-  merchant removed while the pool names it (EV Taler, phase 1; WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), the web
+  merchant removed while the pool names it (EV Taler, phase 1; WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), the pool
+  naming `EVTaler` with the authentication mode `SecureDynamicQRCode`, in either order, but neither without it nor
+  removing it while it names `EVTaler` (WWCP_POI `76d3653`, decision D8; WWCP_POI.TS not yet, which takes both), the web
   payment page of an operator, a pool and a station signed by a key for payments, not by one for infrastructure or for
   the party, a station naming one, or a pool by one of its stations, added by one key for infrastructure and payments,
   not by one for infrastructure alone nor by two keys naming one each (WWCP_POI `848cc52`, WWCP_POI.TS `081616c`),

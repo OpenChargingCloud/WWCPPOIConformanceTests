@@ -83,7 +83,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: '11.0.x'
 
       # Errors only: the warnings of the submodules, some hundred, would each become an annotation of this run, about
       # code that is not this repository's. This repository's own code treats warnings as errors.

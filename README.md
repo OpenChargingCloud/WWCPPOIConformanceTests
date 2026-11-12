@@ -20,13 +20,15 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `62390ca`, WWCP_POI.TS `c284b21`, Hermod `850cab3d`,
-Styx `21d00134`):
+Both harnesses are green against the pinned submodules (WWCP_POI `487cb65`, WWCP_POI.TS `c284b21`, Hermod `c5ff091b`,
+Styx `a6b9f9fb`) - but for the copies WWCP_POI.TS vendors of the frozen run and of the vectors, until it takes the run
+`csharp-76d3653` and the vectors made of it, and for the 8 vectors of the authentication mode `SecureDynamicQRCode`,
+which WWCP_POI.TS `c284b21` does not know yet:
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 847 | 872 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 847 | 847 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
+| C# harness (NUnit), WWCP_POI3 | 856 | 881 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 856 | 856 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy,
 those of the verifier extensions since `242fb29`.
@@ -104,7 +106,7 @@ decimals, integers and timestamps, and dropped the custom data of an address).
 | [`libs/Hermod`](https://github.com/Vanaheimr/Hermod) | Below WWCP_POI3 |
 | [`libs/Styx`](https://github.com/Vanaheimr/Styx) | Below Hermod: canonical JSON, deterministic CBOR, COSE - and its README, a source of vectors |
 
-Hermod and Styx are pinned at their masters of 2026-11-10, Hermod `850cab3d`, Styx `21d00134`: at or after the
+Hermod and Styx are pinned at their masters of 2026-11-12, Hermod `c5ff091b`, Styx `a6b9f9fb`: at or after the
 commits the RoamingHubCLI pins together with WWCP_POI (`b9e20a0`, with WWCP_POI `0474733`: Hermod `b8d24be3`, Styx
 `5f09dd47`). WWCP_POI since
 `7862c86` needs a Hermod that checks the origin of a request (`HTTPRequest.AllowsOrigin`). Styx keeps custom data as
@@ -117,7 +119,7 @@ git clone --recurse-submodules https://github.com/OpenChargingCloud/WWCPPOIConfo
 
 ## Building and testing
 
-The C# harness (requires the .NET 10 SDK):
+The C# harness (requires the .NET 11 SDK):
 
 ```bash
 dotnet test WWCPPOIConformanceTests.slnx

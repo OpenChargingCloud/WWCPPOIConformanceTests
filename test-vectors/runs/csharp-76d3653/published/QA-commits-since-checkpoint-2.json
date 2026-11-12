@@ -1,0 +1,394 @@
+[
+  {
+    "@id": "2fcee726dcb2eb0c7d78fdc39ba1e673cbfdeee9845756744c3adf2d7ebda926",
+    "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3",
+    "roamingNetworkId": "QA",
+    "revision": 11,
+    "eTags": [
+      [
+        "json",
+        "sha256",
+        "hex",
+        "2fbada5b0c6456005d9faee7dd85d183c91eed5a15ce8fa513dc6a347f846bb4"
+      ],
+      [
+        "cbor",
+        "sha256",
+        "hex",
+        "54cf869f861a97bdb83e77714747112cfdb458ba78baecef5f689324070c6f21"
+      ],
+      [
+        "effectiveTree",
+        "sha256",
+        "hex",
+        "1eafa9eaa699814d6ace7bda6576f2789b942a104c302a0210d8e0ee97aa8aad"
+      ]
+    ],
+    "parentIds": [
+      "520a7e738589cd3a58874e2f2b545491983a9ae42fad2a76b9457626db59e990"
+    ],
+    "changeSet": {
+      "@id": "c6b5820742eecb3dfdb46410b1cfca20857496b2a56839c8ad16b204d12238f2",
+      "roamingNetworkId": "QA",
+      "createdAt": "2026-11-12T21:54:32.124Z",
+      "description": {
+        "en": "The AC and the DC charging tariffs"
+      },
+      "signatures": [
+        {
+          "algorithm": "ES256",
+          "keyId": "90207193e9fb9f7e950920b2bf97d2b9d9247dbc8cf7107f01d432735a46d15f",
+          "value": "QbWj8hA+jnZ8WAqWww7mzsnPBjr1MJfDEE/zRheD4JQH1AdxkyD9QA676YtuU7zKzOVMKUl6cjIzmcoY91QTxg=="
+        }
+      ],
+      "changes": [
+        {
+          "kind": "Add",
+          "entityType": "ChargingTariff",
+          "entityId": "DE*GEF*T_AC",
+          "newValue": {
+            "@id": "DE*GEF*T_AC",
+            "name": {
+              "en": "AC charging"
+            },
+            "currency": "EUR",
+            "elements": [
+              {
+                "priceComponents": [
+                  {
+                    "type": "ENERGY",
+                    "price": 0.49,
+                    "stepSize": 1
+                  }
+                ]
+              }
+            ],
+            "created": "2026-11-12T21:54:32.092Z"
+          }
+        },
+        {
+          "kind": "Add",
+          "entityType": "ChargingTariff",
+          "entityId": "DE*GEF*T_DC",
+          "newValue": {
+            "@id": "DE*GEF*T_DC",
+            "name": {
+              "en": "DC charging"
+            },
+            "currency": "EUR",
+            "elements": [
+              {
+                "priceComponents": [
+                  {
+                    "type": "ENERGY",
+                    "price": 0.69,
+                    "stepSize": 1
+                  }
+                ]
+              }
+            ],
+            "created": "2026-11-12T21:54:32.124Z"
+          }
+        }
+      ],
+      "beforeETags": [
+        [
+          "json",
+          "sha256",
+          "hex",
+          "72e7e6afd98fdf6ef1d67a26f92d09d3c7c17b3fd380fff9c20a9f427556e6a3"
+        ],
+        [
+          "cbor",
+          "sha256",
+          "hex",
+          "150a6a95839896fc49e320881aa221799a0d56af882f8c15b8b21445eb18a909"
+        ]
+      ],
+      "afterETags": [
+        [
+          "json",
+          "sha256",
+          "hex",
+          "2fbada5b0c6456005d9faee7dd85d183c91eed5a15ce8fa513dc6a347f846bb4"
+        ],
+        [
+          "cbor",
+          "sha256",
+          "hex",
+          "54cf869f861a97bdb83e77714747112cfdb458ba78baecef5f689324070c6f21"
+        ]
+      ]
+    },
+    "signatures": [
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-12T21:54:32.191Z",
+        "algorithm": "ES256",
+        "keyId": "032a1055c27686ea6f6afe47a84e33c96c39431c0fa3a0dcddc4b31c53b5f05e",
+        "value": "67ZvbBW7WN89dVOCq1uppRi/wgbqMyt2L7UQ7kLNN5DgnTPBInEh72SqSOefDOTmNpGtcdy68dWPrj520qBe+A=="
+      },
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-12T21:54:32.194Z",
+        "algorithm": "ES256",
+        "keyId": "ad3b940d38dfca04a56c7f25ae056d5d1698bda77b4fb3648f79dbf4a412c1b7",
+        "value": "BniCq+dPpb/MH5GkJzyotMlqM/MDTjeNVgqKkb5fPiNM/OhbizEUzE6XFFx5CsiCY7p3rSg0Cl0BioDAIzqm8w=="
+      },
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-12T21:54:32.198Z",
+        "algorithm": "ES256",
+        "keyId": "bbc5f8209bab9973a1c80df1cb22a1a857122d2dba26dc032a9ac84a5260e8bf",
+        "value": "/H7as/dHlKTQjKjIbu4gGohDlPpLeIDAnP3ef+mQcKOHHVh361mhQpaw/yocTYhuCZw+WpgzwZ7HJObzM5Wd7g=="
+      }
+    ]
+  },
+  {
+    "@id": "d1afef56c4575f95fd8972435cad6f789b403f24d922744d4dacae88fb70daa3",
+    "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3",
+    "roamingNetworkId": "QA",
+    "revision": 12,
+    "eTags": [
+      [
+        "json",
+        "sha256",
+        "hex",
+        "97714b4ae3dc00b435c95108cfeaba0b345295dda67f9e908bb3cac0ba053e96"
+      ],
+      [
+        "cbor",
+        "sha256",
+        "hex",
+        "2b9838d835f7f70073e7511a299c059eb728b5a720e4534df0fbd16e43ea8435"
+      ],
+      [
+        "effectiveTree",
+        "sha256",
+        "hex",
+        "0468c8a9ec8147ce773a5b6c6cb9adb2749568f947be06a17983434cfe71bc23"
+      ]
+    ],
+    "parentIds": [
+      "2fcee726dcb2eb0c7d78fdc39ba1e673cbfdeee9845756744c3adf2d7ebda926"
+    ],
+    "changeSet": {
+      "@id": "00c8b6c8487bdb211b9d29cd8c75b4850736c1c385e4d2275a7c2cb6f6476f4b",
+      "roamingNetworkId": "QA",
+      "createdAt": "2026-11-12T21:54:32.204Z",
+      "description": {
+        "en": "The EVSE templates name the tariffs"
+      },
+      "signatures": [
+        {
+          "algorithm": "ES256",
+          "keyId": "ff8a51dcdf5bb8c62b8123e1f5df979a6403eceff743c730cfb3fb6189c3287f",
+          "value": "+W5vIBzR9DmQqkf1dr+yundOSAhLFpg/TxVR+ncoi1CjZiD22RNOJUXuZrhEnTi9a1GlVC37b4nvbi44Yq7D8Q=="
+        }
+      ],
+      "changes": [
+        {
+          "kind": "UpdateProperty",
+          "entityType": "EVSETemplate",
+          "entityId": "DE*GEF*ET_AC",
+          "propertyName": "chargingTariffId",
+          "oldValue": null,
+          "newValue": "DE*GEF*T_AC"
+        },
+        {
+          "kind": "UpdateProperty",
+          "entityType": "EVSETemplate",
+          "entityId": "DE*GEF*ET_DC",
+          "propertyName": "chargingTariffId",
+          "oldValue": null,
+          "newValue": "DE*GEF*T_DC"
+        }
+      ],
+      "beforeETags": [
+        [
+          "json",
+          "sha256",
+          "hex",
+          "2fbada5b0c6456005d9faee7dd85d183c91eed5a15ce8fa513dc6a347f846bb4"
+        ],
+        [
+          "cbor",
+          "sha256",
+          "hex",
+          "54cf869f861a97bdb83e77714747112cfdb458ba78baecef5f689324070c6f21"
+        ]
+      ],
+      "afterETags": [
+        [
+          "json",
+          "sha256",
+          "hex",
+          "97714b4ae3dc00b435c95108cfeaba0b345295dda67f9e908bb3cac0ba053e96"
+        ],
+        [
+          "cbor",
+          "sha256",
+          "hex",
+          "2b9838d835f7f70073e7511a299c059eb728b5a720e4534df0fbd16e43ea8435"
+        ]
+      ]
+    },
+    "signatures": [
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-12T21:54:32.298Z",
+        "algorithm": "ES256",
+        "keyId": "032a1055c27686ea6f6afe47a84e33c96c39431c0fa3a0dcddc4b31c53b5f05e",
+        "value": "yAkk+AMOHPEhg98rCMhlDP7YlXDgMlwqITsw6XnV/fgUWvXWOWITmjltLRco0FWt5/+Du/UrjjdetqToNUSiJw=="
+      },
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-12T21:54:32.301Z",
+        "algorithm": "ES256",
+        "keyId": "ad3b940d38dfca04a56c7f25ae056d5d1698bda77b4fb3648f79dbf4a412c1b7",
+        "value": "0Kj6i29DPgilrD1VPONlAqfFK/+eRWsMFVtkVs51kK6ScRlXB1ROZLtD4Iep7t5OJcZzcRo3ER4Q+r9oBLenfA=="
+      },
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-12T21:54:32.305Z",
+        "algorithm": "ES256",
+        "keyId": "bbc5f8209bab9973a1c80df1cb22a1a857122d2dba26dc032a9ac84a5260e8bf",
+        "value": "YtHnAMFDbpU1tD2q50khfgBFPA+KQt7Y8sw33pWW5YZxZvHYS/iup4XbldHQTToC+HH3xHDy/HwX6kuycVMMNA=="
+      }
+    ]
+  },
+  {
+    "@id": "cc3bf0c6ab2ce347ed092c210d44d1e25022027b79e45086c3c1314e9df9a5e4",
+    "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3",
+    "roamingNetworkId": "QA",
+    "revision": 13,
+    "eTags": [
+      [
+        "json",
+        "sha256",
+        "hex",
+        "9d49cc99fb3123779c2c4de929c59338cf8bb97b74f54b4e0f929abc17e5e22c"
+      ],
+      [
+        "cbor",
+        "sha256",
+        "hex",
+        "d46364fd9c998183e0064cc6e872d9e994f3686f0b94d87829f3e728d703c9c9"
+      ],
+      [
+        "effectiveTree",
+        "sha256",
+        "hex",
+        "3649704cbe4dbaae2d736cec68d105d2a1c22adb70119ef8382626265da76b58"
+      ]
+    ],
+    "parentIds": [
+      "d1afef56c4575f95fd8972435cad6f789b403f24d922744d4dacae88fb70daa3"
+    ],
+    "changeSet": {
+      "@id": "5aaea84116703e574672d4c35119330504a0ac0c91ac9813ae0b32e47e6b3c73",
+      "roamingNetworkId": "QA",
+      "createdAt": "2026-11-12T21:54:32.427Z",
+      "description": {
+        "en": "The AC charging tariff: 0.52 €/kWh"
+      },
+      "signatures": [
+        {
+          "algorithm": "ES256",
+          "keyId": "90207193e9fb9f7e950920b2bf97d2b9d9247dbc8cf7107f01d432735a46d15f",
+          "value": "Ll2Ol13pcPJ0aRLzWadHaesaTzeGnH4LPWZ+0QoJtLgk7UtjE4I4lXkEb2gx0vO6g3Er+EwHH3T8vt1Y0ed/Vg=="
+        }
+      ],
+      "changes": [
+        {
+          "kind": "UpdateProperty",
+          "entityType": "ChargingTariff",
+          "entityId": "DE*GEF*T_AC",
+          "propertyName": "elements",
+          "oldValue": [
+            {
+              "priceComponents": [
+                {
+                  "type": "ENERGY",
+                  "price": 0.49,
+                  "stepSize": 1
+                }
+              ]
+            }
+          ],
+          "newValue": [
+            {
+              "priceComponents": [
+                {
+                  "type": "ENERGY",
+                  "price": 0.52,
+                  "stepSize": 1
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "beforeETags": [
+        [
+          "json",
+          "sha256",
+          "hex",
+          "97714b4ae3dc00b435c95108cfeaba0b345295dda67f9e908bb3cac0ba053e96"
+        ],
+        [
+          "cbor",
+          "sha256",
+          "hex",
+          "2b9838d835f7f70073e7511a299c059eb728b5a720e4534df0fbd16e43ea8435"
+        ]
+      ],
+      "afterETags": [
+        [
+          "json",
+          "sha256",
+          "hex",
+          "9d49cc99fb3123779c2c4de929c59338cf8bb97b74f54b4e0f929abc17e5e22c"
+        ],
+        [
+          "cbor",
+          "sha256",
+          "hex",
+          "d46364fd9c998183e0064cc6e872d9e994f3686f0b94d87829f3e728d703c9c9"
+        ]
+      ]
+    },
+    "signatures": [
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-12T21:54:32.469Z",
+        "algorithm": "ES256",
+        "keyId": "032a1055c27686ea6f6afe47a84e33c96c39431c0fa3a0dcddc4b31c53b5f05e",
+        "value": "FKlKifTzucdkl2zBiRMb+t6aI2Bsl0dpyDgArmHD5Xlh4mI+bnPfOOhKvqdQEn1oHOBh7wAgDGbOTzcD1qOtwg=="
+      },
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-12T21:54:32.472Z",
+        "algorithm": "ES256",
+        "keyId": "ad3b940d38dfca04a56c7f25ae056d5d1698bda77b4fb3648f79dbf4a412c1b7",
+        "value": "oEjkR1O7l9Wldx506xgz7cBJQDpFCwWmHSD+Z8XCbnTMTQ/JbkWyjHgRmHzi3Ija6IVNcHGWMvmGPJ3ml04gIQ=="
+      },
+      {
+        "role": "roamingNetworkOperator",
+        "signer": "OCC",
+        "signedAt": "2026-11-12T21:54:32.475Z",
+        "algorithm": "ES256",
+        "keyId": "bbc5f8209bab9973a1c80df1cb22a1a857122d2dba26dc032a9ac84a5260e8bf",
+        "value": "4ii+iZPJU4oLYfJBQQzof9rebtRVvfmDvKwZeR9O3G3nlOrVt1QyJsXmVmFo8gO4iTNE2hdVzRK37aaDHO6Qxg=="
+      }
+    ]
+  }
+]

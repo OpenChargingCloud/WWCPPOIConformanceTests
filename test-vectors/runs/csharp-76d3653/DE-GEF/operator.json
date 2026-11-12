@@ -1,0 +1,49 @@
+{
+  "@id": "DE*GEF",
+  "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/chargingStationOperator/v1",
+  "name": {
+    "en": "GraphDefined Charging Solutions"
+  },
+  "description": {
+    "en": "GraphDefined the first Charging Station Operator on the Open Charging Cloud"
+  },
+  "signingKeys": [
+    {
+      "@id": "90207193e9fb9f7e950920b2bf97d2b9d9247dbc8cf7107f01d432735a46d15f",
+      "key": "pAECIAEhWCCWVrUN/S9WRxVEvIdVlddZ4aKJ0EKO0FM72rRUZPuoDCJYIOU+yNMKNZpdM/1uFrY7gTcx8Z0ZHZKqzD9sXqCLKigS",
+      "notAfter": "2027-11-12T21:54:24.897Z",
+      "usages": [
+        "priceStatements",
+        "tariffs"
+      ]
+    },
+    {
+      "@id": "d0e7d72465abd495b98c9f94e172510bc211f14c9aca776298d3d913837575d5",
+      "key": "pAECIAEhWCAUNt7IKajw0gy3h6oaV7YMlBvpOBqNBVdEoQ5C3ND9tSJYIM3PejSItRkdmYbhj4s5VY4vMtkbfPtU8orFL0O7lgIR",
+      "notAfter": "2027-11-12T21:54:24.897Z",
+      "usages": [
+        "party"
+      ]
+    },
+    {
+      "@id": "ff8a51dcdf5bb8c62b8123e1f5df979a6403eceff743c730cfb3fb6189c3287f",
+      "key": "pAECIAEhWCArbrJtvgj0jS1aAlaQkPn8jBjN/PxF6RI4dksDDAOhyCJYIADmJoFbWz09vTcvDZ0o1zNHoyXlaHRbkMhzS58A+KOj",
+      "notAfter": "2027-11-12T21:54:24.897Z",
+      "usages": [
+        "infrastructure"
+      ]
+    }
+  ],
+  "identityKeys": [
+    {
+      "@id": "8e249e50e87f9136c2fa1feed535ade2aa5dae61aff10067033223e48e7bd35d",
+      "key": "pAECIAMhWEIB/YBf2eu3IBJFgu9Cv1I7VHRXzPXlz9HT8t9C/0HRXVbaCRgPk/Nbt5XQeXCGD4k+7pwGK8n6G66iD/oZIyT4ICEiWEIBZFPFv3MKuQMCy5TeTL3RE5MD9NcxlDKM+zppIwtvleZg7o6MC7TVoPaKgUJP9VXOT+I9wTKfa5cBlXQV6vmOuBo="
+    },
+    {
+      "@id": "cdd9e22d19597b8845f8deda9e0208a24841a1a5c87a51999f06836713eb51a5",
+      "key": "owEBIAchWDlG1kL/axJBqw/5eCw44ENOfaPfZqrIWOWDPsQluLDNnCWXDPuZiUDeuq+fwuVW8FjQ6l6ncOe1dIA="
+    }
+  ],
+  "created": "2026-11-12T21:54:25.024Z",
+  "lastChange": "2026-11-12T21:54:25.024Z"
+}

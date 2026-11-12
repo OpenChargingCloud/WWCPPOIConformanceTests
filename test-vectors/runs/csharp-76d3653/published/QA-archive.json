@@ -1,0 +1,35 @@
+[
+  {
+    "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/archiveSegmentInfo/v1",
+    "number": 1,
+    "rootId": "5491d293240c61e071ee0bf3801566603e5bbf1be84d7e86858546cffab110ce",
+    "endId": "39cf357f092da1f9d70ebb358d2d7e42d00fe35fba310135bf7dd8e002e277b7",
+    "fromRevision": 0,
+    "toRevision": 7,
+    "size": 7,
+    "archivedAt": "2026-11-12T21:54:31.034Z",
+    "commitIds": [
+      "5248bf2c59ed50e2b176bb0be64d3e4f7b21780f8b9f89a2011ccd8d0b4af3c0",
+      "db934da22dd7926fb4873b5101fd86e2e06ba0d50eafa677486299621c3a37c5",
+      "d46d32144ded23cfdc775ee455ec2517dfc09743c0b29fd429946c2587fec2eb",
+      "dfd567760ecc901d80782dd1e162ed5a1c3f94f1c90af218260dfd19ec810411",
+      "0cf4e85eb12ee75dcaae3d5e98828417115506236beb6936b3fa06654d58eaf6",
+      "a1b2fc80e4dc2cb83e861d953f9943bfeecffa863ab672ff15934b622ca7f2f6",
+      "39cf357f092da1f9d70ebb358d2d7e42d00fe35fba310135bf7dd8e002e277b7"
+    ]
+  },
+  {
+    "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/archiveSegmentInfo/v1",
+    "number": 2,
+    "rootId": "39cf357f092da1f9d70ebb358d2d7e42d00fe35fba310135bf7dd8e002e277b7",
+    "endId": "0a87c12c3d9a7a117bc9dd51f848386125479069fbed96fda2996f85ca3ca5f1",
+    "fromRevision": 7,
+    "toRevision": 9,
+    "size": 2,
+    "archivedAt": "2026-11-12T21:54:31.099Z",
+    "commitIds": [
+      "3322c7146788ee30ff50c4d12507f9bb2630f5f34f93372153d206190c3c8877",
+      "0a87c12c3d9a7a117bc9dd51f848386125479069fbed96fda2996f85ca3ca5f1"
+    ]
+  }
+]
