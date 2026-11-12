@@ -2,7 +2,7 @@
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
 (WWCP_POI3, `libs/WWCP_POI` at `487cb65`, Hermod `c5ff091b`, Styx `a6b9f9fb`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `c284b21`) take or calculate different things.
+`libs/WWCP_POI.TS` at `c822556`) take or calculate different things.
 
 Each deviation is
 
@@ -815,7 +815,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   option `EVTaler` while its operator names no merchant (EV Taler, phase 1; WWCP_POI `ec3dace`, WWCP_POI.TS
   `0aaf713`), refused in the same words, and a charging pool naming the authentication mode `SecureDynamicQRCode`
   without its channels, with none, with the channel `QR` or `Display` twice, `RFID` naming a channel, and its
-  channels out of their ordinal order (WWCP_POI `76d3653`; WWCP_POI.TS not yet, which takes them), and a version naming a signing key of a usage POI does not know
+  channels out of their ordinal order (WWCP_POI `76d3653`, WWCP_POI.TS `c822556`), and a version naming a signing key of a usage POI does not know
   (WWCP_POI.TS since `37b34f2`, D12), and a version naming a key not written as POI writes it - its `notAfter` with
   an offset, of a date only or `null`, its key in CBOR that is not deterministic (WWCP_POI since `a425530`, D13), and a
   version naming a conformity assessment body WWCP_POI does not read - a certificate under a legislation it is not
@@ -873,7 +873,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   in either order, both removed in one, the merchant first, but neither the pool naming it without the merchant nor the
   merchant removed while the pool names it (EV Taler, phase 1; WWCP_POI `ec3dace`, WWCP_POI.TS `0aaf713`), the pool
   naming `EVTaler` with the authentication mode `SecureDynamicQRCode`, in either order, but neither without it nor
-  removing it while it names `EVTaler` (WWCP_POI `76d3653`, decision D8; WWCP_POI.TS not yet, which takes both), the web
+  removing it while it names `EVTaler` (WWCP_POI `76d3653`, decision D8; WWCP_POI.TS `c822556`), the web
   payment page of an operator, a pool and a station signed by a key for payments, not by one for infrastructure or for
   the party, a station naming one, or a pool by one of its stations, added by one key for infrastructure and payments,
   not by one for infrastructure alone nor by two keys naming one each (WWCP_POI `848cc52`, WWCP_POI.TS `081616c`),

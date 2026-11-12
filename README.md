@@ -20,10 +20,8 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `487cb65`, WWCP_POI.TS `c284b21`, Hermod `c5ff091b`,
-Styx `a6b9f9fb`) - but for the copies WWCP_POI.TS vendors of the frozen run and of the vectors, until it takes the run
-`csharp-76d3653` and the vectors made of it, and for the 8 vectors of the authentication mode `SecureDynamicQRCode`,
-which WWCP_POI.TS `c284b21` does not know yet:
+Both harnesses are green against the pinned submodules (WWCP_POI `487cb65`, WWCP_POI.TS `c822556`, Hermod `c5ff091b`,
+Styx `a6b9f9fb`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|

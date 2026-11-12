@@ -86,9 +86,8 @@ The TS harness imports WWCP_POI.TS from source, so the implementation's own depe
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
 Expected: C# 881 passed / 0 skipped (its 12 copy tests need the vendored `poi-*.json`, both runs and `chargy` of
-WWCP_POI.TS: a copy missing or drifted is red; five are, until WWCP_POI.TS vendors `csharp-76d3653` and the vectors
-made of it), TS 856 passed / 7 skipped (7 signing: WWCP_POI.TS verifies only; until WWCP_POI.TS takes the authentication
-mode `SecureDynamicQRCode`, 8 of them fail). Skips are load-bearing, not noise. The C# harness needs the .NET 11 SDK:
+WWCP_POI.TS: a copy missing or drifted is red), TS 856 passed / 7 skipped (7 signing: WWCP_POI.TS verifies only).
+Skips are load-bearing, not noise. The C# harness needs the .NET 11 SDK:
 WWCP_POI builds for `net11.0` since `50f772a`.
 
 ## Ground rules
