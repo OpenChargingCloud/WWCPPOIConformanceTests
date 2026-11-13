@@ -1,8 +1,8 @@
 # Where WWCP_POI3 and WWCP_POI.TS differ
 
 What running both implementations against the golden vectors of this repository found: where the C# implementation
-(WWCP_POI3, `libs/WWCP_POI` at `487cb65`, Hermod `c5ff091b`, Styx `a6b9f9fb`) and the TypeScript port (WWCP_POI.TS,
-`libs/WWCP_POI.TS` at `d215830`, its release 0.4.0) take or calculate different things.
+(WWCP_POI3, `libs/WWCP_POI` at `bc554b2`, Hermod `c5ff091b`, Styx `a6b9f9fb`) and the TypeScript port (WWCP_POI.TS,
+`libs/WWCP_POI.TS` at `175b4e0`, its release 0.4.0) take or calculate different things.
 
 Each deviation is
 
@@ -59,7 +59,7 @@ WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, was WWCP_POI.TS's,
 elements of a price status, was WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
 define, which SPECIFICATION.md 2 refuses; it is fixed in WWCP_POI.TS `ce88620`, with the elements of a price status
 written as a charging tariff holds them, which SPECIFICATION.md 12.1 says since WWCP_POI `5a72313`
-([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 913 vectors - WWCP_POI3
+([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 924 vectors - WWCP_POI3
 alone signs the 7 signatures of section 6 again from their private seeds, which WWCP_POI.TS verifies only - and agree on
 every one of them (see [What both do alike](#what-both-do-alike)). Among them are the 13 replays of `poi-histories.json`
 WWCP_POI.TS left to WWCP_POI before: the references a version holds, which it checks since `813e1d7`, and the changes of
@@ -856,7 +856,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   ([O4](#o4-no-valid-until)), valid for a day, and valid longer; and the holders of a quorum as the trust anchor names
   them (csharp-review 1), two identity keys of Alpha one holder, a key statement naming one of them as Beta's, and a key
   the statement does not name counted for the holder the trust anchor names;
-- all 76 replays of `poi-histories.json`: histories the generator made and signed
+- all 117 replays of `poi-histories.json`: histories the generator made and signed
   with keys whose seeds it gives (the Ed25519 keys of section 6, and Ed25519, Ed448 and ES256 keys of its own), every
   refusal with its control, the document refused but for what it is about, taken in its place: who signs in place of a
   party without keys and with which usages (csharp-review 13), who states a certificate (15), releases and certificates
@@ -886,7 +886,13 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   a change set given otherwise than WWCP_POI3 writes it again - a precondition untrimmed, no precondition in an empty
   array, metadata holding nothing -, it and its commit identified and signed as written again, and refused where the
   change set is identified as given (WWCP_POI.TS since `791219c`, which identified the commit over the change set as
-  given before),
+  given before), a change set naming what it is not written with - a property a change set, a change or a precondition
+  does not have, its `createdAt` without milliseconds or with an offset, its roaming network as a number -, which
+  WWCP_POI3 took before WWCP_POI `bc554b2`, leaving it out or writing it otherwise, but for the number (WWCP_POI.TS
+  refused them already): with its commit identified over it as given refused by both in the same words, with its
+  commit identified over it as written again by WWCP_POI3 for what it names and by WWCP_POI.TS for the identification
+  of the commit, which it calculates over a change set it does not read as given; a precondition by both as
+  `Invalid precondition 0!`, neither saying what of it,
   and three
   epochs, the first checkpoint of the third one signed with an algorithm of the second one only, and with one
   of neither (14), and a history started from a snapshot of the genesis of the third one, its commit signed with an

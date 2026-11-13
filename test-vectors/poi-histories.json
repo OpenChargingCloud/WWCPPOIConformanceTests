@@ -125,7 +125,19 @@
         "precondition-untrimmed": "{\"@id\":\"147ba1b92e7039b2b5aee3e9aaa41ab398d0db6949c0be499c2292ad61af904e\",\"changeSet\":{\"@id\":\"a65f37972e7242f0b818eadd489ffb1cd9de2632520ea101d490ef51a039fbb9\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"preconditions\":[{\"eTag\":[\"json\",\"sha256\",\"hex\",\"e87a69af9c74d7d6b3d106f199e5fde518ec7e6fd82594877c3cff7d62edfeb2\"],\"entityId\":\" DE*GEF \",\"entityType\":\"ChargingStationOperator\"}],\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"tYjZL8HTfuDMe47KZMmAjBNyMyp0k88ZQ9UZ6qbHJ9uyheNtwt34j2ySvAU/ASJpBFPPYUMlWZZthV6rCAB8DQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"LNix7dgrDl3M53BBCkVShDR1NIweF29sbfkNKwp0ziJj23jPuIasvPbzYCOfE15eVdD6ZVFU24rqwtShHwJLBA==\"}]}",
         "precondition-as-given": "{\"@id\":\"1d34830e9a54ee2081fa507a7385a10fcb04ef276568c476d1127d7de377c9d3\",\"changeSet\":{\"@id\":\"7671c317d93216c5eff912eb18f66f62d502c6dddd51299643fab05f80db153c\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"preconditions\":[{\"eTag\":[\"json\",\"sha256\",\"hex\",\"e87a69af9c74d7d6b3d106f199e5fde518ec7e6fd82594877c3cff7d62edfeb2\"],\"entityId\":\" DE*GEF \",\"entityType\":\"ChargingStationOperator\"}],\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"GmC64WP/RLuF+u8CTNJ3NRbivv5IVNDxBgSvk515i76dv9CDFKY91sclt7MfIFsgljD6oDgUWDoBRratKghCCQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"LrEeH0flZzR4Sgmnl9rU2K8+JtkFz7ZVGhPQ4z8Kv2DMfYxj+6LiqldBrOJDUvY4YHPQ5AEGw1jJG/bhP8/4AQ==\"}]}",
         "preconditions-empty": "{\"@id\":\"cab1095444b4f1f1ce1071836be7a9399e43ec48a29da75693f359932edc9a9c\",\"changeSet\":{\"@id\":\"d0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"preconditions\":[],\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"gQdnMtS6f2UV+tH8FXsKv1DRMTyBL5JhRYLVz/d7Al+OuVJyy/4/IfPLK9hiBfiA3vQ+gBS3zUhyvHfXHR1ADg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"PkvTnEX1BBG3omDUcJ7V3FBRk1E55TKaxD4LHVsC65urNcEJbpAiMNGby5+HpwqoJu7AaRBu90V1eMrI8AZXCg==\"}]}",
-        "metadata-empty": "{\"@id\":\"cab1095444b4f1f1ce1071836be7a9399e43ec48a29da75693f359932edc9a9c\",\"changeSet\":{\"@id\":\"d0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"metadata\":{},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"gQdnMtS6f2UV+tH8FXsKv1DRMTyBL5JhRYLVz/d7Al+OuVJyy/4/IfPLK9hiBfiA3vQ+gBS3zUhyvHfXHR1ADg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"PkvTnEX1BBG3omDUcJ7V3FBRk1E55TKaxD4LHVsC65urNcEJbpAiMNGby5+HpwqoJu7AaRBu90V1eMrI8AZXCg==\"}]}"
+        "metadata-empty": "{\"@id\":\"cab1095444b4f1f1ce1071836be7a9399e43ec48a29da75693f359932edc9a9c\",\"changeSet\":{\"@id\":\"d0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"metadata\":{},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"gQdnMtS6f2UV+tH8FXsKv1DRMTyBL5JhRYLVz/d7Al+OuVJyy/4/IfPLK9hiBfiA3vQ+gBS3zUhyvHfXHR1ADg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"PkvTnEX1BBG3omDUcJ7V3FBRk1E55TKaxD4LHVsC65urNcEJbpAiMNGby5+HpwqoJu7AaRBu90V1eMrI8AZXCg==\"}]}",
+        "change-set-as-written": "{\"@id\":\"cab1095444b4f1f1ce1071836be7a9399e43ec48a29da75693f359932edc9a9c\",\"changeSet\":{\"@id\":\"d0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"gQdnMtS6f2UV+tH8FXsKv1DRMTyBL5JhRYLVz/d7Al+OuVJyy/4/IfPLK9hiBfiA3vQ+gBS3zUhyvHfXHR1ADg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"PkvTnEX1BBG3omDUcJ7V3FBRk1E55TKaxD4LHVsC65urNcEJbpAiMNGby5+HpwqoJu7AaRBu90V1eMrI8AZXCg==\"}]}",
+        "change-set-unread-property": "{\"@id\":\"9a63fb6d4a2bb41e981e7f230e4345b075d38d43146d0701497834cbeec7f6e8\",\"changeSet\":{\"@id\":\"d0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"note\":\"left out as it is written again\",\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"gQdnMtS6f2UV+tH8FXsKv1DRMTyBL5JhRYLVz/d7Al+OuVJyy/4/IfPLK9hiBfiA3vQ+gBS3zUhyvHfXHR1ADg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"duDSIaMvdRsbY2tPY4+qXHrh3bQ9n14ZRtq7bfu+LXIEuSxYoxEBddWhclVEBGuLpBq6ld7NmULtsC+UKDCXCg==\"}]}",
+        "change-set-unread-property-commit-as-written": "{\"@id\":\"cab1095444b4f1f1ce1071836be7a9399e43ec48a29da75693f359932edc9a9c\",\"changeSet\":{\"@id\":\"d0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"note\":\"left out as it is written again\",\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"gQdnMtS6f2UV+tH8FXsKv1DRMTyBL5JhRYLVz/d7Al+OuVJyy/4/IfPLK9hiBfiA3vQ+gBS3zUhyvHfXHR1ADg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"PkvTnEX1BBG3omDUcJ7V3FBRk1E55TKaxD4LHVsC65urNcEJbpAiMNGby5+HpwqoJu7AaRBu90V1eMrI8AZXCg==\"}]}",
+        "change-unread-property": "{\"@id\":\"afe1a40ee8bf444ae069f8551bfccf973757574c3ed64039d6c43963171154a3\",\"changeSet\":{\"@id\":\"d0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"note\":\"left out as it is written again\",\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"gQdnMtS6f2UV+tH8FXsKv1DRMTyBL5JhRYLVz/d7Al+OuVJyy/4/IfPLK9hiBfiA3vQ+gBS3zUhyvHfXHR1ADg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"DM1ECadS+M93u+OQ49WGmqc0oGlNvpEzgxjRiJdJ+qYerIe+yKpIHFLfGAztOeAKQvSEYT08KDFd6lkXv4a4DA==\"}]}",
+        "change-unread-property-commit-as-written": "{\"@id\":\"cab1095444b4f1f1ce1071836be7a9399e43ec48a29da75693f359932edc9a9c\",\"changeSet\":{\"@id\":\"d0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"note\":\"left out as it is written again\",\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"gQdnMtS6f2UV+tH8FXsKv1DRMTyBL5JhRYLVz/d7Al+OuVJyy/4/IfPLK9hiBfiA3vQ+gBS3zUhyvHfXHR1ADg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"PkvTnEX1BBG3omDUcJ7V3FBRk1E55TKaxD4LHVsC65urNcEJbpAiMNGby5+HpwqoJu7AaRBu90V1eMrI8AZXCg==\"}]}",
+        "created-at-without-milliseconds": "{\"@id\":\"a47fd0f3ec4e1c7c9de124695f7f6f965892cdb0528c96bea65fe5b8eda11946\",\"changeSet\":{\"@id\":\"d0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"gQdnMtS6f2UV+tH8FXsKv1DRMTyBL5JhRYLVz/d7Al+OuVJyy/4/IfPLK9hiBfiA3vQ+gBS3zUhyvHfXHR1ADg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"LNvattItBDC1bm0Z2xHnUDwS42cUQOq1ogIo6jGX4CITQulf0udaVeAdffEuv1P+H9I9ciAaGaWLvWf7E3v+Aw==\"}]}",
+        "created-at-without-milliseconds-commit-as-written": "{\"@id\":\"cab1095444b4f1f1ce1071836be7a9399e43ec48a29da75693f359932edc9a9c\",\"changeSet\":{\"@id\":\"d0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"gQdnMtS6f2UV+tH8FXsKv1DRMTyBL5JhRYLVz/d7Al+OuVJyy/4/IfPLK9hiBfiA3vQ+gBS3zUhyvHfXHR1ADg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"PkvTnEX1BBG3omDUcJ7V3FBRk1E55TKaxD4LHVsC65urNcEJbpAiMNGby5+HpwqoJu7AaRBu90V1eMrI8AZXCg==\"}]}",
+        "created-at-with-an-offset": "{\"@id\":\"f39dba177999056c2714ac4727b0a5d40e99b0f539311a3870d33183eba39735\",\"changeSet\":{\"@id\":\"d0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000+00:00\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"gQdnMtS6f2UV+tH8FXsKv1DRMTyBL5JhRYLVz/d7Al+OuVJyy/4/IfPLK9hiBfiA3vQ+gBS3zUhyvHfXHR1ADg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"Aa0kkRj3AIjzYPKL+ULP+M/UaOcnKpCRx0bCae1NJD7H6E30ns18jtG4Ka+jXLquddSFr8jD0QgBdLKaj9tfCw==\"}]}",
+        "created-at-with-an-offset-commit-as-written": "{\"@id\":\"cab1095444b4f1f1ce1071836be7a9399e43ec48a29da75693f359932edc9a9c\",\"changeSet\":{\"@id\":\"d0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000+00:00\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"gQdnMtS6f2UV+tH8FXsKv1DRMTyBL5JhRYLVz/d7Al+OuVJyy/4/IfPLK9hiBfiA3vQ+gBS3zUhyvHfXHR1ADg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"PkvTnEX1BBG3omDUcJ7V3FBRk1E55TKaxD4LHVsC65urNcEJbpAiMNGby5+HpwqoJu7AaRBu90V1eMrI8AZXCg==\"}]}",
+        "roaming-network-as-a-number": "{\"@id\":\"a37ebd2ff5ef35bc76d4d3b717450d04c4e364bf49ae30157aac290991691bbd\",\"changeSet\":{\"@id\":\"d0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"roamingNetworkId\":1,\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"gQdnMtS6f2UV+tH8FXsKv1DRMTyBL5JhRYLVz/d7Al+OuVJyy/4/IfPLK9hiBfiA3vQ+gBS3zUhyvHfXHR1ADg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"9B4owC6ztUNCX9qxmzJP5SODgrM2yobTc3LPXU1VdiK7Hlk5SVR4zFgrdnMBGlJXwVWnVcQtkY/cqsekN8HfBg==\"}]}",
+        "roaming-network-as-a-number-commit-as-written": "{\"@id\":\"cab1095444b4f1f1ce1071836be7a9399e43ec48a29da75693f359932edc9a9c\",\"changeSet\":{\"@id\":\"d0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"roamingNetworkId\":1,\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"gQdnMtS6f2UV+tH8FXsKv1DRMTyBL5JhRYLVz/d7Al+OuVJyy/4/IfPLK9hiBfiA3vQ+gBS3zUhyvHfXHR1ADg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"PkvTnEX1BBG3omDUcJ7V3FBRk1E55TKaxD4LHVsC65urNcEJbpAiMNGby5+HpwqoJu7AaRBu90V1eMrI8AZXCg==\"}]}",
+        "precondition-unread-property": "{\"@id\":\"1423953cca7bc725dc2508b4b2424f50e842c3f6715e88aab11bbb384524ee39\",\"changeSet\":{\"@id\":\"d6afbe7b896159fe82275d3919e554cf85d6c10d51418018798901c49c886fa7\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],[\"cbor\",\"sha256\",\"hex\",\"649af2d6044bda37f66bbaee8a4e2a21b1351dd6dfd12c23cfae7d97d11d6bb8\"]],\"changes\":[{\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"en\":\"GraphDefined\"},\"oldValue\":{\"en\":\"GraphDefined Charging Solutions\"},\"propertyName\":\"name\"}],\"createdAt\":\"2026-10-18T08:25:00.000Z\",\"description\":{\"en\":\"DE*GEF names itself GraphDefined\"},\"preconditions\":[{\"eTag\":[\"json\",\"sha256\",\"hex\",\"e87a69af9c74d7d6b3d106f199e5fde518ec7e6fd82594877c3cff7d62edfeb2\"],\"entityId\":\"DE*GEF\",\"entityType\":\"ChargingStationOperator\",\"note\":\"left out as it is written again\"},{\"eTag\":[\"json\",\"sha256\",\"hex\",\"c5629536e179c1824d6719cf597b653b999a41e6dea3fa2945f08c1917b3952d\"],\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\"}],\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"44c0e74e71f7689798503a303680838c1b33c4aeb51cde483be63360071809e2\",\"value\":\"UuHZf01eXRp2srBWA22gcN5pmBk6/9QsT6eV/+PvYtuS9KjVK5k4Xnk9KSKVocbkOqhlAcrdVRsQ2KyRDCHDCw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"57d73a736dc81821dd096ac9c032bc873ae1161b5d7903de3cd1f18858c231bb\"],[\"cbor\",\"sha256\",\"hex\",\"7e708a368e0594abb3182b755a32307171efb9e107347a01e08e4916d942db0e\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4e1de972ab12d40ec1bb7e33a3a87ca806bed25a5451d73f86a126e0b6f76a43\"]],\"parentIds\":[\"bc6469bf23ba45b8ea720d715573c293a07152b8428036e5c794c28f55476695\"],\"revision\":16,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:25:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"TJ5GQhogXcjZURmvKvSDjGuTm6L+Dsr0jrl4Z+SLZxegVc5gChMJC7hDqwW3BaosJoIrtuSjfC9XBAvr1nBrAA==\"}]}"
       }
     },
     {
@@ -6571,6 +6583,881 @@
           ]
         }
       ]
+    },
+    {
+      "id": "change-set-unread-property",
+      "description": "A change set naming a property a change set does not have, `note`, identified and signed without it: as it is written again it would be left out. Its commit is identified and signed over it as given.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkChangeSet.TryParse and RoamingNetworkPrecondition.TryParse, WWCP_POI bc554b2; WWCP_POI.TS 0.4.0",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "change-set-unread-property"
+        }
+      ],
+      "control": "change-set-as-written",
+      "reason": "A change set must not name the property 'note'!"
+    },
+    {
+      "id": "change-set-unread-property-commit-as-written",
+      "description": "A change set naming a property a change set does not have, `note`, identified and signed without it: as it is written again it would be left out. Its commit is identified and signed over it as it is written again, which WWCP_POI3 took before bc554b2.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkChangeSet.TryParse and RoamingNetworkPrecondition.TryParse, WWCP_POI bc554b2; WWCP_POI.TS 0.4.0",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "change-set-unread-property-commit-as-written"
+        }
+      ],
+      "control": "change-set-as-written"
+    },
+    {
+      "id": "change-unread-property",
+      "description": "A change set whose change names a property a change does not have, `note`, identified and signed without it. Its commit is identified and signed over it as given.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkChangeSet.TryParse and RoamingNetworkPrecondition.TryParse, WWCP_POI bc554b2; WWCP_POI.TS 0.4.0",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "change-unread-property"
+        }
+      ],
+      "control": "change-set-as-written",
+      "reason": "Change 0 must not name the property 'note'!"
+    },
+    {
+      "id": "change-unread-property-commit-as-written",
+      "description": "A change set whose change names a property a change does not have, `note`, identified and signed without it. Its commit is identified and signed over it as it is written again, which WWCP_POI3 took before bc554b2.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkChangeSet.TryParse and RoamingNetworkPrecondition.TryParse, WWCP_POI bc554b2; WWCP_POI.TS 0.4.0",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "change-unread-property-commit-as-written"
+        }
+      ],
+      "control": "change-set-as-written"
+    },
+    {
+      "id": "change-set-created-at-without-milliseconds",
+      "description": "A change set whose createdAt is written without its milliseconds, identified and signed with them: as it is written again it would have them. Its commit is identified and signed over it as given.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkChangeSet.TryParse and RoamingNetworkPrecondition.TryParse, WWCP_POI bc554b2; WWCP_POI.TS 0.4.0",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "created-at-without-milliseconds"
+        }
+      ],
+      "control": "change-set-as-written",
+      "reason": "The createdAt of the change set 'd0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e' must be written as yyyy-MM-ddTHH:mm:ss.fffZ, not '2026-10-18T08:25:00Z'!"
+    },
+    {
+      "id": "change-set-created-at-without-milliseconds-commit-as-written",
+      "description": "A change set whose createdAt is written without its milliseconds, identified and signed with them: as it is written again it would have them. Its commit is identified and signed over it as it is written again, which WWCP_POI3 took before bc554b2.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkChangeSet.TryParse and RoamingNetworkPrecondition.TryParse, WWCP_POI bc554b2; WWCP_POI.TS 0.4.0",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "created-at-without-milliseconds-commit-as-written"
+        }
+      ],
+      "control": "change-set-as-written"
+    },
+    {
+      "id": "change-set-created-at-with-an-offset",
+      "description": "A change set whose createdAt is written with the offset +00:00 instead of Z, identified and signed with Z. Its commit is identified and signed over it as given.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkChangeSet.TryParse and RoamingNetworkPrecondition.TryParse, WWCP_POI bc554b2; WWCP_POI.TS 0.4.0",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "created-at-with-an-offset"
+        }
+      ],
+      "control": "change-set-as-written",
+      "reason": "The createdAt of the change set 'd0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e' must be written as yyyy-MM-ddTHH:mm:ss.fffZ, not '2026-10-18T08:25:00.000+00:00'!"
+    },
+    {
+      "id": "change-set-created-at-with-an-offset-commit-as-written",
+      "description": "A change set whose createdAt is written with the offset +00:00 instead of Z, identified and signed with Z. Its commit is identified and signed over it as it is written again, which WWCP_POI3 took before bc554b2.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkChangeSet.TryParse and RoamingNetworkPrecondition.TryParse, WWCP_POI bc554b2; WWCP_POI.TS 0.4.0",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "created-at-with-an-offset-commit-as-written"
+        }
+      ],
+      "control": "change-set-as-written"
+    },
+    {
+      "id": "change-set-roaming-network-as-a-number",
+      "description": "A change set naming its roaming network as the number 1, identified and signed naming rn1: a number would be written again as a text. Its commit is identified and signed over it as given.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkChangeSet.TryParse and RoamingNetworkPrecondition.TryParse, WWCP_POI bc554b2; WWCP_POI.TS 0.4.0",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "roaming-network-as-a-number"
+        }
+      ],
+      "control": "change-set-as-written",
+      "reason": "The roaming network of the change set 'd0edf51431fb763c81b0dcd9d90c40e834524e27a267783193b7d3c6ae9d3c8e' must be a text!"
+    },
+    {
+      "id": "change-set-roaming-network-as-a-number-commit-as-written",
+      "description": "A change set naming its roaming network as the number 1, identified and signed naming rn1: a number would be written again as a text. Its commit is identified and signed over it as it is written again.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkChangeSet.TryParse and RoamingNetworkPrecondition.TryParse, WWCP_POI bc554b2; WWCP_POI.TS 0.4.0",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "roaming-network-as-a-number-commit-as-written"
+        }
+      ],
+      "control": "change-set-as-written"
+    },
+    {
+      "id": "precondition-unread-property",
+      "description": "A change set whose first precondition names a property a precondition does not have, `note`, identified and signed without it, its commit as it is written again.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4; WWCP_POI3 RoamingNetworkChangeSet.TryParse and RoamingNetworkPrecondition.TryParse, WWCP_POI bc554b2; WWCP_POI.TS 0.4.0",
+      "history": "history-parties",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "commit-1"
+        },
+        {
+          "op": "append",
+          "document": "commit-2"
+        },
+        {
+          "op": "append",
+          "document": "commit-3"
+        },
+        {
+          "op": "append",
+          "document": "commit-4"
+        },
+        {
+          "op": "append",
+          "document": "commit-5"
+        },
+        {
+          "op": "append",
+          "document": "commit-6"
+        },
+        {
+          "op": "append",
+          "document": "commit-7"
+        },
+        {
+          "op": "append",
+          "document": "commit-8"
+        },
+        {
+          "op": "append",
+          "document": "commit-9"
+        },
+        {
+          "op": "append",
+          "document": "commit-10"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-key"
+        },
+        {
+          "op": "append",
+          "document": "evtaler-both"
+        },
+        {
+          "op": "append",
+          "document": "embedded-setup"
+        },
+        {
+          "op": "append",
+          "document": "offer-highway"
+        },
+        {
+          "op": "append",
+          "document": "web-payment-key"
+        },
+        {
+          "op": "append",
+          "document": "precondition-unread-property"
+        }
+      ],
+      "control": "preconditions-held",
+      "reason": "Invalid precondition 0!"
     },
     {
       "id": "epoch-snapshot-commit-algorithm-of-another-epoch",

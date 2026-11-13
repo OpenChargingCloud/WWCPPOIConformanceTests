@@ -3306,8 +3306,9 @@ function generatedHistory(id, description, genesis, leader) {
          */
         // `preconditions` as written; `given`, the change set as the commit gives it, of the one written - identified and
         // signed as written, the change set and the commit, as WWCP_POI3 writes it again; `identifiedAsGiven`, the change
-        // set identified and signed as given instead, the commit still as written.
-        prepare: ({ createdAt, description: what, changes, signers, metadata, preconditions, given, identifiedAsGiven = false, content, before = head.content }) => {
+        // set identified and signed as given instead, the commit still as written; `commitAsGiven`, the change set
+        // identified and signed as written, the commit identified and signed over it as given.
+        prepare: ({ createdAt, description: what, changes, signers, metadata, preconditions, given, identifiedAsGiven = false, commitAsGiven = false, content, before = head.content }) => {
             const after      = checkEffective(content ?? applied(before, changes, createdAt));
             const changeSet  = { roamingNetworkId: genesis['@id'], createdAt, description: { en: what }, ...(metadata === undefined ? {} : { metadata }), changes,
                                  ...(preconditions === undefined ? {} : { preconditions }),
@@ -3319,6 +3320,12 @@ function generatedHistory(id, description, genesis, leader) {
             const commit     = { roamingNetworkId: genesis['@id'], revision: head.commit.revision + 1, eTags: eTagsOf(after), ...(epoch.number > 1 ? { epoch: epoch.number } : {}),
                                  parentIds: [ head.commit['@id'] ],
                                  changeSet: { ...signed, signatures: signers.map(key => ({ algorithm: key.algorithm, keyId: key.id, value: key.sign(changeSetSignatureInput(signedAs, { algorithm: key.algorithm, keyId: key.id })) })) } };
+            if (commitAsGiven) {
+                const ofGiven = { ...commit, changeSet: { ...given(without(commit.changeSet, '@id', 'signatures')), '@id': changeSetId, signatures: commit.changeSet.signatures } };
+                if (canonical(ofGiven.changeSet) === canonical(commit.changeSet))
+                    fail(`${id}: the change set '${what}' is given as written`);
+                return { commit: signCommit({ '@id': commitIdOf(ofGiven, epoch.hash), ...ofGiven }, [ { key: leader.key } ], createdAt), content: after };
+            }
             const written    = signCommit({ '@id': commitIdOf(commit, epoch.hash), ...commit }, [ { key: leader.key } ], createdAt);
             if (given === undefined)
                 return { commit: written, content: after };
@@ -4216,6 +4223,59 @@ function signedHistories() {
            'preconditions-empty', naming('GraphDefined', { given: (changeSet) => ({ ...changeSet, preconditions: [] }) }));
     P.then('metadata-nothing-given', 'A change set with metadata holding nothing, it and its commit identified and signed as WWCP_POI3 writes it again: without metadata.', WRITTEN,
            'metadata-empty', naming('GraphDefined', { given: (changeSet) => ({ ...changeSet, metadata: {} }) }));
+
+    // ---- A change set names only what it is written with, its createdAt and roaming network as it is written again
+    //      (WWCP_POI `bc554b2`, as WWCP_POI.TS since 0.4.0): what WWCP_POI3 would leave out or write otherwise as it
+    //      writes the change set again, so that the same identification and signatures would be of another text. Each
+    //      is identified and signed as written, without what it is given with, which WWCP_POI3 took before: refused
+    //      for what it names, not for its identification.
+    const ONLY      = `${B('4')}; WWCP_POI3 RoamingNetworkChangeSet.TryParse and RoamingNetworkPrecondition.TryParse, WWCP_POI bc554b2; WWCP_POI.TS 0.4.0`;
+    const held      = [ pre('ChargingStationOperator', 'DE*GEF', gefETag), pre('RoamingNetwork', 'rn1', networkETag) ];
+    const asWritten = parties.keep('change-set-as-written', naming('GraphDefined'));
+    const writtenAt = minute(25);
+    if (!writtenAt.endsWith(':00.000Z'))
+        fail('history-parties: the createdAt of the change sets naming DE*GEF is not of a whole minute');
+    const NOTE      = 'left out as it is written again';
+
+    // Each twice: its commit identified and signed over the change set as given, refused by both for what it names, in
+    // the same words; and its commit identified and signed over it as written, which WWCP_POI3 took before `bc554b2` -
+    // refused by both, WWCP_POI3 for what the change set names, WWCP_POI.TS for the identification of the commit, which
+    // it calculates over a change set it does not read as given: no `reason` both give. The roaming network as a number
+    // WWCP_POI3 refused so before as well.
+    const only = (id, document, description, given, reason, taken = true) => {
+        const asGiven = naming('GraphDefined', { given, commitAsGiven: true });
+        P.refused(id, `${description} Its commit is identified and signed over it as given.`, ONLY,
+                  document, asGiven, asWritten, { reason: reason(asGiven.commit.changeSet['@id']) });
+        P.refused(`${id}-commit-as-written`, `${description} Its commit is identified and signed over it as it is written again${taken ? ', which WWCP_POI3 took before bc554b2' : ''}.`, ONLY,
+                  `${document}-commit-as-written`, naming('GraphDefined', { given }), asWritten);
+    };
+
+    only('change-set-unread-property', 'change-set-unread-property',
+         'A change set naming a property a change set does not have, `note`, identified and signed without it: as it is written again it would be left out.',
+         (changeSet) => ({ ...changeSet, note: NOTE }),
+         () => "A change set must not name the property 'note'!");
+    only('change-unread-property', 'change-unread-property',
+         'A change set whose change names a property a change does not have, `note`, identified and signed without it.',
+         (changeSet) => ({ ...changeSet, changes: changeSet.changes.map(change => ({ ...change, note: NOTE })) }),
+         () => "Change 0 must not name the property 'note'!");
+    only('change-set-created-at-without-milliseconds', 'created-at-without-milliseconds',
+         'A change set whose createdAt is written without its milliseconds, identified and signed with them: as it is written again it would have them.',
+         (changeSet) => ({ ...changeSet, createdAt: writtenAt.replace('.000Z', 'Z') }),
+         (changeSetId) => `The createdAt of the change set '${changeSetId}' must be written as yyyy-MM-ddTHH:mm:ss.fffZ, not '${writtenAt.replace('.000Z', 'Z')}'!`);
+    only('change-set-created-at-with-an-offset', 'created-at-with-an-offset',
+         'A change set whose createdAt is written with the offset +00:00 instead of Z, identified and signed with Z.',
+         (changeSet) => ({ ...changeSet, createdAt: writtenAt.replace('Z', '+00:00') }),
+         (changeSetId) => `The createdAt of the change set '${changeSetId}' must be written as yyyy-MM-ddTHH:mm:ss.fffZ, not '${writtenAt.replace('Z', '+00:00')}'!`);
+    only('change-set-roaming-network-as-a-number', 'roaming-network-as-a-number',
+         'A change set naming its roaming network as the number 1, identified and signed naming rn1: a number would be written again as a text.',
+         (changeSet) => ({ ...changeSet, roamingNetworkId: 1 }),
+         (changeSetId) => `The roaming network of the change set '${changeSetId}' must be a text!`, false);
+
+    // A precondition is written again as the commit is identified: both refuse it reading the change set, and neither
+    // says more of it than which precondition it is.
+    P.refused('precondition-unread-property', 'A change set whose first precondition names a property a precondition does not have, `note`, identified and signed without it, its commit as it is written again.', ONLY,
+              'precondition-unread-property', naming('GraphDefined', { preconditions: held, given: (changeSet) => ({ ...changeSet, preconditions: changeSet.preconditions.map((item, index) => index === 0 ? { ...item, note: NOTE } : item) }) }), 'preconditions-held',
+              { reason: 'Invalid precondition 0!' });
 
 
     // =================================================================================================================
