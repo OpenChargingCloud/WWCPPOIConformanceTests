@@ -92,7 +92,7 @@ The TS harness imports WWCP_POI.TS from source, so the implementation's own depe
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
 Expected: C# 951 passed / 0 skipped (its 13 copy tests need the vendored `poi-*.json`, both runs and `chargy` of
-WWCP_POI.TS: a copy missing or drifted is red; one is, until WWCP_POI.TS vendors `poi-histories.json` anew), TS 924 passed /
+WWCP_POI.TS: a copy missing or drifted is red), TS 924 passed /
 7 skipped (7 signing: WWCP_POI.TS verifies only).
 Skips are load-bearing, not noise. The C# harness needs the .NET 11 SDK:
 WWCP_POI builds for `net11.0` since `50f772a`.
