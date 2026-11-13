@@ -20,8 +20,8 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `487cb65`, WWCP_POI.TS `c822556`, Hermod `c5ff091b`,
-Styx `a6b9f9fb`) - but for the copy of `poi-evtaler.json`, which WWCP_POI.TS `c822556` does not vendor yet:
+Both harnesses are green against the pinned submodules (WWCP_POI `487cb65`, WWCP_POI.TS `dc499cd`, Hermod `c5ff091b`,
+Styx `a6b9f9fb`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
