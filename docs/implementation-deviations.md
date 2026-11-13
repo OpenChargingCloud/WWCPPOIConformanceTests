@@ -59,7 +59,7 @@ WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, was WWCP_POI.TS's,
 elements of a price status, was WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
 define, which SPECIFICATION.md 2 refuses; it is fixed in WWCP_POI.TS `ce88620`, with the elements of a price status
 written as a charging tariff holds them, which SPECIFICATION.md 12.1 says since WWCP_POI `5a72313`
-([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 856 vectors - WWCP_POI3
+([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 913 vectors - WWCP_POI3
 alone signs the 7 signatures of section 6 again from their private seeds, which WWCP_POI.TS verifies only - and agree on
 every one of them (see [What both do alike](#what-both-do-alike)). Among them are the 13 replays of `poi-histories.json`
 WWCP_POI.TS left to WWCP_POI before: the references a version holds, which it checks since `813e1d7`, and the changes of
@@ -946,7 +946,16 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   period, of a tampered checkpoint or without what the local policy requires, a price of another EVSE, started after
   the verification or before the key statement, a trust transition without a quorum, tampered, out of order or accepted
   before it was signed, keys of a CPO for prices only, of another CPO or after the verification, a receipt of a private
-  source.
+  source;
+- all 57 vectors of the amounts of EV Taler (`poi-evtaler.json`; `concepts/EVTaler.md` of WWCP_POI, open point 3, no
+  part of SPECIFICATION.md), calculated by the generator with fractions of integers and anchored on the EV Taler
+  session of the frozen run: the gross rates of the simple profile, with VAT, not rounded, and 14 tariffs that have
+  none, in the same words; what a step costs, rounded up to the minor unit - half a cent and a tenth of a cent up, an
+  exact amount not a cent more, an hour in minutes at 0.40 € not a cent more (multiplied before divided, WWCP_POI
+  `a374855`), the yen without a minor unit, the dinar with a thousandth, the Unidad de Fomento with four places, and a
+  step of a unit the tariff does not price; and the price of a session, to the nearest minor unit, a half away from
+  zero and not to the even digit, its energy and time billed in whole step sizes, a minute begun by a second or a
+  millisecond, steps that do not divide a kWh or an hour.
 
 
 ## Observations

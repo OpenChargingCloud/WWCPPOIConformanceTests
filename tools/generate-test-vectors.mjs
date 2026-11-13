@@ -5919,6 +5919,355 @@ const keyStatementDigestOf = (statement) => sha256(utf8(canonical({ '@context': 
 
 
 // =====================================================================================================================
+//  10. The amounts of EV Taler (concepts/EVTaler.md, open point 3): what a step costs, rounded up to the minor unit of
+//      its currency, and the price of a session, rounded to the nearest minor unit, half away from zero
+// =====================================================================================================================
+//
+// Calculated here with fractions of integers, exactly: no decimal of a machine, so that a vector says what the rule
+// gives, not what one implementation's numbers do. Anchored on the frozen run first: the amount of step 2 of the EV
+// Taler session of example A16, and the price of its settlement statement.
+
+/** A fraction of integers, not negative: the numbers of the amounts of EV Taler, exact. */
+const Fraction = {
+
+    of: (text) => {
+        const match = /^(0|[1-9][0-9]*)(?:\.([0-9]+))?$/.exec(text) ?? fail(`'${text}' is no decimal, not negative, written without an exponent`);
+        return { n: BigInt(match[1] + (match[2] ?? '')), d: 10n ** BigInt((match[2] ?? '').length) };
+    },
+
+    plus:   (a, b) => ({ n: a.n * b.d + b.n * a.d, d: a.d * b.d }),
+    minus:  (a, b) => ({ n: a.n * b.d - b.n * a.d, d: a.d * b.d }),
+    times:  (a, b) => ({ n: a.n * b.n,             d: a.d * b.d }),
+    by:     (a, b) => ({ n: a.n * b.d,             d: a.d * b.n }),
+
+    /** The least integer not below it. */
+    ceiling: (a) => ({ n: (a.n + a.d - 1n) / a.d, d: 1n }),
+
+    /** Rounded to the given number of decimal places, up or to the nearest, a half away from zero; written with them. */
+    rounded: (a, places, up) => {
+        const scaled     = a.n * 10n ** BigInt(places);
+        const quotient   = scaled / a.d;
+        const remainder  = scaled % a.d;
+        const units      = remainder === 0n || (!up && 2n * remainder < a.d) ? quotient : quotient + 1n;
+        const digits     = units.toString().padStart(places + 1, '0');
+        return places === 0 ? digits : `${digits.slice(0, -places)}.${digits.slice(-places)}`;
+    },
+
+    /** As a decimal without trailing zeros, which it must be. */
+    text: (a) => {
+        for (let places = 0; places <= 28; places++)
+            if ((a.n * 10n ** BigInt(places)) % a.d === 0n)
+                return Fraction.rounded(a, places, false);
+        fail(`${a.n}/${a.d} is no decimal of at most 28 places`);
+    },
+
+};
+
+function evTalerVectors() {
+
+    const CONCEPT  = 'libs/WWCP_POI/concepts/EVTaler.md';
+    const EVIDENCE = 'driver/evidence-DE_GEF_E1_1-evTaler.json';
+    const BASIS    = `${CONCEPT}, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts`;
+
+    quoted(CONCEPT, 'recalculates it: what the step covers at the gross price of its dimension, rounded up to the minor unit of the\n  currency (open point 3)',
+           'that the amount of a step is rounded up to the minor unit of the currency');
+    quoted(CONCEPT, 'each billed in its step size, rounded to the nearest minor unit, half away\n  from zero',
+           'that the price of a session is rounded to the nearest minor unit, half away from zero');
+    quoted(CONCEPT, '**Rounding:** step amounts to the currency\'s minor unit and up, the session\'s price to the nearest minor unit,\n   half away from zero',
+           'the rounding of open point 3');
+    quoted(CONCEPT, 'Where the session is priced by one element without restrictions, of `ENERGY`, `TIME` and `FLAT`\n  components each at most once, and its tariff has no minimum or maximum price (`EVTalerRates`)',
+           'which prices a reader recalculates');
+
+    // The decimal digits of the minor unit (ISO 4217) of the currencies of these vectors; two of any other.
+    const MINOR_UNITS = { JPY: 0, BHD: 3, CLF: 4 };
+    const digitsOf    = (currency) => MINOR_UNITS[currency] ?? 2;
+
+    const isNumber = (value) => value?.[RAW] !== undefined;
+    const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value) && !isNumber(value);
+
+    /** The gross rates of the simple profile of a charging tariff, priced by its elements, or why there are none. */
+    function ratesOf(tariff) {
+
+        if (tariff.minPrice !== undefined || tariff.maxPrice !== undefined)
+            return { reason: 'the charging tariff has a minimum or maximum price' };
+
+        const elements = tariff.elements ?? [];
+
+        if (elements.length !== 1)
+            return { reason: 'the session is priced by more than one element' };
+
+        const [ element ] = elements;
+
+        if (Object.keys(element).some(name => name !== 'priceComponents' && name !== 'restrictions') ||
+            (element.restrictions !== undefined && (!isObject(element.restrictions) || Object.keys(element.restrictions).length > 0)) ||
+            !Array.isArray(element.priceComponents) || element.priceComponents.length === 0)
+            return { reason: 'the element of the session has restrictions' };
+
+        const rates   = {};
+        const HUNDRED = Fraction.of('100');
+
+        for (const component of element.priceComponents) {
+
+            if (!isObject(component) || !isNumber(component.price) ||
+                Object.keys(component).some(name => name !== 'type' && name !== 'price' && name !== 'vat' && name !== 'stepSize'))
+                return { reason: 'a price component is not one of the simple profile' };
+
+            const negative = (value) => isNumber(value) && value[RAW].startsWith('-');
+
+            if (negative(component.price) || negative(component.vat))
+                return { reason: 'a price component has a negative price or a VAT outside 0..100' };
+
+            const price = Fraction.of(component.price[RAW]);
+            const vat   = isNumber(component.vat)      ? Fraction.of(component.vat[RAW])      : Fraction.of('0');
+            const step  = isNumber(component.stepSize) && !negative(component.stepSize) ? Fraction.of(component.stepSize[RAW]) : undefined;
+
+            if (vat.n > 100n * vat.d)
+                return { reason: 'a price component has a negative price or a VAT outside 0..100' };
+
+            const gross   = Fraction.by(Fraction.times(price, Fraction.plus(HUNDRED, vat)), HUNDRED);
+            const stepped = step !== undefined && step.n > 0n;
+
+            if      (component.type === 'ENERGY' && rates.energyPerKWh === undefined && stepped)                          { rates.energyPerKWh = gross; rates.energyStepWh    = step; }
+            else if (component.type === 'TIME'   && rates.timePerHour  === undefined && stepped)                          { rates.timePerHour  = gross; rates.timeStepSeconds = step; }
+            else if (component.type === 'FLAT'   && rates.flatFee      === undefined && component.stepSize === undefined)   rates.flatFee      = gross;
+            else
+                return { reason: 'a price component is not ENERGY, TIME or FLAT once each, with its step size' };
+
+        }
+
+        return { rates };
+
+    }
+
+    /** What a step covers at the price of its dimension, rounded up to the minor unit; undefined where it is not priced. */
+    function stepPriceOf(rates, currency, covers) {
+        const quantity = Fraction.minus(Fraction.of(covers.to), Fraction.of(covers.from));
+        const price    = covers.unit === 'kWh' ? (rates.energyPerKWh && Fraction.times(quantity, rates.energyPerKWh))
+                                               : (rates.timePerHour  && Fraction.by(Fraction.times(quantity, rates.timePerHour), Fraction.of('60')));
+        return price === undefined ? undefined : Fraction.rounded(price, digitsOf(currency), true);
+    }
+
+    /** The flat fee, the energy and the time each billed in its increments, rounded to the nearest minor unit. */
+    function sessionPriceOf(rates, currency, energy, durationMs) {
+        const billed = (quantity, step) => Fraction.times(Fraction.ceiling(Fraction.by(quantity, step)), step);
+        let price = rates.flatFee ?? Fraction.of('0');
+        if (rates.energyPerKWh !== undefined)
+            price = Fraction.plus(price, Fraction.by(Fraction.times(rates.energyPerKWh, billed(Fraction.times(Fraction.of(energy), Fraction.of('1000')), rates.energyStepWh)), Fraction.of('1000')));
+        if (rates.timePerHour !== undefined)
+            price = Fraction.plus(price, Fraction.by(Fraction.times(rates.timePerHour, billed({ n: BigInt(durationMs), d: 1000n }, rates.timeStepSeconds)), Fraction.of('3600')));
+        return Fraction.rounded(price, digitsOf(currency), false);
+    }
+
+    const vectors = [];
+
+    const tariffOf = (text) => {
+        const tariff = parseRaw(text);
+        if (canonical(tariff) !== text)
+            fail(`poi-evtaler.json: the charging tariff ${text} is not written with its properties in order`);
+        return tariff;
+    };
+
+    const pricedBy = (text) => ratesOf(tariffOf(text)).rates ?? fail(`poi-evtaler.json: the charging tariff ${text} is not of the simple profile: ${ratesOf(tariffOf(text)).reason}`);
+
+    /** The rates of a tariff, or why it has none. */
+    function rates(id, description, currency, tariff) {
+        const found = ratesOf(tariffOf(tariff));
+        vectors.push(found.rates === undefined
+                         ? { id, description, basis: BASIS, check: 'rates', currency, tariff, expected: 'notPriced', reason: found.reason }
+                         : { id, description, basis: BASIS, check: 'rates', currency, tariff, expected: 'priced',
+                             rates: Object.fromEntries(Object.entries(found.rates).map(([ name, value ]) => [ name, Fraction.text(value) ])) });
+        return found;
+    }
+
+    /** What a step costs, as the amount of its order. */
+    function step(id, description, currency, tariff, from, to, unit, expected) {
+        const covers = { from, to, unit };
+        const price  = stepPriceOf(pricedBy(tariff), currency, covers);
+        if (price !== expected)
+            fail(`poi-evtaler.json, ${id}: the step costs ${price}, not ${expected}`);
+        vectors.push(price === undefined
+                         ? { id, description, basis: BASIS, check: 'step', currency, tariff, covers, expected: 'notPriced', reason: `The charging tariff does not price what a step covers, '${unit}'!` }
+                         : { id, description, basis: BASIS, check: 'step', currency, tariff, covers, expected: 'priced', price });
+        return price;
+    }
+
+    /** The price of a session. */
+    function session(id, description, currency, tariff, energy, durationMs, expected) {
+        const price = sessionPriceOf(pricedBy(tariff), currency, energy, durationMs);
+        if (price !== expected)
+            fail(`poi-evtaler.json, ${id}: the session costs ${price}, not ${expected}`);
+        vectors.push({ id, description, basis: BASIS, check: 'session', currency, tariff, energy, durationMs, expected: 'priced', price });
+        return price;
+    }
+
+    const MINUTE = 60_000;
+
+    // ---- The session of the run: 0.59 € a kWh, as its price statement prices DE*GEF*T_DC ---------------------------------
+
+    const evidence  = rawRun(EVIDENCE);
+    const RUN_DC    = '{"@id":"DE*GEF*T_DC","currency":"EUR","elements":[{"priceComponents":[{"price":0.59,"stepSize":1,"type":"ENERGY"}]}]}';
+    const stated    = evidence.priceStatements[0].priceStatus.prices.find(price => price.chargingTariffId === 'DE*GEF*T_DC') ?? fail(`${EVIDENCE}: no price of DE*GEF*T_DC`);
+    const step2     = evidence.contractTerms[1];
+    const settled   = evidence.settlement;
+
+    anchor('the elements of the price statement of the EV Taler session of the run', canonical(tariffOf(RUN_DC).elements), canonical(stated.elements));
+    anchor('the currency of the settlement statement of the run', settled.currency, 'EUR');
+
+    rates('evtaler-rates-of-the-run', 'The charging tariff DE*GEF*T_DC as the price statement of the EV Taler session of the run prices it, 0.59 € a kWh billed by the Wh: one element, without restrictions, of an ENERGY component.',
+          'EUR', RUN_DC);
+
+    anchor('the amount of step 2 of the EV Taler session of the run',
+           `EUR:${step('evtaler-step-of-the-run', 'Step 2 of the EV Taler session of the run, 5 to 10 kWh at 0.59 €: 2.95 €, the amount of its order.',
+                       'EUR', RUN_DC, step2.extra.wwcp.covers.from, step2.extra.wwcp.covers.to, step2.extra.wwcp.covers.unit, '2.95')}`,
+           step2.amount);
+
+    anchor('the price of the settlement statement of the run',
+           session('evtaler-session-of-the-run', `The EV Taler session of the run, ${settled.energy} kWh in 34 minutes at 0.59 € a kWh: 4.84626 €, to the nearest cent 4.85 €, the price of its settlement statement.`,
+                   'EUR', RUN_DC, settled.energy, Date.parse(settled.end) - Date.parse(settled.start), '4.85'),
+           settled.price);
+
+    // ---- A step: up to the minor unit ---------------------------------------------------------------------------------------
+
+    const ENERGY_AND_TIME = '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.59,"stepSize":1,"type":"ENERGY"},{"price":0.40,"stepSize":60,"type":"TIME"}]}]}';
+
+    step('evtaler-step-half-a-cent-up',        'Half a kWh at 0.59 €: 0.295 €, rounded up 0.30 €.',                                                                        'EUR', ENERGY_AND_TIME, '5', '5.5',   'kWh', '0.30');
+    step('evtaler-step-a-tenth-of-a-cent-up',  'A Wh at 0.59 € a kWh: 0.00059 €, rounded up a cent - where a session of it, to the nearest cent, costs nothing.',          'EUR', ENERGY_AND_TIME, '0', '0.001', 'kWh', '0.01');
+    step('evtaler-step-just-above-a-cent',     '1.001 kWh at 0.59 €: 0.59059 €, rounded up 0.60 €.',                                                                       'EUR', ENERGY_AND_TIME, '0', '1.001', 'kWh', '0.60');
+    step('evtaler-step-exact',                 'Two kWh at 0.59 €: 1.18 €, and not a cent more.',                                                                          'EUR', ENERGY_AND_TIME, '3', '5',     'kWh', '1.18');
+    step('evtaler-step-an-hour',               'An hour in minutes at 0.40 € an hour: 0.40 €, and not a cent more - multiplied before divided, for no decimal holds the rate of a minute, 0.40 / 60, exactly.',
+                                                                                                                                                                             'EUR', ENERGY_AND_TIME, '0', '60',    'min', '0.40');
+    step('evtaler-step-three-minutes',         'Three minutes at 0.40 € an hour: 0.02 €, and not a cent more.',                                                            'EUR', ENERGY_AND_TIME, '0', '3',     'min', '0.02');
+    step('evtaler-step-seven-minutes',         'Seven minutes at 0.40 € an hour: 0.0466… €, rounded up 0.05 €.',                                                           'EUR', ENERGY_AND_TIME, '0', '7',     'min', '0.05');
+    step('evtaler-step-half-an-hour',          'Minutes 30 to 60 at 0.40 € an hour: 0.20 €.',                                                                              'EUR', ENERGY_AND_TIME, '30', '60',   'min', '0.20');
+    step('evtaler-step-half-a-minute',         'Half a minute at 0.40 € an hour: 0.0033… €, rounded up a cent.',                                                           'EUR', ENERGY_AND_TIME, '0', '0.5',   'min', '0.01');
+
+    step('evtaler-step-of-time-not-priced',    'Minutes of a charging tariff pricing energy alone: the tariff does not price what the step covers.',                       'EUR', RUN_DC,          '0', '15',    'min', undefined);
+
+    const TIME_ALONE = '{"currency":"EUR","elements":[{"priceComponents":[{"price":2.40,"stepSize":60,"type":"TIME"}]}]}';
+
+    step('evtaler-step-of-energy-not-priced',  'kWh of a charging tariff pricing time alone: the tariff does not price what the step covers.',                             'EUR', TIME_ALONE,      '0', '5',     'kWh', undefined);
+
+    // ---- With VAT: the gross price, then rounded ------------------------------------------------------------------------------
+
+    const WITH_VAT = '{"currency":"EUR","elements":[{"priceComponents":[{"price":1.00,"type":"FLAT","vat":19},{"price":0.50,"stepSize":1,"type":"ENERGY","vat":19},{"price":2.00,"stepSize":1,"type":"TIME","vat":7.7}]}]}';
+
+    rates('evtaler-rates-with-vat', 'A flat fee of 1.00 €, 0.50 € a kWh, both with 19 % VAT, and 2.00 € an hour with 7.7 %: gross 1.19 €, 0.595 € and 2.154 €, not rounded.', 'EUR', WITH_VAT);
+
+    step('evtaler-step-with-vat',              'A kWh at 0.50 € and 19 % VAT: 0.595 €, rounded up 0.60 € - a step adds no flat fee by itself.',                            'EUR', WITH_VAT,        '0', '1',     'kWh', '0.60');
+    step('evtaler-step-with-vat-exact',        'Two kWh at 0.50 € and 19 % VAT: 1.19 €, and not a cent more.',                                                             'EUR', WITH_VAT,        '0', '2',     'kWh', '1.19');
+    step('evtaler-step-of-time-with-vat',      'Ten minutes at 2.00 € an hour and 7.7 % VAT: 0.359 €, rounded up 0.36 €.',                                                 'EUR', WITH_VAT,        '0', '10',    'min', '0.36');
+
+    // ---- Other minor units ----------------------------------------------------------------------------------------------------
+
+    const YEN   = '{"currency":"JPY","elements":[{"priceComponents":[{"price":44.5,"stepSize":1,"type":"ENERGY"}]}]}';
+    const DINAR = '{"currency":"BHD","elements":[{"priceComponents":[{"price":0.0455,"stepSize":1,"type":"ENERGY"}]}]}';
+    const UF    = '{"currency":"CLF","elements":[{"priceComponents":[{"price":0.00125,"stepSize":1,"type":"ENERGY"}]}]}';
+
+    step('evtaler-step-yen',                   '1.1 kWh at 44.5 ¥: 48.95 ¥, rounded up 49 ¥ - the yen has no minor unit.',                                                 'JPY', YEN,             '0', '1.1',   'kWh', '49');
+    step('evtaler-step-yen-exact',             'Two kWh at 44.5 ¥: 89 ¥.',                                                                                                 'JPY', YEN,             '0', '2',     'kWh', '89');
+    step('evtaler-step-dinar',                 '1.1 kWh at 0.0455 Bahraini dinar: 0.05005, rounded up 0.051 - the dinar has a thousandth.',                                'BHD', DINAR,           '0', '1.1',   'kWh', '0.051');
+    step('evtaler-step-unidad-de-fomento',     '1.1 kWh at 0.00125 Unidades de Fomento: 0.001375, rounded up 0.0014 - four decimal places.',                               'CLF', UF,              '0', '1.1',   'kWh', '0.0014');
+
+    // ---- A session: to the nearest minor unit, half away from zero --------------------------------------------------------------
+
+    const HALVES = '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.89,"stepSize":1,"type":"ENERGY"}]}]}';
+
+    session('evtaler-session-half-up-from-even',  'Half a kWh at 0.89 €: 0.445 €, the half away from zero 0.45 € - not to the even cent, 0.44 €.',                          'EUR', HALVES,          '0.5',   0,           '0.45');
+    session('evtaler-session-half-up-from-odd',   '1.5 kWh at 0.89 €: 1.335 €, the half away from zero 1.34 €.',                                                            'EUR', HALVES,          '1.5',   0,           '1.34');
+    session('evtaler-session-below-half',         '0.499 kWh at 0.89 €: 0.44411 €, to the nearest cent 0.44 € - where a step of it is rounded up.',                         'EUR', HALVES,          '0.499', 0,           '0.44');
+    session('evtaler-session-above-half',         '0.501 kWh at 0.89 €: 0.44589 €, to the nearest cent 0.45 €.',                                                            'EUR', HALVES,          '0.501', 0,           '0.45');
+    session('evtaler-session-a-wh',               'A Wh at 0.59 € a kWh: 0.00059 €, to the nearest cent nothing - where a step of it costs a cent.',                        'EUR', RUN_DC,          '0.001', 0,           '0.00');
+    session('evtaler-session-of-nothing',         'No energy in no time: 0.00 €.',                                                                                          'EUR', ENERGY_AND_TIME, '0',     0,           '0.00');
+    session('evtaler-session-energy-and-time',    '7.412 kWh in 34 minutes at 0.59 € a kWh and 0.40 € an hour, billed by the Wh and the minute: 4.37308 € and 0.2266… €, 4.60 €.',
+                                                                                                                                                                             'EUR', ENERGY_AND_TIME, '7.412', 34 * MINUTE, '4.60');
+    session('evtaler-session-a-minute-begun',     'A second more than 34 minutes at 0.40 € an hour, billed by the minute: 35 minutes, 0.2333… €, with 7.412 kWh 4.61 €.',  'EUR', ENERGY_AND_TIME, '7.412', 34 * MINUTE + 1000, '4.61');
+    session('evtaler-session-a-millisecond',      'A millisecond at 0.40 € an hour, billed by the minute: a minute, 0.0066… €, to the nearest cent 0.01 €.',                'EUR', ENERGY_AND_TIME, '0',     1,           '0.01');
+
+    const BY_THE_KWH = '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.59,"stepSize":1000,"type":"ENERGY"},{"price":2.40,"stepSize":900,"type":"TIME"}]}]}';
+
+    session('evtaler-session-billed-in-steps',    '8.214 kWh in 34 minutes at 0.59 € a kWh billed by the kWh and 2.40 € an hour billed by the quarter of an hour: 9 kWh and 45 minutes, 5.31 € and 1.80 €.',
+                                                                                                                                                                             'EUR', BY_THE_KWH,      '8.214', 34 * MINUTE, '7.11');
+    session('evtaler-session-a-whole-step',       '9 kWh in 45 minutes of the same tariff: no step more, 7.11 € as well.',                                                  'EUR', BY_THE_KWH,      '9',     45 * MINUTE, '7.11');
+
+    const BY_THREE = '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.10,"stepSize":3,"type":"ENERGY"},{"price":1.00,"stepSize":7,"type":"TIME"}]}]}';
+
+    session('evtaler-session-steps-of-three',     'A kWh in 100 seconds at 0.10 € a kWh billed by 3 Wh and 1.00 € an hour billed by 7 seconds: 1002 Wh and 105 seconds, 0.1002 € and 0.0291… €, 0.13 €.',
+                                                                                                                                                                             'EUR', BY_THREE,        '1',     100_000,     '0.13');
+
+    session('evtaler-session-with-vat',           'A flat fee of 1.00 €, 7.412 kWh at 0.50 € and 34 minutes at 2.00 € an hour, with their VAT: 1.19 €, 4.41014 € and 1.2206 €, 6.82 €.',
+                                                                                                                                                                             'EUR', WITH_VAT,        '7.412', 34 * MINUTE, '6.82');
+    session('evtaler-session-flat-fee-alone',     'The flat fee of a session of no energy in no time: 1.19 €.',                                                             'EUR', WITH_VAT,        '0',     0,           '1.19');
+
+    session('evtaler-session-yen-half',           'A kWh at 44.5 ¥: the half away from zero 45 ¥ - not to the even yen, 44 ¥.',                                             'JPY', YEN,             '1',     0,           '45');
+    session('evtaler-session-yen-below-half',     '0.999 kWh at 44.5 ¥: 44.4555 ¥, to the nearest yen 44 ¥.',                                                               'JPY', YEN,             '0.999', 0,           '44');
+    session('evtaler-session-dinar',              '1.1 kWh at 0.0455 Bahraini dinar: 0.05005, to the nearest thousandth 0.050.',                                            'BHD', DINAR,           '1.1',   0,           '0.050');
+    session('evtaler-session-dinar-half',         '0.1 kWh at 0.0455 Bahraini dinar: 0.00455, the half away from zero 0.005 - not to the even thousandth, 0.004.',
+                                                                                                                                                                             'BHD', DINAR,           '0.1',   0,           '0.005');
+    session('evtaler-session-unidad-de-fomento',  '1.1 kWh at 0.00125 Unidades de Fomento: 0.001375, to the nearest of four decimal places 0.0014.',                        'CLF', UF,              '1.1',   0,           '0.0014');
+
+    // ---- Which prices are recalculated: the simple profile ----------------------------------------------------------------------
+
+    const notPriced = (id, description, tariff, reason) => {
+        if (rates(id, description, 'EUR', tariff).reason !== reason)
+            fail(`poi-evtaler.json, ${id}: not refused for '${reason}'`);
+    };
+
+    rates('evtaler-rates-energy-and-time',   'A charging tariff of an ENERGY and a TIME component, each once with its step size: 0.59 € a kWh billed by the Wh, 0.40 € an hour billed by the minute.', 'EUR', ENERGY_AND_TIME);
+    rates('evtaler-rates-empty-restrictions', 'An element with empty restrictions is one without.',
+          'EUR', '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.59,"stepSize":1,"type":"ENERGY"}],"restrictions":{}}]}');
+
+    notPriced('evtaler-rates-minimum-price',  'A charging tariff with a minimum price: not recalculated.',
+              '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.59,"stepSize":1,"type":"ENERGY"}]}],"minPrice":{"price":1.00}}',
+              'the charging tariff has a minimum or maximum price');
+    notPriced('evtaler-rates-maximum-price',  'A charging tariff with a maximum price: not recalculated.',
+              '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.59,"stepSize":1,"type":"ENERGY"}]}],"maxPrice":{"price":50.00}}',
+              'the charging tariff has a minimum or maximum price');
+    notPriced('evtaler-rates-two-elements',   'A session priced by two elements: not recalculated.',
+              '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.59,"stepSize":1,"type":"ENERGY"}]},{"priceComponents":[{"price":0.40,"stepSize":60,"type":"TIME"}]}]}',
+              'the session is priced by more than one element');
+    notPriced('evtaler-rates-restrictions',   'An element with a restriction: not recalculated.',
+              '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.59,"stepSize":1,"type":"ENERGY"}],"restrictions":{"maxPower":50}}]}',
+              'the element of the session has restrictions');
+    notPriced('evtaler-rates-no-components',  'An element without price components: not recalculated.',
+              '{"currency":"EUR","elements":[{"priceComponents":[]}]}',
+              'the element of the session has restrictions');
+    notPriced('evtaler-rates-component-of-more', 'A price component with a property the simple profile does not know: not recalculated.',
+              '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.59,"roundingRule":"up","stepSize":1,"type":"ENERGY"}]}]}',
+              'a price component is not one of the simple profile');
+    notPriced('evtaler-rates-price-as-text',  'A price component whose price is a text: not recalculated.',
+              '{"currency":"EUR","elements":[{"priceComponents":[{"price":"0.59","stepSize":1,"type":"ENERGY"}]}]}',
+              'a price component is not one of the simple profile');
+    notPriced('evtaler-rates-negative-price', 'A price component with a negative price: not recalculated.',
+              '{"currency":"EUR","elements":[{"priceComponents":[{"price":-0.59,"stepSize":1,"type":"ENERGY"}]}]}',
+              'a price component has a negative price or a VAT outside 0..100');
+    notPriced('evtaler-rates-vat-above-100',  'A price component with a VAT of more than 100 %: not recalculated.',
+              '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.59,"stepSize":1,"type":"ENERGY","vat":100.5}]}]}',
+              'a price component has a negative price or a VAT outside 0..100');
+    notPriced('evtaler-rates-energy-twice',   'Two ENERGY components: not recalculated.',
+              '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.59,"stepSize":1,"type":"ENERGY"},{"price":0.10,"stepSize":1,"type":"ENERGY"}]}]}',
+              'a price component is not ENERGY, TIME or FLAT once each, with its step size');
+    notPriced('evtaler-rates-energy-without-step-size', 'An ENERGY component without its step size: not recalculated.',
+              '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.59,"type":"ENERGY"}]}]}',
+              'a price component is not ENERGY, TIME or FLAT once each, with its step size');
+    notPriced('evtaler-rates-step-size-of-zero', 'A TIME component with a step size of 0: not recalculated.',
+              '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.40,"stepSize":0,"type":"TIME"}]}]}',
+              'a price component is not ENERGY, TIME or FLAT once each, with its step size');
+    notPriced('evtaler-rates-flat-with-step-size', 'A FLAT component with a step size: not recalculated.',
+              '{"currency":"EUR","elements":[{"priceComponents":[{"price":1.00,"stepSize":1,"type":"FLAT"}]}]}',
+              'a price component is not ENERGY, TIME or FLAT once each, with its step size');
+    notPriced('evtaler-rates-parking-time',   'A PARKING_TIME component: not recalculated.',
+              '{"currency":"EUR","elements":[{"priceComponents":[{"price":0.59,"stepSize":1,"type":"ENERGY"},{"price":1.00,"stepSize":60,"type":"PARKING_TIME"}]}]}',
+              'a price component is not ENERGY, TIME or FLAT once each, with its step size');
+
+    return vectorFile(
+        `WWCP POI 3: the amounts of EV Taler (${CONCEPT}, open point 3), a concept of WWCP_POI, no part of SPECIFICATION.md; the session of example A16 in test-vectors/runs/${RUN}`,
+        'What a reader of an EV Taler session recalculates. A vector names a "currency" and a charging "tariff" with the elements that price it, as JSON text (the text of its numbers matters), and its check: "rates" the gross rates of the simple profile - "rates", decimals as texts without trailing zeros, the price of a kWh ("energyPerKWh") billed by "energyStepWh", of an hour ("timePerHour") billed by "timeStepSeconds", the flat fee ("flatFee"), each where the tariff has it - or, "notPriced", why the tariff has none ("reason"); "step" what a step covering "covers" costs, rounded up to the minor unit of the currency ("price", with the digits of the minor unit), or, "notPriced", that the tariff does not price it ("reason"); "session" the price of a session of "energy" kWh in "durationMs" milliseconds, the flat fee, the energy and the time each billed in its step size, rounded to the nearest minor unit, half away from zero ("price"). The numbers are calculated exactly, with fractions of integers.',
+        { run: `runs/${RUN}`, vectors: ids(vectors, 'poi-evtaler.json') });
+
+}
+
+
+// =====================================================================================================================
 //  Write, check, mirror
 // =====================================================================================================================
 
@@ -5935,6 +6284,7 @@ const outputs = {
     'poi-histories.json':       signedHistories(),
     'poi-qidigital.json':       qiDigitalVectors(),
     'poi-verifier.json':        verifierVectors(),
+    'poi-evtaler.json':         evTalerVectors(),
 };
 
 // The vector files, and the documents made here (chargy/), as text.

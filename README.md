@@ -21,12 +21,12 @@ written down and pinned.
 ## Status
 
 Both harnesses are green against the pinned submodules (WWCP_POI `487cb65`, WWCP_POI.TS `c822556`, Hermod `c5ff091b`,
-Styx `a6b9f9fb`):
+Styx `a6b9f9fb`) - but for the copy of `poi-evtaler.json`, which WWCP_POI.TS `c822556` does not vendor yet:
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 856 | 881 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 856 | 856 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
+| C# harness (NUnit), WWCP_POI3 | 913 | 940 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 913 | 913 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy,
 those of the verifier extensions since `242fb29`.

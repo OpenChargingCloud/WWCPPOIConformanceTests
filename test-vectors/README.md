@@ -20,6 +20,7 @@ with `node:crypto` alone mismatches. `--check` is the drift guard of CI. The fil
 | `poi-histories.json` | SPECIFICATION.md sections 4, 5, 8.5, 10 and 11; histories the generator signs | `histories`: small histories of the roaming network `rn1` of section 6, made and signed by the generator, their documents as JSON text. `replays`: a history taken step by step, `accepted`, or its last step `refused`, with its `control`. `anchoredSnapshots`: a history started from a snapshot of another server, of the head or of a checkpoint, only anchored in the trust anchor at `at` (10.5, Anchored), with its `control`. |
 | `poi-qidigital.json` | example A14 of WWCP_POI and `WWCP_POI3/RoamingNetwork/QIDigital`; the frozen run | `vectors`: the QI-Digital documents example A14 published - two digital certificates of conformity, a declaration of conformity, a calibration certificate - each checked as example A14 checks it, against QA (`verify`), against a certificate it names (`certificate`) or covering a meter (`cover`), `accepted` or `refused` with its `control`. |
 | `poi-verifier.json` | the README of WWCP_POI.TS 0.2.0 (experimental) and `WWCP_POI3/Verifier` of WWCP_POI; `runs/chargy-fc513cd`, the fixtures of ChargyWebApp | `vectors`: the verifier extensions of WWCP_POI.TS 0.2.0, which WWCP_POI3 has as well, each a `kind` of check with its inputs as documents of the fixtures and what both give of it (`result`, normalized), `accepted`, or `refused` with its `control`, the `reason` both name and what it `changes`. |
+| `poi-evtaler.json` | `concepts/EVTaler.md` of WWCP_POI, section 9 and open point 3; the EV Taler session of the frozen run | `vectors`: the amounts of EV Taler, each a `check` of a `currency` and a charging `tariff` (JSON text): its gross `rates`, what a `step` costs, rounded up to the minor unit, the price of a `session`, rounded to the nearest minor unit, half away from zero - `priced`, or `notPriced` with its `reason`. |
 
 ## The frozen run
 
@@ -194,6 +195,23 @@ first calculates of the frozen run and of RFC 6979, against what is written ther
   commits and checkpoints are taken unchecked (`commitAndCheckpointSignatures`). `expected` is `accepted` or `refused`;
   a refusal has a `control`, `{document, trustAnchor, at}` with what the vector is about given otherwise, which is
   taken, and `reason` as of a replay.
+
+`poi-evtaler.json` (a concept of WWCP_POI, `concepts/EVTaler.md`, no part of SPECIFICATION.md):
+
+- `currency`, an ISO 4217 code, and `tariff`, a charging tariff with the `elements` that price it, as JSON text read as
+  POI reads JSON: the text of its numbers matters. Every number is calculated exactly, by the generator with fractions
+  of integers.
+- `check: "rates"`: the gross rates of the simple profile - one element without restrictions, of `ENERGY`, `TIME` and
+  `FLAT` components each at most once, no minimum or maximum price. `priced` with `rates`, decimals as texts without
+  trailing zeros, each where the tariff has it: `energyPerKWh` billed by `energyStepWh`, `timePerHour` billed by
+  `timeStepSeconds`, `flatFee`; or `notPriced` with the `reason` both implementations name.
+- `check: "step"`: what a step covering `covers` (`from`, `to`, decimals as texts, and `unit`, `kWh` or `min`) costs:
+  its quantity at the gross price of its dimension, minutes at the sixtieth of the price of an hour, rounded UP to the
+  minor unit of the currency - `price`, with the digits of the minor unit (none for `JPY`, three for `BHD`, four for
+  `CLF`). `notPriced` with its `reason` where the tariff does not price the unit.
+- `check: "session"`: the price of a session of `energy` kWh (a decimal as a text) in `durationMs` milliseconds: the
+  flat fee, the energy and the time each billed in whole step sizes, the sum rounded to the NEAREST minor unit, half
+  away from zero - `price`.
 
 `poi-qidigital.json` (a proof of concept of WWCP_POI3, no part of SPECIFICATION.md; example A14 says what is checked):
 

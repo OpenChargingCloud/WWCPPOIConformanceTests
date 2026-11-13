@@ -308,6 +308,42 @@ export const qiDigitalDocument = (ref: QIDigitalDocumentRef): JSONValue =>
     'text' in ref ? parseJSON(ref.text) : patched(ref);
 
 
+// ---- poi-evtaler.json -------------------------------------------------------------------------------------------
+
+/** The gross rates of the simple profile of a charging tariff, decimals as texts without trailing zeros, each where the tariff has it. */
+export interface EVTalerRatesGiven {
+    readonly energyPerKWh?:     string;
+    readonly energyStepWh?:     string;
+    readonly timePerHour?:      string;
+    readonly timeStepSeconds?:  string;
+    readonly flatFee?:          string;
+}
+
+export interface EVTalerVector extends Applicability {
+    readonly id:           string;
+    readonly description:  string;
+    readonly basis:        string;
+    readonly check:        'rates' | 'step' | 'session';
+    readonly currency:     string;
+    /** The charging tariff with the elements that price it, as JSON text: the text of its numbers matters. */
+    readonly tariff:       string;
+    readonly expected:     'priced' | 'notPriced';
+    /** rates, priced. */
+    readonly rates?:       EVTalerRatesGiven;
+    /** step: what it covers, its decimals as texts. */
+    readonly covers?:      { readonly from: string, readonly to: string, readonly unit: string };
+    /** session: its energy in kWh, a decimal as a text, and its duration. */
+    readonly energy?:      string;
+    readonly durationMs?:  number;
+    /** step, session, priced: the amount, with the digits of the minor unit of the currency. */
+    readonly price?:       string;
+    /** notPriced: why, as both implementations word it. */
+    readonly reason?:      string;
+}
+
+export const evTaler = load<{ run: string, vectors: EVTalerVector[] }>('poi-evtaler.json');
+
+
 // ---- Documents of the frozen run ----------------------------------------------------------------------------------
 
 const RUN = new URL(`${history.run}/`, VECTORS);

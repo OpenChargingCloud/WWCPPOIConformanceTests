@@ -60,6 +60,12 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   each case anchored on its fixture first; GENERATED and drift guarded like the vector files, not frozen. A vector names
   them with `documents: "chargy"` next to `file` and `pointer`. The aim: such documents are made here, the apps
   (ChargyWebApp too) vendor them, instead of freezing what each app makes.
+- **The amounts of EV Taler** (`poi-evtaler.json`, its section 10): the rounding of open point 3 of
+  `concepts/EVTaler.md` of WWCP_POI, no part of SPECIFICATION.md - the gross rates of the simple profile of a charging
+  tariff, a step rounded up to the minor unit of its currency, the price of a session to the nearest, half away from
+  zero. The generator calculates with fractions of integers, exactly, and anchors on the EV Taler session of the frozen
+  run first (the amount of step 2, the price of the settlement statement). A tariff is given as JSON text: the text of
+  its numbers matters, as with `{ text }`.
 - **What the implementations get wrong:** `docs/implementation-deviations.md`. Each deviation is in `DEVIATIONS` of the
   generator, marked on its vectors (`knownDeviations`, `deviation` anchor) and pinned: the harness of the deviating
   implementation expects the deviation, so a fix turns it red. Fixing one means: remove it from `DEVIATIONS`,
@@ -85,8 +91,9 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 881 passed / 0 skipped (its 12 copy tests need the vendored `poi-*.json`, both runs and `chargy` of
-WWCP_POI.TS: a copy missing or drifted is red), TS 856 passed / 7 skipped (7 signing: WWCP_POI.TS verifies only).
+Expected: C# 940 passed / 0 skipped (its 13 copy tests need the vendored `poi-*.json`, both runs and `chargy` of
+WWCP_POI.TS: a copy missing or drifted is red; one is, until WWCP_POI.TS vendors `poi-evtaler.json`), TS 913 passed /
+7 skipped (7 signing: WWCP_POI.TS verifies only).
 Skips are load-bearing, not noise. The C# harness needs the .NET 11 SDK:
 WWCP_POI builds for `net11.0` since `50f772a`.
 

@@ -1,0 +1,729 @@
+{
+  "specification": "WWCP POI 3: the amounts of EV Taler (libs/WWCP_POI/concepts/EVTaler.md, open point 3), a concept of WWCP_POI, no part of SPECIFICATION.md; the session of example A16 in test-vectors/runs/csharp-76d3653",
+  "description": "What a reader of an EV Taler session recalculates. A vector names a \"currency\" and a charging \"tariff\" with the elements that price it, as JSON text (the text of its numbers matters), and its check: \"rates\" the gross rates of the simple profile - \"rates\", decimals as texts without trailing zeros, the price of a kWh (\"energyPerKWh\") billed by \"energyStepWh\", of an hour (\"timePerHour\") billed by \"timeStepSeconds\", the flat fee (\"flatFee\"), each where the tariff has it - or, \"notPriced\", why the tariff has none (\"reason\"); \"step\" what a step covering \"covers\" costs, rounded up to the minor unit of the currency (\"price\", with the digits of the minor unit), or, \"notPriced\", that the tariff does not price it (\"reason\"); \"session\" the price of a session of \"energy\" kWh in \"durationMs\" milliseconds, the flat fee, the energy and the time each billed in its step size, rounded to the nearest minor unit, half away from zero (\"price\"). The numbers are calculated exactly, with fractions of integers.",
+  "run": "runs/csharp-76d3653",
+  "vectors": [
+    {
+      "id": "evtaler-rates-of-the-run",
+      "description": "The charging tariff DE*GEF*T_DC as the price statement of the EV Taler session of the run prices it, 0.59 € a kWh billed by the Wh: one element, without restrictions, of an ENERGY component.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"@id\":\"DE*GEF*T_DC\",\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "expected": "priced",
+      "rates": {
+        "energyPerKWh": "0.59",
+        "energyStepWh": "1"
+      }
+    },
+    {
+      "id": "evtaler-step-of-the-run",
+      "description": "Step 2 of the EV Taler session of the run, 5 to 10 kWh at 0.59 €: 2.95 €, the amount of its order.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"@id\":\"DE*GEF*T_DC\",\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "covers": {
+        "from": "5",
+        "to": "10",
+        "unit": "kWh"
+      },
+      "expected": "priced",
+      "price": "2.95"
+    },
+    {
+      "id": "evtaler-session-of-the-run",
+      "description": "The EV Taler session of the run, 8.214 kWh in 34 minutes at 0.59 € a kWh: 4.84626 €, to the nearest cent 4.85 €, the price of its settlement statement.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"@id\":\"DE*GEF*T_DC\",\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "energy": "8.214",
+      "durationMs": 2040000,
+      "expected": "priced",
+      "price": "4.85"
+    },
+    {
+      "id": "evtaler-step-half-a-cent-up",
+      "description": "Half a kWh at 0.59 €: 0.295 €, rounded up 0.30 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "covers": {
+        "from": "5",
+        "to": "5.5",
+        "unit": "kWh"
+      },
+      "expected": "priced",
+      "price": "0.30"
+    },
+    {
+      "id": "evtaler-step-a-tenth-of-a-cent-up",
+      "description": "A Wh at 0.59 € a kWh: 0.00059 €, rounded up a cent - where a session of it, to the nearest cent, costs nothing.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "0.001",
+        "unit": "kWh"
+      },
+      "expected": "priced",
+      "price": "0.01"
+    },
+    {
+      "id": "evtaler-step-just-above-a-cent",
+      "description": "1.001 kWh at 0.59 €: 0.59059 €, rounded up 0.60 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "1.001",
+        "unit": "kWh"
+      },
+      "expected": "priced",
+      "price": "0.60"
+    },
+    {
+      "id": "evtaler-step-exact",
+      "description": "Two kWh at 0.59 €: 1.18 €, and not a cent more.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "covers": {
+        "from": "3",
+        "to": "5",
+        "unit": "kWh"
+      },
+      "expected": "priced",
+      "price": "1.18"
+    },
+    {
+      "id": "evtaler-step-an-hour",
+      "description": "An hour in minutes at 0.40 € an hour: 0.40 €, and not a cent more - multiplied before divided, for no decimal holds the rate of a minute, 0.40 / 60, exactly.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "60",
+        "unit": "min"
+      },
+      "expected": "priced",
+      "price": "0.40"
+    },
+    {
+      "id": "evtaler-step-three-minutes",
+      "description": "Three minutes at 0.40 € an hour: 0.02 €, and not a cent more.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "3",
+        "unit": "min"
+      },
+      "expected": "priced",
+      "price": "0.02"
+    },
+    {
+      "id": "evtaler-step-seven-minutes",
+      "description": "Seven minutes at 0.40 € an hour: 0.0466… €, rounded up 0.05 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "7",
+        "unit": "min"
+      },
+      "expected": "priced",
+      "price": "0.05"
+    },
+    {
+      "id": "evtaler-step-half-an-hour",
+      "description": "Minutes 30 to 60 at 0.40 € an hour: 0.20 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "covers": {
+        "from": "30",
+        "to": "60",
+        "unit": "min"
+      },
+      "expected": "priced",
+      "price": "0.20"
+    },
+    {
+      "id": "evtaler-step-half-a-minute",
+      "description": "Half a minute at 0.40 € an hour: 0.0033… €, rounded up a cent.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "0.5",
+        "unit": "min"
+      },
+      "expected": "priced",
+      "price": "0.01"
+    },
+    {
+      "id": "evtaler-step-of-time-not-priced",
+      "description": "Minutes of a charging tariff pricing energy alone: the tariff does not price what the step covers.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"@id\":\"DE*GEF*T_DC\",\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "15",
+        "unit": "min"
+      },
+      "expected": "notPriced",
+      "reason": "The charging tariff does not price what a step covers, 'min'!"
+    },
+    {
+      "id": "evtaler-step-of-energy-not-priced",
+      "description": "kWh of a charging tariff pricing time alone: the tariff does not price what the step covers.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":2.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "5",
+        "unit": "kWh"
+      },
+      "expected": "notPriced",
+      "reason": "The charging tariff does not price what a step covers, 'kWh'!"
+    },
+    {
+      "id": "evtaler-rates-with-vat",
+      "description": "A flat fee of 1.00 €, 0.50 € a kWh, both with 19 % VAT, and 2.00 € an hour with 7.7 %: gross 1.19 €, 0.595 € and 2.154 €, not rounded.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":1.00,\"type\":\"FLAT\",\"vat\":19},{\"price\":0.50,\"stepSize\":1,\"type\":\"ENERGY\",\"vat\":19},{\"price\":2.00,\"stepSize\":1,\"type\":\"TIME\",\"vat\":7.7}]}]}",
+      "expected": "priced",
+      "rates": {
+        "flatFee": "1.19",
+        "energyPerKWh": "0.595",
+        "energyStepWh": "1",
+        "timePerHour": "2.154",
+        "timeStepSeconds": "1"
+      }
+    },
+    {
+      "id": "evtaler-step-with-vat",
+      "description": "A kWh at 0.50 € and 19 % VAT: 0.595 €, rounded up 0.60 € - a step adds no flat fee by itself.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":1.00,\"type\":\"FLAT\",\"vat\":19},{\"price\":0.50,\"stepSize\":1,\"type\":\"ENERGY\",\"vat\":19},{\"price\":2.00,\"stepSize\":1,\"type\":\"TIME\",\"vat\":7.7}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "1",
+        "unit": "kWh"
+      },
+      "expected": "priced",
+      "price": "0.60"
+    },
+    {
+      "id": "evtaler-step-with-vat-exact",
+      "description": "Two kWh at 0.50 € and 19 % VAT: 1.19 €, and not a cent more.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":1.00,\"type\":\"FLAT\",\"vat\":19},{\"price\":0.50,\"stepSize\":1,\"type\":\"ENERGY\",\"vat\":19},{\"price\":2.00,\"stepSize\":1,\"type\":\"TIME\",\"vat\":7.7}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "2",
+        "unit": "kWh"
+      },
+      "expected": "priced",
+      "price": "1.19"
+    },
+    {
+      "id": "evtaler-step-of-time-with-vat",
+      "description": "Ten minutes at 2.00 € an hour and 7.7 % VAT: 0.359 €, rounded up 0.36 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":1.00,\"type\":\"FLAT\",\"vat\":19},{\"price\":0.50,\"stepSize\":1,\"type\":\"ENERGY\",\"vat\":19},{\"price\":2.00,\"stepSize\":1,\"type\":\"TIME\",\"vat\":7.7}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "10",
+        "unit": "min"
+      },
+      "expected": "priced",
+      "price": "0.36"
+    },
+    {
+      "id": "evtaler-step-yen",
+      "description": "1.1 kWh at 44.5 ¥: 48.95 ¥, rounded up 49 ¥ - the yen has no minor unit.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "JPY",
+      "tariff": "{\"currency\":\"JPY\",\"elements\":[{\"priceComponents\":[{\"price\":44.5,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "1.1",
+        "unit": "kWh"
+      },
+      "expected": "priced",
+      "price": "49"
+    },
+    {
+      "id": "evtaler-step-yen-exact",
+      "description": "Two kWh at 44.5 ¥: 89 ¥.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "JPY",
+      "tariff": "{\"currency\":\"JPY\",\"elements\":[{\"priceComponents\":[{\"price\":44.5,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "2",
+        "unit": "kWh"
+      },
+      "expected": "priced",
+      "price": "89"
+    },
+    {
+      "id": "evtaler-step-dinar",
+      "description": "1.1 kWh at 0.0455 Bahraini dinar: 0.05005, rounded up 0.051 - the dinar has a thousandth.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "BHD",
+      "tariff": "{\"currency\":\"BHD\",\"elements\":[{\"priceComponents\":[{\"price\":0.0455,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "1.1",
+        "unit": "kWh"
+      },
+      "expected": "priced",
+      "price": "0.051"
+    },
+    {
+      "id": "evtaler-step-unidad-de-fomento",
+      "description": "1.1 kWh at 0.00125 Unidades de Fomento: 0.001375, rounded up 0.0014 - four decimal places.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "step",
+      "currency": "CLF",
+      "tariff": "{\"currency\":\"CLF\",\"elements\":[{\"priceComponents\":[{\"price\":0.00125,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "covers": {
+        "from": "0",
+        "to": "1.1",
+        "unit": "kWh"
+      },
+      "expected": "priced",
+      "price": "0.0014"
+    },
+    {
+      "id": "evtaler-session-half-up-from-even",
+      "description": "Half a kWh at 0.89 €: 0.445 €, the half away from zero 0.45 € - not to the even cent, 0.44 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.89,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "energy": "0.5",
+      "durationMs": 0,
+      "expected": "priced",
+      "price": "0.45"
+    },
+    {
+      "id": "evtaler-session-half-up-from-odd",
+      "description": "1.5 kWh at 0.89 €: 1.335 €, the half away from zero 1.34 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.89,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "energy": "1.5",
+      "durationMs": 0,
+      "expected": "priced",
+      "price": "1.34"
+    },
+    {
+      "id": "evtaler-session-below-half",
+      "description": "0.499 kWh at 0.89 €: 0.44411 €, to the nearest cent 0.44 € - where a step of it is rounded up.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.89,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "energy": "0.499",
+      "durationMs": 0,
+      "expected": "priced",
+      "price": "0.44"
+    },
+    {
+      "id": "evtaler-session-above-half",
+      "description": "0.501 kWh at 0.89 €: 0.44589 €, to the nearest cent 0.45 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.89,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "energy": "0.501",
+      "durationMs": 0,
+      "expected": "priced",
+      "price": "0.45"
+    },
+    {
+      "id": "evtaler-session-a-wh",
+      "description": "A Wh at 0.59 € a kWh: 0.00059 €, to the nearest cent nothing - where a step of it costs a cent.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"@id\":\"DE*GEF*T_DC\",\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "energy": "0.001",
+      "durationMs": 0,
+      "expected": "priced",
+      "price": "0.00"
+    },
+    {
+      "id": "evtaler-session-of-nothing",
+      "description": "No energy in no time: 0.00 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "energy": "0",
+      "durationMs": 0,
+      "expected": "priced",
+      "price": "0.00"
+    },
+    {
+      "id": "evtaler-session-energy-and-time",
+      "description": "7.412 kWh in 34 minutes at 0.59 € a kWh and 0.40 € an hour, billed by the Wh and the minute: 4.37308 € and 0.2266… €, 4.60 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "energy": "7.412",
+      "durationMs": 2040000,
+      "expected": "priced",
+      "price": "4.60"
+    },
+    {
+      "id": "evtaler-session-a-minute-begun",
+      "description": "A second more than 34 minutes at 0.40 € an hour, billed by the minute: 35 minutes, 0.2333… €, with 7.412 kWh 4.61 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "energy": "7.412",
+      "durationMs": 2041000,
+      "expected": "priced",
+      "price": "4.61"
+    },
+    {
+      "id": "evtaler-session-a-millisecond",
+      "description": "A millisecond at 0.40 € an hour, billed by the minute: a minute, 0.0066… €, to the nearest cent 0.01 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "energy": "0",
+      "durationMs": 1,
+      "expected": "priced",
+      "price": "0.01"
+    },
+    {
+      "id": "evtaler-session-billed-in-steps",
+      "description": "8.214 kWh in 34 minutes at 0.59 € a kWh billed by the kWh and 2.40 € an hour billed by the quarter of an hour: 9 kWh and 45 minutes, 5.31 € and 1.80 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1000,\"type\":\"ENERGY\"},{\"price\":2.40,\"stepSize\":900,\"type\":\"TIME\"}]}]}",
+      "energy": "8.214",
+      "durationMs": 2040000,
+      "expected": "priced",
+      "price": "7.11"
+    },
+    {
+      "id": "evtaler-session-a-whole-step",
+      "description": "9 kWh in 45 minutes of the same tariff: no step more, 7.11 € as well.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1000,\"type\":\"ENERGY\"},{\"price\":2.40,\"stepSize\":900,\"type\":\"TIME\"}]}]}",
+      "energy": "9",
+      "durationMs": 2700000,
+      "expected": "priced",
+      "price": "7.11"
+    },
+    {
+      "id": "evtaler-session-steps-of-three",
+      "description": "A kWh in 100 seconds at 0.10 € a kWh billed by 3 Wh and 1.00 € an hour billed by 7 seconds: 1002 Wh and 105 seconds, 0.1002 € and 0.0291… €, 0.13 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.10,\"stepSize\":3,\"type\":\"ENERGY\"},{\"price\":1.00,\"stepSize\":7,\"type\":\"TIME\"}]}]}",
+      "energy": "1",
+      "durationMs": 100000,
+      "expected": "priced",
+      "price": "0.13"
+    },
+    {
+      "id": "evtaler-session-with-vat",
+      "description": "A flat fee of 1.00 €, 7.412 kWh at 0.50 € and 34 minutes at 2.00 € an hour, with their VAT: 1.19 €, 4.41014 € and 1.2206 €, 6.82 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":1.00,\"type\":\"FLAT\",\"vat\":19},{\"price\":0.50,\"stepSize\":1,\"type\":\"ENERGY\",\"vat\":19},{\"price\":2.00,\"stepSize\":1,\"type\":\"TIME\",\"vat\":7.7}]}]}",
+      "energy": "7.412",
+      "durationMs": 2040000,
+      "expected": "priced",
+      "price": "6.82"
+    },
+    {
+      "id": "evtaler-session-flat-fee-alone",
+      "description": "The flat fee of a session of no energy in no time: 1.19 €.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":1.00,\"type\":\"FLAT\",\"vat\":19},{\"price\":0.50,\"stepSize\":1,\"type\":\"ENERGY\",\"vat\":19},{\"price\":2.00,\"stepSize\":1,\"type\":\"TIME\",\"vat\":7.7}]}]}",
+      "energy": "0",
+      "durationMs": 0,
+      "expected": "priced",
+      "price": "1.19"
+    },
+    {
+      "id": "evtaler-session-yen-half",
+      "description": "A kWh at 44.5 ¥: the half away from zero 45 ¥ - not to the even yen, 44 ¥.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "JPY",
+      "tariff": "{\"currency\":\"JPY\",\"elements\":[{\"priceComponents\":[{\"price\":44.5,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "energy": "1",
+      "durationMs": 0,
+      "expected": "priced",
+      "price": "45"
+    },
+    {
+      "id": "evtaler-session-yen-below-half",
+      "description": "0.999 kWh at 44.5 ¥: 44.4555 ¥, to the nearest yen 44 ¥.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "JPY",
+      "tariff": "{\"currency\":\"JPY\",\"elements\":[{\"priceComponents\":[{\"price\":44.5,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "energy": "0.999",
+      "durationMs": 0,
+      "expected": "priced",
+      "price": "44"
+    },
+    {
+      "id": "evtaler-session-dinar",
+      "description": "1.1 kWh at 0.0455 Bahraini dinar: 0.05005, to the nearest thousandth 0.050.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "BHD",
+      "tariff": "{\"currency\":\"BHD\",\"elements\":[{\"priceComponents\":[{\"price\":0.0455,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "energy": "1.1",
+      "durationMs": 0,
+      "expected": "priced",
+      "price": "0.050"
+    },
+    {
+      "id": "evtaler-session-dinar-half",
+      "description": "0.1 kWh at 0.0455 Bahraini dinar: 0.00455, the half away from zero 0.005 - not to the even thousandth, 0.004.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "BHD",
+      "tariff": "{\"currency\":\"BHD\",\"elements\":[{\"priceComponents\":[{\"price\":0.0455,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "energy": "0.1",
+      "durationMs": 0,
+      "expected": "priced",
+      "price": "0.005"
+    },
+    {
+      "id": "evtaler-session-unidad-de-fomento",
+      "description": "1.1 kWh at 0.00125 Unidades de Fomento: 0.001375, to the nearest of four decimal places 0.0014.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "session",
+      "currency": "CLF",
+      "tariff": "{\"currency\":\"CLF\",\"elements\":[{\"priceComponents\":[{\"price\":0.00125,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "energy": "1.1",
+      "durationMs": 0,
+      "expected": "priced",
+      "price": "0.0014"
+    },
+    {
+      "id": "evtaler-rates-energy-and-time",
+      "description": "A charging tariff of an ENERGY and a TIME component, each once with its step size: 0.59 € a kWh billed by the Wh, 0.40 € an hour billed by the minute.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "expected": "priced",
+      "rates": {
+        "energyPerKWh": "0.59",
+        "energyStepWh": "1",
+        "timePerHour": "0.4",
+        "timeStepSeconds": "60"
+      }
+    },
+    {
+      "id": "evtaler-rates-empty-restrictions",
+      "description": "An element with empty restrictions is one without.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"}],\"restrictions\":{}}]}",
+      "expected": "priced",
+      "rates": {
+        "energyPerKWh": "0.59",
+        "energyStepWh": "1"
+      }
+    },
+    {
+      "id": "evtaler-rates-minimum-price",
+      "description": "A charging tariff with a minimum price: not recalculated.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"}]}],\"minPrice\":{\"price\":1.00}}",
+      "expected": "notPriced",
+      "reason": "the charging tariff has a minimum or maximum price"
+    },
+    {
+      "id": "evtaler-rates-maximum-price",
+      "description": "A charging tariff with a maximum price: not recalculated.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"}]}],\"maxPrice\":{\"price\":50.00}}",
+      "expected": "notPriced",
+      "reason": "the charging tariff has a minimum or maximum price"
+    },
+    {
+      "id": "evtaler-rates-two-elements",
+      "description": "A session priced by two elements: not recalculated.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"}]},{\"priceComponents\":[{\"price\":0.40,\"stepSize\":60,\"type\":\"TIME\"}]}]}",
+      "expected": "notPriced",
+      "reason": "the session is priced by more than one element"
+    },
+    {
+      "id": "evtaler-rates-restrictions",
+      "description": "An element with a restriction: not recalculated.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"}],\"restrictions\":{\"maxPower\":50}}]}",
+      "expected": "notPriced",
+      "reason": "the element of the session has restrictions"
+    },
+    {
+      "id": "evtaler-rates-no-components",
+      "description": "An element without price components: not recalculated.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[]}]}",
+      "expected": "notPriced",
+      "reason": "the element of the session has restrictions"
+    },
+    {
+      "id": "evtaler-rates-component-of-more",
+      "description": "A price component with a property the simple profile does not know: not recalculated.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"roundingRule\":\"up\",\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "expected": "notPriced",
+      "reason": "a price component is not one of the simple profile"
+    },
+    {
+      "id": "evtaler-rates-price-as-text",
+      "description": "A price component whose price is a text: not recalculated.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":\"0.59\",\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "expected": "notPriced",
+      "reason": "a price component is not one of the simple profile"
+    },
+    {
+      "id": "evtaler-rates-negative-price",
+      "description": "A price component with a negative price: not recalculated.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":-0.59,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "expected": "notPriced",
+      "reason": "a price component has a negative price or a VAT outside 0..100"
+    },
+    {
+      "id": "evtaler-rates-vat-above-100",
+      "description": "A price component with a VAT of more than 100 %: not recalculated.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\",\"vat\":100.5}]}]}",
+      "expected": "notPriced",
+      "reason": "a price component has a negative price or a VAT outside 0..100"
+    },
+    {
+      "id": "evtaler-rates-energy-twice",
+      "description": "Two ENERGY components: not recalculated.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":0.10,\"stepSize\":1,\"type\":\"ENERGY\"}]}]}",
+      "expected": "notPriced",
+      "reason": "a price component is not ENERGY, TIME or FLAT once each, with its step size"
+    },
+    {
+      "id": "evtaler-rates-energy-without-step-size",
+      "description": "An ENERGY component without its step size: not recalculated.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"type\":\"ENERGY\"}]}]}",
+      "expected": "notPriced",
+      "reason": "a price component is not ENERGY, TIME or FLAT once each, with its step size"
+    },
+    {
+      "id": "evtaler-rates-step-size-of-zero",
+      "description": "A TIME component with a step size of 0: not recalculated.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.40,\"stepSize\":0,\"type\":\"TIME\"}]}]}",
+      "expected": "notPriced",
+      "reason": "a price component is not ENERGY, TIME or FLAT once each, with its step size"
+    },
+    {
+      "id": "evtaler-rates-flat-with-step-size",
+      "description": "A FLAT component with a step size: not recalculated.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":1.00,\"stepSize\":1,\"type\":\"FLAT\"}]}]}",
+      "expected": "notPriced",
+      "reason": "a price component is not ENERGY, TIME or FLAT once each, with its step size"
+    },
+    {
+      "id": "evtaler-rates-parking-time",
+      "description": "A PARKING_TIME component: not recalculated.",
+      "basis": "libs/WWCP_POI/concepts/EVTaler.md, section 9 and open point 3; WWCP_POI3/EVTaler/EVTalerPricing.cs (EVTalerRates, EVTalerAmounts), WWCP_POI.TS src/evTaler/amounts.ts",
+      "check": "rates",
+      "currency": "EUR",
+      "tariff": "{\"currency\":\"EUR\",\"elements\":[{\"priceComponents\":[{\"price\":0.59,\"stepSize\":1,\"type\":\"ENERGY\"},{\"price\":1.00,\"stepSize\":60,\"type\":\"PARKING_TIME\"}]}]}",
+      "expected": "notPriced",
+      "reason": "a price component is not ENERGY, TIME or FLAT once each, with its step size"
+    }
+  ]
+}
