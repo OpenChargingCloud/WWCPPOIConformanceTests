@@ -1,0 +1,70 @@
+{
+  "@context": "https://open.charging.cloud/contexts/wwcp/qiDigital/digitalCertificateOfConformity/v1",
+  "@id": "DE-26-M-PTB-0108",
+  "revision": 0,
+  "module": "B",
+  "legislation": {
+    "name": "MID",
+    "act": "Directive 2014/32/EU"
+  },
+  "conformityAssessmentBodyId": "PTB",
+  "notifiedBodyNumber": "0102",
+  "model": {
+    "type": "EnergyMeterModel",
+    "manufacturerId": "SAALE",
+    "modelId": "SM-3",
+    "hardwareRevisions": [
+      "1.4"
+    ],
+    "firmwareVersions": [
+      "1.0.7"
+    ]
+  },
+  "validFrom": "2026-11-16T20:30:20.795Z",
+  "validUntil": "2036-11-16T20:30:20.795Z",
+  "standards": [
+    {
+      "reference": "EN 50470-1:2006"
+    },
+    {
+      "reference": "EN 50470-3:2022"
+    }
+  ],
+  "characteristics": [
+    {
+      "refType": "mid_maximumCurrent",
+      "value": 63,
+      "unit": "\\ampere"
+    },
+    {
+      "refType": "mid_transitionalCurrent",
+      "value": 0.5,
+      "unit": "\\ampere"
+    },
+    {
+      "refType": "mid_minimumCurrent",
+      "value": 0.25,
+      "unit": "\\ampere"
+    },
+    {
+      "refType": "mid_referenceVoltage",
+      "value": 230,
+      "unit": "\\volt"
+    }
+  ],
+  "conclusion": {
+    "en": "The type SM-3 meets the essential requirements of the MID, Annex I and Annex V (MI-003), accuracy class B."
+  },
+  "conditions": [
+    {
+      "en": "Sealed as the annex of this certificate shows."
+    }
+  ],
+  "documentURL": "https://www.ptb.example/certificates/DE-26-M-PTB-0108.pdf",
+  "signature": {
+    "signedAt": "2026-11-16T20:30:20.881Z",
+    "algorithm": "ML-DSA-65",
+    "keyId": "6dc351af5cfbbb439da41bff17c47ee1b9b984a9c396ee8b2dd7ab0cf9acf56a",
+    "value": "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"
+  }
+}

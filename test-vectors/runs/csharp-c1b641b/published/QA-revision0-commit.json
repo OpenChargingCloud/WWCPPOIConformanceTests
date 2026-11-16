@@ -1,0 +1,36 @@
+{
+  "@id": "b444c6e0e157ea9f56fec121b0e90cf6ab27a46b9e8d78798afc16b01d029098",
+  "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3",
+  "roamingNetworkId": "QA",
+  "revision": 0,
+  "eTags": [
+    [
+      "json",
+      "sha256",
+      "hex",
+      "81a9f56099d6570b5859c481c44fa860bb959aaa6831daff5efbf89e758171f4"
+    ],
+    [
+      "cbor",
+      "sha256",
+      "hex",
+      "1436a333c01eb8f993b007fc5ff38e95bed2ea0fc92c27aecf534aade4d1f236"
+    ],
+    [
+      "effectiveTree",
+      "sha256",
+      "hex",
+      "d334cf10b4016bfc6cb6f5ce1c3f562b24f5c9ca4406264723a9be15e8f4739c"
+    ]
+  ],
+  "signatures": [
+    {
+      "role": "roamingNetworkOperator",
+      "signer": "OCC",
+      "signedAt": "2026-11-16T20:30:07.540Z",
+      "algorithm": "ES256",
+      "keyId": "6a6ff3e7ba92f072bedfef920756c233b2325a5acfd6a53b19585cedacf36003",
+      "value": "CiroG3lpcuFuXsgiuhyQoG/dj0G2oEFynejoogrfrbx7Q3U0vFUGywPtIUBQY7xsYpxdJFa8jbQhyblTnXQycA=="
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "@id": "e44b4e62b119726263dc1720dc5eea605ed48e0618dd2e11b5887b1aa122f3ed",
+  "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/checkpoint/v1",
+  "roamingNetworkId": "QA",
+  "epoch": 1,
+  "sequence": 3,
+  "previousId": "6c75a85e60ed7826c9a671ce526aa194c71de380ef0a494a8df28a214e782d06",
+  "commitId": "1b3f5031466fd949188a12d00e7acdbfa4e91d1bbb32ba490316bfa8329338f3",
+  "revision": 14,
+  "eTags": [
+    [
+      "json",
+      "sha256",
+      "hex",
+      "892cd207d038708918d5523b76e706bea6dceee7fd1a44e173ae3292b1436243"
+    ],
+    [
+      "cbor",
+      "sha256",
+      "hex",
+      "bbab33540d6525712ded9390b8efbe506f70785c9c616a8ecb78f45ef2b77270"
+    ],
+    [
+      "effectiveTree",
+      "sha256",
+      "hex",
+      "b2e2f912086bc375d9ef03b46d4520c38fc199b7aba7fc30e3a1cededf58a07f"
+    ]
+  ],
+  "commits": {
+    "@merkleRoot": "98a9348aff8d0120e6cfcc95366bd3c26c690903ba3d73bd166cff15a6be47fb",
+    "@size": 2
+  },
+  "createdAt": "2026-11-16T20:30:15.102Z",
+  "signatures": [
+    {
+      "role": "roamingNetworkOperator",
+      "signer": "OCC",
+      "signedAt": "2026-11-16T20:30:15.102Z",
+      "algorithm": "ES256",
+      "keyId": "6a6ff3e7ba92f072bedfef920756c233b2325a5acfd6a53b19585cedacf36003",
+      "value": "IYXqmUtLTgxCqs73TCYtHEfjCm4KTYQDhe1F+fcZjtkA/pN6McvOw0uBjlECHEzeDkZr9U5J+kGQD6Q1H1wQGw=="
+    },
+    {
+      "role": "roamingNetworkOperator",
+      "signer": "OCC",
+      "signedAt": "2026-11-16T20:30:15.105Z",
+      "algorithm": "ES256",
+      "keyId": "d90428693b08fbbd31b5340f55acdbb6a1bc57304467b41c9424d7be6befbb32",
+      "value": "pGKRu0x5Afz8ZdvL5mRvs4prvD+BZP3gt2yiiTC7oTuq8Q64y4ust2LO1eupT7HLkqfLBA4bV7l/+Rr8AbbXuQ=="
+    },
+    {
+      "role": "roamingNetworkOperator",
+      "signer": "OCC",
+      "signedAt": "2026-11-16T20:30:15.108Z",
+      "algorithm": "ES256",
+      "keyId": "0aa7772c8a98533b2f6cd0e2f151e8528405ad6ca8a40ab1ec43218dd5323ee8",
+      "value": "RLJt5gN0LpxLdp8mFuqeyoPaDXp1mg7vdvKqHW4Aiww+nWOV7GXa/gX1PCbzm2GoLPWfc7Q9pzH65RflbuMd9Q=="
+    },
+    {
+      "role": "witness",
+      "signer": "calibration.example",
+      "signedAt": "2026-11-16T20:30:15.790Z",
+      "algorithm": "Ed25519",
+      "keyId": "1c7c02513a3a940e2f31ebf3441b9cd952ea22cfa37b58350873cbf48ae2dfd0",
+      "value": "yVJNmvcytQvmGKeNv2TuzwLls8KEb8XQaABv5sWlOGnJfmiGjAPkE7d0jH1hFrOt7B1cRkAu8fVgwhfcO99sDA=="
+    },
+    {
+      "role": "witness",
+      "signer": "association.example",
+      "signedAt": "2026-11-16T20:30:15.979Z",
+      "algorithm": "ES384",
+      "keyId": "9142ef1507b7d938d7c75af70a7641d65e34c2ba42f978024e460070594dbbc1",
+      "value": "sJWa1qgGrnYZENQILzCjvy7FJJJQKkaGCBZSn+HRSgVrKGvMaD6tBnmKad2Pv1s/wvdknpDR7jRiwPF0HFol3G3ou/nX/dKEQ9nDxNa4Rp1XwB5O7Bk7VKO84DPxT697"
+    }
+  ]
+}

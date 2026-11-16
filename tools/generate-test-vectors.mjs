@@ -51,11 +51,11 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT         = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT          = join(ROOT, 'test-vectors');
-const RUN          = 'csharp-76d3653';
+const RUN          = 'csharp-c1b641b';
 const RUN_DIR      = join(OUT, 'runs', RUN);
 
 /** A point in time while the key statements, the keys and the attestations of the frozen run are valid. */
-const AT           = '2026-11-12T21:55:00.000Z';
+const AT           = '2026-11-16T20:31:00.000Z';
 
 const STYX_README  = 'libs/Styx/Styx/Illias/JSON/README.md';
 const STYX_TESTS   = 'libs/Styx/StyxTests/Illias/JSON/CanonicalEncodingVectorsTests.cs';
@@ -1284,7 +1284,7 @@ function historyVectors() {
             { op: 'fromSnapshot',    file: 'published/QA-genesis.json' },
             ...epoch1.map(file => ({ op: 'append', file })),
             ...[ 0, 1, 2, 3, 4, 5, 6 ].map(sequence => ({ op: 'takeCheckpoint', file: `published/QA-checkpoint-${sequence}.json` })),
-            { op: 'expectHead',      epoch: 1, revision: 16, commitId: jsonRun('published/QA-checkpoint-6.json').commitId },
+            { op: 'expectHead',      epoch: 1, revision: 18, commitId: jsonRun('published/QA-checkpoint-6.json').commitId },
             { op: 'startNextEpoch',  genesisCommitId: jsonRun('published/QA-epoch-2-genesis.json').commit['@id'] },
             { op: 'append',          file: 'proofs/QA-epoch-2-commits-to-head.json' },
             { op: 'takeCheckpoint',  file: 'published/QA-epoch-2-checkpoint-0.json' },
@@ -1335,7 +1335,7 @@ function at(document, pointer) {
 function readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, pool2, tariffAt, templateAt, bsi, DOCS, HELD, ORDER }) {
 
     const doc        = (name) => `${DOCS}/${name}.md`;
-    const RICH_AT    = '2026-11-12T21:54:38.880Z';
+    const RICH_AT    = '2026-11-16T20:30:20.398Z';
     const meta       = { created: RICH_AT, lastChange: RICH_AT };
     if (!(Date.parse(qa.created) <= Date.parse(RICH_AT) && Date.parse(RICH_AT) <= Date.parse(qa.lastChange)))
         fail(`QA.json: ${RICH_AT}, when the richer QA adds its entities, is not within the life of the roaming network`);
@@ -2665,11 +2665,11 @@ function refusalVectors() {
     readAsWWCP_POI3({ qa, named, patched, refuse, notHeld, gefAt, pool1, pool2, tariffAt, templateAt, bsi, DOCS, HELD, ORDER });
 
     // ---- Checkpoint proofs (10.4).
-    const proof4 = jsonRun('published/QA-proof-revision-4.json');
-    refuse({ id: 'checkpointProof-index',     kind: 'checkpointProof', reason: "The proof does not lead to the commits of the checkpoint!", basis: `${SPEC}, 10.4`, description: 'Another position of the commit in the checkpoint.',                                  document: patched('published/QA-proof-revision-4.json', '', [ { op: 'replace', path: '/@index', value: proof4['@index'] === 0 ? 1 : 0 } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });
-    refuse({ id: 'checkpointProof-path',      kind: 'checkpointProof', reason: "The proof does not lead to the commits of the checkpoint!", basis: `${SPEC}, 10.4`, description: 'Another node on the audit path.',                                                     document: patched('published/QA-proof-revision-4.json', '', [ { op: 'replace', path: '/@auditPath/0', value: '0'.repeat(64) } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });
-    refuse({ id: 'checkpointProof-revision',  kind: 'checkpointProof', reason: "The proof does not lead to the commits of the checkpoint!", basis: `${SPEC}, 10.4`, description: 'Another revision in the leaf.',                                                        document: patched('published/QA-proof-revision-4.json', '', [ { op: 'replace', path: '/leaf/revision', value: proof4.leaf.revision + 1 } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });
-    refuse({ id: 'checkpointProof-other',     kind: 'checkpointProof', reason: "The proof is for the checkpoint", basis: `${SPEC}, 10.4`, description: 'The proof against another checkpoint.',                                               document: patched('published/QA-proof-revision-4.json', '', []), checkpoint: { file: 'published/QA-checkpoint-1.json', pointer: '' } });
+    const proof6 = jsonRun('published/QA-proof-revision-6.json');
+    refuse({ id: 'checkpointProof-index',     kind: 'checkpointProof', reason: "The proof does not lead to the commits of the checkpoint!", basis: `${SPEC}, 10.4`, description: 'Another position of the commit in the checkpoint.',                                  document: patched('published/QA-proof-revision-6.json', '', [ { op: 'replace', path: '/@index', value: proof6['@index'] === 0 ? 1 : 0 } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });
+    refuse({ id: 'checkpointProof-path',      kind: 'checkpointProof', reason: "The proof does not lead to the commits of the checkpoint!", basis: `${SPEC}, 10.4`, description: 'Another node on the audit path.',                                                     document: patched('published/QA-proof-revision-6.json', '', [ { op: 'replace', path: '/@auditPath/0', value: '0'.repeat(64) } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });
+    refuse({ id: 'checkpointProof-revision',  kind: 'checkpointProof', reason: "The proof does not lead to the commits of the checkpoint!", basis: `${SPEC}, 10.4`, description: 'Another revision in the leaf.',                                                        document: patched('published/QA-proof-revision-6.json', '', [ { op: 'replace', path: '/leaf/revision', value: proof6.leaf.revision + 1 } ]), checkpoint: { file: 'published/QA-checkpoint-0.json', pointer: '' } });
+    refuse({ id: 'checkpointProof-other',     kind: 'checkpointProof', reason: "The proof is for the checkpoint", basis: `${SPEC}, 10.4`, description: 'The proof against another checkpoint.',                                               document: patched('published/QA-proof-revision-6.json', '', []), checkpoint: { file: 'published/QA-checkpoint-1.json', pointer: '' } });
 
     // ---- Station proofs (8.4, 8.5): the root, the attestations, their validity.
     const stationProof = 'published/QA-DE-GEF-E1-1-proof.json';
@@ -2769,8 +2769,8 @@ function refusalVectors() {
 
     // ---- A price statement names its entity as the roaming network does (12.1): identifications equal without "*",
     //      whitespace and case are one entity with one chain. The statement of the evidence of example A10, made against
-    //      revision 13, checked as each implementation has it: taken by a history started from the snapshot of checkpoint
-    //      4 of revision 13 (a server, WWCP_POI3), and by a client with the proof of its station the evidence holds,
+    //      revision 15, checked as each implementation has it: taken by a history started from the snapshot of checkpoint
+    //      4 of revision 15 (a server, WWCP_POI3), and by a client with the proof of its station the evidence holds,
     //      verified against the trust anchor of epoch 1 when charging began (WWCP_POI.TS).
     quoted(SPEC, 'case, as `DE*GEF*E11` and `DE*GEF*E1*1`, are one entity with one chain; a statement naming it in another', 'that a statement names its entity as the roaming network does');
 
@@ -2782,8 +2782,8 @@ function refusalVectors() {
     const cp4             = rawRun(CP4);
 
     if (evidence.priceStatements[0].entityId !== 'DE*GEF*E1*1' || evidence.priceStatements[0].after !== cp4['@id'] ||
-        evidence.chargingStationProof.revision !== 13 || jsonRun(CP4_SNAPSHOT).commit.revision !== 13 || jsonRun(CP4_SNAPSHOT).commit['@id'] !== cp4.commitId)
-        fail(`${EVIDENCE}: no longer the statement of DE*GEF*E1*1 made after checkpoint 4, of revision 13, with a proof of revision 13`);
+        evidence.chargingStationProof.revision !== 15 || jsonRun(CP4_SNAPSHOT).commit.revision !== 15 || jsonRun(CP4_SNAPSHOT).commit['@id'] !== cp4.commitId)
+        fail(`${EVIDENCE}: no longer the statement of DE*GEF*E1*1 made after checkpoint 4, of revision 15, with a proof of revision 15`);
 
     const ofEntity = { snapshot: { file: CP4_SNAPSHOT, pointer: '' }, stationProof: { file: EVIDENCE, pointer: '/chargingStationProof' }, trustAnchor: 'published/QA-trustAnchor.txt', at: evidence.chargingStarted };
 
@@ -4700,13 +4700,13 @@ function qiDigitalVectors() {
     refuse('qid-calibration-meter-updated',      'verify', DCC,  'QA with the meter of DE*GEF*E2*1 on the firmware 1.0.8 since, a version of the SM-3 as well: a meter changed since is no longer the one calibrated.', "runs the firmware version '1.0.8', not '1.0.7'!", { network: [ { op: 'replace', path: `${sm3}/firmwareVersions`, value: [ '1.0.7', '1.0.8' ] }, { op: 'replace', path: `${acMeter}/firmwareVersion`, value: '1.0.8' } ] });
     refuse('qid-calibration-without-laboratory', 'verify', DCC,  'QA without EM-LAB: the laboratory of a calibration certificate is a conformity assessment body of the roaming network.', "The calibration laboratory 'EM-LAB' of the digital calibration certificate 'DCC-2026-0815' is no conformity assessment body of the roaming network 'QA'!", { network: [ { op: 'remove', path: emLab } ] });
     refuse('qid-calibration-key-for-party',      'verify', DCC,  'QA with the key EM-LAB signed with for its own properties only: a calibration certificate is signed by a key that may sign certificates.', "may not sign 'certificates', only 'party'", { network: [ { op: 'replace', path: `${labKey}/usages`, value: [ 'party' ] } ] });
-    refuse('qid-calibration-key-ended-before',   'verify', DCC,  'QA with the key EM-LAB signed with ended before it signed.', ", when the digital calibration certificate 'DCC-2026-0815' was signed!", { network: [ { op: 'replace', path: `${labKey}/notAfter`, value: '2026-11-12T21:54:39.816Z' } ] });
+    refuse('qid-calibration-key-ended-before',   'verify', DCC,  'QA with the key EM-LAB signed with ended before it signed.', ", when the digital calibration certificate 'DCC-2026-0815' was signed!", { network: [ { op: 'replace', path: `${labKey}/notAfter`, value: '2026-11-16T20:30:20.900Z' } ] });
     refuse('qid-declaration-key-of-no-manufacturer', 'verify', DDOC, 'QA without the key SAALE signed with for its models: a declaration is signed by a key of the manufacturer of its model.', "is no signing key of the energy meter manufacturer 'SAALE'", { network: [ { op: 'remove', path: ddocKey } ] });
 
     // ---- Refused: at another time.
 
-    refuse('qid-quality-system-expired',         'verify', D,    'After the approval of the quality system ended (validUntil, three years).', "'DE-26-QS-PTB-0042' is not valid at 2029-11-13T00:00:00.000Z!", { at: '2029-11-13T00:00:00.000Z' });
-    refuse('qid-calibration-key-ended',          'verify', DCC,  'After the key EM-LAB signed with ended (notAfter, a year): the key is valid when it signed and when the certificate is checked.', "of the calibration laboratory 'EM-LAB' is not valid at 2027-11-13T00:00:00.000Z!", { at: '2027-11-13T00:00:00.000Z' });
+    refuse('qid-quality-system-expired',         'verify', D,    'After the approval of the quality system ended (validUntil, three years).', "'DE-26-QS-PTB-0042' is not valid at 2029-11-17T00:00:00.000Z!", { at: '2029-11-17T00:00:00.000Z' });
+    refuse('qid-calibration-key-ended',          'verify', DCC,  'After the key EM-LAB signed with ended (notAfter, a year): the key is valid when it signed and when the certificate is checked.', "of the calibration laboratory 'EM-LAB' is not valid at 2027-11-17T00:00:00.000Z!", { at: '2027-11-17T00:00:00.000Z' });
 
     // ---- Refused: the declaration against a certificate it does not name as it is. No signature is looked at here, the
     //      certificate's own check tells whether it is valid.
@@ -4760,7 +4760,7 @@ function qiDigitalVectors() {
     const item      = { type: 'ChargingStation', id: station['@id'], manufacturerId: template.manufacturerId, modelId: template.modelId, serialNumber: SERIAL,
                         hardwareRevision: template.hardwareRevision, firmwareVersion: template.firmwareVersion };
     const raw       = parseRaw(readRun(DCC));
-    const unsigned  = { signedAt: '2026-11-12T21:54:50.000Z', algorithm: labCerts.algorithm, keyId: labCerts.id };
+    const unsigned  = { signedAt: '2026-11-16T20:30:31.000Z', algorithm: labCerts.algorithm, keyId: labCerts.id };
     const signature = { ...unsigned, value: labCerts.sign(canonical({ ...raw, '@id': 'DCC-2026-0816', item, signature: unsigned })) };
 
     if (verifiesWith(signature.algorithm, labCerts.json.key, canonical({ ...raw, '@id': 'DCC-2026-0816', item, signature: unsigned }), signature.value) !== true)

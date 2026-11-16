@@ -1,0 +1,37 @@
+[
+  {
+    "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/archiveSegmentInfo/v1",
+    "number": 1,
+    "rootId": "b444c6e0e157ea9f56fec121b0e90cf6ab27a46b9e8d78798afc16b01d029098",
+    "endId": "0c63b42cb371816d30f157ec8db665d54dca6ed1b9daf12c69c28c556b796e7d",
+    "fromRevision": 0,
+    "toRevision": 9,
+    "size": 9,
+    "archivedAt": "2026-11-16T20:30:13.865Z",
+    "commitIds": [
+      "e8f7b46f639dd8a2addff6822f71336b6bdbe567c14bd4892423463ec2f1a755",
+      "9e3b83bc60587f2cfe9b67e4919b35728f4c9da80dab2d541539329acd7b5893",
+      "14f230771ef717b1dcb2cc43bffc83105d096765f9f6f0cb5b3982fa5084b251",
+      "6facbeb7e29da3b10597dea02663a947e2160bb753c2d445551ecf98cf9695df",
+      "134774897e85a23dc05c9178c334652a34a6000566f7ef18b7fde4cb326f8e75",
+      "24cdb41f691b97b2be68a819156df0d183797519406115e4057ad6458354ea7d",
+      "3d6dfc07ddf2c1f7c88c02fad05315f4854dd34725bc05b419ef272f1032d222",
+      "72645d868f0fda2622ed8cf38af406139566e0cabefdfdbd2dbbf7ab47be21b0",
+      "0c63b42cb371816d30f157ec8db665d54dca6ed1b9daf12c69c28c556b796e7d"
+    ]
+  },
+  {
+    "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/archiveSegmentInfo/v1",
+    "number": 2,
+    "rootId": "0c63b42cb371816d30f157ec8db665d54dca6ed1b9daf12c69c28c556b796e7d",
+    "endId": "8d5447bd5433275bf3f7694310de40cdb75c2bbbbaacabb8fe30ba2d719d866e",
+    "fromRevision": 9,
+    "toRevision": 11,
+    "size": 2,
+    "archivedAt": "2026-11-16T20:30:13.932Z",
+    "commitIds": [
+      "0cd7705f32b15771b76b612b0785353a454333056447f89f66575a74faac0719",
+      "8d5447bd5433275bf3f7694310de40cdb75c2bbbbaacabb8fe30ba2d719d866e"
+    ]
+  }
+]

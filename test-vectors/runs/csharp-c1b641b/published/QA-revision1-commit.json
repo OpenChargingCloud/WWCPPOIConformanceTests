@@ -1,0 +1,264 @@
+{
+  "@id": "e8f7b46f639dd8a2addff6822f71336b6bdbe567c14bd4892423463ec2f1a755",
+  "@context": "https://open.charging.cloud/contexts/wwcp/roamingNetwork/commit/v3",
+  "roamingNetworkId": "QA",
+  "revision": 1,
+  "eTags": [
+    [
+      "json",
+      "sha256",
+      "hex",
+      "a263eb2d55441548eb73593a32d01edb9b2cc7a7b38153ef6c998a506e11ba71"
+    ],
+    [
+      "cbor",
+      "sha256",
+      "hex",
+      "7109f203086ccbd34207607bb72553742c1e5800e329448cea4b05493caed7be"
+    ],
+    [
+      "effectiveTree",
+      "sha256",
+      "hex",
+      "4c80f7922ae6057e38ad974eff68740719dffb32a74c39e11e4fa99ddc2a982d"
+    ]
+  ],
+  "parentIds": [
+    "b444c6e0e157ea9f56fec121b0e90cf6ab27a46b9e8d78798afc16b01d029098"
+  ],
+  "changeSet": {
+    "@id": "411cdc66e65d2b99db3281c88f1c168693024cf9ea5356c25f4d8e143c696a54",
+    "roamingNetworkId": "QA",
+    "createdAt": "2026-11-16T20:30:07.743Z",
+    "description": {
+      "en": "BetaOrg joins AlphaOrg: two of two"
+    },
+    "signatures": [
+      {
+        "algorithm": "ES512",
+        "keyId": "6cc0a19dee108f51c098f473bef8c117812b21d015e2ee22237f02d00ae177c9",
+        "value": "Aa7GflyRCcNmc89iifTlp+CYy0dZ2JoY5FUiw5/CFcaBFirN1uAekx0z5VuYpmSAHPv5lOIgaTSju/Y2q0Mv9kvoAOr9URk8+JvKI/grWsrRhOFF+i/fHauWjVGO/eCjkY8OPumz41e9xB+rc+sH9ALGhcwzHJVMPdN8Vg3jZc3U/a29"
+      },
+      {
+        "algorithm": "ES256",
+        "keyId": "6a6ff3e7ba92f072bedfef920756c233b2325a5acfd6a53b19585cedacf36003",
+        "value": "JeNlX3yU6r+c/Bbkm1g4mMVAuKQjqi6qgB6aF/APVHmBSHR19FIQgeSh6HN0ps3p0w/7vJQQf55Lf9TelC6qvA=="
+      },
+      {
+        "algorithm": "Ed448",
+        "keyId": "29ff65d687d7ec90c1a2a05a6598c255bc2b5e9a2d4e7379593112143e8d12cb",
+        "value": "pYO/w4mU8u0EGuH87Z5LC5i/8wA7HBuqZl4mwESX3oU73O2rgDaqUioGAdmBUm5LCE5tAdizPrAAl7MSLGXCAqvw7hKo7ey8lTmITk34hLK+zimem81ymaiKuNjZKrnyRmH8bOJHPMVEk4kaeA4dRh4A"
+      }
+    ],
+    "changes": [
+      {
+        "kind": "UpdateProperty",
+        "entityType": "RoamingNetworkOperator",
+        "entityId": "OCC",
+        "propertyName": "identityKeys",
+        "oldValue": [
+          {
+            "@id": "6cc0a19dee108f51c098f473bef8c117812b21d015e2ee22237f02d00ae177c9",
+            "key": "pAECIAMhWEIBEoSWSkH0yN0X+J4eLgFloofiomcf/5cFLeYsh4XMg52qCkkwQ4/vta6fudmyOQ6jCP32mOYQ8fvbHFLZKrTzbCciWEIAw6/U3j/puwsbkDJ5B9GYgQYmFVqnSsg4FI6rt0MLoWAITZ7S3wkjHi7b3XLqxm8tfjX5v6MGgznqMqt7Xs5ncNM=",
+            "holder": "AlphaOrg"
+          }
+        ],
+        "newValue": [
+          {
+            "@id": "29ff65d687d7ec90c1a2a05a6598c255bc2b5e9a2d4e7379593112143e8d12cb",
+            "key": "owEBIAchWDnO4diZ7BcDg+P/8aBoAw+58LPB/odjXMpRRve6bZwFPt4qNnH2pVd1PPAMMV6WX0/uZ1pR2KVYOoA=",
+            "holder": "BetaOrg"
+          },
+          {
+            "@id": "6cc0a19dee108f51c098f473bef8c117812b21d015e2ee22237f02d00ae177c9",
+            "key": "pAECIAMhWEIBEoSWSkH0yN0X+J4eLgFloofiomcf/5cFLeYsh4XMg52qCkkwQ4/vta6fudmyOQ6jCP32mOYQ8fvbHFLZKrTzbCciWEIAw6/U3j/puwsbkDJ5B9GYgQYmFVqnSsg4FI6rt0MLoWAITZ7S3wkjHi7b3XLqxm8tfjX5v6MGgznqMqt7Xs5ncNM=",
+            "holder": "AlphaOrg"
+          }
+        ]
+      },
+      {
+        "kind": "UpdateProperty",
+        "entityType": "RoamingNetworkOperator",
+        "entityId": "OCC",
+        "propertyName": "keyStatement",
+        "oldValue": {
+          "roamingNetworkId": "QA",
+          "roamingNetworkOperatorId": "OCC",
+          "identityKeys": [
+            {
+              "@id": "6cc0a19dee108f51c098f473bef8c117812b21d015e2ee22237f02d00ae177c9",
+              "key": "pAECIAMhWEIBEoSWSkH0yN0X+J4eLgFloofiomcf/5cFLeYsh4XMg52qCkkwQ4/vta6fudmyOQ6jCP32mOYQ8fvbHFLZKrTzbCciWEIAw6/U3j/puwsbkDJ5B9GYgQYmFVqnSsg4FI6rt0MLoWAITZ7S3wkjHi7b3XLqxm8tfjX5v6MGgznqMqt7Xs5ncNM=",
+              "holder": "AlphaOrg"
+            }
+          ],
+          "minConsensus": 1,
+          "signedAt": "2026-11-16T20:30:07.059Z",
+          "validUntil": "2027-11-16T20:30:07.059Z",
+          "signatures": [
+            {
+              "algorithm": "ES512",
+              "keyId": "6cc0a19dee108f51c098f473bef8c117812b21d015e2ee22237f02d00ae177c9",
+              "value": "AKia6+v458oNGilNLfo49QSQqgPQk8T8qSSbLFg1nokjsHkfO8ycDnC4E938+JcVmvbgE+JocWU39QbQQJ9jeJY5AMvCk6O4pPAXdV0bF1/pazZDhfAuZ8HeoSVo1O4JGFFwb6OOVgAdWw7dZf3mWILjbZw5jbqdJ26cyXcTTW8KWD73"
+            }
+          ]
+        },
+        "newValue": {
+          "roamingNetworkId": "QA",
+          "roamingNetworkOperatorId": "OCC",
+          "identityKeys": [
+            {
+              "@id": "29ff65d687d7ec90c1a2a05a6598c255bc2b5e9a2d4e7379593112143e8d12cb",
+              "key": "owEBIAchWDnO4diZ7BcDg+P/8aBoAw+58LPB/odjXMpRRve6bZwFPt4qNnH2pVd1PPAMMV6WX0/uZ1pR2KVYOoA=",
+              "holder": "BetaOrg"
+            },
+            {
+              "@id": "6cc0a19dee108f51c098f473bef8c117812b21d015e2ee22237f02d00ae177c9",
+              "key": "pAECIAMhWEIBEoSWSkH0yN0X+J4eLgFloofiomcf/5cFLeYsh4XMg52qCkkwQ4/vta6fudmyOQ6jCP32mOYQ8fvbHFLZKrTzbCciWEIAw6/U3j/puwsbkDJ5B9GYgQYmFVqnSsg4FI6rt0MLoWAITZ7S3wkjHi7b3XLqxm8tfjX5v6MGgznqMqt7Xs5ncNM=",
+              "holder": "AlphaOrg"
+            }
+          ],
+          "minConsensus": 2,
+          "signedAt": "2026-11-16T20:30:07.690Z",
+          "validUntil": "2027-11-16T20:30:07.059Z",
+          "signatures": [
+            {
+              "algorithm": "ES512",
+              "keyId": "6cc0a19dee108f51c098f473bef8c117812b21d015e2ee22237f02d00ae177c9",
+              "value": "AJIsnP8QZUaIKdS3gZNOBtD57CsVDubnJcNMLcFnMOMG+gRxzveL4aZ/s3Zq8BsK91qsS3r/9zHz8BDAkrwjk5omAZbAWtE/C1BFszM/0VQJ4Y8IwvlOdawbpD7MJmF3bNi4LnQ6uT/O8lqmukWDnGB+lXMiPzT0HRZXScq1IirxOUov"
+            },
+            {
+              "algorithm": "Ed448",
+              "keyId": "29ff65d687d7ec90c1a2a05a6598c255bc2b5e9a2d4e7379593112143e8d12cb",
+              "value": "ywI4ND9VvjT9L1uaewY302Bedx1HAwbdoke+bcGZ13KjVJFLmHH8jG/Qra/JLJbLSAdNUIu4qTyAokf3YTMrNZ0E6IOQZEDkS4qUu1mckd2MiFXTl6SyGegkA35em9I4wL27FP4K1MDulz8HVH0iWDMA"
+            }
+          ]
+        }
+      },
+      {
+        "kind": "UpdateProperty",
+        "entityType": "RoamingNetworkOperator",
+        "entityId": "OCC",
+        "propertyName": "signingKeyCertificates",
+        "oldValue": [
+          {
+            "roamingNetworkOperatorId": "OCC",
+            "signingKey": {
+              "@id": "6a6ff3e7ba92f072bedfef920756c233b2325a5acfd6a53b19585cedacf36003",
+              "key": "pAECIAEhWCACkk6N+wcanjvBRXkpRu85JNL4Iymiw3k4onu8saTyHiJYIGkfz4ye1iJaofdvhJE+hV3ha+A7Qe9wx1kLqwupbIQR",
+              "notAfter": "2027-11-16T20:30:07.059Z",
+              "holder": "AlphaOrg",
+              "usages": [
+                "party"
+              ]
+            },
+            "signedAt": "2026-11-16T20:30:07.059Z",
+            "algorithm": "ES512",
+            "keyId": "6cc0a19dee108f51c098f473bef8c117812b21d015e2ee22237f02d00ae177c9",
+            "value": "AIUQ/0rMiJVXutWAuk2UhGfMqFWTnsFgvzYcSqCpIGi8QqFR2k2Qil5Bmzy2zFtvN1roaXjDHwxCR/ER2xJmvXCGAQ80KZYsj5K00fO7c6WKhUWNZnP+T6hFhim251BUqZpmF5+J2noKGqgqhiscH0CwSJFRgL8WYEGjVf/CSZuxuWJ+"
+          }
+        ],
+        "newValue": [
+          {
+            "roamingNetworkOperatorId": "OCC",
+            "signingKey": {
+              "@id": "6a6ff3e7ba92f072bedfef920756c233b2325a5acfd6a53b19585cedacf36003",
+              "key": "pAECIAEhWCACkk6N+wcanjvBRXkpRu85JNL4Iymiw3k4onu8saTyHiJYIGkfz4ye1iJaofdvhJE+hV3ha+A7Qe9wx1kLqwupbIQR",
+              "notAfter": "2027-11-16T20:30:07.059Z",
+              "holder": "AlphaOrg",
+              "usages": [
+                "party"
+              ]
+            },
+            "signedAt": "2026-11-16T20:30:07.059Z",
+            "algorithm": "ES512",
+            "keyId": "6cc0a19dee108f51c098f473bef8c117812b21d015e2ee22237f02d00ae177c9",
+            "value": "AIUQ/0rMiJVXutWAuk2UhGfMqFWTnsFgvzYcSqCpIGi8QqFR2k2Qil5Bmzy2zFtvN1roaXjDHwxCR/ER2xJmvXCGAQ80KZYsj5K00fO7c6WKhUWNZnP+T6hFhim251BUqZpmF5+J2noKGqgqhiscH0CwSJFRgL8WYEGjVf/CSZuxuWJ+"
+          },
+          {
+            "roamingNetworkOperatorId": "OCC",
+            "signingKey": {
+              "@id": "d90428693b08fbbd31b5340f55acdbb6a1bc57304467b41c9424d7be6befbb32",
+              "key": "pAECIAEhWCB4uUgO9weo8nA33QKR+DD8xnRoOBU2Z48+Uj8Q7rKxuiJYIB1Opq3X6PdIP/HXptUC324DzrUyRzuaXBtucjjoe7/x",
+              "notAfter": "2027-11-16T20:30:07.059Z",
+              "holder": "BetaOrg",
+              "usages": [
+                "party"
+              ]
+            },
+            "signedAt": "2026-11-16T20:30:07.059Z",
+            "algorithm": "Ed448",
+            "keyId": "29ff65d687d7ec90c1a2a05a6598c255bc2b5e9a2d4e7379593112143e8d12cb",
+            "value": "lXeSg1txpcWcI+paQ+ilCxWgmc0QiFlKgZdcU/vam8WD+j2wgz+EZMepsC3ghZXPycflQiYjx2IAscSIgNJOxiXAGbjbSJ7i0PfHDQZdPpEspQ+QyHhqxDdGIYQaGD0NygIlz/88tzjGPxumf6KIixIA"
+          }
+        ]
+      },
+      {
+        "kind": "UpdateProperty",
+        "entityType": "RoamingNetworkOperator",
+        "entityId": "OCC",
+        "propertyName": "minConsensus",
+        "oldValue": null,
+        "newValue": 2
+      },
+      {
+        "kind": "UpdateProperty",
+        "entityType": "RoamingNetwork",
+        "entityId": "QA",
+        "propertyName": "urls",
+        "oldValue": [
+          "https://alpha.example/RNs/QA"
+        ],
+        "newValue": [
+          "https://alpha.example/RNs/QA",
+          "https://beta.example/RNs/QA"
+        ]
+      }
+    ],
+    "beforeETags": [
+      [
+        "json",
+        "sha256",
+        "hex",
+        "81a9f56099d6570b5859c481c44fa860bb959aaa6831daff5efbf89e758171f4"
+      ],
+      [
+        "cbor",
+        "sha256",
+        "hex",
+        "1436a333c01eb8f993b007fc5ff38e95bed2ea0fc92c27aecf534aade4d1f236"
+      ]
+    ],
+    "afterETags": [
+      [
+        "json",
+        "sha256",
+        "hex",
+        "a263eb2d55441548eb73593a32d01edb9b2cc7a7b38153ef6c998a506e11ba71"
+      ],
+      [
+        "cbor",
+        "sha256",
+        "hex",
+        "7109f203086ccbd34207607bb72553742c1e5800e329448cea4b05493caed7be"
+      ]
+    ]
+  },
+  "signatures": [
+    {
+      "role": "roamingNetworkOperator",
+      "signer": "OCC",
+      "signedAt": "2026-11-16T20:30:07.947Z",
+      "algorithm": "ES256",
+      "keyId": "6a6ff3e7ba92f072bedfef920756c233b2325a5acfd6a53b19585cedacf36003",
+      "value": "6zbI3LrETlTvgnOl6F8TfOP6wFIGMxproG2s7wAxm0OEdH22GFw0X5GZyJG6ceVzeqtAaDrVjvOcpfw6N8uP0A=="
+    },
+    {
+      "role": "roamingNetworkOperator",
+      "signer": "OCC",
+      "signedAt": "2026-11-16T20:30:07.950Z",
+      "algorithm": "ES256",
+      "keyId": "d90428693b08fbbd31b5340f55acdbb6a1bc57304467b41c9424d7be6befbb32",
+      "value": "RrMythuIcGi5OHNo6kiUXpL0eNv5fo0RtedVFpKb/czgfcAtS1tHG6jFjE0BUjDYc2RmUeKlj8GY0Ptxg3G/ag=="
+    }
+  ]
+}
