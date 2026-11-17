@@ -20,9 +20,8 @@ written down and pinned.
 
 ## Status
 
-Both harnesses are green against the pinned submodules (WWCP_POI `c1b641b`, WWCP_POI.TS `7e4df48`, Hermod `a58a53af`,
-Styx `a6b9f9fb`) - but for the copies of `poi-histories.json` and `poi-refusals.json`, which WWCP_POI.TS `7e4df48`
-does not vendor yet with the vectors of `urls` and of holders joining and leaving:
+Both harnesses are green against the pinned submodules (WWCP_POI `c1b641b`, WWCP_POI.TS `f5e64f6`, Hermod `a58a53af`,
+Styx `a6b9f9fb`):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
