@@ -59,7 +59,7 @@ WWCP_POI.TS `80afec7`. D17, the time zones of charging pools, was WWCP_POI.TS's,
 elements of a price status, was WWCP_POI.TS's: restrictions of a tariff element naming a property their type does not
 define, which SPECIFICATION.md 2 refuses; it is fixed in WWCP_POI.TS `ce88620`, with the elements of a price status
 written as a charging tariff holds them, which SPECIFICATION.md 12.1 says since WWCP_POI `5a72313`
-([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 931 vectors - WWCP_POI3
+([D16](#d16-tariff-id), "Since WWCP_POI `5a72313`"). Both implementations run every one of the 992 vectors - WWCP_POI3
 alone signs the 7 signatures of section 6 again from their private seeds, which WWCP_POI.TS verifies only - and agree on
 every one of them (see [What both do alike](#what-both-do-alike)). Among them are the 13 replays of `poi-histories.json`
 WWCP_POI.TS left to WWCP_POI before: the references a version holds, which it checks since `813e1d7`, and the changes of
@@ -780,10 +780,12 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   codes, 6 station proofs (root, and verified against the trust anchor of their epoch), and the **replay of the whole
   history of QA commit by commit**: every change set of both epochs applied with its owners' signatures checked, the
   checkpoints 0 to 6 of epoch 1, the genesis of epoch 2, epoch 2 up to the head;
-- the refusal of 319 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
+- the refusal of 343 changed documents: commits, checkpoints, versions, commit proofs, station proofs, price statements
   and trust anchors, all but six in the words of the `reason` both name - `commit-etag-uppercase`,
   `commit-etag-algorithm`, `checkpoint-epoch`, `priceStatement-sequence`, `trustAnchor-prefix` and
-  `trustAnchor-truncated` each implementation words its own way; among them signatures of commits and checkpoints
+  `trustAnchor-truncated` each implementation words its own way; among them the URLs of QA written as no version
+  holds them (19 vectors, read after its tree hash algorithms and before its operator) and the quorum of its operator
+  not fitting its keys, of three holders and of AlphaOrg alone in revision 0 (5; WWCP_POI `c1b641b`), signatures of commits and checkpoints
   read in their one form only - their own
   properties alone, the signer a text, none of them empty, embedded without a JSON-LD context (5.4; WWCP_POI `b43ff1a`
   and `7c6f91c`, WWCP_POI.TS `cb53bd4`), in the same words -, a charging station, EVSE or energy meter given twice by
@@ -856,7 +858,7 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   ([O4](#o4-no-valid-until)), valid for a day, and valid longer; and the holders of a quorum as the trust anchor names
   them (csharp-review 1), two identity keys of Alpha one holder, a key statement naming one of them as Beta's, and a key
   the statement does not name counted for the holder the trust anchor names;
-- all 117 replays of `poi-histories.json`: histories the generator made and signed
+- all 154 replays of `poi-histories.json`: histories the generator made and signed
   with keys whose seeds it gives (the Ed25519 keys of section 6, and Ed25519, Ed448 and ES256 keys of its own), every
   refusal with its control, the document refused but for what it is about, taken in its place: who signs in place of a
   party without keys and with which usages (csharp-review 13), who states a certificate (15), releases and certificates
@@ -893,6 +895,16 @@ Both implementations calculate, byte for byte, and take or refuse alike:
   commit identified over it as written again by WWCP_POI3 for what it names and by WWCP_POI.TS for the identification
   of the commit, which it calculates over a change set it does not read as given; a precondition by both as
   `Invalid precondition 0!`, neither saying what of it,
+  the URLs of the copies of a roaming network (`history-operator`; 2, WWCP_POI `c1b641b`) named, in another order
+  and removed by signing keys of the quorum of its operator, at a port, under a path, at an IPv6 address and with
+  its identification in another case, and refused signed by one holder, as an element added or removed, with
+  another old value, and as a version refuses them - none, no array, 17, twice, of 513 characters, of http, with
+  user information, a query or a trailing slash, of no and of another roaming network, not given as the content
+  holds them -, each in the same words; the holders of the keys of its operator joining and leaving (4.1), a third
+  one to two, one of two leaving and joining again, the keys and the quorum in either order - the quorum fits the
+  keys of the version after the change set, not between its changes -, signed by identity keys of the quorum of the
+  version before, by every identity key entered anew and by signing keys of that quorum, refused without one of
+  them and where the version after breaks the rule: the quorum kept, removed, given as 1, above its holders,
   and three
   epochs, the first checkpoint of the third one signed with an algorithm of the second one only, and with one
   of neither (14), and a history started from a snapshot of the genesis of the third one, its commit signed with an

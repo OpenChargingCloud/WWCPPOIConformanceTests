@@ -698,6 +698,620 @@
     },
     {
       "expected": "refused",
+      "id": "version-urls-no-array",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names its URLs as one text, not as an array.",
+      "reason": "The 'urls' of the roaming network 'QA' must be a JSON array of URLs!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": "https://alpha.example/RNs/QA"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-none",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names its URLs as an empty array: none are left out.",
+      "reason": "The 'urls' of the roaming network 'QA' must name at least one URL, or be left out!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": []
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-seventeen",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names 17 URLs: at most 16.",
+      "reason": "The 'urls' of the roaming network 'QA' must name at most 16 URLs, not 17!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "https://h0.example/RNs/QA",
+              "https://h1.example/RNs/QA",
+              "https://h2.example/RNs/QA",
+              "https://h3.example/RNs/QA",
+              "https://h4.example/RNs/QA",
+              "https://h5.example/RNs/QA",
+              "https://h6.example/RNs/QA",
+              "https://h7.example/RNs/QA",
+              "https://h8.example/RNs/QA",
+              "https://h9.example/RNs/QA",
+              "https://h10.example/RNs/QA",
+              "https://h11.example/RNs/QA",
+              "https://h12.example/RNs/QA",
+              "https://h13.example/RNs/QA",
+              "https://h14.example/RNs/QA",
+              "https://h15.example/RNs/QA",
+              "https://h16.example/RNs/QA"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-number",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a number among its URLs.",
+      "reason": "The 'urls' of the roaming network 'QA' must name absolute URLs, not '1'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              1
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-no-url",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a host with an underscore, no URL.",
+      "reason": "The 'urls' of the roaming network 'QA' must name absolute URLs, not 'https://alpha_example/RNs/QA'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "https://alpha_example/RNs/QA"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-twice",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a URL twice.",
+      "reason": "The 'urls' of the roaming network 'QA' must not name a URL twice!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "https://alpha.example/RNs/QA",
+              "https://alpha.example/RNs/QA"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-too-long",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a URL of 513 characters: at most 512.",
+      "reason": "A URL of the roaming network 'QA' has 513 characters, more than 512!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.example/ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp/RNs/QA"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-http",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a URL of the scheme http.",
+      "reason": "The URL 'http://alpha.example/RNs/QA' of the roaming network 'QA' is no https URL!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "http://alpha.example/RNs/QA"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-user-information",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a URL with user information.",
+      "reason": "The URL 'https://user@alpha.example/RNs/QA' of the roaming network 'QA' must not name user information!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "https://user@alpha.example/RNs/QA"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-query",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a URL with a query.",
+      "reason": "The URL 'https://alpha.example/RNs/QA?x=1' of the roaming network 'QA' is not the one of a roaming network, ~/RNs/{RN_Id}, without a query, a fragment or a trailing slash!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "https://alpha.example/RNs/QA?x=1"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-fragment",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a URL with an empty fragment.",
+      "reason": "The URL 'https://alpha.example/RNs/QA#' of the roaming network 'QA' is not the one of a roaming network, ~/RNs/{RN_Id}, without a query, a fragment or a trailing slash!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "https://alpha.example/RNs/QA#"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-trailing-slash",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a URL ending with a slash.",
+      "reason": "The URL 'https://alpha.example/RNs/QA/' of the roaming network 'QA' is not the one of a roaming network, ~/RNs/{RN_Id}, without a query, a fragment or a trailing slash!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "https://alpha.example/RNs/QA/"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-of-no-network",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a URL without the path of a roaming network.",
+      "reason": "The URL 'https://alpha.example' of the roaming network 'QA' is not the one of a roaming network, ~/RNs/{RN_Id}, without a query, a fragment or a trailing slash!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "https://alpha.example"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-path-in-lower-case",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a URL whose path is /rns/QA: the path of a roaming network is /RNs.",
+      "reason": "The URL 'https://alpha.example/rns/QA' of the roaming network 'QA' is not the one of a roaming network, ~/RNs/{RN_Id}, without a query, a fragment or a trailing slash!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "https://alpha.example/rns/QA"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-of-another-network",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a URL of the roaming network Other.",
+      "reason": "The URL 'https://alpha.example/RNs/Other' of the roaming network 'QA' is one of the roaming network 'Other'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "https://alpha.example/RNs/Other"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-without-scheme",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a URL without its scheme: not written as the content holds it.",
+      "reason": "'urls[0]' is not written as the content holds it: the content holds it as '\"https://alpha.example/RNs/QA\"'!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "alpha.example/RNs/QA"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-untrimmed",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a URL with a space before and after it: not written as the content holds it.",
+      "reason": "'urls' is not written as the content holds it: the texts of its elements are trimmed!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              " https://alpha.example/RNs/QA "
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-before-its-operator",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a URL of the scheme http, and its operator a quorum of 9: refused for the URL, read before the operator.",
+      "reason": "The URL 'http://alpha.example/RNs/QA' of the roaming network 'QA' is no https URL!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "http://alpha.example/RNs/QA"
+            ]
+          },
+          {
+            "op": "replace",
+            "path": "/operator/minConsensus",
+            "value": 9
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-urls-after-its-tree-hash-algorithms",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "description": "QA names a URL of the scheme http, and the tree hash algorithm md5: refused for the algorithm, read before the URLs.",
+      "reason": "Unknown tree hash algorithm 'md5'",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/urls",
+            "value": [
+              "http://alpha.example/RNs/QA"
+            ]
+          },
+          {
+            "op": "add",
+            "path": "/treeHashAlgorithms",
+            "value": [
+              "md5"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-quorum-above-its-holders",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; WWCP_POI c1b641b",
+      "description": "The operator of QA, of three holders, with a quorum of 9.",
+      "reason": "The given JSON representation of a roaming network operator is invalid: The minConsensus 9 of the roaming network operator 'OCC' needs signing keys of as many holders, not of 3!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "replace",
+            "path": "/operator/minConsensus",
+            "value": 9
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-quorum-not-more-than-half",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; WWCP_POI c1b641b",
+      "description": "The operator of QA, of three holders, without its quorum of two: a quorum of one is not more than half of three.",
+      "reason": "The given JSON representation of a roaming network operator is invalid: The minConsensus 1 of the roaming network operator 'OCC' must be more than half of the 3 holders of its signing keys!",
+      "document": {
+        "file": "published/QA.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "remove",
+            "path": "/operator/minConsensus"
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-quorum-of-two-of-one-holder",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; WWCP_POI c1b641b",
+      "description": "The operator of QA of revision 0, AlphaOrg alone, with a quorum of 2.",
+      "reason": "The given JSON representation of a roaming network operator is invalid: The minConsensus 2 of the roaming network operator 'OCC' needs signing keys of as many holders, not of 1!",
+      "document": {
+        "file": "published/QA-revision0.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/operator/minConsensus",
+            "value": 2
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-quorum-of-one-written",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; WWCP_POI c1b641b",
+      "description": "The operator of QA of revision 0, AlphaOrg alone, naming its quorum of 1: a quorum of one is written as none.",
+      "reason": "'operator.minConsensus' is not written as the content holds it: the content leaves it out!",
+      "document": {
+        "file": "published/QA-revision0.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/operator/minConsensus",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
+      "id": "version-quorum-zero",
+      "kind": "version",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1; WWCP_POI c1b641b",
+      "description": "The operator of QA of revision 0, AlphaOrg alone, with a quorum of 0.",
+      "reason": "The minConsensus of a roaming network operator must be a whole number from 1 to 255!",
+      "document": {
+        "file": "published/QA-revision0.json",
+        "pointer": "",
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/eTags"
+          },
+          {
+            "op": "add",
+            "path": "/operator/minConsensus",
+            "value": 0
+          }
+        ]
+      }
+    },
+    {
+      "expected": "refused",
       "id": "version-twice-group",
       "kind": "version",
       "basis": "libs/WWCP_POI/SPECIFICATION.md, 9.3",

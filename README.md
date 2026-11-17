@@ -22,13 +22,14 @@ written down and pinned.
 
 The C# harness is green against the pinned submodules (WWCP_POI `c1b641b`, WWCP_POI.TS `37e4d52`, Hermod `a58a53af`,
 Styx `a6b9f9fb`) but for the copies WWCP_POI.TS `37e4d52` does not vendor yet, the run `csharp-c1b641b` and the
-vectors of it; the TypeScript harness fails 328 of the vectors of that run until WWCP_POI.TS reads the `urls` of a
-roaming network (WWCP_POI `c1b641b`):
+vectors of it; the TypeScript harness fails most vectors of that run and the vectors of `urls` and of holders
+joining and leaving until WWCP_POI.TS reads the `urls` of a roaming network and checks the quorum of every version
+(WWCP_POI `c1b641b`; its port, not committed yet, runs all 992):
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
-| C# harness (NUnit), WWCP_POI3 | 931 | 958 tests | none |
-| TypeScript harness (vitest), WWCP_POI.TS | 931 | 931 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
+| C# harness (NUnit), WWCP_POI3 | 992 | 1019 tests | none |
+| TypeScript harness (vitest), WWCP_POI.TS | 992 | 992 tests | 7: signing from the private seeds, which WWCP_POI.TS does not do |
 
 WWCP_POI.TS runs the same golden vectors in its own suite as well (`tests/conformance.test.ts`), from its vendored copy,
 those of the verifier extensions since `242fb29`.

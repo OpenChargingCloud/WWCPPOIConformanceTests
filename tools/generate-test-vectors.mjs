@@ -1966,6 +1966,68 @@ function refusalVectors() {
     const twice     = (id, basis, description, reason, patch) =>
                           refuse({ id, kind: 'version', basis, description, reason, document: patched('published/QA.json', '', [ { op: 'remove', path: '/eTags' }, ...patch ]) });
 
+    // ---- The URLs of the copies of a roaming network (2; WWCP_POI `c1b641b`): 1 to 16 absolute https URLs of it,
+    //      ~/RNs/{RN_Id}, each once, of at most 512 characters, without user information, a query, a fragment or a
+    //      trailing slash, written as the content holds them; read after its tree hash algorithms, before its operator.
+    if (JSON.stringify(qa.urls) !== JSON.stringify([ 'https://alpha.example/RNs/QA', 'https://beta.example/RNs/QA', 'https://gamma.example/RNs/QA' ]) || qa.operator['@id'] !== 'OCC' || qa.operator.minConsensus !== 2)
+        fail('QA.json: no longer of the three URLs of its copies, its operator OCC of a quorum of two');
+    {
+        const URLS      = `${SPEC}, 2; WWCP_POI c1b641b`;
+        const NETWORK   = "the roaming network 'QA'";
+        const ALPHA     = 'https://alpha.example/RNs/QA';
+        const NO_COPY   = 'is not the one of a roaming network, ~/RNs/{RN_Id}, without a query, a fragment or a trailing slash!';
+        const urls      = (id, description, value, reason, more = []) =>
+                              twice(`version-urls-${id}`, URLS, description, reason, [ { op: 'replace', path: '/urls', value }, ...more ]);
+
+        urls('no-array',           'QA names its URLs as one text, not as an array.',                         ALPHA,                                     `The 'urls' of ${NETWORK} must be a JSON array of URLs!`);
+        urls('none',               'QA names its URLs as an empty array: none are left out.',                 [],                                        `The 'urls' of ${NETWORK} must name at least one URL, or be left out!`);
+        urls('seventeen',          'QA names 17 URLs: at most 16.',                                           Array.from({ length: 17 }, (_, index) => `https://h${index}.example/RNs/QA`),
+                                                                                                                                                         `The 'urls' of ${NETWORK} must name at most 16 URLs, not 17!`);
+        urls('number',             'QA names a number among its URLs.',                                       [ 1 ],                                     `The 'urls' of ${NETWORK} must name absolute URLs, not '1'!`);
+        urls('no-url',             'QA names a host with an underscore, no URL.',                             [ 'https://alpha_example/RNs/QA' ],        `The 'urls' of ${NETWORK} must name absolute URLs, not 'https://alpha_example/RNs/QA'!`);
+        urls('twice',              'QA names a URL twice.',                                                   [ ALPHA, ALPHA ],                          `The 'urls' of ${NETWORK} must not name a URL twice!`);
+        urls('too-long',           'QA names a URL of 513 characters: at most 512.',                          [ `https://${'a'.repeat(40)}.example/${'p'.repeat(449)}/RNs/QA` ],
+                                                                                                                                                         `A URL of ${NETWORK} has 513 characters, more than 512!`);
+        urls('http',               'QA names a URL of the scheme http.',                                      [ 'http://alpha.example/RNs/QA' ],         `The URL 'http://alpha.example/RNs/QA' of ${NETWORK} is no https URL!`);
+        urls('user-information',   'QA names a URL with user information.',                                   [ 'https://user@alpha.example/RNs/QA' ],   `The URL 'https://user@alpha.example/RNs/QA' of ${NETWORK} must not name user information!`);
+        urls('query',              'QA names a URL with a query.',                                            [ `${ALPHA}?x=1` ],                        `The URL '${ALPHA}?x=1' of ${NETWORK} ${NO_COPY}`);
+        urls('fragment',           'QA names a URL with an empty fragment.',                                  [ `${ALPHA}#` ],                           `The URL '${ALPHA}#' of ${NETWORK} ${NO_COPY}`);
+        urls('trailing-slash',     'QA names a URL ending with a slash.',                                     [ `${ALPHA}/` ],                           `The URL '${ALPHA}/' of ${NETWORK} ${NO_COPY}`);
+        urls('of-no-network',      'QA names a URL without the path of a roaming network.',                   [ 'https://alpha.example' ],               `The URL 'https://alpha.example' of ${NETWORK} ${NO_COPY}`);
+        urls('path-in-lower-case', 'QA names a URL whose path is /rns/QA: the path of a roaming network is /RNs.', [ 'https://alpha.example/rns/QA' ],   `The URL 'https://alpha.example/rns/QA' of ${NETWORK} ${NO_COPY}`);
+        urls('of-another-network', 'QA names a URL of the roaming network Other.',                            [ 'https://alpha.example/RNs/Other' ],     `The URL 'https://alpha.example/RNs/Other' of ${NETWORK} is one of the roaming network 'Other'!`);
+        urls('without-scheme',     'QA names a URL without its scheme: not written as the content holds it.', [ 'alpha.example/RNs/QA' ],                `'urls[0]' is not written as the content holds it: the content holds it as '"${ALPHA}"'!`);
+        urls('untrimmed',          'QA names a URL with a space before and after it: not written as the content holds it.', [ ` ${ALPHA} ` ],          "'urls' is not written as the content holds it: the texts of its elements are trimmed!");
+        urls('before-its-operator', 'QA names a URL of the scheme http, and its operator a quorum of 9: refused for the URL, read before the operator.', [ 'http://alpha.example/RNs/QA' ],
+                                                                                                                                                         `The URL 'http://alpha.example/RNs/QA' of ${NETWORK} is no https URL!`,
+             [ { op: 'replace', path: '/operator/minConsensus', value: 9 } ]);
+        urls('after-its-tree-hash-algorithms', 'QA names a URL of the scheme http, and the tree hash algorithm md5: refused for the algorithm, read before the URLs.', [ 'http://alpha.example/RNs/QA' ],
+                                                                                                                                                         "Unknown tree hash algorithm 'md5'",
+             [ { op: 'add', path: '/treeHashAlgorithms', value: [ 'md5' ] } ]);
+
+        // The quorum of the operator fits its keys in every version (4.1): more than half of the holders of its identity
+        // keys and of its signing keys, at most as many; a quorum of one is written as none.
+        const QUORUM    = `${SPEC}, 4.1; WWCP_POI c1b641b`;
+        const OCC       = "the roaming network operator 'OCC'";
+        const invalid   = (error) => `The given JSON representation of a roaming network operator is invalid: ${error}`;
+        const alone     = jsonRun('published/QA-revision0.json');
+        if (alone.operator.identityKeys.length !== 1 || 'minConsensus' in alone.operator)
+            fail('QA-revision0.json: no longer QA of AlphaOrg alone, without a quorum');
+        const revision0 = (id, description, reason, patch) =>
+                              refuse({ id, kind: 'version', basis: QUORUM, description, reason, document: patched('published/QA-revision0.json', '', [ { op: 'remove', path: '/eTags' }, ...patch ]) });
+
+        twice('version-quorum-above-its-holders', QUORUM, 'The operator of QA, of three holders, with a quorum of 9.', invalid(`The minConsensus 9 of ${OCC} needs signing keys of as many holders, not of 3!`),
+              [ { op: 'replace', path: '/operator/minConsensus', value: 9 } ]);
+        twice('version-quorum-not-more-than-half', QUORUM, 'The operator of QA, of three holders, without its quorum of two: a quorum of one is not more than half of three.', invalid(`The minConsensus 1 of ${OCC} must be more than half of the 3 holders of its signing keys!`),
+              [ { op: 'remove', path: '/operator/minConsensus' } ]);
+        revision0('version-quorum-of-two-of-one-holder', 'The operator of QA of revision 0, AlphaOrg alone, with a quorum of 2.', invalid(`The minConsensus 2 of ${OCC} needs signing keys of as many holders, not of 1!`),
+                  [ { op: 'add', path: '/operator/minConsensus', value: 2 } ]);
+        revision0('version-quorum-of-one-written', 'The operator of QA of revision 0, AlphaOrg alone, naming its quorum of 1: a quorum of one is written as none.', "'operator.minConsensus' is not written as the content holds it: the content leaves it out!",
+                  [ { op: 'add', path: '/operator/minConsensus', value: 1 } ]);
+        revision0('version-quorum-zero', 'The operator of QA of revision 0, AlphaOrg alone, with a quorum of 0.', 'The minConsensus of a roaming network operator must be a whole number from 1 to 255!',
+                  [ { op: 'add', path: '/operator/minConsensus', value: 0 } ]);
+    }
+
     has(gef.EVSEGroups,           'DE*GEF*EG_AC');
     has(gef.energyMeterTemplates, 'DE*GEF*EMT_AC');
     has(gef.chargingPools.flatMap(pool => pool.chargingStations).flatMap(station => station.EVSEs).map(evse => evse.energyMeter).filter(Boolean), 'DE*GEF*M1*1');
@@ -4276,6 +4338,180 @@ function signedHistories() {
     P.refused('precondition-unread-property', 'A change set whose first precondition names a property a precondition does not have, `note`, identified and signed without it, its commit as it is written again.', ONLY,
               'precondition-unread-property', naming('GraphDefined', { preconditions: held, given: (changeSet) => ({ ...changeSet, preconditions: changeSet.preconditions.map((item, index) => index === 0 ? { ...item, note: NOTE } : item) }) }), 'preconditions-held',
               { reason: 'Invalid precondition 0!' });
+
+
+    // =================================================================================================================
+    //  history-operator: what is the roaming network's own - its urls - and who holds the keys of its operator (2, 4.1)
+    // =================================================================================================================
+
+    S('**Holders joining and leaving.** Who holds the keys of the RNO, and how many of the holders decide, changes as\neverything it owns',
+      'that the holders of the keys of the RNO change by a change set');
+    S('The rule above holds for every version, not between\nthe changes of one change set', 'that the quorum rule holds for every version, not between the changes of a change set');
+    S('signed by identity keys of `minConsensus` holders of the version it is\napplied to, and by every identity key it enters anew', 'who signs a change of the holders');
+
+    const gammaIdentity = keyOf('Ed25519', seedOf('Gamma, identity'), { holder: 'Gamma' });
+    const gammaParty    = rnoSigning('Gamma, party', 'Gamma', [ 'party' ]);
+    const ALPHA         = { identity: alphaIdentity, signing: alphaParty };
+    const BETA          = { identity: betaIdentity,  signing: betaParty  };
+    const GAMMA         = { identity: gammaIdentity, signing: gammaParty };
+
+    const own = generatedHistory('history-operator',
+                                 'The roaming network rn1 of DE*RNO, the quorum of Alpha and Beta, each with a signing key for the party: the URLs of its copies, and the holders of the keys of its operator, joining and leaving.',
+                                 networkOf(rnoOf([ [ alphaParty, alphaIdentity ], [ betaParty, betaIdentity ] ])),
+                                 leader);
+    histories.push(own);
+
+    const O          = replaysOf(own);
+    const OWN        = "the roaming network 'rn1'";
+    const RNO        = "the roaming network operator 'DE*RNO'";
+    const URLS_BASIS = `${B('2')}; WWCP_POI c1b641b`;
+    const HOLDERS    = `${B('4.1')}, Holders joining and leaving; WWCP_POI c1b641b`;
+    const urlOf      = (host, network = 'rn1') => `https://${host}/RNs/${network}`;
+    const A_URL      = urlOf('alpha.example');
+    const B_URL      = urlOf('beta.example');
+
+    // ---- The URLs of its copies (2): owned by the roaming network operator, its signing keys for the party, its quorum;
+    //      changed as a whole, read as a version reads them, given as the content holds them.
+    const naming_    = (createdAt, description, urls, { signers = [ alphaParty, betaParty ], oldValue = found(own, 'RoamingNetwork', 'rn1', 'urls'), ...more } = {}) =>
+                           own.prepare({ createdAt, description, signers,
+                                         changes: [ update('RoamingNetwork', 'rn1', 'urls', oldValue === null ? undefined : oldValue, urls) ], ...more });
+    const named1     = naming_(minute(1), 'rn1 names the URLs of its copies', [ A_URL, B_URL ]);
+
+    O.then('urls-named', 'A roaming network names the URLs of its two copies, signed by signing keys of both holders of its operator.', URLS_BASIS,
+           'urls-named', named1);
+    O.refused('urls-signed-by-one-holder', 'A roaming network names the URLs of its copies, signed by the signing key of one of the two holders of its operator.', URLS_BASIS,
+              'urls-by-one-holder', naming_(minute(1), 'rn1 names the URLs of its copies', [ A_URL, B_URL ], { signers: [ alphaParty ] }), 'urls-named',
+              { reason: `needs signatures by signing keys of 2 holders of ${RNO}!` });
+    O.then('urls-in-other-forms', 'A roaming network names the URLs of its copies at a port, under a path, at an IPv6 address and with its identification in another case: each is one of the roaming network.', URLS_BASIS,
+           'urls-other-forms', naming_(minute(1), 'rn1 names the URLs of its copies', [ 'https://alpha.example:8443/RNs/rn1', 'https://alpha.example/api/v1/RNs/rn1', 'https://[::1]/RNs/rn1', 'https://alpha.example/RNs/RN1' ]));
+
+    const urlsRefused = (id, document, description, urls, reason) =>
+        O.refused(id, description, URLS_BASIS, document, naming_(minute(1), 'rn1 names the URLs of its copies', urls, { content: own.head.content }), 'urls-named', { reason: `Change 0: ${reason}` });
+
+    urlsRefused('urls-none',              'urls-none',           'A roaming network names its URLs as an empty array: none are left out.',                                    [],
+                `The 'urls' of ${OWN} must name at least one URL, or be left out!`);
+    urlsRefused('urls-no-array',          'urls-no-array',       'A roaming network names its URLs as one text, not as an array.',                                             A_URL,
+                `The 'urls' of ${OWN} must be a JSON array of URLs!`);
+    urlsRefused('urls-seventeen',         'urls-seventeen',      'A roaming network names 17 URLs: at most 16.',                                                               Array.from({ length: 17 }, (_, index) => urlOf(`h${index}.example`)),
+                `The 'urls' of ${OWN} must name at most 16 URLs, not 17!`);
+    urlsRefused('urls-twice',             'urls-twice',          'A roaming network names a URL twice.',                                                                       [ A_URL, A_URL ],
+                `The 'urls' of ${OWN} must not name a URL twice!`);
+    urlsRefused('urls-too-long',          'urls-too-long',       'A roaming network names a URL of 513 characters: at most 512.',                                              [ `https://${'a'.repeat(40)}.example/${'p'.repeat(448)}/RNs/rn1` ],
+                `A URL of ${OWN} has 513 characters, more than 512!`);
+    urlsRefused('urls-http',              'urls-http',           'A roaming network names a URL of the scheme http.',                                                          [ 'http://alpha.example/RNs/rn1' ],
+                `The URL 'http://alpha.example/RNs/rn1' of ${OWN} is no https URL!`);
+    urlsRefused('urls-user-information',  'urls-user',           'A roaming network names a URL with user information.',                                                       [ 'https://user@alpha.example/RNs/rn1' ],
+                `The URL 'https://user@alpha.example/RNs/rn1' of ${OWN} must not name user information!`);
+    urlsRefused('urls-query',             'urls-query',          'A roaming network names a URL with a query.',                                                                [ `${A_URL}?x=1` ],
+                `The URL '${A_URL}?x=1' of ${OWN} is not the one of a roaming network, ~/RNs/{RN_Id}, without a query, a fragment or a trailing slash!`);
+    urlsRefused('urls-trailing-slash',    'urls-trailing-slash', 'A roaming network names a URL ending with a slash.',                                                         [ `${A_URL}/` ],
+                `The URL '${A_URL}/' of ${OWN} is not the one of a roaming network, ~/RNs/{RN_Id}, without a query, a fragment or a trailing slash!`);
+    urlsRefused('urls-of-no-network',     'urls-no-network',     'A roaming network names a URL without the path of a roaming network.',                                       [ 'https://alpha.example' ],
+                `The URL 'https://alpha.example' of ${OWN} is not the one of a roaming network, ~/RNs/{RN_Id}, without a query, a fragment or a trailing slash!`);
+    urlsRefused('urls-of-another-network', 'urls-other-network', 'A roaming network names a URL of another roaming network, rn2.',                                             [ urlOf('alpha.example', 'rn2') ],
+                `The URL '${urlOf('alpha.example', 'rn2')}' of ${OWN} is one of the roaming network 'rn2'!`);
+    urlsRefused('urls-untrimmed',         'urls-untrimmed',      'A roaming network names a URL with a space before and after it: not given as the content holds it, trimmed.', [ ` ${A_URL} ` ],
+                `the property 'urls' of ${OWN} is not given as the content holds it, '["${A_URL}"]'!`);
+    urlsRefused('urls-without-scheme',    'urls-without-scheme', 'A roaming network names a URL without its scheme: not given as the content holds it, with https.',           [ 'alpha.example/RNs/rn1' ],
+                `the property 'urls' of ${OWN} is not given as the content holds it, '["${A_URL}"]'!`);
+
+    own.take('urls-named', named1);
+
+    const element = (kind, elementId, more = {}) => ({ kind, entityType: 'RoamingNetwork', entityId: 'rn1', elementPath: [ { propertyName: 'urls', elementId } ], ...more });
+    const reordered = naming_(minute(2), 'rn1 names the copy of Beta first', [ B_URL, A_URL ]);
+
+    O.then('urls-in-another-order', 'A roaming network names the URLs of its copies in another order, the one it prefers first: their order is content.', URLS_BASIS,
+           'urls-reordered', reordered);
+    O.then('urls-removed', 'A roaming network names the URLs of its copies no longer.', URLS_BASIS,
+           'urls-removed', own.prepare({ createdAt: minute(2), description: 'rn1 names no URLs', signers: [ alphaParty, betaParty ],
+                                         changes: [ unset('RoamingNetwork', 'rn1', 'urls', found(own, 'RoamingNetwork', 'rn1', 'urls')) ] }));
+    O.refused('urls-another-old-value', 'A roaming network changes its URLs, expecting as their old value another one.', URLS_BASIS,
+              'urls-old-value', naming_(minute(2), 'rn1 names the copy of Beta first', [ B_URL, A_URL ], { oldValue: [ A_URL ], content: own.head.content }), 'urls-reordered',
+              { reason: `Change 0: the property 'urls' is no longer the expected old value, but '${JSON.stringify([ A_URL, B_URL ])}'!` });
+    for (const [ id, document, description, change ] of [
+             [ 'urls-element-added',   'urls-element-added',   'A roaming network adds one URL to those of its copies, as an element.',       element('AddElement',    urlOf('gamma.example'), { newValue: urlOf('gamma.example') }) ],
+             [ 'urls-element-removed', 'urls-element-removed', 'A roaming network removes one URL from those of its copies, as an element.', element('RemoveElement', A_URL) ] ])
+        O.refused(id, `${description} They are changed as a whole.`, URLS_BASIS,
+                  document, own.prepare({ createdAt: minute(2), description: 'rn1 changes one of its URLs', signers: [ alphaParty, betaParty ], changes: [ change ], content: own.head.content }), 'urls-reordered',
+                  { reason: `Change 0: the urls of ${OWN} are changed as a whole, not element by element!` });
+
+    // ---- Holders joining and leaving (4.1): the identity keys of the operator, their key statement, the certificates of
+    //      its signing keys and, where the quorum changes, its minConsensus - signed by identity keys of the quorum of the
+    //      version before and by every identity key entered anew, and, as everything the operator owns, by signing keys
+    //      of the quorum of the version before; the quorum fits the keys of the version after the change set, not
+    //      between its changes.
+    const STATEMENT_UNTIL = '2026-11-17T08:00:00.000Z';
+    const keysAs = (holders, minConsensus, signedAt, signedBy = holders.slice(0, minConsensus)) => {
+        const identityKeys = inOrder(holders.map(holder => holder.identity));
+        const statement    = { roamingNetworkId: 'rn1', roamingNetworkOperatorId: 'DE*RNO', identityKeys, minConsensus, signedAt, validUntil: STATEMENT_UNTIL };
+        const next         = {
+            identityKeys,
+            keyStatement:            { ...statement, signatures: signedBy.map(({ identity: key }) => ({ algorithm: key.algorithm, keyId: key.id, value: key.sign(keyStatementSignatureInput(statement, { algorithm: key.algorithm, keyId: key.id })) })) },
+            signingKeyCertificates:  holders.map(holder => certificateOf(holder.signing, holder.identity))
+                                            .sort((left, right) => left.signingKey['@id'] < right.signingKey['@id'] ? -1 : 1),
+        };
+        return [ 'identityKeys', 'keyStatement', 'signingKeyCertificates' ].map(name => update('RoamingNetworkOperator', 'DE*RNO', name, found(own, 'RoamingNetworkOperator', 'DE*RNO', name), next[name]));
+    };
+    const quorumOf  = (minConsensus) => minConsensus === 1 ? unset ('RoamingNetworkOperator', 'DE*RNO', 'minConsensus', found(own, 'RoamingNetworkOperator', 'DE*RNO', 'minConsensus'))
+                                                            : update('RoamingNetworkOperator', 'DE*RNO', 'minConsensus', found(own, 'RoamingNetworkOperator', 'DE*RNO', 'minConsensus') ?? undefined, minConsensus);
+    const holding   = (createdAt, description, changes, signers, more = {}) => own.prepare({ createdAt, description, changes, signers, ...more });
+    const same      = () => ({ content: own.head.content });
+
+    // Gamma joins Alpha and Beta: two of three decide, as before.
+    const gammaJoins = (signers) => holding(minute(3), 'Gamma joins Alpha and Beta', keysAs([ ALPHA, BETA, GAMMA ], 2, minute(3)), signers);
+
+    O.then('holder-joins-two', 'A third holder joins the two of the operator, two of three deciding as before: signed by the identity keys of the two and by the one entered anew, and by the signing keys of the two.', HOLDERS,
+           'gamma-joins', gammaJoins([ alphaIdentity, betaIdentity, gammaIdentity, alphaParty, betaParty ]));
+    O.refused('holder-joins-without-its-key', 'A third holder joins the two of the operator, signed by the identity keys and the signing keys of the two: not by the identity key entered anew.', HOLDERS,
+              'gamma-joins-unsigned', gammaJoins([ alphaIdentity, betaIdentity, alphaParty, betaParty ]), 'gamma-joins');
+    O.refused('holder-joins-by-one-holder', 'A third holder joins the two of the operator, signed by its identity key, by the one of Alpha and by the signing keys of the two: not by identity keys of the quorum of the version before.', HOLDERS,
+              'gamma-joins-by-alpha', gammaJoins([ alphaIdentity, gammaIdentity, alphaParty, betaParty ]), 'gamma-joins');
+    O.refused('holder-joins-by-identity-keys-alone', 'A third holder joins the two of the operator, signed by the identity keys of the two and by the one entered anew alone: its key statement and the certificates of its signing keys are, as everything the operator owns, signed by signing keys of its quorum.', HOLDERS,
+              'gamma-joins-by-identity-keys', gammaJoins([ alphaIdentity, betaIdentity, gammaIdentity ]), 'gamma-joins',
+              { reason: `Change 1: UpdateProperty of the RoamingNetworkOperator 'DE*RNO' ('keyStatement') needs signatures by signing keys of 2 holders of ${RNO}!` });
+
+    // Beta leaves Alpha: one holder, the quorum of one written as none - its keys first, its quorum first.
+    const betaLeaves = (changes, signers = [ alphaIdentity, betaIdentity, alphaParty, betaParty ], more = {}) => holding(minute(3), 'Beta leaves Alpha', changes, signers, more);
+    const alone      = keysAs([ ALPHA ], 1, minute(3));
+    const left       = betaLeaves([ ...alone, quorumOf(1) ]);
+
+    O.then('holder-leaves-keys-first', 'One of the two holders of the operator leaves, its keys changed first, then the quorum removed: between the two changes one holder has a quorum of two.', HOLDERS,
+           'beta-leaves', left);
+    O.then('holder-leaves-quorum-first', 'One of the two holders of the operator leaves, the quorum removed first, then its keys changed: between the changes two holders have a quorum of one.', HOLDERS,
+           'beta-leaves-quorum-first', betaLeaves([ quorumOf(1), ...alone ]));
+    O.refused('holder-leaves-by-one-holder', 'One of the two holders of the operator leaves, signed by the identity key of the other and the signing keys of both: not by identity keys of the quorum of the version before, two.', HOLDERS,
+              'beta-leaves-by-alpha', betaLeaves([ ...alone, quorumOf(1) ], [ alphaIdentity, alphaParty, betaParty ]), 'beta-leaves');
+    O.refused('holder-leaves-quorum-kept', 'One of the two holders of the operator leaves, the quorum of two kept: the version after the change set has one holder.', HOLDERS,
+              'beta-leaves-quorum-kept', betaLeaves(alone, undefined, same()), 'beta-leaves',
+              { reason: `The minConsensus 2 of ${RNO} needs signing keys of as many holders, not of 1!` });
+    O.refused('quorum-removed-of-two-holders', 'The quorum of the operator is removed, its two holders kept: a quorum of one is not more than half of two.', HOLDERS,
+              'quorum-removed', betaLeaves([ quorumOf(1) ], undefined, same()), 'beta-leaves',
+              { reason: `The minConsensus 1 of ${RNO} must be more than half of the 2 holders of its signing keys!` });
+    O.refused('quorum-given-as-one', 'One of the two holders of the operator leaves, the quorum given as 1 instead of removed: a quorum of one is written as none.', HOLDERS,
+              'beta-leaves-quorum-one', betaLeaves([ ...alone, update('RoamingNetworkOperator', 'DE*RNO', 'minConsensus', 2, 1) ], undefined, same()), 'beta-leaves',
+              { reason: `Change 3: the property 'minConsensus' of ${RNO} is given as '1', which the content does not hold at all!` });
+    O.refused('quorum-above-its-holders', 'The quorum of the operator is given as 9, of its two holders.', HOLDERS,
+              'quorum-nine', betaLeaves([ update('RoamingNetworkOperator', 'DE*RNO', 'minConsensus', 2, 9) ], undefined, same()), 'beta-leaves',
+              { reason: `The minConsensus 9 of ${RNO} needs signing keys of as many holders, not of 2!` });
+
+    own.take('beta-leaves', left);
+
+    // Beta joins Alpha again: from one holder to two, both deciding - its quorum first, its keys first.
+    const betaJoins = (changes, signers = [ alphaIdentity, betaIdentity, alphaParty ], more = {}) => holding(minute(4), 'Beta joins Alpha', changes, signers, more);
+    const both      = keysAs([ ALPHA, BETA ], 2, minute(4));
+
+    O.then('holder-joins-one-quorum-first', 'A second holder joins the one of the operator, both deciding, the quorum changed first, then the keys: between the changes one holder has a quorum of two.', HOLDERS,
+           'beta-joins', betaJoins([ quorumOf(2), ...both ]));
+    O.then('holder-joins-one-keys-first', 'A second holder joins the one of the operator, both deciding, the keys changed first, then the quorum: between the changes two holders have a quorum of one.', HOLDERS,
+           'beta-joins-keys-first', betaJoins([ ...both, quorumOf(2) ]));
+    O.refused('holder-joins-one-without-its-key', 'A second holder joins the one of the operator, signed by the identity key and the signing key of the one: not by the identity key entered anew.', HOLDERS,
+              'beta-joins-unsigned', betaJoins([ quorumOf(2), ...both ], [ alphaIdentity, alphaParty ]), 'beta-joins');
+    O.refused('holder-joins-one-quorum-kept', 'A second holder joins the one of the operator, the quorum of one kept: not more than half of the two holders of the version after the change set.', HOLDERS,
+              'beta-joins-quorum-kept', betaJoins(keysAs([ ALPHA, BETA ], 1, minute(4)), undefined, same()), 'beta-joins',
+              { reason: `The minConsensus 1 of ${RNO} must be more than half of the 2 holders of its signing keys!` });
+    O.refused('quorum-of-two-of-one-holder', 'The quorum of the operator is given as 2, its one holder kept.', HOLDERS,
+              'quorum-two-of-one', betaJoins([ quorumOf(2) ], [ alphaIdentity, alphaParty ], same()), 'beta-joins',
+              { reason: `The minConsensus 2 of ${RNO} needs signing keys of as many holders, not of 1!` });
 
 
     // =================================================================================================================

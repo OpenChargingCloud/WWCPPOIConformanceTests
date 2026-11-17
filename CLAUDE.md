@@ -34,7 +34,8 @@ Conformance suite for WWCP POI 3, holding two implementations to one set of gold
   section 6 (and two of its own) - deterministic, so regenerating changes no byte unless the generator changes.
 - **The histories the generator signs** (`poi-histories.json`, its section 7) are where a vector needs a history signed
   anew, which the private keys of the frozen run do not allow: small histories of `rn1`, keys of the seeds of section 6
-  and of its own (Ed25519, Ed448, ES256 after RFC 6979), its own small applier for the after ETags, and replays,
+  and of its own (Ed25519, Ed448, ES256 after RFC 6979), its own small applier for the after ETags, and replays
+  (`history-operator`: the `urls` of rn1 and the holders of the keys of DE*RNO joining and leaving, 4.1),
   every refusal with its `control`; and `anchoredSnapshots`, snapshots of another server a history starts from only
   anchored in a trust anchor (10.5), which the C# harness checks with WWCP_POI3's public `TryFromAnchoredSnapshot` /
   `TryFromAnchoredCheckpointSnapshot`, as its peer starts. What it calculates (CBOR, the effective tree,
@@ -94,10 +95,11 @@ node tools/generate-test-vectors.mjs --check
 The TS harness imports WWCP_POI.TS from source, so the implementation's own dependencies must be installed too
 (resolved from `libs/WWCP_POI.TS/node_modules`); without it, `ERR_MODULE_NOT_FOUND` before a single vector.
 
-Expected: C# 958 passed / 0 skipped (its 13 copy tests need the vendored `poi-*.json`, both runs and `chargy` of
-WWCP_POI.TS: a copy missing or drifted is red; five are, until WWCP_POI.TS vendors the run `csharp-c1b641b`), TS 931
-passed / 7 skipped (7 signing: WWCP_POI.TS verifies only; 328 fail until WWCP_POI.TS reads the `urls` of a roaming
-network, WWCP_POI `c1b641b`).
+Expected: C# 1019 passed / 0 skipped (its 13 copy tests need the vendored `poi-*.json`, both runs and `chargy` of
+WWCP_POI.TS: a copy missing or drifted is red; six are, until WWCP_POI.TS vendors the run `csharp-c1b641b` and its
+vectors), TS 992 passed / 7 skipped (7 signing: WWCP_POI.TS verifies only; against `37e4d52` most vectors of the run
+and the new ones fail, until WWCP_POI.TS reads the `urls` of a roaming network and checks the quorum of every
+version, WWCP_POI `c1b641b` - its port, not committed yet, runs all 992).
 Skips are load-bearing, not noise. The C# harness needs the .NET 11 SDK:
 WWCP_POI builds for `net11.0` since `50f772a`.
 

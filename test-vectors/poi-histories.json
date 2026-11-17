@@ -141,6 +141,50 @@
       }
     },
     {
+      "id": "history-operator",
+      "description": "The roaming network rn1 of DE*RNO, the quorum of Alpha and Beta, each with a signing key for the party: the URLs of its copies, and the holders of the keys of its operator, joining and leaving.",
+      "documents": {
+        "genesis": "{\"commit\":{\"@id\":\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\",\"eTags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d0ec82961bbb9d103eb0a3c6c6dbb7ffc8d60acf32eef2a31c31682aefdeb187\"]],\"revision\":0,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"DlOpRUvkMVTgsKSgYm/1DnvVaMgQ1Q1dd6fxn8zZMrtSek45IH6YdyIdyI9c7bM5sg9ClW6WPkGS+fzjQrUyCg==\"}]},\"roamingNetwork\":{\"@context\":\"https://open.charging.cloud/contexts/wwcp/roamingNetwork/v1\",\"@id\":\"rn1\",\"created\":\"2026-10-18T08:00:00.000Z\",\"lastChange\":\"2026-10-18T08:00:00.000Z\",\"name\":{\"en\":\"Example\"},\"operator\":{\"@id\":\"DE*RNO\",\"created\":\"2026-10-18T08:00:00.000Z\",\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"keyStatement\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"4ws6TPdROr8IFIsHfdOyxikRr50k2mCm4mI4TqTFDXPQsey/Y+Zy8q6A9a6fJNzbUCSVijkX2+LJYrvDjcUuBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"2munKXE8TOwDbNBWjOD7/grQFxm3f57jke1IixR8Uo0AwksKR34ZaNLEJJR5P2sj1UNm3dwhWGHRf2JjQjJiBw==\"}],\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"lastChange\":\"2026-10-18T08:00:00.000Z\",\"minConsensus\":2,\"name\":{\"en\":\"Roaming Network Operator\"},\"signingKeyCertificates\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}]}}}",
+        "urls-named": "{\"@id\":\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\",\"changeSet\":{\"@id\":\"adaa9ef14965c0586ade5725fb6e3bae539cdae5a88c3103d4e007302910fafc\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"https://alpha.example/RNs/rn1\",\"https://beta.example/RNs/rn1\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"XQHJ6TB1Uvw7xQlLRMRvS4lzoVb5KYK75epVyZK3mIO7uBj+CVmxqP10wTPkMAbr+SnhpRMW+RXTzNXuZraKBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"eBXACukweCY+3ZQVxA6j9pPqM+MW5uu3XSCQtEENeOGoPxfLhyqhGNJo/FB8AkvN764yCvU8HOStfZX1vPbfBg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"],[\"effectiveTree\",\"sha256\",\"hex\",\"6bbc78250e476693a0b0fa619bf6510e84061a8c36f131fa2420af2383e57cc2\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"FHW34leKcFbk/w4RsSyTW/C8h4tPOuEEFiqJwhz1Zy+8BIjcnEzZ4uR+No6geuDW1mB6JAE7z0eX1bc0O+OOBQ==\"}]}",
+        "urls-by-one-holder": "{\"@id\":\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\",\"changeSet\":{\"@id\":\"adaa9ef14965c0586ade5725fb6e3bae539cdae5a88c3103d4e007302910fafc\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"https://alpha.example/RNs/rn1\",\"https://beta.example/RNs/rn1\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"XQHJ6TB1Uvw7xQlLRMRvS4lzoVb5KYK75epVyZK3mIO7uBj+CVmxqP10wTPkMAbr+SnhpRMW+RXTzNXuZraKBA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"],[\"effectiveTree\",\"sha256\",\"hex\",\"6bbc78250e476693a0b0fa619bf6510e84061a8c36f131fa2420af2383e57cc2\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"eE6vOuBvlhhDLZv/n8dLmnEJKKyo8VQEYlz5fdx+kiTMCpEUcx8fIT/Ftzt2EC0ER0oLZ5AQbJFVmoxM+KUIAw==\"}]}",
+        "urls-other-forms": "{\"@id\":\"8bc48650a8ff159fe1f798938f29e63438206c9e520c237485df977dc6f43628\",\"changeSet\":{\"@id\":\"51e06458e98170f40461802522f6e48da0a4ea3153d8360fb439b38f5d8fc6fb\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"acaccb1f2535ced4570f2d363c5aa574bf70993ead11b27545d0526d2b33531f\"],[\"cbor\",\"sha256\",\"hex\",\"45bc72bffc069435ace9fb831c7936a230367ad924350177276c5f5c0617d527\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"https://alpha.example:8443/RNs/rn1\",\"https://alpha.example/api/v1/RNs/rn1\",\"https://[::1]/RNs/rn1\",\"https://alpha.example/RNs/RN1\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"6fkrIMzUVt3gHfbuoy/Zc+UcSdj1vlGfp81W+vSZoRItCagjRH7wCZnOrNkhFNvPPgcvVUtgIIJWConHyyg7Bg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"VSRzPgfJFa4q5BLXl9JBYfL2MuAC8cPrMjOgEC6y/lQrWlM8vgSibuyW0DT6ySzD9eMzjyfHQJPb1cScf69UCg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"acaccb1f2535ced4570f2d363c5aa574bf70993ead11b27545d0526d2b33531f\"],[\"cbor\",\"sha256\",\"hex\",\"45bc72bffc069435ace9fb831c7936a230367ad924350177276c5f5c0617d527\"],[\"effectiveTree\",\"sha256\",\"hex\",\"6da39fbb80be641f6be121b4b4c52736a08e07d8284a6749911e7e60c721cb7a\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"3evvTMW0T2YMjHY5bp44N9P3i5/TVNIA56a5Qfj5WMiV89o/dci7I/ps41vYiDWQNYfWVrjGakmhQdnPTxuJDg==\"}]}",
+        "urls-none": "{\"@id\":\"bf217dc27e70f61a37ee25d9aa3a97547a59d6ca2ad4f3150a0f138234a391d9\",\"changeSet\":{\"@id\":\"d3d87db4824440f3f8d744527b62bef3a6c65fc276c648f4a410e6341349c08d\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"YBUKgZlKLqHlh/ricS0fcRegEPFDr7lbDsKfLnsHrXjFyupSEgOpqcxGJoFnUCreDjnKb88SuPdlj8NgQG4NDA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"yjQ/qwtdvZUIYgdOLbv7rNs2wX0c+Y9xCrb5eaSkaZqEkG181SjK1TzZWUMd8UXQyiQiAzXTbcglywZRa9mZBg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d0ec82961bbb9d103eb0a3c6c6dbb7ffc8d60acf32eef2a31c31682aefdeb187\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"S954jHxIAq6Q2JdW1t3UGXVVwESW0h55PjWknjczJiQIPjspmMUvLwP6fxZdo/CNKpr2HIA8Mvyqps0tR5lUCA==\"}]}",
+        "urls-no-array": "{\"@id\":\"533b32fbacf4d95744163079d19ba9dd5c88fd60246136a1841c322f1ad4de1f\",\"changeSet\":{\"@id\":\"f1757e19194904f0d6a137c8d46626ef0b87032fee433899118218c2a38fe27d\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":\"https://alpha.example/RNs/rn1\",\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"H6mbi/6LRCy9Z9j+zx8Dr7OSUKSYPbJV+buf0maDWAiLB4ndognAiTZyFmQfSwbNtRiUUm5HiytXTR/4kyapDQ==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"xPZKndLDPQhxihL/rFp7ZfkftYBeR4O/9S3LIuJ98y628MmXPvQjf823QqS1YYIFtHpRoWxdLQTF5uMGS6f/Cw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d0ec82961bbb9d103eb0a3c6c6dbb7ffc8d60acf32eef2a31c31682aefdeb187\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"0uEFKvR2fQi8DHtEeTS/QqnKKZsvzl9XFGCeD8vWFVsKJQeSS1jXEwTeAplni6gEa+s5UjFOKYL5j3vYN00WAA==\"}]}",
+        "urls-seventeen": "{\"@id\":\"1c28b9be61d75dc8ae0c4423b17cf54ca4647bfdb162bc81a5add657e6e6a2b5\",\"changeSet\":{\"@id\":\"a73d758b9314f8671578916e96fbcecb0d85935fcddab57c5d1f01337da0f744\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"https://h0.example/RNs/rn1\",\"https://h1.example/RNs/rn1\",\"https://h2.example/RNs/rn1\",\"https://h3.example/RNs/rn1\",\"https://h4.example/RNs/rn1\",\"https://h5.example/RNs/rn1\",\"https://h6.example/RNs/rn1\",\"https://h7.example/RNs/rn1\",\"https://h8.example/RNs/rn1\",\"https://h9.example/RNs/rn1\",\"https://h10.example/RNs/rn1\",\"https://h11.example/RNs/rn1\",\"https://h12.example/RNs/rn1\",\"https://h13.example/RNs/rn1\",\"https://h14.example/RNs/rn1\",\"https://h15.example/RNs/rn1\",\"https://h16.example/RNs/rn1\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"UNqwjEsNcjH6JYIrvmjgYsvgrBswSvEOsBCsPHrrQpMxScQw/jTzv7nJ3tOwbvSL6QpEP4Yor3bTaPvOdRbEAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"rIPciir1E/ApF1rc7Fs0HByG/Rd5+5sohjMm5k7dHgC5NifEPRE0xNUIkun5nouSeEZ2xCopfd1EHCmAXrZ3AQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d0ec82961bbb9d103eb0a3c6c6dbb7ffc8d60acf32eef2a31c31682aefdeb187\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"cDRGEDNOyf/Oqv9ONb0Z0WqaQfAsRN9fBXBMzWzg4Hp2rDoDoUQgOLNcx2hbrhOvStoDr5w3HpkEb62LuurSAg==\"}]}",
+        "urls-twice": "{\"@id\":\"35d7c23bf82f41a532454ed8ea37888caba4efd0ab70aa8c338c206951e5e29a\",\"changeSet\":{\"@id\":\"cd092599449ed8888487f092b2b9b216373b063ffd0de865d10b5ae7fe4c62c4\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"https://alpha.example/RNs/rn1\",\"https://alpha.example/RNs/rn1\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"NOKUfGW2HOM9QfWz/xU4JHWCwWoADoFpFHJyYqdyxVP6GQ3hsChZvTOYwzaBgOEF1JDykfZ5iNQzEaQkW3g2BA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"euuYhl2dJSVj0iKGnUCSgSm5ThnjqrAARfVgdEHgKr/F8wvI8uNkvPxcMFEXNFixftd1xb4eg1OVOH+0FHynDA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d0ec82961bbb9d103eb0a3c6c6dbb7ffc8d60acf32eef2a31c31682aefdeb187\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"ecJvFJVimZZ2hPcqcdYgRgFpQdhUDFpdiI3xhVd1nPGutsYYw1Mdxz6JdFseQGBioAhawYfiVQL0xOZqvNC7CA==\"}]}",
+        "urls-too-long": "{\"@id\":\"2db08c390958e1510c6eec0ff8288bfd214376e9d948d8d84e68b6df9c12cb5c\",\"changeSet\":{\"@id\":\"d6c582abf73dc6d4ea5c05f0e057fd9bd3b74addf21f2207074d3422b328b35d\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.example/pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp/RNs/rn1\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"JADc8euJPg9OQjjUzBV9ctsHecFVIvNdYaDg3z/cOMoyFM0lpUF9IXCnEgLFStt3UKcQz0CoTtgdlP+iy+KAAw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"IfV+NiZac7XyZOSCqAb0GNHf/SkekmldUq0ox37jl4efdHca6LL8CUsWpEGrE7rmtLyktDBwsTNA4PjWREk6Dg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d0ec82961bbb9d103eb0a3c6c6dbb7ffc8d60acf32eef2a31c31682aefdeb187\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"xYpDoWmGwT8PD08R7WhDtZbruLZmlTAbSs1z3LuU4H2VT+PfOluBkgVSc4e5Y4O6nUVwbjnE7xXcW0IWjaW7Ag==\"}]}",
+        "urls-http": "{\"@id\":\"21a7d20f6457e35e26a4087e572a64c116d8f04fc79c5e6a81f545f2f117a2f0\",\"changeSet\":{\"@id\":\"c9b682410a6ac1af1bbef54753a595952730946c5888c152025297c2a0b18b62\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"http://alpha.example/RNs/rn1\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"iM/DnDSlz+0pefromF2rQwU3DkqvVwtrmz1e/yIg3/9qJmxtv9ILbBH6gmqR+frjHFi4mHBNhiRhETzmSTrOCg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"u+lOGNeaJFSIlnh3IcQmu4fUqSuibHA+2SFtyIDO/+f8mOeUgQVwFNTDoJjq2srtNlv2hMVEZTkNKo2RDpIBBg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d0ec82961bbb9d103eb0a3c6c6dbb7ffc8d60acf32eef2a31c31682aefdeb187\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"fP/Kys0edMnFFJJVnbQ8LPj4yf4/+VRrGEoY55CdtWOwS8vFssCTrVmDxZE7H6NLyh5PN/AfmUfvx71/bixRDQ==\"}]}",
+        "urls-user": "{\"@id\":\"d4a1cec2e4458163c807f4cbbee904ba7ed8bc020012ee6faa52a7088c726306\",\"changeSet\":{\"@id\":\"a16f37889e8786e94cd0c95f9996745662038dc0d1d8061232730436b7b246ec\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"https://user@alpha.example/RNs/rn1\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"qepIsJ/sw1EhqG6kDoSTfDR83Oz/RRICfubLhji5B0WVdP4mUSI6uAPHsC28kTukMc7nxq9Ey1GeQZcMI7agDw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"pNpJdxzmqUAjrBnwBQf0goj5wqzZF1z+4pGlzV6va/ajb4ZR4FMrqYfhZueG8BZledAKPAVH9eDjosvRaKUcBA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d0ec82961bbb9d103eb0a3c6c6dbb7ffc8d60acf32eef2a31c31682aefdeb187\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"JOeskc2W+LC6W9dLt7D5gFRGKe+h3/GMlFNX5P8o2QkFVIP0+7C2lgrxExDpsv658lTXhAxLJQdIfg/HgALGCA==\"}]}",
+        "urls-query": "{\"@id\":\"9b10fa353de99c60cdcdf5a222168f8e7d53a5c697207d1be96f8c17db656ba0\",\"changeSet\":{\"@id\":\"ed86d71aea7d1056b325b2150d76ac2e1e7ee0b7cfa8b3e7ab0a894ad59b7142\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"https://alpha.example/RNs/rn1?x=1\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"pDZudO82ssmDCvYJ6/XtOIcBiuxIa0gXDlpQiOnX+lZs2/GzjbbZgEXa5pcsPs6eRR280Grlf+eu9E4N80z0CQ==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"RbufA+wkaqP8HQjakiNvwxzsDNawUF1keQfrpzOSqmxrT+4UI6r+cLT/IsQvqUlGchZ5dfwYlU9S1ZYYZQy4Bg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d0ec82961bbb9d103eb0a3c6c6dbb7ffc8d60acf32eef2a31c31682aefdeb187\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"CkLZcITk4F1gb2ErVf0GTKpQWv5/TnN6Zd0i76Imqc06PPknbIt8xQMPgiXkSprkf9Jvt8NLlsBTvKXc4QcuCQ==\"}]}",
+        "urls-trailing-slash": "{\"@id\":\"8913fc427db410847ee3e8cdd703c9f3a83eb72c2872732bd95cd9c3c2dc8e70\",\"changeSet\":{\"@id\":\"236241b5dbb71b9bfc7dc021e3f800339a5edc1f9cec2b3d2026a0c6e39394ce\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"https://alpha.example/RNs/rn1/\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"PnAzNNb7tQ9wkMXB0rFyfnVMsRKtwE77fchm/2j8gqmxGPcuiCE9pwWY/9SC/W4NSftHdXQmplKqmotjp2kjBw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"gd+M6h4ep/rMUytxGprn2w2IGekJbJazwThgZ+i0GfnHeav+Lep9xr8S8lJsw2KZr2SX6D1VFC+CEOJ5NcFPAQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d0ec82961bbb9d103eb0a3c6c6dbb7ffc8d60acf32eef2a31c31682aefdeb187\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"38ywblrtZ3gg6BIuX1a8+H5oMshEmt1iufGzdxlxdWtl5vTl9trKDhfQ2ytYLEunHIHnqJy3X2sXkl5H9N+vAg==\"}]}",
+        "urls-no-network": "{\"@id\":\"149cf7356bbc1015b124433d9cafcb7439aba84608480dc988b1e45205b9dc68\",\"changeSet\":{\"@id\":\"785ea6b593ff0f201c2ad5b33a652bd63538e75f6dcf314c072d7c63fd21df5a\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"https://alpha.example\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"bDufVxICuOHsd6AkeV/HXIDCtAtCdppmwEt6tqkJ52lwm5N9emJq6+5sGUziNOQXCT8+/kTJKKksEo5c3TtwDA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"AeYSHL3Ohdi+rNs7ZDkUxPOQoRRun0mBPGyWendURwrLH/TxGDJoHiTrPDi7oFqf25vEZ2DMOm5wWgXDmpk3BQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d0ec82961bbb9d103eb0a3c6c6dbb7ffc8d60acf32eef2a31c31682aefdeb187\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"ty6zVdERSMJ7vW8n8KDmPZI6H0C4rRljvLkOnTkpjVrLrUgc9d4l9f4w8OnxQoJnFFVnfkJqlLMTSvTssl4YBA==\"}]}",
+        "urls-other-network": "{\"@id\":\"af14b118cc9d72672ad25124285244389149129318732c77c5043a16284b5938\",\"changeSet\":{\"@id\":\"f8e712efb7f5cfe879b112a556b868aa21ee81a0ecf9b7cfed542c002d681975\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"https://alpha.example/RNs/rn2\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"RgMIPvqtAJJw8rJ/lFKMNl3p0qLc2FQ/2bGKLoUVJxxiALPwRZO9mZvf6V83g1GEpnZMZ0ntIqeKGj2SqfY7DA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"kxJJlVFDZhGBH60Y0DK889zMHPbcxtSbkzDyEn4BhOxoKbXOPe09MYcqG2sfnUbbvDIQcZvbs+2qIFfLWLH/DA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d0ec82961bbb9d103eb0a3c6c6dbb7ffc8d60acf32eef2a31c31682aefdeb187\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"YZVRGZ6dyGoJTvltfFznvBrKwxkJQmKesfhpVABMoViuUlgvvtjXYOJf2uUpkhUhvDnp3S24XA82DIXNbX3xCg==\"}]}",
+        "urls-untrimmed": "{\"@id\":\"9d941436a28f38841aa02a10b7c03a1ece719291583b10059b3316e05dc1b1f4\",\"changeSet\":{\"@id\":\"993ea38b19d56fc05c126080e99a657f3b5fff8ca8928bbff750c302800773c5\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\" https://alpha.example/RNs/rn1 \"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"VUc7jzSOQSWbHbskFGwWjmHUxy6ykQ0zkY66jlcEfkGdS4lmzZgKme1OiGI7xgjcRJbKUly+jz60DXfUNL/VAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"MobW2IEmSBtXX7wLoGyTHbC7ao1gIAzg+Yy5VngrfWgPj6MA7RvEh2DNAm4Fqd0IXfH8ElsEI6Rf0KxxZkfTDw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d0ec82961bbb9d103eb0a3c6c6dbb7ffc8d60acf32eef2a31c31682aefdeb187\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"9A/JesCWad0wL9gO7iLNHtzlMBpvhWQnivQ3GvHI8+bp3qeKc0A26pL1CR8Dv4NyX+ANYho48VuiP0eM4F1qBg==\"}]}",
+        "urls-without-scheme": "{\"@id\":\"d88ecbce2fff89c64449dc283836ea390d15ff2d5cfbdf6d75918065b2554dc6\",\"changeSet\":{\"@id\":\"ce864d6ada28481fddc1a566b5a10c593376836ad209a704fbbe40510ebddb94\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"alpha.example/RNs/rn1\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:01:00.000Z\",\"description\":{\"en\":\"rn1 names the URLs of its copies\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"5CRpC4gjTKXGPmhnbEzGhhJH22mwDiPTzA/+Shf5SJkBIe0UvCeODlQ6mykxjI8N/6EG7znIAtNhdQ8SWwS6BQ==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"c53ZOlqQImmJr1lZ0FdwEUaXRvbghEUWklTQYV/TLFZTUATB1QGC2+HhCsNL7beecxwwikA04dsHZvUp4JKPAQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"82ef640093878e611adfdd390803a09d7fb5ee317cde22c8ec8a0071a6d541cc\"],[\"cbor\",\"sha256\",\"hex\",\"83bfb725c13744a99c93ca18a77aaed6420777cb1b5c00aa18e5635451930690\"],[\"effectiveTree\",\"sha256\",\"hex\",\"d0ec82961bbb9d103eb0a3c6c6dbb7ffc8d60acf32eef2a31c31682aefdeb187\"]],\"parentIds\":[\"7c8d0c79cd16168d6bc6a50f9a49e60fddb55e24a77cbb9eff17e9b577f9c559\"],\"revision\":1,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:01:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"3JeN/jyIhzg1pDdmwX3pmlodDvaDqwX1OfiTgJHzn4rqdEVZU3/t2/kCYmMZzivgu6SDRpFAS0wOpEa80g1JAA==\"}]}",
+        "urls-reordered": "{\"@id\":\"e487d66f67c55e686bdad73484be324c379d5e4215f0ebd446ff7b8348cfed88\",\"changeSet\":{\"@id\":\"f6ef2981dbc2199bc65573427e3aae63672bf5135d7ce46d28829f5f510d637e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"ef597368b8f8cd13bbd00a5a008c25f12bdb7e557966735c4d430ee2f218ef08\"],[\"cbor\",\"sha256\",\"hex\",\"b4178593832590a21c11c1be286e8728c3edb27d5bf4cb84d36b0d654a989a32\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"https://beta.example/RNs/rn1\",\"https://alpha.example/RNs/rn1\"],\"oldValue\":[\"https://alpha.example/RNs/rn1\",\"https://beta.example/RNs/rn1\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:02:00.000Z\",\"description\":{\"en\":\"rn1 names the copy of Beta first\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"S6Auarv+aROEZF76zBi+fQx6/8TCyYa3V4iEVkcl5ZFKTwbXTRMbdkT0PTvkVQ1T2mE8IIHQ2zdD7Joxlv9uBQ==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"v23U/GKjKjS7JPikzRMiDkOohiIJbWxAACiJm9xyDarL2tsbj/wVV26Kv6RtgdmGYYCMltJ8LnOJBFgY2BF/Bw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"ef597368b8f8cd13bbd00a5a008c25f12bdb7e557966735c4d430ee2f218ef08\"],[\"cbor\",\"sha256\",\"hex\",\"b4178593832590a21c11c1be286e8728c3edb27d5bf4cb84d36b0d654a989a32\"],[\"effectiveTree\",\"sha256\",\"hex\",\"ee50c55484dfaf652c2990d285a46451e414ac7bfc9640117b75fbbca2622e9b\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:02:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"ULh0x4TGBGsy/G6jk+JknQtJSKo3fcsF0UHAA3YfNvrEnJ95Msu8AXyDpDRxrNG4G87hPx0fNm7DQZteU6aBBg==\"}]}",
+        "urls-removed": "{\"@id\":\"97356ddb52c8d33a98dbc383310e98950f2427d243344eeed05218fb93156327\",\"changeSet\":{\"@id\":\"45f6891561fad47bc10c1e8c644fb706b76442825295e3b6236c85834cbf39d6\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"ffa30a76fcf5d5b04b53f4e94b40803233d643990f09cde5256f24b202b7dd21\"],[\"cbor\",\"sha256\",\"hex\",\"6a96821dc0fa345a68171531e7ec2b54edceb073b17b998074de5b6cc38b15cf\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"RemoveProperty\",\"oldValue\":[\"https://alpha.example/RNs/rn1\",\"https://beta.example/RNs/rn1\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:02:00.000Z\",\"description\":{\"en\":\"rn1 names no URLs\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"6aXBLcGUPq27JMz0EWEu1gOlDRAq3uK3iTlP7YkkeP+Ut0Jyb0v0H5BvXxVym/teUV9U4hRgQPNDApdUqeJUDw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"SEOXT1aUbPyRvtid75s2OHwNQ4sNhXRj8XjBbl+7ergfbqIgqww2nVRUGlIiNFRWaj1A1zmX5MoUmTepDDDzAw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"ffa30a76fcf5d5b04b53f4e94b40803233d643990f09cde5256f24b202b7dd21\"],[\"cbor\",\"sha256\",\"hex\",\"6a96821dc0fa345a68171531e7ec2b54edceb073b17b998074de5b6cc38b15cf\"],[\"effectiveTree\",\"sha256\",\"hex\",\"4b111eaf26a9de88d5f8a0ce1da338c592f4a30efd5de1973e42a5d4760f788b\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:02:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"5wJ9MwPESGPuEJS6LCBrV9GXukfowFTp8tgEJ8aWne4H2RrIC7N79Wwi0hAGrSyBRw2fGT/ZZtwLU0IOltp8AA==\"}]}",
+        "urls-old-value": "{\"@id\":\"cc6d3a79c9211c832e8114d66784811104d6396c49d320e3965e825e2de7b5e4\",\"changeSet\":{\"@id\":\"a7557820c1d52f12d368002b89891c34e729931fd2cb66429208d9767a9697f8\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"UpdateProperty\",\"newValue\":[\"https://beta.example/RNs/rn1\",\"https://alpha.example/RNs/rn1\"],\"oldValue\":[\"https://alpha.example/RNs/rn1\"],\"propertyName\":\"urls\"}],\"createdAt\":\"2026-10-18T08:02:00.000Z\",\"description\":{\"en\":\"rn1 names the copy of Beta first\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"SD0U+AYR0rEpGd0B2QxWQWzTCQqz2x9SJemRLXCRfK6ngyJgqWZqh2N5/piwBtJMZs9FHMrDG22/fz3n9h3jBQ==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"PEekp5uycwPh+Lg3mrjGS/gE1Pn8cTBp6BaTkQwsk7ZJT7a4rd3MEIgMIi7DkHbuCDQ5HhU5JnxQXoPxkY5sAA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"],[\"effectiveTree\",\"sha256\",\"hex\",\"6bbc78250e476693a0b0fa619bf6510e84061a8c36f131fa2420af2383e57cc2\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:02:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"DEw8xrINgRmk6RVg1Oh1sDUnjeObSLVjRe8s9UacSg5oOTJp1l38p3X0+PShX2zB5VODyWpTXN415Beu1WDLBA==\"}]}",
+        "urls-element-added": "{\"@id\":\"915aa74e2ca65f77f8bc061d8e5dc6ccf26a42a1a33c9c887b157e887b0146ac\",\"changeSet\":{\"@id\":\"4c395bbe88fee95410e39bc88347083ac566e554eecb5b8f1993cb1c9a12628b\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"elementPath\":[{\"elementId\":\"https://gamma.example/RNs/rn1\",\"propertyName\":\"urls\"}],\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"AddElement\",\"newValue\":\"https://gamma.example/RNs/rn1\"}],\"createdAt\":\"2026-10-18T08:02:00.000Z\",\"description\":{\"en\":\"rn1 changes one of its URLs\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"3KA/MDMKVy4UXpgXt3Jwcf/rRIFXc8PeCwvqN7J7h8sboVEdS04cdQfP74oVFduyF8FIx2p2HjqhpS3mGUxpBw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"PxquHa0t7Q7pYS7gMC1hCjedaf58OmP2GraVPI1QFH6ORFg27+rcfswifXWdjub4CVgjh4qHsr/m0wJvXTnWAg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"],[\"effectiveTree\",\"sha256\",\"hex\",\"6bbc78250e476693a0b0fa619bf6510e84061a8c36f131fa2420af2383e57cc2\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:02:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"mYmV8mYa6g1+Ba70763iEWf+CC5MgBcLjtlS8BiJvV0awe9rQuuIdLJj9zmiH/bcH7xnzSjGUBxLFnbVS15iBw==\"}]}",
+        "urls-element-removed": "{\"@id\":\"90145364cbafe1b1d999b1219d5d0bbe6c2fe45202ea304d32e9dc3a7a0633d9\",\"changeSet\":{\"@id\":\"83c4ab22233dbdbf39bd91a000329f24b13f1ff3286fd1af01997d90f5134cd9\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"elementPath\":[{\"elementId\":\"https://alpha.example/RNs/rn1\",\"propertyName\":\"urls\"}],\"entityId\":\"rn1\",\"entityType\":\"RoamingNetwork\",\"kind\":\"RemoveElement\"}],\"createdAt\":\"2026-10-18T08:02:00.000Z\",\"description\":{\"en\":\"rn1 changes one of its URLs\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"w9Kf3PM9ByFcsjgDVVAzqug/L+r8jLZ61LASnNqqVG3/zO/QkwYAOg4s6mGdUNLkvDnvpJvKrL+8g/SGiisKBQ==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"c4dMibFTSdhwEycJd/qGBHTv2YBIXb912Er7OJWF5oee70y2jD3KQtQ2UxZ8hEdQftp+r0Nr2vc1LQ3TtS4VDA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"],[\"effectiveTree\",\"sha256\",\"hex\",\"6bbc78250e476693a0b0fa619bf6510e84061a8c36f131fa2420af2383e57cc2\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:02:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"XCoPo8rAlbkXv6EESdIzxXjmoexsm/gzO7W0Azv4sm8NKhtHyiRAMwexSmlCQ0B/XVunE5Hrj8cwIZckWfYuCg==\"}]}",
+        "gamma-joins": "{\"@id\":\"e76f66fade540d345486a69abe29ad21114f0a466a90a0fe6002be1be6572e7d\",\"changeSet\":{\"@id\":\"e02ebd6fdb8309763113cb698e1686ef1794ac264fab5dc48dde6e07ef1694ff\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"d91cf4fecd97dc208d89ca2f67ce29294384ca5d2f724e86d0057a8310cbf1e0\"],[\"cbor\",\"sha256\",\"hex\",\"d7670974f9040a7715b99796b7b2e4b6f5b2ceafd2b7c325057af2925e8b7d87\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"holder\":\"Gamma\",\"key\":\"owEBIAYhWCDIQqjVhJ5DPStaMZ/4CZGpbW5Qwbq68kOUM66aA0vYqg==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"oldValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"propertyName\":\"identityKeys\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"holder\":\"Gamma\",\"key\":\"owEBIAYhWCDIQqjVhJ5DPStaMZ/4CZGpbW5Qwbq68kOUM66aA0vYqg==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"VBZ7ybKkkSo+Kbh4/4hlEx4jU8xfa5YjkOX4nkm2wSM3FrqJeSKa5mNQhPZTAp+PExmoBpF3/j3ZlBEKmJItCg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"WQneToVAU4mmL4yHKOe1Xcck1piXHInD5Eee+3nl6+ZMt8mHJ6cJa6uFA00F+pmKQD/b49QfluXxfO9xcNd5DA==\"}],\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"oldValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"4ws6TPdROr8IFIsHfdOyxikRr50k2mCm4mI4TqTFDXPQsey/Y+Zy8q6A9a6fJNzbUCSVijkX2+LJYrvDjcUuBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"2munKXE8TOwDbNBWjOD7/grQFxm3f57jke1IixR8Uo0AwksKR34ZaNLEJJR5P2sj1UNm3dwhWGHRf2JjQjJiBw==\"}],\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"propertyName\":\"keyStatement\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"99a577a3dd075284bb558d017253fdf9a481f2615bccfd6ec88d137b1fdda9e6\",\"holder\":\"Gamma\",\"key\":\"owEBIAYhWCCyLY57BhQsqW708M9ivuHzFlJ6JXi0wPfigkkjWrTElg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"RPqJRFOCYv2wiVCtr9XWf9X30FtM+gvKHgIIIsEVsaRUotuQMmRhGxa987FpsJlf9ZFvLptKrZ3ZjTpvzMTeAw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"oldValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"propertyName\":\"signingKeyCertificates\"}],\"createdAt\":\"2026-10-18T08:03:00.000Z\",\"description\":{\"en\":\"Gamma joins Alpha and Beta\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"thDKmv03738kUFwmIRXm6eyid+HPlJVyTITJh/JJ/urWoMkxHqjm2nNgHT9LA4Y/ar6LzjXCAUh7+F4XP8E7DA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"BudRC3piUba5ZGIpI59eC42wP/aPYMXRYWvktOxpTOAi/+S/93yIA4XNMsqRVwJdfs77ctyJUugiPSxmDqP/Cg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"value\":\"xSscolgnLpGLZDcw5l3oBUeyZkE4JLx0SawR2aJOUW03SP2B1/lw2UbdZThzLYZA45q8kvTTyti+EYfesBIYCg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"6CBzWqJ0BxRdBYhcRTYG19+6s0D8uwV/0ReToc4pjNjNoddGwRhcGEU9V5INN/qJzHPeTEyI8HdgfFCYOy5nCw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"JRe4xYbEYsmTT8NA2MWFHykXoBzd2LyNqKWe+/GWenBABBdkysBnYDTi5VlA7qhAgfPKMNz7QkJR5N5mJw34DQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"d91cf4fecd97dc208d89ca2f67ce29294384ca5d2f724e86d0057a8310cbf1e0\"],[\"cbor\",\"sha256\",\"hex\",\"d7670974f9040a7715b99796b7b2e4b6f5b2ceafd2b7c325057af2925e8b7d87\"],[\"effectiveTree\",\"sha256\",\"hex\",\"88787e2390b61e129ea106011dc3c2046f5c774a717b090014dcbf78a5a5da07\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"/IC5h1+rkX0LxsYoszTNqlp3h+zjIuQSEXrv7f5FwdOIwkXkkJjOztmbBAnrLLYoNSXQyT5vXjwmZFmTLw7wDw==\"}]}",
+        "gamma-joins-unsigned": "{\"@id\":\"e76f66fade540d345486a69abe29ad21114f0a466a90a0fe6002be1be6572e7d\",\"changeSet\":{\"@id\":\"e02ebd6fdb8309763113cb698e1686ef1794ac264fab5dc48dde6e07ef1694ff\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"d91cf4fecd97dc208d89ca2f67ce29294384ca5d2f724e86d0057a8310cbf1e0\"],[\"cbor\",\"sha256\",\"hex\",\"d7670974f9040a7715b99796b7b2e4b6f5b2ceafd2b7c325057af2925e8b7d87\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"holder\":\"Gamma\",\"key\":\"owEBIAYhWCDIQqjVhJ5DPStaMZ/4CZGpbW5Qwbq68kOUM66aA0vYqg==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"oldValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"propertyName\":\"identityKeys\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"holder\":\"Gamma\",\"key\":\"owEBIAYhWCDIQqjVhJ5DPStaMZ/4CZGpbW5Qwbq68kOUM66aA0vYqg==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"VBZ7ybKkkSo+Kbh4/4hlEx4jU8xfa5YjkOX4nkm2wSM3FrqJeSKa5mNQhPZTAp+PExmoBpF3/j3ZlBEKmJItCg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"WQneToVAU4mmL4yHKOe1Xcck1piXHInD5Eee+3nl6+ZMt8mHJ6cJa6uFA00F+pmKQD/b49QfluXxfO9xcNd5DA==\"}],\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"oldValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"4ws6TPdROr8IFIsHfdOyxikRr50k2mCm4mI4TqTFDXPQsey/Y+Zy8q6A9a6fJNzbUCSVijkX2+LJYrvDjcUuBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"2munKXE8TOwDbNBWjOD7/grQFxm3f57jke1IixR8Uo0AwksKR34ZaNLEJJR5P2sj1UNm3dwhWGHRf2JjQjJiBw==\"}],\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"propertyName\":\"keyStatement\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"99a577a3dd075284bb558d017253fdf9a481f2615bccfd6ec88d137b1fdda9e6\",\"holder\":\"Gamma\",\"key\":\"owEBIAYhWCCyLY57BhQsqW708M9ivuHzFlJ6JXi0wPfigkkjWrTElg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"RPqJRFOCYv2wiVCtr9XWf9X30FtM+gvKHgIIIsEVsaRUotuQMmRhGxa987FpsJlf9ZFvLptKrZ3ZjTpvzMTeAw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"oldValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"propertyName\":\"signingKeyCertificates\"}],\"createdAt\":\"2026-10-18T08:03:00.000Z\",\"description\":{\"en\":\"Gamma joins Alpha and Beta\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"thDKmv03738kUFwmIRXm6eyid+HPlJVyTITJh/JJ/urWoMkxHqjm2nNgHT9LA4Y/ar6LzjXCAUh7+F4XP8E7DA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"BudRC3piUba5ZGIpI59eC42wP/aPYMXRYWvktOxpTOAi/+S/93yIA4XNMsqRVwJdfs77ctyJUugiPSxmDqP/Cg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"6CBzWqJ0BxRdBYhcRTYG19+6s0D8uwV/0ReToc4pjNjNoddGwRhcGEU9V5INN/qJzHPeTEyI8HdgfFCYOy5nCw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"JRe4xYbEYsmTT8NA2MWFHykXoBzd2LyNqKWe+/GWenBABBdkysBnYDTi5VlA7qhAgfPKMNz7QkJR5N5mJw34DQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"d91cf4fecd97dc208d89ca2f67ce29294384ca5d2f724e86d0057a8310cbf1e0\"],[\"cbor\",\"sha256\",\"hex\",\"d7670974f9040a7715b99796b7b2e4b6f5b2ceafd2b7c325057af2925e8b7d87\"],[\"effectiveTree\",\"sha256\",\"hex\",\"88787e2390b61e129ea106011dc3c2046f5c774a717b090014dcbf78a5a5da07\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"X8F3GXsbIgGGBMPJE0cHoxdAafg7mYy7SM5qSuFZ14+WeH0/iwYG+LuFu42rKEOh3LbpvfDVpw5VOYdM7q+QAA==\"}]}",
+        "gamma-joins-by-alpha": "{\"@id\":\"e76f66fade540d345486a69abe29ad21114f0a466a90a0fe6002be1be6572e7d\",\"changeSet\":{\"@id\":\"e02ebd6fdb8309763113cb698e1686ef1794ac264fab5dc48dde6e07ef1694ff\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"d91cf4fecd97dc208d89ca2f67ce29294384ca5d2f724e86d0057a8310cbf1e0\"],[\"cbor\",\"sha256\",\"hex\",\"d7670974f9040a7715b99796b7b2e4b6f5b2ceafd2b7c325057af2925e8b7d87\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"holder\":\"Gamma\",\"key\":\"owEBIAYhWCDIQqjVhJ5DPStaMZ/4CZGpbW5Qwbq68kOUM66aA0vYqg==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"oldValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"propertyName\":\"identityKeys\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"holder\":\"Gamma\",\"key\":\"owEBIAYhWCDIQqjVhJ5DPStaMZ/4CZGpbW5Qwbq68kOUM66aA0vYqg==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"VBZ7ybKkkSo+Kbh4/4hlEx4jU8xfa5YjkOX4nkm2wSM3FrqJeSKa5mNQhPZTAp+PExmoBpF3/j3ZlBEKmJItCg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"WQneToVAU4mmL4yHKOe1Xcck1piXHInD5Eee+3nl6+ZMt8mHJ6cJa6uFA00F+pmKQD/b49QfluXxfO9xcNd5DA==\"}],\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"oldValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"4ws6TPdROr8IFIsHfdOyxikRr50k2mCm4mI4TqTFDXPQsey/Y+Zy8q6A9a6fJNzbUCSVijkX2+LJYrvDjcUuBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"2munKXE8TOwDbNBWjOD7/grQFxm3f57jke1IixR8Uo0AwksKR34ZaNLEJJR5P2sj1UNm3dwhWGHRf2JjQjJiBw==\"}],\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"propertyName\":\"keyStatement\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"99a577a3dd075284bb558d017253fdf9a481f2615bccfd6ec88d137b1fdda9e6\",\"holder\":\"Gamma\",\"key\":\"owEBIAYhWCCyLY57BhQsqW708M9ivuHzFlJ6JXi0wPfigkkjWrTElg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"RPqJRFOCYv2wiVCtr9XWf9X30FtM+gvKHgIIIsEVsaRUotuQMmRhGxa987FpsJlf9ZFvLptKrZ3ZjTpvzMTeAw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"oldValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"propertyName\":\"signingKeyCertificates\"}],\"createdAt\":\"2026-10-18T08:03:00.000Z\",\"description\":{\"en\":\"Gamma joins Alpha and Beta\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"thDKmv03738kUFwmIRXm6eyid+HPlJVyTITJh/JJ/urWoMkxHqjm2nNgHT9LA4Y/ar6LzjXCAUh7+F4XP8E7DA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"value\":\"xSscolgnLpGLZDcw5l3oBUeyZkE4JLx0SawR2aJOUW03SP2B1/lw2UbdZThzLYZA45q8kvTTyti+EYfesBIYCg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"6CBzWqJ0BxRdBYhcRTYG19+6s0D8uwV/0ReToc4pjNjNoddGwRhcGEU9V5INN/qJzHPeTEyI8HdgfFCYOy5nCw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"JRe4xYbEYsmTT8NA2MWFHykXoBzd2LyNqKWe+/GWenBABBdkysBnYDTi5VlA7qhAgfPKMNz7QkJR5N5mJw34DQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"d91cf4fecd97dc208d89ca2f67ce29294384ca5d2f724e86d0057a8310cbf1e0\"],[\"cbor\",\"sha256\",\"hex\",\"d7670974f9040a7715b99796b7b2e4b6f5b2ceafd2b7c325057af2925e8b7d87\"],[\"effectiveTree\",\"sha256\",\"hex\",\"88787e2390b61e129ea106011dc3c2046f5c774a717b090014dcbf78a5a5da07\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"Kj2MqDNH2Kaqmna93g4Y7OhOKczzmzJstVBGrAz6mqKcqnri79QjMZw4gAvu3f7tbzB+cLTP8CJwxQFVTfeNDw==\"}]}",
+        "gamma-joins-by-identity-keys": "{\"@id\":\"e76f66fade540d345486a69abe29ad21114f0a466a90a0fe6002be1be6572e7d\",\"changeSet\":{\"@id\":\"e02ebd6fdb8309763113cb698e1686ef1794ac264fab5dc48dde6e07ef1694ff\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"d91cf4fecd97dc208d89ca2f67ce29294384ca5d2f724e86d0057a8310cbf1e0\"],[\"cbor\",\"sha256\",\"hex\",\"d7670974f9040a7715b99796b7b2e4b6f5b2ceafd2b7c325057af2925e8b7d87\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"holder\":\"Gamma\",\"key\":\"owEBIAYhWCDIQqjVhJ5DPStaMZ/4CZGpbW5Qwbq68kOUM66aA0vYqg==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"oldValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"propertyName\":\"identityKeys\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"holder\":\"Gamma\",\"key\":\"owEBIAYhWCDIQqjVhJ5DPStaMZ/4CZGpbW5Qwbq68kOUM66aA0vYqg==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"VBZ7ybKkkSo+Kbh4/4hlEx4jU8xfa5YjkOX4nkm2wSM3FrqJeSKa5mNQhPZTAp+PExmoBpF3/j3ZlBEKmJItCg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"WQneToVAU4mmL4yHKOe1Xcck1piXHInD5Eee+3nl6+ZMt8mHJ6cJa6uFA00F+pmKQD/b49QfluXxfO9xcNd5DA==\"}],\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"oldValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"4ws6TPdROr8IFIsHfdOyxikRr50k2mCm4mI4TqTFDXPQsey/Y+Zy8q6A9a6fJNzbUCSVijkX2+LJYrvDjcUuBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"2munKXE8TOwDbNBWjOD7/grQFxm3f57jke1IixR8Uo0AwksKR34ZaNLEJJR5P2sj1UNm3dwhWGHRf2JjQjJiBw==\"}],\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"propertyName\":\"keyStatement\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"99a577a3dd075284bb558d017253fdf9a481f2615bccfd6ec88d137b1fdda9e6\",\"holder\":\"Gamma\",\"key\":\"owEBIAYhWCCyLY57BhQsqW708M9ivuHzFlJ6JXi0wPfigkkjWrTElg==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"RPqJRFOCYv2wiVCtr9XWf9X30FtM+gvKHgIIIsEVsaRUotuQMmRhGxa987FpsJlf9ZFvLptKrZ3ZjTpvzMTeAw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"oldValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"propertyName\":\"signingKeyCertificates\"}],\"createdAt\":\"2026-10-18T08:03:00.000Z\",\"description\":{\"en\":\"Gamma joins Alpha and Beta\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"thDKmv03738kUFwmIRXm6eyid+HPlJVyTITJh/JJ/urWoMkxHqjm2nNgHT9LA4Y/ar6LzjXCAUh7+F4XP8E7DA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"BudRC3piUba5ZGIpI59eC42wP/aPYMXRYWvktOxpTOAi/+S/93yIA4XNMsqRVwJdfs77ctyJUugiPSxmDqP/Cg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"2b4e778069ee315c032188733cd66be6aca36b41a5ea2fcc97c0735a9a61e40a\",\"value\":\"xSscolgnLpGLZDcw5l3oBUeyZkE4JLx0SawR2aJOUW03SP2B1/lw2UbdZThzLYZA45q8kvTTyti+EYfesBIYCg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"d91cf4fecd97dc208d89ca2f67ce29294384ca5d2f724e86d0057a8310cbf1e0\"],[\"cbor\",\"sha256\",\"hex\",\"d7670974f9040a7715b99796b7b2e4b6f5b2ceafd2b7c325057af2925e8b7d87\"],[\"effectiveTree\",\"sha256\",\"hex\",\"88787e2390b61e129ea106011dc3c2046f5c774a717b090014dcbf78a5a5da07\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"JZphr+q3apqQr3s9HTQZMG1fUdJJYULUjiAkNB6bb2PcHWzJTUX10xxDmQWFGW6Ljd8t82AmmGpc1VgeNthmAg==\"}]}",
+        "beta-leaves": "{\"@id\":\"8ad9e57e5968cf2c1261b5d4c4755dded0c325dc8dbe6d7850154e4256120e2a\",\"changeSet\":{\"@id\":\"64cc1c06dab2e4737d38e49b64821d9b92382ad161e5916b3e04cadfba520b11\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"oldValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"propertyName\":\"identityKeys\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"minConsensus\":1,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"9D/Be0KTjTi9umogFE+aVa06jposOpUN5xiHGtkRLoX5PAMqa0Y3FPpqUdF3CY2UghqfZdZ0mtp22cUIgjnxAQ==\"}],\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"oldValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"4ws6TPdROr8IFIsHfdOyxikRr50k2mCm4mI4TqTFDXPQsey/Y+Zy8q6A9a6fJNzbUCSVijkX2+LJYrvDjcUuBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"2munKXE8TOwDbNBWjOD7/grQFxm3f57jke1IixR8Uo0AwksKR34ZaNLEJJR5P2sj1UNm3dwhWGHRf2JjQjJiBw==\"}],\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"propertyName\":\"keyStatement\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"oldValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"propertyName\":\"signingKeyCertificates\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"RemoveProperty\",\"oldValue\":2,\"propertyName\":\"minConsensus\"}],\"createdAt\":\"2026-10-18T08:03:00.000Z\",\"description\":{\"en\":\"Beta leaves Alpha\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"bh3X7rKAWr2So4Xt4RN/bnkZXqPmEqJaBfy2ytcFQIKAbskWxX8+fUYTdxHUHSUl41qHA9LMc9fMT8kTKTOaBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"7gzSgMPB2aAy0iM5AxBeT05wfyFu5Pa8XXzfKSWa9D1SXWk8leRRyVpdgmDsYc2mRj/MWHn5hG0awcDqrqLUCw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"VFAYUCTetXj7lJKIok7/6qyTuY40CSloryxZ2hm04XlBdrfsoBA4GllJRWyF0dmLy79C7aWT+/IZoz8B4i68Dw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"oQ3cFA4sWQ76FF455AUNBNVl5v3dG7zXlb1kwRNtvuD3kQIlERxvTYD7KiqBBHewJ2/0RuykxSS/f47Z1BW6BQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"],[\"effectiveTree\",\"sha256\",\"hex\",\"53ea738a82c227bc61c255436d8fb0b805797c5ce76099601b89e076effbd1bb\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"KL/QszSte7i5hNCoCvIoVfWe/rRPojdz93f9zMyXT/e/77PW6bL8l6MTtlb0u/DQQTSD5bDaloagLJnIAp01Dw==\"}]}",
+        "beta-leaves-quorum-first": "{\"@id\":\"3d8794fd71bc50fd652c02af059d53a9d86cb837ec79cc32540680ebcfa8d6cf\",\"changeSet\":{\"@id\":\"6f002578c0d530a63099bce324610c20cc9b3c459b7b436b44eaaa0301c3f769\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"RemoveProperty\",\"oldValue\":2,\"propertyName\":\"minConsensus\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"oldValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"propertyName\":\"identityKeys\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"minConsensus\":1,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"9D/Be0KTjTi9umogFE+aVa06jposOpUN5xiHGtkRLoX5PAMqa0Y3FPpqUdF3CY2UghqfZdZ0mtp22cUIgjnxAQ==\"}],\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"oldValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"4ws6TPdROr8IFIsHfdOyxikRr50k2mCm4mI4TqTFDXPQsey/Y+Zy8q6A9a6fJNzbUCSVijkX2+LJYrvDjcUuBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"2munKXE8TOwDbNBWjOD7/grQFxm3f57jke1IixR8Uo0AwksKR34ZaNLEJJR5P2sj1UNm3dwhWGHRf2JjQjJiBw==\"}],\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"propertyName\":\"keyStatement\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"oldValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"propertyName\":\"signingKeyCertificates\"}],\"createdAt\":\"2026-10-18T08:03:00.000Z\",\"description\":{\"en\":\"Beta leaves Alpha\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"7P9WyJXWfHsqfMPomS8+cAnmartXnTD+Sk8jw27RSMr2e0eQW4N6K2TYjXburjEIyAIhtmC+HTGa4j7PBQpNBg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"CrTxJCy6kxEkKJePq4Xy/Ro/fT5T25fgEH9oi4NU0UadrRrOTudfPIbS6RtjM45fD/6fX64v6o7BW6A1+L0MDw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"H9gO8F4jjBziP6SHv4h4zIA9v0vYQtS00rIexF+WALnC1ErzIVYWz0IzyQSbxye/jINFkHBcXycFfeit8A+MBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"F+XvDOXk8OxUL2OHHp/ug7lYJ1X3ilLWDFWEgIl/cwkiwivPRqhZDyVfrtLQRbOzuqIcYLrvFCx7XSNdQYvDDA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"],[\"effectiveTree\",\"sha256\",\"hex\",\"53ea738a82c227bc61c255436d8fb0b805797c5ce76099601b89e076effbd1bb\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"Ffvp42lUgOsUOxxTZREA7O5nGz50FpaU0vurGj5FKNYvamfoXE5q68LOWnfL+sDKywggBsAMgSrl6fKJ45A+DQ==\"}]}",
+        "beta-leaves-by-alpha": "{\"@id\":\"8ad9e57e5968cf2c1261b5d4c4755dded0c325dc8dbe6d7850154e4256120e2a\",\"changeSet\":{\"@id\":\"64cc1c06dab2e4737d38e49b64821d9b92382ad161e5916b3e04cadfba520b11\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"oldValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"propertyName\":\"identityKeys\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"minConsensus\":1,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"9D/Be0KTjTi9umogFE+aVa06jposOpUN5xiHGtkRLoX5PAMqa0Y3FPpqUdF3CY2UghqfZdZ0mtp22cUIgjnxAQ==\"}],\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"oldValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"4ws6TPdROr8IFIsHfdOyxikRr50k2mCm4mI4TqTFDXPQsey/Y+Zy8q6A9a6fJNzbUCSVijkX2+LJYrvDjcUuBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"2munKXE8TOwDbNBWjOD7/grQFxm3f57jke1IixR8Uo0AwksKR34ZaNLEJJR5P2sj1UNm3dwhWGHRf2JjQjJiBw==\"}],\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"propertyName\":\"keyStatement\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"oldValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"propertyName\":\"signingKeyCertificates\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"RemoveProperty\",\"oldValue\":2,\"propertyName\":\"minConsensus\"}],\"createdAt\":\"2026-10-18T08:03:00.000Z\",\"description\":{\"en\":\"Beta leaves Alpha\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"bh3X7rKAWr2So4Xt4RN/bnkZXqPmEqJaBfy2ytcFQIKAbskWxX8+fUYTdxHUHSUl41qHA9LMc9fMT8kTKTOaBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"VFAYUCTetXj7lJKIok7/6qyTuY40CSloryxZ2hm04XlBdrfsoBA4GllJRWyF0dmLy79C7aWT+/IZoz8B4i68Dw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"oQ3cFA4sWQ76FF455AUNBNVl5v3dG7zXlb1kwRNtvuD3kQIlERxvTYD7KiqBBHewJ2/0RuykxSS/f47Z1BW6BQ==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"],[\"effectiveTree\",\"sha256\",\"hex\",\"53ea738a82c227bc61c255436d8fb0b805797c5ce76099601b89e076effbd1bb\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"WzYemwNtM+EDiBzaoGhXXVihfU3c6ao6hpGtmEEojxAd3dZf85hEHZ0WAeSaoh7eugSZqkZqrMt5c9kEnVptAQ==\"}]}",
+        "beta-leaves-quorum-kept": "{\"@id\":\"63b9aa93337a70be2f0a7cc111a40f63f54b5f09a62afe20fee90d7cb1dac271\",\"changeSet\":{\"@id\":\"34a66241ce8187a7c033b087d744216ba80669ca3fea169f0cb99f39435fca82\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"oldValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"propertyName\":\"identityKeys\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"minConsensus\":1,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"9D/Be0KTjTi9umogFE+aVa06jposOpUN5xiHGtkRLoX5PAMqa0Y3FPpqUdF3CY2UghqfZdZ0mtp22cUIgjnxAQ==\"}],\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"oldValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"4ws6TPdROr8IFIsHfdOyxikRr50k2mCm4mI4TqTFDXPQsey/Y+Zy8q6A9a6fJNzbUCSVijkX2+LJYrvDjcUuBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"2munKXE8TOwDbNBWjOD7/grQFxm3f57jke1IixR8Uo0AwksKR34ZaNLEJJR5P2sj1UNm3dwhWGHRf2JjQjJiBw==\"}],\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"propertyName\":\"keyStatement\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"oldValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"propertyName\":\"signingKeyCertificates\"}],\"createdAt\":\"2026-10-18T08:03:00.000Z\",\"description\":{\"en\":\"Beta leaves Alpha\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"bgdcU9ovLRSMj1ZtbwbBzZTW3vWarkoc/2R5iZb9+KqEsuc7Ck8B4ObY15yU+pnS5xHOkTJDuB1ahjDDsWYqDQ==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"z/hj68en+/zcjECuuJFgK9Eon1XV7DGmYKo9XqSNYJexfhoscMtaJ/fT5LMXA1gntkrWAgYo91UVH/CSncvTAw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"pElOOUeDPc7Pl03G+NAt6YY4+5Ka/stEokVceXEh+/zYFJDlsoq6weQMF60+wGFX5+qJve01U63eySMkzTxqCQ==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"M7ShZqqt1+BQIu12CQIr/wGvglJGi82P2jZVahUIfWOT7sy3KTDcnWP/Av+7MXn3W7rCbx/p3Sw8VmFJuW2dDA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"],[\"effectiveTree\",\"sha256\",\"hex\",\"6bbc78250e476693a0b0fa619bf6510e84061a8c36f131fa2420af2383e57cc2\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"ZJjIjFdfe7IsgMY3YxJfAdlqZJpjBfKHKh+yC6z1LxidDFdabEVoZ3DTF+zcvc1mA9JMb/eEDyqUpAlSJpl+Bw==\"}]}",
+        "quorum-removed": "{\"@id\":\"61513d588ed0b291731a3e1dddda2397d8769ca3956a3bdb143bf1469f521058\",\"changeSet\":{\"@id\":\"d759b6546c443a24bd5609f07c705215a2bece910ebf7ea967ecb3534ead550f\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"RemoveProperty\",\"oldValue\":2,\"propertyName\":\"minConsensus\"}],\"createdAt\":\"2026-10-18T08:03:00.000Z\",\"description\":{\"en\":\"Beta leaves Alpha\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"u2n87ObmQeojqzkIsYNA4FZsymdFjpz+OgGXc8sTCqqHjKuMzjI5Z7+hvlqtVspHMSwdmXR2Z0C8pqFGCj0NDA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"QQde84pCXw9zvh2QDZtin2IcL0GLgsL3IdM1gyAy28UryTh8qFSYbI01THDJMqwcZOTnAOjTo66sEBYwgtKjCw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"9E9NmTcTGxiCQ0DY3SY1vifBajUMTBQww4BKcs2eH9ZqBlaczXoRNXfqUAnvkiQAPOgeMRdnyuPBsbnIA2RXAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"EHpstV/qsG1i5jZbM75rvVTBK/Skq+phRfQKnyoMqJqMkqT7Erbj3wxzARlb4pRBoY76ufd2JqKIQkQL9sGnBg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"],[\"effectiveTree\",\"sha256\",\"hex\",\"6bbc78250e476693a0b0fa619bf6510e84061a8c36f131fa2420af2383e57cc2\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"GEux6FeDohlEEBjWfT+UWhF7+oqIf7Y0geuoG+0RI+D3YDtv39GQpya+3bbo9K8eppai8UgLOzbVuT9ODBWwCA==\"}]}",
+        "beta-leaves-quorum-one": "{\"@id\":\"9970fe95df203b815a1fba8a199bae629702d5f62a9ac5f1594c97611097b631\",\"changeSet\":{\"@id\":\"4f80f91d7750e991295006e2d2ab4121f4c4118d1c6f84c11a87b7a632e038ed\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"oldValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"propertyName\":\"identityKeys\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"minConsensus\":1,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"9D/Be0KTjTi9umogFE+aVa06jposOpUN5xiHGtkRLoX5PAMqa0Y3FPpqUdF3CY2UghqfZdZ0mtp22cUIgjnxAQ==\"}],\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"oldValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"4ws6TPdROr8IFIsHfdOyxikRr50k2mCm4mI4TqTFDXPQsey/Y+Zy8q6A9a6fJNzbUCSVijkX2+LJYrvDjcUuBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"2munKXE8TOwDbNBWjOD7/grQFxm3f57jke1IixR8Uo0AwksKR34ZaNLEJJR5P2sj1UNm3dwhWGHRf2JjQjJiBw==\"}],\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"propertyName\":\"keyStatement\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"oldValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"propertyName\":\"signingKeyCertificates\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":1,\"oldValue\":2,\"propertyName\":\"minConsensus\"}],\"createdAt\":\"2026-10-18T08:03:00.000Z\",\"description\":{\"en\":\"Beta leaves Alpha\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"RkWx/MUSb4lvbl+f/+zcm0005BZbr3StezSWIz8OvJiNUS+iajyoF6G8Iy1Wo86YE6mN7NReQi3Rk9CuGK5kBQ==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"ihsS54xhobh6LZ9UieAT+PkAO3kIkAPvK9wse7oS1umMjqyqeMWwIpwyDpHVSArqn1Gqw7e0uiZqkxwkuM1SDw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"a56FdxBIOLmOeYTokjogEtmYyDGfj2WijoiFIqYOmi5OWTQ6zIN2YXW5Sxc8+74d4iiHzYMzjEM2+DgzwMJdAg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"Bfu6CcfvcDhYvSnBVFb77JQ2WkrKwhKlHBD9JxbYARadCecgeGCv+Cb78NVSwTd6Yek4jWpc+oEkzxF31FY1Dw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"],[\"effectiveTree\",\"sha256\",\"hex\",\"6bbc78250e476693a0b0fa619bf6510e84061a8c36f131fa2420af2383e57cc2\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"0/YARqAG/nJNKlR9+FOY2ytPp9fnueuJ/u91IX4pUka1vpuDEoGNfsPWGRVZ3g6Xmx0eqXWSgy76f80ICyHaBw==\"}]}",
+        "quorum-nine": "{\"@id\":\"ec7e5bd1e98eb0c2bcdccb5fd06181b5ae819a1cd382c460e158b74de522bc60\",\"changeSet\":{\"@id\":\"7b4a0630642e7915f25dca706a69d6bb634c322021f88df3af6f5a6733f591ac\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":9,\"oldValue\":2,\"propertyName\":\"minConsensus\"}],\"createdAt\":\"2026-10-18T08:03:00.000Z\",\"description\":{\"en\":\"Beta leaves Alpha\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"ev9oQ8Xs0/9ubj1JQoBc1tmBLmKz9kdzfqYB+J1f4J7dv4ToadAl0Z5VBIdUnsiuSX53Im6CPXpzQapupWOoDA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"ub8XYFsy3sXDP4qRtzN1drrBReAsGxfYTpMh+9KJ2HarMfKhAsH5SYXH6DSlpAgSQqws2cvI82lGTkFDdz6nDA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"lyRAv8OAnjxiOeZ99GeEhhfOL+PHfnk+YTD3yWE+3i3T9tMxmvvl1+82w5z6El+unrXny0l8jgGY4v1vYQ3cAQ==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"value\":\"7BkxfBv9g+PYD57650qjh8DB5+L1eQjXcvPnq8jKoeT8xZ/exoJOA/gvBR1G02viBQq5vL+rJKmPOqEhCBWYBw==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe\"],[\"cbor\",\"sha256\",\"hex\",\"9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0\"],[\"effectiveTree\",\"sha256\",\"hex\",\"6bbc78250e476693a0b0fa619bf6510e84061a8c36f131fa2420af2383e57cc2\"]],\"parentIds\":[\"163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f\"],\"revision\":2,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"Uo0Aimaufdg9JxkiM5MnThIxGrAuOR7EL1ky7hu+dz0fN35rRBPVCx68Uk/AQhiNej2NElEGPM3M6Vc+N42mDg==\"}]}",
+        "beta-joins": "{\"@id\":\"36f58d72ea620b7d884e9fc23c41860983b74c728e4f9ef755a8a7d44a93656e\",\"changeSet\":{\"@id\":\"7fa67e60b05803f92a3393fd3cd3513aa3a4268f5075f25e786bbc639c87919e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"7e9e060ee5357767cc5e96b2a0ad80a19d83f874cde4ab4df9ffd607574d2b65\"],[\"cbor\",\"sha256\",\"hex\",\"997ce374a5af8fcd52a964655c2b278d33c7b00636786cc0abff52d355b14356\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":2,\"propertyName\":\"minConsensus\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"oldValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"propertyName\":\"identityKeys\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"Ia3QXMLDdav8ouBAGnZf8JNp4s0c7jU3oVUitLMO244wpcqinvLG19sHhAqAQ8liIsIBh/LGAsgMI531JdeJBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"zA0a+Lx67nCS1Z5uCyp7Mz+fgqywpAJKlC8M8oi1PAFrZCAplPdsvwI7N6m6Ae0fzBHR9XOwj9ppNDU5u0uWDA==\"}],\"signedAt\":\"2026-10-18T08:04:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"oldValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"minConsensus\":1,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"9D/Be0KTjTi9umogFE+aVa06jposOpUN5xiHGtkRLoX5PAMqa0Y3FPpqUdF3CY2UghqfZdZ0mtp22cUIgjnxAQ==\"}],\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"propertyName\":\"keyStatement\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"oldValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"propertyName\":\"signingKeyCertificates\"}],\"createdAt\":\"2026-10-18T08:04:00.000Z\",\"description\":{\"en\":\"Beta joins Alpha\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"GVSRyxQwW4JhBWsb5s1xnK4zBoHCyORxqcevQGvR9GVXgZQZ1wtdGgTTyadIAI3FZEcnxdtRsEaojVVApOjNBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"U1c+N//Pts2bcNCvRBB8w2SueyT6UUSYWRu9+BVkde1fthdcuQ+LuzBvnwhTfeK5sH/E4vFmpwAUS/m09STbCg==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"DECR3zWa9b3g0/5NyyiPKnwFU0qXtVTQ9kAVINnzBe9OwIOAUJju4bUmuwPeodUB2Fj3f/tYcs+3DtUPkxMyAg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"7e9e060ee5357767cc5e96b2a0ad80a19d83f874cde4ab4df9ffd607574d2b65\"],[\"cbor\",\"sha256\",\"hex\",\"997ce374a5af8fcd52a964655c2b278d33c7b00636786cc0abff52d355b14356\"],[\"effectiveTree\",\"sha256\",\"hex\",\"fb1017448bc368abf94f0a77856d31ac4d954a8aeacacf8ef8642e34cf31112d\"]],\"parentIds\":[\"8ad9e57e5968cf2c1261b5d4c4755dded0c325dc8dbe6d7850154e4256120e2a\"],\"revision\":3,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:04:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"7JiOuUBwxezcYCk9q0rp/il/2ZtKAGYj+nmiR9ik9L+Sx0TiL5hbHp139esL6rGKJ5RMsVsxEj+g04nvfE0cBA==\"}]}",
+        "beta-joins-keys-first": "{\"@id\":\"1bdb2b165d89a17b0e8deb69c25030b8e40246fee9ca0423af3e78d9652892c3\",\"changeSet\":{\"@id\":\"c588d496269234cac1660043223165c1c8722f4e5475727fd538dcc940f76e6a\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"7e9e060ee5357767cc5e96b2a0ad80a19d83f874cde4ab4df9ffd607574d2b65\"],[\"cbor\",\"sha256\",\"hex\",\"997ce374a5af8fcd52a964655c2b278d33c7b00636786cc0abff52d355b14356\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"oldValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"propertyName\":\"identityKeys\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"Ia3QXMLDdav8ouBAGnZf8JNp4s0c7jU3oVUitLMO244wpcqinvLG19sHhAqAQ8liIsIBh/LGAsgMI531JdeJBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"zA0a+Lx67nCS1Z5uCyp7Mz+fgqywpAJKlC8M8oi1PAFrZCAplPdsvwI7N6m6Ae0fzBHR9XOwj9ppNDU5u0uWDA==\"}],\"signedAt\":\"2026-10-18T08:04:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"oldValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"minConsensus\":1,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"9D/Be0KTjTi9umogFE+aVa06jposOpUN5xiHGtkRLoX5PAMqa0Y3FPpqUdF3CY2UghqfZdZ0mtp22cUIgjnxAQ==\"}],\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"propertyName\":\"keyStatement\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"oldValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"propertyName\":\"signingKeyCertificates\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":2,\"propertyName\":\"minConsensus\"}],\"createdAt\":\"2026-10-18T08:04:00.000Z\",\"description\":{\"en\":\"Beta joins Alpha\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"zBkrmOI5Fj3yFcXjCVcL0PlMQI9OXzko7Zv3ntVoNSJ/uQdLfLHEgtbXKuBZ9OjtMF0R3MyaCW46abxnc7oRBw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"D0qaZEezWx6ROgs+hBtiJndtczCVohY/fyo9jUiI3lgrlkqmKz2mvoiD1oQJ7FAyHPY2bVXpIOYMXsHuIG9RCw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"uSF2ek6yAg/ZC53Ppm+Yu42tGCjdSIsbS8z9dbtjS/Q+66RExlcI6vDSR84Ewr72pWNwpEy6hkpHegXjY9e3DA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"7e9e060ee5357767cc5e96b2a0ad80a19d83f874cde4ab4df9ffd607574d2b65\"],[\"cbor\",\"sha256\",\"hex\",\"997ce374a5af8fcd52a964655c2b278d33c7b00636786cc0abff52d355b14356\"],[\"effectiveTree\",\"sha256\",\"hex\",\"fb1017448bc368abf94f0a77856d31ac4d954a8aeacacf8ef8642e34cf31112d\"]],\"parentIds\":[\"8ad9e57e5968cf2c1261b5d4c4755dded0c325dc8dbe6d7850154e4256120e2a\"],\"revision\":3,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:04:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"p9V9Hs+zYpJrjhcUTjj1sMexIEZVmcMUWSD0fTBvS5zmfwaacgOWG7nHI4L2W1txz5qM+K1j5L4inmmSjwH1Cw==\"}]}",
+        "beta-joins-unsigned": "{\"@id\":\"36f58d72ea620b7d884e9fc23c41860983b74c728e4f9ef755a8a7d44a93656e\",\"changeSet\":{\"@id\":\"7fa67e60b05803f92a3393fd3cd3513aa3a4268f5075f25e786bbc639c87919e\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"7e9e060ee5357767cc5e96b2a0ad80a19d83f874cde4ab4df9ffd607574d2b65\"],[\"cbor\",\"sha256\",\"hex\",\"997ce374a5af8fcd52a964655c2b278d33c7b00636786cc0abff52d355b14356\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":2,\"propertyName\":\"minConsensus\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"oldValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"propertyName\":\"identityKeys\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":2,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"Ia3QXMLDdav8ouBAGnZf8JNp4s0c7jU3oVUitLMO244wpcqinvLG19sHhAqAQ8liIsIBh/LGAsgMI531JdeJBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"zA0a+Lx67nCS1Z5uCyp7Mz+fgqywpAJKlC8M8oi1PAFrZCAplPdsvwI7N6m6Ae0fzBHR9XOwj9ppNDU5u0uWDA==\"}],\"signedAt\":\"2026-10-18T08:04:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"oldValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"minConsensus\":1,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"9D/Be0KTjTi9umogFE+aVa06jposOpUN5xiHGtkRLoX5PAMqa0Y3FPpqUdF3CY2UghqfZdZ0mtp22cUIgjnxAQ==\"}],\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"propertyName\":\"keyStatement\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"oldValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"propertyName\":\"signingKeyCertificates\"}],\"createdAt\":\"2026-10-18T08:04:00.000Z\",\"description\":{\"en\":\"Beta joins Alpha\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"GVSRyxQwW4JhBWsb5s1xnK4zBoHCyORxqcevQGvR9GVXgZQZ1wtdGgTTyadIAI3FZEcnxdtRsEaojVVApOjNBA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"DECR3zWa9b3g0/5NyyiPKnwFU0qXtVTQ9kAVINnzBe9OwIOAUJju4bUmuwPeodUB2Fj3f/tYcs+3DtUPkxMyAg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"7e9e060ee5357767cc5e96b2a0ad80a19d83f874cde4ab4df9ffd607574d2b65\"],[\"cbor\",\"sha256\",\"hex\",\"997ce374a5af8fcd52a964655c2b278d33c7b00636786cc0abff52d355b14356\"],[\"effectiveTree\",\"sha256\",\"hex\",\"fb1017448bc368abf94f0a77856d31ac4d954a8aeacacf8ef8642e34cf31112d\"]],\"parentIds\":[\"8ad9e57e5968cf2c1261b5d4c4755dded0c325dc8dbe6d7850154e4256120e2a\"],\"revision\":3,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:04:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"Ww1ThBg9x4XBABzOgHi7d6a4AKfj7yYGj/cLaAV8JdNHlHm01+sS3FpqWjQh2DI1+uaykNTlKMTlcZiSuvnlBw==\"}]}",
+        "beta-joins-quorum-kept": "{\"@id\":\"3e3929175880bcbe63af54a3e6464364a094fad2a389896f3f86b26c9bae3d94\",\"changeSet\":{\"@id\":\"7c1e5bf0fa1ff0a16e47320e53148bf5d54144eac48f745d9d7593ffdb015e56\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"oldValue\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"propertyName\":\"identityKeys\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"},{\"@id\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCAc5WpIyC/5kWKhS8VEYSZ05dYfuTF+ZdQFV4D9vLTcNQ==\"}],\"minConsensus\":1,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"G8upYTMrEf/GnM32kvk+2G1GbSN3OJfg//gWr+VRB2qSbmykYqUN15/bV6z5t1Lb9tUqHZDluMecWxuEWA4kCQ==\"}],\"signedAt\":\"2026-10-18T08:04:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"oldValue\":{\"identityKeys\":[{\"@id\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCCLsE4cG4Pd3zEfW83ffFDt48CAL0fseW4qExz0EpjZ8w==\"}],\"minConsensus\":1,\"roamingNetworkId\":\"rn1\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"9D/Be0KTjTi9umogFE+aVa06jposOpUN5xiHGtkRLoX5PAMqa0Y3FPpqUdF3CY2UghqfZdZ0mtp22cUIgjnxAQ==\"}],\"signedAt\":\"2026-10-18T08:03:00.000Z\",\"validUntil\":\"2026-11-17T08:00:00.000Z\"},\"propertyName\":\"keyStatement\"},{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"921be37b944c8e38f2c41ff1cd89eb61c6a31b70cb08fde933dc02270d71abc5\",\"holder\":\"Beta\",\"key\":\"owEBIAYhWCCrHR2MQmN/vhBNIdBJLTTytuG13Ga5tpEctex0mRiCoA==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"7PJwvrr6RhNBbXlEHuHNU8DOzB5YbCfMp/5nd20H/hbTlB3YEp8kuIbN1andp2GlB5aM7OezF/htyB4Ku9oYAA==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"oldValue\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"roamingNetworkOperatorId\":\"DE*RNO\",\"signedAt\":\"2026-10-18T08:00:00.000Z\",\"signingKey\":{\"@id\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"holder\":\"Alpha\",\"key\":\"owEBIAYhWCAprLrhQbzK8LIuGpTTTQvHNh5SbQv+EsiXlLyTIpZt1w==\",\"notAfter\":\"2027-10-17T00:00:00.000Z\",\"usages\":[\"party\"]},\"value\":\"6VTP9/Dib1BC3k0uhlp5QGK1arlSYZxZDi9z93BkiCog/2pVViB18PCHURolHSTuRVzYA4vZn9rpR2vdPtpQDA==\"}],\"propertyName\":\"signingKeyCertificates\"}],\"createdAt\":\"2026-10-18T08:04:00.000Z\",\"description\":{\"en\":\"Beta joins Alpha\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"s7S7WyOX8xFBom8LKEtJFS6tzV4DBtq4naE2Dy+Sd+BuELn57/nxWb3j+xyk6GinkeSiU7uEIu1p+iGCc0zpBw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"a287cebcd93b836a712b6393a914a86e63516d401285f3c642f734a28146f83f\",\"value\":\"GHVQo+yuEYRkeL6hc22Z3fTM959desaAnqSD7dSkZx1mPK6/UuRMdgdrKN2frDhhGCEBxrhLhW8uCyuGWb2ACw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"AHtwdcfv3sjifuZBP5rk/zQvvw+VS5qqzD6nPhKawQ2KZZt3rQckfAn5Z0aaYK5x0kwRZJ8livM51Dhfz1LWDA==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"],[\"effectiveTree\",\"sha256\",\"hex\",\"53ea738a82c227bc61c255436d8fb0b805797c5ce76099601b89e076effbd1bb\"]],\"parentIds\":[\"8ad9e57e5968cf2c1261b5d4c4755dded0c325dc8dbe6d7850154e4256120e2a\"],\"revision\":3,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:04:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"ckXuGWdvxP799bTZQjBFWQmeZuBWIyguHNog0ifkuwmA1an+VZdWFI3ij6SVIAfo7KdptncqaRelQiHKDFEqCw==\"}]}",
+        "quorum-two-of-one": "{\"@id\":\"0901a7aac155f2df78618a52f01e0b0b6f1860a40f14ac42b043f2d8296fbf26\",\"changeSet\":{\"@id\":\"fde22802f78b2696598b17fab459e7a45dccbef6030f644c1bfb95e3caeb261d\",\"afterETags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"]],\"beforeETags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"]],\"changes\":[{\"entityId\":\"DE*RNO\",\"entityType\":\"RoamingNetworkOperator\",\"kind\":\"UpdateProperty\",\"newValue\":2,\"propertyName\":\"minConsensus\"}],\"createdAt\":\"2026-10-18T08:04:00.000Z\",\"description\":{\"en\":\"Beta joins Alpha\"},\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"1ef48003e1c482f88fa9f4ecb3d9cdeeb2037d3be4550ad6ee1854a2c5b0b802\",\"value\":\"3BJTBqad7e9vXgDX9QPepC9TUoX5iPHK6IvBq8xD+T/MaEkY6kdUrTDeA4/egBiMN6hETbYb0B6Nr4mw6u9KCw==\"},{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"value\":\"mmwaSrirTGS7uwJAquIgRgGKzS3QNUSmzhCpjxSxMHoDlCpNz86mbPQ3AoYFgyZJjDmgOUZIWx4pZno6wLnyBg==\"}]},\"eTags\":[[\"json\",\"sha256\",\"hex\",\"a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144\"],[\"cbor\",\"sha256\",\"hex\",\"8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48\"],[\"effectiveTree\",\"sha256\",\"hex\",\"53ea738a82c227bc61c255436d8fb0b805797c5ce76099601b89e076effbd1bb\"]],\"parentIds\":[\"8ad9e57e5968cf2c1261b5d4c4755dded0c325dc8dbe6d7850154e4256120e2a\"],\"revision\":3,\"roamingNetworkId\":\"rn1\",\"signatures\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"ea671729aa29c6140b5129b8d59e13fd9fbd4b96e37b3c5185fb11c3eeeac554\",\"role\":\"roamingNetworkOperator\",\"signedAt\":\"2026-10-18T08:04:00.000Z\",\"signer\":\"DE*RNO\",\"value\":\"KAvWwZJlPbkD2IlVkmsZhpxIGZGZ92YAEJBDaqSgukiszP79wjA29rUGbB2ln3tHkvxue+g8oqGYsKlNibHkCA==\"}]}"
+      }
+    },
+    {
       "id": "history-epochs",
       "description": "The roaming network rn1 of DE*RNO through three epochs: the first of every algorithm, the second of ES256 and Ed25519 identified with SHA-512, the third of Ed25519 alone identified with SHA-384. Alpha signs checkpoints with an Ed25519 and an ES256 key, Beta with an Ed448 key.",
       "documents": {
@@ -7458,6 +7502,927 @@
       ],
       "control": "preconditions-held",
       "reason": "Invalid precondition 0!"
+    },
+    {
+      "id": "urls-named",
+      "description": "A roaming network names the URLs of its two copies, signed by signing keys of both holders of its operator.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 1,
+          "commitId": "163d581acaa66356156e847671436e9a8c813228adf6ea22c7c61187d50e3d5f",
+          "eTags": [
+            "json:sha256:hex:72a5b3381ff11f04ad6dfe0ff8abcc07e8fba2305de6dcc4a704843321c6dabe",
+            "cbor:sha256:hex:9a21d4ba58da492586fa1a91a1b7d9f2aac2ca6be2151c5ffaa517339cb84cc0",
+            "effectiveTree:sha256:hex:6bbc78250e476693a0b0fa619bf6510e84061a8c36f131fa2420af2383e57cc2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "urls-signed-by-one-holder",
+      "description": "A roaming network names the URLs of its copies, signed by the signing key of one of the two holders of its operator.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-by-one-holder"
+        }
+      ],
+      "control": "urls-named",
+      "reason": "needs signatures by signing keys of 2 holders of the roaming network operator 'DE*RNO'!"
+    },
+    {
+      "id": "urls-in-other-forms",
+      "description": "A roaming network names the URLs of its copies at a port, under a path, at an IPv6 address and with its identification in another case: each is one of the roaming network.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-other-forms"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 1,
+          "commitId": "8bc48650a8ff159fe1f798938f29e63438206c9e520c237485df977dc6f43628",
+          "eTags": [
+            "json:sha256:hex:acaccb1f2535ced4570f2d363c5aa574bf70993ead11b27545d0526d2b33531f",
+            "cbor:sha256:hex:45bc72bffc069435ace9fb831c7936a230367ad924350177276c5f5c0617d527",
+            "effectiveTree:sha256:hex:6da39fbb80be641f6be121b4b4c52736a08e07d8284a6749911e7e60c721cb7a"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "urls-none",
+      "description": "A roaming network names its URLs as an empty array: none are left out.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-none"
+        }
+      ],
+      "control": "urls-named",
+      "reason": "Change 0: The 'urls' of the roaming network 'rn1' must name at least one URL, or be left out!"
+    },
+    {
+      "id": "urls-no-array",
+      "description": "A roaming network names its URLs as one text, not as an array.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-no-array"
+        }
+      ],
+      "control": "urls-named",
+      "reason": "Change 0: The 'urls' of the roaming network 'rn1' must be a JSON array of URLs!"
+    },
+    {
+      "id": "urls-seventeen",
+      "description": "A roaming network names 17 URLs: at most 16.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-seventeen"
+        }
+      ],
+      "control": "urls-named",
+      "reason": "Change 0: The 'urls' of the roaming network 'rn1' must name at most 16 URLs, not 17!"
+    },
+    {
+      "id": "urls-twice",
+      "description": "A roaming network names a URL twice.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-twice"
+        }
+      ],
+      "control": "urls-named",
+      "reason": "Change 0: The 'urls' of the roaming network 'rn1' must not name a URL twice!"
+    },
+    {
+      "id": "urls-too-long",
+      "description": "A roaming network names a URL of 513 characters: at most 512.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-too-long"
+        }
+      ],
+      "control": "urls-named",
+      "reason": "Change 0: A URL of the roaming network 'rn1' has 513 characters, more than 512!"
+    },
+    {
+      "id": "urls-http",
+      "description": "A roaming network names a URL of the scheme http.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-http"
+        }
+      ],
+      "control": "urls-named",
+      "reason": "Change 0: The URL 'http://alpha.example/RNs/rn1' of the roaming network 'rn1' is no https URL!"
+    },
+    {
+      "id": "urls-user-information",
+      "description": "A roaming network names a URL with user information.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-user"
+        }
+      ],
+      "control": "urls-named",
+      "reason": "Change 0: The URL 'https://user@alpha.example/RNs/rn1' of the roaming network 'rn1' must not name user information!"
+    },
+    {
+      "id": "urls-query",
+      "description": "A roaming network names a URL with a query.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-query"
+        }
+      ],
+      "control": "urls-named",
+      "reason": "Change 0: The URL 'https://alpha.example/RNs/rn1?x=1' of the roaming network 'rn1' is not the one of a roaming network, ~/RNs/{RN_Id}, without a query, a fragment or a trailing slash!"
+    },
+    {
+      "id": "urls-trailing-slash",
+      "description": "A roaming network names a URL ending with a slash.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-trailing-slash"
+        }
+      ],
+      "control": "urls-named",
+      "reason": "Change 0: The URL 'https://alpha.example/RNs/rn1/' of the roaming network 'rn1' is not the one of a roaming network, ~/RNs/{RN_Id}, without a query, a fragment or a trailing slash!"
+    },
+    {
+      "id": "urls-of-no-network",
+      "description": "A roaming network names a URL without the path of a roaming network.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-no-network"
+        }
+      ],
+      "control": "urls-named",
+      "reason": "Change 0: The URL 'https://alpha.example' of the roaming network 'rn1' is not the one of a roaming network, ~/RNs/{RN_Id}, without a query, a fragment or a trailing slash!"
+    },
+    {
+      "id": "urls-of-another-network",
+      "description": "A roaming network names a URL of another roaming network, rn2.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-other-network"
+        }
+      ],
+      "control": "urls-named",
+      "reason": "Change 0: The URL 'https://alpha.example/RNs/rn2' of the roaming network 'rn1' is one of the roaming network 'rn2'!"
+    },
+    {
+      "id": "urls-untrimmed",
+      "description": "A roaming network names a URL with a space before and after it: not given as the content holds it, trimmed.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-untrimmed"
+        }
+      ],
+      "control": "urls-named",
+      "reason": "Change 0: the property 'urls' of the roaming network 'rn1' is not given as the content holds it, '[\"https://alpha.example/RNs/rn1\"]'!"
+    },
+    {
+      "id": "urls-without-scheme",
+      "description": "A roaming network names a URL without its scheme: not given as the content holds it, with https.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-without-scheme"
+        }
+      ],
+      "control": "urls-named",
+      "reason": "Change 0: the property 'urls' of the roaming network 'rn1' is not given as the content holds it, '[\"https://alpha.example/RNs/rn1\"]'!"
+    },
+    {
+      "id": "urls-in-another-order",
+      "description": "A roaming network names the URLs of its copies in another order, the one it prefers first: their order is content.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "urls-reordered"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 2,
+          "commitId": "e487d66f67c55e686bdad73484be324c379d5e4215f0ebd446ff7b8348cfed88",
+          "eTags": [
+            "json:sha256:hex:ef597368b8f8cd13bbd00a5a008c25f12bdb7e557966735c4d430ee2f218ef08",
+            "cbor:sha256:hex:b4178593832590a21c11c1be286e8728c3edb27d5bf4cb84d36b0d654a989a32",
+            "effectiveTree:sha256:hex:ee50c55484dfaf652c2990d285a46451e414ac7bfc9640117b75fbbca2622e9b"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "urls-removed",
+      "description": "A roaming network names the URLs of its copies no longer.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "urls-removed"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 2,
+          "commitId": "97356ddb52c8d33a98dbc383310e98950f2427d243344eeed05218fb93156327",
+          "eTags": [
+            "json:sha256:hex:ffa30a76fcf5d5b04b53f4e94b40803233d643990f09cde5256f24b202b7dd21",
+            "cbor:sha256:hex:6a96821dc0fa345a68171531e7ec2b54edceb073b17b998074de5b6cc38b15cf",
+            "effectiveTree:sha256:hex:4b111eaf26a9de88d5f8a0ce1da338c592f4a30efd5de1973e42a5d4760f788b"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "urls-another-old-value",
+      "description": "A roaming network changes its URLs, expecting as their old value another one.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "urls-old-value"
+        }
+      ],
+      "control": "urls-reordered",
+      "reason": "Change 0: the property 'urls' is no longer the expected old value, but '[\"https://alpha.example/RNs/rn1\",\"https://beta.example/RNs/rn1\"]'!"
+    },
+    {
+      "id": "urls-element-added",
+      "description": "A roaming network adds one URL to those of its copies, as an element. They are changed as a whole.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "urls-element-added"
+        }
+      ],
+      "control": "urls-reordered",
+      "reason": "Change 0: the urls of the roaming network 'rn1' are changed as a whole, not element by element!"
+    },
+    {
+      "id": "urls-element-removed",
+      "description": "A roaming network removes one URL from those of its copies, as an element. They are changed as a whole.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 2; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "urls-element-removed"
+        }
+      ],
+      "control": "urls-reordered",
+      "reason": "Change 0: the urls of the roaming network 'rn1' are changed as a whole, not element by element!"
+    },
+    {
+      "id": "holder-joins-two",
+      "description": "A third holder joins the two of the operator, two of three deciding as before: signed by the identity keys of the two and by the one entered anew, and by the signing keys of the two.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "gamma-joins"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 2,
+          "commitId": "e76f66fade540d345486a69abe29ad21114f0a466a90a0fe6002be1be6572e7d",
+          "eTags": [
+            "json:sha256:hex:d91cf4fecd97dc208d89ca2f67ce29294384ca5d2f724e86d0057a8310cbf1e0",
+            "cbor:sha256:hex:d7670974f9040a7715b99796b7b2e4b6f5b2ceafd2b7c325057af2925e8b7d87",
+            "effectiveTree:sha256:hex:88787e2390b61e129ea106011dc3c2046f5c774a717b090014dcbf78a5a5da07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "holder-joins-without-its-key",
+      "description": "A third holder joins the two of the operator, signed by the identity keys and the signing keys of the two: not by the identity key entered anew.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "gamma-joins-unsigned"
+        }
+      ],
+      "control": "gamma-joins"
+    },
+    {
+      "id": "holder-joins-by-one-holder",
+      "description": "A third holder joins the two of the operator, signed by its identity key, by the one of Alpha and by the signing keys of the two: not by identity keys of the quorum of the version before.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "gamma-joins-by-alpha"
+        }
+      ],
+      "control": "gamma-joins"
+    },
+    {
+      "id": "holder-joins-by-identity-keys-alone",
+      "description": "A third holder joins the two of the operator, signed by the identity keys of the two and by the one entered anew alone: its key statement and the certificates of its signing keys are, as everything the operator owns, signed by signing keys of its quorum.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "gamma-joins-by-identity-keys"
+        }
+      ],
+      "control": "gamma-joins",
+      "reason": "Change 1: UpdateProperty of the RoamingNetworkOperator 'DE*RNO' ('keyStatement') needs signatures by signing keys of 2 holders of the roaming network operator 'DE*RNO'!"
+    },
+    {
+      "id": "holder-leaves-keys-first",
+      "description": "One of the two holders of the operator leaves, its keys changed first, then the quorum removed: between the two changes one holder has a quorum of two.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "beta-leaves"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 2,
+          "commitId": "8ad9e57e5968cf2c1261b5d4c4755dded0c325dc8dbe6d7850154e4256120e2a",
+          "eTags": [
+            "json:sha256:hex:a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144",
+            "cbor:sha256:hex:8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48",
+            "effectiveTree:sha256:hex:53ea738a82c227bc61c255436d8fb0b805797c5ce76099601b89e076effbd1bb"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "holder-leaves-quorum-first",
+      "description": "One of the two holders of the operator leaves, the quorum removed first, then its keys changed: between the changes two holders have a quorum of one.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "beta-leaves-quorum-first"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 2,
+          "commitId": "3d8794fd71bc50fd652c02af059d53a9d86cb837ec79cc32540680ebcfa8d6cf",
+          "eTags": [
+            "json:sha256:hex:a597c78534b1c6ebe365bfdc7adc4a4a8051caf9fc2786c445f7fa2ac2279144",
+            "cbor:sha256:hex:8deb4ea2fa2fdf53f8c6b43e2c0fe23e030d69a5a89156a794f0dbdefb54ae48",
+            "effectiveTree:sha256:hex:53ea738a82c227bc61c255436d8fb0b805797c5ce76099601b89e076effbd1bb"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "holder-leaves-by-one-holder",
+      "description": "One of the two holders of the operator leaves, signed by the identity key of the other and the signing keys of both: not by identity keys of the quorum of the version before, two.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "beta-leaves-by-alpha"
+        }
+      ],
+      "control": "beta-leaves"
+    },
+    {
+      "id": "holder-leaves-quorum-kept",
+      "description": "One of the two holders of the operator leaves, the quorum of two kept: the version after the change set has one holder.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "beta-leaves-quorum-kept"
+        }
+      ],
+      "control": "beta-leaves",
+      "reason": "The minConsensus 2 of the roaming network operator 'DE*RNO' needs signing keys of as many holders, not of 1!"
+    },
+    {
+      "id": "quorum-removed-of-two-holders",
+      "description": "The quorum of the operator is removed, its two holders kept: a quorum of one is not more than half of two.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "quorum-removed"
+        }
+      ],
+      "control": "beta-leaves",
+      "reason": "The minConsensus 1 of the roaming network operator 'DE*RNO' must be more than half of the 2 holders of its signing keys!"
+    },
+    {
+      "id": "quorum-given-as-one",
+      "description": "One of the two holders of the operator leaves, the quorum given as 1 instead of removed: a quorum of one is written as none.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "beta-leaves-quorum-one"
+        }
+      ],
+      "control": "beta-leaves",
+      "reason": "Change 3: the property 'minConsensus' of the roaming network operator 'DE*RNO' is given as '1', which the content does not hold at all!"
+    },
+    {
+      "id": "quorum-above-its-holders",
+      "description": "The quorum of the operator is given as 9, of its two holders.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "quorum-nine"
+        }
+      ],
+      "control": "beta-leaves",
+      "reason": "The minConsensus 9 of the roaming network operator 'DE*RNO' needs signing keys of as many holders, not of 2!"
+    },
+    {
+      "id": "holder-joins-one-quorum-first",
+      "description": "A second holder joins the one of the operator, both deciding, the quorum changed first, then the keys: between the changes one holder has a quorum of two.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "beta-leaves"
+        },
+        {
+          "op": "append",
+          "document": "beta-joins"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 3,
+          "commitId": "36f58d72ea620b7d884e9fc23c41860983b74c728e4f9ef755a8a7d44a93656e",
+          "eTags": [
+            "json:sha256:hex:7e9e060ee5357767cc5e96b2a0ad80a19d83f874cde4ab4df9ffd607574d2b65",
+            "cbor:sha256:hex:997ce374a5af8fcd52a964655c2b278d33c7b00636786cc0abff52d355b14356",
+            "effectiveTree:sha256:hex:fb1017448bc368abf94f0a77856d31ac4d954a8aeacacf8ef8642e34cf31112d"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "holder-joins-one-keys-first",
+      "description": "A second holder joins the one of the operator, both deciding, the keys changed first, then the quorum: between the changes two holders have a quorum of one.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "accepted",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "beta-leaves"
+        },
+        {
+          "op": "append",
+          "document": "beta-joins-keys-first"
+        },
+        {
+          "op": "expectHead",
+          "epoch": 1,
+          "revision": 3,
+          "commitId": "1bdb2b165d89a17b0e8deb69c25030b8e40246fee9ca0423af3e78d9652892c3",
+          "eTags": [
+            "json:sha256:hex:7e9e060ee5357767cc5e96b2a0ad80a19d83f874cde4ab4df9ffd607574d2b65",
+            "cbor:sha256:hex:997ce374a5af8fcd52a964655c2b278d33c7b00636786cc0abff52d355b14356",
+            "effectiveTree:sha256:hex:fb1017448bc368abf94f0a77856d31ac4d954a8aeacacf8ef8642e34cf31112d"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "holder-joins-one-without-its-key",
+      "description": "A second holder joins the one of the operator, signed by the identity key and the signing key of the one: not by the identity key entered anew.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "beta-leaves"
+        },
+        {
+          "op": "append",
+          "document": "beta-joins-unsigned"
+        }
+      ],
+      "control": "beta-joins"
+    },
+    {
+      "id": "holder-joins-one-quorum-kept",
+      "description": "A second holder joins the one of the operator, the quorum of one kept: not more than half of the two holders of the version after the change set.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "beta-leaves"
+        },
+        {
+          "op": "append",
+          "document": "beta-joins-quorum-kept"
+        }
+      ],
+      "control": "beta-joins",
+      "reason": "The minConsensus 1 of the roaming network operator 'DE*RNO' must be more than half of the 2 holders of its signing keys!"
+    },
+    {
+      "id": "quorum-of-two-of-one-holder",
+      "description": "The quorum of the operator is given as 2, its one holder kept.",
+      "basis": "libs/WWCP_POI/SPECIFICATION.md, 4.1, Holders joining and leaving; WWCP_POI c1b641b",
+      "history": "history-operator",
+      "commitAndCheckpointSignatures": "unchecked",
+      "expected": "refused",
+      "steps": [
+        {
+          "op": "fromSnapshot",
+          "document": "genesis"
+        },
+        {
+          "op": "append",
+          "document": "urls-named"
+        },
+        {
+          "op": "append",
+          "document": "beta-leaves"
+        },
+        {
+          "op": "append",
+          "document": "quorum-two-of-one"
+        }
+      ],
+      "control": "beta-joins",
+      "reason": "The minConsensus 2 of the roaming network operator 'DE*RNO' needs signing keys of as many holders, not of 1!"
     },
     {
       "id": "epoch-snapshot-commit-algorithm-of-another-epoch",
