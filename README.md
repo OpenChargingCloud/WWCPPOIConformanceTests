@@ -20,11 +20,9 @@ written down and pinned.
 
 ## Status
 
-The C# harness is green against the pinned submodules (WWCP_POI `c1b641b`, WWCP_POI.TS `37e4d52`, Hermod `a58a53af`,
-Styx `a6b9f9fb`) but for the copies WWCP_POI.TS `37e4d52` does not vendor yet, the run `csharp-c1b641b` and the
-vectors of it; the TypeScript harness fails most vectors of that run and the vectors of `urls` and of holders
-joining and leaving until WWCP_POI.TS reads the `urls` of a roaming network and checks the quorum of every version
-(WWCP_POI `c1b641b`; its port, not committed yet, runs all 992):
+Both harnesses are green against the pinned submodules (WWCP_POI `c1b641b`, WWCP_POI.TS `7e4df48`, Hermod `a58a53af`,
+Styx `a6b9f9fb`) - but for the copies of `poi-histories.json` and `poi-refusals.json`, which WWCP_POI.TS `7e4df48`
+does not vendor yet with the vectors of `urls` and of holders joining and leaving:
 
 | | Vectors | Passed | Skipped |
 |---|---|---|---|
